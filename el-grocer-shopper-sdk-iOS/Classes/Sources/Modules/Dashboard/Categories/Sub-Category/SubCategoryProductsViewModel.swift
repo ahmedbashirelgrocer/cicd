@@ -75,25 +75,30 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
         self.titleSubject.onNext(selectedCategory.name ?? "")
         self.categorySwitchSubject.onNext(selectedCategory)
         
-        // Fetch Sub-Category
-        let fetchSubCategories = self.categorySwitchSubject
+        self.fetchCategories()
+        self.fetchProducts()
+    }
+    
+    private func fetchCategories() {
+        let categoriesFetchResult = self.categorySwitchSubject
             .flatMap {[unowned self] in
                 self.getSubCategories(deliveryAddress: self.getCurrentDeliveryAddress(), category: $0?.categoryDB, grocery: grocery)
             }.share()
 
-        fetchSubCategories
+        categoriesFetchResult
             .compactMap{  $0.element }
             .map { [localizedString("all_cate", comment: "")] + $0.map { $0.subCategoryName } }
             .bind(to: self.subCategoriesTitleSubject)
             .disposed(by: disposeBag)
 
-        fetchSubCategories
+        categoriesFetchResult
             .compactMap{ $0.error }
             .bind(to: self.errorSubject)
             .disposed(by: disposeBag)
-        
-        // Fetch Products for switching category
-        let fetchProducts = self.categorySwitchSubject
+    }
+    
+    private func fetchProducts() {
+        let productFetchResult = self.categorySwitchSubject
             .do(onNext: { [unowned self] _ in self.loadingSubject.onNext(true) })
             .flatMap { [unowned self] in
                 self.getProducts(category: $0?.categoryDB, subcategory: "")
@@ -101,13 +106,13 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
             .do(onNext: { [unowned self] _ in self.loadingSubject.onNext(false) })
             .share()
         
-        fetchProducts
+        productFetchResult
             .compactMap { $0.element }
             .map { [SectionModel(model: 0, items: $0.map { ProductCellViewModel(product: $0, grocery: self.grocery) })] }
             .bind(to: self.productModelsSubject)
             .disposed(by: disposeBag)
         
-        fetchProducts
+        productFetchResult
             .compactMap { $0.error }
             .bind(to: self.errorSubject)
             .disposed(by: disposeBag)
@@ -116,11 +121,6 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
 
 // MARK: - Helpers
 fileprivate extension SubCategoryProductsViewModel {
-    func filterCategory(_ index: Int) -> Observable<CategoryDTO> {
-        return self.categoriesSubject
-            .map({ categories in categories[index] })
-    }
-    
     func getSubCategories(deliveryAddress: DeliveryAddress?, category: Category?, grocery: Grocery) -> Observable<Event<[SubCategory]>> {
         Observable<[SubCategory]>.create { observer in
             
@@ -161,20 +161,24 @@ fileprivate extension SubCategoryProductsViewModel {
     }
     
     func getProducts(category: Category?, subcategory: String, completion: @escaping (Swift.Result<[Product], Error>)->Void) {
-        let algoliaCall = true
-        
-        guard algoliaCall else {
+        if self.isFetchFromAlgolia() == false {
+            // Fetch Product from elGrocer server
             ProductBrowser.shared.getAllProductsOfCategory(category, forGrocery: self.grocery, limit: 20, offset: 0){ (result) -> Void in
                 switch result {
-                    case .success(let response): break
-                    case .failure(let error): break
+                case .success(let response):
+                    completion(.success(response.products))
+                    
+                case .failure(let error):
+                    completion(.failure(error))
                 }
             }
             return
         }
-        
+    
         let pageNumber = 0
-        guard (category?.dbID.intValue ?? 0) > 1 else {
+        
+        if self.isFetchOffersProducts(category: category) {
+            // Fetch Offers Product from Algolia
             ProductBrowser.shared.searchOffersProductListForStoreCategory(
                 storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery.dbID),
                 pageNumber: pageNumber,
@@ -190,7 +194,8 @@ fileprivate extension SubCategoryProductsViewModel {
             })
             return
         }
-        
+
+        // Fetch All Product of category from Algolia
         ProductBrowser.shared.searchProductListForStoreCategory(
             storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery.dbID),
             pageNumber: pageNumber,
@@ -208,5 +213,14 @@ fileprivate extension SubCategoryProductsViewModel {
     
     func getCurrentDeliveryAddress() -> DeliveryAddress? {
         return DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+    }
+    
+    func isFetchFromAlgolia() -> Bool {
+        let config = ElGrocerUtility.sharedInstance.appConfigData
+        return config == nil || config?.fetchCatalogFromAlgolia == true
+    }
+    
+    func isFetchOffersProducts(category: Category?) -> Bool {
+        return (category?.dbID.intValue ?? 0) <= 1
     }
 }
