@@ -127,11 +127,13 @@ extension Reactive where Base: ILSegmentView {
         }
     }
     
-    var selectedItemIndex: Binder<CategoryDTO> {
+    var selectedItemIndex: Binder<CategoryDTO?> {
         return Binder(self.base) { segmentedView, category in
             DispatchQueue.main.async {
-                let index = segmentedView.categories.firstIndex(where: { $0.id == category.id }) ?? 0
-                segmentedView.selectedItemIndex = index
+                if let category = category {
+                    let index = segmentedView.categories.firstIndex(where: { $0.id == category.id }) ?? 0
+                    segmentedView.selectedItemIndex = index
+                }
             }
         }
     }

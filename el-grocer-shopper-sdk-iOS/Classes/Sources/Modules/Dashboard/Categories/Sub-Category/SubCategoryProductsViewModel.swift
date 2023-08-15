@@ -10,14 +10,14 @@ import RxSwift
 import RxDataSources
 
 protocol SubCategoryProductsViewModelInputs {
-    var categorySwitchObserver: AnyObserver<CategoryDTO> { get }
+    var categorySwitchObserver: AnyObserver<CategoryDTO?> { get }
     var subCategorySwitchObserver: AnyObserver<Int> { get }
     var categoriesButtonTapObserver: AnyObserver<Void> { get }
 }
 
 protocol SubCategoryProductsViewModelOutputs {
     var categories: Observable<[CategoryDTO]> { get }
-    var categorySwitch: Observable<CategoryDTO> { get }
+    var categorySwitch: Observable<CategoryDTO?> { get }
     var subCategoriesTitle: Observable<[String]> { get }
     var error: Observable<Error?> { get }
     var categoriesButtonTap: Observable<[CategoryDTO]> { get }
@@ -38,13 +38,13 @@ extension SubCategoryProductsViewModelType {
 
 class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     // MARK: Inputs
-    var categorySwitchObserver: AnyObserver<CategoryDTO> { categorySwitchSubject.asObserver() }
+    var categorySwitchObserver: AnyObserver<CategoryDTO?> { categorySwitchSubject.asObserver() }
     var subCategorySwitchObserver: AnyObserver<Int> { subCategorySwitchSubject.asObserver() }
     var categoriesButtonTapObserver: AnyObserver<Void> { categoriesButtonTapSubject.asObserver() }
     
     // MARK: Outputs
     var categories: Observable<[CategoryDTO]> { categoriesSubject.asObservable() }
-    var categorySwitch: Observable<CategoryDTO> { categorySwitchSubject.asObservable() }
+    var categorySwitch: Observable<CategoryDTO?> { categorySwitchSubject.asObservable() }
     var subCategoriesTitle: Observable<[String]> { subCategoriesTitleSubject.asObservable() }
     var error: Observable<Error?> { errorSubject.asObservable() }
     var categoriesButtonTap: Observable<[CategoryDTO]> { categoriesButtonTapSubject.withLatestFrom(categoriesSubject).asObservable() }
@@ -54,7 +54,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     
     // MARK: Subjects
     private var categoriesSubject = BehaviorSubject<[CategoryDTO]>(value: [])
-    private var categorySwitchSubject = PublishSubject<CategoryDTO>()
+    private var categorySwitchSubject = BehaviorSubject<CategoryDTO?>(value: nil)
     private var subCategoriesTitleSubject = PublishSubject<[String]>()
     private var errorSubject = PublishSubject<Error?>()
     private var subCategorySwitchSubject = PublishSubject<Int>()
@@ -78,7 +78,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
         // Fetch Sub-Category
         let fetchSubCategories = self.categorySwitchSubject
             .flatMap {[unowned self] in
-                self.getSubCategories(deliveryAddress: self.getCurrentDeliveryAddress(), category: $0.categoryDB, grocery: grocery)
+                self.getSubCategories(deliveryAddress: self.getCurrentDeliveryAddress(), category: $0?.categoryDB, grocery: grocery)
             }.share()
 
         fetchSubCategories
@@ -96,7 +96,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
         let fetchProducts = self.categorySwitchSubject
             .do(onNext: { [unowned self] _ in self.loadingSubject.onNext(true) })
             .flatMap { [unowned self] in
-                self.getProducts(category: $0.categoryDB, subcategory: "")
+                self.getProducts(category: $0?.categoryDB, subcategory: "")
             }
             .do(onNext: { [unowned self] _ in self.loadingSubject.onNext(false) })
             .share()
