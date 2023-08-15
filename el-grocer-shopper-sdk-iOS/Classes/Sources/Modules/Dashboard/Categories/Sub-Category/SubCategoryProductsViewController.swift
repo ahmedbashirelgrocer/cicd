@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import STPopup
+import RxDataSources
 
 enum Varient {
     case vertical, horizontal, bottomSheet
@@ -36,8 +37,9 @@ class SubCategoryProductsViewController: UIViewController {
     }()
     
     private var viewModel: SubCategoryProductsViewModelType!
-    private var varientTest: Varient = .vertical
+    private var varientTest: Varient = .horizontal
     private var disposeBag = DisposeBag()
+    private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
     
     static func make(viewModel: SubCategoryProductsViewModelType) -> SubCategoryProductsViewController {
         let vc = SubCategoryProductsViewController(nibName: "SubCategoryProductsViewController", bundle: .resource)
@@ -78,6 +80,23 @@ private extension SubCategoryProductsViewController {
         subCategoriesSegmentedView.segmentViewType = .subCategories
         subCategoriesSegmentedView.commonInit()
         subCategoriesSegmentedView.segmentDelegate = self
+        
+        self.collectionView.register(UINib(nibName: ProductCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: ProductCell.defaultIdentifier)
+        
+        var itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 22) / 2, height: 264)
+        if varientTest == .vertical {
+            itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 126) / 2, height: 237)
+        }
+        self.collectionView.collectionViewLayout = {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .vertical
+            layout.itemSize = itemSize
+            layout.minimumInteritemSpacing = 5
+            layout.minimumLineSpacing = 5
+            let edgeInset:CGFloat =  8
+            layout.sectionInset = UIEdgeInsets(top: edgeInset / 2, left: edgeInset, bottom: 0, right: edgeInset)
+            return layout
+        }()
     }
     
     func setupConstraint() {
@@ -99,7 +118,7 @@ private extension SubCategoryProductsViewController {
             locationHeaderShopper.bottomAnchor.constraint(equalTo: self.categoriesSegmentedView.topAnchor).isActive = true
             categoriesSegmentedView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8.0).isActive = true
             categoriesSegmentedView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-            categoriesSegmentedView.widthAnchor.constraint(equalToConstant: 92).isActive = true
+            categoriesSegmentedView.widthAnchor.constraint(equalToConstant: 100).isActive = true
             categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
             contentViewLeadingConstraint.isActive = false
             contentView.leftAnchor.constraint(equalTo: categoriesSegmentedView.rightAnchor).isActive = true
@@ -145,6 +164,27 @@ private extension SubCategoryProductsViewController {
             .filter { _ in self.varientTest == .bottomSheet }
             .bind(to: self.lblCategoryTitle.rx.text)
             .disposed(by: disposeBag)
+        
+        self.dataSource = RxCollectionViewSectionedReloadDataSource(configureCell: { _, collectionView, indexPath, viewModel in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUICollectionViewCell
+            cell.configure(viewModel: viewModel)
+            return cell
+        })
+        
+        self.viewModel.outputs.productModels
+            .bind(to: self.collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        self.viewModel.outputs.loading
+            .subscribe(onNext: { [weak self] loading in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+                    if loading {
+                        SpinnerView.showSpinnerView()
+                    }else {
+                        SpinnerView.hideSpinnerView()
+                    }
+                }
+            }).disposed(by: disposeBag)
     }
     
     func showCategoriesBottomSheet(categories: [CategoryDTO]) {
