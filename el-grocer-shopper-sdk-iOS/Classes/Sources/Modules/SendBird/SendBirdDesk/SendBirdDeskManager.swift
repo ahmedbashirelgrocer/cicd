@@ -450,7 +450,7 @@ class SendBirdDeskManager{
         var customFieldFilter = [String: String]()
         
         if let shopperUser = self.getCurrentUser(){
-         //   customFieldFilter = ["shopperid": shopperUser.dbID.stringValue]
+              customFieldFilter = ["shopperid": shopperUser.dbID.stringValue]
         }
         if let type = self.deskType{
             if type == .orderSupport{
@@ -508,7 +508,7 @@ class SendBirdDeskManager{
             if type == .orderSupport{
                 customFieldFilter["orderid"] = self.orderId
             }else if type == .agentSupport{
-                customFieldFilter["orderid"] = "0"
+               // customFieldFilter["orderid"] = "0"
             }
         }
         
@@ -586,6 +586,7 @@ class SendBirdDeskManager{
                 customFields["shopperid"] = id
             }
         }
+        customFields["orderid"] = orderId == "0" ? "" : orderId
         customFields["market-type"] = SDKManager.shared.isSmileSDK ? (sdkManager.isGrocerySingleStore ? KSingleGroceryStore : KSmileMarketPlace) : "ShopperAppMarketPlace"
     
         SBDSKMain.setCustomerCustomFields(customFields) { (error) in
@@ -631,7 +632,7 @@ class SendBirdDeskManager{
             }
             self.attachCustomFieldsWithCustomer()
             
-            Thread.OnMainThread {
+            Thread.OnMainThread { 
                 IQKeyboardManager.shared.enableAutoToolbar = true
                 IQKeyboardManager.shared.enable = true
                 let params = MessageListParams()
@@ -644,6 +645,7 @@ class SendBirdDeskManager{
                 params.customTypes = nil
                 let channelController = ElgrocerChannelController(channel: channel, messageListParams: params)
                 channelController.headerComponent?.rightBarButton = UIBarButtonItem()
+                channelController.orderId = orderId ?? ""
                 let naviVC = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
                 naviVC.hideSeparationLine()
                 naviVC.setLogoHidden(true)

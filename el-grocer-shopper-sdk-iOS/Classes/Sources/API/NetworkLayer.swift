@@ -328,6 +328,8 @@ class NetworkLayer {
     func setAuthriztionToken() {
         if let token = ElGrocerUtility.sharedInstance.projectScope?.access_token {
             self.requestManager.requestSerializer.setValue(token, forHTTPHeaderField: "access_token")
+            self.requestManager.requestSerializer.setValue(token, forHTTPHeaderField: "Access-Token")
+            
         }
         
         self.requestManager.requestSerializer.setValue(sdkManager.isSmileSDK ?  elGrocerSDKConfiguration.version : elGrocerSDKConfiguration.superAppVersion, forHTTPHeaderField: "app_version")

@@ -108,10 +108,6 @@ enum ElGrocerApiEndpoint : String {
     case OrderTracking = "v1/order_feedbacks/tracking.json"
     case DeliveryFeedback = "v1/order_feedbacks.json"
     case purchasedOrders = "v1/orders/purchased_order"
-    
-    //case DeliverySlots = "v2/delivery_slots/all.json" // update on 21 dec for slots updates
-   // case DeliverySlots = "v1/delivery_slots/all.json" // update on 24 march for slots updates / new slot logic
-   // case DeliverySlots = "v2/delivery_slots/all.json" // update on 2 Appril  for slots updates / upto two weeks slots
  
     case ProductSuggestions = "v1/product_suggestions"
     case ChangeLanguage = "v1/shoppers/update_language"
@@ -181,7 +177,6 @@ enum ElGrocerApiEndpoint : String {
     case editVehicle =  "v1/vehicle_details/update"
     
     // vehicle
-    
     case vehicleAttributes = "v1/vehicle_details/vehicle_attributes"
     case pickupLocations = "v1/pickup_locations/all"
     

@@ -60,6 +60,7 @@ extension SDKManager : GroupChannelDelegate, BaseChannelDelegate, ConnectionDele
             let name = nameDict != nil ? nameDict["name"] : message.sender?.nickname
             var data  = [:] as [String : Any]
             var sendbirdData = [:] as [String : Any]
+            sendbirdData["sender"] = ["id": message.sender?.id]
             sendbirdData["channel"] =  ["channel_url" : message.channelURL , "custom_type" : sender.customType ,  "name" : name]
             sendbirdData["message"] = message.message
             data["sendbird"] = sendbirdData

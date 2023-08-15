@@ -80,6 +80,7 @@ class SendBirdManager {
         if let _ = SendbirdChat.getCurrentUser() {
             self.logout { (success) in
                 if success{ }
+                completionHandler?()
             }
             return
         }
@@ -105,6 +106,7 @@ class SendBirdManager {
             SendbirdUI.connect { (user, error) in
                 guard error == nil else {
                     // Handle error.
+                    ElGrocerError.genericError().showErrorAlert()
                     group.leave()
                     return
                 }
