@@ -13,12 +13,13 @@ protocol SubCategoryProductsViewModelInputs {
     var categorySwitchObserver: AnyObserver<CategoryDTO?> { get }
     var subCategorySwitchObserver: AnyObserver<Int> { get }
     var categoriesButtonTapObserver: AnyObserver<Void> { get }
+    var fetchMoreProducts: AnyObserver<Void> { get }
 }
 
 protocol SubCategoryProductsViewModelOutputs {
     var categories: Observable<[CategoryDTO]> { get }
     var categorySwitch: Observable<CategoryDTO?> { get }
-    var subCategoriesTitle: Observable<[String]> { get }
+    var subCategories: Observable<[SubCategory]> { get }
     var error: Observable<Error?> { get }
     var categoriesButtonTap: Observable<[CategoryDTO]> { get }
     var title: Observable<String> { get }
@@ -41,11 +42,12 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     var categorySwitchObserver: AnyObserver<CategoryDTO?> { categorySwitchSubject.asObserver() }
     var subCategorySwitchObserver: AnyObserver<Int> { subCategorySwitchSubject.asObserver() }
     var categoriesButtonTapObserver: AnyObserver<Void> { categoriesButtonTapSubject.asObserver() }
+    var fetchMoreProducts: AnyObserver<Void> { fetchMoreProductsSubject.asObserver() }
     
     // MARK: Outputs
     var categories: Observable<[CategoryDTO]> { categoriesSubject.asObservable() }
     var categorySwitch: Observable<CategoryDTO?> { categorySwitchSubject.asObservable() }
-    var subCategoriesTitle: Observable<[String]> { subCategoriesTitleSubject.asObservable() }
+    var subCategories: Observable<[SubCategory]> { subCategoriesSubject.asObservable() }
     var error: Observable<Error?> { errorSubject.asObservable() }
     var categoriesButtonTap: Observable<[CategoryDTO]> { categoriesButtonTapSubject.withLatestFrom(categoriesSubject).asObservable() }
     var title: Observable<String> { titleSubject.asObservable() }
@@ -55,17 +57,19 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     // MARK: Subjects
     private var categoriesSubject = BehaviorSubject<[CategoryDTO]>(value: [])
     private var categorySwitchSubject = BehaviorSubject<CategoryDTO?>(value: nil)
-    private var subCategoriesTitleSubject = PublishSubject<[String]>()
+    private var subCategoriesSubject = BehaviorSubject<[SubCategory]>(value: [])
     private var errorSubject = PublishSubject<Error?>()
-    private var subCategorySwitchSubject = PublishSubject<Int>()
+    private var subCategorySwitchSubject = BehaviorSubject<Int>(value: 0)
     private var categoriesButtonTapSubject = PublishSubject<Void>()
     private var titleSubject = BehaviorSubject<String>(value: "")
     private var productModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
+    private var fetchMoreProductsSubject = PublishSubject<Void>()
     
     // MARK: Properties
     private var disposeBag = DisposeBag()
     private var grocery: Grocery
+    private var page: Int = 0
     
     // MARK: Initializations
     init(categories: [CategoryDTO], selectedCategory: CategoryDTO, grocery: Grocery) {
@@ -81,14 +85,15 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     
     private func fetchCategories() {
         let categoriesFetchResult = self.categorySwitchSubject
-            .flatMap {[unowned self] in
+            .distinctUntilChanged()
+            .flatMapLatest {[unowned self] in
                 self.getSubCategories(deliveryAddress: self.getCurrentDeliveryAddress(), category: $0?.categoryDB, grocery: grocery)
             }.share()
 
         categoriesFetchResult
             .compactMap{  $0.element }
-            .map { [localizedString("all_cate", comment: "")] + $0.map { $0.subCategoryName } }
-            .bind(to: self.subCategoriesTitleSubject)
+            .map { [SubCategory(id: -1, name: localizedString("all_cate", comment: ""))] + $0 }
+            .bind(to: self.subCategoriesSubject)
             .disposed(by: disposeBag)
 
         categoriesFetchResult
@@ -98,14 +103,19 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     }
     
     private func fetchProducts() {
-        let productFetchResult = self.categorySwitchSubject
+        let subCategoryId = self.subCategorySwitchSubject
+            .flatMapLatest { [unowned self] in self.filterSubCategories($0) }
+            .distinctUntilChanged()
+        
+        let productFetchResult = Observable
+            .combineLatest(self.categorySwitchSubject.distinctUntilChanged(), subCategoryId)
             .do(onNext: { [unowned self] _ in self.loadingSubject.onNext(true) })
-            .flatMap { [unowned self] in
-                self.getProducts(category: $0?.categoryDB, subcategory: "")
+            .flatMapLatest { [unowned self] in
+                self.getProducts(category: $0?.categoryDB, subcategoryId: $1)
             }
             .do(onNext: { [unowned self] _ in self.loadingSubject.onNext(false) })
             .share()
-        
+
         productFetchResult
             .compactMap { $0.element }
             .map { [SectionModel(model: 0, items: $0.map { ProductCellViewModel(product: $0, grocery: self.grocery) })] }
@@ -140,10 +150,10 @@ fileprivate extension SubCategoryProductsViewModel {
         }.materialize()
     }
     
-    func getProducts(category: Category?, subcategory: String) -> Observable<Event<[ProductDTO]>> {
+    func getProducts(category: Category?, subcategoryId: String) -> Observable<Event<[ProductDTO]>> {
         Observable<[ProductDTO]>.create { observer in
             
-            self.getProducts(category: category, subcategory: subcategory) { result in
+            self.getProducts(category: category, subcategoryId: subcategoryId) { result in
                 switch result {
                 case .success(let products):
                     let products = products.map { ProductDTO(product: $0) }
@@ -160,7 +170,7 @@ fileprivate extension SubCategoryProductsViewModel {
         }.materialize()
     }
     
-    func getProducts(category: Category?, subcategory: String, completion: @escaping (Swift.Result<[Product], Error>)->Void) {
+    func getProducts(category: Category?, subcategoryId: String, completion: @escaping (Swift.Result<[Product], Error>)->Void) {
         if self.isFetchFromAlgolia() == false {
             // Fetch Product from elGrocer server
             ProductBrowser.shared.getAllProductsOfCategory(category, forGrocery: self.grocery, limit: 20, offset: 0){ (result) -> Void in
@@ -174,14 +184,12 @@ fileprivate extension SubCategoryProductsViewModel {
             }
             return
         }
-    
-        let pageNumber = 0
         
         if self.isFetchOffersProducts(category: category) {
             // Fetch Offers Product from Algolia
             ProductBrowser.shared.searchOffersProductListForStoreCategory(
                 storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery.dbID),
-                pageNumber: pageNumber,
+                pageNumber: self.page,
                 hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20,
                 ElGrocerUtility.sharedInstance.getCurrentMillis(),
                 slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
@@ -198,9 +206,10 @@ fileprivate extension SubCategoryProductsViewModel {
         // Fetch All Product of category from Algolia
         ProductBrowser.shared.searchProductListForStoreCategory(
             storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery.dbID),
-            pageNumber: pageNumber,
+            pageNumber: self.page,
             categoryId: category?.dbID.stringValue ?? "",
             hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20,
+            subcategoryId,
             slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
 
                 if  let responseObject = content {
@@ -222,5 +231,11 @@ fileprivate extension SubCategoryProductsViewModel {
     
     func isFetchOffersProducts(category: Category?) -> Bool {
         return (category?.dbID.intValue ?? 0) <= 1
+    }
+    
+    func filterSubCategories(_ index: Int) -> Observable<String> {
+        return self.subCategoriesSubject.map { subcategories in
+            return subcategories.count > index && index != 0 ? subcategories[index].subCategoryId.stringValue : ""
+        }
     }
 }

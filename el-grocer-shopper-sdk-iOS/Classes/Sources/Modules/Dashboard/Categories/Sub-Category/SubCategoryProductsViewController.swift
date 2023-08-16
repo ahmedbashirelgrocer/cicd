@@ -150,10 +150,11 @@ private extension SubCategoryProductsViewController {
             .bind(to: categoriesSegmentedView.rx.selectedItemIndex)
             .disposed(by: disposeBag)
         
-        viewModel.outputs.subCategoriesTitle
+        viewModel.outputs.subCategories
+            .map({ subcategories in subcategories.map { $0.subCategoryName } })
             .subscribe(onNext: { [weak self] titles in
-                self?.subCategoriesSegmentedView.lastSelection = IndexPath(row: 0, section: 0)
                 self?.subCategoriesSegmentedView.refreshWith(dataA: titles)
+                self?.subCategoriesSegmentedView.lastSelection = IndexPath(row: 0, section: 0)
             }).disposed(by: disposeBag)
         
         viewModel.outputs.categoriesButtonTap.subscribe(onNext: { [weak self] in
