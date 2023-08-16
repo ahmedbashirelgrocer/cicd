@@ -67,4 +67,11 @@ class SubCategory: NSObject {
     
     return subCategory
     }
+    
+    convenience init(id: NSNumber, name: String) {
+        self.init()
+        
+        self.subCategoryId = id
+        self.subCategoryName = name
+    }
 }

@@ -137,3 +137,9 @@ extension CategoryDTO {
         self.messageAr = nil
     }
 }
+
+extension CategoryDTO: Equatable {
+    static func == (lhs: CategoryDTO, rhs: CategoryDTO) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
