@@ -1709,11 +1709,16 @@ private extension MainCategoriesViewController {
             
             if category.id == -1 {
                 self.gotoShoppingListVC()
+            } else if category.id == -2 {
+                // Navagation to buy it again products view
+                let productsVC = ElGrocerViewControllers.productsViewController()
+                productsVC.homeObj = Home("", withCategory: nil, products: [], self.grocery)
+                productsVC.grocery = self.grocery
+                self.navigationController?.pushViewController(productsVC, animated: true)
             } else {
                 if let grocery = self.grocery {
                     // removing shopping list and buy it again from categories
                     let categories = self.viewModel.outputs.categories.filter { $0.id != -1 && $0.id != -2 }
-
                     let vm = SubCategoryProductsViewModel(categories: categories, selectedCategory: category, grocery: grocery)
                     let vc = SubCategoryProductsViewController.make(viewModel: vm)
                     self.navigationController?.pushViewController(vc, animated: true)
