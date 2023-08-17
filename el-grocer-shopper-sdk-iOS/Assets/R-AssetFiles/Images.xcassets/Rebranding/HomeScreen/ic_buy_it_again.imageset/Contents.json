@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "ic_buy_it_again.png",
+      "filename" : "ic_shopping_list.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "ic_buy_it_again@2x.png",
+      "filename" : "ic_shopping_list@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "ic_buy_it_again@3x.png",
+      "filename" : "ic_shopping_list@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
