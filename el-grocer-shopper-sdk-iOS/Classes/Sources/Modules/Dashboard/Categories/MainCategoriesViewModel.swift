@@ -27,6 +27,7 @@ protocol MainCategoriesViewModelOutput {
     var showEmptyView: Observable<Void> { get }
     var chefTap: Observable<CHEF?> { get }
     var viewAllRecipesTap: Observable<Void> { get }
+    var categories: [CategoryDTO] { get }
     
     func dataValidationForLoadedGroceryNeedsToUpdate(_ newGrocery: Grocery?) -> Bool
 }
@@ -85,7 +86,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     
     private var viewModels: [SectionModel<Int, ReusableTableViewCellViewModelType>] = []
     
-    private var categories = [CategoryDTO]()
+    var categories = [CategoryDTO]()
     private var isCategoriesApiCompleted = false
     
     private var categoriesCellVMs = [ReusableTableViewCellViewModelType]()
@@ -249,10 +250,18 @@ private extension MainCategoriesViewModel {
                 }
                 DatabaseHelper.sharedInstance.saveDatabase()
                 
-                self.categories.append(CategoryDTO(dic: ["id" : -1, "image_url" : "shoping_list_cell_icon", "name" : localizedString("search_by_shopping_list_text", comment: "") , "name_ar" : "البحث بقائمة التسوق"]))
-                
                 categoriesDB.forEach { categoryDB in
                     self.categories.append(CategoryDTO(category: categoryDB))
+                }
+                
+                let shoppingList = CategoryDTO(dic: ["id": -1, "image_url": "ic_shopping_list", "name": localizedString("search_by_shopping_list_text", comment: "") , "name_ar": "البحث بقائمة التسوق"])
+                let buyItAgain = CategoryDTO(dic: ["id" : -2, "image_url" : "ic_buy_it_again", "name" : localizedString("buy_it_again_text", comment: ""), "name_ar" : "البحث بقائمة التسوق"])
+                
+                if self.showProductsSection {
+                    self.categories.insert(shoppingList, at: 0)
+                } else {
+                    self.categories.insert(buyItAgain, at: 0)
+                    self.categories.insert(shoppingList, at: 3)
                 }
                 
                 let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)

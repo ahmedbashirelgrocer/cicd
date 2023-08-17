@@ -1705,13 +1705,22 @@ private extension MainCategoriesViewController {
         }).disposed(by: disposeBag)
         
         viewModel.outputs.categoryTap.subscribe(onNext: { [weak self] category in
+            guard let self = self else { return }
             
             if category.id == -1 {
-                self?.gotoShoppingListVC()
+                self.gotoShoppingListVC()
             } else {
-                self?.selectedCategory = category.categoryDB
-                MixpanelEventLogger.trackStoreProductsViewAll(categoryId: String(category.id), categoryName: category.name ?? "")
-                self?.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
+                if let grocery = self.grocery {
+                    // removing shopping list and buy it again from categories
+                    let categories = self.viewModel.outputs.categories.filter { $0.id != -1 && $0.id != -2 }
+
+                    let vm = SubCategoryProductsViewModel(categories: categories, selectedCategory: category, grocery: grocery)
+                    let vc = SubCategoryProductsViewController.make(viewModel: vm)
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+//                self.selectedCategory = category.categoryDB
+//                MixpanelEventLogger.trackStoreProductsViewAll(categoryId: String(category.id), categoryName: category.name ?? "")
+//                self.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
             }
         }).disposed(by: disposeBag)
         
