@@ -2203,7 +2203,8 @@ Oreo";
 "lbl_AvailableStores_Smiles_Home" = "Available stores (%@)";
 
 // CategoryDTO
-"search_by_shopping_list_text" = "Search by Shopping List";
+"search_by_shopping_list_text" = "Create Shopping List";
+"buy_it_again_text" = "Buy it again";
 
 
 // Navigation Updated screen's updated Strings
