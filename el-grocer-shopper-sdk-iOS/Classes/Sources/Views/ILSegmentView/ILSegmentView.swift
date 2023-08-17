@@ -16,7 +16,6 @@ class ILSegmentView: UICollectionView {
     
     var segmentData: [(imageURL: String, bgColor: UIColor, text: String)] = []
     var onTapCompletion: ((Int) -> Void)?
-    var selectionStyle: AWSegementImageViewcell.SelectionStyle = .imageHighlight
     var selectedItemIndex: Int = 0 {
         didSet {
             let scrollPosition: UICollectionView.ScrollPosition = self.scrollDirection == .horizontal
@@ -33,27 +32,39 @@ class ILSegmentView: UICollectionView {
         commonInit()
     }
     
-    convenience init(scrollDirection: UICollectionView.ScrollDirection, selectionStyle: AWSegementImageViewcell.SelectionStyle) {
+    convenience init(scrollDirection: UICollectionView.ScrollDirection) {
         self.init(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
         self.scrollDirection = scrollDirection
-        self.selectionStyle = selectionStyle
         
         commonInit()
         
     }
     
     private func commonInit() {
-        self.collectionViewLayout = {
-            let layout = UICollectionViewFlowLayout()
-            layout.scrollDirection = scrollDirection
-            layout.itemSize = CGSize(width: 88, height: 88 + 42 )
-            layout.minimumInteritemSpacing = 16
-            layout.minimumLineSpacing = 16
-            let edgeInset:CGFloat =  16
-            layout.sectionInset = UIEdgeInsets(top: edgeInset / 2, left: edgeInset, bottom: 0, right: edgeInset)
-            return layout
-        }()
+        if self.categories.isEmpty {
+            self.collectionViewLayout = {
+                let layout = UICollectionViewFlowLayout()
+                layout.scrollDirection = scrollDirection
+                layout.itemSize = CGSize(width: 72, height: 106)
+                layout.minimumInteritemSpacing = 16
+                layout.minimumLineSpacing = 16
+                let edgeInset:CGFloat =  16
+                layout.sectionInset = UIEdgeInsets(top: edgeInset / 2, left: edgeInset, bottom: 0, right: edgeInset)
+                return layout
+            }()
+        } else {
+            self.collectionViewLayout = {
+                let layout = UICollectionViewFlowLayout()
+                layout.scrollDirection = scrollDirection
+                layout.itemSize = CGSize(width: 88, height: 88 + 42 )
+                layout.minimumInteritemSpacing = 16
+                layout.minimumLineSpacing = 16
+                let edgeInset:CGFloat =  16
+                layout.sectionInset = UIEdgeInsets(top: edgeInset / 2, left: edgeInset, bottom: 0, right: edgeInset)
+                return layout
+            }()
+        }
         
         self.backgroundColor = .clear
         self.showsVerticalScrollIndicator = false
@@ -64,6 +75,7 @@ class ILSegmentView: UICollectionView {
         self.translatesAutoresizingMaskIntoConstraints = false
         
         self.register(UINib(nibName: "AWSegementImageViewcell", bundle: Bundle.resource), forCellWithReuseIdentifier: kSegmentImageViewCellIdentifier)
+        self.register(UINib(nibName: kCategoriesSegmentedImageViewCell, bundle: Bundle.resource), forCellWithReuseIdentifier: kCategoriesSegmentedImageViewCell)
         
         self.delegate = self
         self.dataSource = self
@@ -77,8 +89,8 @@ class ILSegmentView: UICollectionView {
     }
     
     func refreshWith(_ categories : [CategoryDTO]) {
-        let segmentData = categories.map { ($0.coloredImageUrl ?? "", UIColor.white, $0.name ?? "") }
-        self.refreshWith(segmentData)
+        self.categories = categories
+        self.reloadData()
     }
     
     func onTap(completion: @escaping (Int) -> Void) {
@@ -93,20 +105,29 @@ class ILSegmentView: UICollectionView {
 extension ILSegmentView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return segmentData.count
+        return self.categories.isEmpty ? segmentData.count : categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = self.dequeueReusableCell(withReuseIdentifier: kSegmentImageViewCellIdentifier, for: indexPath) as! AWSegementImageViewcell
         
-        let dataItem = self.segmentData[indexPath.row]
+        if self.categories.isEmpty {
+            let cell = self.dequeueReusableCell(withReuseIdentifier: kSegmentImageViewCellIdentifier, for: indexPath) as! AWSegementImageViewcell
+            
+            let dataItem = self.segmentData[indexPath.row]
+            cell.configure(imageURL: dataItem.imageURL,
+                           bgColor: dataItem.bgColor,
+                           text: dataItem.text)
+            return cell
+        } else {
+            let cell = self.dequeueReusableCell(withReuseIdentifier: kCategoriesSegmentedImageViewCell, for: indexPath) as! AWCategoriesSegmentedImageViewCell
+            
+            let category = self.categories[indexPath.row]
+            cell.configure(imageURL: category.coloredImageUrl ?? "", text: category.name ?? "")
+            
+            return cell
+        }
         
-        cell.configure(imageURL: dataItem.imageURL,
-                       bgColor: dataItem.bgColor,
-                       text: dataItem.text,
-                       selectionStyle: selectionStyle)
-        
-        return cell
+        return UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {

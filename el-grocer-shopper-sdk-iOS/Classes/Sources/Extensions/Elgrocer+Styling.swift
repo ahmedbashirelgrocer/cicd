@@ -331,6 +331,10 @@ extension UILabel {
         self.font = UIFont.SFProDisplaySemiBoldFont(11)
         self.textColor = UIColor.promotionYellowColor()
     }
+    func setCaptionTwoSemiboldDarkStyle() {
+        self.font = UIFont.SFProDisplaySemiBoldFont(11)
+        self.textColor = UIColor.newBlackColor()
+    }
     
     func setSubHead1SemiboldDarkStyle() {
         self.font = UIFont.SFProDisplayBoldFont(15)

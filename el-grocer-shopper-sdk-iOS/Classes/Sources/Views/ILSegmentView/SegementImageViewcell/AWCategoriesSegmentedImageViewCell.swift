@@ -1,33 +1,26 @@
 //
-//  AWSegementImageViewcell.swift
+//  AWCategoriesSegmentedImageViewCell.swift
 //  el-grocer-shopper-sdk-iOS
 //
-//  Created by Sarmad Abbas on 07/06/2023.
+//  Created by Rashid Khan on 17/08/2023.
 //
 
 import UIKit
 import SDWebImage
 
-let kSegmentImageViewCellIdentifier = "AWSegementImageViewcell"
-let kCategoriesSegmentedImageViewCell = "AWCategoriesSegmentedImageViewCell"
+class AWCategoriesSegmentedImageViewCell: UICollectionViewCell {
 
-class AWSegementImageViewcell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var lblTitle: UILabel!
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        self.selectedBackgroundView?.frame = imageView.frame
-    }
-
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.label.setBody3SemiBoldDarkStyle()
-        self.label.backgroundColor = .clear
+        self.lblTitle.setCaptionTwoSemiboldDarkStyle()
+        self.lblTitle.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
         self.backgroundColor = .clear
-         
+        
         self.imageView.sd_imageIndicator = SDWebImageActivityIndicator()
         
         self.imageView.backgroundColor = .clear
@@ -48,11 +41,14 @@ class AWSegementImageViewcell: UICollectionViewCell {
         self.bringSubviewToFront(selectedBackgroundView!)
     }
     
-    func configure(imageURL: String, bgColor: UIColor, text: String) {
+    override func layoutSubviews() {
+        super.layoutSubviews()
         
-        self.imageView.sd_setImage(with: URL(string: imageURL))
-        self.label.text = text
-        self.imageView.backgroundColor = bgColor
+        self.selectedBackgroundView?.frame = contentView.frame
     }
     
+    func configure(imageURL: String, text: String) {
+        self.imageView.sd_setImage(with: URL(string: imageURL))
+        self.lblTitle.text = text
+    }
 }

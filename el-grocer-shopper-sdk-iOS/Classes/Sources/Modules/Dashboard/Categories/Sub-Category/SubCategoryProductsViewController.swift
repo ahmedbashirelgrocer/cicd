@@ -30,14 +30,14 @@ class SubCategoryProductsViewController: UIViewController {
         return locationHeader!
     }()
     private lazy var categoriesSegmentedView: ILSegmentView = {
-        let view = ILSegmentView(scrollDirection: self.varientTest == .vertical ? .vertical : .horizontal, selectionStyle: .wholeCellHighlight)
+        let view = ILSegmentView(scrollDirection: self.varientTest == .vertical ? .vertical : .horizontal)
         view.onTap { [weak self] index in self?.viewModel.inputs.categorySwitchObserver.onNext(index) }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private var viewModel: SubCategoryProductsViewModelType!
-    private var varientTest: Varient = .horizontal
+    private var varientTest: Varient = .vertical
     private var disposeBag = DisposeBag()
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
     
@@ -85,7 +85,7 @@ private extension SubCategoryProductsViewController {
         
         var itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 22) / 2, height: 264)
         if varientTest == .vertical {
-            itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 126) / 2, height: 237)
+            itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 106) / 2, height: 237)
         }
         self.collectionView.collectionViewLayout = {
             let layout = UICollectionViewFlowLayout()
@@ -117,8 +117,8 @@ private extension SubCategoryProductsViewController {
             buttonChangeCategory.isHidden = true
             locationHeaderShopper.bottomAnchor.constraint(equalTo: self.categoriesSegmentedView.topAnchor).isActive = true
             categoriesSegmentedView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8.0).isActive = true
-            categoriesSegmentedView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-            categoriesSegmentedView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+            categoriesSegmentedView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 4).isActive = true
+            categoriesSegmentedView.widthAnchor.constraint(equalToConstant: 80).isActive = true
             categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
             contentViewLeadingConstraint.isActive = false
             contentView.leftAnchor.constraint(equalTo: categoriesSegmentedView.rightAnchor).isActive = true
@@ -129,7 +129,7 @@ private extension SubCategoryProductsViewController {
             categoriesSegmentedView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8.0).isActive = true
             categoriesSegmentedView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
             categoriesSegmentedView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-            categoriesSegmentedView.heightAnchor.constraint(equalToConstant: 140).isActive = true
+            categoriesSegmentedView.heightAnchor.constraint(equalToConstant: 114).isActive = true
             categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
             locationHeaderShopper.bottomAnchor.constraint(equalTo: self.categoriesSegmentedView.topAnchor).isActive = true
 
