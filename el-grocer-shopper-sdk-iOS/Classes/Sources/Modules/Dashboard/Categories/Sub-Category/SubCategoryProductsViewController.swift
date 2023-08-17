@@ -31,7 +31,10 @@ class SubCategoryProductsViewController: UIViewController {
     }()
     private lazy var categoriesSegmentedView: ILSegmentView = {
         let view = ILSegmentView(scrollDirection: self.varientTest == .vertical ? .vertical : .horizontal)
-        view.onTap { [weak self] index in self?.viewModel.inputs.categorySwitchObserver.onNext(index) }
+        view.onTap { [weak self] category in
+            self?.viewModel.inputs.subCategorySwitchObserver.onNext(SubCategory(id: -1, name: localizedString("all_cate", comment: "")))
+            self?.viewModel.inputs.categorySwitchObserver.onNext(category)
+        }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -151,11 +154,17 @@ private extension SubCategoryProductsViewController {
             .disposed(by: disposeBag)
         
         viewModel.outputs.subCategories
-            .map({ subcategories in subcategories.map { $0.subCategoryName } })
-            .subscribe(onNext: { [weak self] titles in
-                self?.subCategoriesSegmentedView.refreshWith(dataA: titles)
-                self?.subCategoriesSegmentedView.lastSelection = IndexPath(row: 0, section: 0)
-            }).disposed(by: disposeBag)
+            .bind(to: self.subCategoriesSegmentedView.rx.subCategories)
+//            .map({ subcategories in subcategories.map { $0.subCategoryName } })
+//            .subscribe(onNext: { [weak self] titles in
+//                self?.subCategoriesSegmentedView.refreshWith(dataA: titles)
+//                self?.subCategoriesSegmentedView.lastSelection = IndexPath(row: 0, section: 0)
+//            })
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.subCategorySwitch
+            .bind(to: self.subCategoriesSegmentedView.rx.selected)
+            .disposed(by: disposeBag)
         
         viewModel.outputs.categoriesButtonTap.subscribe(onNext: { [weak self] in
             self?.showCategoriesBottomSheet(categories: $0)
@@ -216,6 +225,10 @@ private extension SubCategoryProductsViewController {
 
 extension SubCategoryProductsViewController: AWSegmentViewProtocol {
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex: Int) {
+//        self.viewModel.inputs.subCategorySwitchObserver.onNext(selectedSegmentIndex)
+    }
+    
+    func subCategorySelectedWithSelectedCategory(_ selectedSegmentIndex: SubCategory) {
         self.viewModel.inputs.subCategorySwitchObserver.onNext(selectedSegmentIndex)
     }
 }

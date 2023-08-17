@@ -7,10 +7,17 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 protocol AWSegmentViewProtocol : class {
     
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex:Int)
+    func subCategorySelectedWithSelectedCategory(_ selectedSegmentIndex: SubCategory)
+}
+
+extension AWSegmentViewProtocol {
+    func subCategorySelectedWithSelectedCategory(_ selectedSegmentIndex: SubCategory) { }
 }
 
 enum segmentViewType {
@@ -24,7 +31,7 @@ class ArabicCollectionFlow: UICollectionViewFlowLayout {
     }
 }
 class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
+    var subCategories: [SubCategory] = []
     var segmentTitles: [String]!
     var lastSelection:IndexPath!
     
@@ -79,6 +86,11 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
             self.reloadData()
             self.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
         }
+    }
+    
+    func refreshWith(dataA: [SubCategory]) {
+        self.subCategories = dataA
+        self.refreshWith(dataA: dataA.map { $0.subCategoryName })
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -165,5 +177,27 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
         
         self.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: true)
         self.segmentDelegate?.subCategorySelectedWithSelectedIndex((indexPath as NSIndexPath).row)
+        
+        self.segmentDelegate?.subCategorySelectedWithSelectedCategory(self.subCategories[indexPath.row])
+    }
+}
+
+// MARK: Rx Extension
+extension Reactive where Base: AWSegmentView {
+    var subCategories: Binder<[SubCategory]> {
+        return Binder(self.base) { view, subCategories in
+            view.refreshWith(dataA: subCategories)
+        }
+    }
+    
+    var selected: Binder<SubCategory?> {
+        return Binder(self.base) { view, subCategory in
+            DispatchQueue.main.async {
+                if let subCategory = subCategory {
+                    let index = view.subCategories.firstIndex(where: { $0.subCategoryId == subCategory.subCategoryId }) ?? 0
+                    view.lastSelection = IndexPath(item: index, section: 0)
+                }
+            }
+        }
     }
 }

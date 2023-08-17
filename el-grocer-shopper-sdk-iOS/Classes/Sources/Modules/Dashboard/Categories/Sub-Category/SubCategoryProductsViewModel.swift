@@ -11,7 +11,7 @@ import RxDataSources
 
 protocol SubCategoryProductsViewModelInputs {
     var categorySwitchObserver: AnyObserver<CategoryDTO?> { get }
-    var subCategorySwitchObserver: AnyObserver<Int> { get }
+    var subCategorySwitchObserver: AnyObserver<SubCategory?> { get }
     var categoriesButtonTapObserver: AnyObserver<Void> { get }
     var fetchMoreProducts: AnyObserver<Void> { get }
 }
@@ -25,6 +25,7 @@ protocol SubCategoryProductsViewModelOutputs {
     var title: Observable<String> { get }
     var productModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
     var loading: Observable<Bool> { get }
+    var subCategorySwitch: Observable<SubCategory?> { get }
 }
 
 protocol SubCategoryProductsViewModelType: SubCategoryProductsViewModelInputs, SubCategoryProductsViewModelOutputs {
@@ -40,7 +41,7 @@ extension SubCategoryProductsViewModelType {
 class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     // MARK: Inputs
     var categorySwitchObserver: AnyObserver<CategoryDTO?> { categorySwitchSubject.asObserver() }
-    var subCategorySwitchObserver: AnyObserver<Int> { subCategorySwitchSubject.asObserver() }
+    var subCategorySwitchObserver: AnyObserver<SubCategory?> { subCategorySwitchSubject.asObserver() }
     var categoriesButtonTapObserver: AnyObserver<Void> { categoriesButtonTapSubject.asObserver() }
     var fetchMoreProducts: AnyObserver<Void> { fetchMoreProductsSubject.asObserver() }
     
@@ -53,13 +54,14 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     var title: Observable<String> { titleSubject.asObservable() }
     var productModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { productModelsSubject.asObservable() }
     var loading: Observable<Bool> { loadingSubject.asObservable() }
+    var subCategorySwitch: Observable<SubCategory?> { subCategorySwitchSubject.asObservable() }
     
     // MARK: Subjects
     private var categoriesSubject = BehaviorSubject<[CategoryDTO]>(value: [])
     private var categorySwitchSubject = BehaviorSubject<CategoryDTO?>(value: nil)
     private var subCategoriesSubject = BehaviorSubject<[SubCategory]>(value: [])
     private var errorSubject = PublishSubject<Error?>()
-    private var subCategorySwitchSubject = BehaviorSubject<Int>(value: 0)
+    private var subCategorySwitchSubject = BehaviorSubject<SubCategory?>(value: nil)
     private var categoriesButtonTapSubject = PublishSubject<Void>()
     private var titleSubject = BehaviorSubject<String>(value: "")
     private var productModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
@@ -70,6 +72,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     private var disposeBag = DisposeBag()
     private var grocery: Grocery
     private var page: Int = 0
+    private var subCategoriesA: [SubCategory] = []
     
     // MARK: Initializations
     init(categories: [CategoryDTO], selectedCategory: CategoryDTO, grocery: Grocery) {
@@ -81,6 +84,8 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
         
         self.fetchCategories()
         self.fetchProducts()
+        
+        self.subCategorySwitchSubject.onNext(SubCategory(id: -1, name: localizedString("all_cate", comment: "")))
     }
     
     private func fetchCategories() {
@@ -103,12 +108,14 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     }
     
     private func fetchProducts() {
-        let subCategoryId = self.subCategorySwitchSubject
-            .flatMapLatest { [unowned self] in self.filterSubCategories($0) }
-            .distinctUntilChanged()
+        let subCategoryID = self.subCategorySwitchSubject
+            .map { subCategory in
+                return subCategory?.subCategoryId == -1 ? "" : subCategory?.subCategoryId.stringValue ?? ""
+            }.distinctUntilChanged()
+        
         
         let productFetchResult = Observable
-            .combineLatest(self.categorySwitchSubject.distinctUntilChanged(), subCategoryId)
+            .combineLatest(self.categorySwitchSubject.distinctUntilChanged(), subCategoryID)
             .do(onNext: { [unowned self] _ in self.loadingSubject.onNext(true) })
             .flatMapLatest { [unowned self] in
                 self.getProducts(category: $0?.categoryDB, subcategoryId: $1)
