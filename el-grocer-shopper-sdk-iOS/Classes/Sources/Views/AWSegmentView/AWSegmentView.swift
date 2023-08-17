@@ -13,7 +13,7 @@ import RxCocoa
 protocol AWSegmentViewProtocol : class {
     
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex:Int)
-    func subCategorySelectedWithSelectedCategory(_ selectedSegmentIndex: SubCategory)
+    func subCategorySelectedWithSelectedCategory(_ selectedSubCategory: SubCategory)
 }
 
 extension AWSegmentViewProtocol {

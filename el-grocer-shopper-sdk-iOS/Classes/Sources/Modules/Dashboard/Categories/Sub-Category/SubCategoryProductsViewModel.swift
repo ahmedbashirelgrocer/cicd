@@ -109,10 +109,8 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     
     private func fetchProducts() {
         let subCategoryID = self.subCategorySwitchSubject
-            .map { subCategory in
-                return subCategory?.subCategoryId == -1 ? "" : subCategory?.subCategoryId.stringValue ?? ""
-            }.distinctUntilChanged()
-        
+            .map { $0?.subCategoryId == -1 ? "" : $0?.subCategoryId.stringValue ?? "" }
+            .distinctUntilChanged()
         
         let productFetchResult = Observable
             .combineLatest(self.categorySwitchSubject.distinctUntilChanged(), subCategoryID)

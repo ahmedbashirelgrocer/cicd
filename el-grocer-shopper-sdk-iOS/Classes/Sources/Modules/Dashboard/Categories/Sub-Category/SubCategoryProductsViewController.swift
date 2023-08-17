@@ -32,7 +32,7 @@ class SubCategoryProductsViewController: UIViewController {
     private lazy var categoriesSegmentedView: ILSegmentView = {
         let view = ILSegmentView(scrollDirection: self.varientTest == .vertical ? .vertical : .horizontal)
         view.onTap { [weak self] category in
-            self?.viewModel.inputs.subCategorySwitchObserver.onNext(SubCategory(id: -1, name: localizedString("all_cate", comment: "")))
+            self?.viewModel.inputs.subCategorySwitchObserver.onNext(SubCategory(id: -2, name: localizedString("all_cate", comment: "")))
             self?.viewModel.inputs.categorySwitchObserver.onNext(category)
         }
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -155,11 +155,6 @@ private extension SubCategoryProductsViewController {
         
         viewModel.outputs.subCategories
             .bind(to: self.subCategoriesSegmentedView.rx.subCategories)
-//            .map({ subcategories in subcategories.map { $0.subCategoryName } })
-//            .subscribe(onNext: { [weak self] titles in
-//                self?.subCategoriesSegmentedView.refreshWith(dataA: titles)
-//                self?.subCategoriesSegmentedView.lastSelection = IndexPath(row: 0, section: 0)
-//            })
             .disposed(by: disposeBag)
         
         viewModel.outputs.subCategorySwitch
@@ -224,11 +219,9 @@ private extension SubCategoryProductsViewController {
 }
 
 extension SubCategoryProductsViewController: AWSegmentViewProtocol {
-    func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex: Int) {
-//        self.viewModel.inputs.subCategorySwitchObserver.onNext(selectedSegmentIndex)
-    }
+    func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex: Int) { }
     
-    func subCategorySelectedWithSelectedCategory(_ selectedSegmentIndex: SubCategory) {
-        self.viewModel.inputs.subCategorySwitchObserver.onNext(selectedSegmentIndex)
+    func subCategorySelectedWithSelectedCategory(_ selectedSubCategory: SubCategory) {
+        self.viewModel.inputs.subCategorySwitchObserver.onNext(selectedSubCategory)
     }
 }
