@@ -1596,7 +1596,7 @@ class ElGrocerUtility {
     
     
     func isTesting() -> Bool {
-        if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" {
+        if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" || ElGrocerApi.sharedInstance.baseApiPath == "https://stg.elgrocer.com/api/" {
             return true
         }else{
             return false

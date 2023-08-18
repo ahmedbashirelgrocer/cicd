@@ -12,10 +12,10 @@ class ProductQuantiy {
     
     static var availableQuantityLimit = 3
     
-    public static func checkLimitedNeedToDisplayForAvailableQuantity (_ product : Product) -> Bool {
+    public static func checkLimitedNeedToDisplayForAvailableQuantity (_ product : Product, grocery: Grocery?) -> Bool {
         
         let availableQuantity = product.availableQuantity.intValue
-        if (availableQuantity > 0 && availableQuantity <  availableQuantityLimit) || (product.promoProductLimit?.intValue ?? 0) > 0 {
+        if ((availableQuantity > 0 && availableQuantity <  availableQuantityLimit) || (product.promoProductLimit?.intValue ?? 0) > 0) && (grocery?.inventoryControlled ?? false) == true {
             return true
         }
         return false

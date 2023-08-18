@@ -220,19 +220,11 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                 
                 let crossCell = collectionView.dequeueReusableCell(withReuseIdentifier: kCrossCollectionCellIdentifier , for: indexPath) as! CrossCollectionViewController
                 crossCell.removeItemFromSubSitute = { [weak self ] () in
-                    guard let self = self else { return }
-//                    if let clouser = self.removeItemCalled {
-//                        clouser()
-//                    }
-                   
-                }
+                    guard let self = self else { return }  }
                  crossCell.cellState = .redBorder
                 if let currentProduct = collectionA[0] as? Product, let orderIs = self.order  {
-                    
-                    
                     let currentProductID = "\(Product.getCleanProductId(fromId: currentProduct.dbID))"
                     let productID = UserDefaults.selectedProductID(orderIs.dbID.stringValue, productID: currentProductID)
-                   
                     if  productID  == currentProductID  {
                         crossCell.cellState = .redBorder
                     }else{
@@ -425,9 +417,8 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                             } else {
                                 setPlusButtonState(true)
                             }
-                        }else{
-                            elDebugPrint("checktest product item: Nil")
-                            elDebugPrint("checktest currentProduct: \(currentProduct?.name)")
+                        } else {
+                    
                             productCell.imageCrossState.image = UIImage(name: "Product Plus")
                             productCell.imageCrossState.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
                             productCell.productContainer.layer.borderColor = UIColor.clear.cgColor
