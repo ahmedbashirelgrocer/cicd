@@ -31,6 +31,11 @@ class CategorySelectionBottomSheetViewController: UIViewController {
         setupViews()
         bindViews()
     }
+    
+    @IBAction func closeButtonTap(_ sender: Any) {
+        self.dismiss(animated: true)
+    }
+    
 }
 
 fileprivate extension CategorySelectionBottomSheetViewController {
@@ -41,7 +46,7 @@ fileprivate extension CategorySelectionBottomSheetViewController {
         self.collectionView.collectionViewLayout = {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .vertical
-            layout.itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 80) / 4, height: 110)
+            layout.itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 80) / 3, height: 110)
             layout.minimumInteritemSpacing = 16
             layout.minimumLineSpacing = 16
             let edgeInset:CGFloat =  16

@@ -213,7 +213,7 @@ private extension SubCategoryProductsViewController {
             self?.viewModel.inputs.categorySwitchObserver.onNext(category)
         }
         
-        categoriesVC.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(ScreenSize.SCREEN_HEIGHT * 0.6))
+        categoriesVC.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(ScreenSize.SCREEN_HEIGHT * 0.5))
         
         let popupController = STPopupController(rootViewController: categoriesVC)
         popupController.navigationBarHidden = true

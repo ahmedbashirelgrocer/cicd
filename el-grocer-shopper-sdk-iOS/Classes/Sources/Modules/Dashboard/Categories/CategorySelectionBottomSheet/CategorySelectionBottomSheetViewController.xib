@@ -47,6 +47,9 @@
                             </constraints>
                             <state key="normal" title="Button"/>
                             <buttonConfiguration key="configuration" style="plain" image="MyBasketPromoClose" title=""/>
+                            <connections>
+                                <action selector="closeButtonTap:" destination="-1" eventType="touchUpInside" id="EfJ-mj-C19"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
