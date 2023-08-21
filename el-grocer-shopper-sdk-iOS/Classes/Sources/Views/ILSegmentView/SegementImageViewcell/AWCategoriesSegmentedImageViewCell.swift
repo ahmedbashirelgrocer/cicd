@@ -13,6 +13,12 @@ class AWCategoriesSegmentedImageViewCell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var lblTitle: UILabel!
     
+    override var isSelected: Bool {
+        didSet {
+            self.lblTitle.textColor = self.isSelected ? UIColor.navigationBarColor() : UIColor.newBlackColor()
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -30,10 +36,9 @@ class AWCategoriesSegmentedImageViewCell: UICollectionViewCell {
         self.selectedBackgroundView = {
             let selectedBGView = UIView()
             
-            selectedBGView.backgroundColor = UIColor.smilePrimaryPurpleColor().withAlphaComponent(0.15)
             selectedBGView.layer.cornerRadius = 8
             selectedBGView.layer.borderWidth = 2
-            selectedBGView.layer.borderColor = UIColor.smilePrimaryPurpleColor().cgColor
+            selectedBGView.layer.borderColor = UIColor.navigationBarColor().cgColor
             
             return selectedBGView
         }()
@@ -44,7 +49,7 @@ class AWCategoriesSegmentedImageViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.selectedBackgroundView?.frame = contentView.frame
+        self.selectedBackgroundView?.frame = imageView.frame
     }
     
     func configure(imageURL: String, text: String) {
