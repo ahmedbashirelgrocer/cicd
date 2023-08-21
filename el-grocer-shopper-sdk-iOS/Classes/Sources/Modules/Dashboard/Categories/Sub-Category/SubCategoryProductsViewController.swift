@@ -9,7 +9,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 import STPopup
-import RxDataSources
 
 enum Varient {
     case vertical, horizontal, bottomSheet
@@ -32,7 +31,6 @@ class SubCategoryProductsViewController: UIViewController {
     private lazy var categoriesSegmentedView: ILSegmentView = {
         let view = ILSegmentView(scrollDirection: self.varientTest == .vertical ? .vertical : .horizontal)
         view.onTap { [weak self] category in
-            self?.viewModel.inputs.subCategorySwitchObserver.onNext(SubCategory(id: -2, name: localizedString("all_cate", comment: "")))
             self?.viewModel.inputs.categorySwitchObserver.onNext(category)
         }
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -40,9 +38,9 @@ class SubCategoryProductsViewController: UIViewController {
     }()
     
     private var viewModel: SubCategoryProductsViewModelType!
-    private var varientTest: Varient = .vertical
+    private var varientTest: Varient = .bottomSheet
     private var disposeBag = DisposeBag()
-    private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
+    private var cellViewModels: [ReusableCollectionViewCellViewModelType] = []
     
     static func make(viewModel: SubCategoryProductsViewModelType) -> SubCategoryProductsViewController {
         let vc = SubCategoryProductsViewController(nibName: "SubCategoryProductsViewController", bundle: .resource)
@@ -100,6 +98,9 @@ private extension SubCategoryProductsViewController {
             layout.sectionInset = UIEdgeInsets(top: edgeInset / 2, left: edgeInset, bottom: 0, right: edgeInset)
             return layout
         }()
+        
+        self.collectionView.dataSource = self
+        self.collectionView.delegate = self
     }
     
     func setupConstraint() {
@@ -170,15 +171,17 @@ private extension SubCategoryProductsViewController {
             .bind(to: self.lblCategoryTitle.rx.text)
             .disposed(by: disposeBag)
         
-        self.dataSource = RxCollectionViewSectionedReloadDataSource(configureCell: { _, collectionView, indexPath, viewModel in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUICollectionViewCell
-            cell.configure(viewModel: viewModel)
-            return cell
-        })
-        
-        self.viewModel.outputs.productModels
-            .bind(to: self.collectionView.rx.items(dataSource: dataSource))
-            .disposed(by: disposeBag)
+        self.viewModel.outputs.productCellViewModels
+            .subscribe(onNext: { [weak self] viewModels in
+                guard let self = self else { return }
+                
+//                if self.cellViewModels.isNotEmpty && viewModels.count <= self.viewModel.hitsPerPage {
+//                    self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+//                }
+                
+                self.cellViewModels = viewModels
+                self.collectionView.reloadData()
+            }).disposed(by: disposeBag)
         
         self.viewModel.outputs.loading
             .subscribe(onNext: { [weak self] loading in
@@ -190,6 +193,14 @@ private extension SubCategoryProductsViewController {
                     }
                 }
             }).disposed(by: disposeBag)
+        
+        viewModel.outputs.error
+            .map { ElGrocerError(error: ($0 ?? ElGrocerError.genericError()) as NSError) }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] error in
+                error.showErrorAlert()
+            })
+            .disposed(by: disposeBag)
     }
     
     func showCategoriesBottomSheet(categories: [CategoryDTO]) {
@@ -197,8 +208,9 @@ private extension SubCategoryProductsViewController {
         let categoriesVC = CategorySelectionBottomSheetViewController.make(viewModel: viewModel)
         
         categoriesVC.categorySelected = { [weak self] category in
-            self?.viewModel.inputs.categorySwitchObserver.onNext(category)
             self?.dismissPopUpVc()
+            self?.lblCategoryTitle.text = category.name
+            self?.viewModel.inputs.categorySwitchObserver.onNext(category)
         }
         
         categoriesVC.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(ScreenSize.SCREEN_HEIGHT * 0.6))
@@ -224,4 +236,38 @@ extension SubCategoryProductsViewController: AWSegmentViewProtocol {
     func subCategorySelectedWithSelectedCategory(_ selectedSubCategory: SubCategory) {
         self.viewModel.inputs.subCategorySwitchObserver.onNext(selectedSubCategory)
     }
+}
+
+extension SubCategoryProductsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.cellViewModels.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let viewModel = self.cellViewModels[indexPath.row]
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUICollectionViewCell
+        cell.configure(viewModel: viewModel)
+        return cell
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let cellHeight = self.varientTest == .vertical ? 237 : 264
+        let rowsThreshold = CGFloat(4 * cellHeight)
+        let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
+
+        if y  > scrollView.contentSize.height - rowsThreshold {
+            if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y < 0 {
+                self.viewModel.inputs.fetchMoreProducts.onNext(())
+            }
+        }
+    }
+    
+//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//        if kind == UICollectionView.elementKindSectionHeader {
+//            return self.bannerView
+//        }
+//        
+//        return nil
+//    }
 }

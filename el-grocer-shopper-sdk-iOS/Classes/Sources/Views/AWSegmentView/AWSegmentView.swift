@@ -91,6 +91,7 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
     func refreshWith(dataA: [SubCategory]) {
         self.subCategories = dataA
         self.refreshWith(dataA: dataA.map { $0.subCategoryName })
+        self.lastSelection = IndexPath(row: 0, section: 0)
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {

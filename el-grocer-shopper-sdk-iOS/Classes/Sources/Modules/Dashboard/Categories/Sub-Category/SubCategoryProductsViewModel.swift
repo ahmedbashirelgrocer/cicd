@@ -23,9 +23,11 @@ protocol SubCategoryProductsViewModelOutputs {
     var error: Observable<Error?> { get }
     var categoriesButtonTap: Observable<[CategoryDTO]> { get }
     var title: Observable<String> { get }
-    var productModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
+    var productCellViewModels: Observable<[ReusableCollectionViewCellViewModelType]> { get }
     var loading: Observable<Bool> { get }
     var subCategorySwitch: Observable<SubCategory?> { get }
+    var grocery: Grocery { get }
+    var hitsPerPage: Int { get }
 }
 
 protocol SubCategoryProductsViewModelType: SubCategoryProductsViewModelInputs, SubCategoryProductsViewModelOutputs {
@@ -52,27 +54,31 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     var error: Observable<Error?> { errorSubject.asObservable() }
     var categoriesButtonTap: Observable<[CategoryDTO]> { categoriesButtonTapSubject.withLatestFrom(categoriesSubject).asObservable() }
     var title: Observable<String> { titleSubject.asObservable() }
-    var productModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { productModelsSubject.asObservable() }
+    var productCellViewModels: Observable<[ReusableCollectionViewCellViewModelType]> { productCellViewModelsSubject.asObservable() }
     var loading: Observable<Bool> { loadingSubject.asObservable() }
     var subCategorySwitch: Observable<SubCategory?> { subCategorySwitchSubject.asObservable() }
+    var grocery: Grocery
+    var hitsPerPage = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20
     
     // MARK: Subjects
     private var categoriesSubject = BehaviorSubject<[CategoryDTO]>(value: [])
     private var categorySwitchSubject = BehaviorSubject<CategoryDTO?>(value: nil)
     private var subCategoriesSubject = BehaviorSubject<[SubCategory]>(value: [])
     private var errorSubject = PublishSubject<Error?>()
-    private var subCategorySwitchSubject = BehaviorSubject<SubCategory?>(value: nil)
+    private var subCategorySwitchSubject = BehaviorSubject<SubCategory?>(value: SubCategory(id: -1, name: localizedString("all_cate", comment: "")))
     private var categoriesButtonTapSubject = PublishSubject<Void>()
     private var titleSubject = BehaviorSubject<String>(value: "")
-    private var productModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
+    private var productCellViewModelsSubject = BehaviorSubject<[ReusableCollectionViewCellViewModelType]>(value: [])
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private var fetchMoreProductsSubject = PublishSubject<Void>()
     
     // MARK: Properties
     private var disposeBag = DisposeBag()
-    private var grocery: Grocery
     private var page: Int = 0
-    private var subCategoriesA: [SubCategory] = []
+    private var selectedCategory: CategoryDTO?
+    private var selectedSubcategoryId: String?
+    private var isFetching = false
+    private var isMoreProductsAvailable = true
     
     // MARK: Initializations
     init(categories: [CategoryDTO], selectedCategory: CategoryDTO, grocery: Grocery) {
@@ -85,7 +91,29 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
         self.fetchCategories()
         self.fetchProducts()
         
-        self.subCategorySwitchSubject.onNext(SubCategory(id: -1, name: localizedString("all_cate", comment: "")))
+//        self.subCategorySwitchSubject.onNext(SubCategory(id: -1, name: localizedString("all_cate", comment: "")))
+        
+        let paginatedResult = self.fetchMoreProductsSubject
+            .filter { [unowned self] _ in !self.isFetching && self.isMoreProductsAvailable }
+            .flatMapLatest { _ in
+                self.page += 1
+                self.isFetching = true
+
+                return self.getProducts(category: self.selectedCategory?.categoryDB, subcategoryId: self.selectedSubcategoryId ?? "")
+            }
+            .do(onNext: { [unowned self] _ in self.isFetching = false  })
+            .share()
+        
+        paginatedResult
+            .compactMap { $0.element }
+            .map { products in products.map { ProductCellViewModel(product: $0, grocery: self.grocery) } }
+            .subscribe(onNext: { [weak self] paginatedResult in
+                let currentItems = (try? self?.productCellViewModelsSubject.value()) ?? []
+                
+                let updated = (currentItems ?? []) + paginatedResult
+                self?.productCellViewModelsSubject.onNext(updated)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func fetchCategories() {
@@ -116,15 +144,30 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
             .combineLatest(self.categorySwitchSubject.distinctUntilChanged(), subCategoryID)
             .do(onNext: { [unowned self] _ in self.loadingSubject.onNext(true) })
             .flatMapLatest { [unowned self] in
-                self.getProducts(category: $0?.categoryDB, subcategoryId: $1)
+                // Fix this code for paginated calls
+                self.page = 0
+                var subCategoryId = $1
+                
+                if $1 == self.selectedSubcategoryId {
+                    subCategoryId = ""
+                }
+                self.selectedCategory = $0
+                self.selectedSubcategoryId = $1
+                self.productCellViewModelsSubject.onNext([])
+                self.isFetching = true
+                
+                return self.getProducts(category: $0?.categoryDB, subcategoryId: subCategoryId)
             }
-            .do(onNext: { [unowned self] _ in self.loadingSubject.onNext(false) })
+            .do(onNext: { [unowned self] _ in
+                self.isFetching = false
+                self.loadingSubject.onNext(false)
+            })
             .share()
 
         productFetchResult
             .compactMap { $0.element }
-            .map { [SectionModel(model: 0, items: $0.map { ProductCellViewModel(product: $0, grocery: self.grocery) })] }
-            .bind(to: self.productModelsSubject)
+            .map{ $0.map { ProductCellViewModel(product: $0, grocery: self.grocery) }}
+            .bind(to: self.productCellViewModelsSubject)
             .disposed(by: disposeBag)
         
         productFetchResult
@@ -177,10 +220,11 @@ fileprivate extension SubCategoryProductsViewModel {
     
     func getProducts(category: Category?, subcategoryId: String, completion: @escaping (Swift.Result<[Product], Error>)->Void) {
         if self.isFetchFromAlgolia() == false {
-            // Fetch Product from elGrocer server
+            // Fetch Products from elGrocer server
             ProductBrowser.shared.getAllProductsOfCategory(category, forGrocery: self.grocery, limit: 20, offset: 0){ (result) -> Void in
                 switch result {
                 case .success(let response):
+                    self.isMoreProductsAvailable = (response.algoliaCount ?? response.products.count) >= self.hitsPerPage
                     completion(.success(response.products))
                     
                 case .failure(let error):
@@ -195,11 +239,13 @@ fileprivate extension SubCategoryProductsViewModel {
             ProductBrowser.shared.searchOffersProductListForStoreCategory(
                 storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery.dbID),
                 pageNumber: self.page,
-                hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20,
+                hitsPerPage: self.hitsPerPage,
                 ElGrocerUtility.sharedInstance.getCurrentMillis(),
                 slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
+                    guard let self = self else { return }
                     
                     if let responseObject = content {
+                        self.isMoreProductsAvailable = (responseObject.algoliaCount ?? responseObject.products.count) >= self.hitsPerPage
                         completion(.success(responseObject.products))
                     } else {
                         completion(.failure(error ?? ElGrocerError.genericError()))
@@ -208,16 +254,18 @@ fileprivate extension SubCategoryProductsViewModel {
             return
         }
 
-        // Fetch All Product of category from Algolia
+        // Fetch all Products by category and sub-category from Algolia
         ProductBrowser.shared.searchProductListForStoreCategory(
             storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery.dbID),
             pageNumber: self.page,
             categoryId: category?.dbID.stringValue ?? "",
-            hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20,
+            hitsPerPage: self.hitsPerPage,
             subcategoryId,
             slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
-
+                guard let self = self else { return }
+                
                 if  let responseObject = content {
+                    self.isMoreProductsAvailable = (responseObject.algoliaCount ?? responseObject.products.count) >= self.hitsPerPage
                     completion(.success(responseObject.products))
                 } else {
                     completion(.failure(error ?? ElGrocerError.genericError()))
@@ -236,11 +284,5 @@ fileprivate extension SubCategoryProductsViewModel {
     
     func isFetchOffersProducts(category: Category?) -> Bool {
         return (category?.dbID.intValue ?? 0) <= 1
-    }
-    
-    func filterSubCategories(_ index: Int) -> Observable<String> {
-        return self.subCategoriesSubject.map { subcategories in
-            return subcategories.count > index && index != 0 ? subcategories[index].subCategoryId.stringValue : ""
-        }
     }
 }
