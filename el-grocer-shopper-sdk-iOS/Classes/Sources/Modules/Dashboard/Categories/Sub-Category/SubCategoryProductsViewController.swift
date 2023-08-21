@@ -38,7 +38,6 @@ class SubCategoryProductsViewController: UIViewController {
     }()
     private lazy var bannerView: BannerView = {
         let view = BannerView(frame: .zero)
-        view.backgroundColor = .red
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()

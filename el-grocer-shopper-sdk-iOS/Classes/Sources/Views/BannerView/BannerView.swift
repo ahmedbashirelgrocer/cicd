@@ -110,7 +110,9 @@ extension BannerView: UICollectionViewDelegateFlowLayout, UICollectionViewDelega
 extension Reactive where Base: BannerView {
     var banners: Binder<[BannerDTO]> {
         return Binder(self.base) { bannerView, banners in
-            bannerView.banners = banners
+            DispatchQueue.main.async {
+                bannerView.banners = banners
+            }
         }
     }
 }
