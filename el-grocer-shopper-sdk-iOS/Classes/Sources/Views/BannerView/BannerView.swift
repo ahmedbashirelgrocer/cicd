@@ -43,6 +43,11 @@ class BannerView: UIView {
         super.init(coder: aDecoder)
         commonInit()
     }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
 
     func commonInit() {
         Bundle.resource.loadNibNamed("BannerView", owner: self, options: nil)

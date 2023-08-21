@@ -36,9 +36,15 @@ class SubCategoryProductsViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    private lazy var bannerView: BannerView = {
+        let view = BannerView(frame: .zero)
+        view.backgroundColor = .red
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     private var viewModel: SubCategoryProductsViewModelType!
-    private var varientTest: Varient = .bottomSheet
+    private var varientTest: Varient = .vertical
     private var disposeBag = DisposeBag()
     private var cellViewModels: [ReusableCollectionViewCellViewModelType] = []
     private var effectiveOffset: CGFloat = 0
@@ -78,6 +84,7 @@ class SubCategoryProductsViewController: UIViewController {
 
 private extension SubCategoryProductsViewController {
     func setupViews() {
+        self.view.addSubview(self.bannerView)
         if self.varientTest != .bottomSheet {
             self.view.addSubview(self.categoriesSegmentedView)
         }
@@ -118,7 +125,6 @@ private extension SubCategoryProductsViewController {
     func setupConstraint() {
         if sdkManager.isShopperApp {
             self.view.addSubview(self.locationHeaderShopper)
-            
             locationHeaderShopper.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
             locationHeaderShopper.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
             locationHeaderShopper.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -131,31 +137,42 @@ private extension SubCategoryProductsViewController {
             
         case .vertical:
             buttonChangeCategory.isHidden = true
-            categoriesSegmentedView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8.0).isActive = true
+            contentViewLeadingConstraint.isActive = false
+            
+            categoriesSegmentedView.topAnchor.constraint(equalTo: self.bannerView.bottomAnchor, constant: 8.0).isActive = true
             categoriesSegmentedView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 4).isActive = true
             categoriesSegmentedView.widthAnchor.constraint(equalToConstant: 80).isActive = true
             categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-            contentViewLeadingConstraint.isActive = false
+            
+            locationHeaderShopper.bottomAnchor.constraint(equalTo: self.bannerView.topAnchor, constant: -8).isActive = true
+            
             contentView.leftAnchor.constraint(equalTo: categoriesSegmentedView.rightAnchor).isActive = true
-            contentView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 0).isActive = true
+            bannerView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
             
         case .horizontal:
             buttonChangeCategory.isHidden = true
-            categoriesSegmentedView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8.0).isActive = true
             categoriesSegmentedView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
             categoriesSegmentedView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
             categoriesSegmentedView.heightAnchor.constraint(equalToConstant: 114).isActive = true
             categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+            
+            locationHeaderShopper.bottomAnchor.constraint(equalTo: self.bannerView.topAnchor, constant: -8).isActive = true
+            bannerView.bottomAnchor.constraint(equalTo: self.categoriesSegmentedView.topAnchor).isActive = true
+            
 
         case .bottomSheet:
             buttonChangeCategory.isHidden = false
-            locationHeaderShopper.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+            locationHeaderShopper.bottomAnchor.constraint(equalTo: self.bannerView.topAnchor, constant: -8).isActive = true
+            bannerView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
         }
+        
+        
+        bannerView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
+        bannerView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
+        bannerView.heightAnchor.constraint(equalToConstant: 0).isActive = true
     }
     
     func bindViews() {
-        self.lblCategoryTitle.text = "Select product subcategory"
-        
         viewModel.outputs.categories
             .bind(to: categoriesSegmentedView.rx.categories)
             .disposed(by: disposeBag)
@@ -177,7 +194,6 @@ private extension SubCategoryProductsViewController {
         }).disposed(by: disposeBag)
         
         viewModel.outputs.title
-            .filter { _ in self.varientTest == .bottomSheet }
             .bind(to: self.lblCategoryTitle.rx.text)
             .disposed(by: disposeBag)
         
@@ -207,6 +223,26 @@ private extension SubCategoryProductsViewController {
                 error.showErrorAlert()
             })
             .disposed(by: disposeBag)
+        
+        viewModel.outputs.banners
+            .map { $0.map { $0.toBannerDTO() }}
+            .bind(to: self.bannerView.rx.banners)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.banners
+            .map { $0.isEmpty }
+            .subscribe(onNext: { [weak self] isEmpty in
+                DispatchQueue.main.async {
+                    let height = isEmpty ? 0.0 : (ScreenSize.SCREEN_WIDTH - 32) / 2
+                    
+                    self?.bannerView.constraints.forEach { constraint in
+                        if constraint.firstAttribute == .height {
+                            constraint.constant = height
+                        }
+                    }
+                    self?.view.layoutIfNeeded()
+                }
+            }).disposed(by: disposeBag)
     }
     
     func showCategoriesBottomSheet(categories: [CategoryDTO]) {

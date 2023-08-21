@@ -26,6 +26,7 @@ protocol SubCategoryProductsViewModelOutputs {
     var productCellViewModels: Observable<[ReusableCollectionViewCellViewModelType]> { get }
     var loading: Observable<Bool> { get }
     var subCategorySwitch: Observable<SubCategory?> { get }
+    var banners: Observable<[BannerCampaign]> { get }
     var grocery: Grocery { get }
     var hitsPerPage: Int { get }
 }
@@ -57,6 +58,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     var productCellViewModels: Observable<[ReusableCollectionViewCellViewModelType]> { productCellViewModelsSubject.asObservable() }
     var loading: Observable<Bool> { loadingSubject.asObservable() }
     var subCategorySwitch: Observable<SubCategory?> { subCategorySwitchSubject.asObservable() }
+    var banners: Observable<[BannerCampaign]> { bannersSubject.asObservable() }
     var grocery: Grocery
     var hitsPerPage = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20
     
@@ -71,6 +73,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     private var productCellViewModelsSubject = BehaviorSubject<[ReusableCollectionViewCellViewModelType]>(value: [])
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private var fetchMoreProductsSubject = PublishSubject<Void>()
+    private var bannersSubject = BehaviorSubject<[BannerCampaign]>(value: [])
     
     // MARK: Properties
     private var disposeBag = DisposeBag()
@@ -90,8 +93,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
         
         self.fetchCategories()
         self.fetchProducts()
-        
-//        self.subCategorySwitchSubject.onNext(SubCategory(id: -1, name: localizedString("all_cate", comment: "")))
+        self.fetchBanners()
         
         let paginatedResult = self.fetchMoreProductsSubject
             .filter { [unowned self] _ in !self.isFetching && self.isMoreProductsAvailable }
@@ -173,6 +175,25 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
         productFetchResult
             .compactMap { $0.error }
             .bind(to: self.errorSubject)
+            .disposed(by: disposeBag)
+    }
+    
+    private func fetchBanners() {
+        let subCategoryID = self.subCategorySwitchSubject
+            .map { $0?.subCategoryId == -1 ? "" : $0?.subCategoryId.stringValue ?? "" }
+            .distinctUntilChanged()
+        
+        let bannersFetchResult = Observable
+            .combineLatest(self.categorySwitchSubject, subCategoryID)
+            .map { return ($0?.categoryDB?.dbID.intValue, Int($1)) }
+            .flatMapLatest { [unowned self] in
+                return self.getBanners(categoryId: $0, subCategoryId: $1)
+            }
+            .share()
+        
+        bannersFetchResult
+            .compactMap { $0.element }
+            .bind(to: self.bannersSubject)
             .disposed(by: disposeBag)
     }
 }
@@ -271,6 +292,28 @@ fileprivate extension SubCategoryProductsViewModel {
                     completion(.failure(error ?? ElGrocerError.genericError()))
                 }
             })
+    }
+
+    func getBanners(categoryId: Int?, subCategoryId: Int?) -> Observable<Event<[BannerCampaign]>> {
+        Observable<[BannerCampaign]>.create { observer in
+            
+            let location = BannerLocation.subCategory_tier_1.getType()
+            let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map{ "\($0)" } ?? []
+            
+            ElGrocerApi.sharedInstance.getBanners(for: location, retailer_ids: [self.grocery.dbID], store_type_ids: storeTypes, retailer_group_ids: nil, category_id: categoryId, subcategory_id: subCategoryId, brand_id: nil, search_input: nil) { result in
+                    
+                switch result {
+                case .success(let banners):
+                    observer.onNext(banners)
+                    observer.onCompleted()
+                        
+                case .failure(let error):
+                    observer.onError(error)
+                }
+            }
+            
+            return Disposables.create()
+        }.materialize()
     }
     
     func getCurrentDeliveryAddress() -> DeliveryAddress? {
