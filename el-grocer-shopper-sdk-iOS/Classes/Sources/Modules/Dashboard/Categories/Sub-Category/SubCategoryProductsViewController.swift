@@ -38,9 +38,17 @@ class SubCategoryProductsViewController: UIViewController {
     }()
     
     private var viewModel: SubCategoryProductsViewModelType!
-    private var varientTest: Varient = .horizontal
+    private var varientTest: Varient = .bottomSheet
     private var disposeBag = DisposeBag()
     private var cellViewModels: [ReusableCollectionViewCellViewModelType] = []
+    private var effectiveOffset: CGFloat = 0
+    private var offset: CGFloat = 0 {
+        didSet {
+            let diff = offset - oldValue
+            if diff > 0 { effectiveOffset = min(60, effectiveOffset + diff) }
+            else { effectiveOffset = max(0, effectiveOffset + diff) }
+        }
+    }
     
     static func make(viewModel: SubCategoryProductsViewModelType) -> SubCategoryProductsViewController {
         let vc = SubCategoryProductsViewController(nibName: "SubCategoryProductsViewController", bundle: .resource)
@@ -54,6 +62,8 @@ class SubCategoryProductsViewController: UIViewController {
         setupViews()
         setupConstraint()
         bindViews()
+        
+        self.basketIconOverlay
     }
     
     @objc func backButtonPressed() {
@@ -74,6 +84,8 @@ private extension SubCategoryProductsViewController {
         
         if sdkManager.isShopperApp {
             self.view.addSubview(self.locationHeaderShopper)
+            self.locationHeaderShopper.configuredLocationAndGrocey(self.viewModel.grocery)
+            self.locationHeaderShopper.setSlotData()
         } else {
             // add SDK header
         }
@@ -119,7 +131,6 @@ private extension SubCategoryProductsViewController {
             
         case .vertical:
             buttonChangeCategory.isHidden = true
-            locationHeaderShopper.bottomAnchor.constraint(equalTo: self.categoriesSegmentedView.topAnchor).isActive = true
             categoriesSegmentedView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8.0).isActive = true
             categoriesSegmentedView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 4).isActive = true
             categoriesSegmentedView.widthAnchor.constraint(equalToConstant: 80).isActive = true
@@ -135,7 +146,6 @@ private extension SubCategoryProductsViewController {
             categoriesSegmentedView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
             categoriesSegmentedView.heightAnchor.constraint(equalToConstant: 114).isActive = true
             categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
-            locationHeaderShopper.bottomAnchor.constraint(equalTo: self.categoriesSegmentedView.topAnchor).isActive = true
 
         case .bottomSheet:
             buttonChangeCategory.isHidden = false
@@ -174,10 +184,6 @@ private extension SubCategoryProductsViewController {
         self.viewModel.outputs.productCellViewModels
             .subscribe(onNext: { [weak self] viewModels in
                 guard let self = self else { return }
-                
-//                if self.cellViewModels.isNotEmpty && viewModels.count <= self.viewModel.hitsPerPage {
-//                    self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
-//                }
                 
                 self.cellViewModels = viewModels
                 self.collectionView.reloadData()
@@ -261,6 +267,13 @@ extension SubCategoryProductsViewController: UICollectionViewDataSource, UIColle
                 self.viewModel.inputs.fetchMoreProducts.onNext(())
             }
         }
+        
+        offset = scrollView.contentOffset.y
+        let value = min(effectiveOffset, scrollView.contentOffset.y)
+        
+        self.locationHeaderShopper.searchViewTopAnchor.constant = 62 - value
+        self.locationHeaderShopper.searchViewLeftAnchor.constant = 16 + ((value / 60) * 30)
+        self.locationHeaderShopper.groceryBGView.alpha = max(0, 1 - (value / 60))
     }
     
 //    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {

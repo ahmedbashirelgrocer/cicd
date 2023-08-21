@@ -39,7 +39,7 @@
                             <rect key="frame" x="0.0" y="60" width="393" height="758"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A51-8e-tsh">
-                                    <rect key="frame" x="0.0" y="12" width="393" height="45"/>
+                                    <rect key="frame" x="0.0" y="8" width="393" height="45"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select product subcategory" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dWW-yZ-Rk1">
                                             <rect key="frame" x="16" y="12.999999999999998" width="211" height="19.333333333333329"/>
@@ -77,14 +77,14 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V8o-5o-NMf" customClass="AWSegmentView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="57" width="393" height="44"/>
+                                    <rect key="frame" x="0.0" y="53" width="393" height="44"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="hyk-e0-Qva"/>
                                     </constraints>
                                 </view>
                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Cr1-iH-6iW">
-                                    <rect key="frame" x="0.0" y="109" width="393" height="649"/>
+                                    <rect key="frame" x="0.0" y="105" width="393" height="653"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="n50-2a-2WB">
                                         <size key="itemSize" width="128" height="128"/>
@@ -95,7 +95,7 @@
                                 </collectionView>
                             </subviews>
                             <constraints>
-                                <constraint firstItem="A51-8e-tsh" firstAttribute="top" secondItem="yPm-SZ-Icj" secondAttribute="top" constant="12" id="CMC-Pd-MU1"/>
+                                <constraint firstItem="A51-8e-tsh" firstAttribute="top" secondItem="yPm-SZ-Icj" secondAttribute="top" constant="8" id="CMC-Pd-MU1"/>
                                 <constraint firstItem="A51-8e-tsh" firstAttribute="leading" secondItem="yPm-SZ-Icj" secondAttribute="leading" id="DsC-rv-OqO"/>
                                 <constraint firstItem="V8o-5o-NMf" firstAttribute="leading" secondItem="yPm-SZ-Icj" secondAttribute="leading" id="Du0-d9-qto"/>
                                 <constraint firstAttribute="trailing" secondItem="Cr1-iH-6iW" secondAttribute="trailing" id="KgA-TD-4R3"/>
