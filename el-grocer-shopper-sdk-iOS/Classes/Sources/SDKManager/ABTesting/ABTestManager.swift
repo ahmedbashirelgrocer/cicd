@@ -239,9 +239,9 @@ struct StoreConfigs {
     }
     
     enum Keys: String {
-        case categoriesStyle = "categoris_style"
+        case categoriesStyle = "categories_style"
         case showProductsSection = "show_products_section"
-        case varient
+        case varient = "store_varient"
     }
     
     enum CategoriesStyle: String {
