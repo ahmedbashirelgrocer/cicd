@@ -1716,16 +1716,19 @@ private extension MainCategoriesViewController {
                 productsVC.grocery = self.grocery
                 self.navigationController?.pushViewController(productsVC, animated: true)
             } else {
-                if let grocery = self.grocery {
-                    // removing shopping list and buy it again from categories
-                    let categories = self.viewModel.outputs.categories.filter { $0.id != -1 && $0.id != -2 }
-                    let vm = SubCategoryProductsViewModel(categories: categories, selectedCategory: category, grocery: grocery)
-                    let vc = SubCategoryProductsViewController.make(viewModel: vm)
-                    self.navigationController?.pushViewController(vc, animated: true)
+                if ABTestManager.shared.storeConfigs.variant == .baseline {
+                    self.selectedCategory = category.categoryDB
+                    MixpanelEventLogger.trackStoreProductsViewAll(categoryId: String(category.id), categoryName: category.name ?? "")
+                    self.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
+                } else {
+                    if let grocery = self.grocery {
+                        // removing shopping list and buy it again from categories
+                        let categories = self.viewModel.outputs.categories.filter { $0.id != -1 && $0.id != -2 }
+                        let vm = SubCategoryProductsViewModel(categories: categories, selectedCategory: category, grocery: grocery)
+                        let vc = SubCategoryProductsViewController.make(viewModel: vm)
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
                 }
-//                self.selectedCategory = category.categoryDB
-//                MixpanelEventLogger.trackStoreProductsViewAll(categoryId: String(category.id), categoryName: category.name ?? "")
-//                self.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
             }
         }).disposed(by: disposeBag)
         

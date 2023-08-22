@@ -211,14 +211,14 @@ struct Configs {
 struct StoreConfigs {
     var categoriesStyle: CategoriesStyle
     var showProductsSection: Bool
-    var variant: String
+    var variant: Varient
     
     private let defaults = Foundation.UserDefaults.standard
     
     init() {
         categoriesStyle = CategoriesStyle(rawValue: defaults.string(forKey: Keys.categoriesStyle.rawValue) ?? "") ?? .twoRows
         showProductsSection = (defaults.value(forKey: Keys.showProductsSection.rawValue) as? Bool) ?? true
-        variant = defaults.string(forKey: Keys.varient.rawValue) ?? "Baseline"
+        variant = Varient(rawValue: defaults.string(forKey: Keys.varient.rawValue) ?? "Baseline") ?? .baseline
     }
     
     init(remoteConfig: RemoteConfig) {
@@ -230,12 +230,12 @@ struct StoreConfigs {
         }
         
         if let variant = remoteConfig[Keys.varient.rawValue].stringValue {
-            self.variant = variant
+            self.variant = Varient(rawValue: variant) ?? .baseline
         }
         
         defaults.set(showProductsSection, forKey: Keys.showProductsSection.rawValue)
         defaults.set(categoriesStyle.rawValue, forKey: Keys.categoriesStyle.rawValue)
-        defaults.set(variant, forKey: Keys.varient.rawValue)
+        defaults.set(variant.rawValue, forKey: Keys.varient.rawValue)
     }
     
     enum Keys: String {
@@ -247,5 +247,12 @@ struct StoreConfigs {
     enum CategoriesStyle: String {
         case twoRows = "two_row"
         case threeRows = "three_row"
+    }
+    
+    enum Varient: String {
+        case baseline = "Baseline"
+        case bottomSheet = "Bottom Sheet - Categories"
+        case horizontal = "Horizontal Categories"
+        case vertical = "Vertical Categories"
     }
 }

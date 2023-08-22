@@ -192,7 +192,7 @@ class GenericStoresViewController: BasketBasicViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             let authToken = ABTestManager.shared.authToken
             let variant = ABTestManager.shared.storeConfigs.variant
-            SegmentAnalyticsEngine.instance.logEvent(event: ABTestExperimentEvent(authToken: authToken, variant: variant, experimentType: .store))
+            SegmentAnalyticsEngine.instance.logEvent(event: ABTestExperimentEvent(authToken: authToken, variant: variant.rawValue, experimentType: .store))
         }
         
         // Log if AB Test Failed to Configure

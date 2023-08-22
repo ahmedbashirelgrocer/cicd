@@ -179,7 +179,9 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
         self.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: true)
         self.segmentDelegate?.subCategorySelectedWithSelectedIndex((indexPath as NSIndexPath).row)
         
-        self.segmentDelegate?.subCategorySelectedWithSelectedCategory(self.subCategories[indexPath.row])
+        if self.subCategories.isNotEmpty {
+            self.segmentDelegate?.subCategorySelectedWithSelectedCategory(self.subCategories[indexPath.row])
+        }
     }
 }
 

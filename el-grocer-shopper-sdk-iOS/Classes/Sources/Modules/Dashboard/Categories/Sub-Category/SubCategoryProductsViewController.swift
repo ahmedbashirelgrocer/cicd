@@ -10,10 +10,6 @@ import RxSwift
 import RxCocoa
 import STPopup
 
-enum Varient {
-    case vertical, horizontal, bottomSheet
-}
-
 class SubCategoryProductsViewController: UIViewController {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var subCategoriesSegmentedView: AWSegmentView!
@@ -29,7 +25,7 @@ class SubCategoryProductsViewController: UIViewController {
         return locationHeader!
     }()
     private lazy var categoriesSegmentedView: ILSegmentView = {
-        let view = ILSegmentView(scrollDirection: self.varientTest == .vertical ? .vertical : .horizontal)
+        let view = ILSegmentView(scrollDirection: self.abTestVarient == .vertical ? .vertical : .horizontal)
         view.onTap { [weak self] category in
             self?.viewModel.inputs.categorySwitchObserver.onNext(category)
         }
@@ -43,7 +39,7 @@ class SubCategoryProductsViewController: UIViewController {
     }()
     
     private var viewModel: SubCategoryProductsViewModelType!
-    private var varientTest: Varient = .vertical
+    private var abTestVarient: StoreConfigs.Varient = ABTestManager.shared.storeConfigs.variant
     private var disposeBag = DisposeBag()
     private var cellViewModels: [ReusableCollectionViewCellViewModelType] = []
     private var effectiveOffset: CGFloat = 0
@@ -84,7 +80,7 @@ class SubCategoryProductsViewController: UIViewController {
 private extension SubCategoryProductsViewController {
     func setupViews() {
         self.view.addSubview(self.bannerView)
-        if self.varientTest != .bottomSheet {
+        if self.abTestVarient != .bottomSheet {
             self.view.addSubview(self.categoriesSegmentedView)
         }
         
@@ -103,7 +99,7 @@ private extension SubCategoryProductsViewController {
         self.collectionView.register(UINib(nibName: ProductCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: ProductCell.defaultIdentifier)
         
         var itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 22) / 2, height: 264)
-        if varientTest == .vertical {
+        if abTestVarient == .vertical {
             itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 106) / 2, height: 237)
         }
         self.collectionView.collectionViewLayout = {
@@ -132,7 +128,7 @@ private extension SubCategoryProductsViewController {
 
         }
         
-        switch self.varientTest {
+        switch self.abTestVarient {
             
         case .vertical:
             buttonChangeCategory.isHidden = true
@@ -163,6 +159,8 @@ private extension SubCategoryProductsViewController {
             buttonChangeCategory.isHidden = false
             locationHeaderShopper.bottomAnchor.constraint(equalTo: self.bannerView.topAnchor, constant: -8).isActive = true
             bannerView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+            
+        case .baseline: break
         }
         
         
@@ -293,7 +291,7 @@ extension SubCategoryProductsViewController: UICollectionViewDataSource, UIColle
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let cellHeight = self.varientTest == .vertical ? 237 : 264
+        let cellHeight = self.abTestVarient == .vertical ? 237 : 264
         let rowsThreshold = CGFloat(4 * cellHeight)
         let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
 
