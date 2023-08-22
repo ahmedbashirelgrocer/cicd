@@ -86,6 +86,7 @@ class SubCategoryProductsViewController: UIViewController {
 
 private extension SubCategoryProductsViewController {
     func setupViews() {
+        self.buttonChangeCategory.setTitle(localizedString("change_category_text", comment: ""), for: .normal)
         self.view.addSubview(self.bannerView)
         if self.abTestVarient != .bottomSheet {
             self.view.addSubview(self.categoriesSegmentedView)
@@ -143,13 +144,13 @@ private extension SubCategoryProductsViewController {
             contentViewLeadingConstraint.isActive = false
             
             categoriesSegmentedView.topAnchor.constraint(equalTo: self.bannerView.bottomAnchor, constant: 8.0).isActive = true
-            categoriesSegmentedView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 4).isActive = true
+            categoriesSegmentedView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
             categoriesSegmentedView.widthAnchor.constraint(equalToConstant: 80).isActive = true
             categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
             
             locationHeaderShopper.bottomAnchor.constraint(equalTo: self.bannerView.topAnchor, constant: -8).isActive = true
             
-            contentView.leftAnchor.constraint(equalTo: categoriesSegmentedView.rightAnchor).isActive = true
+            contentView.leadingAnchor.constraint(equalTo: categoriesSegmentedView.trailingAnchor).isActive = true
             bannerView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
             
         case .horizontal:

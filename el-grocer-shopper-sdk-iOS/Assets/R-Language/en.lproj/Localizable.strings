@@ -2205,6 +2205,7 @@ Oreo";
 // CategoryDTO
 "search_by_shopping_list_text" = "Create Shopping List";
 "buy_it_again_text" = "Buy it again";
+"change_category_text" = "Change category";
 
 
 // Navigation Updated screen's updated Strings
