@@ -34,6 +34,7 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
     var subCategories: [SubCategory] = []
     var segmentTitles: [String]!
     var lastSelection:IndexPath!
+    var borderColor: UIColor?
     
     weak var segmentDelegate:AWSegmentViewProtocol?
     var segmentViewType : segmentViewType = .editLocation
@@ -113,7 +114,7 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
         let cell = self.dequeueReusableCell(withReuseIdentifier: kSegmentViewCellIdentifier, for: indexPath) as! AWSegmentViewCell
         if segmentTitles.count > indexPath.row {
             let segmentTitle = self.segmentTitles[(indexPath as NSIndexPath).row]
-            cell.configareCellWithTitle(segmentTitle, withSelectedState: indexPath == self.lastSelection ? true : false)
+            cell.configareCellWithTitle(segmentTitle, withSelectedState: indexPath == self.lastSelection ? true : false, borderColor: self.borderColor)
         }
 //        let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
 //        if currentLang == "ar" {

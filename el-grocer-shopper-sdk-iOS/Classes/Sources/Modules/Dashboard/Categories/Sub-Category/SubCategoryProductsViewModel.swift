@@ -88,12 +88,14 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
         self.grocery = grocery
         
         self.categoriesSubject.onNext(categories)
-        self.titleSubject.onNext(selectedCategory.name ?? "")
         self.categorySwitchSubject.onNext(selectedCategory)
         
         self.fetchCategories()
         self.fetchProducts()
-        self.fetchBanners()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.fetchBanners()
+        }
         
         let paginatedResult = self.fetchMoreProductsSubject
             .filter { [unowned self] _ in !self.isFetching && self.isMoreProductsAvailable }
@@ -148,17 +150,17 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
             .flatMapLatest { [unowned self] in
                 // Fix this code for paginated calls
                 self.page = 0
-                var subCategoryId = $1
                 
                 if $1 == self.selectedSubcategoryId {
-                    subCategoryId = ""
+                    self.selectedSubcategoryId = ""
+                } else {
+                    self.selectedSubcategoryId = $1
                 }
                 self.selectedCategory = $0
-                self.selectedSubcategoryId = $1
                 self.productCellViewModelsSubject.onNext([])
                 self.isFetching = true
                 
-                return self.getProducts(category: $0?.categoryDB, subcategoryId: subCategoryId)
+                return self.getProducts(category: $0?.categoryDB, subcategoryId: self.selectedSubcategoryId ?? "")
             }
             .do(onNext: { [unowned self] _ in
                 self.isFetching = false
@@ -186,8 +188,8 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
         let bannersFetchResult = Observable
             .combineLatest(self.categorySwitchSubject, subCategoryID)
             .map { return ($0?.categoryDB?.dbID.intValue, Int($1)) }
-            .flatMapLatest { [unowned self] in
-                return self.getBanners(categoryId: $0, subCategoryId: $1)
+            .flatMapLatest { [unowned self] (categoryID, subCategoryID) in
+                return self.getBanners(categoryId: categoryID, subCategoryId: Int(self.selectedSubcategoryId ?? ""))
             }
             .share()
         

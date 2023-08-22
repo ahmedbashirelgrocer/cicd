@@ -11,7 +11,14 @@ import RxSwift
 import RxCocoa
 
 class CategorySelectionBottomSheetViewController: UIViewController {
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionView: UICollectionView! {
+        didSet {
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                collectionView.transform = CGAffineTransform(scaleX: -1, y: 1)
+                collectionView.semanticContentAttribute = .forceLeftToRight
+            }
+        }
+    }
     
     private var viewModel: CategorySelectionViewModelType!
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!

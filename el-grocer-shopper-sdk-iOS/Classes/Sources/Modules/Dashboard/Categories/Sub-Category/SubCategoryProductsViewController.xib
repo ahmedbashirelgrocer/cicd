@@ -28,13 +28,6 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KMu-R0-foG">
                     <rect key="frame" x="0.0" y="0.0" width="393" height="818"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KkC-mK-UGM">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="60"/>
-                            <color key="backgroundColor" red="0.019607843137254902" green="0.73725490196078436" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="60" id="XRv-Xc-MUT"/>
-                            </constraints>
-                        </view>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yPm-SZ-Icj">
                             <rect key="frame" x="0.0" y="60" width="393" height="758"/>
                             <subviews>
@@ -105,6 +98,13 @@
                                 <constraint firstAttribute="bottom" secondItem="Cr1-iH-6iW" secondAttribute="bottom" id="eOp-mQ-pj9"/>
                                 <constraint firstAttribute="trailing" secondItem="A51-8e-tsh" secondAttribute="trailing" id="lyd-Db-gnE"/>
                                 <constraint firstAttribute="trailing" secondItem="V8o-5o-NMf" secondAttribute="trailing" id="zWa-dM-Ihs"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KkC-mK-UGM">
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="60"/>
+                            <color key="backgroundColor" red="0.019607843137254902" green="0.73725490196078436" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="XRv-Xc-MUT"/>
                             </constraints>
                         </view>
                     </subviews>

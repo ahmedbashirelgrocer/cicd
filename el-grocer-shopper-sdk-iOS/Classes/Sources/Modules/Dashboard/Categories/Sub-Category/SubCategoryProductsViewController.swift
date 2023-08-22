@@ -11,7 +11,14 @@ import RxCocoa
 import STPopup
 
 class SubCategoryProductsViewController: UIViewController {
-    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var collectionView: UICollectionView! {
+        didSet {
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                collectionView.transform = CGAffineTransform(scaleX: -1, y: 1)
+                collectionView.semanticContentAttribute = .forceLeftToRight
+            }
+        }
+    }
     @IBOutlet weak var subCategoriesSegmentedView: AWSegmentView!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var contentViewLeadingConstraint: NSLayoutConstraint!
@@ -93,6 +100,7 @@ private extension SubCategoryProductsViewController {
         }
         
         subCategoriesSegmentedView.segmentViewType = .subCategories
+        subCategoriesSegmentedView.borderColor = UIColor.secondaryDarkGreenColor()
         subCategoriesSegmentedView.commonInit()
         subCategoriesSegmentedView.segmentDelegate = self
         
@@ -157,7 +165,7 @@ private extension SubCategoryProductsViewController {
 
         case .bottomSheet:
             buttonChangeCategory.isHidden = false
-            locationHeaderShopper.bottomAnchor.constraint(equalTo: self.bannerView.topAnchor, constant: -8).isActive = true
+            bannerView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8).isActive = true
             bannerView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
             
         case .baseline: break
@@ -190,7 +198,8 @@ private extension SubCategoryProductsViewController {
             self?.showCategoriesBottomSheet(categories: $0)
         }).disposed(by: disposeBag)
         
-        viewModel.outputs.title
+        viewModel.outputs.categorySwitch
+            .map { $0?.name }
             .bind(to: self.lblCategoryTitle.rx.text)
             .disposed(by: disposeBag)
         
@@ -291,6 +300,7 @@ extension SubCategoryProductsViewController: UICollectionViewDataSource, UIColle
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // Pagination
         let cellHeight = self.abTestVarient == .vertical ? 237 : 264
         let rowsThreshold = CGFloat(4 * cellHeight)
         let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
@@ -301,19 +311,18 @@ extension SubCategoryProductsViewController: UICollectionViewDataSource, UIColle
             }
         }
         
+        // Header constraint changes
         offset = scrollView.contentOffset.y
         let value = min(effectiveOffset, scrollView.contentOffset.y)
         
         self.locationHeaderShopper.searchViewTopAnchor.constant = 62 - value
         self.locationHeaderShopper.searchViewLeftAnchor.constant = 16 + ((value / 60) * 30)
         self.locationHeaderShopper.groceryBGView.alpha = max(0, 1 - (value / 60))
+        
+        // Banner view constraint
+        let height = self.bannerView.constraints.first(where: { $0.firstAttribute == .height })
+        if height?.constant != 0 {
+            height?.constant = ((ScreenSize.SCREEN_WIDTH - 32) / 2) - offset
+        }
     }
-    
-//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//        if kind == UICollectionView.elementKindSectionHeader {
-//            return self.bannerView
-//        }
-//        
-//        return nil
-//    }
 }
