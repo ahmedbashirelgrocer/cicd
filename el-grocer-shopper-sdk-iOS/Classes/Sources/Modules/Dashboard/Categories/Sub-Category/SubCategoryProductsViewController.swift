@@ -211,7 +211,10 @@ private extension SubCategoryProductsViewController {
             .disposed(by: disposeBag)
         
         viewModel.outputs.categorySwitch
-            .bind(to: categoriesSegmentedView.rx.selectedItemIndex)
+            .do(onNext: {
+                let varient = ABTestManager.shared.storeConfigs.variant.rawValue
+                SegmentAnalyticsEngine.instance.logEvent(event: ProductCategoryClickedEvent(category: $0?.categoryDB, varient: varient)) })
+            .bind(to: categoriesSegmentedView.rx.selectedCategory)
             .disposed(by: disposeBag)
         
         viewModel.outputs.subCategories
@@ -311,6 +314,9 @@ extension SubCategoryProductsViewController: AWSegmentViewProtocol {
     
     func subCategorySelectedWithSelectedCategory(_ selectedSubCategory: SubCategory) {
         self.viewModel.inputs.subCategorySwitchObserver.onNext(selectedSubCategory)
+        
+        // Logging segment event for sub-category clicked 
+        SegmentAnalyticsEngine.instance.logEvent(event: ProductSubCategoryClickedEvent(subCategory: selectedSubCategory))
     }
 }
 

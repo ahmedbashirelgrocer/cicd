@@ -148,7 +148,7 @@ extension Reactive where Base: ILSegmentView {
         }
     }
     
-    var selectedItemIndex: Binder<CategoryDTO?> {
+    var selectedCategory: Binder<CategoryDTO?> {
         return Binder(self.base) { segmentedView, category in
             DispatchQueue.main.async {
                 if let category = category {

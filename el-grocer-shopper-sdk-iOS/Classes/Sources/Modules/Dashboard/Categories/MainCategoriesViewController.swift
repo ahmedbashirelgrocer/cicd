@@ -1720,6 +1720,9 @@ private extension MainCategoriesViewController {
                     self.selectedCategory = category.categoryDB
                     MixpanelEventLogger.trackStoreProductsViewAll(categoryId: String(category.id), categoryName: category.name ?? "")
                     self.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
+                    
+                    let event = ProductCategoryClickedEvent(category: category.categoryDB, varient: ABTestManager.shared.storeConfigs.variant.rawValue)
+                    SegmentAnalyticsEngine.instance.logEvent(event: event)
                 } else {
                     if let grocery = self.grocery {
                         // removing shopping list and buy it again from categories

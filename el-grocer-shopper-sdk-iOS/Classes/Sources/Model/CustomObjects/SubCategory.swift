@@ -73,5 +73,6 @@ class SubCategory: NSObject {
         
         self.subCategoryId = id
         self.subCategoryName = name
+        self.subCategoryNameEn = name
     }
 }

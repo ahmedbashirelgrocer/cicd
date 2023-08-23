@@ -74,6 +74,8 @@ enum AnalyticsEventName {
     static let storesInRange            = "Stores In Range"
     static let categoryViewAllClicked   = "Category View All Clicked"
     static let productCategoryViewAllClicked = "Product Category View All Clicked"
+    static let productCategoryClicked   = "Product Category Clicked"
+    static let productSubCategoryClicked = "Product SubCategory Clicked"
     
     // MARK: Banner
     static let bannerClicked            = "Banner Clicked"
