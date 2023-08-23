@@ -44,6 +44,12 @@ class SubCategoryProductsViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    private lazy var categoriesSeparator: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.lightGrayBGColor()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     private var viewModel: SubCategoryProductsViewModelType!
     private var abTestVarient: StoreConfigs.Varient = ABTestManager.shared.storeConfigs.variant
@@ -84,13 +90,20 @@ class SubCategoryProductsViewController: UIViewController {
     }
 }
 
+// MARK: Helpers
 private extension SubCategoryProductsViewController {
     func setupViews() {
         self.view.addSubview(self.bannerView)
-        if self.abTestVarient != .bottomSheet {
+        
+        // conditionaly adding categories segmented view for varients other than bottom sheet
+        if self.abTestVarient != .bottomSheet && self.abTestVarient != .baseline {
             self.view.addSubview(self.categoriesSegmentedView)
+            if self.abTestVarient == .vertical {
+                self.view.addSubview(self.categoriesSeparator)
+            }
         }
         
+        // adding headers
         if sdkManager.isShopperApp {
             self.view.addSubview(self.locationHeaderShopper)
             self.locationHeaderShopper.configuredLocationAndGrocey(self.viewModel.grocery)
@@ -99,17 +112,20 @@ private extension SubCategoryProductsViewController {
             // add SDK header
         }
         
+        // sub-categories segmented view setup
         subCategoriesSegmentedView.segmentViewType = .subCategories
         subCategoriesSegmentedView.borderColor = UIColor.secondaryDarkGreenColor()
         subCategoriesSegmentedView.commonInit()
         subCategoriesSegmentedView.segmentDelegate = self
         
+        // collection view cell registration and layout setup
         self.collectionView.register(UINib(nibName: ProductCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: ProductCell.defaultIdentifier)
         
         var itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 22) / 2, height: 264)
         if abTestVarient == .vertical {
             itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 106) / 2, height: 237)
         }
+        
         self.collectionView.collectionViewLayout = {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .vertical
@@ -124,11 +140,13 @@ private extension SubCategoryProductsViewController {
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
         
+        //
         self.buttonChangeCategory.setCaption1SemiBoldWhiteStyle()
         self.buttonChangeCategory.setTitle(localizedString("change_category_text", comment: ""), for: UIControl.State())
     }
     
     func setupConstraint() {
+        // headers constraint
         if sdkManager.isShopperApp {
             self.view.addSubview(self.locationHeaderShopper)
             locationHeaderShopper.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
@@ -139,6 +157,7 @@ private extension SubCategoryProductsViewController {
 
         }
         
+        // categories and banner view constraint on the base of varient
         switch self.abTestVarient {
             
         case .vertical:
@@ -154,6 +173,12 @@ private extension SubCategoryProductsViewController {
             
             contentView.leadingAnchor.constraint(equalTo: categoriesSegmentedView.trailingAnchor).isActive = true
             bannerView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+            
+            // separator
+            self.categoriesSeparator.topAnchor.constraint(equalTo: self.categoriesSegmentedView.topAnchor).isActive = true
+            self.categoriesSeparator.bottomAnchor.constraint(equalTo: self.categoriesSegmentedView.bottomAnchor).isActive = true
+            self.categoriesSeparator.leadingAnchor.constraint(equalTo: self.categoriesSegmentedView.trailingAnchor).isActive = true
+            self.categoriesSeparator.widthAnchor.constraint(equalToConstant: 1).isActive = true
             
         case .horizontal:
             buttonChangeCategory.isHidden = true
