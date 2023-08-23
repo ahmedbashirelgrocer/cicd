@@ -411,9 +411,7 @@ fileprivate extension MainCategoriesViewModel {
         
         self.dispatchGroupRecipe.notify(queue: .main) {
             ElGrocerUtility.sharedInstance.delay(0.5) {
-                let title = self.showProductsSection == false
-                    ? localizedString("shop_by_ingredients_text", comment: "")
-                    : localizedString("lbl_featured_recepies_title", comment: "")
+                let title = localizedString("shop_by_ingredients_text", comment: "")
                 
                 let titleVM = TableViewTitleCellViewModel(title: title, showViewMore: true)
                 titleVM.outputs.viewAll
