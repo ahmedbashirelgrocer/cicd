@@ -12,6 +12,7 @@ import RxDataSources
 protocol CategorySelectionViewModelInput { }
 
 protocol CategorySelectionViewModelOutput {
+    var title: Observable<String> { get }
     var categoriesDataSource: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { get }
 }
 
@@ -28,9 +29,11 @@ extension CategorySelectionViewModelType {
 class CategorySelectionViewModel: CategorySelectionViewModelType {
     
     // Ouputs
+    var title: Observable<String> { titleSubject.asObservable() }
     var categoriesDataSource: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { self.categoriesDataSourceSubject.asObservable() }
     
     // Subjects
+    private var titleSubject = BehaviorSubject<String>(value: localizedString("choose_different_category_text", comment: ""))
     private var categoriesDataSourceSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
     
     init(categories: [CategoryDTO]) {

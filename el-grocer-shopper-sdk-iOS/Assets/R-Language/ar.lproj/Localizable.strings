@@ -2243,6 +2243,7 @@
 "search_by_shopping_list_text" = "البحث بقائمة التسوق";
 "buy_it_again_text" = "إعادة الشراء";
 "change_category_text" = "تغيير الفئة";
+"choose_different_category_text" = "اختر فئة أخرى";
 
 
 // Navigation Updated screen's updated Strings

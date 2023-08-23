@@ -12,6 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CategorySelectionBottomSheetViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
             <connections>
                 <outlet property="collectionView" destination="s0d-rN-6Vv" id="SVc-ew-10u"/>
+                <outlet property="lblTitle" destination="wtl-wu-hLr" id="bSf-Z7-xid"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

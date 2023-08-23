@@ -19,6 +19,11 @@ class CategorySelectionBottomSheetViewController: UIViewController {
             }
         }
     }
+    @IBOutlet weak var lblTitle: UILabel! {
+        didSet {
+            lblTitle.setH4SemiBoldStyle()
+        }
+    }
     
     private var viewModel: CategorySelectionViewModelType!
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
@@ -80,5 +85,9 @@ fileprivate extension CategorySelectionBottomSheetViewController {
                     categorySelected($0)
                 }
             }).disposed(by: disposeBag)
+        
+        self.viewModel.outputs.title
+            .bind(to: self.lblTitle.rx.text)
+            .disposed(by: disposeBag)
     }
 }
