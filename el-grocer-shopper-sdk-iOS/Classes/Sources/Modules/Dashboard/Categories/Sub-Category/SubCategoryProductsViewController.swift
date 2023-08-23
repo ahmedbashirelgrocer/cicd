@@ -86,7 +86,6 @@ class SubCategoryProductsViewController: UIViewController {
 
 private extension SubCategoryProductsViewController {
     func setupViews() {
-        self.buttonChangeCategory.setTitle(localizedString("change_category_text", comment: ""), for: .normal)
         self.view.addSubview(self.bannerView)
         if self.abTestVarient != .bottomSheet {
             self.view.addSubview(self.categoriesSegmentedView)
@@ -124,6 +123,9 @@ private extension SubCategoryProductsViewController {
         
         self.collectionView.dataSource = self
         self.collectionView.delegate = self
+        
+        self.buttonChangeCategory.setCaption1SemiBoldWhiteStyle()
+        self.buttonChangeCategory.setTitle(localizedString("change_category_text", comment: ""), for: UIControl.State())
     }
     
     func setupConstraint() {

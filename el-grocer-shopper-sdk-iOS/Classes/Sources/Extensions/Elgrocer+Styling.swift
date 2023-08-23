@@ -578,6 +578,10 @@ extension UIButton {
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(12)
         self.setTitleColor(UIColor.navigationBarWhiteColor(), for: .normal)
     }
+    func setCaption1SemiBoldWhiteStyle(){
+        self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(12)
+        self.setTitleColor(UIColor.navigationBarWhiteColor(), for: .normal)
+    }
     
     func setCaptionBoldGreenStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(12)
