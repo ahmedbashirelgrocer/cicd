@@ -13,6 +13,7 @@
             <connections>
                 <outlet property="buttonChangeCategory" destination="Mho-dM-pck" id="Eyt-46-ttb"/>
                 <outlet property="collectionView" destination="Cr1-iH-6iW" id="n3V-Ri-hkg"/>
+                <outlet property="containerViewBottomConstraint" destination="e1n-UQ-KB7" id="kXH-uf-KUd"/>
                 <outlet property="contentView" destination="yPm-SZ-Icj" id="LrY-ED-VyN"/>
                 <outlet property="contentViewLeadingConstraint" destination="Jv3-lK-f5U" id="RXE-mO-1yC"/>
                 <outlet property="lblCategoryTitle" destination="dWW-yZ-Rk1" id="Dyu-EQ-JTx"/>
@@ -76,7 +77,7 @@
                                         <constraint firstAttribute="height" constant="44" id="hyk-e0-Qva"/>
                                     </constraints>
                                 </view>
-                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Cr1-iH-6iW">
+                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" bouncesZoom="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Cr1-iH-6iW">
                                     <rect key="frame" x="0.0" y="105" width="393" height="653"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="n50-2a-2WB">

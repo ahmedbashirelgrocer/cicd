@@ -28,7 +28,7 @@ protocol SubCategoryProductsViewModelOutputs {
     var subCategorySwitch: Observable<SubCategory?> { get }
     var banners: Observable<[BannerCampaign]> { get }
     var grocery: Grocery { get }
-    var hitsPerPage: Int { get }
+    var refreshBasket: Observable<Void> { get }
 }
 
 protocol SubCategoryProductsViewModelType: SubCategoryProductsViewModelInputs, SubCategoryProductsViewModelOutputs {
@@ -60,7 +60,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     var subCategorySwitch: Observable<SubCategory?> { subCategorySwitchSubject.asObservable() }
     var banners: Observable<[BannerCampaign]> { bannersSubject.asObservable() }
     var grocery: Grocery
-    var hitsPerPage = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20
+    var refreshBasket: Observable<Void> { refreshBasketSubject.asObservable() }
     
     // MARK: Subjects
     private var categoriesSubject = BehaviorSubject<[CategoryDTO]>(value: [])
@@ -74,6 +74,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private var fetchMoreProductsSubject = PublishSubject<Void>()
     private var bannersSubject = BehaviorSubject<[BannerCampaign]>(value: [])
+    private var refreshBasketSubject = BehaviorSubject<Void>(value: ())
     
     // MARK: Properties
     private var disposeBag = DisposeBag()
@@ -82,6 +83,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     private var selectedSubcategoryId: String?
     private var isFetching = false
     private var isMoreProductsAvailable = true
+    private var hitsPerPage = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20
     
     // MARK: Initializations
     init(categories: [CategoryDTO], selectedCategory: CategoryDTO, grocery: Grocery) {
@@ -170,7 +172,14 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
 
         productFetchResult
             .compactMap { $0.element }
-            .map{ $0.map { ProductCellViewModel(product: $0, grocery: self.grocery) }}
+            .map{ $0.map {
+                let viewModel = ProductCellViewModel(product: $0, grocery: self.grocery)
+                viewModel.outputs.basketUpdated
+                    .bind(to: self.refreshBasketSubject)
+                    .disposed(by: self.disposeBag)
+                return viewModel
+                
+            }}
             .bind(to: self.productCellViewModelsSubject)
             .disposed(by: disposeBag)
         

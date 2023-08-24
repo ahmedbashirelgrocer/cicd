@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import STPopup
 
-class SubCategoryProductsViewController: UIViewController {
+class SubCategoryProductsViewController: BasketBasicViewController {
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
@@ -24,6 +24,8 @@ class SubCategoryProductsViewController: UIViewController {
     @IBOutlet weak var contentViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var lblCategoryTitle: UILabel!
     @IBOutlet weak var buttonChangeCategory: AWButton!
+    @IBOutlet weak var containerViewBottomConstraint: NSLayoutConstraint!
+    
     
     private lazy var locationHeaderShopper: ElGrocerStoreHeaderShopper = {
         let locationHeader = ElGrocerStoreHeaderShopper.loadFromNib()
@@ -76,8 +78,6 @@ class SubCategoryProductsViewController: UIViewController {
         setupViews()
         setupConstraint()
         bindViews()
-        
-        self.basketIconOverlay
     }
     
     @objc func backButtonPressed() {
@@ -143,6 +143,9 @@ private extension SubCategoryProductsViewController {
         //
         self.buttonChangeCategory.setCaption1SemiBoldWhiteStyle()
         self.buttonChangeCategory.setTitle(localizedString("change_category_text", comment: ""), for: UIControl.State())
+        
+        self.basketIconOverlay?.shouldShow = true
+        self.basketIconOverlay?.grocery = self.viewModel.grocery
     }
     
     func setupConstraint() {
@@ -280,6 +283,14 @@ private extension SubCategoryProductsViewController {
                     self?.view.layoutIfNeeded()
                 }
             }).disposed(by: disposeBag)
+        
+        viewModel.outputs.refreshBasket
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                
+                self.basketIconOverlay?.refreshStatus(self)
+                self.containerViewBottomConstraint.constant = self.basketIconOverlay?.isHidden == false ? 100 : 0
+            }).disposed(by: disposeBag)
     }
     
     func showCategoriesBottomSheet(categories: [CategoryDTO]) {
@@ -315,7 +326,7 @@ extension SubCategoryProductsViewController: AWSegmentViewProtocol {
     func subCategorySelectedWithSelectedCategory(_ selectedSubCategory: SubCategory) {
         self.viewModel.inputs.subCategorySwitchObserver.onNext(selectedSubCategory)
         
-        // Logging segment event for sub-category clicked 
+        // Logging segment event for sub-category clicked
         SegmentAnalyticsEngine.instance.logEvent(event: ProductSubCategoryClickedEvent(subCategory: selectedSubCategory))
     }
 }
