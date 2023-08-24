@@ -17,7 +17,7 @@ import IQKeyboardManagerSwift
 import CleverTapSDK
 import AdSupport
 //import AppsFlyerLib
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import FirebaseCore
 import Messages
 import FirebaseMessaging

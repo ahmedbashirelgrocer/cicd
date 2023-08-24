@@ -17,7 +17,7 @@ import IQKeyboardManagerSwift
 import CleverTapSDK
 import AdSupport
 //import AppsFlyerLib
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import FirebaseCore
 import Messages
 import FirebaseMessaging
@@ -135,22 +135,16 @@ public class SDKManagerShopper: NSObject, SDKManagerType {
     public func checkAdvertPermission () {
         
         
-        Settings.isAdvertiserIDCollectionEnabled = true
-        Settings.setAdvertiserTrackingEnabled(true)
-        Settings.isAutoLogAppEventsEnabled = true
+//        Settings.isAdvertiserIDCollectionEnabled = true
+//        Settings.setAdvertiserTrackingEnabled(true)
+//        Settings.isAutoLogAppEventsEnabled = true
         Analytics.setAnalyticsCollectionEnabled(true)
         
     }
     
-    public func startChatFeature() {
-        
-        //   self.configureZenDesk()
-        
-    }
+    public func startChatFeature() {}
     
-    public func scheduleAppRefresh() {
-        
-    }
+    public func scheduleAppRefresh() {}
     
     @available(iOS 13.0, *)
     public func handleAppRefresh(task: BGAppRefreshTask) {
@@ -355,7 +349,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType {
         }
         CleverTap.sharedInstance()?.handleOpen(url, sourceApplication: sourceApplication)
         
-        return ApplicationDelegate.shared.application(application, open: url, sourceApplication: sourceApplication, annotation: annotation) || RedirectComponent.applicationDidOpen(from: url)
+        return RedirectComponent.applicationDidOpen(from: url)
     }
     
     
@@ -432,8 +426,8 @@ public class SDKManagerShopper: NSObject, SDKManagerType {
         //MARK: sendBird
         SendBirdDeskManager(type: .agentSupport).setUpSenBirdDeskWithCurrentUser(isWithChat: false)
         self.initializeSegment()
-        // Initialize Facebook SDK
-        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: didFinishLaunchingWithOptions)
+//        // Initialize Facebook SDK
+//        ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: didFinishLaunchingWithOptions)
         // Google Maps
         GMSPlacesClient.provideAPIKey(kGoogleMapsApiKey)
         GMSServices.provideAPIKey(kGoogleMapsApiKey)

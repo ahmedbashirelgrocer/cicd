@@ -11,7 +11,7 @@ import UIKit
 import MessageUI
 import FirebaseAnalytics
 import FirebaseCrashlytics
-import FBSDKCoreKit
+//import FBSDKCoreKit
 
 import Lottie
 import RxSwift

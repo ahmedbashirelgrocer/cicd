@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import NBBottomSheet
 import SDWebImage
 
@@ -1050,15 +1050,12 @@ class PopImageViwerViewController: UIViewController {
         let paramsJSON = JSON(fbDataA)
         let paramsString = paramsJSON.rawString(String.Encoding.utf8, options: JSONSerialization.WritingOptions.prettyPrinted)!
         
-        let facebookParams = [AppEvents.ParameterName.contentID: clearProductID ,AppEvents.ParameterName.contentType:"product",AppEvents.ParameterName.currency: kProductCurrencyEngAEDName , AppEvents.ParameterName.content : paramsString] as [AnyHashable: Any]
+        //let facebookParams = [AppEvents.ParameterName.contentID: clearProductID ,AppEvents.ParameterName.contentType:"product",AppEvents.ParameterName.currency: kProductCurrencyEngAEDName , AppEvents.ParameterName.content : paramsString] as [AnyHashable: Any]
         
-        AppEvents.logEvent(AppEvents.Name.viewedContent, valueToSum: Double(truncating: productIS.price), parameters: facebookParams as! [AppEvents.ParameterName : Any])
-        FireBaseEventsLogger.trackViewItem(productIS)
+      //  AppEvents.shared.logEvent(AppEvents.Name.viewedContent, valueToSum: Double(truncating: productIS.price), parameters: facebookParams as? [AppEvents.ParameterName : Any])
+       // FireBaseEventsLogger.trackViewItem(productIS)
         AlgoliaApi.sharedInstance.viewItemAlgolia(product: productIS)
-        
-        elDebugPrint("facebook eventName : \(AppEvents.Name.viewedContent)")
-        elDebugPrint("facebook Parm Print : \(productIS.price)")
-        elDebugPrint("facebook Parm Print : \(facebookParams)")
+
         
     }
 

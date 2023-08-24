@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import FirebaseCrashlytics
 
 class BrandDetailsViewController :   BasketBasicViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {

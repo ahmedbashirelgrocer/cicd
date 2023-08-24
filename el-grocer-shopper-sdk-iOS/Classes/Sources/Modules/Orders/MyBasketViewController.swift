@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import FirebaseAnalytics
 import IQKeyboardManagerSwift
 import STPopup

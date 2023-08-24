@@ -11,7 +11,7 @@ import CoreLocation
 import AdSupport
 import CleverTapSDK
 import AdSupport
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import CoreLocation
 import RxSwift
     // import MaterialShowcase

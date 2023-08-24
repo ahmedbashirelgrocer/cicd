@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import FirebaseAnalytics
 import FirebaseCrashlytics
 //import AppsFlyerLib

@@ -9,7 +9,7 @@
 import UIKit
 //import HMSegmentedControl
 import FirebaseAnalytics
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import FirebaseCrashlytics
 
 class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout , AWSegmentViewProtocol, UIGestureRecognizerDelegate {
