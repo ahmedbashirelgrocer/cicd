@@ -43,6 +43,7 @@ class SubCategoryProductsViewController: BasketBasicViewController {
     }()
     private lazy var bannerView: BannerView = {
         let view = BannerView(frame: .zero)
+        view.bannerTapped = { [weak self] banner in self?.bannerNavigation(banner) }
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -78,6 +79,12 @@ class SubCategoryProductsViewController: BasketBasicViewController {
         setupViews()
         setupConstraint()
         bindViews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.navigationBar.isHidden = true
     }
     
     @objc func backButtonPressed() {
@@ -170,7 +177,7 @@ private extension SubCategoryProductsViewController {
             categoriesSegmentedView.topAnchor.constraint(equalTo: self.bannerView.bottomAnchor, constant: 8.0).isActive = true
             categoriesSegmentedView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
             categoriesSegmentedView.widthAnchor.constraint(equalToConstant: 80).isActive = true
-            categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+            categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
             
             locationHeaderShopper.bottomAnchor.constraint(equalTo: self.bannerView.topAnchor, constant: -8).isActive = true
             
@@ -317,6 +324,36 @@ private extension SubCategoryProductsViewController {
     
     @objc func dismissPopUpVc() {
         self.dismiss(animated: true)
+    }
+    
+    func bannerNavigation(_ banner: BannerDTO) {
+        // conversion BannerDTO to BannerCampaign
+        guard let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
+        let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
+        
+        // Logging banner tap event on TopSort
+        if let bidid = bannerCampaign.resolvedBidId {
+            TopsortManager.shared.log(.clicks(resolvedBidId: bidid))
+        }
+    
+        // banner navigation
+        switch campaignType {
+        case .brand:
+            bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: sdkManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery!] : (HomePageData.shared.groceryA ?? [ElGrocerUtility.sharedInstance.activeGrocery!]))
+            break
+            
+        case .retailer:
+            bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: sdkManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery!] : (HomePageData.shared.groceryA ?? [ElGrocerUtility.sharedInstance.activeGrocery!]))
+            break
+            
+        case .web:
+            ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
+            break
+            
+        case .priority:
+            bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: sdkManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery!] : (HomePageData.shared.groceryA ?? [ElGrocerUtility.sharedInstance.activeGrocery!]))
+            break
+        }
     }
 }
 
