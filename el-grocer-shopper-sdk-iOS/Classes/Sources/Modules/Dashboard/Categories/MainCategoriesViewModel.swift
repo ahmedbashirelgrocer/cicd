@@ -384,23 +384,21 @@ fileprivate extension MainCategoriesViewModel {
         guard let grocery = self.grocery else { return }
         let retailerString = ElGrocerUtility.sharedInstance.GenerateRetailerIdString(groceryA: [grocery])
         
-        DispatchQueue.global().async {
-            ELGrocerRecipeMeduleAPI().getRecipeListNew(offset: "0" , Limit: "1", recipeID: nil, ChefID: nil, shopperID: nil, categoryID: nil, retailerIDs: retailerString) { [weak self] (result) in
+        ELGrocerRecipeMeduleAPI().getRecipeListNew(offset: "0" , Limit: "1", recipeID: nil, ChefID: nil, shopperID: nil, categoryID: nil, retailerIDs: retailerString) { [weak self] (result) in
+            
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let response):
                 
-                guard let self = self else { return }
-                
-                switch result {
-                case .success(let response):
-                    
-                    if let dataDictionary = response["data"] as? [NSDictionary] {
-                        if dataDictionary.isNotEmpty {
-                            self.fetchRecipeAndChef()
-                        }
+                if let dataDictionary = response["data"] as? [NSDictionary] {
+                    if dataDictionary.isNotEmpty {
+                        self.fetchRecipeAndChef()
                     }
-                case .failure( _):
-                    break
-                    
                 }
+            case .failure( _):
+                break
+                
             }
         }
     }
@@ -410,7 +408,7 @@ fileprivate extension MainCategoriesViewModel {
         self.fetchRecipes()
         
         self.dispatchGroupRecipe.notify(queue: .main) {
-            ElGrocerUtility.sharedInstance.delay(0.5) {
+            ElGrocerUtility.sharedInstance.delay(0.2) {
                 let title = localizedString("shop_by_ingredients_text", comment: "")
                 
                 let titleVM = TableViewTitleCellViewModel(title: title, showViewMore: true)
@@ -432,33 +430,32 @@ fileprivate extension MainCategoriesViewModel {
         guard let grocery = self.grocery else { return }
         let retailerIDString = ElGrocerUtility.sharedInstance.GenerateRetailerIdString(groceryA: [grocery])
         
-        DispatchQueue.global().async {
-            self.dispatchGroupRecipe.enter()
-            self.recipeAPIClient.getChefList(offset: "0" , Limit: "1000", chefID: "" , retailerIDs: retailerIDString) { [weak self] (result) in
-                guard let self = self else { return }
+
+        self.dispatchGroupRecipe.enter()
+        self.recipeAPIClient.getChefList(offset: "0" , Limit: "1000", chefID: "" , retailerIDs: retailerIDString) { [weak self] (result) in
+            guard let self = self else { return }
+            
+            self.dispatchGroupRecipe.leave()
+            
+            switch result {
                 
-                self.dispatchGroupRecipe.leave()
-                
-                switch result {
-                    
-                case .success(let response):
-                    if let dataDictionary = response["data"] as? [NSDictionary] {
-                        if dataDictionary.isNotEmpty {
-                            let chefs: [CHEF] = dataDictionary.map { CHEF.init(chefDict: $0 as! Dictionary<String, Any>) }
-                            let chefCellVM = ElgrocerCategorySelectViewModel(chefList: chefs, selectedChef: nil)
-                            chefCellVM.outputs.chefTap
-                                .bind(to: self.chefTapSubject)
-                                .disposed(by: self.disposeBag)
-                            
-                            self.chefCellVMs = [chefCellVM]
-                        }
+            case .success(let response):
+                if let dataDictionary = response["data"] as? [NSDictionary] {
+                    if dataDictionary.isNotEmpty {
+                        let chefs: [CHEF] = dataDictionary.map { CHEF.init(chefDict: $0 as! Dictionary<String, Any>) }
+                        let chefCellVM = ElgrocerCategorySelectViewModel(chefList: chefs, selectedChef: nil)
+                        chefCellVM.outputs.chefTap
+                            .bind(to: self.chefTapSubject)
+                            .disposed(by: self.disposeBag)
+                        
+                        self.chefCellVMs = [chefCellVM]
                     }
-                    
-                case .failure(let error):
-                    error.showErrorAlert()
                 }
                 
+            case .failure(let error):
+                error.showErrorAlert()
             }
+            
         }
     }
     
@@ -467,30 +464,27 @@ fileprivate extension MainCategoriesViewModel {
         let retailerIDString = ElGrocerUtility.sharedInstance.GenerateRetailerIdString(groceryA: [grocery])
         let kfeaturedCategoryId : Int64 = 0
         
-        DispatchQueue.global().async {
-            self.dispatchGroupRecipe.enter()
+        self.dispatchGroupRecipe.enter()
+        self.recipeAPIClient.getRecipeListNew(offset: "0", Limit: "100", recipeID: nil, ChefID: nil, shopperID: nil, categoryID: kfeaturedCategoryId, retailerIDs: retailerIDString) {
+            [weak self] (result) in
             
-            self.recipeAPIClient.getRecipeListNew(offset: "0", Limit: "100", recipeID: nil, ChefID: nil, shopperID: nil, categoryID: kfeaturedCategoryId, retailerIDs: retailerIDString) {
-                [weak self] (result) in
+            self?.dispatchGroupRecipe.leave()
+            
+            switch result {
                 
-                self?.dispatchGroupRecipe.leave()
-                
-                switch result {
+            case .success(let response):
+                if let dataDictionary = response["data"] as? [NSDictionary] {
                     
-                case .success(let response):
-                    if let dataDictionary = response["data"] as? [NSDictionary] {
-                        
-                        if dataDictionary.isNotEmpty {
-                            let recipes: [Recipe] = dataDictionary.map { Recipe.init(recipeData: $0 as! Dictionary<String, Any>) }
-                            let recipeCellVM = RecipeCellViewModel(recipeList: recipes)
-                            self?.recipeCellVMs = [recipeCellVM]
-                        }
+                    if dataDictionary.isNotEmpty {
+                        let recipes: [Recipe] = dataDictionary.map { Recipe.init(recipeData: $0 as! Dictionary<String, Any>) }
+                        let recipeCellVM = RecipeCellViewModel(recipeList: recipes)
+                        self?.recipeCellVMs = [recipeCellVM]
                     }
-                case .failure(let error):
-                    error.showErrorAlert()
                 }
-                
+            case .failure(let error):
+                error.showErrorAlert()
             }
+            
         }
     }
 }
