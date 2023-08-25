@@ -272,21 +272,13 @@ private extension SubCategoryProductsViewController {
             .disposed(by: disposeBag)
         
         viewModel.outputs.banners
-            .map { $0.map { $0.toBannerDTO() }}
-            .bind(to: self.bannerView.rx.banners)
-            .disposed(by: disposeBag)
-        
-        viewModel.outputs.banners
-            .map { $0.isEmpty }
-            .subscribe(onNext: { [weak self] isEmpty in
-                DispatchQueue.main.async {
-                    let height = isEmpty ? 0.0 : (ScreenSize.SCREEN_WIDTH - 32) / 2
+            .subscribe(onNext: { [weak self] banners in
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    let height = banners.isEmpty ? 0.0 : (ScreenSize.SCREEN_WIDTH - 32) / 2
+                    let heightConstraint = self?.bannerView.constraints.first(where: { $0.firstAttribute == .height })
                     
-                    self?.bannerView.constraints.forEach { constraint in
-                        if constraint.firstAttribute == .height {
-                            constraint.constant = height
-                        }
-                    }
+                    self?.bannerView.banners = banners.map { $0.toBannerDTO() }
+                    heightConstraint?.constant = height
                     self?.view.layoutIfNeeded()
                 }
             }).disposed(by: disposeBag)

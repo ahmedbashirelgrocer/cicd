@@ -73,7 +73,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     private var productCellViewModelsSubject = BehaviorSubject<[ReusableCollectionViewCellViewModelType]>(value: [])
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private var fetchMoreProductsSubject = PublishSubject<Void>()
-    private var bannersSubject = BehaviorSubject<[BannerCampaign]>(value: [])
+    private var bannersSubject = PublishSubject<[BannerCampaign]>()
     private var refreshBasketSubject = BehaviorSubject<Void>(value: ())
     
     // MARK: Properties
