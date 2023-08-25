@@ -173,7 +173,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
         productFetchResult
             .compactMap { $0.element }
             .map{ $0.map {
-                let viewModel = ProductCellViewModel(product: $0, grocery: self.grocery)
+                let viewModel = ProductCellViewModel(product: $0, grocery: self.grocery, border: ABTestManager.shared.storeConfigs.variant != .vertical)
                 viewModel.outputs.basketUpdated
                     .bind(to: self.refreshBasketSubject)
                     .disposed(by: self.disposeBag)

@@ -1497,6 +1497,12 @@ private extension ProductCell {
                 self.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)
             }
         }).disposed(by: disposeBag)
+        
+        viewModel.outputs.border
+            .subscribe(onNext: { [weak self] in
+                self?.productContainer.layer.borderWidth = $0 ? 1.0 : 0
+                self?.productContainer.layer.borderColor = UIColor.colorWithHexString(hexString: "e4e4e4").cgColor
+            }).disposed(by: disposeBag)
     }
 }
 
