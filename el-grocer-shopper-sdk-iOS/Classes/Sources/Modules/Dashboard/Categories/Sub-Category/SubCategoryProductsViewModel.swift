@@ -370,14 +370,13 @@ fileprivate extension SubCategoryProductsViewModel {
     
     func getLocalProducts(_ categoryID: String, _ subCategoryID: String) -> [Product]? {
         let id = categoryID + "_" + subCategoryID
+        let startIndex = page * hitsPerPage
         
-        guard let products = self.productsVMsDictionary[id], products.isNotEmpty else {
+        guard let products = self.productsVMsDictionary[id], products.isNotEmpty, startIndex < products.count else {
             return nil
         }
 
-        let startIndex = page * hitsPerPage
         let endIndex = min(startIndex + hitsPerPage, products.count)
-
         return Array(products[startIndex..<endIndex])
     }
 }
