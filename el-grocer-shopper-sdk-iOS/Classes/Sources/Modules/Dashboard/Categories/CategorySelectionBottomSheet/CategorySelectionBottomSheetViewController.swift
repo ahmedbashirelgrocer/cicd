@@ -58,7 +58,7 @@ fileprivate extension CategorySelectionBottomSheetViewController {
         self.collectionView.collectionViewLayout = {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .vertical
-            layout.itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 80) / 3, height: 110)
+            layout.itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 80) / 3, height: 140)
             layout.minimumInteritemSpacing = 16
             layout.minimumLineSpacing = 16
             let edgeInset:CGFloat =  16

@@ -75,7 +75,7 @@ class CategoriesCell: RxUITableViewCell {
     
     private func calculateCellHeight() -> CGSize {
         if categoriesStyle == .threeRows {
-            return CGSize(width: (ScreenSize.SCREEN_WIDTH - 56) / 3, height: (ScreenSize.SCREEN_WIDTH - 56) / 3)
+            return CGSize(width: (ScreenSize.SCREEN_WIDTH - 56) / 3, height: 136)
         }
         
         return CGSize(width: 75 , height: 108)
@@ -145,8 +145,11 @@ private extension CategoriesCell {
             guard let self = self else { return }
 
             let headerHeight = 61.0
+            let cellHeight = 136.0
+            let itemMargin = 48.0
+            
             let baseVarientHeight = categoriesCount > 5 ? 314 : 206.0
-            let otherVarientHeight = (ScreenSize.SCREEN_WIDTH - 16) + (headerHeight - 16)
+            let otherVarientHeight = (cellHeight * 3) + itemMargin + (headerHeight - 16)
             
             self.cellHeightConstraint.constant = self.categoriesStyle == .twoRows ? baseVarientHeight : otherVarientHeight
             self.invalidateIntrinsicContentSize()
