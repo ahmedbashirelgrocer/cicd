@@ -84,6 +84,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     private var isFetching = false
     private var isMoreProductsAvailable = true
     private var hitsPerPage = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20
+    private var productsVMsDictionary: [String: [Product]] = [:]
     
     // MARK: Initializations
     init(categories: [CategoryDTO], selectedCategory: CategoryDTO, grocery: Grocery) {
@@ -94,13 +95,12 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
         
         self.fetchCategories()
         self.fetchProducts()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            self.fetchBanners()
-        }
+        self.fetchBanners()
         
         let paginatedResult = self.fetchMoreProductsSubject
-            .filter { [unowned self] _ in !self.isFetching && self.isMoreProductsAvailable }
+            .filter { [unowned self] _ in
+                !self.isFetching && self.isMoreProductsAvailable
+            }
             .flatMapLatest { _ in
                 self.page += 1
                 self.isFetching = true
@@ -109,17 +109,8 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
             }
             .do(onNext: { [unowned self] _ in self.isFetching = false  })
             .share()
-        
-        paginatedResult
-            .compactMap { $0.element }
-            .map { products in products.map { ProductCellViewModel(product: $0, grocery: self.grocery) } }
-            .subscribe(onNext: { [weak self] paginatedResult in
-                let currentItems = (try? self?.productCellViewModelsSubject.value()) ?? []
-                
-                let updated = (currentItems ?? []) + paginatedResult
-                self?.productCellViewModelsSubject.onNext(updated)
-            })
-            .disposed(by: disposeBag)
+    
+        self.bindProductFetchResponse(result: paginatedResult)
     }
     
     private func fetchCategories() {
@@ -152,6 +143,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
             .flatMapLatest { [unowned self] in
                 // Fix this code for paginated calls
                 self.page = 0
+                self.isMoreProductsAvailable = true
                 
                 if $1 == self.selectedSubcategoryId {
                     self.selectedSubcategoryId = ""
@@ -170,23 +162,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
             })
             .share()
 
-        productFetchResult
-            .compactMap { $0.element }
-            .map{ $0.map {
-                let viewModel = ProductCellViewModel(product: $0, grocery: self.grocery, border: ABTestManager.shared.storeConfigs.variant != .vertical)
-                viewModel.outputs.basketUpdated
-                    .bind(to: self.refreshBasketSubject)
-                    .disposed(by: self.disposeBag)
-                return viewModel
-                
-            }}
-            .bind(to: self.productCellViewModelsSubject)
-            .disposed(by: disposeBag)
-        
-        productFetchResult
-            .compactMap { $0.error }
-            .bind(to: self.errorSubject)
-            .disposed(by: disposeBag)
+        self.bindProductFetchResponse(result: productFetchResult)
     }
     
     private func fetchBanners() {
@@ -205,6 +181,33 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
         bannersFetchResult
             .compactMap { $0.element }
             .bind(to: self.bannersSubject)
+            .disposed(by: disposeBag)
+    }
+    
+    private func bindProductFetchResponse(result: Observable<Event<[ProductDTO]>>) {
+        result
+            .compactMap { $0.element}
+            .map({ products in
+                products.map { product in
+                    let border = ABTestManager.shared.storeConfigs.variant != .vertical
+                    let productCellViewModel = ProductCellViewModel(product: product, grocery: self.grocery, border: border)
+                    productCellViewModel.outputs.basketUpdated
+                        .bind(to: self.refreshBasketSubject)
+                        .disposed(by: self.disposeBag)
+                    
+                    return productCellViewModel
+                }
+            })
+            .subscribe(onNext: { [weak self] productsViewModel in
+                let currentItems = (try? self?.productCellViewModelsSubject.value()) ?? []
+                let updated = (currentItems ?? []) + productsViewModel
+                self?.productCellViewModelsSubject.onNext(updated)
+            })
+            .disposed(by: disposeBag)
+        
+        result
+            .compactMap { $0.error }
+            .bind(to: self.errorSubject)
             .disposed(by: disposeBag)
     }
 }
@@ -251,11 +254,20 @@ fileprivate extension SubCategoryProductsViewModel {
     }
     
     func getProducts(category: Category?, subcategoryId: String, completion: @escaping (Swift.Result<[Product], Error>)->Void) {
+        // check products locally and return
+        if let localProducts = self.getLocalProducts(category?.dbID.stringValue ?? "", subcategoryId), localProducts.count > 0 {
+            completion(.success(localProducts))
+            return
+        }
+            
         if self.isFetchFromAlgolia() == false {
             // Fetch Products from elGrocer server
             ProductBrowser.shared.getAllProductsOfCategory(category, forGrocery: self.grocery, limit: 20, offset: 0){ (result) -> Void in
                 switch result {
                 case .success(let response):
+                    // save products locally in dictionary
+                    self.saveProducts(category?.dbID.stringValue ?? "", subcategoryId, products: response.products)
+                    
                     self.isMoreProductsAvailable = (response.algoliaCount ?? response.products.count) >= self.hitsPerPage
                     completion(.success(response.products))
                     
@@ -277,6 +289,9 @@ fileprivate extension SubCategoryProductsViewModel {
                     guard let self = self else { return }
                     
                     if let responseObject = content {
+                        // save products locally in dictionary
+                        self.saveProducts(category?.dbID.stringValue ?? "", subcategoryId, products: responseObject.products)
+                        
                         self.isMoreProductsAvailable = (responseObject.algoliaCount ?? responseObject.products.count) >= self.hitsPerPage
                         completion(.success(responseObject.products))
                     } else {
@@ -297,6 +312,9 @@ fileprivate extension SubCategoryProductsViewModel {
                 guard let self = self else { return }
                 
                 if  let responseObject = content {
+                    // save products locally in dictionary
+                    self.saveProducts(category?.dbID.stringValue ?? "", subcategoryId, products: responseObject.products)
+                    
                     self.isMoreProductsAvailable = (responseObject.algoliaCount ?? responseObject.products.count) >= self.hitsPerPage
                     completion(.success(responseObject.products))
                 } else {
@@ -338,5 +356,29 @@ fileprivate extension SubCategoryProductsViewModel {
     
     func isFetchOffersProducts(category: Category?) -> Bool {
         return (category?.dbID.intValue ?? 0) <= 1
+    }
+    
+    func saveProducts(_ categoryID: String, _ subCategoryID: String, products: [Product]) {
+        let id = categoryID + "_" + subCategoryID
+        
+        if self.page == 0 {
+            self.productsVMsDictionary[id] = products
+        } else {
+            self.productsVMsDictionary[id]?.append(contentsOf: products)
+        }
+    }
+    
+    func getLocalProducts(_ categoryID: String, _ subCategoryID: String) -> [Product]? {
+        let id = categoryID + "_" + subCategoryID
+        let products = self.productsVMsDictionary[id] ?? []
+
+        let startIndex = page * hitsPerPage
+        let endIndex = startIndex + hitsPerPage
+
+        if products.count >= endIndex {
+            return Array(products[startIndex..<endIndex])
+        }
+        
+        return nil
     }
 }

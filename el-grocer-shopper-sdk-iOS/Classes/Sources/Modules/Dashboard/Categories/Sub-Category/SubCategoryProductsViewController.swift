@@ -290,6 +290,16 @@ private extension SubCategoryProductsViewController {
                 self.basketIconOverlay?.refreshStatus(self)
                 self.containerViewBottomConstraint.constant = self.basketIconOverlay?.isHidden == false ? 100 : 0
             }).disposed(by: disposeBag)
+        
+        Observable
+            .combineLatest(viewModel.outputs.categorySwitch, viewModel.outputs.subCategorySwitch)
+            .subscribe(onNext: { [weak self] (_, _) in
+                guard let self = self else { return }
+                
+                if self.cellViewModels.count > 0 {
+                    self.collectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+                }
+            }).disposed(by: disposeBag)
     }
     
     func showCategoriesBottomSheet(categories: [CategoryDTO]) {
