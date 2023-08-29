@@ -8,7 +8,7 @@
 
 import SwiftDate
 import UIKit
-import FBSDKCoreKit
+//import FBSDKCoreKit
 
 
 enum PicketSlotViewType : Int {

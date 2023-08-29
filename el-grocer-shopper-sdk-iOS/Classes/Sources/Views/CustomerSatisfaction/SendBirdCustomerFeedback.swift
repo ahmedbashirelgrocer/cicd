@@ -45,8 +45,8 @@ class SendBirdCustomerFeedback: UIView {
     }
     func setUpRatingView(){
         
-        starRatingView.fullImage = UIImage(name: "starFilled")
-        starRatingView.emptyImage = UIImage(name: "starUnfilled")
+        starRatingView.fullImage = sdkManager.isShopperApp ?  UIImage(name: "eg-StarFilled") : UIImage(name: "starFilled")
+        starRatingView.emptyImage = sdkManager.isShopperApp ? UIImage(name: "eg-StarUnfilled") : UIImage(name: "starUnfilled") 
         starRatingView.backgroundColor = UIColor.clear
         starRatingView.contentMode = UIView.ContentMode.scaleAspectFit
         self.starRatingView.rating = 0;

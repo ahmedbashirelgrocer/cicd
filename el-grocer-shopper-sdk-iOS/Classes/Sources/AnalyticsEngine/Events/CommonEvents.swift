@@ -95,7 +95,7 @@ struct ABTestExperimentEvent: AnalyticsEventDataType {
         self.metaData = [
             EventParameterKeys.authToken: authToken,
             EventParameterKeys.variant: variant,
-            EventParameterKeys.experimentType: experimentType.rawValue
+            EventParameterKeys.experimentType: experimentType.rawValue,
         ]
     }
     

@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreLocation
-import FBSDKCoreKit
+//import FBSDKCoreKit
 //import AppsFlyerLib
 import FirebaseCrashlytics
 // import FlagPhoneNumber

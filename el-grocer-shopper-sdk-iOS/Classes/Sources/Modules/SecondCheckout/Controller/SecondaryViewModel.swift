@@ -353,8 +353,6 @@ extension SecondaryViewModel {
     }
     
     func getCreditCardsFromAdyen() {
-        
-        
         PaymentMethodFetcher.getPaymentMethods(amount: AdyenManager.createAmount(amount: 100), addApplePay: true) { paymentMethods, applePay, error in
             if self.getSelectedPaymentOption() == .creditCard {
                 if let cardsArray = paymentMethods {
@@ -368,6 +366,9 @@ extension SecondaryViewModel {
                                 self.basketData.onNext(self.basketDataValue)
                                 break
                             }
+                        }
+                        if self.selectedCreditCard == nil && applePay != nil && self.order != nil {
+                            self.applePaySelectedMethod = applePay
                         }
                     }
                 }

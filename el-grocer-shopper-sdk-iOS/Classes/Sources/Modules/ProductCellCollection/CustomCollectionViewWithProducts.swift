@@ -156,9 +156,11 @@ class CustomCollectionViewWithProducts: CustomCollectionView {
                         let id = products[index].productId
                         (self.collectionA[index] as? Product)?.winner = winners.first{ $0.id == "\(id)" }
                     }
-                    var rProds = self.collectionA[1..<self.collectionA.count].compactMap{ $0 as? Product }
-                    rProds.sort(by: { ($0.rank ?? 10000) < ($1.rank ?? 10000) })
-                    self.collectionA = [self.collectionA[0]] + rProds + self.collectionA.filter{ ($0 as? Product) == nil }
+                    if self.collectionA.count > 0 {
+                        var rProds = self.collectionA[1..<self.collectionA.count].compactMap{ $0 as? Product }
+                        rProds.sort(by: { ($0.rank ?? 10000) < ($1.rank ?? 10000) })
+                        self.collectionA = [self.collectionA[0]] + rProds + self.collectionA.filter{ ($0 as? Product) == nil }
+                    }
                     self.reloadData()
                     // let resolvedBidIds = rProds.compactMap { $0.winner?.resolvedBidId }
                     // logImpressions(resolvedBidIds: resolvedBidIds)

@@ -303,7 +303,7 @@ class ElgrocerStoreHeader:  UIView  {
                 self.setAttributedValueForSlotOnMainThread(attributedString)
             }else if slots.count > 0 {
                 let firstObj = slots[0]
-                var slotStringData = DeliverySlotManager.getSlotFormattedStrForStoreHeader(slot: firstObj, ElGrocerUtility.sharedInstance.isDeliveryMode)
+                let slotStringData = DeliverySlotManager.getSlotFormattedStrForStoreHeader(slot: firstObj, ElGrocerUtility.sharedInstance.isDeliveryMode)
                 var slotString = slotStringData.slot
                 if firstObj.isInstant.boolValue {
                     slotString = localizedString("delivery_within_60_min", comment: "")
@@ -320,7 +320,7 @@ class ElgrocerStoreHeader:  UIView  {
                 
                 var data = slotString.components(separatedBy: " ")
                 if data.count == 0 {
-                    var dayName = "" //localizedString("lbl_next_delivery", comment: "")
+                    let dayName = "" //localizedString("lbl_next_delivery", comment: "")
 //                    if ElGrocerUtility.sharedInstance.isDeliveryMode {
 //                        dayName = localizedString("lbl_next_delivery", comment: "")
 //                    }else {

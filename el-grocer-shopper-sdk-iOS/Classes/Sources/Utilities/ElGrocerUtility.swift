@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 //import Branch
 import FirebaseAnalytics
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import FirebaseCrashlytics
 import CoreLocation
 import GooglePlaces
@@ -525,18 +525,18 @@ class ElGrocerUtility {
         let paramsString = paramsJSON.rawString(String.Encoding.utf8, options: JSONSerialization.WritingOptions.prettyPrinted)!
       
         //AppEvents.ParameterName.contentID: clearProductID ,
-        let facebookParams = [AppEvents.ParameterName.contentType:"product",AppEvents.ParameterName.currency:kProductCurrencyEngAEDName , AppEvents.ParameterName.content : paramsString] as [AnyHashable: Any]
+       // let facebookParams = [AppEvents.ParameterName.contentType:"product",AppEvents.ParameterName.currency:kProductCurrencyEngAEDName , AppEvents.ParameterName.content : paramsString] as [AnyHashable: Any]
         
         /// FixMe Need update SDK
 //        if let facebookParams = facebookParams as? [AppEvents.ParameterName : Any] {
 //            AppEvents.logEvent(AppEvents.Name.addedToCart, valueToSum: Double(truncating: product.price), parameters: facebookParams)
 //        }
         
-        ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("AppEvents.Name.addedToCart", facebookParams as? [String : Any])
+   //     ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("AppEvents.Name.addedToCart", facebookParams as? [String : Any])
         
-        elDebugPrint("facebook eventName : \(AppEvents.Name.addedToCart)")
-        elDebugPrint("facebook Parm Print : \(product.price)")
-        elDebugPrint("facebook Parm Print : \(paramsString)")
+//        elDebugPrint("facebook eventName : \(AppEvents.Name.addedToCart)")
+//        elDebugPrint("facebook Parm Print : \(product.price)")
+//        elDebugPrint("facebook Parm Print : \(paramsString)")
 
         /* ---------- AppsFlyer Search Event ----------*/
         var finalBrandName = brandName

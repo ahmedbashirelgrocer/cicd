@@ -185,7 +185,6 @@ class OrderNavigationHandler {
                                         
                                     }
                                     return
-                                    
                                 }else {
                                     SpinnerView.hideSpinnerView()
                                 }

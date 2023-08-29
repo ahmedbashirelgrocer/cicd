@@ -136,7 +136,7 @@ class OrderCollectionDetailsCell: UITableViewCell , UIActivityItemSource {
         self.lblCarDetails.font = UIFont.SFProDisplayNormalFont(14)
         self.lblCarDetails.textColor = UIColor.newBlackColor()
         // buttons
-        self.btnGetDirections.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17).withWeight(UIFont.Weight(600))
+        self.btnGetDirections.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17)//.withWeight(UIFont.Weight(600))
         self.btnGetDirections.titleLabel?.textColor = UIColor.white
     }
     func assignAlertValue(){

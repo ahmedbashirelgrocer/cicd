@@ -8,7 +8,7 @@
 
 import UIKit
 import NBBottomSheet
-import FBSDKCoreKit
+//import FBSDKCoreKit
 //import AppsFlyerLib
 import STPopup
 import IQKeyboardManagerSwift

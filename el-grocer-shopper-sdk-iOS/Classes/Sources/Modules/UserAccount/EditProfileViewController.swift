@@ -22,13 +22,7 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
     var finalPhoneNumber : String = ""
     var finalFormatedPhoneNumber : String = ""
     
-    @IBOutlet weak var usernameTextField: ElgrocerTextField! {
-        didSet {
-            if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                usernameTextField.textAlignment = .right
-            }
-        }
-    }
+    @IBOutlet weak var usernameTextField: ElgrocerTextField!
     @IBOutlet weak var emailTextField: ElgrocerTextField! {
         didSet {
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
@@ -53,6 +47,7 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
             phoneTextField.layer.cornerRadius = 8.0
             phoneTextField.placeholder = localizedString("my_account_phone_field_label", comment: "")
             phoneTextField.customDelegate = self
+            phoneTextField.delegate = self
             phoneTextField.flagSize = CGSize.init(width: 24, height: 24)
             phoneTextField.flagButtonEdgeInsets = UIEdgeInsets.init(top: 0, left: -16, bottom: 0, right: 8)
             if sdkManager.launchOptions?.isSmileSDK == true {
@@ -61,26 +56,22 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 phoneTextField.textAlignment = .right
                 phoneTextField.flagButtonEdgeInsets = UIEdgeInsets.init(top: 0, left: 10, bottom: 0, right: 8)
-//                phoneTextField.transform = CGAffineTransform(scaleX: -1, y: 1)
-                
             }
         }
     }
     @IBOutlet weak var scrollView: UIScrollView!
-    
     @IBOutlet weak var updateButton: UIButton!
-    
     @IBOutlet weak var scrollViewBottomSpaceConstraint: NSLayoutConstraint!
     
     // MARK: Life cycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = localizedString("my_account_edit_your_profile", comment: "")
+       
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-         (self.navigationController as? ElGrocerNavigationController)?.hideSeparationLine()
-         (self.navigationController as? ElGrocerNavigationController)?.hideBorder(true)
+        (self.navigationController as? ElGrocerNavigationController)?.hideSeparationLine()
+        (self.navigationController as? ElGrocerNavigationController)?.hideBorder(true)
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
@@ -94,14 +85,12 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
         NotificationCenter.default.addObserver(self, selector: #selector(EditProfileViewController.keyboardWillHide(_:)), name:UIResponder.keyboardWillHideNotification, object: nil)
         
         self.setInitialControllerAppearance()
-        
         self.setProfileDataInView()
-        
+
         //tap gesture
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(EditProfileViewController.dismissKeyboard))
         self.view.addGestureRecognizer(tap)
-        
-        //validation
+        // validation
         _ = validateFields()
     }
     
@@ -112,14 +101,12 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         GoogleAnalyticsHelper.trackScreenWithName(kGoogleAnalyticsEditProfileScreen)
         FireBaseEventsLogger.setScreenName( kGoogleAnalyticsEditProfileScreen , screenClass: String(describing: self.classForCoder))
     }
     func backButtonClickedHandler() {
         backButtonClick()
     }
-    
     
     override func backButtonClick() {
         //self.dismiss(animated: true)
@@ -271,14 +258,18 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
     
     func checkPhoneExistense() {
         
-        var phoneNumber = self.phoneTextField.text ?? ""
+        var phoneNumber = self.finalPhoneNumber
+        
+        if finalPhoneNumber.isEmptyStr {
+            phoneNumber = self.phoneTextField.text ?? ""
+        }
+        
+        
         guard phoneNumber.count > 0 else {
             return
         }
         guard phoneNumber != self.userProfile.phone else {
-            
             return
-            
         }
         
         ElGrocerApi.sharedInstance.checkPhoneExistence( phoneNumber , completionHandler: { (result, responseObject) in
@@ -325,14 +316,7 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
                         positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                         negativeButton: nil, buttonClickCallback: nil).show()
                 }
-            
-//                self.phoneTextField.layer.borderColor = UIColor.redValidationErrorColor().cgColor
-//                self.phoneTextField.layer.borderWidth = 1
-//                self.phoneTextField.showError(message: errorMsgStr)
-               
-                
             }
-            
         })
     }
 }
@@ -366,6 +350,10 @@ extension EditProfileViewController: UITextFieldDelegate {
         let newText = NSString(string: textField.text!).replacingCharacters(in: range, with: string)
         textField.text = newText
         _ = validateFields()
+        if textField is FPNTextField {
+            let txt = textField as! FPNTextField
+            self.phoneTextField.didEditText()
+        }
         return false
     }
     

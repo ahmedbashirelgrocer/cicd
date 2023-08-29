@@ -482,6 +482,8 @@ private extension SecondCheckoutVC {
         if (self.viewModel.getOrderId() != nil) {
             // Edit Completed Event
             SegmentAnalyticsEngine.instance.logEvent(event: EditOrderCompletedEvent(order: order, grocery: self.grocery))
+            
+            logPurchaseEventOnTopSort(orderID: order?.dbID.stringValue ?? UUID().uuidString)
         } else {
             let orderCompletedEvent = OrderPurchaseEvent(
                 products: self.viewModel.getFinalisedProducts() ?? [],
@@ -498,14 +500,34 @@ private extension SecondCheckoutVC {
             )
             SegmentAnalyticsEngine.instance.logEvent(event: orderCompletedEvent)
             
-            let items = self.viewModel.getFinalisedProducts()?.map({ product -> TopSortEvent.Item in
-                    .init(productId: "\(product.productId)",
-                          unitPrice: product.price.doubleValue,
-                          quantity: 1)
-            }) ?? []
+            logPurchaseEventOnTopSort(orderID: order?.dbID.stringValue ?? UUID().uuidString)
+        }
+        
+        func logPurchaseEventOnTopSort(orderID: String) {
+            let items = self.viewModel
+                .getFinalisedProducts()?
+                .map{ [weak self] product -> TopSortEvent.Item in
+                    let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+                    var quantity = 0
+                    if let basketItem = ShoppingBasketItem.checkIfProductIsInBasket(
+                        product,
+                        grocery: self?.grocery,
+                        context: context) {
+                        
+                        quantity = basketItem.count.intValue
+                    }
+                    
+                    var price = product.price.doubleValue
+                    if product.promoPrice?.doubleValue ?? 0 > 0 {
+                        price = product.promoPrice?.doubleValue ?? 0
+                    }
+                    
+                    return TopSortEvent.Item(productId: product.productId.stringValue,
+                                             unitPrice: price,
+                                             quantity: quantity)
+                } ?? []
             
-            TopsortManager.shared.log(.purchases(items: items))
-
+            TopsortManager.shared.log(.purchases(orderID: orderID, items: items))
         }
     }
 }

@@ -137,7 +137,7 @@ class DeliveryInfoViewController: UIViewController {
         
         self.houseView.layer.cornerRadius = 5
         self.houseView.layer.borderWidth = 1.5
-        self.houseLabel.font = UIFont.SFProDisplayBoldFont(14).withWeight(UIFont.Weight(600))
+        self.houseLabel.font = UIFont.SFProDisplayBoldFont(14)//.withWeight(UIFont.Weight(600))
         
         if isSelected {
             self.houseView.layer.borderColor = ApplicationTheme.currentTheme.primarySelectionColor.cgColor
@@ -154,7 +154,7 @@ class DeliveryInfoViewController: UIViewController {
         
         self.officeView.layer.cornerRadius = 5
         self.officeView.layer.borderWidth = 1.5
-        self.officeLabel.font = UIFont.SFProDisplayBoldFont(14).withWeight(UIFont.Weight(600))
+        self.officeLabel.font = UIFont.SFProDisplayBoldFont(14)//.withWeight(UIFont.Weight(600))
         
         if isSelected {
             self.officeView.layer.borderColor = ApplicationTheme.currentTheme.primarySelectionColor.cgColor

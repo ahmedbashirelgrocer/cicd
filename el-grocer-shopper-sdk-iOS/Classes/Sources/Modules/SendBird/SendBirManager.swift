@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import SendBirdUIKit
+import SendbirdChatSDK
+import SendbirdUIKit
 // import AFNetworking
 import CloudKit
 
@@ -54,8 +55,10 @@ class SendBirdManager {
         
     }
     
-    class func getCurrentSendBirdUser() -> SBDUser? {
-        guard let user = SBDMain.getCurrentUser() else{
+    
+    
+    class func getCurrentSendBirdUser() -> User? {
+        guard let user = SendbirdChat.getCurrentUser() else{
             return nil
         }
         return user
@@ -63,24 +66,26 @@ class SendBirdManager {
     
     func setUpSenBirdWithCurrentUser(){
         // Specify your Sendbird application ID.
-        SBUMain.initialize(applicationId: APP_ID)
-        self.logIn {
-            elDebugPrint("Login called")
+        SendbirdChat.initialize(params: InitParams.init(applicationId: APP_ID)) { } completionHandler: { error in
+            if error == nil {
+                self.logIn {
+                    elDebugPrint("Login called")
+                }
+            }
         }
     }
     
     func logIn(connectAnnonymousUser: Bool = false,completionHandler: (() -> Void)?) {
         
-//        if let _ = SBDMain.getCurrentUser() {
-//            self.logout { (success) in
-//                if success{
-//                }
-//            }
-//            return
-//        }
+        if let _ = SendbirdChat.getCurrentUser() {
+            self.logout { (success) in
+                if success{ }
+                completionHandler?()
+            }
+            return
+        }
         
         let group = DispatchGroup()
-        
         group.enter()
         
         if let user = self.getCurrentUser() {
@@ -95,15 +100,18 @@ class SendBirdManager {
                 name = "NoName"
             }
             
-            SBUGlobals.CurrentUser = SBUUser(userId: shoperPrefix + id.stringValue, nickname: name, profileUrl: nil)
-            SBUMain.connect { (user, error) in
+            SBUGlobals.currentUser = SBUUser(userId: shoperPrefix + id.stringValue, nickname: name, profileURL: nil)
+            
+            let _ = SpinnerView.showSpinnerView()
+            SendbirdUI.connect { (user, error) in
                 guard error == nil else {
                     // Handle error.
+                    ElGrocerError.genericError().showErrorAlert()
                     group.leave()
                     return
                 }
                 if let obtainedUser = user{
-                    SBUGlobals.CurrentUser = SBUUser(user: obtainedUser)
+                    SBUGlobals.currentUser = SBUUser(user: obtainedUser)
                 }
                 
                 if !(UserDefaults.isDevicePushTokenRegistered() ?? false){
@@ -123,15 +131,16 @@ class SendBirdManager {
                 if let id = CleverTapEventsLogger.getCTProfileId(){
                 
                     let name = "Anonymous"
-                    SBUGlobals.CurrentUser = SBUUser(userId: shoperPrefix + id, nickname: name, profileUrl: nil)
-                    SBUMain.connect { (user, error) in
+                    
+                    SBUGlobals.currentUser = SBUUser(userId: shoperPrefix + id, nickname: name, profileURL: nil)
+                    SendbirdUI.connect { (user, error) in
                         guard error == nil else {
                             // Handle error.
                             group.leave()
                             return
                         }
                         if let obtainedUser = user{
-                            SBUGlobals.CurrentUser = SBUUser(user: obtainedUser)
+                            SBUGlobals.currentUser = SBUUser(user: obtainedUser)
                         }
                         if !(UserDefaults.isDevicePushTokenRegistered() ?? false){
                             if let token = UserDefaults.getDevicePushTokenData(){
@@ -151,6 +160,7 @@ class SendBirdManager {
         }
         
         group.notify(queue: DispatchQueue.global()) {
+            SpinnerView.hideSpinnerView()
             completionHandler?()
         }
         
@@ -216,12 +226,12 @@ class SendBirdManager {
         messageInputTheme.textFieldTintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         
         
-        var channelListCellTheme = SBUChannelCellTheme()
+        let channelListCellTheme = SBUGroupChannelCellTheme()
         channelListCellTheme.unreadCountBackgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         channelListCellTheme.memberCountTextColor = UIColor.clear
         
-        let newTheme = SBUTheme(channelListTheme: .light,
-                                channelCellTheme: channelListCellTheme,
+        let newTheme = SBUTheme(groupChannelListTheme: .light,
+                                groupChannelCellTheme: channelListCellTheme,
                                 channelTheme: channelTheme,
                                 messageInputTheme: messageInputTheme,
                                 messageCellTheme: messageCellTheme,
@@ -233,14 +243,29 @@ class SendBirdManager {
         SBUTheme.set(theme: newTheme)
     }
     
-    func navigateTochannelViewController(channel : SBDGroupChannel , controller : UIViewController , orderId : String){
-        let channelController = ElgrocerChannelController(channel: channel)
-        channelController.setOrderId(orderDbId: orderId)
-        let naviVC = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-        naviVC.viewControllers = [channelController]
-       // let naviVC = ElGrocerNavigationController(rootViewController: channelController)
-        naviVC.modalPresentationStyle = .fullScreen
-        controller.present(naviVC, animated: true)
+    func navigateTochannelViewController(channel : GroupChannel , controller : UIViewController , orderId : String){
+        
+        
+        Thread.OnMainThread {
+            let params = MessageListParams()
+            params.includeMetaArray = true
+            params.includeReactions = true
+            params.includeThreadInfo = true
+            params.includeParentMessageInfo = SendbirdUI.config.groupChannel.channel.replyType != .none
+            params.replyType = SendbirdUI.config.groupChannel.channel.replyType.filterValue
+            params.customTypes = nil
+            let channelController = ElgrocerChannelController(channel: channel, messageListParams: params)
+            channelController.headerComponent?.rightBarButton = UIBarButtonItem()
+            let naviVC = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+            naviVC.hideSeparationLine()
+            naviVC.setLogoHidden(true)
+            naviVC.setBackButtonHidden(true)
+            naviVC.viewControllers = [channelController]
+            naviVC.modalPresentationStyle = .fullScreen
+            controller.present(naviVC, animated: true)
+            SpinnerView.hideSpinnerView()
+        }
+        
     }
     
     
@@ -259,30 +284,31 @@ class SendBirdManager {
             
             self.setUserUpdatedLanguage()
             let pickerIdWithPrefix = pickerPrefix + pickerID
-            let groupChannelParams = SBDGroupChannelParams()
-            groupChannelParams.channelUrl = OrderUrlPrefix + orderId
+            let groupChannelParams = GroupChannelCreateParams()
+            groupChannelParams.channelURL = OrderUrlPrefix + orderId
             groupChannelParams.addUserIds([pickerIdWithPrefix])
             groupChannelParams.isPublic = true
             groupChannelParams.name = localizedString("order_sendBird_nav_title", comment: "") + ":" + orderId
             groupChannelParams.customType = orderId
             self.checkIfChannelExist(channelUrl: OrderUrlPrefix + orderId) { doesExist, channel in
                 if doesExist{
-                    if channel.isPublic {
-                        channel.join(completionHandler: { (error) in
+                    if ((channel?.isPublic) != nil) {
+                        channel?.join(completionHandler: { (error) in
                             SpinnerView.hideSpinnerView()
                             guard error == nil else {
                                     // Handle error.
                                elDebugPrint(error?.localizedDescription ?? "")
                                 return
                             }
-                            self.navigateTochannelViewController(channel: channel, controller: controller, orderId: orderId)
+                            self.navigateTochannelViewController(channel: channel!, controller: controller, orderId: orderId)
                         })
                     }else {
                         SpinnerView.hideSpinnerView()
                     }
                     
                 }else{
-                    SBDGroupChannel.createChannel(with: groupChannelParams) { groupChannel, error in
+                    
+                    GroupChannel.createChannel(params: groupChannelParams) { groupChannel, error in
                         guard error == nil else {
                                 // Handle error.
                            elDebugPrint(error?.localizedDescription ?? "")
@@ -306,29 +332,31 @@ class SendBirdManager {
         
     }
     
-    func checkIfChannelExist(channelUrl : String , completion: @escaping (Bool , SBDGroupChannel) ->()){
+    func checkIfChannelExist(channelUrl : String , completion: @escaping (Bool , SendbirdChatSDK.GroupChannel?) ->()){
+    
+       
         
-        SBDGroupChannel.getWithUrl(channelUrl) { SBDchannel, error in
-            guard let channel = SBDchannel , error == nil else{
-                completion(false , SBDGroupChannel(dictionary: ["" : ""]))
+        GroupChannel.getChannel(url: channelUrl) { channel, error in
+            guard let channel = channel , error == nil else{
+                completion(false, channel)
                 return
             }
-            completion(true , channel)
+            completion(true, channel)
         }
     }
     
     
     func  setUserUpdatedLanguage()  {
-        let preferredLanguages =  ElGrocerUtility.sharedInstance.isArabicSelected() ?  ["ar"] : ["en"] // French, German, Spanish, and Korean
-        SBDMain.updateCurrentUserInfo(withPreferredLanguages: preferredLanguages, completionHandler: { error in
-        })
+        let preferredLanguages =  ElGrocerUtility.sharedInstance.isArabicSelected() ?  ["ar"] : ["en"]
+        SendbirdChat.updateCurrentUserInfo(preferredLanguages: preferredLanguages)
+
     }
     
     //MARK: push notification
     func registerPushNotification(_ deviceToken : Data, completion : @escaping(Bool) -> ()){
 
         self.setPushNotification(enable: true) { (success) in
-            if success{
+            if success ?? false{
                 completion(true)
                 UserDefaults.setIsDevicePushTokenRegistered(true)
             }else{
@@ -337,27 +365,27 @@ class SendBirdManager {
             }
         }
         
-//        guard SBDMain.getCurrentUser() != nil else { return }
-//        SBDMain.registerDevicePushToken(deviceToken, unique: true, completionHandler: { (status, error) in
-//            if error == nil {
-//                completion(true)
-//                UserDefaults.setIsDevicePushTokenRegistered(true)
-//            }
-//            else {
-//                if status == SBDPushTokenRegistrationStatus.pending {
-//                    self.setPushNotification(enable: false) { }
-//                    UserDefaults.setIsDevicePushTokenRegistered(false)
-//
-//                } else {
-//                    // Handle registration failure.
-//                    completion(false)
-//                    UserDefaults.setIsDevicePushTokenRegistered(false)
-//                }
-//            }
-//        })
+        guard SendbirdChat.getCurrentUser() != nil else { return }
+        SendbirdChat.registerDevicePushToken(deviceToken, unique: true, completionHandler: { (status, error) in
+            if error == nil {
+                completion(true)
+                UserDefaults.setIsDevicePushTokenRegistered(true)
+            }
+            else {
+                if status == SendbirdChatSDK.PushTokenRegistrationStatus.pending {
+                    self.setPushNotification(enable: false) { _ in }
+                    UserDefaults.setIsDevicePushTokenRegistered(false)
+
+                } else {
+                    // Handle registration failure.
+                    completion(false)
+                    UserDefaults.setIsDevicePushTokenRegistered(false)
+                }
+            }
+        })
     }
     
-    func setPushNotification(enable: Bool , completionHandler: @escaping ((Bool) -> Void)) {
+    func setPushNotification(enable: Bool , completionHandler: @escaping ((Bool?) -> Void)) {
         
         if enable {
             
@@ -426,63 +454,51 @@ class SendBirdManager {
             }
         }
         
-       /* if enable {
+        if enable {
             if let token = UserDefaults.getDevicePushTokenData() {
-                SBDMain.registerDevicePushToken(token, unique: true, completionHandler: { (status, error) in
-                    if let handler = completionHandler {
-                        handler()
-                    }
+                SendbirdChat.registerDevicePushToken(token, unique: true, completionHandler: { (status, error) in
+                    completionHandler(error == nil)
                 })
             }  else {
-                if let handler = completionHandler {
-                    handler()
-                }
+                completionHandler(false)
             }
         }
         else {
             if let token = UserDefaults.getDevicePushTokenData() {
                 // If you want to unregister the current device only, invoke this method.
-                SBDMain.unregisterPushToken(token, completionHandler: { (response, error) in
+                SendbirdChat.unregisterPushToken(token, completionHandler: { (response, error) in
                     guard error == nil else{
-                       elDebugPrint(error)
-                        if let handler = completionHandler {
-                            handler()
-                        }
+                        completionHandler(error == nil)
                         return
                     }
                     UserDefaults.setIsDevicePushTokenRegistered(false)
-                    if let handler = completionHandler {
-                        handler()
-                    }
+                    completionHandler(false)
                 })
-                SBUMain.unregisterAllPushToken { (isCompleted) in
+                SendbirdChat.unregisterAllPushToken { (isCompleted) in
                     elDebugPrint(isCompleted)
-                    if isCompleted{
+                    if (isCompleted != nil){
                         UserDefaults.setIsDevicePushTokenRegistered(false)
                     }
                 }
                
             }else {
-                if let handler = completionHandler {
-                    handler()
-                }
+                completionHandler(false)
             }
         }
-        */
+        
     }
     
     // SendBirdHelper.swift
     func logout(completionHandler:@escaping ((Bool) -> Void)) {
         
         self.setPushNotification(enable: false) { success in
-            if success{
+            if success ?? false{
                 completionHandler(true)
             }else{
                 completionHandler(false)
             }
         }
-        SBDMain.disconnect { }
-        SBUMain.disconnect { }
+        SendbirdChat.disconnect { }
     }
     
     func didReciveRemoteNotification(userInfo : [AnyHashable : Any]) {
@@ -522,9 +538,8 @@ class SendBirdManager {
                         if let controller = UIApplication.topViewController(){
                             if controller is ElgrocerChannelController{
                                 let channelController = controller as! ElgrocerChannelController
-                                
                                 if channelController.channelUrl == channel_url {
-                                    
+                                    (controller as? ElgrocerChannelController)?.readLastMessage()
                                 }else{
                                     
                                     if UIApplication.shared.applicationState == .active && !isAppStart {
@@ -534,7 +549,7 @@ class SendBirdManager {
                                             
                                             ElGrocerUtility.sharedInstance.showTopMessageView(message, "", image: UIImage(name: "chat-White"), -1, false) { data, index, viewTap in
                                                 
-                                                guard SBDMain.getCurrentUser() != nil else {
+                                                guard SendbirdChat.getCurrentUser() != nil else {
                                                     SendBirdDeskManager(type: type).logIn(isWithChat: false) {
                                                         SendBirdDeskManager(type: type).callSendBirdChat(orderId: orderId, controller: controller, channelUrl: channel_url)
                                                     }
@@ -547,7 +562,7 @@ class SendBirdManager {
                                     }else{
                                         
                                         
-                                        guard SBDMain.getCurrentUser() != nil else{
+                                        guard SendbirdChat.getCurrentUser() != nil else{
                                             SendBirdDeskManager(type: type).logIn(isWithChat: false) {
                                                 SendBirdDeskManager(type: type).callSendBirdChat(orderId: orderId, controller: controller, channelUrl: channel_url)
                                             }
@@ -565,7 +580,7 @@ class SendBirdManager {
                                         DispatchQueue.main.async {
                                             ElGrocerUtility.sharedInstance.showTopMessageView(message, "", image: UIImage(name: "chat-White"), -1, false) { data, index, viewTap in
                                                 
-                                                guard SBDMain.getCurrentUser() != nil else{
+                                                guard SendbirdChat.getCurrentUser() != nil else{
                                                     SendBirdDeskManager(type: type).logIn(isWithChat: false) {
                                                         SendBirdDeskManager(type: type).callSendBirdChat(orderId: orderId, controller: controller, channelUrl: channel_url)
                                                     }
@@ -580,7 +595,7 @@ class SendBirdManager {
                                 }else{
                                     
                                     
-                                    guard SBDMain.getCurrentUser() != nil else{
+                                    guard SendbirdChat.getCurrentUser() != nil else{
                                         SendBirdDeskManager(type: type).logIn(isWithChat: false) {
                                             SendBirdDeskManager(type: type).callSendBirdChat(orderId: orderId, controller: controller, channelUrl: channel_url)
                                         }
@@ -617,7 +632,7 @@ class SendBirdManager {
                                             if let message = sendBirdData["message"] as? String{
                                                 
                                                 
-                                                guard SBDMain.getCurrentUser() != nil else {
+                                                guard SendbirdChat.getCurrentUser() != nil else {
                                                     self.logIn(connectAnnonymousUser: true) {
                                                         ElGrocerUtility.sharedInstance.showTopMessageView(message, "", image: UIImage(name: "chat-White"), -1, false) { data, index, viewTap in
                                                             SendBirdManager().callSendBirdChat(pickerID: pickerID, orderId: orderId, controller: controller)
@@ -675,7 +690,7 @@ extension SendBirdManager {
             }
         }
         
-        SBDMain.disconnect {}
+        SendbirdChat.disconnect {}
         SendBirdDeskManager(type: .agentSupport).setUpSenBirdDeskWithCurrentUser(isWithChat: false)
        
         
