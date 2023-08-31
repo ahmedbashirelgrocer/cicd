@@ -288,7 +288,7 @@ private extension SubCategoryProductsViewController {
                 guard let self = self else { return }
                 
                 self.basketIconOverlay?.refreshStatus(self)
-                self.containerViewBottomConstraint.constant = self.basketIconOverlay?.isHidden == false ? 100 : 0
+                self.containerViewBottomConstraint.constant = self.basketIconOverlay?.isHidden == false ? 90 : 0
             }).disposed(by: disposeBag)
         
         Observable
