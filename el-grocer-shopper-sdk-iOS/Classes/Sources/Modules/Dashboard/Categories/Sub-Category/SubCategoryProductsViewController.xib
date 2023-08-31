@@ -18,6 +18,7 @@
                 <outlet property="contentViewLeadingConstraint" destination="Jv3-lK-f5U" id="RXE-mO-1yC"/>
                 <outlet property="lblCategoryTitle" destination="dWW-yZ-Rk1" id="Dyu-EQ-JTx"/>
                 <outlet property="subCategoriesSegmentedView" destination="V8o-5o-NMf" id="Ose-mW-noJ"/>
+                <outlet property="subCategoriesViewTopConstraint" destination="RUl-6c-3Rl" id="aUb-bE-w60"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -33,19 +34,19 @@
                             <rect key="frame" x="0.0" y="60" width="393" height="758"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A51-8e-tsh">
-                                    <rect key="frame" x="0.0" y="8" width="393" height="45"/>
+                                    <rect key="frame" x="0.0" y="8" width="393" height="36"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select product subcategory" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dWW-yZ-Rk1">
-                                            <rect key="frame" x="16" y="12.999999999999998" width="211" height="19.333333333333329"/>
+                                            <rect key="frame" x="16" y="8.6666666666666714" width="211" height="19"/>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Mho-dM-pck" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                            <rect key="frame" x="204" y="5" width="173" height="35"/>
+                                            <rect key="frame" x="204" y="0.0" width="173" height="36"/>
                                             <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="35" id="GjS-LF-Lfa"/>
+                                                <constraint firstAttribute="height" constant="36" id="GjS-LF-Lfa"/>
                                             </constraints>
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="plain" image="ic_change_category_button" title="Change category">
@@ -63,22 +64,23 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
+                                        <constraint firstItem="Mho-dM-pck" firstAttribute="top" secondItem="A51-8e-tsh" secondAttribute="top" id="3u5-0I-10S"/>
                                         <constraint firstItem="Mho-dM-pck" firstAttribute="centerY" secondItem="dWW-yZ-Rk1" secondAttribute="centerY" id="OUQ-r1-Zij"/>
                                         <constraint firstItem="dWW-yZ-Rk1" firstAttribute="centerY" secondItem="A51-8e-tsh" secondAttribute="centerY" id="VPO-wr-pac"/>
-                                        <constraint firstAttribute="height" constant="45" id="c0N-wT-HLi"/>
+                                        <constraint firstAttribute="bottom" secondItem="Mho-dM-pck" secondAttribute="bottom" id="WJQ-gA-hUQ"/>
                                         <constraint firstAttribute="trailing" secondItem="Mho-dM-pck" secondAttribute="trailing" constant="16" id="nAY-uM-Upe"/>
                                         <constraint firstItem="dWW-yZ-Rk1" firstAttribute="leading" secondItem="A51-8e-tsh" secondAttribute="leading" constant="16" id="tVQ-Bw-DEA"/>
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V8o-5o-NMf" customClass="AWSegmentView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                    <rect key="frame" x="0.0" y="53" width="393" height="44"/>
+                                    <rect key="frame" x="0.0" y="60" width="393" height="44"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="44" id="hyk-e0-Qva"/>
                                     </constraints>
                                 </view>
                                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" bouncesZoom="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Cr1-iH-6iW">
-                                    <rect key="frame" x="0.0" y="105" width="393" height="653"/>
+                                    <rect key="frame" x="0.0" y="112" width="393" height="646"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="n50-2a-2WB">
                                         <size key="itemSize" width="128" height="128"/>
@@ -94,7 +96,7 @@
                                 <constraint firstItem="V8o-5o-NMf" firstAttribute="leading" secondItem="yPm-SZ-Icj" secondAttribute="leading" id="Du0-d9-qto"/>
                                 <constraint firstAttribute="trailing" secondItem="Cr1-iH-6iW" secondAttribute="trailing" id="KgA-TD-4R3"/>
                                 <constraint firstItem="Cr1-iH-6iW" firstAttribute="leading" secondItem="yPm-SZ-Icj" secondAttribute="leading" id="NN8-e3-K25"/>
-                                <constraint firstItem="V8o-5o-NMf" firstAttribute="top" secondItem="A51-8e-tsh" secondAttribute="bottom" id="RUl-6c-3Rl"/>
+                                <constraint firstItem="V8o-5o-NMf" firstAttribute="top" secondItem="A51-8e-tsh" secondAttribute="bottom" constant="16" id="RUl-6c-3Rl"/>
                                 <constraint firstItem="Cr1-iH-6iW" firstAttribute="top" secondItem="V8o-5o-NMf" secondAttribute="bottom" constant="8" id="RV2-hy-meY"/>
                                 <constraint firstAttribute="bottom" secondItem="Cr1-iH-6iW" secondAttribute="bottom" id="eOp-mQ-pj9"/>
                                 <constraint firstAttribute="trailing" secondItem="A51-8e-tsh" secondAttribute="trailing" id="lyd-Db-gnE"/>

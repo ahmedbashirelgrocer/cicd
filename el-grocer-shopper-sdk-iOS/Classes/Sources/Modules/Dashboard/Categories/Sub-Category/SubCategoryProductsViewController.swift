@@ -25,7 +25,7 @@ class SubCategoryProductsViewController: BasketBasicViewController {
     @IBOutlet weak var lblCategoryTitle: UILabel!
     @IBOutlet weak var buttonChangeCategory: AWButton!
     @IBOutlet weak var containerViewBottomConstraint: NSLayoutConstraint!
-    
+    @IBOutlet weak var subCategoriesViewTopConstraint: NSLayoutConstraint!
     
     private lazy var locationHeaderShopper: ElGrocerStoreHeaderShopper = {
         let locationHeader = ElGrocerStoreHeaderShopper.loadFromNib()
@@ -34,7 +34,7 @@ class SubCategoryProductsViewController: BasketBasicViewController {
         return locationHeader!
     }()
     private lazy var categoriesSegmentedView: ILSegmentView = {
-        let view = ILSegmentView(scrollDirection: self.abTestVarient == .vertical ? .vertical : .horizontal)
+        let view = ILSegmentView(scrollDirection: self.abTestVarient == .vertical ? .vertical : .horizontal, isCategories: true)
         view.onTap { [weak self] category in
             self?.viewModel.inputs.categorySwitchObserver.onNext(category)
         }
@@ -148,6 +148,8 @@ private extension SubCategoryProductsViewController {
         self.collectionView.delegate = self
         
         //
+        self.buttonChangeCategory.isHidden = !(self.abTestVarient == .bottomSheet)
+        self.subCategoriesViewTopConstraint.constant = self.abTestVarient == .bottomSheet ? 16 : 0
         self.buttonChangeCategory.setCaption1SemiBoldWhiteStyle()
         self.buttonChangeCategory.setTitle(localizedString("change_category_text", comment: ""), for: UIControl.State())
         
@@ -171,7 +173,6 @@ private extension SubCategoryProductsViewController {
         switch self.abTestVarient {
             
         case .vertical:
-            buttonChangeCategory.isHidden = true
             contentViewLeadingConstraint.isActive = false
             
             categoriesSegmentedView.topAnchor.constraint(equalTo: self.bannerView.bottomAnchor, constant: 8.0).isActive = true
@@ -191,9 +192,8 @@ private extension SubCategoryProductsViewController {
             self.categoriesSeparator.widthAnchor.constraint(equalToConstant: 1).isActive = true
             
         case .horizontal:
-            buttonChangeCategory.isHidden = true
-            categoriesSegmentedView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-            categoriesSegmentedView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+            categoriesSegmentedView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+            categoriesSegmentedView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
             categoriesSegmentedView.heightAnchor.constraint(equalToConstant: 114).isActive = true
             categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
             
@@ -202,7 +202,6 @@ private extension SubCategoryProductsViewController {
             
 
         case .bottomSheet:
-            buttonChangeCategory.isHidden = false
             bannerView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8).isActive = true
             bannerView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
             
@@ -279,7 +278,10 @@ private extension SubCategoryProductsViewController {
                     
                     self?.bannerView.banners = banners.map { $0.toBannerDTO() }
                     heightConstraint?.constant = height
-                    self?.view.layoutIfNeeded()
+                    
+                    UIView.animate(withDuration: 0.2) {
+                        self?.view.layoutIfNeeded()
+                    }
                 }
             }).disposed(by: disposeBag)
         

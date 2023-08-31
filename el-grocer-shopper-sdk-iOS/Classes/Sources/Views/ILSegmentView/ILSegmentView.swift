@@ -26,23 +26,25 @@ class ILSegmentView: UICollectionView {
         }
     }
     var scrollDirection: UICollectionView.ScrollDirection = .horizontal
+    var isCategories: Bool = false
     
     convenience init() {
         self.init(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         commonInit()
     }
     
-    convenience init(scrollDirection: UICollectionView.ScrollDirection) {
+    convenience init(scrollDirection: UICollectionView.ScrollDirection, isCategories: Bool = false) {
         self.init(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         
         self.scrollDirection = scrollDirection
+        self.isCategories = isCategories
         
         commonInit()
         
     }
     
     private func commonInit() {
-        if self.categories.isEmpty {
+        if self.isCategories {
             self.collectionViewLayout = {
                 let layout = UICollectionViewFlowLayout()
                 layout.scrollDirection = scrollDirection
@@ -50,7 +52,7 @@ class ILSegmentView: UICollectionView {
                 layout.minimumInteritemSpacing = 16
                 layout.minimumLineSpacing = 16
                 let edgeInset:CGFloat =  16
-                layout.sectionInset = UIEdgeInsets(top: edgeInset / 2, left: edgeInset, bottom: 0, right: edgeInset)
+                layout.sectionInset = UIEdgeInsets(top: edgeInset / 2, left: 0, bottom: 0, right: 0)
                 return layout
             }()
         } else {
