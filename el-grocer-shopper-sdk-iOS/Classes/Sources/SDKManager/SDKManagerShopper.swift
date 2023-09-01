@@ -447,8 +447,12 @@ public class SDKManagerShopper: NSObject, SDKManagerType, SBDChannelDelegate {
     public func startBasicThirdPartyInit() { }
     
     private func initializeSegment() {
-        let key = self.launchOptions?.environmentType == .live ? "cSnpTPUfDsW8zvEiA1AslFPegtWjNIlo"
-        : "twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b"
+        var key = self.launchOptions?.environmentType == .live ? kProductionSegmentKey : kStagingSegmentKey
+        
+        #if DEBUG
+        key = kStagingSegmentKey
+        #endif
+        
         let configuration = AnalyticsConfiguration(writeKey: key)
         configuration.use(SEGCleverTapIntegrationFactory())
         configuration.flushAt = 3

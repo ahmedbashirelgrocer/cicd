@@ -32,7 +32,8 @@ let KGoToMayBasket = "LoadMyBasketVC"
 let KGoBackToOrderScreen = "PendingStageReactiveted"
 let kBasketUpdateForEditNotificationKey = "UpdateBasketForEditNotification"
 let kStartCheckOutProcessKey = "allDataDonenPleaseStartCheckoutProcessFromMYBasketScreen"
-
+let kProductionSegmentKey = "cSnpTPUfDsW8zvEiA1AslFPegtWjNIlo"
+let kStagingSegmentKey = "twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b"
 //let kGoogleMapsApiKey   =  Bundle.main.bundleIdentifier == "elgrocer.com.ElGrocerShopper.SDK" ?  "AIzaSyCqtepDQi1zQc-k5FF0z6I84h5raUuBy2U" : "" // AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0 forlive
 
 let KGoToBasket = "gotoBackFromTabBar"
