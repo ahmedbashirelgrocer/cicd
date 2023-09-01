@@ -187,10 +187,6 @@ extension SubCategoryProductsViewController: UICollectionViewDataSource, UIColle
                 let maxHeight = self.locationHeaderFlavor.headerMaxHeight
                 headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,self.locationHeaderFlavor.headerMinHeight),maxHeight)
             }
-            
-            UIView.animate(withDuration: 0.2) {
-                self.view.layoutIfNeeded()
-            }
         }
     }
     
