@@ -1028,6 +1028,9 @@ class ProductCell : RxUICollectionViewCell {
         self.productGrocery = grocery
         self.productNameLabel.text = product.name
         
+        self.productContainer.layer.borderWidth = 1.0
+        self.productContainer.layer.borderColor = UIColor.colorWithHexString(hexString: "e4e4e4").cgColor
+        
         if self.productNameLabel.text?.isEmpty ?? false {
             self.productNameLabel.text = product.nameEn
         }

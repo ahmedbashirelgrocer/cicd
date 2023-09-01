@@ -224,14 +224,9 @@ struct StoreConfigs {
     init(remoteConfig: RemoteConfig) {
         self.init()
         
-        showProductsSection = remoteConfig[Keys.showProductsSection.rawValue].boolValue
-        if let categoryStyleString = remoteConfig[Keys.categoriesStyle.rawValue].stringValue, let style = CategoriesStyle(rawValue: categoryStyleString) {
-            categoriesStyle = style
-        }
-        
-        if let variant = remoteConfig[Keys.varient.rawValue].stringValue {
-            self.variant = Varient(rawValue: variant) ?? .baseline
-        }
+        self.showProductsSection = !(remoteConfig[Keys.showProductsSection.rawValue].stringValue == "false")
+        self.categoriesStyle = CategoriesStyle(rawValue: remoteConfig[Keys.categoriesStyle.rawValue].stringValue ?? "two_row") ?? .twoRows
+        self.variant = Varient(rawValue: remoteConfig[Keys.varient.rawValue].stringValue ?? "Baseline") ?? .baseline
         
         defaults.set(showProductsSection, forKey: Keys.showProductsSection.rawValue)
         defaults.set(categoriesStyle.rawValue, forKey: Keys.categoriesStyle.rawValue)
