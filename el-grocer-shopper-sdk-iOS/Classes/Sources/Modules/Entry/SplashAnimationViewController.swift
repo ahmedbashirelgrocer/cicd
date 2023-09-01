@@ -272,10 +272,7 @@ extension SplashAnimationViewController {
                 case .success(let response):
                     if let newData = response["data"] as? NSDictionary {
                         ElGrocerUtility.sharedInstance.appConfigData = AppConfiguration.init(dict: newData as! Dictionary<String, Any>)
-                        
-                        if let firebaseApp = FirebaseApp.app() {
-                            ABTestManager.shared.fetchRemoteConfigs(app: firebaseApp)
-                        }
+                            ABTestManager.shared.fetchRemoteConfigs()
                     }else{
                         self.configFailureCase()
                     }

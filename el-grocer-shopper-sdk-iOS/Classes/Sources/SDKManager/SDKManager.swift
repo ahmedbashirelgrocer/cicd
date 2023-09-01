@@ -415,9 +415,10 @@ class SDKManager: NSObject, SDKManagerType  {
         let environmentsPath = Bundle.resource.path(forResource: "EnvironmentVariables", ofType: "plist")
         let environmentsDict = NSDictionary(contentsOfFile: environmentsPath!)
         let dictionary = environmentsDict![configurationName] as! NSDictionary
+        
         guard let segmentSDKWriteKey = dictionary["segmentSDKWriteKey"] as? String else { return }
         
-        let configuration = AnalyticsConfiguration(writeKey: segmentSDKWriteKey)
+        let configuration = AnalyticsConfiguration(writeKey: "twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b")
         
         configuration.use(SEGCleverTapIntegrationFactory())
         configuration.flushAt = 3

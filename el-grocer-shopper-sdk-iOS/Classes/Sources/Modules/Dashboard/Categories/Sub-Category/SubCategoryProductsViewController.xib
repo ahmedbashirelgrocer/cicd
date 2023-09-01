@@ -17,6 +17,7 @@
                 <outlet property="contentView" destination="yPm-SZ-Icj" id="LrY-ED-VyN"/>
                 <outlet property="contentViewLeadingConstraint" destination="Jv3-lK-f5U" id="RXE-mO-1yC"/>
                 <outlet property="lblCategoryTitle" destination="dWW-yZ-Rk1" id="Dyu-EQ-JTx"/>
+                <outlet property="safeAreaView" destination="KkC-mK-UGM" id="VHd-Oj-0vt"/>
                 <outlet property="subCategoriesSegmentedView" destination="V8o-5o-NMf" id="Ose-mW-noJ"/>
                 <outlet property="subCategoriesViewTopConstraint" destination="RUl-6c-3Rl" id="aUb-bE-w60"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>

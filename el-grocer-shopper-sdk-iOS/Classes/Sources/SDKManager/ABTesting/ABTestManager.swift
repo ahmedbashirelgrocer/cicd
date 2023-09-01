@@ -36,7 +36,9 @@ class ABTestManager {
     
     init() { }
     
-    func fetchRemoteConfigs(app: FirebaseApp) {
+    func fetchRemoteConfigs() {
+        guard let app = sdkManager.isShopperApp ? FirebaseApp.app() : self.secondaryApp() else { return }
+        
         self.remoteConfig = RemoteConfig.remoteConfig(app: app)
         let settings = RemoteConfigSettings()
         settings.minimumFetchInterval = 0
@@ -52,6 +54,9 @@ class ABTestManager {
                     }
                     
                     self.storeConfigs = StoreConfigs.init(remoteConfig: self.remoteConfig)
+                    if sdkManager.isSmileSDK {
+                        self.configs = Configs.init(remoteConfig: self.remoteConfig)
+                    }
                 }
             } else {
                 elDebugPrint("remote config fetching error >> \(error?.localizedDescription ?? "Generic Error")")
@@ -75,34 +80,34 @@ class ABTestManager {
         }
     }
     
-    func fetchRemoteConfigs() {
-        guard let secondary = secondaryApp() else { return }
-        
-        self.remoteConfig = RemoteConfig.remoteConfig(app: secondary)
-        
-        let settings = RemoteConfigSettings()
-        settings.minimumFetchInterval = 0
-        remoteConfig.configSettings = settings
-        
-        self.remoteConfig.fetch { (status, error) -> Void in
-          if status == .success {
-              self.remoteConfig.activate { changed, error in
-                  if let error = error {
-                      print("Config not fetched")
-                      print("Error: \(error.localizedDescription)")
-                      self.testEvent.append("RemoteConfigActivateError:" + error.localizedDescription)
-                  } else {
-                      self.configs = Configs.init(remoteConfig: self.remoteConfig)
-                  }
-              }
-          } else {
-              self.testEvent.append("RemoteConfigFetchError:" + (error?.localizedDescription ?? "Generic Error"))
-              print("Config not fetched")
-              print("Error: \(error?.localizedDescription ?? "No error available.")")
-          }
-          // self.displayWelcome()
-        }
-    }
+//    func fetchRemoteConfigs() {
+//        guard let secondary = secondaryApp() else { return }
+//        
+//        self.remoteConfig = RemoteConfig.remoteConfig(app: secondary)
+//        
+//        let settings = RemoteConfigSettings()
+//        settings.minimumFetchInterval = 0
+//        remoteConfig.configSettings = settings
+//        
+//        self.remoteConfig.fetch { (status, error) -> Void in
+//          if status == .success {
+//              self.remoteConfig.activate { changed, error in
+//                  if let error = error {
+//                      print("Config not fetched")
+//                      print("Error: \(error.localizedDescription)")
+//                      self.testEvent.append("RemoteConfigActivateError:" + error.localizedDescription)
+//                  } else {
+//                      self.configs = Configs.init(remoteConfig: self.remoteConfig)
+//                  }
+//              }
+//          } else {
+//              self.testEvent.append("RemoteConfigFetchError:" + (error?.localizedDescription ?? "Generic Error"))
+//              print("Config not fetched")
+//              print("Error: \(error?.localizedDescription ?? "No error available.")")
+//          }
+//          // self.displayWelcome()
+//        }
+//    }
     
     fileprivate func secondaryApp() -> FirebaseApp? {
         if let secondary = FirebaseApp.app(name: firProjectName) {
@@ -129,16 +134,16 @@ class ABTestManager {
         FirebaseApp.configure(name: firProjectName, options: options)
         
         if let secondary = FirebaseApp.app(name: firProjectName) {
-            Installations.installations(app: secondary).authToken { result, error in
-                if let error = error {
-                    let error = ElGrocerError(error: error as NSError)
-                    print(error.localizedMessage)
-                    self.testEvent.append("AuthTokenFetchError:" + error.localizedDescription)
-                } else {
-                    self.authToken = result?.authToken ?? ""
-                    print("AuthToken_Secondary: \(result?.authToken ?? "NA")")
-                }
-            }
+//            Installations.installations(app: secondary).authToken { result, error in
+//                if let error = error {
+//                    let error = ElGrocerError(error: error as NSError)
+//                    print(error.localizedMessage)
+//                    self.testEvent.append("AuthTokenFetchError:" + error.localizedDescription)
+//                } else {
+//                    self.authToken = result?.authToken ?? ""
+//                    print("AuthToken_Secondary: \(result?.authToken ?? "NA")")
+//                }
+//            }
             
             return secondary
         } else {

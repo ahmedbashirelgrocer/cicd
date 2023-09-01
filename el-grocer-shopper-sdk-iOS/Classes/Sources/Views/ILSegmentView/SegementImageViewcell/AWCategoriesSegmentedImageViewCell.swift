@@ -15,7 +15,9 @@ class AWCategoriesSegmentedImageViewCell: UICollectionViewCell {
     
     override var isSelected: Bool {
         didSet {
-            self.lblTitle.textColor = self.isSelected ? UIColor.navigationBarColor() : UIColor.newBlackColor()
+            self.lblTitle.textColor = self.isSelected
+                ? ApplicationTheme.currentTheme.themeBasePrimaryColor
+                : UIColor.newBlackColor()
         }
     }
     
@@ -38,7 +40,7 @@ class AWCategoriesSegmentedImageViewCell: UICollectionViewCell {
             
             selectedBGView.layer.cornerRadius = 8
             selectedBGView.layer.borderWidth = 2
-            selectedBGView.layer.borderColor = UIColor.navigationBarColor().cgColor
+            selectedBGView.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
             
             return selectedBGView
         }()

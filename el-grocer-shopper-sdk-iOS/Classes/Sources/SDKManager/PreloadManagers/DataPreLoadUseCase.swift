@@ -216,6 +216,7 @@ class PreLoadData {
             case .success(let response):
                 if let newData = response["data"] as? NSDictionary {
                     ElGrocerUtility.sharedInstance.appConfigData = AppConfiguration.init(dict: newData as! Dictionary<String, Any>)
+                    ABTestManager.shared.fetchRemoteConfigs()
                 }else{
                     self.configFailureCase()
                 }

@@ -26,11 +26,27 @@ class SubCategoryProductsViewController: BasketBasicViewController {
     @IBOutlet weak var buttonChangeCategory: AWButton!
     @IBOutlet weak var containerViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var subCategoriesViewTopConstraint: NSLayoutConstraint!
-    
+    @IBOutlet weak var safeAreaView: UIView! {
+        didSet {
+            safeAreaView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+        }
+    }
     private lazy var locationHeaderShopper: ElGrocerStoreHeaderShopper = {
         let locationHeader = ElGrocerStoreHeaderShopper.loadFromNib()
         locationHeader?.translatesAutoresizingMaskIntoConstraints = false
         locationHeader?.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        return locationHeader!
+    }()
+    private lazy var locationHeader: ElgrocerlocationView = {
+        let locationHeader = ElgrocerlocationView.loadFromNib()
+        
+        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+        return locationHeader!
+    }()
+    private lazy var locationHeaderFlavor: ElgrocerStoreHeader = {
+        let locationHeader = ElgrocerStoreHeader.loadFromNib()
+        locationHeader?.setDismisType(.popVc)
+        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
         return locationHeader!
     }()
     private lazy var categoriesSegmentedView: ILSegmentView = {
@@ -84,40 +100,117 @@ class SubCategoryProductsViewController: BasketBasicViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        self.navigationController?.navigationBar.isHidden = true
+        self.setupNavigationBar()
+    }
+    
+    override func backButtonClick() {
+        self.backButtonPressed()
+    }
+    
+    override func backButtonClickedHandler() {
+        self.backButtonPressed()
+    }
+    
+    @IBAction func showCategoriesBottomSheet(_ sender: Any) {
+        self.viewModel.inputs.categoriesButtonTapObserver.onNext(())
     }
     
     @objc func backButtonPressed() {
         self.navigationController?.popViewController(animated: true)
     }
-    
-    
-    @IBAction func showCategoriesBottomSheet(_ sender: Any) {
-        self.viewModel.inputs.categoriesButtonTapObserver.onNext(())
-    }
 }
 
-// MARK: Helpers
-private extension SubCategoryProductsViewController {
-    func setupViews() {
-        self.view.addSubview(self.bannerView)
+// MARK: Collection view delegates and datasources
+extension SubCategoryProductsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.cellViewModels.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let viewModel = self.cellViewModels[indexPath.row]
         
-        // conditionaly adding categories segmented view for varients other than bottom sheet
-        if self.abTestVarient != .bottomSheet && self.abTestVarient != .baseline {
-            self.view.addSubview(self.categoriesSegmentedView)
-            if self.abTestVarient == .vertical {
-                self.view.addSubview(self.categoriesSeparator)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUICollectionViewCell
+        cell.configure(viewModel: viewModel)
+        return cell
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // Pagination
+        let cellHeight = self.abTestVarient == .vertical ? 237 : 264
+        let rowsThreshold = CGFloat(4 * cellHeight)
+        let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
+
+        if y  > scrollView.contentSize.height - rowsThreshold {
+            if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y < 0 {
+                self.viewModel.inputs.fetchMoreProducts.onNext(())
             }
         }
         
-        // adding headers
-        if sdkManager.isShopperApp {
-            self.view.addSubview(self.locationHeaderShopper)
-            self.locationHeaderShopper.configuredLocationAndGrocey(self.viewModel.grocery)
-            self.locationHeaderShopper.setSlotData()
-        } else {
-            // add SDK header
+        self.collapseHeaderOnScroll(scrollView)
+        self.collapseBannerOnScroll(scrollView)
+    }
+    
+    private func collapseHeaderOnScroll(_ scrollView: UIScrollView) {
+        let marketType = sdkManager.launchOptions?.marketType ?? .shopper
+        
+        switch marketType {
+            
+        case .marketPlace:
+            let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
+            if constraintA.count > 0 {
+                let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+                let headerViewHeightConstraint = constraint
+                let maxHeight = self.locationHeader.headerMaxHeight
+                headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,64),maxHeight)
+            }
+            
+            self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
+            self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
+            let title = scrollView.contentOffset.y > 40 ? self.viewModel.grocery.name : ""
+            (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor()
+            self.title = title
+            self.navigationController?.navigationBar.topItem?.title = title
+            
+        case .shopper:
+            offset = scrollView.contentOffset.y
+            let value = min(effectiveOffset, scrollView.contentOffset.y)
+            
+            self.locationHeaderShopper.searchViewTopAnchor.constant = 62 - value
+            self.locationHeaderShopper.searchViewLeftAnchor.constant = 16 + ((value / 60) * 30)
+            self.locationHeaderShopper.groceryBGView.alpha = max(0, 1 - (value / 60))
+            
+        case .grocerySingleStore:
+            let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
+            if constraintA.count > 0 {
+                let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+                let headerViewHeightConstraint = constraint
+                let maxHeight = self.locationHeaderFlavor.headerMaxHeight
+                headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,self.locationHeaderFlavor.headerMinHeight),maxHeight)
+            }
+            
+            UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+            }
         }
+    }
+    
+    private func collapseBannerOnScroll(_ scrollView: UIScrollView) {
+        let height = self.bannerView.constraints.first(where: { $0.firstAttribute == .height })
+        if height?.constant != 0 {
+            offset = scrollView.contentOffset.y
+            height?.constant = ((ScreenSize.SCREEN_WIDTH - 32) / 2) - offset
+        }
+    }
+}
+
+// MARK: - Setup Views
+private extension SubCategoryProductsViewController {
+    func setupViews() {
+        self.setupNavigationBar()
+        
+        self.view.addSubview(self.bannerView)
+        self.setupCategoriesView()
+        self.setupNavigationHeader()
         
         // sub-categories segmented view setup
         subCategoriesSegmentedView.segmentViewType = .subCategories
@@ -125,7 +218,61 @@ private extension SubCategoryProductsViewController {
         subCategoriesSegmentedView.commonInit()
         subCategoriesSegmentedView.segmentDelegate = self
         
-        // collection view cell registration and layout setup
+        self.setupCollectionView()
+        
+        //
+        self.buttonChangeCategory.setCaption1SemiBoldWhiteStyle()
+        self.buttonChangeCategory.setTitle(localizedString("change_category_text", comment: ""), for: UIControl.State())
+        self.buttonChangeCategory.backgroundColor = ApplicationTheme.currentTheme.pillSelectedBGColor
+        
+        self.basketIconOverlay?.shouldShow = true
+        self.basketIconOverlay?.grocery = self.viewModel.grocery
+    }
+    
+    func setupNavigationHeader() {
+        let marketType = sdkManager.launchOptions?.marketType ?? .shopper
+        
+        switch marketType {
+        case .marketPlace:
+            self.view.addSubview(self.locationHeader)
+            self.locationHeader.configuredLocationAndGrocey(self.viewModel.grocery)
+            self.locationHeader.setSlotData()
+            
+        case .shopper:
+            self.view.addSubview(self.locationHeaderShopper)
+            self.locationHeaderShopper.configuredLocationAndGrocey(self.viewModel.grocery)
+            self.locationHeaderShopper.setSlotData()
+            
+        case .grocerySingleStore:
+            self.view.addSubview(self.locationHeaderFlavor)
+            self.locationHeaderFlavor.configureHeader(grocery: self.viewModel.grocery, location: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress())
+        }
+    }
+    
+    func setupNavigationBar() {
+        if !sdkManager.isGrocerySingleStore {
+            (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
+            (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
+            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
+            (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
+        }
+        self.navigationItem.hidesBackButton = true
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+        if let controller = self.navigationController as? ElGrocerNavigationController {
+            controller.setNavBarHidden(sdkManager.isGrocerySingleStore)
+            controller.setupGradient()
+        }
+
+        if sdkManager.isShopperApp {
+            self.navigationController?.navigationBar.isHidden = true
+        }
+    }
+    
+    func setupCollectionView() {
         self.collectionView.register(UINib(nibName: ProductCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: ProductCell.defaultIdentifier)
         
         var itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 22) / 2, height: 264)
@@ -157,17 +304,26 @@ private extension SubCategoryProductsViewController {
         self.basketIconOverlay?.grocery = self.viewModel.grocery
     }
     
+    func setupCategoriesView() {
+        if self.abTestVarient == .vertical || self.abTestVarient == .horizontal {
+            self.view.addSubview(self.categoriesSegmentedView)
+            if self.abTestVarient == .vertical {
+                self.view.addSubview(self.categoriesSeparator)
+            }
+        }
+    }
+}
+
+// MARK: Setup Constraints
+private extension SubCategoryProductsViewController {
     func setupConstraint() {
         // headers constraint
-        if sdkManager.isShopperApp {
-            self.view.addSubview(self.locationHeaderShopper)
-            locationHeaderShopper.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-            locationHeaderShopper.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-            locationHeaderShopper.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-            
-        } else {
-
-        }
+        let locationHeader = setupLocationHeaderConstraint()
+        
+        locationHeader.bottomAnchor.constraint(equalTo: bannerView.topAnchor, constant: -8).isActive = true
+        bannerView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
+        bannerView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
+        bannerView.heightAnchor.constraint(equalToConstant: 0).isActive = true
         
         // categories and banner view constraint on the base of varient
         switch self.abTestVarient {
@@ -180,7 +336,7 @@ private extension SubCategoryProductsViewController {
             categoriesSegmentedView.widthAnchor.constraint(equalToConstant: 80).isActive = true
             categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
             
-            bannerView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8).isActive = true
+//            bannerView.topAnchor.constraint(equalTo: locationHeader.bottomAnchor, constant: 8).isActive = true
             
             contentView.leadingAnchor.constraint(equalTo: categoriesSegmentedView.trailingAnchor).isActive = true
             bannerView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
@@ -197,23 +353,54 @@ private extension SubCategoryProductsViewController {
             categoriesSegmentedView.heightAnchor.constraint(equalToConstant: 114).isActive = true
             categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
             
-            bannerView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8).isActive = true
+//            bannerView.topAnchor.constraint(equalTo: locationHeader.bottomAnchor, constant: 8).isActive = true
             bannerView.bottomAnchor.constraint(equalTo: self.categoriesSegmentedView.topAnchor).isActive = true
             
 
         case .bottomSheet:
-            bannerView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8).isActive = true
+//            bannerView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8).isActive = true
             bannerView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
             
         case .baseline: break
         }
-        
-        
-        bannerView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
-        bannerView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
-        bannerView.heightAnchor.constraint(equalToConstant: 0).isActive = true
     }
     
+    func setupLocationHeaderConstraint() -> UIView {
+        let marketType = sdkManager.launchOptions?.marketType ?? .shopper
+        
+        switch marketType {
+        case .marketPlace:
+            NSLayoutConstraint.activate([
+                self.locationHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+                self.locationHeader.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                self.locationHeader.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                self.locationHeader.heightAnchor.constraint(equalToConstant: self.locationHeader.headerMaxHeight)
+            ])
+            return locationHeader
+            
+        case .shopper:
+            NSLayoutConstraint.activate([
+                locationHeaderShopper.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                locationHeaderShopper.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                locationHeaderShopper.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            ])
+            return locationHeaderShopper
+            
+        case .grocerySingleStore:
+            
+            NSLayoutConstraint.activate([
+                self.locationHeaderFlavor.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+                self.locationHeaderFlavor.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                self.locationHeaderFlavor.widthAnchor.constraint(equalToConstant: ScreenSize.SCREEN_WIDTH),
+                self.locationHeaderFlavor.heightAnchor.constraint(equalToConstant: self.locationHeaderFlavor.headerMaxHeight),
+            ])
+            return locationHeaderFlavor
+        }
+    }
+}
+
+// MARK: - Views Binding
+private extension SubCategoryProductsViewController {
     func bindViews() {
         viewModel.outputs.categories
             .bind(to: categoriesSegmentedView.rx.categories)
@@ -243,7 +430,7 @@ private extension SubCategoryProductsViewController {
             .bind(to: self.lblCategoryTitle.rx.text)
             .disposed(by: disposeBag)
         
-        self.viewModel.outputs.productCellViewModels
+        viewModel.outputs.productCellViewModels
             .subscribe(onNext: { [weak self] viewModels in
                 guard let self = self else { return }
                 
@@ -251,11 +438,11 @@ private extension SubCategoryProductsViewController {
                 self.collectionView.reloadData()
             }).disposed(by: disposeBag)
         
-        self.viewModel.outputs.loading
-            .subscribe(onNext: { [weak self] loading in
+        viewModel.outputs.loading
+            .subscribe(onNext: { loading in
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
                     if loading {
-                        SpinnerView.showSpinnerView()
+                        _ = SpinnerView.showSpinnerView()
                     }else {
                         SpinnerView.hideSpinnerView()
                     }
@@ -265,23 +452,21 @@ private extension SubCategoryProductsViewController {
         viewModel.outputs.error
             .map { ElGrocerError(error: ($0 ?? ElGrocerError.genericError()) as NSError) }
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] error in
-                error.showErrorAlert()
+            .subscribe(onNext: { _ in
+//                error.showErrorAlert()
             })
             .disposed(by: disposeBag)
         
         viewModel.outputs.banners
             .subscribe(onNext: { [weak self] banners in
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    let height = banners.isEmpty ? 0.0 : (ScreenSize.SCREEN_WIDTH - 32) / 2
-                    let heightConstraint = self?.bannerView.constraints.first(where: { $0.firstAttribute == .height })
-                    
-                    self?.bannerView.banners = banners.map { $0.toBannerDTO() }
-                    heightConstraint?.constant = height
-                    
-                    UIView.animate(withDuration: 0.2) {
-                        self?.view.layoutIfNeeded()
-                    }
+                let height = banners.isEmpty ? 0.0 : (ScreenSize.SCREEN_WIDTH - 32) / 2
+                let heightConstraint = self?.bannerView.constraints.first(where: { $0.firstAttribute == .height })
+                
+                self?.bannerView.banners = banners.map { $0.toBannerDTO() }
+                heightConstraint?.constant = height
+                
+                UIView.animate(withDuration: 0.2) {
+                    self?.view.layoutIfNeeded()
                 }
             }).disposed(by: disposeBag)
         
@@ -303,7 +488,10 @@ private extension SubCategoryProductsViewController {
                 }
             }).disposed(by: disposeBag)
     }
-    
+}
+
+// MARK: - Navigations
+private extension SubCategoryProductsViewController {
     func showCategoriesBottomSheet(categories: [CategoryDTO]) {
         let viewModel = CategorySelectionViewModel(categories: categories)
         let categoriesVC = CategorySelectionBottomSheetViewController.make(viewModel: viewModel)
@@ -366,8 +554,10 @@ private extension SubCategoryProductsViewController {
             break
         }
     }
+
 }
 
+// MARK: Sub-category segmented view delegates
 extension SubCategoryProductsViewController: AWSegmentViewProtocol {
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex: Int) { }
     
@@ -376,46 +566,5 @@ extension SubCategoryProductsViewController: AWSegmentViewProtocol {
         
         // Logging segment event for sub-category clicked
         SegmentAnalyticsEngine.instance.logEvent(event: ProductSubCategoryClickedEvent(subCategory: selectedSubCategory))
-    }
-}
-
-extension SubCategoryProductsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.cellViewModels.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let viewModel = self.cellViewModels[indexPath.row]
-        
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUICollectionViewCell
-        cell.configure(viewModel: viewModel)
-        return cell
-    }
-    
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // Pagination
-        let cellHeight = self.abTestVarient == .vertical ? 237 : 264
-        let rowsThreshold = CGFloat(4 * cellHeight)
-        let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
-
-        if y  > scrollView.contentSize.height - rowsThreshold {
-            if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y < 0 {
-                self.viewModel.inputs.fetchMoreProducts.onNext(())
-            }
-        }
-        
-        // Header constraint changes
-        offset = scrollView.contentOffset.y
-        let value = min(effectiveOffset, scrollView.contentOffset.y)
-        
-        self.locationHeaderShopper.searchViewTopAnchor.constant = 62 - value
-        self.locationHeaderShopper.searchViewLeftAnchor.constant = 16 + ((value / 60) * 30)
-        self.locationHeaderShopper.groceryBGView.alpha = max(0, 1 - (value / 60))
-        
-        // Banner view constraint
-        let height = self.bannerView.constraints.first(where: { $0.firstAttribute == .height })
-        if height?.constant != 0 {
-            height?.constant = ((ScreenSize.SCREEN_WIDTH - 32) / 2) - offset
-        }
     }
 }

@@ -128,8 +128,6 @@ extension ILSegmentView: UICollectionViewDataSource, UICollectionViewDelegate {
             
             return cell
         }
-        
-        return UICollectionViewCell()
     }
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
