@@ -30,7 +30,7 @@ class AWSegmentViewCell: UICollectionViewCell {
 
     }
     
-    func configareCellWithTitle(_ segmentTitle:String, withSelectedState isSelected: Bool){
+    func configareCellWithTitle(_ segmentTitle:String, withSelectedState isSelected: Bool, borderColor: UIColor? = nil){
         
         self.outerView.layer.cornerRadius = 19 //self.outerView.layer.frame.height / 2
         
@@ -51,7 +51,8 @@ class AWSegmentViewCell: UICollectionViewCell {
             self.outerView.backgroundColor = ApplicationTheme.currentTheme.pillUnSelectedBGColor
             self.segmentTitleLabel.textColor = ApplicationTheme.currentTheme.pillUnSelectedTextColor
             self.outerView.borderColor = ApplicationTheme.currentTheme.pillUnSelectedBGColor
-            self.outerView.borderWidth = 0
+            self.outerView.borderWidth = borderColor == nil ? 0 : 1
+            self.outerView.borderColor = borderColor ?? .clear
             self.outerView.backgroundColor = ApplicationTheme.currentTheme.pillUnSelectedBGColor
         }
         

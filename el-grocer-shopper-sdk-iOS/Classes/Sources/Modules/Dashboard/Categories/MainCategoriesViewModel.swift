@@ -17,16 +17,17 @@ protocol MainCategoriesViewModelInput {
 protocol MainCategoriesViewModelOutput {
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { get }
     var loading: Observable<Bool> { get }
-    func heightForCell(indexPath: IndexPath) -> CGFloat
     
     var viewAllCategories: Observable<Grocery?> { get }
     var viewAllProductsOfCategory: Observable<CategoryDTO?> { get }
     var viewAllProductOfRecentPurchase: Observable<Grocery?> { get }
     var categoryTap: Observable<CategoryDTO> { get }
     var bannerTap: Observable<BannerDTO> { get }
-    var reloadTable: Observable<Bool> { get }
     var refreshBasket: Observable<Void> { get }
     var showEmptyView: Observable<Void> { get }
+    var chefTap: Observable<CHEF?> { get }
+    var viewAllRecipesTap: Observable<Void> { get }
+    var categories: [CategoryDTO] { get }
     
     func dataValidationForLoadedGroceryNeedsToUpdate(_ newGrocery: Grocery?) -> Bool
 }
@@ -58,8 +59,9 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     var viewAllProductOfRecentPurchase: Observable<Grocery?> {viewAllProductOfRecentPurchaseSubject.asObservable() }
     var bannerTap: Observable<BannerDTO> { bannerTapSubject.asObservable() }
     var categoryTap: Observable<CategoryDTO> { categoryTapSubject.asObservable() }
-    var reloadTable: Observable<Bool> { reloadTableSubject.asObservable() }
     var showEmptyView: Observable<Void> { showEmptyViewSubject.asObservable() }
+    var chefTap: Observable<CHEF?> { chefTapSubject.asObservable() }
+    var viewAllRecipesTap: Observable<Void> { viewAllRecipesTapSubject.asObservable() }
     
     // MARK: subjects
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
@@ -71,18 +73,20 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var viewAllProductOfRecentPurchaseSubject = PublishSubject<Grocery?>()
     private var bannerTapSubject = PublishSubject<BannerDTO>()
     private var categoryTapSubject = PublishSubject<CategoryDTO>()
-    private var reloadTableSubject = PublishSubject<Bool>()
     private var refreshProductCellSubject = PublishSubject<Void>()
     private var showEmptyViewSubject = PublishSubject<Void>()
+    private var chefTapSubject = PublishSubject<CHEF?>()
+    private var viewAllRecipesTapSubject = PublishSubject<Void>()
     
     // MARK: properties
     private var apiClient: ElGrocerApi
+    private var recipeAPIClient: ELGrocerRecipeMeduleAPI
     private var deliveryAddress: DeliveryAddress?
     private var grocery: Grocery?
     
     private var viewModels: [SectionModel<Int, ReusableTableViewCellViewModelType>] = []
     
-    private var categories = [CategoryDTO]()
+    var categories = [CategoryDTO]()
     private var isCategoriesApiCompleted = false
     
     private var categoriesCellVMs = [ReusableTableViewCellViewModelType]()
@@ -90,15 +94,21 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var location2BannerVMs = [ReusableTableViewCellViewModelType]()
     private var homeCellVMs = [ReusableTableViewCellViewModelType]()
     private var recentPurchasedVM = [ReusableTableViewCellViewModelType]()
+    private var chefCellVMs = [ReusableTableViewCellViewModelType]()
+    private var recipeCellVMs = [ReusableTableViewCellViewModelType]()
     
     private var dispatchGroup = DispatchGroup()
     private var bannersDispatchGroup = DispatchGroup()
+    private let dispatchGroupRecipe = DispatchGroup()
     private var disposeBag = DisposeBag()
     private var apiCallingStatus: [IndexPath: Bool] = [:]
+    
+    private var showProductsSection = ABTestManager.shared.storeConfigs.showProductsSection
 
     // MARK: initlizations
-    init(apiClient: ElGrocerApi = ElGrocerApi.sharedInstance, grocery: Grocery?, deliveryAddress: DeliveryAddress?) {
+    init(apiClient: ElGrocerApi = ElGrocerApi.sharedInstance, recipeAPIClient: ELGrocerRecipeMeduleAPI = ELGrocerRecipeMeduleAPI(), grocery: Grocery?, deliveryAddress: DeliveryAddress?) {
         self.apiClient = apiClient
+        self.recipeAPIClient = recipeAPIClient
         self.grocery = grocery
         self.deliveryAddress = deliveryAddress
         self.isCategoriesApiCompleted = false
@@ -115,19 +125,24 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
             
-            //
-            if self.homeCellVMs.isNotEmpty {
-                
-                if self.location1BannerVMs.isNotEmpty {
-                    self.viewModels.append(SectionModel(model: 0, items: self.location1BannerVMs))
-                }
-                
-                self.viewModels.append(SectionModel(model: 1, items: self.categoriesCellVMs))
-                
-                if self.recentPurchasedVM.isNotEmpty {
-                    self.viewModels.append(SectionModel(model: 2, items: self.recentPurchasedVM))
-                }
-                
+            if self.location1BannerVMs.isNotEmpty {
+                self.viewModels.append(SectionModel(model: 0, items: self.location1BannerVMs))
+            }
+            
+            self.viewModels.append(SectionModel(model: 1, items: self.categoriesCellVMs))
+            
+            if self.recentPurchasedVM.isNotEmpty {
+                self.viewModels.append(SectionModel(model: 2, items: self.recentPurchasedVM))
+            }
+            
+            // Show Tier 2 Banners after categories section for all varient / experiment except baseline
+            // for baseline showProductsSection value is true
+            if self.showProductsSection == false && self.location2BannerVMs.isNotEmpty {
+                self.viewModels.append(SectionModel(model: 3, items: self.location2BannerVMs))
+            }
+            
+            // Show Produt Section for base varient only
+            if self.showProductsSection && self.homeCellVMs.isNotEmpty {
                 var result: [ReusableTableViewCellViewModelType] = []
                 for index in 0...self.homeCellVMs.count - 1 {
                     result.append(self.homeCellVMs[index])
@@ -143,24 +158,24 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
                             }
                         }
                     }
-                    
                 }
                 
                 self.viewModels.append(SectionModel(model: 3, items: result))
-                self.cellViewModelsSubject.onNext(self.viewModels)
-            } else {
-                if self.isCategoriesApiCompleted {
-                    self.showEmptyViewSubject.onNext(())
-                }
-            }
-             if self.isCategoriesApiCompleted {
-                self.loadingSubject.onNext(false)
             }
             
+            if self.isCategoriesApiCompleted && self.categoriesCellVMs.isEmpty {
+                self.showEmptyViewSubject.onNext(())
+            } else {
+                self.cellViewModelsSubject.onNext(self.viewModels)
+                
+                // checking recipes and fetched if availability and fetch if available
+                self.checkRecipes()
+            }
+            self.loadingSubject.onNext(false)
         }
         
         self.scrollSubject.asObservable().subscribe(onNext: { [weak self] indexPath in
-            guard let self = self else { return }
+            guard let self = self, self.showProductsSection else { return }
             
             if self.apiCallingStatus[indexPath] == nil, self.homeCellVMs.count >  indexPath.row {
                 guard let vm = self.homeCellVMs[indexPath.row] as? HomeCellViewModel else { return }
@@ -171,34 +186,6 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
                 self.apiCallingStatus[indexPath] = true
             }
         }).disposed(by: self.disposeBag)
-    }
-    
-    func heightForCell(indexPath: IndexPath) -> CGFloat {
-        switch self.viewModels[indexPath.section].items.first {
-
-        case is GenericBannersCellViewModel:
-            return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
-        
-        case is CategoriesCellViewModel:
-            return categories.count > 5 ? 306 : 196
-        
-        case is HomeCellViewModel:
-            // This check is for recent purchases, for recent purchased there will be only one HomeCellViewModel.
-            if self.viewModels[indexPath.section].items.count == 1 && self.recentPurchasedVM.isNotEmpty {
-                return 321
-            }
-            
-            if self.viewModels[indexPath.section].items[indexPath.row] is HomeCellViewModel {
-                return (self.viewModels[indexPath.section].items[indexPath.row] as! HomeCellViewModel).outputs.isProductsAvailable() ? 321 : CGFloat(0.01)
-            } else if self.viewModels[indexPath.section].items[indexPath.row] is GenericBannersCellViewModel {
-                return (ScreenSize.SCREEN_WIDTH / CGFloat(2)) + 20
-            } else {
-                return 0
-            }
-        
-        default:
-            return 0
-        }
     }
 }
 
@@ -263,10 +250,18 @@ private extension MainCategoriesViewModel {
                 }
                 DatabaseHelper.sharedInstance.saveDatabase()
                 
-                
-                self.categories.append(CategoryDTO(dic: ["id" : -1, "image_url" : "shoping_list_cell_icon", "name" : localizedString("search_by_shopping_list_text", comment: "") , "name_ar" : "البحث بقائمة التسوق"]))
                 categoriesDB.forEach { categoryDB in
                     self.categories.append(CategoryDTO(category: categoryDB))
+                }
+                
+                let shoppingList = CategoryDTO(dic: ["id": -1, "image_url": "ic_shopping_list", "name": localizedString("search_by_shopping_list_text", comment: "") , "name_ar": "البحث بقائمة التسوق"])
+                let buyItAgain = CategoryDTO(dic: ["id" : -2, "image_url" : "ic_buy_it_again", "name" : localizedString("buy_it_again_text", comment: ""), "name_ar" : "البحث بقائمة التسوق"])
+                
+                if self.showProductsSection {
+                    self.categories.insert(shoppingList, at: 0)
+                } else {
+                    self.categories.insert(buyItAgain, at: 0)
+                    self.categories.insert(shoppingList, at: 3)
                 }
                 
                 let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)
@@ -276,20 +271,21 @@ private extension MainCategoriesViewModel {
                 categoriesCellVM.outputs.tap.bind(to: self.categoryTapSubject).disposed(by: self.disposeBag)
                 self.categoriesCellVMs = [categoriesCellVM]
                 
-                // creating home cell view models
-                // TODO: Need to update the logic of for shopping list
-                self.homeCellVMs = self.categories.filter { $0.id != -1 }.map({
-                    let viewModel = HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery)
-                    viewModel.outputs.viewAll.bind(to: self.viewAllProductsOfCategorySubject).disposed(by: self.disposeBag)
-                    self.refreshProductCellSubject.bind(to: viewModel.inputs.refreshProductCellObserver).disposed(by: self.disposeBag)
-                    
-                    viewModel.outputs.isProductAvailable
-                        .filter { $0 }
-                        .bind(to: self.reloadTableSubject)
-                        .disposed(by: self.disposeBag)
-                    
-                    return viewModel
-                })
+                if self.showProductsSection {
+                    // TODO: Need to update the logic of for shopping list
+                    self.homeCellVMs = self.categories.filter { $0.id != -1 }.map({
+                        let viewModel = HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery)
+                        
+                        viewModel.outputs.viewAll
+                            .bind(to: self.viewAllProductsOfCategorySubject)
+                            .disposed(by: self.disposeBag)
+                        
+                        self.refreshProductCellSubject.bind(to: viewModel.inputs.refreshProductCellObserver).disposed(by: self.disposeBag)
+                        
+                        return viewModel
+                    })
+                }
+                
                 self.dispatchGroup.leave()
                 break
             case .failure(let error):
@@ -336,7 +332,8 @@ private extension MainCategoriesViewModel {
     }
     
     func fetchPreviousPurchasedProducts(deliveryTime: Int?) {
-        if !UserDefaults.isUserLoggedIn() {
+        // As for varient other than baseline we are not showing
+        if !UserDefaults.isUserLoggedIn() || self.showProductsSection == false {
             return
         }
     
@@ -375,6 +372,119 @@ private extension MainCategoriesViewModel {
                 //    print("handle error >> \(error)")
                 break
             }
+        }
+    }
+}
+
+// MARK: Fetching reciipe section data
+fileprivate extension MainCategoriesViewModel {
+    func checkRecipes() {
+        if sdkManager.isSmileSDK { return }
+        
+        guard let grocery = self.grocery else { return }
+        let retailerString = ElGrocerUtility.sharedInstance.GenerateRetailerIdString(groceryA: [grocery])
+        
+        ELGrocerRecipeMeduleAPI().getRecipeListNew(offset: "0" , Limit: "1", recipeID: nil, ChefID: nil, shopperID: nil, categoryID: nil, retailerIDs: retailerString) { [weak self] (result) in
+            
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let response):
+                
+                if let dataDictionary = response["data"] as? [NSDictionary] {
+                    if dataDictionary.isNotEmpty {
+                        self.fetchRecipeAndChef()
+                    }
+                }
+            case .failure( _):
+                break
+                
+            }
+        }
+    }
+    
+    func fetchRecipeAndChef() {
+        self.fetchChefs()
+        self.fetchRecipes()
+        
+        self.dispatchGroupRecipe.notify(queue: .main) {
+            ElGrocerUtility.sharedInstance.delay(0.2) {
+                let title = localizedString("shop_by_ingredients_text", comment: "")
+                
+                let titleVM = TableViewTitleCellViewModel(title: title, showViewMore: true)
+                titleVM.outputs.viewAll
+                    .bind(to: self.viewAllRecipesTapSubject)
+                    .disposed(by: self.disposeBag)
+                
+                if self.recipeCellVMs.isNotEmpty {
+                    let recipeSectionVMs = [titleVM] + self.chefCellVMs + self.recipeCellVMs
+                    
+                    self.viewModels.append(SectionModel(model: 4, items: recipeSectionVMs))
+                    self.cellViewModelsSubject.onNext(self.viewModels)
+                }
+            }
+        }
+    }
+    
+    func fetchChefs() {
+        guard let grocery = self.grocery else { return }
+        let retailerIDString = ElGrocerUtility.sharedInstance.GenerateRetailerIdString(groceryA: [grocery])
+        
+
+        self.dispatchGroupRecipe.enter()
+        self.recipeAPIClient.getChefList(offset: "0" , Limit: "1000", chefID: "" , retailerIDs: retailerIDString) { [weak self] (result) in
+            guard let self = self else { return }
+            
+            self.dispatchGroupRecipe.leave()
+            
+            switch result {
+                
+            case .success(let response):
+                if let dataDictionary = response["data"] as? [NSDictionary] {
+                    if dataDictionary.isNotEmpty {
+                        let chefs: [CHEF] = dataDictionary.map { CHEF.init(chefDict: $0 as! Dictionary<String, Any>) }
+                        let chefCellVM = ElgrocerCategorySelectViewModel(chefList: chefs, selectedChef: nil)
+                        chefCellVM.outputs.chefTap
+                            .bind(to: self.chefTapSubject)
+                            .disposed(by: self.disposeBag)
+                        
+                        self.chefCellVMs = [chefCellVM]
+                    }
+                }
+                
+            case .failure(let error):
+                error.showErrorAlert()
+            }
+            
+        }
+    }
+    
+    func fetchRecipes() {
+        guard let grocery = self.grocery else { return }
+        let retailerIDString = ElGrocerUtility.sharedInstance.GenerateRetailerIdString(groceryA: [grocery])
+        let kfeaturedCategoryId : Int64 = 0
+        
+        self.dispatchGroupRecipe.enter()
+        self.recipeAPIClient.getRecipeListNew(offset: "0", Limit: "100", recipeID: nil, ChefID: nil, shopperID: nil, categoryID: kfeaturedCategoryId, retailerIDs: retailerIDString) {
+            [weak self] (result) in
+            
+            self?.dispatchGroupRecipe.leave()
+            
+            switch result {
+                
+            case .success(let response):
+                if let dataDictionary = response["data"] as? [NSDictionary] {
+                    
+                    if dataDictionary.isNotEmpty {
+                        let recipes: [Recipe] = dataDictionary.map { Recipe.init(recipeData: $0 as! Dictionary<String, Any>) }
+                        let recipeCellVM = RecipeCellViewModel(recipeList: recipes)
+                        self?.recipeCellVMs = [recipeCellVM]
+                    }
+                }
+            case .failure(let error):
+                error.showErrorAlert()
+            }
+            
         }
     }
 }

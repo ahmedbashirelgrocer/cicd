@@ -1798,6 +1798,7 @@
 "lbl_no_saved_card_description" = "أضف طريقة الدفع الأولى الخاصة بك";
 //MARK: Home Page
 "lbl_featured_recepies_title" = "الوصفات المميزة";
+"shop_by_ingredients_text" = "تسوق حسب مكونات الوصفة";
 
 
 
@@ -2240,6 +2241,9 @@
 // Smiles SDK Home
 "lbl_AvailableStores_Smiles_Home" = "المتاجر المتاحة (%@)";
 "search_by_shopping_list_text" = "البحث بقائمة التسوق";
+"buy_it_again_text" = "إعادة الشراء";
+"change_category_text" = "تغيير الفئة";
+"choose_different_category_text" = "اختر فئة أخرى";
 
 
 // Navigation Updated screen's updated Strings

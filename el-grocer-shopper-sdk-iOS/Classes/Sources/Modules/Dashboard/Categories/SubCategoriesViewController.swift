@@ -305,6 +305,14 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex:Int) {
         self.viewHandler.subCategorySegmentIndexChange(selectedSegmentIndex)
         self.collectionView.setContentOffset(CGPoint.zero, animated: false)
+        
+        // Logging segment for sub-category changed
+        let selectedSubcategory = selectedSegmentIndex != 0
+            ? self.viewHandler.getsubCategories()[selectedSegmentIndex - 1]
+            : SubCategory.init(id: -1, name: "All Categories")
+        
+        let event = ProductSubCategoryClickedEvent(subCategory: selectedSubcategory)
+        SegmentAnalyticsEngine.instance.logEvent(event: event)
     }
     
         

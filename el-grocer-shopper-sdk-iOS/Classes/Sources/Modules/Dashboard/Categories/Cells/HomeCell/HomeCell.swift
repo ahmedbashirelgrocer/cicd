@@ -94,6 +94,15 @@ private extension HomeCell {
             .disposed(by: disposeBag)
         
         self.setStateWithOutImageView()
+        
+        self.viewModel.outputs.productCount
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] productCount in
+                guard let self = self else { return }
+                
+                self.cellHeight.constant = productCount > 0 ? 321 : 0
+                self.invalidateIntrinsicContentSize()
+        }).disposed(by: disposeBag)
     }
 }
 
@@ -170,6 +179,7 @@ class HomeCell: RxUITableViewCell {
     @IBOutlet weak var viewSeparator: UIView!
     @IBOutlet weak var viewSeparatorHeightConstraint: NSLayoutConstraint!
     
+    @IBOutlet weak var cellHeight: NSLayoutConstraint!
     var placeholderPhoto = UIImage(name: "product_placeholder")!
     
     private weak var homeFeed: Home?

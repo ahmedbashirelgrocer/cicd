@@ -9,9 +9,9 @@ import UIKit
 import SDWebImage
 
 let kSegmentImageViewCellIdentifier = "AWSegementImageViewcell"
+let kCategoriesSegmentedImageViewCell = "AWCategoriesSegmentedImageViewCell"
 
 class AWSegementImageViewcell: UICollectionViewCell {
-    
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var label: UILabel!
     
@@ -48,12 +48,9 @@ class AWSegementImageViewcell: UICollectionViewCell {
         self.bringSubviewToFront(selectedBackgroundView!)
     }
     
-    func configure(imageURL: String, bgColor: UIColor, text: String) {
-        
+    func configure(imageURL: String, bgColor: UIColor, text: String) {   
         self.imageView.sd_setImage(with: URL(string: imageURL))
         self.label.text = text
         self.imageView.backgroundColor = bgColor
-        
     }
-    
 }

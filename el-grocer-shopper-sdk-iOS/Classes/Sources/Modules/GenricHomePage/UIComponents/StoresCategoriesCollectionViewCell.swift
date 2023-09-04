@@ -86,14 +86,17 @@ class StoresCategoriesCollectionViewCell: RxUICollectionViewCell {
             }
         }).disposed(by: disposeBag)
         
-        self.bgView.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+        self.bgView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         self.bgView.cornarRadius = 8.0
-        self.setImageViewSizeWithRaidus(false , 8.0)
+        self.setImageViewSizeWithRaidus(true , 8.0)
         self.lblCategoryName.textColor = UIColor.newBlackColor()
     }
     
     @IBOutlet var imageViewWidth: NSLayoutConstraint!
     @IBOutlet var imageViewHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var viewBGHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var viewBGWidthConstraint: NSLayoutConstraint!
     
     @IBOutlet var centerImage: UIImageView!
     @IBOutlet var lblCategoryName: UILabel!  {
@@ -219,9 +222,17 @@ class StoresCategoriesCollectionViewCell: RxUICollectionViewCell {
     func setImageViewSizeWithRaidus(_ setCategoryView : Bool = false , _  radius : CGFloat = 0.0 ) {
         
         if setCategoryView {
-            self.imageViewWidth.constant = 44
-            self.imageViewHeight.constant = 44
-            self.centerImage.layer.cornerRadius = radius
+            if ABTestManager.shared.storeConfigs.variant == .baseline {
+                self.imageViewWidth.constant = 64
+                self.imageViewHeight.constant = 64
+                self.centerImage.layer.cornerRadius = radius
+            } else {
+                self.imageViewWidth.constant = 92
+                self.imageViewHeight.constant = 92
+                self.viewBGWidthConstraint.constant = 92
+                self.viewBGHeightConstraint.constant = 92
+                self.centerImage.layer.cornerRadius = radius
+            }
             
         }else{
             self.imageViewWidth.constant = 64
@@ -236,7 +247,6 @@ class StoresCategoriesCollectionViewCell: RxUICollectionViewCell {
     
     
     func configuredChefCell( type : CHEF  , isSelected : Bool = false) {
-        
         self.setChefImage(type.chefImageURL, isSelected : isSelected, imageView: self.centerImage)
         self.lblCategoryName.text = type.chefName
         self.makeStateForChef(isSelected: isSelected)
@@ -313,7 +323,7 @@ class StoresCategoriesCollectionViewCell: RxUICollectionViewCell {
         }else{
             self.bgView.borderWidth = 0
             self.bgView.borderColor = .clear
-            lblCategoryName.textColor = ApplicationTheme.currentTheme.primarySelectionColor
+            lblCategoryName.textColor = ApplicationTheme.currentTheme.newBlackColor
         }
         
     }

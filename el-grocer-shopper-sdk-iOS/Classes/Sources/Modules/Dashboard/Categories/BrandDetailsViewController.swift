@@ -158,6 +158,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
            
         }
    
+        self.navigationController?.navigationBar.isHidden = false
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         if sdkManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
         self.addLocationHeader()

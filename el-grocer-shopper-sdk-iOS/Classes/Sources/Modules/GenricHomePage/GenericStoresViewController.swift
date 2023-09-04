@@ -183,6 +183,26 @@ class GenericStoresViewController: BasketBasicViewController {
             }
             
         })
+        
+        self.logAbTestEvents()
+    }
+    
+    func logAbTestEvents() {
+        // Log AB Test Event
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            let authToken = ABTestManager.shared.authToken
+            let variant = ABTestManager.shared.storeConfigs.variant
+            SegmentAnalyticsEngine.instance.logEvent(event: ABTestExperimentEvent(authToken: authToken, variant: variant.rawValue, experimentType: .store))
+        }
+        
+        // Log if AB Test Failed to Configure
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            if ABTestManager.shared.testEvent.count > 0 {
+                let events = ABTestManager.shared.testEvent
+                ABTestManager.shared.testEvent = []
+                SegmentAnalyticsEngine.instance.logEvent(event: GenericABTestConfigError(eventsArray: events))
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
