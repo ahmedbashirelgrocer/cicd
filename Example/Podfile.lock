@@ -39,7 +39,7 @@ PODS:
   - Differentiator (4.0.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (1.8.1):
+  - el-grocer-shopper-sdk-iOS (1.8.3):
     - Adyen (~> 4.10.0)
     - AlgoliaSearchClient (~> 8.0)
     - Analytics
@@ -79,9 +79,9 @@ PODS:
     - RxSwift (~> 5.1.1)
     - SDWebImage (~> 5.12.3)
     - Segment-CleverTap
-    - SendbirdChatSDK
-    - SendBirdDesk
-    - SendBirdUIKit
+    - SendbirdChatSDK (= 4.9.6)
+    - SendBirdDesk (= 1.1.3)
+    - SendBirdUIKit (= 3.6.2)
     - Shimmer (~> 1.0)
     - SkyFloatingLabelTextField (~> 3.0)
     - Storyly (~> 1.19.3)
@@ -318,11 +318,11 @@ PODS:
   - Segment-CleverTap (1.2.4):
     - Analytics
     - CleverTap-iOS-SDK (= 4.1.4)
-  - SendbirdChatSDK (4.9.3)
+  - SendbirdChatSDK (4.9.6)
   - SendBirdDesk (1.1.3):
     - SendbirdChatSDK (>= 4.6.7)
-  - SendBirdUIKit (3.6.1):
-    - SendbirdChatSDK (>= 4.9.2)
+  - SendBirdUIKit (3.6.2):
+    - SendbirdChatSDK (>= 4.9.5)
   - Shimmer (1.0.2)
   - SkyFloatingLabelTextField (3.8.0)
   - Storyly (1.19.4)
@@ -431,7 +431,7 @@ SPEC CHECKSUMS:
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: 4def03356940abc2dd6473e77976210829ba0fc0
+  el-grocer-shopper-sdk-iOS: 6fcb0b71c0ad488ab6557da8d23c465827ac8486
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Firebase: 4ba896cb8e5105d4b9e247e1c1b6222b548df55a
   FirebaseABTesting: cd1ec762a0078b46a7ce91dfe5b7b8991c2dff8f
@@ -478,9 +478,9 @@ SPEC CHECKSUMS:
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
   Segment-CleverTap: 985696b61005f0cbe52e32912e71a199fafbd9bb
-  SendbirdChatSDK: fcca40e44c7e11ff8e73d8e2131c058aa8712fe5
+  SendbirdChatSDK: 7a0ab2bf205303306c086d449722df924a48b97d
   SendBirdDesk: b700219c7cb267332f5fa866035244c400bd7a2e
-  SendBirdUIKit: f2536605acdfc3c18c17243e2dc718fa499e4513
+  SendBirdUIKit: 5aa0e6a246d59499f8f2cf2cf1107d7241891b13
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
   Storyly: 548318aac753a7be194d170fb537b3a27068c7b8
