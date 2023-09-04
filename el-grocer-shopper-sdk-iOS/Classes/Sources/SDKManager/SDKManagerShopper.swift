@@ -442,13 +442,14 @@ public class SDKManagerShopper: NSObject, SDKManagerType {
     public func startBasicThirdPartyInit() { }
     
     private func initializeSegment() {
-        var key = self.launchOptions?.environmentType == .live ? kProductionSegmentKey : kStagingSegmentKey
+        let configurationName =  self.launchOptions?.environmentType.value() ??  "Release"
+        let environmentsPath = Bundle.resource.path(forResource: "EnvironmentVariables", ofType: "plist")
+        let environmentsDict = NSDictionary(contentsOfFile: environmentsPath!)
+        let dictionary = environmentsDict![configurationName] as! NSDictionary
         
-        #if DEBUG
-        key = kStagingSegmentKey
-        #endif
+        guard let segmentSDKWriteKey = dictionary["segmentSDKWriteKeyShopper"] as? String else { return }
         
-        let configuration = AnalyticsConfiguration(writeKey: key)
+        let configuration = AnalyticsConfiguration(writeKey: segmentSDKWriteKey)
         configuration.use(SEGCleverTapIntegrationFactory())
         configuration.flushAt = 3
         configuration.flushInterval = 10
