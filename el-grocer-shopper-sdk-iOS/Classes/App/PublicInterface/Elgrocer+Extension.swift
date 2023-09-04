@@ -78,6 +78,7 @@ public extension ElGrocer {
         }
         
         SDKManager.shared.startBasicThirdPartyInit()
+        sdkManager.launchOptions = launchOptions
         ElGrocer.trackSDKLaunch(launchOptions)
         SDKManager.shared.launchOptionsLocation = launchOptions.convertOptionsToCLlocation()
         if let searchResult = SearchResult(deepLink: launchOptions.deepLinkPayload) {
