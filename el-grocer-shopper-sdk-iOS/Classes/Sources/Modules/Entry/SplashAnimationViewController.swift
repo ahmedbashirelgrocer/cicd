@@ -272,7 +272,9 @@ extension SplashAnimationViewController {
                 case .success(let response):
                     if let newData = response["data"] as? NSDictionary {
                         ElGrocerUtility.sharedInstance.appConfigData = AppConfiguration.init(dict: newData as! Dictionary<String, Any>)
+                        if sdkManager.isShopperApp {
                             ABTestManager.shared.fetchRemoteConfigs()
+                        }
                     }else{
                         self.configFailureCase()
                     }

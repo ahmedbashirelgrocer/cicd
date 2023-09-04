@@ -368,6 +368,8 @@ class SDKManager: NSObject, SDKManagerType  {
         let category = UNNotificationCategory(identifier: "CTNotification", actions: [action3], intentIdentifiers: [], options: [])
         UNUserNotificationCenter.current().setNotificationCategories([category])
         
+        // Fetching remote configs from firebase
+        ABTestManager.shared.fetchRemoteConfigs()
     }
     
     func configureFireBase(){
