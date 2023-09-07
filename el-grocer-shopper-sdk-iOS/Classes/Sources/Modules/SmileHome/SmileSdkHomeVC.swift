@@ -101,8 +101,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.registerCellsAndSetDelegates()
         self.setSegmentView()
         setupClearNavBar()
-       
-        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
+        if sdkManager.launchOptions?.marketType == .marketPlace {
+            SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
+        }
         
         self.logAbTestEvents()
     }
