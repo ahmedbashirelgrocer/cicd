@@ -142,7 +142,7 @@ struct ElGrocerError: Error {
     init(error: NSError) {
         
         guard let data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKeyCustom] as? Data, let json = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableLeaves) as? [String:Any] else {
-            self.code = error.code
+            self.code = (error.userInfo[AFNetworkingOperationFailingURLResponseErrorKeyCustom] as? HTTPURLResponse)?.statusCode ?? error.code
             self.message = error.localizedDescription
             return
         }
@@ -154,11 +154,10 @@ struct ElGrocerError: Error {
     
         
         var errorCode = error.code
-        if let httpresponse = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKeyCustom] as? HTTPURLResponse {
+        if let httpresponse = error.userInfo[AFNetworkingOperationFailingURLResponseErrorKeyCustom] as? HTTPURLResponse {
             errorCode = httpresponse.statusCode
         }
         
-        FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)"  ,  json! )
         let messages = json?["messages"] as? NSDictionary
         if let dataMessage = messages {
             errorCode = dataMessage["error_code"] as? Int ?? genericErrorCode
