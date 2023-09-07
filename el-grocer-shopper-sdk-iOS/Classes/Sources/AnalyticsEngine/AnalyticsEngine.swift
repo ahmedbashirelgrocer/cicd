@@ -11,6 +11,7 @@ import Segment
 protocol AnalyticsEngineType {
     func identify(userData: IdentifyUserDataType)
     func logEvent(event: AnalyticsEventDataType)
+    func logEvent(event: AnalyticsEventDataType, launchOptions: LaunchOptions)
     func reset()
 }
 
@@ -44,6 +45,23 @@ class SegmentAnalyticsEngine: AnalyticsEngineType {
             let metaData = self.addMarketTypeProperty(metaData: event.metaData ?? [:])
             self.analytics.screen(screenName, properties: metaData)
             self.debugLogEvent(eventType: "Screen", eventName: screenName, params: metaData)
+        }
+    }
+    
+    func logEvent(event: AnalyticsEventDataType, launchOptions: LaunchOptions) {
+        switch event.eventType {
+            
+        case .track(eventName: let eventName):
+            let metaData = self.addMarketTypeProperty(metaData: event.metaData ?? [:], launchOptions: launchOptions)
+            self.analytics.track(eventName, properties: metaData)
+            self.debugLogEvent(eventType: "Track", eventName: eventName, params: metaData)
+            break
+            
+        case .screen(screenName: let screenName):
+            let metaData = self.addMarketTypeProperty(metaData: event.metaData ?? [:], launchOptions: launchOptions)
+            self.analytics.screen(screenName, properties: metaData)
+            self.debugLogEvent(eventType: "Screen", eventName: screenName, params: metaData)
+            break
         }
     }
     
@@ -82,6 +100,28 @@ private extension SegmentAnalyticsEngine {
         }
         
         return metaData
+    }
+    
+    func addMarketTypeProperty(metaData: [String: Any], launchOptions: LaunchOptions) -> [String: Any] {
+        switch launchOptions.marketType {
+        case .marketPlace:
+            var metaData = metaData
+            metaData[EventParameterKeys.marketType] = "Smiles Marketplace"
+            metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
+            return metaData
+            
+        case .shopper:
+            var metaData = metaData
+            metaData[EventParameterKeys.marketType] = "Shopper Marketplace"
+            metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
+            return metaData
+            
+        case .grocerySingleStore:
+            var metaData = metaData
+            metaData[EventParameterKeys.marketType] = "Smiles Market"
+            metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
+            return metaData
+        }
     }
     
     func debugLogEvent(eventType: String, eventName: String, params: [String: Any]) {

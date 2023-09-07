@@ -157,8 +157,9 @@ public extension ElGrocer {
     }
     
     static func trackSDKLaunch(_ launchOption: LaunchOptions) {
-        if sdkManager.isInitialized && sdkManager.launchOptions?.isSmileSDK == true {
-            SegmentAnalyticsEngine.instance.logEvent(event: SDKLaunchedEvent(launchOption: launchOption))
+        if sdkManager.isInitialized && launchOption.isSmileSDK == true {
+            let event = SDKLaunchedEvent(launchOption: launchOption)
+            SegmentAnalyticsEngine.instance.logEvent(event: event, launchOptions: launchOption)
         }
     }
 }
