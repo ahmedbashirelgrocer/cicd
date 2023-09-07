@@ -133,7 +133,7 @@ private extension HomeCellViewModel {
                 ])
             }
             
-            if let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia {
+            if let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia == false {
                 ProductBrowser.shared.getTopSellingProductsOfGrocery(parameters, true) { result in
                     switch result {
                     case .success(let response):
