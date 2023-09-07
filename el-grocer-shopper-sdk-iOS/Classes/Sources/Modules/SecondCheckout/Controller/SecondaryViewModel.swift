@@ -174,9 +174,6 @@ class SecondaryViewModel {
                         self.basketDataValue = checkoutData.data
                         self.basketData.onNext(checkoutData.data)
                         self.updateViewModelDataAccordingToBasket(data: checkoutData.data)
-                        
-                        // Logging segment event for checkout started
-                        SegmentAnalyticsEngine.instance.logEvent(event: CheckoutStartedEvent())
                     } catch(let error) {
                         //    print(error)
                         self.basketError.onNext(ElGrocerError.parsingError())
