@@ -305,6 +305,10 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex:Int) {
         self.viewHandler.subCategorySegmentIndexChange(selectedSegmentIndex)
         self.collectionView.setContentOffset(CGPoint.zero, animated: false)
+        
+        // Logging segment event for product sub-category clicked event
+        let event = ProductSubCategoryClickedEvent(subCategory: viewHandler.getlastSelectedSubCategory())
+        SegmentAnalyticsEngine.instance.logEvent(event: event)
     }
     
         
