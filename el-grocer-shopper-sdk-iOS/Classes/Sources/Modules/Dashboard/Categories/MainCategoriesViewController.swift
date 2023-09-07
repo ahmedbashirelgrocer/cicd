@@ -1710,6 +1710,8 @@ private extension MainCategoriesViewController {
                 self?.selectedCategory = category.categoryDB
                 MixpanelEventLogger.trackStoreProductsViewAll(categoryId: String(category.id), categoryName: category.name ?? "")
                 self?.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
+                
+                SegmentAnalyticsEngine.instance.logEvent(event: ProductCategoryClickedEvent(category: category.categoryDB))
             }
         }).disposed(by: disposeBag)
         
