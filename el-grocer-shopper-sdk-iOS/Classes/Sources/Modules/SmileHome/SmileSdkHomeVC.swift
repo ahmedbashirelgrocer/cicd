@@ -523,7 +523,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     var smileRetryTime = 0
     private func getSmileUserInfo() {
         
-        guard smileRetryTime < 3 else { return }
+        guard smileRetryTime < 1 else { return }
         guard (UserDefaults.getIsSmileUser() == true || sdkManager.isSmileSDK) else {
             return
         }

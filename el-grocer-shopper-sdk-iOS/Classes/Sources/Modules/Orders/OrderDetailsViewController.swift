@@ -510,25 +510,26 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     private func createBasketAndNavigateToViewForEditOrder(){
         
         let spinner = SpinnerView.showSpinnerViewInView(self.view)
+        self.editOrderSuccess(nil)
         
-        ElGrocerApi.sharedInstance.ChangeOrderStatustoEdit(order_id: self.order.dbID.stringValue ) { [weak self](result) in
-            spinner?.removeFromSuperview()
-            guard let self = self else {return}
-            
-            if self.order.status.intValue == OrderStatus.inEdit.rawValue {
-                self.editOrderSuccess(nil)
-            }else{
-                switch result {
-                    case .success(let data):
-                        self.order.status = NSNumber(value: OrderStatus.inEdit.rawValue)
-                        self.editOrderSuccess(data)
-                    case .failure(let error):
-                        
-                        error.showErrorAlert()
-                }
-            }
-            
-        }
+//        ElGrocerApi.sharedInstance.ChangeOrderStatustoEdit(order_id: self.order.dbID.stringValue ) { [weak self](result) in
+//            spinner?.removeFromSuperview()
+//            guard let self = self else {return}
+//
+//            if self.order.status.intValue == OrderStatus.inEdit.rawValue {
+//                self.editOrderSuccess(nil)
+//            }else{
+//                switch result {
+//                    case .success(let data):
+//                        self.order.status = NSNumber(value: OrderStatus.inEdit.rawValue)
+//                        self.editOrderSuccess(data)
+//                    case .failure(let error):
+//
+//                        error.showErrorAlert()
+//                }
+//            }
+//
+//        }
         
     }
     
