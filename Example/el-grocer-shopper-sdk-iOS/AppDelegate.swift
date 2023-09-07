@@ -1,6 +1,7 @@
 //
 //  AppDelegate.swift
 //  el-grocer-shopper-sdk-iOS
+// 1.8.1 crash fixes
 
 
 /*
