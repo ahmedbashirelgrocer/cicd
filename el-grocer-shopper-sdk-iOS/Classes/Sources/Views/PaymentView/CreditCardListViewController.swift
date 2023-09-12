@@ -8,7 +8,7 @@
 
 import UIKit
 import WebKit
-import FBSDKCoreKit
+//import FBSDKCoreKit
 //import AppsFlyerLib
 import NBBottomSheet
 import Adyen

@@ -9,7 +9,7 @@
 import Foundation
 import FirebaseCore
 import MapKit
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import CleverTapSDK
 //import AppsFlyerLib
 import FirebaseRemoteConfig
@@ -488,7 +488,7 @@ extension  ElGrocerEventsLogger   {
             iscleverTap = nil
         let isfirebase = result.2
         if isfacebook != nil {
-            AppEvents.logEvent(AppEvents.Name.initiatedCheckout, valueToSum: value)
+           // AppEvents.logEvent(AppEvents.Name.initiatedCheckout, valueToSum: value)
         }
         if iscleverTap != nil {
             CleverTapEventsLogger.trackCheckOut( eventName : iscleverTap! , coupon: coupon, currency: currency, value: value, isEdit: isEdit)
@@ -553,7 +553,7 @@ extension  ElGrocerEventsLogger   {
         if isfacebookC != nil {
            
             //AppEvents.ParameterName.contentID: clearProductID ,
-            let facebookParams = [AppEvents.ParameterName.contentType:"product",AppEvents.ParameterName.currency:kProductCurrencyEngAEDName , AppEvents.ParameterName.content : paramsString] as [AnyHashable: Any]
+           // let facebookParams = [AppEvents.ParameterName.contentType:"product",AppEvents.ParameterName.currency:kProductCurrencyEngAEDName , AppEvents.ParameterName.content : paramsString] as [AnyHashable: Any]
                 //MARK:- Fix fix it later with sdk version
            // AppEvents.logEvent(AppEvents.Name(rawValue: isfacebookC!), valueToSum: Double(truncating: product.price), parameters: facebookParams as! [String : Any])
         }

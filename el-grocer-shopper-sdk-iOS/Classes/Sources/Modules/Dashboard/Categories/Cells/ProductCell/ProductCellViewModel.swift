@@ -49,6 +49,7 @@ protocol ProductCellViewModelOutput {
     var plusButtonEnabled: Observable<Bool> { get }
     var addToCartButtonEnabled: Observable<Bool> { get }
     var quantityValue: Int { get }
+    var border: Observable<Bool> { get }
 }
 
 protocol ProductCellViewModelType: ProductCellViewModelInput, ProductCellViewModelOutput {
@@ -100,6 +101,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     var plusButtonEnabled: Observable<Bool> { plusButtonEnabledSubject.asObservable() }
     var addToCartButtonEnabled: Observable<Bool> { addToCartButtonEnabledSubject.asObservable() }
     var quantityValue: Int { getShoppingBasketItemForActiveRetailer()?.count.intValue ?? 0 }
+    var border: Observable<Bool> { borderSubject.asObservable() }
     
     // MARK: Subjects
     private var quickAddButtonTapSubject = PublishSubject<Void>()
@@ -134,6 +136,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     private var plusButtonEnabledSubject = BehaviorSubject<Bool>(value: true)
     private var addToCartButtonEnabledSubject = BehaviorSubject<Bool>(value: true)
     private var refreshDataSubject = PublishSubject<Void>()
+    private var borderSubject = BehaviorSubject<Bool>(value: true)
 
     var reusableIdentifier: String { ProductCell.defaultIdentifier }
     
@@ -141,10 +144,11 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     private var product: ProductDTO
     private let PRODUCT_LIMIT = 3
     
-    init(product: ProductDTO, grocery: Grocery?) {
+    init(product: ProductDTO, grocery: Grocery?, border: Bool = true) {
         self.grocery = grocery
         self.product = product
         CellSelectionState.shared.grocery = grocery
+        self.borderSubject.onNext(border)
         
         self.refreshCell()
         

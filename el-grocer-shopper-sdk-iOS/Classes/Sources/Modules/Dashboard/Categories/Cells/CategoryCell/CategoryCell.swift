@@ -39,7 +39,7 @@ class CategoryCell: UITableViewCell {
     @IBOutlet var btnViewAll: AWButton! {
         didSet{
             btnViewAll.setTitle(localizedString("view_more_title", comment: "view_more_title"), for: .normal)
-            btnViewAll.titleLabel?.font = UIFont.SFProDisplayBoldFont(14).withWeight(UIFont.Weight(700))
+            btnViewAll.titleLabel?.font = UIFont.SFProDisplayBoldFont(14)
             btnViewAll.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
             btnViewAll.setBackgroundColorForAllState(.clear)
             //btnViewAll.setCaption1BoldWhiteStyle()
@@ -78,7 +78,7 @@ class CategoryCell: UITableViewCell {
     }
     
     func setUpTitleAppearance() {
-        self.lblTitle.font      = UIFont.SFProDisplaySemiBoldFont(17).withWeight(UIFont.Weight(600)) //UIFont.SFProDisplaySemiBoldFont(20)
+        self.lblTitle.font      = UIFont.SFProDisplaySemiBoldFont(17)//.withWeight(UIFont.Weight(600)) //UIFont.SFProDisplaySemiBoldFont(20)
         self.lblTitle.textColor = .newBlackColor()
     }
     

@@ -331,6 +331,10 @@ extension UILabel {
         self.font = UIFont.SFProDisplaySemiBoldFont(11)
         self.textColor = UIColor.promotionYellowColor()
     }
+    func setCaptionTwoSemiboldDarkStyle() {
+        self.font = UIFont.SFProDisplaySemiBoldFont(11)
+        self.textColor = UIColor.newBlackColor()
+    }
     
     func setSubHead1SemiboldDarkStyle() {
         self.font = UIFont.SFProDisplayBoldFont(15)
@@ -572,6 +576,10 @@ extension UIButton {
     }
     func setCaption1BoldWhiteStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(12)
+        self.setTitleColor(UIColor.navigationBarWhiteColor(), for: .normal)
+    }
+    func setCaption1SemiBoldWhiteStyle(){
+        self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(12)
         self.setTitleColor(UIColor.navigationBarWhiteColor(), for: .normal)
     }
     

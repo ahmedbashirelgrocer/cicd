@@ -101,3 +101,43 @@ struct ProductCategoryViewAllClickedEvent: AnalyticsEventDataType {
         ]
     }
 }
+
+struct ProductCategoryClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(category: Category?, varient: String) {
+        self.eventType = .track(eventName: AnalyticsEventName.productCategoryClicked)
+        self.metaData = [
+            EventParameterKeys.categoryID: category?.dbID.stringValue ?? "",
+            EventParameterKeys.categoryName: category?.nameEn ?? "",
+            EventParameterKeys.variant: varient,
+        ]
+    }
+}
+
+struct ProductSubCategoryClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(subCategory: SubCategory?) {
+        self.eventType = .track(eventName: AnalyticsEventName.productSubCategoryClicked)
+        self.metaData = [
+            EventParameterKeys.subcategoryID: subCategory?.subCategoryId.stringValue ?? "0",
+            EventParameterKeys.subcategoryName: subCategory?.subCategoryNameEn ?? "All",
+        ]
+    }
+}
+
+struct StoreCategoryClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(storeType: StoreType) {
+        self.eventType = .track(eventName: AnalyticsEventName.storeCategoryClicked)
+        self.metaData = [
+            EventParameterKeys.categoryID: String(storeType.storeTypeid),
+            EventParameterKeys.categoryName: storeType.name,
+        ]
+    }
+}

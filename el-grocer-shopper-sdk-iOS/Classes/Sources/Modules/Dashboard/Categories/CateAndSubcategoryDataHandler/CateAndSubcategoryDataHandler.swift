@@ -52,6 +52,7 @@ class CateAndSubcategoryView {
     private var currentBrandOffset = 0
     private var currentBrandLimit = 20
     private var isLoadingMoreGridProducts : Bool = false
+    private var isMoreProductsAvailable: Bool = true
     private var isLoadingMoreBrandProducts : Bool = false
             var moreGridProducts : Bool = true
             var moreGroceryBrand : Bool = true
@@ -62,6 +63,8 @@ class CateAndSubcategoryView {
     var ListbrandsArray = [GroceryBrand]()
     let productPerBrandLimmit: Int = 10
     private let brandDispatchGroup = DispatchGroup()
+    
+    fileprivate var hitsPerPage = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20
     
 
     // Mark:- current Address
@@ -235,6 +238,8 @@ extension CateAndSubcategoryView {
        
         guard (self.parentCategory?.dbID) != nil else { return }
         
+        self.isMoreProductsAvailable = true
+        
         self.homeFeed = nil
         
         
@@ -277,7 +282,7 @@ extension CateAndSubcategoryView {
         let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(self.parentCategory?.dbID)!)
         if let productsArray:[Product] = ElGrocerUtility.sharedInstance.categoryAllProductsDict[keyStr] {
             currentOffSet += productsArray.count
-            pageNumber = (productsArray.count + 20 - 1 ) / 20
+            pageNumber = (productsArray.count + hitsPerPage - 1 ) / hitsPerPage
         }
        
         func callApi() {
@@ -287,6 +292,7 @@ extension CateAndSubcategoryView {
             
             guard algoliaCall else {
                 SpinnerView.showSpinnerViewInView()
+                self.hitsPerPage = self.currentLimit
                 ProductBrowser.shared.getAllProductsOfCategory(self.parentCategory, forGrocery: self.grocery, limit: self.currentLimit, offset: currentOffSet){ (result) -> Void in
                     SpinnerView.hideSpinnerView()
                     switch result {
@@ -304,7 +310,7 @@ extension CateAndSubcategoryView {
             
             guard (self.parentCategory?.dbID.intValue ?? 0) > 1 else {
                 SpinnerView.showSpinnerViewInView()
-                ProductBrowser.shared.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20, ElGrocerUtility.sharedInstance.getCurrentMillis(), slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
+                ProductBrowser.shared.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, hitsPerPage: hitsPerPage, ElGrocerUtility.sharedInstance.getCurrentMillis(), slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
                     SpinnerView.hideSpinnerView()
                     if  let responseObject = content {
                         self?.saveAllProductResponseForCategory(responseObject)
@@ -317,7 +323,7 @@ extension CateAndSubcategoryView {
             
             
             SpinnerView.showSpinnerViewInView()
-            ProductBrowser.shared.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: self.parentCategory?.dbID.stringValue ?? "", hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20, slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
+            ProductBrowser.shared.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: self.parentCategory?.dbID.stringValue ?? "", hitsPerPage: hitsPerPage, slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
                 SpinnerView.hideSpinnerView()
                 if  let responseObject = content {
                     self?.saveAllProductResponseForCategory(responseObject)
@@ -345,6 +351,7 @@ extension CateAndSubcategoryView {
         Thread.OnMainThread {
             
             // let newProduct = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            self.isMoreProductsAvailable = (newProduct.algoliaCount ?? newProduct.products.count) >= self.hitsPerPage
             self.gridProductA += newProduct.products
             self.moreGridProducts = ((newProduct.algoliaCount ?? self.gridProductA.count) % self.currentLimit) == 0
             let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(self.parentCategory?.dbID)!)
@@ -390,7 +397,7 @@ extension CateAndSubcategoryView {
                 self.isLoadingMoreBrandProducts = true
                 self.fetchProductsForGroupedCategory(keyStr, useSubCategory , true)
             }else{
-                guard  !self.isLoadingMoreGridProducts else {
+                guard  !self.isLoadingMoreGridProducts, self.isMoreProductsAvailable else {
                     return
                 }
                 self.isLoadingMoreGridProducts = true
@@ -398,7 +405,7 @@ extension CateAndSubcategoryView {
             }
         }
         if self.currentSubcategorySegmentIndex == getAllItemIndex() {
-            guard  !self.isLoadingMoreGridProducts else {
+            guard  !self.isLoadingMoreGridProducts, self.isMoreProductsAvailable else {
                 return
             }
             self.isLoadingMoreGridProducts = true
@@ -417,7 +424,7 @@ extension CateAndSubcategoryView {
             }
             
             var pageNumber = 0
-            pageNumber = (offset + 20 - 1) / 20
+            pageNumber = (offset + hitsPerPage - 1) / hitsPerPage
             print("PageNumber of algolia: \(pageNumber)")
             
             let config = ElGrocerUtility.sharedInstance.appConfigData
@@ -440,7 +447,7 @@ extension CateAndSubcategoryView {
             
             guard (self.parentCategory?.dbID.intValue ?? 0) > 1 else {
                 SpinnerView.showSpinnerViewInView()
-                ProductBrowser.shared.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20, ElGrocerUtility.sharedInstance.getCurrentMillis(), slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 20, completion: { [weak self] (content, error) in
+                ProductBrowser.shared.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, hitsPerPage: hitsPerPage, ElGrocerUtility.sharedInstance.getCurrentMillis(), slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 20, completion: { [weak self] (content, error) in
                     SpinnerView.hideSpinnerView()
                     if  let responseObject = content {
                         self?.saveAllProductResponseForFreshFruitORVegetables(responseObject, withSubCategory: subCategory)
@@ -450,7 +457,7 @@ extension CateAndSubcategoryView {
             }
             
             if pageNumber == 0 { SpinnerView.showSpinnerViewInView() }
-            ProductBrowser.shared.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: self.parentCategory?.dbID.stringValue ?? "", hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 3, "\(subCategoryId)", "", slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
+            ProductBrowser.shared.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: self.parentCategory?.dbID.stringValue ?? "", hitsPerPage: hitsPerPage, "\(subCategoryId)", "", slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
                 SpinnerView.hideSpinnerView()
                 if  let responseObject = content {
                     self?.saveAllProductResponseForFreshFruitORVegetables(responseObject, withSubCategory: subCategory)
@@ -475,8 +482,8 @@ extension CateAndSubcategoryView {
         }
         
         var pageNumber = 0
-        if self.currentOffset % 20 == 0 {
-            pageNumber = self.currentOffset / 20
+        if self.currentOffset % hitsPerPage == 0 {
+            pageNumber = self.currentOffset / hitsPerPage
         }else {
             return
         }
@@ -504,7 +511,7 @@ extension CateAndSubcategoryView {
         
         guard (self.parentCategory?.dbID.intValue ?? 0) > 1 else {
             SpinnerView.showSpinnerViewInView()
-            ProductBrowser.shared.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20, ElGrocerUtility.sharedInstance.getCurrentMillis(), slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
+            ProductBrowser.shared.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, hitsPerPage: hitsPerPage, ElGrocerUtility.sharedInstance.getCurrentMillis(), slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
                 SpinnerView.hideSpinnerView()
                 if  let responseObject = content {
                     self?.saveAllProductResponseForFreshFruitORVegetables(responseObject, withSubCategory: subCategory)
@@ -514,7 +521,7 @@ extension CateAndSubcategoryView {
         }
         
         SpinnerView.showSpinnerViewInView()
-        ProductBrowser.shared.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: self.parentCategory?.dbID.stringValue ?? "", hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsSubcategories ?? 20, "\(subCategoryId)", "", slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
+        ProductBrowser.shared.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: self.parentCategory?.dbID.stringValue ?? "", hitsPerPage: hitsPerPage, "\(subCategoryId)", "", slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
             SpinnerView.hideSpinnerView()
             if  let responseObject = content {
                 self?.saveAllProductResponseForFreshFruitORVegetables(responseObject, withSubCategory: subCategory)
@@ -529,6 +536,8 @@ extension CateAndSubcategoryView {
         let keyStr = String(format:"%@%@",(self.grocery?.dbID)!,(subCategory.subCategoryId))
         
         Thread.OnMainThread {
+            self.isMoreProductsAvailable = (response.algoliaCount ?? response.products.count) >= self.hitsPerPage
+            
             var newProduct = [Product]()
             newProduct = response.products
             self.gridProductA += newProduct

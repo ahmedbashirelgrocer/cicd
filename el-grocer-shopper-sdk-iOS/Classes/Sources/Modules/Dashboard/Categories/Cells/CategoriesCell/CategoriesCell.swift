@@ -31,6 +31,10 @@ class CategoriesCell: RxUITableViewCell {
         }
     }
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var cellHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var dividerHeightConstraint: NSLayoutConstraint!
+    
+    private var categoriesStyle = ABTestManager.shared.storeConfigs.categoriesStyle
     
     private var viewModel: CategoriesCellViewModelType!
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
@@ -39,8 +43,23 @@ class CategoriesCell: RxUITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        self.collectionView.delegate = self
         self.collectionView.register(UINib(nibName: StoresCategoriesCollectionViewCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: StoresCategoriesCollectionViewCell.defaultIdentifier)
+        
+        self.collectionView.isScrollEnabled = categoriesStyle == .horizotalScroll
+        self.collectionView.bounces = false
+        self.collectionView.collectionViewLayout = {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = categoriesStyle == .horizotalScroll ? .horizontal : .vertical
+            layout.itemSize = self.calculateCellHeight()
+            layout.minimumInteritemSpacing = 8
+            layout.minimumLineSpacing = 12
+            let edgeInset: CGFloat =  16
+            layout.sectionInset = UIEdgeInsets(top: edgeInset / 2, left: edgeInset, bottom: edgeInset / 2, right: edgeInset)
+            return layout
+        }()//16+
+        
+        // hides separator for varient than baseline
+        self.dividerHeightConstraint.constant = categoriesStyle == .horizotalScroll ? 16 : 0
     }
 
     override func configure(viewModel: Any) {
@@ -51,9 +70,23 @@ class CategoriesCell: RxUITableViewCell {
         self.setBgColors()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+    
+    private func calculateCellHeight() -> CGSize {
+        switch categoriesStyle {
+        case .horizotalScroll:
+            return CGSize(width: 75 , height: 108)
+            
+        case .verticalScroll:
+            return CGSize(width: (ScreenSize.SCREEN_WIDTH - 56) / 3, height: 136)
+        }
+    }
+    
     private func setBgColors() {
         
-        var color = UIColor.clear //ApplicationTheme.currentTheme.StorePageCategoryViewBgColor
+        let color = UIColor.clear //ApplicationTheme.currentTheme.StorePageCategoryViewBgColor
         collectionView.backgroundColor = color
         topLabelBgView.backgroundColor = color
         contentBGView.backgroundColor = color
@@ -71,6 +104,10 @@ private extension CategoriesCell {
             cell.configure(viewModel: viewModel)
             return cell
         })
+        
+        // hide View All button for varient other than base
+        self.btnViewAll.isHidden = self.categoriesStyle == .verticalScroll
+        self.ivArrow.isHidden = self.categoriesStyle == .verticalScroll
         
         self.viewModel
             .outputs
@@ -107,9 +144,20 @@ private extension CategoriesCell {
             }
         }).disposed(by: disposeBag)
         
-        
-        
-        
+        viewModel.outputs.categoriesCount.subscribe(onNext: { [weak self] categoriesCount in
+            guard let self = self else { return }
+
+            let headerHeight = 45.0
+            let cellHeight = 136.0
+            let rows = categoriesCount % 3 == 0 ? categoriesCount / 3 : (categoriesCount / 3) + 1
+            let cellMargin = Double(rows * 12) + 8
+            
+            let otherVarientHeight = (cellHeight * Double(rows)) + cellMargin + headerHeight
+            let baseVarientHeight = categoriesCount > 5 ? 314 : 206.0
+            
+            self.cellHeightConstraint.constant = self.categoriesStyle == .horizotalScroll ? baseVarientHeight : otherVarientHeight
+            self.invalidateIntrinsicContentSize()
+        }).disposed(by: disposeBag)
     }
 }
 

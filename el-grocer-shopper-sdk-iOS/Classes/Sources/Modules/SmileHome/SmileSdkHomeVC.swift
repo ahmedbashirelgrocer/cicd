@@ -87,6 +87,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     var selectStoreType : StoreType? = nil
     var separatorCount = 2
     private var openOrders : [NSDictionary] = []
+    private var configRetriesCount: Int = 0
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet var currentOrderCollectionView: UICollectionView!
@@ -100,8 +101,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.registerCellsAndSetDelegates()
         self.setSegmentView()
         setupClearNavBar()
-       
-        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
+        if sdkManager.launchOptions?.marketType == .marketPlace {
+            SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
+        }
         
         self.logAbTestEvents()
     }
@@ -110,8 +112,16 @@ class SmileSdkHomeVC: BasketBasicViewController {
         // Log AB Test Event
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             let authToken = ABTestManager.shared.authToken
-            let variant = ABTestManager.shared.configs.variant
-            SegmentAnalyticsEngine.instance.logEvent(event: ABTestExperimentEvent(authToken: authToken, variant: variant))
+            let storeVarient = ABTestManager.shared.storeConfigs.variant.rawValue
+            
+            // Preventing the Home ABTestExperimentEvent for single store
+            if sdkManager.isGrocerySingleStore == false {
+                let variant = ABTestManager.shared.configs.variant
+                SegmentAnalyticsEngine.instance.logEvent(event: ABTestExperimentEvent(authToken: authToken, variant: variant, experimentType: .home))
+            }
+            
+            // Logging segment event for Store Screen ABTestExperiment
+            SegmentAnalyticsEngine.instance.logEvent(event: ABTestExperimentEvent(authToken: authToken, variant: storeVarient, experimentType: .store))
         }
         
         // Log if AB Test Failed to Configure
@@ -323,9 +333,15 @@ class SmileSdkHomeVC: BasketBasicViewController {
     func getOpenOrders() {
         
         guard ElGrocerUtility.sharedInstance.appConfigData != nil else {
+            if self.configRetriesCount >= 2 {
+                print("debug >> return from function without api request")
+                return
+            }
+            
             ElGrocerUtility.sharedInstance.delay(2) {
                 PreLoadData.shared.loadConfigData {}
                 self.getOpenOrders()
+                self.configRetriesCount += 1
             }
             return
         }
@@ -516,7 +532,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     var smileRetryTime = 0
     private func getSmileUserInfo() {
         
-        guard smileRetryTime < 3 else { return }
+        guard smileRetryTime < 1 else { return }
         guard (UserDefaults.getIsSmileUser() == true || sdkManager.isSmileSDK) else {
             return
         }

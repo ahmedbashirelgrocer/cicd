@@ -74,6 +74,9 @@ enum AnalyticsEventName {
     static let storesInRange            = "Stores In Range"
     static let categoryViewAllClicked   = "Category View All Clicked"
     static let productCategoryViewAllClicked = "Product Category View All Clicked"
+    static let productCategoryClicked   = "Product Category Clicked"
+    static let productSubCategoryClicked = "Product SubCategory Clicked"
+    static let storeCategoryClicked = "Store Category Clicked"
     
     // MARK: Banner
     static let bannerClicked            = "Banner Clicked"
@@ -83,7 +86,6 @@ enum AnalyticsEventName {
     static let sdkLaunched            = "SDK Launched"
         
     // MARK: Shopper App Specfic events
-    static let storeCategoryClicked = "Store Category Clicked"
     static let recipeClicked        = "Recipe Clicked"
     static let recipeViewed             = "Recipe Viewed"
     static let onboardingStarted        = "Onboarding Started"

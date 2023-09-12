@@ -7,10 +7,17 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 protocol AWSegmentViewProtocol : class {
     
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex:Int)
+    func subCategorySelectedWithSelectedCategory(_ selectedSubCategory: SubCategory)
+}
+
+extension AWSegmentViewProtocol {
+    func subCategorySelectedWithSelectedCategory(_ selectedSegmentIndex: SubCategory) { }
 }
 
 enum segmentViewType {
@@ -24,9 +31,10 @@ class ArabicCollectionFlow: UICollectionViewFlowLayout {
     }
 }
 class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
+    var subCategories: [SubCategory] = []
     var segmentTitles: [String]!
     var lastSelection:IndexPath!
+    var borderColor: UIColor?
     
     weak var segmentDelegate:AWSegmentViewProtocol?
     var segmentViewType : segmentViewType = .editLocation
@@ -81,6 +89,12 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
         }
     }
     
+    func refreshWith(dataA: [SubCategory]) {
+        self.subCategories = dataA
+        self.refreshWith(dataA: dataA.map { $0.subCategoryName })
+        self.lastSelection = IndexPath(row: 0, section: 0)
+    }
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -100,7 +114,7 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
         let cell = self.dequeueReusableCell(withReuseIdentifier: kSegmentViewCellIdentifier, for: indexPath) as! AWSegmentViewCell
         if segmentTitles.count > indexPath.row {
             let segmentTitle = self.segmentTitles[(indexPath as NSIndexPath).row]
-            cell.configareCellWithTitle(segmentTitle, withSelectedState: indexPath == self.lastSelection ? true : false)
+            cell.configareCellWithTitle(segmentTitle, withSelectedState: indexPath == self.lastSelection ? true : false, borderColor: self.borderColor)
         }
 //        let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
 //        if currentLang == "ar" {
@@ -165,5 +179,29 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
         
         self.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.centeredHorizontally, animated: true)
         self.segmentDelegate?.subCategorySelectedWithSelectedIndex((indexPath as NSIndexPath).row)
+        
+        if self.subCategories.isNotEmpty {
+            self.segmentDelegate?.subCategorySelectedWithSelectedCategory(self.subCategories[indexPath.row])
+        }
+    }
+}
+
+// MARK: Rx Extension
+extension Reactive where Base: AWSegmentView {
+    var subCategories: Binder<[SubCategory]> {
+        return Binder(self.base) { view, subCategories in
+            view.refreshWith(dataA: subCategories)
+        }
+    }
+    
+    var selected: Binder<SubCategory?> {
+        return Binder(self.base) { view, subCategory in
+            DispatchQueue.main.async {
+                if let subCategory = subCategory {
+                    let index = view.subCategories.firstIndex(where: { $0.subCategoryId == subCategory.subCategoryId }) ?? 0
+                    view.lastSelection = IndexPath(item: index, section: 0)
+                }
+            }
+        }
     }
 }

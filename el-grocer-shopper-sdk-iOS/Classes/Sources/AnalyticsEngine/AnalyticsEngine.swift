@@ -11,6 +11,7 @@ import Segment
 protocol AnalyticsEngineType {
     func identify(userData: IdentifyUserDataType)
     func logEvent(event: AnalyticsEventDataType)
+    func logEvent(event: AnalyticsEventDataType, launchOptions: LaunchOptions)
     func reset()
 }
 
@@ -47,14 +48,31 @@ class SegmentAnalyticsEngine: AnalyticsEngineType {
         }
     }
     
+    func logEvent(event: AnalyticsEventDataType, launchOptions: LaunchOptions) {
+        switch event.eventType {
+            
+        case .track(eventName: let eventName):
+            let metaData = self.addMarketTypeProperty(metaData: event.metaData ?? [:], launchOptions: launchOptions)
+            self.analytics.track(eventName, properties: metaData)
+            self.debugLogEvent(eventType: "Track", eventName: eventName, params: metaData)
+            break
+            
+        case .screen(screenName: let screenName):
+            let metaData = self.addMarketTypeProperty(metaData: event.metaData ?? [:], launchOptions: launchOptions)
+            self.analytics.screen(screenName, properties: metaData)
+            self.debugLogEvent(eventType: "Screen", eventName: screenName, params: metaData)
+            break
+        }
+    }
+    
     func reset() {
         self.analytics.reset()
     }
 }
 
 private extension SegmentAnalyticsEngine {
-    func addMarketTypeProperty(metaData: [String: Any]) -> [String: Any] {
-        if let launchOptions = sdkManager.launchOptions {
+    func addMarketTypeProperty(metaData: [String: Any], launchOptions: LaunchOptions? = sdkManager.launchOptions) -> [String: Any] {
+        if let launchOptions = launchOptions {
             switch launchOptions.marketType {
             case .marketPlace:
                 var metaData = metaData
@@ -84,14 +102,37 @@ private extension SegmentAnalyticsEngine {
         return metaData
     }
     
+    func addMarketTypeProperty(metaData: [String: Any], launchOptions: LaunchOptions) -> [String: Any] {
+        switch launchOptions.marketType {
+        case .marketPlace:
+            var metaData = metaData
+            metaData[EventParameterKeys.marketType] = "Smiles Marketplace"
+            metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
+            return metaData
+            
+        case .shopper:
+            var metaData = metaData
+            metaData[EventParameterKeys.marketType] = "Shopper Marketplace"
+            metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
+            return metaData
+            
+        case .grocerySingleStore:
+            var metaData = metaData
+            metaData[EventParameterKeys.marketType] = "Smiles Market"
+            metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
+            return metaData
+        }
+    }
+    
     func debugLogEvent(eventType: String, eventName: String, params: [String: Any]) {
         #if DEBUG
-        print("\n\n\n")
+        print("\n\n")
         print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< SEGMENT ANALYTICS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         print("Event Type: \(eventType)")
         print("Event Name: \(eventName)")
         print("Event Params: \(params)")
-        print("\n\n\n")
+        print("\n")
+        print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< END >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         #endif
     }
 }

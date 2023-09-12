@@ -43,6 +43,11 @@ class BannerView: UIView {
         super.init(coder: aDecoder)
         commonInit()
     }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        commonInit()
+    }
 
     func commonInit() {
         Bundle.resource.loadNibNamed("BannerView", owner: self, options: nil)
@@ -105,7 +110,9 @@ extension BannerView: UICollectionViewDelegateFlowLayout, UICollectionViewDelega
 extension Reactive where Base: BannerView {
     var banners: Binder<[BannerDTO]> {
         return Binder(self.base) { bannerView, banners in
-            bannerView.banners = banners
+            DispatchQueue.main.async {
+                bannerView.banners = banners
+            }
         }
     }
 }

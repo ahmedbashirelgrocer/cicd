@@ -7,9 +7,54 @@
 //
 
 import UIKit
+import RxSwift
+
 let KGenericViewTitileTableViewCell = "GenericViewTitileTableViewCell"
 let KGenericViewTitileTableViewCellHeight : CGFloat = 27
-class GenericViewTitileTableViewCell: UITableViewCell {
+
+protocol TableViewTitleCellViewModelInput {
+    var viewAllTapObserver: AnyObserver<Void> { get }
+}
+
+protocol TableViewTitleCellViewModelOutput {
+    var title: Observable<String?> { get }
+    var showViewMoreButton: Observable<Bool> { get }
+    var viewAll: Observable<Void> { get }
+}
+
+protocol TableViewTitleCellViewModelType: TableViewTitleCellViewModelInput, TableViewTitleCellViewModelOutput {
+    var inputs: TableViewTitleCellViewModelInput { get }
+    var outputs: TableViewTitleCellViewModelOutput { get }
+}
+
+extension TableViewTitleCellViewModelType {
+    var inputs: TableViewTitleCellViewModelInput { self }
+    var outputs: TableViewTitleCellViewModelOutput { self }
+}
+
+class TableViewTitleCellViewModel: TableViewTitleCellViewModelType, ReusableTableViewCellViewModelType {
+    var reusableIdentifier: String { "GenericViewTitileTableViewCell" }
+    
+    // Inputs
+    var viewAllTapObserver: AnyObserver<Void> { viewAllSubject.asObserver() }
+    
+    // Outputs
+    var title: Observable<String?> { titleSubject.asObservable() }
+    var showViewMoreButton: Observable<Bool> { showViewMoreButtonSubject.asObservable() }
+    var viewAll: Observable<Void> { viewAllSubject.asObservable() }
+    
+    // Subjects
+    private let titleSubject = BehaviorSubject<String?>(value: nil)
+    private let showViewMoreButtonSubject = BehaviorSubject<Bool>(value: false)
+    private let viewAllSubject = PublishSubject<Void>()
+    
+    init(title: String, showViewMore: Bool) {
+        titleSubject.onNext(title)
+        showViewMoreButtonSubject.onNext(showViewMore)
+    }
+}
+
+class GenericViewTitileTableViewCell: RxUITableViewCell {
     
     
     var isTitleOnly : Bool = false {
@@ -57,6 +102,9 @@ class GenericViewTitileTableViewCell: UITableViewCell {
             arrowImage.image =  UIImage(name: sdkManager.isShopperApp ? "arrowRight" : "SettingArrowForward")
         }
     }
+    @IBOutlet weak var cellHeight: NSLayoutConstraint!
+    
+    var viewModel: TableViewTitleCellViewModelType?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -64,6 +112,34 @@ class GenericViewTitileTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
+    }
+    
+    override func configure(viewModel: Any) {
+        guard let viewModel = viewModel as? TableViewTitleCellViewModelType else { return }
+        
+        self.viewModel = viewModel
+        
+        viewModel.outputs.title
+            .bind(to: self.lblTopHeader.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.showViewMoreButton
+            .subscribe(onNext: { [weak self] showViewMore in
+                guard let self = self else { return }
+                
+                self.viewAll.isHidden = !showViewMore
+                self.arrowImage.isHidden = !showViewMore
+                self.viewAll.visibility = !showViewMore ? .gone : .visible
+                
+            }).disposed(by: disposeBag)
+        
+        if ElGrocerUtility.sharedInstance.isArabicSelected(){
+            arrowImage.transform = CGAffineTransform(scaleX: -1, y: 1)
+        }
+        
+        self.backgroundColor = .white
+        self.cellHeight.constant = KGenericViewTitileTableViewCellHeight + 23
+        self.invalidateIntrinsicContentSize()
     }
     
     func configureCell( title : String , _ isNeedToShowViewMore : Bool = false) {
@@ -103,6 +179,11 @@ class GenericViewTitileTableViewCell: UITableViewCell {
     
     
     @IBAction func viewAllAction(_ sender: Any) {
+        if let viewModel = self.viewModel {
+            viewModel.inputs.viewAllTapObserver.onNext(())
+            return
+        }
+        
         if let click = viewAllAction {
             click()
         }

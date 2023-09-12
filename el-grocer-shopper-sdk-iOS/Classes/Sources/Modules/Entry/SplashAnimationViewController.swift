@@ -14,6 +14,7 @@
 
 import UIKit
 import Lottie
+import FirebaseCore
 
 private enum BackendSuggestedAction: Int {
     case Continue = 0
@@ -49,7 +50,6 @@ class SplashAnimationViewController: UIViewController {
                 }
             }
         }
-        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .splashScreen))
         
         // segment identification of existing users who already logged in application
         if UserDefaults.isUserLoggedIn() && !UserDefaults.isAnalyticsIdentificationCompleted() {
@@ -64,6 +64,10 @@ class SplashAnimationViewController: UIViewController {
                 self.fetchLocations()
             }
             self.checkClientVersion()
+            
+            // Logging segment event for Application Opnened only for shopper application
+            SegmentAnalyticsEngine.instance.logEvent(event: ApplicationOpenedEvent())
+            UserDefaults.setIsPopAlreadyDisplayed(false)
         }
         
         if ElGrocerUtility.sharedInstance.adSlots == nil {
@@ -71,6 +75,7 @@ class SplashAnimationViewController: UIViewController {
             getSponsoredProductsAndBannersSlots { isLoaded in }
         }
         
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .splashScreen))
     }
  
     override func viewWillAppear(_ animated: Bool) {
@@ -271,6 +276,9 @@ extension SplashAnimationViewController {
                 case .success(let response):
                     if let newData = response["data"] as? NSDictionary {
                         ElGrocerUtility.sharedInstance.appConfigData = AppConfiguration.init(dict: newData as! Dictionary<String, Any>)
+                        if sdkManager.isShopperApp {
+                            ABTestManager.shared.fetchRemoteConfigs()
+                        }
                     }else{
                         self.configFailureCase()
                     }

@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '1.7.7'
+  s.version          = '100.6561.2942'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -134,7 +134,7 @@ Pod::Spec.new do |s|
   # s.dependency 'AFNetworkActivityLogger' #, :git => 'https://github.com/ToshMeston/AFNetworkActivityLogger.git'
 
   # pod 'mopub-ios-sdk' #, '~>4.6.0'
-  s.dependency 'FBSDKCoreKit', '~> 12.3.1'
+  #s.dependency 'FBSDKCoreKit', '~> 12.3.1'
   # pod 'MaterialShowcase'
   #s.dependency 'AppsFlyerFramework'
   s.dependency 'SwiftDate', '~> 6.3.1'
@@ -176,9 +176,9 @@ Pod::Spec.new do |s|
       # Pods for RateView
   s.dependency 'FloatRatingView', '~> 4.0'
       # sendBird chat
-  s.dependency 'SendBirdUIKit' ,'~> 3.6.1'
-  s.dependency 'SendBirdDesk' , '~> 1.1.3'
-  s.dependency 'SendbirdChatSDK' , '~> 4.9.3'
+    s.dependency 'SendbirdChatSDK', '4.10.0'
+    s.dependency 'SendBirdUIKit','3.6.2'
+    s.dependency 'SendBirdDesk', '1.1.3'
       # add file
   s.dependency 'Adyen', '~> 4.10.0'
   
@@ -189,7 +189,7 @@ Pod::Spec.new do |s|
   #s.dependency 'GoogleIDFASupport'
   s.dependency 'GoogleMaps', '~> 4.2.0'
   s.dependency 'GooglePlaces', '~> 4.2.0'
-  s.dependency 'lottie-ios', '~> 3.5.0'
+  s.dependency 'lottie-ios', '~> 4.0.1'
 #s.dependency 'AppsFlyerFramework'
 
   # Segment analytics dependency

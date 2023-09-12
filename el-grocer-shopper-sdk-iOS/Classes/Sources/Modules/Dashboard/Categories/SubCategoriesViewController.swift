@@ -9,7 +9,7 @@
 import UIKit
 //import HMSegmentedControl
 import FirebaseAnalytics
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import FirebaseCrashlytics
 
 class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout , AWSegmentViewProtocol, UIGestureRecognizerDelegate {
@@ -49,6 +49,8 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     }
 
     var collectionViewBottomConstraint: NSLayoutConstraint?
+    private var cacheScrollPosition: [IndexPath: CGPoint] = [:]
+    
     
     // MARK: Life cycle
     
@@ -305,6 +307,10 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex:Int) {
         self.viewHandler.subCategorySegmentIndexChange(selectedSegmentIndex)
         self.collectionView.setContentOffset(CGPoint.zero, animated: false)
+        
+        // Logging segment event for product sub-category clicked event
+        let event = ProductSubCategoryClickedEvent(subCategory: viewHandler.getlastSelectedSubCategory())
+        SegmentAnalyticsEngine.instance.logEvent(event: event)
     }
     
         
@@ -430,6 +436,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         let cell : SubCategoryBrandWiseProductsViewCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: KSubCategoryBrandWiseProductsViewCollectionViewCellIdentifier, for: indexPath) as! SubCategoryBrandWiseProductsViewCollectionViewCell
         if let grocery = self.viewHandler.grocery {
             cell.configureCell(self.viewHandler.ListbrandsArray[indexPath.row], grocery: grocery , productDelegate: productDelegate.setGrocery(self.viewHandler.grocery))
+            cell.collectionView.contentOffset = self.cacheScrollPosition[indexPath] ?? .zero
             cell.brandViewAllClicked = { [weak self] (brand) in
                 guard let self = self else {return}
                 self.navigateToBrandsDetailViewBrand(brand!)
@@ -505,6 +512,12 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             return UIEdgeInsets.init(top: 0 , left: 0, bottom: 0, right: 0)
         }
         return UIEdgeInsets.init(top: 5, left: 5 , bottom: 20, right: 10)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let cell = cell as? SubCategoryBrandWiseProductsViewCollectionViewCell {
+            self.cacheScrollPosition[indexPath] = cell.collectionView.contentOffset
+        }
     }
     
    // MARK:- Scroll Delegate
