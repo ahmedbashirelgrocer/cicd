@@ -450,6 +450,8 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             GenericClass.print(self.baseApiPath ?? "")
         }
         self.requestManager = AFHTTPSessionManagerCustom.init(baseURL: NSURL(string: self.baseApiPath)! as URL)
+        self.requestManager.operationQueue.maxConcurrentOperationCount = 4
+
         //fixme with self.requestManager.requestSerializer = AFJSONRequestSerializerCustom.serializer(with: JSONSerialization.WritingOptions.prettyPrinted)
         self.requestManager.requestSerializer = AFJSONRequestSerializerCustom.serializer()
       //  self.requestManager.requestSerializer.setValue("close", forHTTPHeaderField: "Connection")
