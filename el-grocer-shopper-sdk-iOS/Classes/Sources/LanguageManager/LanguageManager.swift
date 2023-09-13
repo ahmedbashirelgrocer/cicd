@@ -111,8 +111,8 @@ class LanguageManager: NSObject {
     
     
     func languageButtonAction(selectedLanguage : String , SDKManagers : SDKManagerType? = nil , updateRootViewController : Bool = false) {
-        
-        updateUserLanguage(selectedLanguage)
+     
+        ElGrocerUtility.sharedInstance.delay(10) { [weak self] in self?.updateUserLanguage(selectedLanguage) }
         Bundle.setLanguage(selectedLanguage)
         
         if SDKManager.shared.isSmileSDK {

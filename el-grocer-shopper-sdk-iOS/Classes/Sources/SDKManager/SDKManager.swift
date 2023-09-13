@@ -225,6 +225,8 @@ class SDKManager: NSObject, SDKManagerType  {
                 }
             }
             if var apiData = notifcation.userInfo as? [String : Any] {
+                
+               
                 apiData[FireBaseParmName.SessionID.rawValue] = ElGrocerUtility.sharedInstance.getGenericSessionID()
                 if let launchOptions = launchOptions, launchOptions.isSmileSDK {
                     
@@ -240,6 +242,10 @@ class SDKManager: NSObject, SDKManagerType  {
                 if !isNoNeedToLogged {
                     SegmentAnalyticsEngine.instance.logEvent(event: GeneralAPIErrorEvent(endPoint: apiData["url"] as? String, message: elError.message ?? elError.localizedMessage, code: elError.code))
                 }
+                elDebugPrint("apiData[url]: \(apiData["url"])")
+                elDebugPrint("apiData[elError.message]: \(elError.message)")
+                elDebugPrint("apiData[elError.localizedMessage]: \(elError.localizedMessage)")
+                elDebugPrint("apiData[elError.code]: \(elError.code)")
                
             }else{
                 

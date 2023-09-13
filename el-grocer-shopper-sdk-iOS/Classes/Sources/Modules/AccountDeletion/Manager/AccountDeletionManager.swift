@@ -113,27 +113,6 @@ class AccountDeletionManager {
         })
     }
     
-    class func deleteAppFlyerUser(completion: @escaping (String?,String?)-> Void) {
-        
-        let url = "https://hq1.appsflyer.com/gdpr/opengdpr_requests?api_token=[api token]"
-        let configuration = URLSessionConfiguration.default
-        let headerToSend = ["Content-Type": "Content-Type: application/json", "X-CleverTap-Passcode": "XXXXXX" , "X-CleverTap-Account-Id": "675-6KZ-RW6Z"]
-        let params = ["subject_request_id": "","subject_request_type": "erasure","subject_identities": "ios_advertising_id", "submitted_time": "","property_id": "","status_callback_urls": ""]
-        let manager = AFHTTPSessionManagerCustom.init()
-        manager.get(
-            url,
-            parameters: params,headers: headerToSend, progress: nil,
-            success: { (operation, responseObject) in
 
-                 if let dic = responseObject as? [String: Any]{
-                     elDebugPrint(dic)
-                 }else{
-                     completion(nil,nil)
-                 }
-            }, failure: { (operation, error) in
-                elDebugPrint("Error: " + error.localizedDescription)
-                completion(nil,nil)
-        })
-    }
 
 }

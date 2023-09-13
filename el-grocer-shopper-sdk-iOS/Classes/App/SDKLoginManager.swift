@@ -48,7 +48,7 @@ public struct SDKLoginManager {
                 if isSuccess {
                     ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("user_login")
                     FireBaseEventsLogger.trackSignIn()
-                    SendBirdManager().createNewUserAndDeActivateOld()
+                      SendBirdManager().createNewUserAndDeActivateOld()
                 }
                 completionHandler(isSuccess, errorMessage)
             }
