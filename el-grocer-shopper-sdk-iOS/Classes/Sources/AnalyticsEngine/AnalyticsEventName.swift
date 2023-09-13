@@ -77,6 +77,7 @@ enum AnalyticsEventName {
     static let productCategoryClicked   = "Product Category Clicked"
     static let productSubCategoryClicked = "Product SubCategory Clicked"
     static let storeCategoryClicked = "Store Category Clicked"
+
     
     // MARK: Banner
     static let bannerClicked            = "Banner Clicked"

@@ -267,7 +267,8 @@ class FireBaseEventsLogger  {
     
     class func logEventToFirebaseWithEventName( _ screenName : String = "" ,  eventName : String ,  parameter : [String : Any]? = nil ){
         
-        /*
+        guard SDKManager.shared.isShopperApp else { return}
+        
         var eventNameToSend = ""
         
         if screenName.count > 0 {
@@ -345,8 +346,6 @@ class FireBaseEventsLogger  {
         let finalParm = newParms
         for (key, value) in finalParm ?? [:] {
             
-           
-            
              if value is [NSNumber] {
                  if value != nil {
                      newParms?[key] = (value as AnyObject).description
@@ -358,7 +357,6 @@ class FireBaseEventsLogger  {
                 if finalString.count > 100 {
                     finalString = String(finalString.prefix(100))
                     newParms?[key] = finalString
-                   // elDebugPrint("value change here : \(finalString)")
                 }
             }
         }
@@ -378,35 +376,24 @@ class FireBaseEventsLogger  {
                 return
             }
         }
-     //   ElGrocerUtility.sharedInstance.eventMap[eventNameToSend] = Date().timeIntervalSince1970
+        ElGrocerUtility.sharedInstance.eventMap[eventNameToSend] = Date().timeIntervalSince1970
         eventNameToSend = eventNameToSend.replacingOccurrences(of: "EG_EG_", with: "EG_")
         DispatchQueue.global(qos: .background).async {
-          
             usleep(1)
-            
-            var nameForCleverTap = eventNameToSend
-            if nameForCleverTap.contains(FireBaseElgrocerPrefix) {
-                nameForCleverTap = nameForCleverTap.replacingOccurrences(of: FireBaseElgrocerPrefix , with: CleverTapElgrocerPrefix )
-                CleverTapEventsLogger.recordEvent( nameForCleverTap  , properties: newParms != nil ? newParms : [:] )
-            }
-//            Analytics.logEvent( eventNameToSend  , parameters:newParms != nil ? newParms : [:]) //40 char limit
-            
-            if Platform.isDebugBuild {
-               //  print("*Firebase Logs*  *EventName Only*: \(eventNameToSend)  *****")
-                elDebugPrint("*Firebase Logs*  *EventName*: \(eventNameToSend)  *Parms*: \(newParms as Any)  *****")
-                elDebugPrint("=====================*Firebase Logs event Name*=========================")
-            }
-        } */
+            Analytics.logEvent( eventNameToSend  , parameters:newParms != nil ? newParms : [:]) //40 char limit
+        }
     }
     
     class func setScreenName (_ screenName : String?  , screenClass : String? ) {
        
+        guard SDKManager.shared.isShopperApp else { return}
+        
         var finalScreenName = screenName
         finalScreenName = finalScreenName?.replacingOccurrences(of: " ", with: "_")
         finalScreenName = finalScreenName?.replacingOccurrences(of: "-", with: "_")
         finalScreenName = finalScreenName?.replacingOccurrences(of: ">", with: "To_")
         if let _ = screenName {
-//            Analytics.logEvent(AnalyticsEventScreenView , parameters: ["screenName" : finalScreenName ?? "" , "screenClass" : screenClass ?? ""])
+            Analytics.logEvent(AnalyticsEventScreenView , parameters: ["screenName" : finalScreenName ?? "" , "screenClass" : screenClass ?? ""])
            // Analytics.setScreenName(finalScreenName, screenClass: screenClass ?? "") //100 char limit
         }
     
@@ -414,24 +401,18 @@ class FireBaseEventsLogger  {
   
     
     class func setUserID (_ userID : String?) {
-        if let _ = userID {
-//            Analytics.setUserID(userID)
-            Crashlytics.crashlytics().setUserID(userID ?? "")
-            
-//            elDebugPrint("=====================*Firebase Logs Property*=========================")
-//            elDebugPrint("*Firebase Logs* *SetUserID*:  \(userID ?? "" )   ******")
-//            elDebugPrint("=====================*Firebase Logs Property*=========================")
-//
+        if let userID = userID {
+            Analytics.setUserID(userID)
+            Crashlytics.crashlytics().setUserID(userID )
+
         }
       
     }
     class func setUserProperty (_ value :  String? , key : String) {
-        if let _ = value {
-            Crashlytics.crashlytics().setCustomValue(value ?? "" , forKey: key )
-//            Analytics.setUserProperty(value, forName: key)
-//            elDebugPrint("=====================*Firebase Logs Property*=========================")
-//            elDebugPrint("*Firebase Logs* *setUserProperty*  value: \(value ?? "" )   key: \(key)  ***** ")
-//            elDebugPrint("=====================*Firebase Logs Property*=========================")
+        
+        if let value = value {
+            Crashlytics.crashlytics().setCustomValue(value  , forKey: key )
+            Analytics.setUserProperty(value, forName: key)
         }
       
     }

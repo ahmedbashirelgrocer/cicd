@@ -451,17 +451,12 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         }
         self.requestManager = AFHTTPSessionManagerCustom.init(baseURL: NSURL(string: self.baseApiPath)! as URL)
         self.requestManager.operationQueue.maxConcurrentOperationCount = 4
-
-        //fixme with self.requestManager.requestSerializer = AFJSONRequestSerializerCustom.serializer(with: JSONSerialization.WritingOptions.prettyPrinted)
         self.requestManager.requestSerializer = AFJSONRequestSerializerCustom.serializer()
-      //  self.requestManager.requestSerializer.setValue("close", forHTTPHeaderField: "Connection")
         self.requestManager.securityPolicy.allowInvalidCertificates = true
         self.requestManager.securityPolicy.validatesDomainName = false
         self.requestManager.requestSerializer.cachePolicy = .reloadIgnoringLocalCacheData
-        let securitypolicy : AFSecurityPolicyCustom = AFSecurityPolicyCustom.policy(withPinningMode: .none)
-        securitypolicy.allowInvalidCertificates = true
-        securitypolicy.validatesDomainName = false
-        self.requestManager.securityPolicy = securitypolicy
+      
+        
     }
   
   // MARK: Client version
@@ -4926,6 +4921,9 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
       
       // MARK: Check available carts
       func fetchBasketStatus(latitude: Double, longitude: Double, completion: @escaping (Either<BasketStatusDTO>) -> Void) {
+          
+          guard UserDefaults.isUserLoggedIn() else {return}
+          
           self.setAccessToken()
           let params: [String: Any] = ["latitude": latitude, "longitude": longitude]
           

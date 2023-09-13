@@ -93,8 +93,9 @@ class PreLoadData {
     }
 
     func loadConfigData(completion: (() -> Void)? ) {
-        self.completion = completion
+    
         configureElgrocerShopper()
+        self.completion = completion
     }
 
     
