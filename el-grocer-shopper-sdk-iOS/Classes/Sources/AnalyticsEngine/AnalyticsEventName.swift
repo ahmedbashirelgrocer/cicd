@@ -105,5 +105,4 @@ enum AnalyticsEventName {
     
     // MARK: A/B Testing
     static let abTestExperiment         = "AB Test Experiment"
-    static let genericABTestConfigError = "Generic ABTest Config Error"
 }

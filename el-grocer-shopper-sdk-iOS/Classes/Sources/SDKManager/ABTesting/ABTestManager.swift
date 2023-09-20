@@ -27,9 +27,6 @@ class ABTestManager {
     var storeConfigs: StoreConfigs = .init()
     
     var authToken: String = ""
-    
-    var testEvent: [String] = []
-    
     var configType: ConfigType?
     
     private var remoteConfig: RemoteConfig!
@@ -49,7 +46,6 @@ class ABTestManager {
                 self.remoteConfig.activate { changed, error in
                     if let error = error {
                         elDebugPrint("remote config fetching error >> \(error.localizedDescription)")
-                        self.testEvent.append("RemoteConfigActivateError:" + error.localizedDescription)
                         return
                     }
                     
@@ -60,7 +56,6 @@ class ABTestManager {
                 }
             } else {
                 elDebugPrint("remote config fetching error >> \(error?.localizedDescription ?? "Generic Error")")
-                self.testEvent.append("RemoteConfigActivateError:" + (error?.localizedDescription ?? ""))
             }
         }
         
@@ -72,10 +67,9 @@ class ABTestManager {
             if let error = error {
                 let error = ElGrocerError(error: error as NSError)
                 print(error.localizedMessage)
-                self.testEvent.append("AuthTokenFetchError:" + error.localizedDescription)
             } else {
                 self.authToken = result?.authToken ?? ""
-                print("AuthToken_Secondary: \(result?.authToken ?? "NA")")
+                elDebugPrint("Firebase A/B Test Token: \(result?.authToken ?? "NA")")
             }
         }
     }
@@ -147,7 +141,6 @@ class ABTestManager {
             
             return secondary
         } else {
-            self.testEvent.append("NilError: Failed to get secondary project, No token fetched")
             return nil
         }
     }

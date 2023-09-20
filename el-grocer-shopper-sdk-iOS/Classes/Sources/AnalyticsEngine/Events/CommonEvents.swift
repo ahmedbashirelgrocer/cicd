@@ -113,15 +113,3 @@ struct ABTestExperimentEvent: AnalyticsEventDataType {
         case store = "store"
     }
 }
-
-struct GenericABTestConfigError: AnalyticsEventDataType {
-    var eventType: AnalyticsEventType
-    var metaData: [String : Any]?
-    
-    init(eventsArray: [String]) {
-        self.eventType = .track(eventName: AnalyticsEventName.genericABTestConfigError)
-        self.metaData = [
-            EventParameterKeys.message: eventsArray
-        ]
-    }
-}

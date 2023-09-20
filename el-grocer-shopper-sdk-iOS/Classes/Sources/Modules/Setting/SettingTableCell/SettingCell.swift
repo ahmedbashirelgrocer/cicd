@@ -57,8 +57,7 @@ class SettingCell: RxUITableViewCell {
     
     
     @IBAction func clickAction(_ sender: Any) {
-        
-        self.viewModel.handleButtonAction(self.viewModel.cellType)
+        self.viewModel.inputs.actionObserver.onNext(self.viewModel.cellType)
     }
     
 

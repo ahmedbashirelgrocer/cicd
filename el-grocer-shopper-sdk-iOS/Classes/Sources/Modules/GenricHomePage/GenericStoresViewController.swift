@@ -194,15 +194,6 @@ class GenericStoresViewController: BasketBasicViewController {
             let variant = ABTestManager.shared.storeConfigs.variant
             SegmentAnalyticsEngine.instance.logEvent(event: ABTestExperimentEvent(authToken: authToken, variant: variant.rawValue, experimentType: .store))
         }
-        
-        // Log if AB Test Failed to Configure
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            if ABTestManager.shared.testEvent.count > 0 {
-                let events = ABTestManager.shared.testEvent
-                ABTestManager.shared.testEvent = []
-                SegmentAnalyticsEngine.instance.logEvent(event: GenericABTestConfigError(eventsArray: events))
-            }
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
