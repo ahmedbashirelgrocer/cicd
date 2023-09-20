@@ -150,7 +150,7 @@ extension Reactive where Base: ILSegmentView {
     
     var selectedCategory: Binder<CategoryDTO?> {
         return Binder(self.base) { segmentedView, category in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            DispatchQueue.main.async {
                 if let category = category {
                     let index = segmentedView.categories.firstIndex(where: { $0.id == category.id }) ?? 0
                     segmentedView.selectedItemIndex = index

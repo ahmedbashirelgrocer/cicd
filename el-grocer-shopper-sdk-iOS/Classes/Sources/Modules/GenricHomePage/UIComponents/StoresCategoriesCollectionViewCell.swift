@@ -285,8 +285,8 @@ class StoresCategoriesCollectionViewCell: RxUICollectionViewCell {
     
     func setImage(_ url : String? ,  isSelected : Bool = false , imageView : UIImageView , type : StoreType? ) {
         if url != nil && url?.range(of: "http") != nil {
-            
-            self.centerImage.sd_setImage(with: URL(string: url!), placeholderImage: productPlaceholderPhoto, options: SDWebImageOptions(rawValue: 0) , completed: {[weak self] (image, error, cacheType, imageURL) in
+            let priority: UInt = ABTestManager.shared.storeConfigs.variant == .baseline ? 0 : 7
+            self.centerImage.sd_setImage(with: URL(string: url!), placeholderImage: productPlaceholderPhoto, options: SDWebImageOptions(rawValue: priority) , completed: {[weak self] (image, error, cacheType, imageURL) in
                 
                 guard let self = self else {
                     return

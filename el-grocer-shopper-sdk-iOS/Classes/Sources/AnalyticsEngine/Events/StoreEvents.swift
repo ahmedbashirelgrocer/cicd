@@ -128,3 +128,16 @@ struct ProductSubCategoryClickedEvent: AnalyticsEventDataType {
         ]
     }
 }
+
+struct StoreCategoryClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(storeType: StoreType) {
+        self.eventType = .track(eventName: AnalyticsEventName.storeCategoryClicked)
+        self.metaData = [
+            EventParameterKeys.categoryID: String(storeType.storeTypeid),
+            EventParameterKeys.categoryName: storeType.name,
+        ]
+    }
+}

@@ -144,17 +144,20 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
                 // Fix this code for paginated calls
                 self.page = 0
                 self.isMoreProductsAvailable = true
-                
+
+                var currentSubCategoryId = $1
                 if $1 == self.selectedSubcategoryId {
                     self.selectedSubcategoryId = ""
-                } else {
-                    self.selectedSubcategoryId = $1
+                    currentSubCategoryId = ""
                 }
+                self.selectedSubcategoryId = $1
+                
                 self.selectedCategory = $0
                 self.productCellViewModelsSubject.onNext([])
                 self.isFetching = true
                 
-                return self.getProducts(category: $0?.categoryDB, subcategoryId: self.selectedSubcategoryId ?? "")
+                return self.getProducts(category: $0?.categoryDB, subcategoryId: currentSubCategoryId ?? "")
+                
             }
             .do(onNext: { [unowned self] _ in
                 self.isFetching = false

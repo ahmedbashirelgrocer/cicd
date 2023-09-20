@@ -20,6 +20,7 @@ protocol SettingViewModelInput {
 protocol SettingViewModelOutPut {
     var cellViewModels: Observable<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]> { get }
     var isArbic: Observable<Bool> { get }
+    var action: Observable<Any> { get }
     func heightForCell(indexPath: IndexPath) -> CGFloat
 
 }
@@ -44,14 +45,18 @@ class SettingViewModel: SettingViewModelType, ReusableTableViewCellViewModelType
     // output
     var cellViewModels: Observable<[SectionHeaderModel<Int, String , ReusableTableViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
     var isArbic: Observable<Bool> { isArbicSubject.asObservable() }
+    var action: Observable<Any> { actionSubject.asObservable() }
+    
     // Subject
     private let settingSubject = PublishSubject<Setting>()
     private let userSubject = PublishSubject<UserProfile?>()
     private var cellViewModelsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
     private let isArbicSubject = BehaviorSubject<Bool>(value: false)
+    private let actionSubject = PublishSubject<Any>()
     
     // properties
     private var viewModels: [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] = []
+    private var disponseBg = DisposeBag()
     
     init(setting: Setting, user: UserProfile?) {
         self.settingSubject.onNext(setting)
@@ -64,29 +69,65 @@ class SettingViewModel: SettingViewModelType, ReusableTableViewCellViewModelType
     private func setViewModels(setting: Setting, user: UserProfile?) -> [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] {
         
         if setting.isSmileApp() {
-        return [SectionHeaderModel(model: 0, header: "" , items: [SettingCellViewModel(type: .UserLogin, user)]),
-                SectionHeaderModel(model: 1, header: " " + localizedString("account_hedding", comment: ""), items: [SettingCellViewModel(type: .liveChat), SettingCellViewModel(type: .Orders),SettingCellViewModel(type: .Address),SettingCellViewModel(type: .PaymentMethods), SettingCellViewModel(type: .ElWallet)]),
-        SectionHeaderModel(model: 2, header: " " + localizedString("Information_heading", comment: ""), items: [SettingCellViewModel(type: .TermsAndConditions), SettingCellViewModel(type: .PrivacyPolicy), SettingCellViewModel(type: .Faqs)])]
+            return [
+                SectionHeaderModel(model: 0, header: "" , items: [
+                    self.createSettingsVM(.UserLogin, user)
+                ]),
+                SectionHeaderModel(model: 1, header: " " + localizedString("account_hedding", comment: ""), items: [
+                    self.createSettingsVM(.liveChat),
+                    self.createSettingsVM(.Orders),
+                    self.createSettingsVM(.Address),
+                    self.createSettingsVM(.PaymentMethods),
+                    self.createSettingsVM(.ElWallet)
+                ]),
+                SectionHeaderModel(model: 2, header: " " + localizedString("Information_heading", comment: ""), items: [
+                    self.createSettingsVM(.TermsAndConditions),
+                    self.createSettingsVM(.PrivacyPolicy),
+                    self.createSettingsVM(.Faqs)
+                ]),
+            ]
             
         }else if  user == nil {
             // not login case
-                  return [SectionHeaderModel(model: 0, header: "" , items: [SettingCellViewModel(type: .UserNotLogin)]),
-                                     SectionHeaderModel(model: 1, header: " " + localizedString("settings_heading", comment: ""), items: [SettingCellViewModel(type: .LanguageChange)]),
-                                     SectionHeaderModel(model: 2, header: " " + localizedString("Information_heading", comment: ""), items: [SettingCellViewModel(type: .TermsAndConditions), SettingCellViewModel(type: .PrivacyPolicy), SettingCellViewModel(type: .Faqs)])]
-            
+            return [
+                SectionHeaderModel(model: 0, header: "", items: [
+                    self.createSettingsVM(.UserNotLogin)
+                ]),
+                SectionHeaderModel(model: 1, header: " " + localizedString("settings_heading", comment: ""), items: [
+                    self.createSettingsVM(.LanguageChange)
+                ]),
+                SectionHeaderModel(model: 1, header: " " + localizedString("settings_heading", comment: ""), items: [
+                    self.createSettingsVM(.TermsAndConditions),
+                    self.createSettingsVM(.PrivacyPolicy),
+                    self.createSettingsVM(.Faqs),
+                ]),
+            ]
         } else if user != nil && setting.isElgrocerApp() {
             // elgrocer login view
-            return [SectionHeaderModel(model: 0, header: "" , items: [SettingCellViewModel(type: .UserLogin, user)]),
-                            SectionHeaderModel(model: 1, header:" " +  localizedString("account_hedding", comment: ""), items:
-                                                [SettingCellViewModel(type: .liveChat),
-                                                 SettingCellViewModel(type: .Orders),
-                                                 SettingCellViewModel(type: .Recipes),
-                                                 SettingCellViewModel(type: .Address),
-                                                 SettingCellViewModel(type: .PaymentMethods),
-                                                 SettingCellViewModel(type: .ElWallet),
-                                                 SettingCellViewModel(type: .Password)]),
-                            SectionHeaderModel(model: 2, header: " " + localizedString("settings_heading", comment: ""), items: [SettingCellViewModel(type: .LanguageChange), SettingCellViewModel(type: .DeleteAccount)]),
-                    SectionHeaderModel(model: 3, header:" " + localizedString("Information_heading", comment: ""), items: [SettingCellViewModel(type: .TermsAndConditions), SettingCellViewModel(type: .PrivacyPolicy), SettingCellViewModel(type: .Faqs), SettingCellViewModel(type: .SignOut)])]
+            return [
+                SectionHeaderModel(model: 0, header: "", items: [
+                    self.createSettingsVM(.UserLogin, user),
+                ]),
+                SectionHeaderModel(model: 1, header: " " +  localizedString("account_hedding", comment: ""), items: [
+                    self.createSettingsVM(.liveChat),
+                    self.createSettingsVM(.Orders),
+                    self.createSettingsVM(.Recipes),
+                    self.createSettingsVM(.Address),
+                    self.createSettingsVM(.PaymentMethods),
+                    self.createSettingsVM(.ElWallet),
+                    self.createSettingsVM(.Password),
+                ]),
+                SectionHeaderModel(model: 2, header: " " + localizedString("settings_heading", comment: ""), items: [
+                    self.createSettingsVM(.LanguageChange),
+                    self.createSettingsVM(.DeleteAccount)
+                ]),
+                SectionHeaderModel(model: 3, header: " " + localizedString("Information_heading", comment: ""), items: [
+                    self.createSettingsVM(.TermsAndConditions),
+                    self.createSettingsVM(.PrivacyPolicy),
+                    self.createSettingsVM(.Faqs),
+                    self.createSettingsVM(.SignOut),
+                ])
+            ]
         } else {
             // fatel error // this case never happens
             elDebugPrint("fatel error: Setting screen destroy")
@@ -110,4 +151,14 @@ class SettingViewModel: SettingViewModelType, ReusableTableViewCellViewModelType
     
    
   
+    private func createSettingsVM(_ type: SettingCellType, _ user: UserProfile? = nil) -> SettingCellViewModel {
+        let viewModel = SettingCellViewModel(type: type, user)
+        
+        viewModel.outputs.buttonAction
+            .bind(to: self.actionSubject)
+            .disposed(by: disponseBg)
+        
+        return viewModel
+            
+    }
 }

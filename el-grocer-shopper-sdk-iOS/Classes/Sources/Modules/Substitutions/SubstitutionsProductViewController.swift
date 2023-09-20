@@ -407,8 +407,6 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         setBillInitialAppearance()
         addViewsInstackView()
         adjustDividerConstraints()
-//        setUpGradients()
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -1084,22 +1082,15 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 && smileLoginSection == 1 {
-            
             let cell : smilePointTableCell = self.tableView.dequeueReusableCell(withIdentifier: "smilePointTableCell", for: indexPath) as! smilePointTableCell
             cell.configureShowSmiles(nil)
             cell.smilePointClickHandler = {[weak self] () in
-               elDebugPrint("gotToSmileLoginView")
-                //guard let self = self else {return}
                 self?.gotToSmileLogin()
             }
             return cell
         }
-        
         if indexPath.section == 1 + smileLoginSection {
-            
-            
             if indexPath.row == 0 {
-                
                 let cell : SpaceTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: "SpaceTableViewCell", for: indexPath) as! SpaceTableViewCell
                 return cell
                 
@@ -1532,8 +1523,6 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         
         
        let substitutionItems =  SubstitutionBasketItem.getSubstitutionItemsForOrder(self.order, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        
-        
         
         for item in substitutionItems {
             

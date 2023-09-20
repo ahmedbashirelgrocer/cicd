@@ -92,12 +92,6 @@ class SettingViewController: UIViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUITableViewCell
             cell.selectionStyle = .none
             cell.configure(viewModel: viewModel)
-            let vm = viewModel as? SettingCellViewModel
-            vm?.buttonAction
-                .subscribe(onNext: { [weak self] type in
-                    self?.navigator.handleNavigation(with: type)
-                        })
-                        .disposed(by: disposeBag)
             return cell
         },titleForHeaderInSection: { dataSource, sectionIndex in
             return dataSource[sectionIndex].header
@@ -107,6 +101,10 @@ class SettingViewController: UIViewController {
             .bind(to: self.tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
+        self.viewModel.outputs.action
+            .subscribe(onNext: { [weak self] type in
+                self?.navigator.handleNavigation(with: type)
+            }).disposed(by: disposeBag)
     }
     
 }

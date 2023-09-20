@@ -184,6 +184,7 @@ class ElGrocerUtility {
     let dateFormatter = DateFormatter() // formater for slots
     var isActiveCartAvailable = false
     var isNeedToDismissGlobalSearchController: Bool = false
+    private var startTime: Date = Date()
     
     
     var slotViewControllerList : Set = Set<UIViewController>()
@@ -219,7 +220,7 @@ class ElGrocerUtility {
     }
     
     func getSesstionId() -> String {
-        let appStartMilli = Int64((SDKManager.shared.sdkStartTime?.timeIntervalSince1970 ?? Date().timeIntervalSince1970) * 1000)
+        let appStartMilli = Int64((sdkManager.sdkStartTime?.timeIntervalSince1970 ?? self.startTime.timeIntervalSince1970) * 1000)
         let uuid = UIDevice.current.identifierForVendor?.uuidString ?? ""
         return "\(appStartMilli)_\(uuid)"
     }
@@ -1596,7 +1597,7 @@ class ElGrocerUtility {
     
     
     func isTesting() -> Bool {
-        if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" {
+        if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" || ElGrocerApi.sharedInstance.baseApiPath == "https://stg.elgrocer.com/api/" {
             return true
         }else{
             return false

@@ -37,7 +37,7 @@ class SearchListViewController: UIViewController , NoStoreViewDelegate ,UIScroll
         didSet {
             lblOne.text = localizedString("lbl_One", comment: "")
             lblOne.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
-            lblOne.superview?.layer.borderColor = ApplicationTheme.currentTheme.smilePrimaryPurpleColor.cgColor
+            lblOne.superview?.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
         }
     }
     @IBOutlet var lblTwo: UILabel!{

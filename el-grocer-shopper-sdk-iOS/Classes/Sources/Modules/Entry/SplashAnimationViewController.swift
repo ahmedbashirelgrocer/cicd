@@ -64,9 +64,10 @@ class SplashAnimationViewController: UIViewController {
                 self.fetchLocations()
             }
             self.checkClientVersion()
-            
+            UserDefaults.setIsPopAlreadyDisplayed(false)
             // Logging segment event for Application Opnened only for shopper application
             SegmentAnalyticsEngine.instance.logEvent(event: ApplicationOpenedEvent())
+           
         }
         
         if ElGrocerUtility.sharedInstance.adSlots == nil {

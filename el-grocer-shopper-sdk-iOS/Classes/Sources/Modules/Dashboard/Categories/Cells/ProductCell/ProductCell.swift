@@ -1211,7 +1211,7 @@ class ProductCell : RxUICollectionViewCell {
         }
        
         let promotionValues = ProductQuantiy.checkPromoNeedToDisplay(product,self.productGrocery)
-        let isQuanityLimited = !ProductQuantiy.checkLimitedNeedToDisplayForAvailableQuantity(product)
+        let isQuanityLimited = !ProductQuantiy.checkLimitedNeedToDisplayForAvailableQuantity(product, grocery: self.productGrocery)
         if promotionValues.isNeedToDisplayPromo {
             setPromotionView(promotionValues.isNeedToDisplayPromo, promotionValues.isNeedToShowPromoPercentage, isNeedToShowPercentage: promotionValues.isNeedToShowPromoPercentage)
         }  else {

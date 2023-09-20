@@ -515,8 +515,11 @@ extension SpecialtyStoresGroceryViewController: AWSegmentViewProtocol {
         
         self.filteredGroceryArray = storyTypeBaseDataDict[selectedStoreTypeData.storeTypeid] ?? []
         
-        // Logging Segment event for Store Category Switched
+        // Logging Segment event for Store Category clicked and Switched 
         let storeCategorySwitchedEvent = StoreCategorySwitchedEvent(currentStoreCategoryType: currentCategory, nextStoreCategoryType: selectedStoreTypeData)
+        let storeCategoryClickedEvent = StoreCategoryClickedEvent(storeType: selectedStoreTypeData)
+        
+        SegmentAnalyticsEngine.instance.logEvent(event: storeCategoryClickedEvent)
         SegmentAnalyticsEngine.instance.logEvent(event: storeCategorySwitchedEvent)
        
         

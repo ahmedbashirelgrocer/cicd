@@ -33,6 +33,7 @@ enum SettingCellType {
 
 protocol SettingCellViewModelInput {
     var type: AnyObserver<SettingCellType> { get }
+    var actionObserver: AnyObserver<Any> { get }
 }
 
 protocol SettingCellViewModelOutput {
@@ -56,6 +57,8 @@ class SettingCellViewModel: SettingCellViewModelType, ReusableTableViewCellViewM
     
     // MARK: Inputs
     var type: AnyObserver<SettingCellType> { self.typeSubject.asObserver() }
+    var actionObserver: AnyObserver<Any> { buttonActionSubject.asObserver() }
+    
     // MARK: Outputs
     var title: String = ""
     var image: UIImage = UIImage(name: "product_placeholder")!
@@ -67,6 +70,7 @@ class SettingCellViewModel: SettingCellViewModelType, ReusableTableViewCellViewM
     private let buttonActionSubject = PublishSubject<Any>()
     // MARK: Properties
     var reusableIdentifier: String
+    private var disposeBag = DisposeBag()
     
     // MARK: Initlizations
     init(type: SettingCellType, _ userProfile : UserProfile? = nil) {
@@ -142,10 +146,4 @@ class SettingCellViewModel: SettingCellViewModelType, ReusableTableViewCellViewM
         self.typeSubject.onNext(type)
         
     }
-    
-    func handleButtonAction(_ type: Any) {
-           buttonActionSubject.onNext((type))
-       }
-    
-    
 }

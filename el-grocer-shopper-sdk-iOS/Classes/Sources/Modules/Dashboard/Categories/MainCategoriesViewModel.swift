@@ -260,7 +260,8 @@ private extension MainCategoriesViewModel {
                 if self.showProductsSection {
                     self.categories.insert(shoppingList, at: 0)
                 } else {
-                    self.categories.insert(buyItAgain, at: 0)
+                    
+                    if UserDefaults.isUserLoggedIn() { self.categories.insert(buyItAgain, at: 0) }
                     self.categories.insert(shoppingList, at: 1)
                 }
                 

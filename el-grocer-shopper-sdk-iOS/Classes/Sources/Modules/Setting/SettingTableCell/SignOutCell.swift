@@ -23,6 +23,6 @@ class SignOutCell: RxUITableViewCell {
     }
     
     @IBAction func signOutActionCalled(_ sender: Any) {
-        self.viewModel.handleButtonAction(SettingNavigationUseCase.SignOut)
+        self.viewModel.inputs.actionObserver.onNext(SettingNavigationUseCase.SignOut)
     }
 }

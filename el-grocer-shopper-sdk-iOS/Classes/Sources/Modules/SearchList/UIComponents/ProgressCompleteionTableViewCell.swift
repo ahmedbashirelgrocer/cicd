@@ -73,14 +73,14 @@ class ProgressCompleteionTableViewCell: UITableViewCell {
     }
     
     func themeSetup() {
-        lblCreatShoppingList.textColor = ApplicationTheme.currentTheme.smilePrimaryPurpleColor
-        lblSearchAndShop.textColor = ApplicationTheme.currentTheme.smilePrimaryPurpleColor
-        lblOne.textColor = ApplicationTheme.currentTheme.smilePrimaryPurpleColor
-        lblTwo.textColor = ApplicationTheme.currentTheme.smilePrimaryPurpleColor
+        lblCreatShoppingList.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        lblSearchAndShop.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        lblOne.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        lblTwo.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         progressLineOne.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         progressLineTwo.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
-        oneSuperView.layer.borderColor = ApplicationTheme.currentTheme.smilePrimaryPurpleColor.cgColor
-        twoSuperView.layer.borderColor = ApplicationTheme.currentTheme.smilePrimaryPurpleColor.cgColor
+        oneSuperView.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
+        twoSuperView.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
     }
     
 }

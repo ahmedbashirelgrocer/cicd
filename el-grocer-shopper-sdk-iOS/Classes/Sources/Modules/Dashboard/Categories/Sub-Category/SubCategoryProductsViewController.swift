@@ -11,6 +11,8 @@ import RxCocoa
 import STPopup
 
 class SubCategoryProductsViewController: BasketBasicViewController {
+
+    // MARK: Views
     @IBOutlet weak var collectionView: UICollectionView! {
         didSet {
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
@@ -70,25 +72,44 @@ class SubCategoryProductsViewController: BasketBasicViewController {
         return view
     }()
     
+
+    // MARK: Properties
     private var viewModel: SubCategoryProductsViewModelType!
     private var abTestVarient: StoreConfigs.Varient = ABTestManager.shared.storeConfigs.variant
     private var disposeBag = DisposeBag()
     private var cellViewModels: [ReusableCollectionViewCellViewModelType] = []
     private var effectiveOffset: CGFloat = 0
+
+    private var effectiveOffsetTest: CGFloat = 0
     private var offset: CGFloat = 0 {
         didSet {
             let diff = offset - oldValue
-            if diff > 0 { effectiveOffset = min(60, effectiveOffset + diff) }
-            else { effectiveOffset = max(0, effectiveOffset + diff) }
+            if diff > 0 {
+                effectiveOffset = min(60, effectiveOffset + diff)
+                
+                let bannerHeight = self.bannerView.constraints.first(where: {$0.firstAttribute == .height})?.constant ?? 0.0
+               // if bannerHeight <= 0 && effectiveOffset == 60 {
+                    effectiveOffsetTest = min(124, effectiveOffsetTest + diff)
+              // }
+            }
+            else {
+                effectiveOffset = max(0, effectiveOffset + diff)
+                if effectiveOffset == 0 {
+                    effectiveOffsetTest = max(0, effectiveOffsetTest + diff)
+                }
+            }
         }
     }
+    private var categoryViewTopConstraint: NSLayoutConstraint?
     
+    // MARK: Making
     static func make(viewModel: SubCategoryProductsViewModelType) -> SubCategoryProductsViewController {
         let vc = SubCategoryProductsViewController(nibName: "SubCategoryProductsViewController", bundle: .resource)
         vc.viewModel = viewModel
         return vc
     }
     
+    // MARK: Life Cycles
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -111,6 +132,7 @@ class SubCategoryProductsViewController: BasketBasicViewController {
         self.backButtonPressed()
     }
     
+    // MARK: Actions
     @IBAction func showCategoriesBottomSheet(_ sender: Any) {
         self.viewModel.inputs.categoriesButtonTapObserver.onNext(())
     }
@@ -148,6 +170,11 @@ extension SubCategoryProductsViewController: UICollectionViewDataSource, UIColle
         
         self.collapseHeaderOnScroll(scrollView)
         self.collapseBannerOnScroll(scrollView)
+
+        if ABTestManager.shared.storeConfigs.variant == .horizontal {
+            self.categoryViewTopConstraint?.constant = self.effectiveOffsetTest * -1
+            self.categoriesSegmentedView.alpha = max(0, 1 - (self.effectiveOffsetTest / 124))
+        }
     }
     
     private func collapseHeaderOnScroll(_ scrollView: UIScrollView) {
@@ -223,6 +250,9 @@ private extension SubCategoryProductsViewController {
         
         self.basketIconOverlay?.shouldShow = true
         self.basketIconOverlay?.grocery = self.viewModel.grocery
+
+        self.view.bringSubviewToFront(self.safeAreaView)
+
     }
     
     func setupNavigationHeader() {
@@ -273,7 +303,7 @@ private extension SubCategoryProductsViewController {
         
         var itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 22) / 2, height: 264)
         if abTestVarient == .vertical {
-            itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 106) / 2, height: 237)
+            itemSize = CGSize(width: (ScreenSize.SCREEN_WIDTH - 106) / 2, height: 245)
         }
         
         self.collectionView.collectionViewLayout = {
@@ -316,7 +346,8 @@ private extension SubCategoryProductsViewController {
         // headers constraint
         let locationHeader = setupLocationHeaderConstraint()
         
-        locationHeader.bottomAnchor.constraint(equalTo: bannerView.topAnchor, constant: -8).isActive = true
+//        locationHeader.bottomAnchor.constraint(equalTo: bannerView.topAnchor, constant: -8).isActive = true
+        bannerView.topAnchor.constraint(equalTo: locationHeader.bottomAnchor, constant: 8).isActive = true
         bannerView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16).isActive = true
         bannerView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16).isActive = true
         bannerView.heightAnchor.constraint(equalToConstant: 0).isActive = true
@@ -331,11 +362,10 @@ private extension SubCategoryProductsViewController {
             categoriesSegmentedView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4).isActive = true
             categoriesSegmentedView.widthAnchor.constraint(equalToConstant: 80).isActive = true
             categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
-            
-//            bannerView.topAnchor.constraint(equalTo: locationHeader.bottomAnchor, constant: 8).isActive = true
-            
+
             contentView.leadingAnchor.constraint(equalTo: categoriesSegmentedView.trailingAnchor).isActive = true
-            bannerView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+            contentView.topAnchor.constraint(equalTo: self.bannerView.bottomAnchor).isActive = true
+
             
             // separator
             self.categoriesSeparator.topAnchor.constraint(equalTo: self.categoriesSegmentedView.topAnchor).isActive = true
@@ -347,15 +377,12 @@ private extension SubCategoryProductsViewController {
             categoriesSegmentedView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
             categoriesSegmentedView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
             categoriesSegmentedView.heightAnchor.constraint(equalToConstant: 114).isActive = true
-            categoriesSegmentedView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+            categoryViewTopConstraint = categoriesSegmentedView.topAnchor.constraint(equalTo: self.bannerView.bottomAnchor)
+            categoryViewTopConstraint?.isActive = true
+            contentView.topAnchor.constraint(equalTo: self.categoriesSegmentedView.bottomAnchor).isActive = true
             
-//            bannerView.topAnchor.constraint(equalTo: locationHeader.bottomAnchor, constant: 8).isActive = true
-            bannerView.bottomAnchor.constraint(equalTo: self.categoriesSegmentedView.topAnchor).isActive = true
-            
-
         case .bottomSheet:
-//            bannerView.topAnchor.constraint(equalTo: self.locationHeaderShopper.bottomAnchor, constant: 8).isActive = true
-            bannerView.bottomAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+            contentView.topAnchor.constraint(equalTo: self.bannerView.bottomAnchor).isActive = true
             
         case .baseline: break
         }

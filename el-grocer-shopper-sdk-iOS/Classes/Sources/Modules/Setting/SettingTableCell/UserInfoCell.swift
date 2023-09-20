@@ -44,7 +44,7 @@ class UserInfoCell: RxUITableViewCell {
     }
     
     @IBAction func editProfileAction(_ sender: Any) {
-        self.viewModel.handleButtonAction(SettingNavigationUseCase.EditProfile)
+        self.viewModel.inputs.actionObserver.onNext(SettingNavigationUseCase.EditProfile)
     }
     
 

@@ -20,6 +20,7 @@ protocol MyBasketCellProtocol: class {
 class MyBasketTableViewCell: UITableViewCell {
     
     weak var delegate:MyBasketCellProtocol?
+    weak var grocery: Grocery?
     
     @IBOutlet var viewMainContainer: UIView!
     
@@ -431,55 +432,27 @@ class MyBasketTableViewCell: UITableViewCell {
                 if let priceFromGrocery = priceDictFromGrocery?["price_full"] as? NSNumber {
                     price = priceFromGrocery
                 }
-                
                 let time = ElGrocerUtility.sharedInstance.getCurrentMillis()
                 if let strtTime = product.promoStartTime?.millisecondsSince1970, let endTime = product.promoEndTime?.millisecondsSince1970, strtTime <= time && endTime >= time , product.promotion?.boolValue == true {
-                    
                     if product.promotion!.boolValue{
                         if product.promoPrice != nil{
                             promoPrice = product.promoPrice!
                         }
                     }
-                    
                 }
-                
                 let priceSum = price.doubleValue * shoppingItem.count.doubleValue
                 let promoPriceSum = promoPrice.doubleValue * shoppingItem.count.doubleValue
                 if let strtTime = product.promoStartTime?.millisecondsSince1970, let endTime = product.promoEndTime?.millisecondsSince1970, strtTime <= time && endTime >= time , product.promotion?.boolValue == true {
-//                    let aedDict = [NSAttributedString.Key.font:UIFont.SFProDisplayNormalFont(12)]
-//                    let priceDict = [NSAttributedString.Key.font:UIFont.SFProDisplayBoldFont(16)]
-//                    let attStringProductTotalPriceFinal = NSMutableAttributedString()
-//                    attStringProductTotalPriceFinal.append(NSMutableAttributedString(string:String(format:"%@",CurrencyManager.getCurrentCurrency()), attributes:aedDict))
-//                    attStringProductTotalPriceFinal.append(NSMutableAttributedString(string:String(format:" %.2f",promoPriceSum), attributes:priceDict))
-//                    self.productPrice.attributedText = attStringProductTotalPriceFinal
                     self.productPrice.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: promoPrice.doubleValue)
-//                    self.lblStrikePrice.text = localizedString("aed", comment: "") + " " + priceSum.formateDisplayString()
                     self.lblStrikePrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: priceSum)
                     self.lblStrikePrice.strikeThrough(true)
                 }else{
                     self.lblStrikePrice.text = ""
-//                    let aedDict = [NSAttributedString.Key.font:UIFont.SFProDisplayNormalFont(12)]
-//                    let priceDict = [NSAttributedString.Key.font:UIFont.SFProDisplayBoldFont(16)]
-//                    let attStringProductTotalPriceFinal = NSMutableAttributedString()
-//                    attStringProductTotalPriceFinal.append(NSMutableAttributedString(string:String(format:"%@",CurrencyManager.getCurrentCurrency()), attributes:aedDict))
-//                    attStringProductTotalPriceFinal.append(NSMutableAttributedString(string:String(format:" %.2f",priceSum), attributes:priceDict))
-//                    self.productPrice.attributedText = attStringProductTotalPriceFinal
                     self.productPrice.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: price.doubleValue)
                 }
-                
             }
-            
         } else {
-            
             self.productTotalPrice.isHidden = true
-            
-//            let partTwoProductPrice = NSMutableAttributedString(string:String(format:"%.2f %@%d",product.price.doubleValue,"x",shoppingItem.count.intValue), attributes:dict3)
-//
-//            let attStringProductPrice = NSMutableAttributedString()
-//
-//            attStringProductPrice.append(partAED)
-//            attStringProductPrice.append(partTwoProductPrice)
-//            self.productPrice.text = String(format: "%@ %.2f",CurrencyManager.getCurrentCurrency() , product.price.doubleValue)
             self.productPrice.attributedText = ElGrocerUtility.sharedInstance.getPriceAttributedString(priceValue: product.price.doubleValue)
         }
         
@@ -510,7 +483,7 @@ class MyBasketTableViewCell: UITableViewCell {
             self.salesView.isHidden = true
         }
         
-        self.limitedStockBGView.isHidden  = !ProductQuantiy.checkLimitedNeedToDisplayForAvailableQuantity(product)
+        self.limitedStockBGView.isHidden  = !ProductQuantiy.checkLimitedNeedToDisplayForAvailableQuantity(product, grocery: grocery)
         
         if ProductQuantiy.checkPromoLimitReached(product, count: shoppingItem.count.intValue){
             self.plusBtn.tintColor = UIColor.newBorderGreyColor()

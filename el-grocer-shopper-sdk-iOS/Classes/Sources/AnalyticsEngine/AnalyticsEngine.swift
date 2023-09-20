@@ -71,8 +71,8 @@ class SegmentAnalyticsEngine: AnalyticsEngineType {
 }
 
 private extension SegmentAnalyticsEngine {
-    func addMarketTypeProperty(metaData: [String: Any]) -> [String: Any] {
-        if let launchOptions = sdkManager.launchOptions {
+    func addMarketTypeProperty(metaData: [String: Any], launchOptions: LaunchOptions? = sdkManager.launchOptions) -> [String: Any] {
+        if let launchOptions = launchOptions {
             switch launchOptions.marketType {
             case .marketPlace:
                 var metaData = metaData
@@ -126,12 +126,13 @@ private extension SegmentAnalyticsEngine {
     
     func debugLogEvent(eventType: String, eventName: String, params: [String: Any]) {
         #if DEBUG
-        print("\n\n\n")
+        print("\n\n")
         print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< SEGMENT ANALYTICS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         print("Event Type: \(eventType)")
         print("Event Name: \(eventName)")
         print("Event Params: \(params)")
-        print("\n\n\n")
+        print("\n")
+        print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< END >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         #endif
     }
 }

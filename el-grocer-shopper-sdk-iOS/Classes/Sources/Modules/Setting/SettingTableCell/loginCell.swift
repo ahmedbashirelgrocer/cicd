@@ -60,10 +60,10 @@ class loginCell: RxUITableViewCell {
     }
 
     @IBAction func signUpButtonHandler(_ sender: Any) {
-        self.viewModel.handleButtonAction(SettingNavigationUseCase.SignUp)
+        self.viewModel.inputs.actionObserver.onNext(SettingNavigationUseCase.SignUp)
     }
     @IBAction func signInButtonHandler(_ sender: Any) {
-        self.viewModel.handleButtonAction(SettingNavigationUseCase.Login)
+        self.viewModel.inputs.actionObserver.onNext(SettingNavigationUseCase.Login)
     }
   
     

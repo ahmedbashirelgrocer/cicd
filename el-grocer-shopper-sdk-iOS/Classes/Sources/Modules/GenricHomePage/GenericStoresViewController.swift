@@ -194,15 +194,16 @@ class GenericStoresViewController: BasketBasicViewController {
             let variant = ABTestManager.shared.storeConfigs.variant
             SegmentAnalyticsEngine.instance.logEvent(event: ABTestExperimentEvent(authToken: authToken, variant: variant.rawValue, experimentType: .store))
         }
-        
-        // Log if AB Test Failed to Configure
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            if ABTestManager.shared.testEvent.count > 0 {
-                let events = ABTestManager.shared.testEvent
-                ABTestManager.shared.testEvent = []
-                SegmentAnalyticsEngine.instance.logEvent(event: GenericABTestConfigError(eventsArray: events))
-            }
-        }
+
+        // Log if AB Test Failed to Configure // will be remove in // commented on purpose for future ref
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+//            if ABTestManager.shared.testEvent.count > 0 {
+//                let events = ABTestManager.shared.testEvent
+//                ABTestManager.shared.testEvent = []
+//                SegmentAnalyticsEngine.instance.logEvent(event: GenericABTestConfigError(eventsArray: events))
+//            }
+//        }
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -588,7 +589,9 @@ class GenericStoresViewController: BasketBasicViewController {
         }
     }
     fileprivate func checkIFDataNotLoadedAndCall() {
-        
+        defer {
+            self.checkForPushNotificationRegisteration()
+        }
         
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {
             return
@@ -646,8 +649,6 @@ class GenericStoresViewController: BasketBasicViewController {
 //        else {
 //            self.tableView.reloadDataOnMain()
 //        }
-        
-        self.checkForPushNotificationRegisteration()
     }
     
     private func setUserProfileData() {

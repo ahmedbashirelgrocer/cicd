@@ -1301,12 +1301,6 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     private func proceedToCheckOutWithGrocery(_ grocery:Grocery){
         
         self.checkIfOutOfStockProductAvailable()
-        
-//        if self.isOutOfStockProductAvailable {
-//            self.removeOutOfStockProductsFromBasket()
-//            return
-//        }
-        
         guard isOutOfStockProductAvailable == false else {
             self.showOutOfStockAlert()
             return
@@ -2665,6 +2659,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             
             let cell = tableView.dequeueReusableCell(withIdentifier: MyBasketViewController.kShoppingBasketCellIdentifier, for: indexPath) as! MyBasketTableViewCell
             cell.delegate = self
+            cell.grocery = self.grocery
             if item != nil  {
                 
                 cell.configureWithProduct(item!, product: product, shouldHidePrice: self.grocery == nil, isProductAvailable: isProductAvailable, priceDictFromGrocery: priceDict, currentRow: (indexPath as NSIndexPath).row)
@@ -2700,6 +2695,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         let cell = tableView.dequeueReusableCell(withIdentifier: MyBasketViewController.kShoppingBasketCellIdentifier , for: indexPath) as! MyBasketTableViewCell
         cell.delegate = self
+        cell.grocery = self.grocery
         return cell
         
     }
