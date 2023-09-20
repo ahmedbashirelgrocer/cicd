@@ -290,7 +290,7 @@ extension AppDelegate {
 import UIKit
 import IQKeyboardManagerSwift
 import Firebase
-import Adyen
+import el_grocer_shopper_sdk_iOS
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -330,7 +330,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
-        return  RedirectComponent.applicationDidOpen(from: url)
+        return ElGrocer.HandleAdyenUrl(url)
     }
 
 
