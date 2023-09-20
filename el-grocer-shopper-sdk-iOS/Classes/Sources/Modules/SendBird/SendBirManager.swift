@@ -680,16 +680,19 @@ extension SendBirdManager {
     
     func createNewUserAndDeActivateOld() {
         
-        if let anonymousUserId = CleverTapEventsLogger.getCTProfileId() {
-            let id = self.shoperPrefix + anonymousUserId
-            
-            self.deleteRegisterDeviceToken(userId: id) { user in
-                if user != nil {
-                   elDebugPrint("anonymous user logged out")
-                }
+        
+        if !sdkManager.isShopperApp && !UserDefaults.isUserLoggedIn() {
+            ElGrocerUtility.sharedInstance.delay(5) { [weak self] in
+                self?.createNewUserAndDeActivateOld()
             }
+            return
         }
         
+        if let anonymousUserId = CleverTapEventsLogger.getCTProfileId() {
+            let id = self.shoperPrefix + anonymousUserId
+            self.deleteRegisterDeviceToken(userId: id) { user in  }
+        }
+
         SendbirdChat.disconnect {}
         SendBirdDeskManager(type: .agentSupport).setUpSenBirdDeskWithCurrentUser(isWithChat: false)
        
@@ -769,11 +772,7 @@ extension SendBirdManager{
 
     func viewUser(userId: String,name: String, completion: @escaping (String?,String?)-> Void) {
         let url = baseUrl + sendBirdApiEndPoint.viewUser.rawValue
-        
-        let configuration = URLSessionConfiguration.default
-        
-        
-        
+       
         let headerToSend = ["Content-Type": contentType, "Api-Token": ApiToken]
         let manager = AFHTTPSessionManagerCustom.init()
         

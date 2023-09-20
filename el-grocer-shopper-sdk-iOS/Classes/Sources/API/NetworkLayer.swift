@@ -49,10 +49,7 @@ class CallObj {
     }
     
     func startNetWorkLayerCall (_ layerCall : NetworkLayer ) {
-        
-       // elDebugPrint("AF: URLString \(self.URLString)")
-       // elDebugPrint("AF: parameters \(String(describing: self.parameters))")
-        
+    
         if self.type == .get {
             layerCall.get(self.URLString, parameters: self.parameters , progress: self.progress! , success: self.success, failure: self.failure)
         }else if self.type == .post {
@@ -71,48 +68,21 @@ class NetworkLayer {
    private var  queue = Queue<CallObj>()
    private var expireDate : Date?
    private var baseApiPath: String!
-   //private var projectScope : ScopeDetail?
-   // private var isTokenCalling: Bool = false
-    /*
-    //not being used right now
-    lazy private(set) var  mocRequestManager : AFHTTPSessionManager = {
-        let  requestManager : AFHTTPSessionManager
-        self.baseApiPath = EnvironmentVariables.sharedInstance.getMocBackendUrl()
-        requestManager = AFHTTPSessionManagerCustom.init(baseURL: NSURL(string: self.baseApiPath)! as URL)
-        if #available(iOS 11.0, *) {
-            requestManager.requestSerializer = AFJSONRequestSerializer(writingOptions: JSONSerialization.WritingOptions.sortedKeys)
-        } else {
-            // Fallback on earlier versions
-            requestManager.requestSerializer = AFJSONRequestSerializer(writingOptions: JSONSerialization.WritingOptions.prettyPrinted)
-        }
-        //requestManager.requestSerializer.setValue("close", forHTTPHeaderField: "Connection") //  keep-alive
-        //requestManager.responseSerializer = AFJSONResponseSerializer()
-        requestManager.securityPolicy.allowInvalidCertificates = true
-        requestManager.securityPolicy.validatesDomainName = false
-        requestManager.requestSerializer.cachePolicy = .reloadIgnoringLocalCacheData
-        let securitypolicy : AFSecurityPolicy = AFSecurityPolicy(pinningMode: .none)
-        securitypolicy.allowInvalidCertificates = true
-        securitypolicy.validatesDomainName = false
-        requestManager.securityPolicy = securitypolicy
-        return requestManager
-    }()
-     */
+   
     lazy private(set) var  requestManager : AFHTTPSessionManagerCustom = {
-        let  requestManager : AFHTTPSessionManagerCustom
-        self.baseApiPath = EnvironmentVariables.sharedInstance.getBackendUrl()
-        requestManager = AFHTTPSessionManagerCustom.init(baseURL: NSURL(string: self.baseApiPath)! as URL)
+        let baseurl = EnvironmentVariables.sharedInstance.getBackendUrl()
+        let requestManager = AFHTTPSessionManagerCustom.init(baseURL: NSURL(string: baseurl)! as URL)
         requestManager.requestSerializer = AFJSONRequestSerializerCustom.serializer()
-        //requestManager.requestSerializer.setValue("close", forHTTPHeaderField: "Connection") //  keep-alive
-        requestManager.securityPolicy.allowInvalidCertificates = true
-        requestManager.securityPolicy.validatesDomainName = false
         requestManager.requestSerializer.cachePolicy = .reloadIgnoringLocalCacheData
-        let securitypolicy : AFSecurityPolicyCustom = AFSecurityPolicyCustom.policy(withPinningMode: AFSSLPinningModeCustom.none)
-        securitypolicy.allowInvalidCertificates = true
-        securitypolicy.validatesDomainName = false
-        requestManager.securityPolicy = securitypolicy
         return requestManager
     }()
     
+    lazy private(set) var authUrlString: String = {
+        let baseurl = EnvironmentVariables.sharedInstance.getBackendUrl()
+        let mainURL = baseurl.replacingOccurrences(of: "/api/", with: "")
+        let urlString = mainURL + "/oauth/token"
+        return urlString
+    }()
      var productsSearchOperation : URLSessionDataTask?
      var basketFetchOperation : URLSessionDataTask?
      var recipeApiOperation:URLSessionDataTask?
@@ -163,7 +133,6 @@ class NetworkLayer {
             return nil
         }
         self.setAuthriztionToken()
-       // debugPrint(" APILOGS: GET: URLString: \(URLString)")
         return self.requestManager.get(URLString, parameters: parameters, headers: self.requestManager.requestSerializer.httpRequestHeaders, progress: progress, success: success, failure: failure )
     }
     @discardableResult
@@ -198,7 +167,6 @@ class NetworkLayer {
         return nil
         }
         self.setAuthriztionToken()
-        
         return self.requestManager.delete(URLString, parameters: parameters, headers: self.requestManager.requestSerializer.httpRequestHeaders , success: success , failure:  failure  )
     }
     
@@ -223,51 +191,45 @@ class NetworkLayer {
             return
         }
         ElGrocerUtility.sharedInstance.isTokenCalling = true
-        let baseurl = EnvironmentVariables.sharedInstance.getBackendUrl()
-        let requestManager = AFHTTPSessionManagerCustom.init(baseURL: NSURL(string: baseurl)! as URL)
-        requestManager.requestSerializer = AFJSONRequestSerializerCustom.serializer()
-       // requestManager.requestSerializer.setValue("close", forHTTPHeaderField: "Connection")
-        requestManager.securityPolicy.allowInvalidCertificates = true
-        requestManager.securityPolicy.validatesDomainName = false
-        requestManager.requestSerializer.cachePolicy = .reloadIgnoringLocalCacheData
         
-        let securitypolicy : AFSecurityPolicyCustom = AFSecurityPolicyCustom.policy(withPinningMode: AFSSLPinningModeCustom.none)
-        securitypolicy.allowInvalidCertificates = true
-        securitypolicy.validatesDomainName = false
-        requestManager.securityPolicy = securitypolicy
+       
         let  ApplicationUID  =  "47f1a7cd44806ae426c41bc76a8ecf8ac8a4af9ca130c9d8666f2aaa17e64070"
         let  ApplicationSecret  =  "a5ee8c3880ffcd31a3527e9bab930bd0a93d6ffd55fd227a156d769294a9690d"
         let parms = [ "client_id" : ApplicationUID , "client_secret" : ApplicationSecret ,  "grant_type" : "client_credentials" , "redirect_uri" : "https://api.elgrocer.com" ]
-        let mainURL = baseurl.replacingOccurrences(of: "/api/", with: "")
-        let urlString = mainURL + "/oauth/token"
-        
-      
-        requestManager.post(urlString, parameters: parms, headers: nil , progress: { (progress) in  }, success: { (task, responseObject) in
+   
+        requestManager.post(authUrlString, parameters: parms, headers: nil , progress: { (progress) in  }, success: { (task, responseObject) in
             if responseObject is Dictionary<String, Any> {
                 ElGrocerUtility.sharedInstance.projectScope =  ScopeDetail.init(tokenDetail: responseObject as! Dictionary<String, Any>)
                  let date = NSDate(timeIntervalSince1970:  ElGrocerUtility.sharedInstance.projectScope!.created_at)
-                 let expireTime = date.addingTimeInterval(ElGrocerUtility.sharedInstance.projectScope!.expires_in)
-                 self.expireDate = expireTime as Date
+                
+                let expires_in = ElGrocerUtility.sharedInstance.projectScope!.expires_in
+                let expireTime = date.addingTimeInterval(expires_in)
+                self.expireDate = expireTime as Date
+               
                 
                 var urlList : [String : callType] = [:]
-                while !self.queue.isEmpty() {
-                    if  let call : CallObj =  self.queue.dequeue() {
+                ElGrocerUtility.sharedInstance.isTokenCalling = false
+               
+                var queue = self.queue
+                self.queue.clearQueue()
+                while !queue.isEmpty() {
+                    if  let call : CallObj =  queue.dequeue() {
                         if urlList[call.URLString] == call.type {
                             continue
                         }
                         urlList[call.URLString] = call.type
-                 //   print("dequeue call\(call.URLString) && \(call.parameters ?? "")")
                        call.startNetWorkLayerCall(self)
-                        
                     }
                 }
+              
+            }else {
                 ElGrocerUtility.sharedInstance.isTokenCalling = false
             }
+      
         }) { (task, error) in
-           // elDebugPrint(error)
-          //  UIApplication.shared.isNetworkActivityIndicatorVisible = false
+        
             ElGrocerUtility.sharedInstance.isTokenCalling = false
-            if let finalerror  =  error as? NSError {
+            if let finalerror: NSError  =  error as? NSError {
                 if let response = finalerror.userInfo[AFNetworkingOperationFailingURLResponseErrorKeyCustom] as? HTTPURLResponse {
                    elDebugPrint(response.statusCode)
                     if response.statusCode == 404 {
@@ -276,9 +238,17 @@ class NetworkLayer {
                         let date = Date()
                         let expireTime = date.addingTimeInterval(300)
                         self.expireDate = expireTime as Date
-                        while !self.queue.isEmpty() {
-                            if  let call : CallObj =  self.queue.dequeue() {
-                                call.startNetWorkLayerCall(self)
+                        
+                        var urlList : [String : callType] = [:]
+                        var queue = self.queue
+                        self.queue.clearQueue()
+                        while !queue.isEmpty() {
+                            if  let call : CallObj =  queue.dequeue() {
+                                if urlList[call.URLString] == call.type {
+                                    continue
+                                }
+                                urlList[call.URLString] = call.type
+                               call.startNetWorkLayerCall(self)
                             }
                         }
                     }else if response.statusCode >= 500 && response.statusCode <= 599  {
@@ -329,7 +299,7 @@ class NetworkLayer {
         if let token = ElGrocerUtility.sharedInstance.projectScope?.access_token {
             self.requestManager.requestSerializer.setValue(token, forHTTPHeaderField: "access_token")
             self.requestManager.requestSerializer.setValue(token, forHTTPHeaderField: "Access-Token")
-            
+//            debugPrint("call token: ")
         }
         
         self.requestManager.requestSerializer.setValue(sdkManager.isSmileSDK ?  elGrocerSDKConfiguration.version : elGrocerSDKConfiguration.superAppVersion, forHTTPHeaderField: "app_version")
@@ -412,7 +382,7 @@ extension ScopeDetail {
     init( tokenDetail : Dictionary<String,Any>){
         access_token = tokenDetail["access_token"] as? String ?? ""
         created_at = tokenDetail["created_at"] as? TimeInterval ?? 0
-        expires_in = tokenDetail["expires_in"] as? TimeInterval ?? 0
+        expires_in =  tokenDetail["expires_in"] as? TimeInterval ?? 0
         scope = tokenDetail["scope"] as? String ?? ""
         token_type = tokenDetail["token_type"] as? String ?? ""
         FireBaseEventsLogger.setUserProperty(access_token , key: "access_token")
@@ -420,9 +390,20 @@ extension ScopeDetail {
 
 }
 
-class Queue<T> {
+struct Queue<T> {
     
     private var elements: [T] = []
+    
+    func getCount() -> Int {
+        guard !elements.isEmpty else {
+            return 0
+        }
+        return elements.count
+    }
+    
+    mutating func clearQueue()  {
+        elements.removeAll()
+    }
     
     func isEmpty() -> Bool {
         guard !elements.isEmpty else {
@@ -431,15 +412,16 @@ class Queue<T> {
         return false
     }
     
-    func enqueue(_ value: T) {
+    mutating func enqueue(_ value: T) {
         elements.append(value)
     }
     
-    func dequeue() -> T? {
+    mutating func dequeue() -> T? {
         guard !elements.isEmpty else {
             return nil
         }
         return elements.removeLast()
+        
     }
     
     var head: T? {

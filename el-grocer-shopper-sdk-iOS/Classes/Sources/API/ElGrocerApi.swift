@@ -450,9 +450,9 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             GenericClass.print(self.baseApiPath ?? "")
         }
         self.requestManager = AFHTTPSessionManagerCustom.init(baseURL: NSURL(string: self.baseApiPath)! as URL)
-        //fixme with self.requestManager.requestSerializer = AFJSONRequestSerializerCustom.serializer(with: JSONSerialization.WritingOptions.prettyPrinted)
+        self.requestManager.operationQueue.maxConcurrentOperationCount = 1;
+      
         self.requestManager.requestSerializer = AFJSONRequestSerializerCustom.serializer()
-      //  self.requestManager.requestSerializer.setValue("close", forHTTPHeaderField: "Connection")
         self.requestManager.securityPolicy.allowInvalidCertificates = true
         self.requestManager.securityPolicy.validatesDomainName = false
         self.requestManager.requestSerializer.cachePolicy = .reloadIgnoringLocalCacheData
@@ -460,6 +460,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
         securitypolicy.allowInvalidCertificates = true
         securitypolicy.validatesDomainName = false
         self.requestManager.securityPolicy = securitypolicy
+        
     }
   
   // MARK: Client version

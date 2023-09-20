@@ -124,8 +124,8 @@ private extension HomeCellViewModel {
             parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)
             parameters["category_id"] = category.id
             parameters["delivery_time"] =  deliveryTime
+            parameters["shopper_id"] = UserDefaults.getLogInUserID()
             
-           // print("pagination >> offset >>> \(self.offset)")
             // Shows shimmring effect only for 1st page
             if self.offset == 0 {
                 self.productCollectionCellViewModelsSubject.onNext([
@@ -133,13 +133,13 @@ private extension HomeCellViewModel {
                 ])
             }
             
-            guard let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia else {
-                ProductBrowser.shared.getTopSellingProductsOfGrocery(parameters) { result in
+            if let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia == false {
+                ProductBrowser.shared.getTopSellingProductsOfGrocery(parameters, true) { result in
                     switch result {
                     case .success(let response):
                         self.handleAlgoliaSuccessResponse(response: response)
                         break
-                    case .failure(let _):
+                    case .failure(_):
                         //    print("hanlde error >> \(error)")
                         break
                     }
@@ -153,7 +153,7 @@ private extension HomeCellViewModel {
             
             guard category.id > 1 else {
                 ProductBrowser.shared.searchOffersProductListForStoreCategory(storeID: storeId, pageNumber: pageNumber, hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsStorePage ?? 20, Int64(deliveryTime), slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsStorePage ?? 3) { [weak self] content, error in
-                    if let error = error {
+                    if let _ = error {
                         //  print("handle error >>> \(error)")
                         return
                     }
