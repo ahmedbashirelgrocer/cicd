@@ -47,6 +47,15 @@ struct HomeTileClickedEvent: AnalyticsEventDataType {
     }
 }
 
+struct ApplicationOpenedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.applicationOpened)
+    }
+}
+
 
 
 // MARK: Help Event

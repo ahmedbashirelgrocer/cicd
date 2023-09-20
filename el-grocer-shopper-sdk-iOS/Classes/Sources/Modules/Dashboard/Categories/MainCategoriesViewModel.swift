@@ -261,7 +261,7 @@ private extension MainCategoriesViewModel {
                     self.categories.insert(shoppingList, at: 0)
                 } else {
                     self.categories.insert(buyItAgain, at: 0)
-                    self.categories.insert(shoppingList, at: 3)
+                    self.categories.insert(shoppingList, at: 1)
                 }
                 
                 let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)

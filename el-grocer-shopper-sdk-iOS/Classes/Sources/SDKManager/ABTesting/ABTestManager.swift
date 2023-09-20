@@ -221,7 +221,7 @@ struct StoreConfigs {
     private let defaults = Foundation.UserDefaults.standard
     
     init() {
-        categoriesStyle = CategoriesStyle(rawValue: defaults.string(forKey: Keys.categoriesStyle.rawValue) ?? "") ?? .twoRows
+        categoriesStyle = CategoriesStyle(rawValue: defaults.string(forKey: Keys.categoriesStyle.rawValue) ?? "") ?? .horizotalScroll
         showProductsSection = (defaults.value(forKey: Keys.showProductsSection.rawValue) as? Bool) ?? true
         variant = Varient(rawValue: defaults.string(forKey: Keys.varient.rawValue) ?? "Baseline") ?? .baseline
     }
@@ -230,7 +230,7 @@ struct StoreConfigs {
         self.init()
         
         self.showProductsSection = !(remoteConfig[Keys.showProductsSection.rawValue].stringValue == "false")
-        self.categoriesStyle = CategoriesStyle(rawValue: remoteConfig[Keys.categoriesStyle.rawValue].stringValue ?? "two_row") ?? .twoRows
+        self.categoriesStyle = CategoriesStyle(rawValue: remoteConfig[Keys.categoriesStyle.rawValue].stringValue ?? "two_row") ?? .horizotalScroll
         self.variant = Varient(rawValue: remoteConfig[Keys.varient.rawValue].stringValue ?? "Baseline") ?? .baseline
         
         defaults.set(showProductsSection, forKey: Keys.showProductsSection.rawValue)
@@ -245,8 +245,8 @@ struct StoreConfigs {
     }
     
     enum CategoriesStyle: String {
-        case twoRows = "two_row"
-        case threeRows = "three_row"
+        case horizotalScroll = "two_row"
+        case verticalScroll = "three_row"
     }
     
     enum Varient: String {

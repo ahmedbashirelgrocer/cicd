@@ -45,10 +45,11 @@ class CategoriesCell: RxUITableViewCell {
         
         self.collectionView.register(UINib(nibName: StoresCategoriesCollectionViewCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: StoresCategoriesCollectionViewCell.defaultIdentifier)
         
+        self.collectionView.isScrollEnabled = categoriesStyle == .horizotalScroll
+        self.collectionView.bounces = false
         self.collectionView.collectionViewLayout = {
             let layout = UICollectionViewFlowLayout()
-            layout.scrollDirection = .horizontal
-            
+            layout.scrollDirection = categoriesStyle == .horizotalScroll ? .horizontal : .vertical
             layout.itemSize = self.calculateCellHeight()
             layout.minimumInteritemSpacing = 8
             layout.minimumLineSpacing = 12
@@ -58,7 +59,7 @@ class CategoriesCell: RxUITableViewCell {
         }()//16+
         
         // hides separator for varient than baseline
-        self.dividerHeightConstraint.constant = categoriesStyle == .twoRows ? 16 : 0
+        self.dividerHeightConstraint.constant = categoriesStyle == .horizotalScroll ? 16 : 0
     }
 
     override func configure(viewModel: Any) {
@@ -74,16 +75,18 @@ class CategoriesCell: RxUITableViewCell {
     }
     
     private func calculateCellHeight() -> CGSize {
-        if categoriesStyle == .threeRows {
+        switch categoriesStyle {
+        case .horizotalScroll:
+            return CGSize(width: 75 , height: 108)
+            
+        case .verticalScroll:
             return CGSize(width: (ScreenSize.SCREEN_WIDTH - 56) / 3, height: 136)
         }
-        
-        return CGSize(width: 75 , height: 108)
     }
     
     private func setBgColors() {
         
-        var color = UIColor.clear //ApplicationTheme.currentTheme.StorePageCategoryViewBgColor
+        let color = UIColor.clear //ApplicationTheme.currentTheme.StorePageCategoryViewBgColor
         collectionView.backgroundColor = color
         topLabelBgView.backgroundColor = color
         contentBGView.backgroundColor = color
@@ -103,8 +106,8 @@ private extension CategoriesCell {
         })
         
         // hide View All button for varient other than base
-        self.btnViewAll.isHidden = self.categoriesStyle == .threeRows
-        self.ivArrow.isHidden = self.categoriesStyle == .threeRows
+        self.btnViewAll.isHidden = self.categoriesStyle == .verticalScroll
+        self.ivArrow.isHidden = self.categoriesStyle == .verticalScroll
         
         self.viewModel
             .outputs
@@ -144,14 +147,15 @@ private extension CategoriesCell {
         viewModel.outputs.categoriesCount.subscribe(onNext: { [weak self] categoriesCount in
             guard let self = self else { return }
 
-            let headerHeight = 61.0
+            let headerHeight = 45.0
             let cellHeight = 136.0
-            let itemMargin = 48.0
+            let rows = categoriesCount % 3 == 0 ? categoriesCount / 3 : (categoriesCount / 3) + 1
+            let cellMargin = Double(rows * 12) + 8
             
+            let otherVarientHeight = (cellHeight * Double(rows)) + cellMargin + headerHeight
             let baseVarientHeight = categoriesCount > 5 ? 314 : 206.0
-            let otherVarientHeight = (cellHeight * 3) + itemMargin + (headerHeight - 16)
             
-            self.cellHeightConstraint.constant = self.categoriesStyle == .twoRows ? baseVarientHeight : otherVarientHeight
+            self.cellHeightConstraint.constant = self.categoriesStyle == .horizotalScroll ? baseVarientHeight : otherVarientHeight
             self.invalidateIntrinsicContentSize()
         }).disposed(by: disposeBag)
     }
