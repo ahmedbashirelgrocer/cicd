@@ -106,7 +106,7 @@ class AdyenApiManager {
         params["recurringProcessingModel"] = "CardOnFile"
         params["storePaymentMethod"] = true
         params["shopperReference"] = userID
-        params["return_url"] = "elgrocer.com.ElGrocerShopper://"
+        params["return_url"] =  sdkManager.isSmileSDK ? "Smiles://" : "elgrocer.com.ElGrocerShopper://"
         params["channel"] = "iOS"
         
         if let parm = params as? [String : Any] {
@@ -201,7 +201,6 @@ class AdyenApiManager {
         let params = NSMutableDictionary()
         params["paymentData"] = data.paymentData.dictionary
         params["details"] = data.details.dictionary
-        
         
         ElGrocerApi.sharedInstance.handlePaymentAction(params) { results in
            elDebugPrint(results)
