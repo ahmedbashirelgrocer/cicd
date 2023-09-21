@@ -93,19 +93,20 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
         self.categoriesSubject.onNext(categories)
         self.categorySwitchSubject.onNext(selectedCategory)
         
-        self.fetchCategories()
+        self.fetchSubCategories()
         self.fetchProducts()
         self.fetchBanners()
         
         let paginatedResult = self.fetchMoreProductsSubject
+            .withLatestFrom(self.categorySwitchSubject)
             .filter { [unowned self] _ in
                 !self.isFetching && self.isMoreProductsAvailable
             }
-            .flatMapLatest { _ in
+            .flatMapLatest { category in
                 self.page += 1
                 self.isFetching = true
 
-                return self.getProducts(category: self.selectedCategory?.categoryDB, subcategoryId: self.selectedSubcategoryId ?? "")
+                return self.getProducts(category: category?.categoryDB, subcategoryId: self.selectedSubcategoryId ?? "")
             }
             .do(onNext: { [unowned self] _ in self.isFetching = false  })
             .share()
@@ -113,7 +114,7 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
         self.bindProductFetchResponse(result: paginatedResult)
     }
     
-    private func fetchCategories() {
+    private func fetchSubCategories() {
         let categoriesFetchResult = self.categorySwitchSubject
             .distinctUntilChanged()
             .flatMapLatest {[unowned self] in
@@ -133,30 +134,27 @@ class SubCategoryProductsViewModel: SubCategoryProductsViewModelType {
     }
     
     private func fetchProducts() {
-        let subCategoryID = self.subCategorySwitchSubject
+        let subCategoryIdSubject = self.subCategorySwitchSubject
             .map { $0?.subCategoryId == -1 ? "" : $0?.subCategoryId.stringValue ?? "" }
             .distinctUntilChanged()
         
-        let productFetchResult = Observable
-            .combineLatest(self.categorySwitchSubject.distinctUntilChanged(), subCategoryID)
+        let categoryWithSubcategoryIdSubject = Observable
+           .combineLatest(self.categorySwitchSubject.distinctUntilChanged(), subCategoryIdSubject)
+        
+        let productFetchResult = categoryWithSubcategoryIdSubject
             .do(onNext: { [unowned self] _ in self.loadingSubject.onNext(true) })
             .flatMapLatest { [unowned self] in
                 // Fix this code for paginated calls
                 self.page = 0
                 self.isMoreProductsAvailable = true
-
-                var currentSubCategoryId = $1
-                if $1 == self.selectedSubcategoryId {
-                    self.selectedSubcategoryId = ""
-                    currentSubCategoryId = ""
-                }
-                self.selectedSubcategoryId = $1
                 
+                self.selectedSubcategoryId = self.selectedCategory == $0 ? $1 : ""
+                                
                 self.selectedCategory = $0
                 self.productCellViewModelsSubject.onNext([])
                 self.isFetching = true
                 
-                return self.getProducts(category: $0?.categoryDB, subcategoryId: currentSubCategoryId ?? "")
+                return self.getProducts(category: $0?.categoryDB, subcategoryId: self.selectedSubcategoryId ?? "")
                 
             }
             .do(onNext: { [unowned self] _ in

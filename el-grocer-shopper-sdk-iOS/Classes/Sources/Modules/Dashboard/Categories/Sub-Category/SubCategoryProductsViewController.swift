@@ -88,15 +88,13 @@ class SubCategoryProductsViewController: BasketBasicViewController {
                 effectiveOffset = min(60, effectiveOffset + diff)
                 
                 let bannerHeight = self.bannerView.constraints.first(where: {$0.firstAttribute == .height})?.constant ?? 0.0
-               // if bannerHeight <= 0 && effectiveOffset == 60 {
+                if bannerHeight <= 0 {
                     effectiveOffsetTest = min(124, effectiveOffsetTest + diff)
-              // }
+               }
             }
             else {
                 effectiveOffset = max(0, effectiveOffset + diff)
-                if effectiveOffset == 0 {
-                    effectiveOffsetTest = max(0, effectiveOffsetTest + diff)
-                }
+                effectiveOffsetTest = max(0, effectiveOffsetTest + diff)
             }
         }
     }
@@ -159,7 +157,7 @@ extension SubCategoryProductsViewController: UICollectionViewDataSource, UIColle
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // Pagination
         let cellHeight = self.abTestVarient == .vertical ? 237 : 264
-        let rowsThreshold = CGFloat(4 * cellHeight)
+        let rowsThreshold = CGFloat(7 * cellHeight)
         let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
 
         if y  > scrollView.contentSize.height - rowsThreshold {
@@ -172,6 +170,7 @@ extension SubCategoryProductsViewController: UICollectionViewDataSource, UIColle
         self.collapseBannerOnScroll(scrollView)
 
         if ABTestManager.shared.storeConfigs.variant == .horizontal {
+            self.offset = scrollView.contentOffset.y
             self.categoryViewTopConstraint?.constant = self.effectiveOffsetTest * -1
             self.categoriesSegmentedView.alpha = max(0, 1 - (self.effectiveOffsetTest / 124))
         }
