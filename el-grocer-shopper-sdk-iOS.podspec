@@ -4,7 +4,7 @@
 #
 #  To learn more about Podspec attributes see https://guides.cocoapods.org/syntax/podspec.html
 #  To see working Podspecs in the CocoaPods repo see https://github.com/CocoaPods/Specs/
-#  // 6.7.4
+#  // 1.8.8
 
 Pod::Spec.new do |s|
     
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '1.8.7'
+  s.version          = '1.8.8'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
