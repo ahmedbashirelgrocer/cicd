@@ -176,7 +176,7 @@ Pod::Spec.new do |s|
       # Pods for RateView
   s.dependency 'FloatRatingView', '~> 4.0'
       # sendBird chat
-    s.dependency 'SendbirdChatSDK', '4.9.6'
+    s.dependency 'SendbirdChatSDK', '4.10.0'
     s.dependency 'SendBirdUIKit','3.6.2'
     s.dependency 'SendBirdDesk', '1.1.3'
       # add file
