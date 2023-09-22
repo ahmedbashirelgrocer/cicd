@@ -16,9 +16,9 @@ Pod::Spec.new do |s|
   #  can feel like a chore to fill in it's definitely to your advantage. The
   #  summary should be tweet-length, and the description more in depth.
   #
-
+ 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '1.8.8'
+  s.version          = '100.6562.2944'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -189,7 +189,7 @@ Pod::Spec.new do |s|
   #s.dependency 'GoogleIDFASupport'
   s.dependency 'GoogleMaps', '~> 4.2.0'
   s.dependency 'GooglePlaces', '~> 4.2.0'
-  s.dependency 'lottie-ios', '~> 3.5.0'
+  s.dependency 'lottie-ios', '~> 4.0.1'
 #s.dependency 'AppsFlyerFramework'
 
   # Segment analytics dependency

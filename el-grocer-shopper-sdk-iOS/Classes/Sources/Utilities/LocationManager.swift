@@ -67,8 +67,8 @@ class LocationManager: NSObject {
         let manager = CLLocationManager()
         manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         manager.activityType = CLActivityType.fitness
-        manager.pausesLocationUpdatesAutomatically = true
-        manager.distanceFilter = 10.0
+       // manager.pausesLocationUpdatesAutomatically = true
+        // manager.distanceFilter = 10.0
         manager.desiredAccuracy = 2000
         manager.delegate = self
         return manager
