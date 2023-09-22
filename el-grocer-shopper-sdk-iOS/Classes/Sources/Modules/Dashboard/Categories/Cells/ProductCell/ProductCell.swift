@@ -123,6 +123,7 @@ class ProductCell : RxUICollectionViewCell {
         plusButton.clipsToBounds = true
         plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         plusButton.setBackgroundColor(.white, forState: .normal)
+        plusButton.backgroundColor = .white
     } }
     @IBOutlet weak var minusButton: UIButton! { didSet {
         minusButton.setImage(nil, for: .normal)
@@ -277,6 +278,10 @@ class ProductCell : RxUICollectionViewCell {
     @objc
     func notificationReceived ( notification : NSNotification) {
        
+        guard self != nil else { return }
+        guard let model : ProductCellViewModelType?  = self.viewModel, model != nil else {
+            return
+        }
         if let product = notification.object as? Product {
             if self.viewModel != nil {
                 return
@@ -1023,6 +1028,9 @@ class ProductCell : RxUICollectionViewCell {
         self.productGrocery = grocery
         self.productNameLabel.text = product.name
         
+        self.productContainer.layer.borderWidth = 1.0
+        self.productContainer.layer.borderColor = UIColor.colorWithHexString(hexString: "e4e4e4").cgColor
+        
         if self.productNameLabel.text?.isEmpty ?? false {
             self.productNameLabel.text = product.nameEn
         }
@@ -1203,7 +1211,7 @@ class ProductCell : RxUICollectionViewCell {
         }
        
         let promotionValues = ProductQuantiy.checkPromoNeedToDisplay(product,self.productGrocery)
-        let isQuanityLimited = !ProductQuantiy.checkLimitedNeedToDisplayForAvailableQuantity(product)
+        let isQuanityLimited = !ProductQuantiy.checkLimitedNeedToDisplayForAvailableQuantity(product, grocery: self.productGrocery)
         if promotionValues.isNeedToDisplayPromo {
             setPromotionView(promotionValues.isNeedToDisplayPromo, promotionValues.isNeedToShowPromoPercentage, isNeedToShowPercentage: promotionValues.isNeedToShowPromoPercentage)
         }  else {
@@ -1384,6 +1392,11 @@ private extension ProductCell {
             }
         }).disposed(by: disposeBag)
         
+        
+        CellSelectionState.shared.outputs.productQuantity.subscribe(onNext: { [weak self] quantityString in
+            self?.quantityLabel.text = quantityString
+        }).disposed(by: disposeBag)
+        
         viewModel.outputs.isSubtituted.subscribe(onNext: { [weak self] substituted in
             guard let self = self, let substituted = substituted else { return }
             
@@ -1452,9 +1465,9 @@ private extension ProductCell {
         viewModel.outputs.quantity.subscribe(onNext: { [weak self] sQuantity in
             guard let self = self else { return }
             
-            UIView.transition(with: self.quantityLabel, duration: 0.25) {
-                self.quantityLabel.text = sQuantity
-            }
+//            UIView.transition(with: self.quantityLabel, duration: 0.25) {
+//                self.quantityLabel.text = sQuantity
+//            }
         }).disposed(by: disposeBag)
         
         viewModel.outputs.plusButtonEnabled.subscribe(onNext: { [weak self] enabled in
@@ -1487,6 +1500,12 @@ private extension ProductCell {
                 self.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)
             }
         }).disposed(by: disposeBag)
+        
+        viewModel.outputs.border
+            .subscribe(onNext: { [weak self] in
+                self?.productContainer.layer.borderWidth = $0 ? 1.0 : 0
+                self?.productContainer.layer.borderColor = UIColor.colorWithHexString(hexString: "e4e4e4").cgColor
+            }).disposed(by: disposeBag)
     }
 }
 

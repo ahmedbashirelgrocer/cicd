@@ -4,7 +4,7 @@
 #
 #  To learn more about Podspec attributes see https://guides.cocoapods.org/syntax/podspec.html
 #  To see working Podspecs in the CocoaPods repo see https://github.com/CocoaPods/Specs/
-#
+#  // 6.7.4
 
 Pod::Spec.new do |s|
     
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '100.1.0'
+  s.version          = '100.6561.2943'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -47,7 +47,7 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.ios.deployment_target = '12.0'
+  s.ios.deployment_target = '13.0'
   s.swift_versions = '4.2'
 
   s.source_files = 'el-grocer-shopper-sdk-iOS/Classes/**/*.{m,h,swift}'
@@ -134,7 +134,7 @@ Pod::Spec.new do |s|
   # s.dependency 'AFNetworkActivityLogger' #, :git => 'https://github.com/ToshMeston/AFNetworkActivityLogger.git'
 
   # pod 'mopub-ios-sdk' #, '~>4.6.0'
-  s.dependency 'FBSDKCoreKit', '~> 12.3.1'
+  #s.dependency 'FBSDKCoreKit', '~> 12.3.1'
   # pod 'MaterialShowcase'
   #s.dependency 'AppsFlyerFramework'
   s.dependency 'SwiftDate', '~> 6.3.1'
@@ -176,8 +176,9 @@ Pod::Spec.new do |s|
       # Pods for RateView
   s.dependency 'FloatRatingView', '~> 4.0'
       # sendBird chat
-  s.dependency 'SendBirdUIKit', '~> 2.1.16'
-  s.dependency 'SendBirdDesk', '~> 1.0.17'
+    s.dependency 'SendbirdChatSDK', '4.10.0'
+    s.dependency 'SendBirdUIKit','3.6.2'
+    s.dependency 'SendBirdDesk', '1.1.3'
       # add file
   s.dependency 'Adyen', '~> 4.10.0'
   

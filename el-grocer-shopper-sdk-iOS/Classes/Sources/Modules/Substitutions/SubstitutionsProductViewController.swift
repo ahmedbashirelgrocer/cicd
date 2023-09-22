@@ -273,6 +273,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     private var burnSmilePointsView = BillEntryView(isGreen: true)
     private var burnElwalletPointsView = BillEntryView(isGreen: true)
     private var finalBillAmountView = BillEntryView(isGreen: true)
+    private var tabbyRedeemView = BillEntryView(isGreen: true)
     private lazy var dividerView: UIView = {
         let view = UIView()
         
@@ -406,8 +407,6 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         setBillInitialAppearance()
         addViewsInstackView()
         adjustDividerConstraints()
-//        setUpGradients()
-
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -1083,22 +1082,15 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if indexPath.section == 0 && smileLoginSection == 1 {
-            
             let cell : smilePointTableCell = self.tableView.dequeueReusableCell(withIdentifier: "smilePointTableCell", for: indexPath) as! smilePointTableCell
             cell.configureShowSmiles(nil)
             cell.smilePointClickHandler = {[weak self] () in
-               elDebugPrint("gotToSmileLoginView")
-                //guard let self = self else {return}
                 self?.gotToSmileLogin()
             }
             return cell
         }
-        
         if indexPath.section == 1 + smileLoginSection {
-            
-            
             if indexPath.row == 0 {
-                
                 let cell : SpaceTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: "SpaceTableViewCell", for: indexPath) as! SpaceTableViewCell
                 return cell
                 
@@ -1531,8 +1523,6 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
         
         
        let substitutionItems =  SubstitutionBasketItem.getSubstitutionItemsForOrder(self.order, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        
-        
         
         for item in substitutionItems {
             
@@ -2129,7 +2119,12 @@ extension SubstitutionsProductViewController{
             self.lblSelectedPayment.text = localizedString("pay_via_card", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "MYBasketPaymentCD")
             showCVV(false)
-        }else if paymentType == .applePay {
+        } else if paymentType == .tabby && sdkManager.isShopperApp {
+            setApplePayAppearence(false)
+            self.lblSelectedPayment.text = localizedString("paid_with_tabby", comment: "")
+            self.selectedPaymentImage.image = UIImage(named: "pay_via_tabby")
+            showCVV(false)
+        } else if paymentType == .applePay {
             setApplePayAppearence(true)
             self.lblSelectedPayment.text = localizedString("pay_via_Apple_pay", comment: "")
             self.selectedPaymentImage.image = UIImage(name: "payWithApple")
@@ -2228,6 +2223,7 @@ extension SubstitutionsProductViewController {
         self.billStackView.addArrangedSubview(self.grandToatalView)
         self.billStackView.addArrangedSubview(self.burnElwalletPointsView)
         self.billStackView.addArrangedSubview(self.burnSmilePointsView)
+        self.billStackView.addArrangedSubview(self.tabbyRedeemView)
         self.billStackView.addArrangedSubview(self.dividerView)
         self.billStackView.addArrangedSubview(self.finalBillAmountView)
         self.promotionView.addSubview(self.lblPromotion)
@@ -2295,7 +2291,7 @@ extension SubstitutionsProductViewController {
 //        setStackViewBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount)
     }
     
-    func setStackViewBillDetails(totalPriceWithVat: Double, serviceFee: Double, promoTionDiscount: Double, smileEarn: Int, grandTotal: Double, priceVariance: Double, smileBurn: Double, elwalletBurn: Double, finalBillAmount: Double, quantity: Int, balance: Double, smilesSubscriber: Bool) {
+    func setStackViewBillDetails(totalPriceWithVat: Double, serviceFee: Double, promoTionDiscount: Double, smileEarn: Int, grandTotal: Double, priceVariance: Double, smileBurn: Double, elwalletBurn: Double, finalBillAmount: Double, quantity: Int, balance: Double, smilesSubscriber: Bool, tabbyRedeem: Double) {
         
         self.billStackView.addArrangedSubview(self.totalPriceEntryView)
         self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: totalPriceWithVat)
@@ -2339,6 +2335,15 @@ extension SubstitutionsProductViewController {
         }else {
             self.burnSmilePointsView.isHidden = true
         }
+        
+        if sdkManager.isShopperApp && tabbyRedeem > 0 {
+            self.tabbyRedeemView.isHidden = false
+            self.billStackView.addArrangedSubview(self.tabbyRedeemView)
+            self.tabbyRedeemView.configure(title: localizedString("paid_with_tabby", comment: ""), amount: tabbyRedeem, isNegative: true)
+        } else {
+            self.tabbyRedeemView.isHidden = true
+        }
+        
         self.billStackView.addArrangedSubview(self.dividerView)
         self.billStackView.addArrangedSubview(self.finalBillAmountView)
         self.finalBillAmountView.configure(title: localizedString("amount_to_pay", comment: ""), amount: finalBillAmount)
@@ -2425,7 +2430,9 @@ extension SubstitutionsProductViewController {
                     self.handleSubstitutionBasketDetailsApiResponse(response: response)
                 case .failure(let error):
                     elDebugPrint("Failure: \(error)")
-                    error.showErrorAlert()
+                    if error.code != 4008 {
+                        error.showErrorAlert()
+                    }
             }
         }
     }
@@ -2452,6 +2459,8 @@ extension SubstitutionsProductViewController {
         let totalDiscount = response["total_discount"] as? NSNumber ?? NSNumber(0)
         let priceVariance = response["price_variance"] as? NSNumber ?? NSNumber(0)
         let smilesSubscriber = response["food_subscription_status"] as? Bool ?? false
+        let tabbyRedeem = response["tabby_redeem"] as? NSNumber ?? NSNumber(0)
+        
         var smileEarn: Int = 0
         if (order.isSmilesUser?.boolValue ?? false) {
             let total = total.doubleValue - smilesRedeem.doubleValue
@@ -2459,6 +2468,6 @@ extension SubstitutionsProductViewController {
         }
         self.assignTotalSavingAmount(savedAmount: totalDiscount.doubleValue)
         configureCheckoutButtonData(itemsNum: quantity , totalBill: finalAmount.doubleValue)
-        setStackViewBillDetails(totalPriceWithVat: productsTotal.doubleValue, serviceFee: serviceFee.doubleValue, promoTionDiscount: promoCodeValue.doubleValue, smileEarn: smileEarn, grandTotal: total.doubleValue, priceVariance: priceVariance.doubleValue, smileBurn: smilesRedeem.doubleValue, elwalletBurn: elWalletRedeem.doubleValue, finalBillAmount: finalAmount.doubleValue, quantity: quantity, balance: balance.doubleValue, smilesSubscriber: smilesSubscriber)
+        setStackViewBillDetails(totalPriceWithVat: productsTotal.doubleValue, serviceFee: serviceFee.doubleValue, promoTionDiscount: promoCodeValue.doubleValue, smileEarn: smileEarn, grandTotal: total.doubleValue, priceVariance: priceVariance.doubleValue, smileBurn: smilesRedeem.doubleValue, elwalletBurn: elWalletRedeem.doubleValue, finalBillAmount: finalAmount.doubleValue, quantity: quantity, balance: balance.doubleValue, smilesSubscriber: smilesSubscriber, tabbyRedeem: tabbyRedeem.doubleValue)
     }
 }

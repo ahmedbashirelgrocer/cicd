@@ -135,3 +135,15 @@ struct AddFundClickedEvent: AnalyticsEventDataType {
         self.eventType = .track(eventName: AnalyticsEventName.addFundClicked)
     }
 }
+
+struct TabbyEnabledEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(isEnabled: Bool) {
+        self.eventType = .track(eventName: AnalyticsEventName.tabbyEnabled)
+        self.metaData = [
+            EventParameterKeys.isEnabled: isEnabled
+        ]
+    }
+}

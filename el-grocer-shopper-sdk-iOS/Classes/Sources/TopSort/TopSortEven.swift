@@ -12,7 +12,7 @@ import Foundation
 enum TopSortEvent {
     case impressions(resolvedBidId: String)
     case clicks(resolvedBidId: String)
-    case purchases(items: [Item])
+    case purchases(orderID: String, items: [Item])
 
     struct Item {
         var productId: String
@@ -62,11 +62,11 @@ extension TopSortEvent {
                 ]
             ]
             
-        case .purchases(let items):
+        case .purchases(let orderID, let items):
             return [
                 "purchases": [
                     [
-                        "id": UUID().uuidString,
+                        "id": orderID,
                         "occurredAt": isoTimestamp,
                         "opaqueUserId": userID,
                         "items": items

@@ -993,7 +993,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                 LocationManager.sharedInstance.fetchCurrentLocation()
                 if LocationManager.sharedInstance.currentLocation.value != nil {
                     self.setCurrentAddress(LocationManager.sharedInstance.currentLocation.value!.coordinate)
-                }else{
+                }else {
                     NotificationCenter.default.addObserver(self, selector: #selector(self.locationUpdate(_:)), name:NSNotification.Name(rawValue: KLocationChange), object: nil)
                 }
             }

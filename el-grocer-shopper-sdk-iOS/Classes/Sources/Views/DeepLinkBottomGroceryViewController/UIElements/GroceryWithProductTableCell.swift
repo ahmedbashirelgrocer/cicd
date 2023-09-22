@@ -54,6 +54,7 @@ class GroceryWithProductTableCell: UITableViewCell {
     }
     @IBOutlet var plusBGView: UIView!{
         didSet{
+            plusBGView.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 plusBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner], radius: 16)
             }else {

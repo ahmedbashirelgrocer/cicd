@@ -16,10 +16,12 @@ class orderBillDetailsTableViewCell: UITableViewCell {
     private var seriviceFeeView = BillEntryView(isGreen: false)
     private var promoDiscountView = BillEntryView(isGreen: true)
     private var grandToatalView = BillEntryView(isGreen: false)
+    private var shoppingBagsView = BillEntryView(isGreen: false)
     private var priceVarianceView = BillEntryView(isGreen: true)
     private var burnSmilePointsView = BillEntryView(isGreen: true)
     private var burnElwalletPointsView = BillEntryView(isGreen: true)
     private var finalBillAmountView = BillEntryView(isGreen: true)
+    private var viewTabbyAmount = BillEntryView(isGreen: true)
     private lazy var dividerView: UIView = {
         let view = UIView()
         
@@ -71,6 +73,7 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         return view
     }()
     
+    private var order: Order?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -154,11 +157,13 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         self.superFreeDeliveryView.addSubview(freeDeliveryView)
         self.billStackView.addArrangedSubview(self.superFreeDeliveryView)
         self.setFreeDeliveryFeeViewConstraints()
-        self.billStackView.addArrangedSubview(self.grandToatalView)
+        self.billStackView.addArrangedSubview(self.shoppingBagsView)
         self.billStackView.addArrangedSubview(self.promoDiscountView)
+        self.billStackView.addArrangedSubview(self.grandToatalView)
         self.billStackView.addArrangedSubview(self.burnElwalletPointsView)
         self.billStackView.addArrangedSubview(self.burnSmilePointsView)
         self.billStackView.addArrangedSubview(self.priceVarianceView)
+        self.billStackView.addArrangedSubview(self.viewTabbyAmount)
         self.billStackView.addArrangedSubview(self.dividerView)
         self.billStackView.addArrangedSubview(self.finalBillAmountView)
     }
@@ -172,7 +177,9 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         var burnSmilePoints = 0.00
         var burnElwalletPoints = 0.00
         var smileEarn: Int = 0
+        var tabbyAmount = 0.00
         
+        self.order = order
         
         priceSum = order.produuctsTotal
         summaryCount = Int(order.totalProducts)
@@ -202,6 +209,8 @@ class orderBillDetailsTableViewCell: UITableViewCell {
                     burnElwalletPoints = amount.doubleValue
                 }else if (paymentTypeId ?? 0) == 6 {
                     discount = amount.doubleValue
+                } else if paymentTypeId == 7 {
+                    tabbyAmount = amount.doubleValue
                 }
             }
         }
@@ -214,10 +223,10 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         smileEarn = order.smileEarn?.intValue ?? 0
         priceSum = order.finalBillAmount?.doubleValue ?? 0.00 //grandTotal - discount - burnSmilePoints - burnElwalletPoints
         
-        setBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount, smilesSubscriber: order.foodSubscriptionStatus?.boolValue ?? false)
+        setBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount, smilesSubscriber: order.foodSubscriptionStatus?.boolValue ?? false, tabbyAmount: tabbyAmount)
     }
     
-    func setBillDetails(totalPriceWithVat: Double, serviceFee: Double, promoTionDiscount: Double, smileEarn: Int, grandTotal: Double, priceVariance: Double, smileBurn: Double, elwalletBurn: Double, finalBillAmount: Double, quantity: Int, smilesSubscriber: Bool) {
+    func setBillDetails(totalPriceWithVat: Double, serviceFee: Double, promoTionDiscount: Double, smileEarn: Int, grandTotal: Double, priceVariance: Double, smileBurn: Double, elwalletBurn: Double, finalBillAmount: Double, quantity: Int, smilesSubscriber: Bool, tabbyAmount: Double) {
 
         self.billStackView.addArrangedSubview(self.totalPriceEntryView)
         self.totalPriceEntryView.configure(title: localizedString("total_price_incl_VAT", comment: ""), amount: totalPriceWithVat)
@@ -232,8 +241,16 @@ class orderBillDetailsTableViewCell: UITableViewCell {
             self.seriviceFeeView.configure(title: localizedString("service_price", comment: ""), amount: serviceFee)
             self.superFreeDeliveryView.isHidden = true
         }
-        self.billStackView.addArrangedSubview(self.grandToatalView)
-        self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal)
+        
+        // check if shopping bags are available if so showing quantity and price in bill
+        if let additionalItemsNo = order?.additionalItemsCount, let additionalItemsCost = order?.additionalItemsCost, additionalItemsNo.intValue != 0, additionalItemsCost.doubleValue > 0 {
+            self.shoppingBagsView.isHidden = false
+            self.billStackView.addArrangedSubview(self.shoppingBagsView)
+            self.shoppingBagsView.configure(title: localizedString("screen_order_details_bags_text", comment: ""), amount: additionalItemsCost.doubleValue)
+            self.shoppingBagsView.setTitleForBags(bags: additionalItemsNo.intValue)
+        } else {
+            self.shoppingBagsView.isHidden = true
+        }
         
         if promoTionDiscount > 0 {
             self.billStackView.addArrangedSubview(self.promoDiscountView)
@@ -242,6 +259,16 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         }else {
             self.promoDiscountView.isHidden = true
         }
+        
+        // check if shopping bags are available then show shopping bags
+//        let bagsQuantity = 6
+//        if bagsQuantity != 0 {
+//            self.billStackView.addArrangedSubview(self.shoppingBagsView)
+//            self.shoppingBagsView.configure(title: localizedString("screen_order_details_bags_text", comment: ""), amount: 20.02)
+//            self.shoppingBagsView.setTitleForBags(bags: bagsQuantity)
+//        }
+        self.billStackView.addArrangedSubview(self.grandToatalView)
+        self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal)
         
         if elwalletBurn > 0 {
             self.billStackView.addArrangedSubview(self.burnElwalletPointsView)
@@ -265,6 +292,15 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         }else {
             self.priceVarianceView.isHidden = true
         }
+        
+        if sdkManager.isShopperApp && tabbyAmount != 0 {
+            self.viewTabbyAmount.isHidden = false
+            self.billStackView.addArrangedSubview(self.viewTabbyAmount)
+            self.viewTabbyAmount.configure(title: localizedString("paid_with_tabby", comment: ""), amount: tabbyAmount, isNegative: true)
+        } else {
+            self.viewTabbyAmount.isHidden = true
+        }
+        
         self.billStackView.addArrangedSubview(self.dividerView)
         self.billStackView.addArrangedSubview(self.finalBillAmountView)
         self.finalBillAmountView.configure(title: localizedString("amount_to_pay", comment: ""), amount: finalBillAmount)

@@ -100,11 +100,12 @@ class HomeMainCategoryCollectionCell: UICollectionViewCell {
         let lottiUrl = LanguageManager.sharedInstance.getSelectedLocale() == "ar" ? urlAr : urlEn
                 
         if let url = lottiUrl {
-            LottieAnimation.loadedFrom(url: url) { [weak self] animatin in
+            
+            LottieAnimation.loadedFrom(url: url, closure: { [weak self] animatin in
                 self?.sdanimationView.animation = animatin
                 self?.sdanimationView.play()
-            }
-            
+            }, animationCache: nil)
+        
             if let shortName = shortName, shortName.count > 0 {
                 title = shortName
             }

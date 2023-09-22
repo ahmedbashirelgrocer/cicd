@@ -135,7 +135,8 @@ class CustomCollectionViewWithProducts: CustomCollectionView {
             for _ in 1...10 {
                 self.collectionA.append("" as AnyObject)
             }
-        }else if productA.count > 0 && productA[0] is Product{
+        }else if productA.count > 0 && productA[0] is Product {
+        
             self.collectionA = productA
             self.fetchSponsoredProducts()
         }
@@ -144,36 +145,32 @@ class CustomCollectionViewWithProducts: CustomCollectionView {
     }
     
     func fetchSponsoredProducts() {
+        
         let products = collectionA.compactMap{ $0 as? Product }
         let productsR = (products.count > 0 ? Array(products[1..<products.count]) : []).map{ "\($0.productId)" }
-        
         TopsortManager.shared.auctionListings(productsR, slots: 3) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let winners):
                 if winners.count > 0 {
                     for index in 0..<self.collectionA.count {
-                        let id = products[index].productId
-                        (self.collectionA[index] as? Product)?.winner = winners.first{ $0.id == "\(id)" }
+                        if var product = self.collectionA[index] as? Product {
+                            let id = products[index].productId
+                            product.winner = winners.first{ $0.id == "\(id)" }
+                        }
                     }
-                    var rProds = self.collectionA[1..<self.collectionA.count].compactMap{ $0 as? Product }
-                    rProds.sort(by: { ($0.rank ?? 10000) < ($1.rank ?? 10000) })
-                    self.collectionA = [self.collectionA[0]] + rProds + self.collectionA.filter{ ($0 as? Product) == nil }
+                    if self.collectionA.count > 0 {
+                        var rProds = self.collectionA[1..<self.collectionA.count].compactMap{ $0 as? Product }
+                        rProds.sort(by: { ($0.rank ?? 10000) < ($1.rank ?? 10000) })
+                        self.collectionA = [self.collectionA[0]] + rProds + self.collectionA.filter{ ($0 as? Product) == nil }
+                    }
                     self.reloadData()
-                    // let resolvedBidIds = rProds.compactMap { $0.winner?.resolvedBidId }
-                    // logImpressions(resolvedBidIds: resolvedBidIds)
                 }
-                
             case .failure(let error):
-                debugPrint(error.localizedDescription)
+                elDebugPrint(error.localizedDescription)
             }
         }
         
-//        func logImpressions(resolvedBidIds: [String]) {
-//            for resolvedBidId in resolvedBidIds {
-//                TopsortManager.shared.log(.impressions(resolvedBidId: resolvedBidId))
-//            }
-//        }
     }
 }
 extension CustomCollectionViewWithProducts : UICollectionViewDelegate {
@@ -220,19 +217,11 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                 
                 let crossCell = collectionView.dequeueReusableCell(withReuseIdentifier: kCrossCollectionCellIdentifier , for: indexPath) as! CrossCollectionViewController
                 crossCell.removeItemFromSubSitute = { [weak self ] () in
-                    guard let self = self else { return }
-//                    if let clouser = self.removeItemCalled {
-//                        clouser()
-//                    }
-                   
-                }
+                    guard let self = self else { return }  }
                  crossCell.cellState = .redBorder
                 if let currentProduct = collectionA[0] as? Product, let orderIs = self.order  {
-                    
-                    
                     let currentProductID = "\(Product.getCleanProductId(fromId: currentProduct.dbID))"
                     let productID = UserDefaults.selectedProductID(orderIs.dbID.stringValue, productID: currentProductID)
-                   
                     if  productID  == currentProductID  {
                         crossCell.cellState = .redBorder
                     }else{
@@ -425,9 +414,8 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                             } else {
                                 setPlusButtonState(true)
                             }
-                        }else{
-                            elDebugPrint("checktest product item: Nil")
-                            elDebugPrint("checktest currentProduct: \(currentProduct?.name)")
+                        } else {
+                    
                             productCell.imageCrossState.image = UIImage(name: "Product Plus")
                             productCell.imageCrossState.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
                             productCell.productContainer.layer.borderColor = UIColor.clear.cgColor

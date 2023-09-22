@@ -49,7 +49,28 @@ enum BannerLocation : Int, Decodable {
     case sdk_Flavor_Grocery_subcategory_tier_2 = 33
     case sdk_Flavor_Grocery_post_checkout = 34
    
+    private static var retailerBannersSet: Set<BannerLocation> = [
+        .home_tier_1,
+        .home_tier_2,
+        .sdk_Home_tier_1,
+        .sdk_Home_tier_2,
+        
+        .store_tier_1,
+        .store_tier_2,
+        .sdk_store_tier_1,
+        .sdk_store_tier_2,
+        .sdk_Flavor_Grocery_store_tier_1,
+        .sdk_Flavor_Grocery_store_tier_2,
+        
+        .all_carts_tier_1,
+        .sdk_all_carts_tier_2,
+            
+        .post_checkout,
+        .sdk_post_checkout,
+        .sdk_Flavor_Grocery_post_checkout
+    ]
     
+    var isNeedToFetchRetailerBanner: Bool { Self.retailerBannersSet.contains(self) }
     
     func getType() -> BannerLocation {
         guard let marketType = SDKManager.shared.launchOptions?.marketType else { return self }
@@ -141,18 +162,6 @@ extension BannerLocation {
         default:
             return adSlots?.normalBannerSlots.first(where: { $0.adLocationId == self })?.placementId ?? ""
         }
-    }
-}
-
-extension BannerLocation {
-    var isNeedToFetchRetailerBanner: Bool {
-        self == .home_tier_1 ||
-        self == .home_tier_2 ||
-        self == .sdk_Home_tier_1 ||
-        self == .sdk_Home_tier_2 ||
-        self == .post_checkout ||
-        self == .sdk_post_checkout ||
-        self == .sdk_Flavor_Grocery_post_checkout
     }
 }
 

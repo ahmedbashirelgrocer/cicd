@@ -46,6 +46,7 @@ enum AnalyticsEventName {
     static let fundAdded                = "Funds Added"
     static let voucherRedeemed          = "Voucher Redeemed"
     static let addFundClicked           = "Add Fund Clicked"
+    static let tabbyEnabled             = "Tabby Enabled"
     
     // MARK: Address
     static let addressClicked           = "Address Clicked"
@@ -73,6 +74,10 @@ enum AnalyticsEventName {
     static let storesInRange            = "Stores In Range"
     static let categoryViewAllClicked   = "Category View All Clicked"
     static let productCategoryViewAllClicked = "Product Category View All Clicked"
+    static let productCategoryClicked   = "Product Category Clicked"
+    static let productSubCategoryClicked = "Product SubCategory Clicked"
+    static let storeCategoryClicked = "Store Category Clicked"
+
     
     // MARK: Banner
     static let bannerClicked            = "Banner Clicked"
@@ -80,12 +85,8 @@ enum AnalyticsEventName {
     
     // MARK: SDK
     static let sdkLaunched            = "SDK Launched"
-    
-    
-   
         
     // MARK: Shopper App Specfic events
-    static let storeCategoryClicked = "Store Category Clicked"
     static let recipeClicked        = "Recipe Clicked"
     static let recipeViewed             = "Recipe Viewed"
     static let onboardingStarted        = "Onboarding Started"
@@ -102,4 +103,6 @@ enum AnalyticsEventName {
     static let smilesHeaderClicked = "Smiles Header Clicked"
     static let homeTileClicked          = "Home Tile Clicked"
     
+    // MARK: A/B Testing
+    static let abTestExperiment         = "AB Test Experiment"
 }

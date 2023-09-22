@@ -31,10 +31,19 @@ class UniSearchCell: UITableViewCell {
     var currentObj : SuggestionsModelObj?
     var clearButtonClicked : ((_ data : String)->Void)?
     
+    
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setUpApearance()
         // Initialization code
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.imgView.sd_cancelCurrentImageLoad()
+        self.imgView.image = UIImage(name: "category_placeholder")!
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -44,6 +44,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     var orderIDFromNotification : String = ""
     var orderProducts:[Product]!
     var orderItems:[ShoppingBasketItem]!
+    var downloadCellCount = 0
     
     var shoppingBasketView:ShoppingBasketView!
     
@@ -509,25 +510,26 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     private func createBasketAndNavigateToViewForEditOrder(){
         
         let spinner = SpinnerView.showSpinnerViewInView(self.view)
+        self.editOrderSuccess(nil)
         
-        ElGrocerApi.sharedInstance.ChangeOrderStatustoEdit(order_id: self.order.dbID.stringValue ) { [weak self](result) in
-            spinner?.removeFromSuperview()
-            guard let self = self else {return}
-            
-            if self.order.status.intValue == OrderStatus.inEdit.rawValue {
-                self.editOrderSuccess(nil)
-            }else{
-                switch result {
-                    case .success(let data):
-                        self.order.status = NSNumber(value: OrderStatus.inEdit.rawValue)
-                        self.editOrderSuccess(data)
-                    case .failure(let error):
-                        
-                        error.showErrorAlert()
-                }
-            }
-            
-        }
+//        ElGrocerApi.sharedInstance.ChangeOrderStatustoEdit(order_id: self.order.dbID.stringValue ) { [weak self](result) in
+//            spinner?.removeFromSuperview()
+//            guard let self = self else {return}
+//
+//            if self.order.status.intValue == OrderStatus.inEdit.rawValue {
+//                self.editOrderSuccess(nil)
+//            }else{
+//                switch result {
+//                    case .success(let data):
+//                        self.order.status = NSNumber(value: OrderStatus.inEdit.rawValue)
+//                        self.editOrderSuccess(data)
+//                    case .failure(let error):
+//
+//                        error.showErrorAlert()
+//                }
+//            }
+//
+//        }
         
     }
     
@@ -1587,6 +1589,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         let orderCollectionDetailsCell = UINib(nibName: "OrderCollectionDetailsCell", bundle:  Bundle.resource)
         self.tableView.register(orderCollectionDetailsCell, forCellReuseIdentifier: "OrderCollectionDetailsCell")
         
+        self.tableView.register(UINib(nibName: "DownloadPDFCell", bundle: .resource), forCellReuseIdentifier: "DownloadPDFCell")
         
         let orderBasketProductTableViewCellNib = UINib(nibName: "OrderBasketProductTableViewCell", bundle: Bundle.resource)
         self.tableView.register(orderBasketProductTableViewCellNib, forCellReuseIdentifier: "OrderBasketProductTableViewCell")
@@ -1630,20 +1633,24 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
     
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         guard self.orderProducts != nil else { return 0 }
         
+        downloadCellCount = order.taxInvoiceLink?.isNotEmpty == true ? 1 : 0
+        
         if section == 0 {
             if (order.smileEarn ?? 0) > 0 {
-                return 8
-            }else {
                 return 7
+            }else {
+                return 6
             }
-        }else  if section == 2 {
+        } else if section == 1 {
+            return downloadCellCount + 1
+        } else  if section == 3 {
             return 1
         }else{
            return self.orderProducts.count
@@ -1691,7 +1698,10 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                 }
                 return 0.1
             }else if indexPath.row == 2 {
-                
+                if self.order.isCandCOrder() == false {
+                    return tableView.rowHeight
+                }
+                    
                 if self.order.retailerServiceId == 2 {
                     let Mapwidth = ScreenSize.SCREEN_WIDTH - 56 // -64 for left right paddings
                     let Mapheight = (Mapwidth / 4) * 3
@@ -1716,16 +1726,16 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             }else if indexPath.row == 6 {
                 if (self.order.smileEarn ?? 0) > 0 {
                     return UITableView.automaticDimension//70 //260 + ( self.order.promoCode != nil ? 20 : 0)
-                }else {
-                    return 40
                 }
                 
-            }else if indexPath.row == 7 {
-                return 40
             }
-           
             
-        }else if indexPath.section == 2 {
+        } else if indexPath.section == 1 {
+            if downloadCellCount == 1, indexPath.row == 0 {
+                return tableView.rowHeight
+            }
+            return 40
+        } else if indexPath.section == 3 {
             
             if (order.status.intValue == OrderStatus.pending.rawValue || order.status.intValue == OrderStatus.inEdit.rawValue || order.status.intValue == OrderStatus.payment_pending.rawValue) {
                 return 88
@@ -1837,20 +1847,19 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                         cell.configureBillDetails(order: self.order, orderController: self)
                     }
                     return cell
-                }else {
-                    let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-                    cell.configureCell(title: localizedString("lbl_Bought_items", comment: ""))
-                    return cell
                 }
-            }else  if indexPath.row == 7 {
-                
+            }
+        } else if indexPath.section == 1 {
+            if indexPath.row == 0, downloadCellCount == 1 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DownloadPDFCell") as! DownloadPDFCell
+                cell.configure(url: URL(string: self.order.taxInvoiceLink!)!)
+                return cell
+            } else {
                 let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
                 cell.configureCell(title: localizedString("lbl_Bought_items", comment: ""))
                 return cell
-                
             }
-          
-        }else if indexPath.section == 2 {
+        } else if indexPath.section == 3 {
             let cell : SubsitutionActionButtonTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SubsitutionActionButtonTableViewCell" , for: indexPath) as! SubsitutionActionButtonTableViewCell
             cell.configure(true)
             cell.buttonclicked = { [weak self] (isCancel) in
@@ -1872,7 +1881,11 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             let cell = tableView.dequeueReusableCell(withIdentifier: "OrderBasketProductTableViewCell", for: indexPath) as! OrderBasketProductTableViewCell
             let product =  self.orderProducts[indexPath.row]
             let item = shoppingItemForProduct(product)
-            cell.configureProduct(product, grocery: self.order.grocery, item: item)
+            // let itemPossition = self.order.itemsPossition[indexPath.row]
+            let itemPossition = self.order.itemsPossition.first { ips in
+                (ips["product_id"] as? NSNumber) == product.productId
+            }
+            cell.configureProduct(product, grocery: self.order.grocery, item: item, orderPosition: itemPossition)
             return cell
              
         }

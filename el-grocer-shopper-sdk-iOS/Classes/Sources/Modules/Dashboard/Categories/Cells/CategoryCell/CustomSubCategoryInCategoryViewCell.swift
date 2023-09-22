@@ -20,7 +20,7 @@ class CustomSubCategoryInCategoryViewCell: UICollectionViewCell {
         super.awakeFromNib()
         // Initialization code
         lblSubCategoryName.textColor = .newBlackColor()
-        lblSubCategoryName.font = UIFont.SFProDisplaySemiBoldFont(11).withWeight(UIFont.Weight(600)) //.SFProDisplaySemiBoldFont(15)
+        lblSubCategoryName.font = UIFont.SFProDisplaySemiBoldFont(11)//.withWeight(UIFont.Weight(600)) //.SFProDisplaySemiBoldFont(15)
         imgSubCategory.layer.masksToBounds = true
         imgSubCategory.layer.cornerRadius = 8;
     }

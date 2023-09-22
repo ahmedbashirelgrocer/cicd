@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import FirebaseCrashlytics
 
 enum FavouriteTab : Int {

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import FirebaseCrashlytics
 import StoreKit
 import FirebaseAnalytics
@@ -221,6 +221,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         return DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
     }
     
+    var cachedPosition = Dictionary<IndexPath,CGPoint>()
     // MARK: Life cycle
     
     required init?(coder aDecoder: NSCoder) {
@@ -559,6 +560,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.tableViewCategories.separatorStyle = UITableViewCell.SeparatorStyle.none
         self.tableViewCategories.keyboardDismissMode = .onDrag
         self.tableViewCategories.backgroundColor = ApplicationTheme.currentTheme.tableViewBGGreyColor
+        self.tableViewCategories.rowHeight = UITableView.automaticDimension
+        self.tableViewCategories.estimatedRowHeight = 500
         
         
         self.tableViewCategories.register(UINib(nibName: CategoriesCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: CategoriesCell.defaultIdentifier)
@@ -837,9 +840,17 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
 //        return totalRows
 //    }
     
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let cell = cell as? HomeCell {
+            cachedPosition[indexPath] = cell.productsCollectionView.contentOffset
+        } else if let cell = cell as? CategoriesCell {
+            cachedPosition[indexPath] = cell.collectionView.contentOffset
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return self.viewModel.outputs.heightForCell(indexPath: indexPath)
-        
+        return tableView.rowHeight
+//        return self.viewModel.outputs.heightForCell(indexPath: indexPath)
 //        guard self.grocery != nil else {
 //            self.tableViewCategories.tableHeaderView = nil
 //            return .leastNormalMagnitude
@@ -1619,12 +1630,22 @@ private extension MainCategoriesViewController {
     func bindViews() {
         self.tableViewCategories.dataSource = nil
         self.tableViewCategories.delegate = self
-        self.tableViewCategories.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0);
+        self.tableViewCategories.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
+        
+        if ABTestManager.shared.storeConfigs.showProductsSection == false {
+            self.tableViewCategories.backgroundColor = .white
+        }
         
         self.dataSource = RxTableViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in
             let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUITableViewCell
             self.viewModel.inputs.scrollObserver.onNext(indexPath)
             cell.configure(viewModel: viewModel)
+            
+            if let cell = cell as? HomeCell {
+                cell.productsCollectionView.contentOffset = self.cachedPosition[indexPath] ?? .zero
+            } else if let cell = cell as? CategoriesCell {
+                cell.collectionView.contentOffset = self.cachedPosition[indexPath] ?? .zero
+            }
             
             return cell
         })
@@ -1633,10 +1654,6 @@ private extension MainCategoriesViewController {
         self.viewModel.outputs.cellViewModels
             .bind(to: self.tableViewCategories.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
-        
-        viewModel.outputs.reloadTable.subscribe(onNext: { [weak self] (isNeedToReload) in
-            if isNeedToReload { self?.tableViewCategories.reloadDataOnMain() }
-        }).disposed(by: disposeBag)
         
         // MARK: Actions
         self.viewModel.outputs.viewAllCategories.subscribe(onNext: { [weak self] grocery  in
@@ -1688,13 +1705,33 @@ private extension MainCategoriesViewController {
         }).disposed(by: disposeBag)
         
         viewModel.outputs.categoryTap.subscribe(onNext: { [weak self] category in
+            guard let self = self else { return }
             
             if category.id == -1 {
-                self?.gotoShoppingListVC()
+                self.gotoShoppingListVC()
+            } else if category.id == -2 {
+                // Navagation to buy it again products view
+                let productsVC = ElGrocerViewControllers.productsViewController()
+                productsVC.homeObj = Home("", withCategory: nil, products: [], self.grocery)
+                productsVC.grocery = self.grocery
+                self.navigationController?.pushViewController(productsVC, animated: true)
             } else {
-                self?.selectedCategory = category.categoryDB
-                MixpanelEventLogger.trackStoreProductsViewAll(categoryId: String(category.id), categoryName: category.name ?? "")
-                self?.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
+                if ABTestManager.shared.storeConfigs.variant == .baseline {
+                    self.selectedCategory = category.categoryDB
+                    MixpanelEventLogger.trackStoreProductsViewAll(categoryId: String(category.id), categoryName: category.name ?? "")
+                    self.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
+                    
+                    let event = ProductCategoryClickedEvent(category: category.categoryDB, varient: ABTestManager.shared.storeConfigs.variant.rawValue)
+                    SegmentAnalyticsEngine.instance.logEvent(event: event)
+                } else {
+                    if let grocery = self.grocery {
+                        // removing shopping list and buy it again from categories
+                        let categories = self.viewModel.outputs.categories.filter { $0.id != -1 && $0.id != -2 }
+                        let vm = SubCategoryProductsViewModel(categories: categories, selectedCategory: category, grocery: grocery)
+                        let vc = SubCategoryProductsViewController.make(viewModel: vm)
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                }
             }
         }).disposed(by: disposeBag)
         
@@ -1702,6 +1739,21 @@ private extension MainCategoriesViewController {
             guard let self = self else { return }
             
             self.showNoDataView()
+        }).disposed(by: disposeBag)
+        
+        self.viewModel.outputs.viewAllRecipesTap.subscribe(onNext: { [weak self] in
+            guard let self = self else { return }
+            
+            let recipeStory = ElGrocerViewControllers.recipesBoutiqueListVC()
+            recipeStory.isNeedToShowCrossIcon = true
+            if let grocery = self.grocery {
+                recipeStory.groceryA = [grocery]
+            }
+            let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+            navigationController.hideSeparationLine()
+            navigationController.viewControllers = [recipeStory]
+            navigationController.modalPresentationStyle = .fullScreen
+            self.navigationController?.present(navigationController, animated: true, completion: { });
         }).disposed(by: disposeBag)
         
         // binding loader
@@ -1712,6 +1764,10 @@ private extension MainCategoriesViewController {
             ? self.porgressHud == nil
             ? self.porgressHud = SpinnerView.showSpinnerViewInView(self.view) : nil
             : self.porgressHud?.removeFromSuperview()
+        }).disposed(by: disposeBag)
+        
+        self.viewModel.outputs.chefTap.subscribe(onNext: { [weak self] selectedChef in
+            self?.gotoFilterController(chef: selectedChef, category: nil)
         }).disposed(by: disposeBag)
         
         if SDKManager.shared.isGrocerySingleStore {
@@ -2090,7 +2146,8 @@ extension MainCategoriesViewController {
     }
     
     func checkForRecipeCategory() {
-        
+        // TODO: For shopper we need to show the recipes 
+        return
         self.isRecipeAvailable = false
         if sdkManager.isSmileSDK {
             return
@@ -2249,6 +2306,7 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
+        CellSelectionState.shared.inputs.selectProductWithID.onNext("")
         // For shopper
         if sdkManager.launchOptions?.marketType == .shopper {
             self.scrollViewDidScroll(forShopper: scrollView)

@@ -17,12 +17,12 @@ import IQKeyboardManagerSwift
 import CleverTapSDK
 import AdSupport
 //import AppsFlyerLib
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import FirebaseCore
 import Messages
 import FirebaseMessaging
 //import AFNetworkActivityLogger
-import SendBirdUIKit
+import SendbirdChatSDK
 import SwiftDate
 import Adyen
 
@@ -111,36 +111,7 @@ public protocol SDKManagerType: CleverTapInAppNotificationDelegate {
     func inAppNotificationButtonTapped(withCustomExtras customExtras: [AnyHashable : Any]!)
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool
     func setSendbirdDelegate()
-    func channel(_ sender: SBDBaseChannel, didReceive message: SBDBaseMessage)
-    func channel(_ sender: SBDBaseChannel, didUpdate message: SBDBaseMessage)
-    func channel(_ sender: SBDBaseChannel, messageWasDeleted messageId: Int64)
-    func channel(_ channel: SBDBaseChannel, didReceiveMention message: SBDBaseMessage)
-    func channelWasChanged(_ sender: SBDBaseChannel)
-    func channelWasDeleted(_ channelUrl: String, channelType: SBDChannelType)
-    func channelWasFrozen(_ sender: SBDBaseChannel)
-    func channelWasUnfrozen(_ sender: SBDBaseChannel)
-    func channel(_ sender: SBDBaseChannel, createdMetaData: [String : String]?)
-    func channel(_ sender: SBDBaseChannel, updatedMetaData: [String : String]?)
-    func channel(_ sender: SBDBaseChannel, deletedMetaDataKeys: [String]?)
-    func channel(_ sender: SBDBaseChannel, createdMetaCounters: [String : NSNumber]?)
-    func channel(_ sender: SBDBaseChannel, updatedMetaCounters: [String : NSNumber]?)
-    func channel(_ sender: SBDBaseChannel, deletedMetaCountersKeys: [String]?)
-    func channelWasHidden(_ sender: SBDGroupChannel)
-    func channel(_ sender: SBDGroupChannel, didReceiveInvitation invitees: [SBDUser]?, inviter: SBDUser?)
-    func channel(_ sender: SBDGroupChannel, didDeclineInvitation invitee: SBDUser?, inviter: SBDUser?)
-    func channel(_ sender: SBDGroupChannel, userDidJoin user: SBDUser)
-    func channel(_ sender: SBDGroupChannel, userDidLeave user: SBDUser)
-    func channelDidUpdateDeliveryReceipt(_ sender: SBDGroupChannel)
-    func channelDidUpdateReadReceipt(_ sender: SBDGroupChannel)
-    func channelDidUpdateTypingStatus(_ sender: SBDGroupChannel)
-    func channel(_ sender: SBDOpenChannel, userDidEnter user: SBDUser)
-    func channel(_ sender: SBDOpenChannel, userDidExit user: SBDUser)
-    func channel(_ sender: SBDBaseChannel, userWasMuted user: SBDUser)
-    func channel(_ sender: SBDBaseChannel, userWasUnmuted user: SBDUser)
-    func channel(_ sender: SBDBaseChannel, userWasBanned user: SBDUser)
-    func channel(_ sender: SBDBaseChannel, userWasUnbanned user: SBDUser)
-    func channelDidChangeMemberCount(_ channels: [SBDGroupChannel])
-    func channelDidChangeParticipantCount(_ channels: [SBDOpenChannel])
+
     func start(with launchOptions: LaunchOptions?)
     func startBasicThirdPartyInit()
 }

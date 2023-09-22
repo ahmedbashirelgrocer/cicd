@@ -108,10 +108,6 @@ enum ElGrocerApiEndpoint : String {
     case OrderTracking = "v1/order_feedbacks/tracking.json"
     case DeliveryFeedback = "v1/order_feedbacks.json"
     case purchasedOrders = "v1/orders/purchased_order"
-    
-    //case DeliverySlots = "v2/delivery_slots/all.json" // update on 21 dec for slots updates
-   // case DeliverySlots = "v1/delivery_slots/all.json" // update on 24 march for slots updates / new slot logic
-   // case DeliverySlots = "v2/delivery_slots/all.json" // update on 2 Appril  for slots updates / upto two weeks slots
  
     case ProductSuggestions = "v1/product_suggestions"
     case ChangeLanguage = "v1/shoppers/update_language"
@@ -181,11 +177,10 @@ enum ElGrocerApiEndpoint : String {
     case editVehicle =  "v1/vehicle_details/update"
     
     // vehicle
-    
     case vehicleAttributes = "v1/vehicle_details/vehicle_attributes"
     case pickupLocations = "v1/pickup_locations/all"
     
-    case orderDetail = "v4/orders/show" // https://elgrocerdxb.atlassian.net/browse/EG-584
+    case orderDetail = "v5/orders/show" // https://elgrocerdxb.atlassian.net/browse/EG-584
     case updateOrderCollectorStatus = "v1/order_collection_details/update"
     case openOrderDetail = "v1/orders/show/cnc_open_orders"
     
@@ -198,8 +193,8 @@ enum ElGrocerApiEndpoint : String {
     case getIfOOSReasons = "v1/orders/substitution/preferences"
     case payWithApplePay = "online_payments/applepay_authorization_call"
     
-    case getSecondCheckoutDetails = "v2/baskets/payment_details"// not using
-    case getSecondCheckoutDetailsForEditOrder = "v2/baskets/order_basket"
+    case getSecondCheckoutDetails = "v3/baskets/payment_details" // used for basket checkout info
+    case getSecondCheckoutDetailsForEditOrder = "v3/baskets/order_basket"
     case setCartBalanceAccountCache = "v2/baskets/accounts_balance"
     
     case getSubstitutionBasketDetails = "v2/baskets/substitution"
@@ -455,16 +450,13 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             GenericClass.print(self.baseApiPath ?? "")
         }
         self.requestManager = AFHTTPSessionManagerCustom.init(baseURL: NSURL(string: self.baseApiPath)! as URL)
-        //fixme with self.requestManager.requestSerializer = AFJSONRequestSerializerCustom.serializer(with: JSONSerialization.WritingOptions.prettyPrinted)
+        self.requestManager.operationQueue.maxConcurrentOperationCount = 4
         self.requestManager.requestSerializer = AFJSONRequestSerializerCustom.serializer()
-      //  self.requestManager.requestSerializer.setValue("close", forHTTPHeaderField: "Connection")
         self.requestManager.securityPolicy.allowInvalidCertificates = true
         self.requestManager.securityPolicy.validatesDomainName = false
         self.requestManager.requestSerializer.cachePolicy = .reloadIgnoringLocalCacheData
-        let securitypolicy : AFSecurityPolicyCustom = AFSecurityPolicyCustom.policy(withPinningMode: .none)
-        securitypolicy.allowInvalidCertificates = true
-        securitypolicy.validatesDomainName = false
-        self.requestManager.securityPolicy = securitypolicy
+      
+        
     }
   
   // MARK: Client version
@@ -697,6 +689,8 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
   
   func logoutUser(_ completionHandler:@escaping (_ result:Bool) -> Void) {
+      
+      
   
   setAccessToken()
   NetworkCall.delete(ElGrocerApiEndpoint.Login.rawValue, parameters: nil, success: { (operation , response: Any) -> Void in
@@ -4927,6 +4921,9 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
       
       // MARK: Check available carts
       func fetchBasketStatus(latitude: Double, longitude: Double, completion: @escaping (Either<BasketStatusDTO>) -> Void) {
+          
+          guard UserDefaults.isUserLoggedIn() else {return}
+          
           self.setAccessToken()
           let params: [String: Any] = ["latitude": latitude, "longitude": longitude]
           

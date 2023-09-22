@@ -7,11 +7,34 @@
 //
 
 import UIKit
-import SendBirdUIKit
+import SendbirdChatSDK
+import SendbirdUIKit
 import SendBirdDesk
 import IQKeyboardManagerSwift
 //MARK: to remove reactions , edit message and delete message option
-class ElgrocerChannelController : SBUChannelViewController{
+class ElgrocerChannelController : SBUGroupChannelViewController {
+    
+    required init(channel: GroupChannel, messageListParams: MessageListParams? = nil) {
+        super.init(channel: channel, messageListParams: messageListParams)
+    }
+    
+    @MainActor required init(channelURL: String, startingPoint: Int64? = nil, messageListParams: MessageListParams? = nil) {
+        super.init(channelURL: channelURL, startingPoint: startingPoint, messageListParams: messageListParams)
+    }
+    
+    @MainActor override required init(channelURL: String, startingPoint: Int64? = nil, messageListParams: MessageListParams? = nil, displaysLocalCachedListFirst: Bool) {
+        super.init(channelURL: channelURL, startingPoint: startingPoint, messageListParams: messageListParams, displaysLocalCachedListFirst: displaysLocalCachedListFirst)
+    }
+    
+    override func baseChannelViewModel(_ viewModel: SBUBaseChannelViewModel, didReceiveNewMessage message: BaseMessage, forChannel channel: BaseChannel) {
+        super.baseChannelViewModel(viewModel, didReceiveNewMessage: message, forChannel: channel)
+        if let msgData = message.data.data(using: .utf8) {
+            let dataObject = try? JSONSerialization.jsonObject(with: msgData, options: []) as? [String: Any]
+            if let dataObj = dataObject, let dataObj = dataObj {
+                handleMessageType(data: dataObj, message: message)
+            }
+        }
+    }
     
     lazy var ratingView : SendBirdCustomerFeedback = {
         let ratingView = SendBirdCustomerFeedback.loadFromNib()
@@ -27,16 +50,16 @@ class ElgrocerChannelController : SBUChannelViewController{
     let shopperPrefixForSendBirdDesk = "s_"
     var isClosedTicket: Bool = false
     var shouldPop: Bool = false
-    var ratingUserMessage: SBDUserMessage?
+
+    var ratingUserMessage: SendbirdChatSDK.UserMessage? = nil
+    var ticket : SBDSKTicket? = nil
     var rating: Float = 0
     var isAlertVisible: Bool = false
     
-    override func setLongTapGestureHandler(_ cell: SBUBaseMessageCell, message: SBDBaseMessage, indexPath: IndexPath) {
-        return
-    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setInitialAppearence()
+        self.setInitialAppearence()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,12 +69,27 @@ class ElgrocerChannelController : SBUChannelViewController{
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
          self.navigationController?.navigationBar.isTranslucent = true
         self.addBackButton(isGreen: true)
-        readLastMessage()
+        self.readLastMessage()
+        self.closeChatIfNeeded()
         self.handleArabicMode()
     }
     func handleArabicMode() {
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
-            self.messageInputView.sendButton?.transform = CGAffineTransform(scaleX: -1, y: 1)
+          //  self.inputComponent?.messageInputView.sendButton?.transform = CGAffineTransform(scaleX: -1, y: 1)
+        }
+    }
+    
+    func closeChatIfNeeded() {
+        guard let message = self.channel?.lastMessage else {
+            return
+        }
+        if let msgData = message.data.data(using: .utf8) {
+            let dataObject = try? JSONSerialization.jsonObject(with: msgData, options: []) as? [String: Any]
+            if let dataObj = dataObject, let dataObj = dataObj, dataObj["type"] as? String == "NOTIFICATION_MANUAL_CLOSED" {
+                for views in self.inputComponent?.messageInputView?.subviews ?? [] {
+                    views.isHidden = true
+                }
+            }
         }
     }
     
@@ -72,6 +110,7 @@ class ElgrocerChannelController : SBUChannelViewController{
         
         self.useRightBarButtonItem = false
         setChannelName()
+        sdkManager.setSendbirdDelegate()
         IQKeyboardManager.shared.enableAutoToolbar = true
        // self.addBackButton()
     }
@@ -99,7 +138,7 @@ class ElgrocerChannelController : SBUChannelViewController{
         titleView.isHidden = false
         
         if UserDefaults.isUserLoggedIn(){
-            if self.orderId == "0" {
+            if self.orderId == "0" || self.orderId == "" {
                 titleView.text = localizedString("support_sendBird_nav_title", comment: "")
             }else{
                 titleView.text = localizedString("order_sendBird_nav_title", comment: "") + ": \(orderId)"
@@ -119,12 +158,12 @@ class ElgrocerChannelController : SBUChannelViewController{
 
         self.navigationItem.titleView = titleView
     }
-    override func didSelectRetry() {
-        self.dismiss(animated: true, completion: nil)
-
-    }
+//    func didSelectRetry() {
+//        self.dismiss(animated: true, completion: nil)
+//
+//    }
     
-    func submitTicketClosure(message: SBDUserMessage) {
+    func submitTicketClosure(message: UserMessage) {
         
         SBDSKTicket.confirmEndOfChat(with: message, confirm: true) { ticket, error in
             if error != nil {
@@ -134,12 +173,9 @@ class ElgrocerChannelController : SBUChannelViewController{
         }
     }
     
-    func submitCSATExperience(message: SBDUserMessage, rating: Int, comment: String) {
+    func submitCSATExperience(message: UserMessage, rating: Int, comment: String) {
         SBDSKTicket.submitFeedback(with: message, score: rating, comment: comment) { ticketHandler, error in
             guard error == nil else {
-               elDebugPrint(error?.code)
-               elDebugPrint(error?.description)
-               elDebugPrint(error?.debugDescription)
                 return
             }
             Thread.OnMainThread {
@@ -147,47 +183,35 @@ class ElgrocerChannelController : SBUChannelViewController{
             }
         }
     }
-    //over ride functions
-    override func channel(_ sender: SBDBaseChannel, didReceive message: SBDBaseMessage) {
-        super.channel(sender, didReceive: message)
-        if let msgData = message.data.data(using: .utf8) {
-            let dataObject = try? JSONSerialization.jsonObject(with: msgData, options: []) as? [String: Any]
-            if let dataObj = dataObject, let dataObj = dataObj {
-                handleMessageType(data: dataObj, message: message)
-            }
-        }
-    }
     
-    override func channel(_ sender: SBDBaseChannel, didUpdate message: SBDBaseMessage) {
-       elDebugPrint(message)
-    }
-    
+   
 }
+
 extension ElgrocerChannelController {
-    
-    func showTicketClosureAlert(message: SBDUserMessage?) {
+   
+    func showTicketClosureAlert(message: UserMessage?) {
+        
         guard message != nil else{
             return
         }
-       
+        
         for  view in (UIApplication.shared.keyWindow?.subviews ?? []) {
             if view is ElGrocerAlertView {
                 view.removeFromSuperview()
             }
         }
-       
-        
+
         let alert = ElGrocerAlertView.createAlert("", description: message!.message, positiveButton: localizedString("store_favourite_alert_yes", comment: ""), negativeButton: localizedString("sign_out_alert_no", comment: "")) { index in
             self.isAlertVisible = false
             if index == 0 {
-               elDebugPrint("yes")
+//               elDebugPrint("yes")
                 self.submitTicketClosure(message: message!)
             }
         }
         alert.show()
     }
     
-    func handleMessageType(data: [String: Any], message: SBDBaseMessage) {
+    func handleMessageType(data: [String: Any], message: BaseMessage) {
         
         
         
@@ -212,7 +236,7 @@ extension ElgrocerChannelController {
                 case "WAITING":
                 // Implement your code for the UI when there is no response from a customer.
                elDebugPrint("survey needs to be submitted")
-                if let message = message as? SBDUserMessage {
+                if let message = message as? UserMessage {
                     self.ratingUserMessage = message
                 }
                 self.showRatingView(title: message.message)
@@ -220,7 +244,7 @@ extension ElgrocerChannelController {
                 
                 default: break
             }
-        }else if messageType == "SENDBIRD_DESK_INQUIRE_TICKET_CLOSURE"{
+        }else if messageType == "SENDBIRD_DESK_INQUIRE_TICKET_CLOSURE" {
             let closureInquiry = data["body"] as? [String: Any]
             let state = closureInquiry?["state"] as? String
             self.view.endEditing(true)
@@ -236,7 +260,7 @@ extension ElgrocerChannelController {
                 case "WAITING":
                 // Implement your code for the UI when there is no response from a customer.
                    elDebugPrint("WAITING")
-                guard let message = message as? SBDUserMessage else {
+                guard let message = message as? UserMessage else {
                         return
                 }
                     self.isAlertVisible = true
@@ -265,15 +289,15 @@ extension ElgrocerChannelController {
     func showRatingView(title: String) {
         ratingView.backgroundColor = .navigationBarWhiteColor()
         ratingView.translatesAutoresizingMaskIntoConstraints = false
-        self.messageInputView.addSubview(ratingView)
-        self.messageInputView.bringSubviewToFront(ratingView)
+        self.inputComponent?.messageInputView?.addSubview(ratingView)
+        self.inputComponent?.messageInputView?.bringSubviewToFront(ratingView)
         self.ratingView.setNeedsLayout()
         self.ratingView.layoutIfNeeded()
         ratingView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor,constant: 0).isActive = true
         ratingView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor,constant: 0).isActive = true
-//        ratingView.heightAnchor.constraint(equalToConstant: 300).isActive = true
-        ratingView.topAnchor.constraint(equalTo: self.messageInputView.topAnchor).isActive = true
-        ratingView.bottomAnchor.constraint(equalTo: self.messageInputView.bottomAnchor).isActive = true
+        ratingView.heightAnchor.constraint(equalToConstant: 330).isActive = true
+        ratingView.topAnchor.constraint(equalTo: (self.inputComponent?.messageInputView!.topAnchor)!).isActive = true
+        ratingView.bottomAnchor.constraint(equalTo: (self.inputComponent?.messageInputView!.bottomAnchor)!).isActive = true
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             ratingView.starRatingView.transform = CGAffineTransform(scaleX: -1, y: 1)
         }

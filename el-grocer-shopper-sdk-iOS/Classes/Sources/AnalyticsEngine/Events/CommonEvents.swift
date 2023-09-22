@@ -47,6 +47,15 @@ struct HomeTileClickedEvent: AnalyticsEventDataType {
     }
 }
 
+struct ApplicationOpenedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.applicationOpened)
+    }
+}
+
 
 
 // MARK: Help Event
@@ -83,5 +92,24 @@ struct MenuItemClickedEvent: AnalyticsEventDataType {
         self.metaData = [
             EventParameterKeys.name: name,
         ]
+    }
+}
+
+struct ABTestExperimentEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(authToken: String, variant: String, experimentType: ExperimentType = .home) {
+        self.eventType = .track(eventName: AnalyticsEventName.abTestExperiment)
+        self.metaData = [
+            EventParameterKeys.authToken: authToken,
+            EventParameterKeys.variant: variant,
+            EventParameterKeys.experimentType: experimentType.rawValue,
+        ]
+    }
+    
+    enum ExperimentType: String {
+        case home = "home"
+        case store = "store"
     }
 }

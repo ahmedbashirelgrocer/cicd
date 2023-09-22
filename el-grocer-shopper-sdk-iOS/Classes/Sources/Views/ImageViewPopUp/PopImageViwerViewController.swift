@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import NBBottomSheet
 import SDWebImage
 
@@ -836,15 +836,12 @@ class PopImageViwerViewController: UIViewController {
     
     func firstAddProcductFromQuickkAdd(_ selectedProduct: Product, grocery : Grocery?){
         
-        
+        let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
         
         if selectedProduct.promotion?.boolValue == true{
             if (productCount <= selectedProduct.promoProductLimit!.intValue) || selectedProduct.promoProductLimit?.intValue ?? 0 == 0 {
                 let productQuantity = self.productCount
                 self.productCount = productQuantity
-                for _ in 1...productQuantity {
-                    ElGrocerEventsLogger.sharedInstance.addToCart(product: selectedProduct)
-                }
                 self.updateProductsQuantity(productQuantity, selectedProduct: selectedProduct,grocery: grocery)
                 self.isAddedToCart = true
             }else{
@@ -855,25 +852,45 @@ class PopImageViwerViewController: UIViewController {
                 
             }
             
-        }else{
+        }else {
             let productQuantity = self.productCount
             self.productCount = productQuantity
-            for _ in 1...productQuantity {
-                ElGrocerEventsLogger.sharedInstance.addToCart(product: selectedProduct)
-            }
-           
             self.updateProductsQuantity(productQuantity, selectedProduct: selectedProduct,grocery: grocery)
             self.isAddedToCart = true
         }
         
-        if self.product != nil{
+        if self.product != nil {
             checkIfProductIsInBasket(product: self.product!)
+            if isNewCart {
+                let cartCreatedEvent = CartCreatedEvent(grocery: self.grocery)
+                SegmentAnalyticsEngine.instance.logEvent(event: cartCreatedEvent)
+                let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .added, quantity: self.productCount)
+                SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+            } else {
+                let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .added, quantity: self.productCount)
+                SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+            }
         }
     }
     
     func addProductInShoppingBasketFromQuickAdd(_ selectedProduct: Product, grocery : Grocery?){
-        if isAddedToCart{
+        
+        if isAddedToCart {
+            
+            let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
             let productQuantity = self.productCount + 1
+            if isNewCart {
+                let cartCreatedEvent = CartCreatedEvent(grocery: self.grocery)
+                SegmentAnalyticsEngine.instance.logEvent(event: cartCreatedEvent)
+                let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .added, quantity: productQuantity)
+                SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+            } else {
+                let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .added, quantity: productQuantity)
+                SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+            }
+            
+            
+           
             self.productCount = productQuantity
             self.updateProductsQuantity(productQuantity, selectedProduct: selectedProduct,grocery: grocery)
             
@@ -896,6 +913,8 @@ class PopImageViwerViewController: UIViewController {
                 self.btnPlusButton.isEnabled = true
                 self.btnPlusButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
             }
+            
+           
            
         }else{
             
@@ -1031,15 +1050,12 @@ class PopImageViwerViewController: UIViewController {
         let paramsJSON = JSON(fbDataA)
         let paramsString = paramsJSON.rawString(String.Encoding.utf8, options: JSONSerialization.WritingOptions.prettyPrinted)!
         
-        let facebookParams = [AppEvents.ParameterName.contentID: clearProductID ,AppEvents.ParameterName.contentType:"product",AppEvents.ParameterName.currency: kProductCurrencyEngAEDName , AppEvents.ParameterName.content : paramsString] as [AnyHashable: Any]
+        //let facebookParams = [AppEvents.ParameterName.contentID: clearProductID ,AppEvents.ParameterName.contentType:"product",AppEvents.ParameterName.currency: kProductCurrencyEngAEDName , AppEvents.ParameterName.content : paramsString] as [AnyHashable: Any]
         
-        AppEvents.logEvent(AppEvents.Name.viewedContent, valueToSum: Double(truncating: productIS.price), parameters: facebookParams as! [AppEvents.ParameterName : Any])
-        FireBaseEventsLogger.trackViewItem(productIS)
+      //  AppEvents.shared.logEvent(AppEvents.Name.viewedContent, valueToSum: Double(truncating: productIS.price), parameters: facebookParams as? [AppEvents.ParameterName : Any])
+       // FireBaseEventsLogger.trackViewItem(productIS)
         AlgoliaApi.sharedInstance.viewItemAlgolia(product: productIS)
-        
-        elDebugPrint("facebook eventName : \(AppEvents.Name.viewedContent)")
-        elDebugPrint("facebook Parm Print : \(productIS.price)")
-        elDebugPrint("facebook Parm Print : \(facebookParams)")
+
         
     }
 

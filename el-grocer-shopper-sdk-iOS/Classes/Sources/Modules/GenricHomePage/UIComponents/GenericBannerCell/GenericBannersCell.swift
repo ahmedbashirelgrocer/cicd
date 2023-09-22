@@ -26,7 +26,9 @@ class GenericBannersCell: RxUITableViewCell {
             pageControl.currentPageIndicatorTintColor = ApplicationTheme.currentTheme.pageControlActiveColor
         }
     }
-    @IBOutlet var topX: NSLayoutConstraint!
+    
+    @IBOutlet weak var topX: NSLayoutConstraint!
+    @IBOutlet weak var cellHeight: NSLayoutConstraint!
     
     var impressionsLogged: [String: Bool] = [:]
     
@@ -38,7 +40,11 @@ class GenericBannersCell: RxUITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-       
+    
+        let sview = UIView.init()
+        sview.backgroundColor = .clear
+        selectedBackgroundView = sview
+        
         pageControl.hidesForSinglePage = true
         bannerList.currentPage = { [weak self] (page , collectionView ) in
             guard let self = self else {return}
@@ -119,6 +125,9 @@ class GenericBannersCell: RxUITableViewCell {
             
             self.setViewForMultiBanner(isMultiBanner: bannersCount > 1)
             self.pageControl.numberOfPages = bannersCount
+            
+            // setting height of cell
+            self.cellHeight.constant = bannersCount > 0 ? (ScreenSize.SCREEN_WIDTH / 2) + 20 : 0
         }).disposed(by: disposeBag)
         
         if let timer = self.scrollTimer {

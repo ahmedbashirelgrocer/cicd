@@ -9,7 +9,7 @@
 import Foundation
 import FirebaseCore
 import MapKit
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import CleverTapSDK
 //import AppsFlyerLib
 import FirebaseRemoteConfig
@@ -488,7 +488,7 @@ extension  ElGrocerEventsLogger   {
             iscleverTap = nil
         let isfirebase = result.2
         if isfacebook != nil {
-            AppEvents.logEvent(AppEvents.Name.initiatedCheckout, valueToSum: value)
+           // AppEvents.logEvent(AppEvents.Name.initiatedCheckout, valueToSum: value)
         }
         if iscleverTap != nil {
             CleverTapEventsLogger.trackCheckOut( eventName : iscleverTap! , coupon: coupon, currency: currency, value: value, isEdit: isEdit)
@@ -553,7 +553,7 @@ extension  ElGrocerEventsLogger   {
         if isfacebookC != nil {
            
             //AppEvents.ParameterName.contentID: clearProductID ,
-            let facebookParams = [AppEvents.ParameterName.contentType:"product",AppEvents.ParameterName.currency:kProductCurrencyEngAEDName , AppEvents.ParameterName.content : paramsString] as [AnyHashable: Any]
+           // let facebookParams = [AppEvents.ParameterName.contentType:"product",AppEvents.ParameterName.currency:kProductCurrencyEngAEDName , AppEvents.ParameterName.content : paramsString] as [AnyHashable: Any]
                 //MARK:- Fix fix it later with sdk version
            // AppEvents.logEvent(AppEvents.Name(rawValue: isfacebookC!), valueToSum: Double(truncating: product.price), parameters: facebookParams as! [String : Any])
         }
@@ -589,26 +589,8 @@ extension  ElGrocerEventsLogger   {
     
     
     func recordPurchaseAnalytics (finalOrderItems:[ShoppingBasketItem] , finalProducts:[Product]! , finalOrder:Order! ,  availableProductsPrices:NSDictionary?  , priceSum : Double , discountedPrice : Double  , grocery : Grocery , deliveryAddress : DeliveryAddress , carouselproductsArray : [Product] , promoCode : String , serviceFee : Double , payment : PaymentOption , discount : Double , IsSmiles : Bool, smilePoints: Int, pointsEarned: Int, pointsBurned: Int, _ isWallet : Bool = false ,_ walletUseAmount: Double = 0.0){
-       
-        //google Analytics ecommerce
-        let fbDataA =   GoogleAnalyticsHelper.trackPlacedOrderForEcommerce(finalOrder , orderItems: finalOrderItems, products: finalProducts, productsPrices: availableProductsPrices, IsSmiles : IsSmiles)
-        
-        /* ---------- Facebook Purchase Event ----------*/
-        let paramsJSON = JSON(fbDataA)
-        let paramsString = paramsJSON.rawString(String.Encoding.utf8, options: JSONSerialization.WritingOptions.prettyPrinted)!
-        let facebookParams = [ AppEvents.ParameterName.contentType:"product", AppEvents.ParameterName.content : paramsString ] as [AnyHashable: Any]
-       
-        ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("AppEvents.Name.logPurchase", facebookParams as? [String : Any])
-        elDebugPrint("facebook eventName : logPurchase")
-        elDebugPrint("facebook Parm price : \(priceSum)")
-        elDebugPrint("facebook Parm Print : \(facebookParams)")
-        
-        
-        /* ---------- AppsFlyer Purchase Event ----------*/
         var queryIDs : [String] = []
-        var content : [String] = []
         var idData : [String] = []
-        var fireBaseList  : [[String : Any]] = []
         for product in finalProducts {
             let idString = "\(Product.getCleanProductId(fromId: product.dbID))"
             idData.append(idString)
@@ -617,110 +599,14 @@ extension  ElGrocerEventsLogger   {
                     queryIDs.append(product.queryID!)
                 }
             }
-            if let name = product.nameEn {
-                content.append(name)
-            }
-            fireBaseList.append([FireBaseParmName.ProductName.rawValue : product.nameEn ?? product.name ?? "" , FireBaseParmName.BrandName.rawValue : product.brandNameEn ?? product.brandName ?? "" , FireBaseParmName.CategoryName.rawValue :  product.categoryNameEn ?? product.categoryName ?? ""  , FireBaseParmName.SubCategoryName.rawValue : product.subcategoryNameEn ?? product.subcategoryName ?? "" ])
         }
-        // let contentStr = (content.map{String($0)}).joined(separator: ",")
         let idStr = (idData.map{String($0)}).joined(separator: ",")
-        // AFEventParamReceiptId : self.order.dbID.stringValue
-        
-        
-            // MARK:- TODO fixappsflyer
-//        let param = [AFEventParamRevenue:priceSum, AFEventParamCurrency:kProductCurrencyEngAEDName  , AFEventParamContentType : "product"  , AFEventParamContentId : idStr , AFEventParamContent: paramsString, "IsSmiles": IsSmiles ] as [String: Any]
-//        AppsFlyerLib.shared().logEvent(name: AFEventPurchase, values: param, completionHandler: nil)
-       // AppsFlyerLib.shared().trackEvent(AFEventPurchase, withValues:param)
-        
-        FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: "PurchaseValue", parameter: ["PurchaseValue" : priceSum ])
-        
-        // algolia calls
         let cleanGroceryID =  Grocery.getGroceryIdForGrocery(grocery)
         AlgoliaApi.sharedInstance.purchase(productQueryIDsList: queryIDs , productIDsList: idData , cleanGroceryID: cleanGroceryID)
-        
-        // PushWooshTracking.addInAppPurchaseProducts(finalProducts, orderItems: finalOrderItems, deliveryAddress  : deliveryAddress)
-        let decimalPrice = NSDecimalNumber(value: priceSum as Double)
-        let pricePush = "\(CurrencyManager.getCurrentCurrency()) \(decimalPrice)"
-        // PushWooshTracking.addInAppPurchasePrice(pricePush)
-        // PushWooshTracking.addCreateOrderEvent()
-        // PushWooshTracking.addLastInAppPurchasedate()
-        
-        
-        let result = WhichEventNeedToLog(egName: ElgrocerEventConfigs.PURCHASED_ITEM.rawValue)
-       // let isfacebookC = result.0
-        var iscleverTap = result.1
-         iscleverTap = nil
-        let isfirebase = result.2
-        
-        if isfirebase != nil {
-            FireBaseEventsLogger.trackPurchaseItems(productList: finalProducts, orderId: finalOrder.dbID.stringValue , carosalA: carouselproductsArray , grocerID: grocery.dbID, eventName: isfirebase!, isWallet, walletUseAmount)
-        }
-        if iscleverTap != nil {
-            CleverTapEventsLogger.trackPurchaseItems(productList: finalProducts, orderId: finalOrder.dbID.stringValue , carosalA: carouselproductsArray , grocerID: grocery.dbID, eventName: iscleverTap!)
-        }
-      
-        var priceToSend = priceSum
-        var promoCodeNumberValue = 0.0
-        if let promoCodeValue = UserDefaults.getPromoCodeValue() {
-            promoCodeNumberValue = promoCodeValue.valueCents  as Double
-        }
-        if promoCodeNumberValue > 0 {
-            priceToSend = discountedPrice
-        }
-        
-        let result1 = WhichEventNeedToLog(egName: ElgrocerEventConfigs.PURCHASE_ORDER.rawValue)
-        let isfacebookC1 = result1.0
-        let iscleverTap1 = result1.1
-        let isfirebase1 = result1.2
-        
-        if isfirebase1 != nil {
-            FireBaseEventsLogger.trackPurchase(coupon: promoCode, coupanValue: "\(promoCodeNumberValue)" , currency: kProductCurrencyEngAEDName , value: String(format: "%.2f", priceToSend) , tax: grocery.vat , shipping: NSNumber(value: serviceFee)  , transactionID: finalOrder.dbID.stringValue, PurchasedItems: fireBaseList, discount: discount, IsSmiles: IsSmiles, smilePoints: smilePoints, pointsEarned: pointsEarned, pointsBurned: pointsBurned, isWallet,walletUseAmount )
-        }
-//        if iscleverTap1 != nil {
-//            CleverTapEventsLogger.trackPurchase(coupon: promoCode, coupanValue: "\(promoCodeNumberValue)" , currency: kProductCurrencyEngAEDName , value: String(format: "%.2f", priceToSend) , tax: grocery.vat , shipping: NSNumber(value: serviceFee)  , transactionID: finalOrder.dbID.stringValue, PurchasedItems: fireBaseList , eventName : iscleverTap1! )
-//        }
-       // if isfacebookC1 != nil {
-            AppEvents.logPurchase(priceSum, currency: kProductCurrencyEngAEDName , parameters: facebookParams as! [String : Any])
-        //}
-     
         FireBaseEventsLogger.setUserProperty(nil, key: "shopping_cart_amount")
         UserDefaults.removeSponsoredItemArray(grocerID: grocery.dbID)
         
-        
-        
-        var cleverTap : [ Any ] = []
-        
-        var orderItemsMap = [String : ShoppingBasketItem]()
-        for item in finalOrderItems {
-            orderItemsMap[item.productId] = item
-        }
-        
-        for product in finalProducts {
-            
-            
-            let idString = "\(Product.getCleanProductId(fromId: product.dbID))"
-            
-            let item = orderItemsMap[product.dbID]
-            if item != nil {
-                cleverTap.append(["ProductId" : idString  , "ProductName" : product.nameEn ?? ""  , "Quantity" : item?.count.intValue ?? 1  , "Category" : product.categoryNameEn ?? "" , "Subcategory" : product.subcategoryNameEn ?? "" , "Brand" : product.brandNameEn ?? ""])
-            }
-         
-        }
-       
-        var paymentstr = "PayCreditCard"
-        if payment == PaymentOption.cash {
-            paymentstr = "PayCash"
-        }else  if payment == PaymentOption.card {
-            paymentstr = "PayCardOnDelivery"
-        }else  if payment == PaymentOption.smilePoints {
-            paymentstr = "SmilesPoints"
-        }
-        
-//        CleverTapEventsLogger.shared.cleverTapApp?.recordChargedEvent(withDetails: ["Amount" : priceSum , "PaymentMode" : paymentstr , "ChargedID" : finalOrder.dbID.stringValue, "IsSmiles": IsSmiles, "IsWallet": isWallet ], andItems: cleverTap)
-
     }
-    
-    //
     
     class func trackOrderStatusCardView (orderId : String ,  statusID : String) {
         

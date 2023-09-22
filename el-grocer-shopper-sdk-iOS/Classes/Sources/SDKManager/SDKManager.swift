@@ -22,7 +22,7 @@ import AdSupport
 import FirebaseCore
 import Messages
 // import AFNetworkActivityLogger
-import SendBirdUIKit
+import SendbirdChatSDK
 import SwiftDate
 import Adyen
 import Segment
@@ -150,6 +150,16 @@ class SDKManager: NSObject, SDKManagerType  {
                         
                     }
                 }
+                
+                if SDKManager.shared.isInitialized {
+                    let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                    SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: user))
+
+                    // Logging segment event for user signed in
+                    let event: AnalyticsEventDataType = SDKLoginManager.isUserRegistered ? UserRegisteredEvent() : UserSignedInEvent()
+                    SegmentAnalyticsEngine.instance.logEvent(event: event)
+                    SDKLoginManager.isUserRegistered = false
+                }
             
         } else {
             ElGrocerAlertView.createAlert(
@@ -215,6 +225,8 @@ class SDKManager: NSObject, SDKManagerType  {
                 }
             }
             if var apiData = notifcation.userInfo as? [String : Any] {
+                
+               
                 apiData[FireBaseParmName.SessionID.rawValue] = ElGrocerUtility.sharedInstance.getGenericSessionID()
                 if let launchOptions = launchOptions, launchOptions.isSmileSDK {
                     
@@ -225,8 +237,15 @@ class SDKManager: NSObject, SDKManagerType  {
                 
                 // Logging segment event for general api error
                 let elError = ElGrocerError(error: error)
-                SegmentAnalyticsEngine.instance.logEvent(event: GeneralAPIErrorEvent(endPoint: apiData["url"] as? String, message: elError.message ?? elError.localizedMessage, code: elError.code))
-                
+                let url = (apiData["url"] as? String) ?? ""
+                let isNoNeedToLogged = url.contains("sendbird.com") || url.contains("member_info_cache")
+                if !isNoNeedToLogged {
+                    SegmentAnalyticsEngine.instance.logEvent(event: GeneralAPIErrorEvent(endPoint: apiData["url"] as? String, message: elError.message ?? elError.localizedMessage, code: elError.code))
+                }
+                elDebugPrint("apiData[url]: \(apiData["url"])")
+                elDebugPrint("apiData[elError.message]: \(elError.message)")
+                elDebugPrint("apiData[elError.localizedMessage]: \(elError.localizedMessage)")
+                elDebugPrint("apiData[elError.code]: \(elError.code)")
                
             }else{
                 
@@ -345,10 +364,9 @@ class SDKManager: NSObject, SDKManagerType  {
             GMSPlacesClient.provideAPIKey(SDKManager.shared.kGoogleMapsApiKey)
             GMSServices.provideAPIKey(SDKManager.shared.kGoogleMapsApiKey)
         }else if Bundle.main.bundleIdentifier == "Etisalat.House" {
-            GMSPlacesClient.provideAPIKey( "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0")
-            GMSServices.provideAPIKey( "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0")
+          //  GMSPlacesClient.provideAPIKey( "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0")
+          //  GMSServices.provideAPIKey( "AIzaSyDYXdoLYTAByiN7tc1wDIL_D7hqe01dJG0")
         }
-        
        
         // initialize Segment SDK used for event logging.
         initializeSegmentSDK()
@@ -356,6 +374,8 @@ class SDKManager: NSObject, SDKManagerType  {
         let category = UNNotificationCategory(identifier: "CTNotification", actions: [action3], intentIdentifiers: [], options: [])
         UNUserNotificationCenter.current().setNotificationCategories([category])
         
+        // Fetching remote configs from firebase
+        ABTestManager.shared.fetchRemoteConfigs()
     }
     
     func configureFireBase(){
@@ -412,6 +432,8 @@ class SDKManager: NSObject, SDKManagerType  {
         configuration.flushAt = 3
         configuration.flushInterval = 10
         configuration.trackApplicationLifecycleEvents = false
+        configuration.enableAdvertisingTracking = true
+        configuration.adSupportBlock = { ABTestManager.shared.authToken }
         Segment.Analytics.setup(with: configuration)
     }
     
@@ -518,6 +540,17 @@ class SDKManager: NSObject, SDKManagerType  {
                 let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
                 if isSuccess {
                     completion(manager)
+                    
+                    if SDKManager.shared.isInitialized {
+                        let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                        SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: user))
+
+                        // Logging segment event for user signed in
+                        let event: AnalyticsEventDataType = SDKLoginManager.isUserRegistered ? UserRegisteredEvent() : UserSignedInEvent()
+                        SegmentAnalyticsEngine.instance.logEvent(event: event)
+                        SDKLoginManager.isUserRegistered = false
+                    }
+                    
                     //manager.setHomeView()
                 } else {
                  let alert = ElGrocerAlertView.createAlert(localizedString("error_500", comment: ""), description: nil, positiveButton: positiveButton, negativeButton: nil) { index in
@@ -743,16 +776,13 @@ class SDKManager: NSObject, SDKManagerType  {
     
     func logout(completion: (() -> Void)? = nil) {
         
-        SendBirdManager().logout { success in
-            if success{
-               elDebugPrint("logout successfull")
-            }else{
-               elDebugPrint("error")
-            }
-        }
+        SendBirdManager().logout { success in }
         
         ElGrocerUtility.sharedInstance.isDeliveryMode = true
-        ElGrocerApi.sharedInstance.logoutUser { (result) -> Void in  }
+        if UserDefaults.getLogInUserID() != "0" {
+            ElGrocerApi.sharedInstance.logoutUser { (result) -> Void in  }
+        }
+       
         FireBaseEventsLogger.trackSignOut(true)
         AlgoliaApi.sharedInstance.resetAlgoliaLocalData()
         //ZohoChat.logOut()
@@ -941,12 +971,6 @@ extension SDKManager {
     
 }
 
-// Send Bird sdk management
-extension SDKManager {
-    func setSendbirdDelegate () {
-        SBDMain.add(self as SBDChannelDelegate, identifier: "UNIQUE_DELEGATE_ID")
-    }
-}
 
 // MARK: Supporting methods
 fileprivate extension SDKManager {

@@ -341,10 +341,8 @@ extension ProductBrowser {
         
         let slots = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3
 
-        if let tview = UIApplication.topViewController()?.view {
+        if let tview = UIApplication.topViewController()?.view, offset == 0 {
             SpinnerView.showSpinnerViewInView(tview)
-        } else {
-            
         }
             
         ElGrocerApi.sharedInstance

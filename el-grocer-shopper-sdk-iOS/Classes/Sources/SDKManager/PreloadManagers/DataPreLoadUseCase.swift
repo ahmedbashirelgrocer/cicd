@@ -61,12 +61,12 @@ class PreLoadData {
             self.updateLocationIfNeeded() {
                 self.completion?()
                 
-                // Logging segment identify event every time user launch our Single Store
-                if SDKManager.shared.isInitialized {
-                    if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                        SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
-                    }
-                }
+//                // Logging segment identify event every time user launch our Single Store
+//                if SDKManager.shared.isInitialized {
+//                    if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+//                        SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
+//                    }
+//                }
             }
             return
         }
@@ -93,8 +93,9 @@ class PreLoadData {
     }
 
     func loadConfigData(completion: (() -> Void)? ) {
-        self.completion = completion
+    
         configureElgrocerShopper()
+        self.completion = completion
     }
 
     
@@ -239,7 +240,7 @@ class PreLoadData {
             marketType = 1
         }
             
-        ElGrocerApi.sharedInstance.getSponsoredProductsAndBannersSlots(formerketType: 2) { result in
+        ElGrocerApi.sharedInstance.getSponsoredProductsAndBannersSlots(formerketType: marketType) { result in
             switch result {
                 
             case .success(let adSlots):

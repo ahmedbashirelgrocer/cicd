@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import FirebaseAnalytics
 import IQKeyboardManagerSwift
 import STPopup
@@ -505,6 +505,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 }
                 DispatchQueue.global(qos: .default).async(execute: self.basketWorkItem!)
                 return
+            }else {
+                debugPrint("")
             }
             
             let _ = SpinnerView.showSpinnerViewInView(self.view)
@@ -1299,12 +1301,6 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     private func proceedToCheckOutWithGrocery(_ grocery:Grocery){
         
         self.checkIfOutOfStockProductAvailable()
-        
-//        if self.isOutOfStockProductAvailable {
-//            self.removeOutOfStockProductsFromBasket()
-//            return
-//        }
-        
         guard isOutOfStockProductAvailable == false else {
             self.showOutOfStockAlert()
             return
@@ -1831,7 +1827,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.itemsCount.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount)") +  "\(localizedString("brand_items_count_label", comment: "")))"
         }
         
-        if (self.grocery  != nil && self.products.count == 0) {
+        if (self.grocery  != nil && self.products.count == 0 && hidesBottomBarWhenPushed == true) {
             self.checkNoProductView()
         }
         
@@ -2663,6 +2659,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             
             let cell = tableView.dequeueReusableCell(withIdentifier: MyBasketViewController.kShoppingBasketCellIdentifier, for: indexPath) as! MyBasketTableViewCell
             cell.delegate = self
+            cell.grocery = self.grocery
             if item != nil  {
                 
                 cell.configureWithProduct(item!, product: product, shouldHidePrice: self.grocery == nil, isProductAvailable: isProductAvailable, priceDictFromGrocery: priceDict, currentRow: (indexPath as NSIndexPath).row)
@@ -2698,6 +2695,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         let cell = tableView.dequeueReusableCell(withIdentifier: MyBasketViewController.kShoppingBasketCellIdentifier , for: indexPath) as! MyBasketTableViewCell
         cell.delegate = self
+        cell.grocery = self.grocery
         return cell
         
     }
@@ -3537,7 +3535,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             spinnerView?.removeFromSuperview()
             switch result {
                 case .success(let responseDict):
-                   elDebugPrint("Fetch Basket Response:%@",responseDict)
+                   print("Fetch Basket Response:%@",responseDict)
                     self.saveResponseData(responseDict, andWithGrocery: grocery)
                     
                     SegmentAnalyticsEngine.instance.logEvent(event: CartViewdEvent(grocery: self.grocery))
@@ -3557,11 +3555,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         var isPromoChanged = false
         
         Thread.OnMainThread {
-            if(shopperCartProducts.count > 0){
-                let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-                context.performAndWait {
-                    ShoppingBasketItem.clearActiveGroceryShoppingBasket(context)
-                }
+            let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+            context.performAndWait {
+                ShoppingBasketItem.clearActiveGroceryShoppingBasket(context)
             }
             
             for responseDict in shopperCartProducts {
@@ -3595,17 +3591,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                         product.brandId = brand.dbID
                         
                     }
-                    
                     if let messages = productDict["messages"] as? [NSDictionary] {
-                        
                         for message in messages {
-                            
-                            
                                 //checking for promotion change
-                            
                             if let messages = productDict["messages"] as? [NSDictionary]{
                                 for message in messages{
-                                    
                                     if let messageCode = message["message_code"] as? NSNumber{
                                         if messageCode == 2000{
                                             if !isPromoChanged{
@@ -3613,7 +3603,6 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                                                 self.promotionalItemChanged = isPromoChanged
                                                 break
                                             }
-                                            
                                         }else{
                                             self.promotionalItemChanged = isPromoChanged
                                         }
@@ -3621,7 +3610,6 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                                     if let messageString = message["message"] as? String{
                                         self.promotionalItemChangedMessage = messageString
                                     }
-                                    
                                 }
                                 if messages.count == 0{
                                     self.promotionalItemChanged = isPromoChanged

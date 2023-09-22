@@ -122,6 +122,9 @@ class SmilesNetworkManager {
     func getCachedUserInfo ( completionHandler: @escaping (Either<NSDictionary>) -> Void) {
         // getCachedMemberInfo
         
+        guard UserDefaults.isUserLoggedIn() else {return}
+        
+        
         let params = [String : AnyObject]()
         
         if sdkManager.isSmileSDK, let loyaltyId = sdkManager.launchOptions?.loyaltyID, loyaltyId.count > 0 {

@@ -39,7 +39,7 @@ PODS:
   - Differentiator (4.0.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (1.16.2):
+  - el-grocer-shopper-sdk-iOS (1.8.3):
     - Adyen (~> 4.10.0)
     - AlgoliaSearchClient (~> 8.0)
     - Analytics
@@ -51,7 +51,6 @@ PODS:
     - CleverTap-iOS-SDK
     - DisplaySwitcher (~> 2.0)
     - DoneCancelNumberPadToolbar (~> 0.6)
-    - FBSDKCoreKit (~> 12.3.1)
     - Firebase/Auth
     - Firebase/Core (~> 9.2.0)
     - Firebase/Crashlytics
@@ -68,7 +67,7 @@ PODS:
     - JDFTooltips (~> 1.1)
     - KLCPopup (~> 1.0)
     - libPhoneNumber-iOS (~> 0.9.15)
-    - lottie-ios (~> 4.0.1)
+    - lottie-ios (~> 3.5.0)
     - MaterialComponents/ActivityIndicator (~> 124.2.0)
     - MaterialComponents/BottomSheet (~> 124.2.0)
     - Mixpanel-swift
@@ -80,20 +79,15 @@ PODS:
     - RxSwift (~> 5.1.1)
     - SDWebImage (~> 5.12.3)
     - Segment-CleverTap
-    - SendBirdDesk (~> 1.0.17)
-    - SendBirdUIKit (~> 2.1.16)
+    - SendbirdChatSDK (= 4.9.6)
+    - SendBirdDesk (= 1.1.3)
+    - SendBirdUIKit (= 3.6.2)
     - Shimmer (~> 1.0)
     - SkyFloatingLabelTextField (~> 3.0)
     - Storyly (~> 1.19.3)
     - STPopup (~> 1.8.7)
     - SwiftDate (~> 6.3.1)
     - SwiftMessages (~> 9.0.6)
-  - FBAEMKit (12.3.2):
-    - FBSDKCoreKit_Basics (= 12.3.2)
-  - FBSDKCoreKit (12.3.2):
-    - FBAEMKit (= 12.3.2)
-    - FBSDKCoreKit_Basics (= 12.3.2)
-  - FBSDKCoreKit_Basics (12.3.2)
   - FBSnapshotTestCase (2.1.4):
     - FBSnapshotTestCase/SwiftSupport (= 2.1.4)
   - FBSnapshotTestCase/Core (2.1.4)
@@ -256,7 +250,7 @@ PODS:
   - KLCPopup (1.0)
   - libPhoneNumber-iOS (0.9.15)
   - Logging (1.4.0)
-  - lottie-ios (4.0.1)
+  - lottie-ios (3.5.0)
   - MaterialComponents/ActivityIndicator (124.2.0):
     - MaterialComponents/Palettes
     - MaterialComponents/private/Application
@@ -324,11 +318,11 @@ PODS:
   - Segment-CleverTap (1.2.4):
     - Analytics
     - CleverTap-iOS-SDK (= 4.1.4)
-  - SendBirdDesk (1.0.17):
-    - SendBirdSDK (~> 3.0.221)
-  - SendBirdSDK (3.0.238)
-  - SendBirdUIKit (2.1.16):
-    - SendBirdSDK (~> 3.0.226)
+  - SendbirdChatSDK (4.9.6)
+  - SendBirdDesk (1.1.3):
+    - SendbirdChatSDK (>= 4.6.7)
+  - SendBirdUIKit (3.6.2):
+    - SendbirdChatSDK (>= 4.9.5)
   - Shimmer (1.0.2)
   - SkyFloatingLabelTextField (3.8.0)
   - Storyly (1.19.4)
@@ -361,9 +355,6 @@ SPEC REPOS:
     - Differentiator
     - DisplaySwitcher
     - DoneCancelNumberPadToolbar
-    - FBAEMKit
-    - FBSDKCoreKit
-    - FBSDKCoreKit_Basics
     - FBSnapshotTestCase
     - Firebase
     - FirebaseABTesting
@@ -410,8 +401,8 @@ SPEC REPOS:
     - RxSwift
     - SDWebImage
     - Segment-CleverTap
+    - SendbirdChatSDK
     - SendBirdDesk
-    - SendBirdSDK
     - SendBirdUIKit
     - Shimmer
     - SkyFloatingLabelTextField
@@ -440,10 +431,7 @@ SPEC CHECKSUMS:
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: 1d969d7e3e426598936375c66ba1e00fe8fcc352
-  FBAEMKit: 955ca52eba8219c20f90774e8c6ff8bc7b3192a3
-  FBSDKCoreKit: 678f64eda3f0ff25c189c2ebbfe87b1d96a85a6d
-  FBSDKCoreKit_Basics: 6bee7c1f0932432901781203fa5e587ec5099148
+  el-grocer-shopper-sdk-iOS: 6fcb0b71c0ad488ab6557da8d23c465827ac8486
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Firebase: 4ba896cb8e5105d4b9e247e1c1b6222b548df55a
   FirebaseABTesting: cd1ec762a0078b46a7ce91dfe5b7b8991c2dff8f
@@ -473,7 +461,7 @@ SPEC CHECKSUMS:
   KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98
   libPhoneNumber-iOS: 0a32a9525cf8744fe02c5206eb30d571e38f7d75
   Logging: beeb016c9c80cf77042d62e83495816847ef108b
-  lottie-ios: 54d22edf55b839f0929cabbfe609c9aa548b1145
+  lottie-ios: c55158d67d0629a260625cc2ded2052b829e3c3e
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
   MDFInternationalization: d697c55307816222a55685c4ccb1044ffb030c12
   Mixpanel-swift: 95fa64d39f15141f1c5b7797003e2123d4c3207e
@@ -490,9 +478,9 @@ SPEC CHECKSUMS:
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
   Segment-CleverTap: 985696b61005f0cbe52e32912e71a199fafbd9bb
-  SendBirdDesk: 9edef670a160575d7da9174318e18aefa06a8b64
-  SendBirdSDK: 4b1f346ed2f76c5f53baa199d0fcfe2eb686f608
-  SendBirdUIKit: 4c5def2bbf2ce09117b3b88c7c60d8ac48dd6fa6
+  SendbirdChatSDK: 7a0ab2bf205303306c086d449722df924a48b97d
+  SendBirdDesk: b700219c7cb267332f5fa866035244c400bd7a2e
+  SendBirdUIKit: 5aa0e6a246d59499f8f2cf2cf1107d7241891b13
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
   Storyly: 548318aac753a7be194d170fb537b3a27068c7b8
@@ -501,6 +489,6 @@ SPEC CHECKSUMS:
   SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
   SwiftSpinner: f9b59477fe107427f2b5b835497d6636fa167ede
 
-PODFILE CHECKSUM: 40de5093fcafea86c8c9c4771fab885c94d4fb83
+PODFILE CHECKSUM: 6e79ecf4f93cbfcaff982502a9c135d0a59ee032
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1

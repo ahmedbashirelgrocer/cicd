@@ -50,14 +50,6 @@ class PaymentMethodSelectionViewController: UIViewController {
         self.tableView.register(UINib(nibName: PaymentSelectionTableViewCell.identifier, bundle: .resource), forCellReuseIdentifier: PaymentSelectionTableViewCell.identifier)
         
         bindViews()
-        if let model = self.viewModel as? PaymentSelectionViewModel {
-            self.activityIndicator.startAnimating()
-            model.fetchPaymentMethods { success in
-                if success {
-                    self.activityIndicator.stopAnimating()
-                }
-            }
-        }
     }
     
     func bindViews() {
@@ -93,6 +85,10 @@ class PaymentMethodSelectionViewController: UIViewController {
                 AdyenManager.sharedInstance.performZeroTokenization(controller: self)
             }
         }).disposed(by: disposeBag)
+        
+        self.viewModel.outputs.loading
+            .bind(to: self.activityIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
     }
     
     @IBAction func closeButtonTapped(_ sender: Any) {

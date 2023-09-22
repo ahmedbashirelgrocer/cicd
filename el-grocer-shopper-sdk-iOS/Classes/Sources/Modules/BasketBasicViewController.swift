@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import FirebaseAnalytics
 import FirebaseCrashlytics
 //import AppsFlyerLib
@@ -26,6 +26,7 @@ enum PaymentOption : UInt32 {
     case smilePoints = 4
     case voucher = 5
     case PromoCode = 6
+    case tabby = 7
     case applePay = 1000
     
 }
@@ -41,6 +42,7 @@ extension PaymentOption {
         case .voucher       : return "Voucher"
         case .PromoCode     : return "Promo Code"
         case .applePay      : return "Apple Pay"
+        case .tabby         : return "Tabby"
         }
     }
 }
@@ -89,16 +91,12 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-      //  addBasketButton()
-        
         //register for keyboard notifications
         NotificationCenter.default.addObserver(self, selector: #selector(BasketBasicViewController.keyboardWillShow(_:)), name:UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(BasketBasicViewController.keyboardWillHide(_:)), name:UIResponder.keyboardWillHideNotification, object: nil)
         
         addBasketIconOverlay(self, grocery: self.grocery, shouldShowGroceryActiveBasket: self.shouldShowGroceryActiveBasket)
-      //  addEmptyView()
-        
+   
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(BasketBasicViewController.dismissKeyboard))
         self.emptyView?.addGestureRecognizer(tapGesture)
         self.emptyView?.isUserInteractionEnabled = true

@@ -4,6 +4,8 @@
 <dict>
 	<key>Release</key>
 	<dict>
+		<key>segmentSDKWriteKeyShopper</key>
+		<string>cSnpTPUfDsW8zvEiA1AslFPegtWjNIlo</string>
 		<key>segmentSDKWriteKey</key>
 		<string>6yu9WwWVSHEQAWtzrLZMhGfvTEDppWCC</string>
 		<key>backendUrl</key>
@@ -11,13 +13,17 @@
 	</dict>
 	<key>Debug</key>
 	<dict>
+		<key>segmentSDKWriteKeyShopper</key>
+		<string>twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b</string>
 		<key>segmentSDKWriteKey</key>
 		<string>twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b</string>
 		<key>backendUrl</key>
-		<string>https://el-grocer-staging-dev.herokuapp.com/api/</string>
+		<string>https://el-grocer-admin.herokuapp.com/api/</string>
 	</dict>
 	<key>StagingProduction</key>
 	<dict>
+		<key>segmentSDKWriteKeyShopper</key>
+		<string>twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b</string>
 		<key>segmentSDKWriteKey</key>
 		<string>twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b</string>
 		<key>backendUrl</key>
@@ -25,6 +31,8 @@
 	</dict>
 	<key>LocalHost192.168.5.21</key>
 	<dict>
+		<key>segmentSDKWriteKeyShopper</key>
+		<string>twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b</string>
 		<key>segmentSDKWriteKey</key>
 		<string>twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b</string>
 		<key>backendUrl</key>
@@ -32,6 +40,8 @@
 	</dict>
 	<key>PreAdmin</key>
 	<dict>
+		<key>segmentSDKWriteKeyShopper</key>
+		<string>twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b</string>
 		<key>segmentSDKWriteKey</key>
 		<string>twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b</string>
 		<key>backendUrl</key>

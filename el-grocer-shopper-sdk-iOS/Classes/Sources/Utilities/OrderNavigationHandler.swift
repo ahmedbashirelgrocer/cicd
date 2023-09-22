@@ -37,7 +37,6 @@ class OrderNavigationHandler {
         self.editProcess = completion
         let _ = SpinnerView.showSpinnerViewInView(topVc.view)
         ElGrocerApi.sharedInstance.getorderDetails(orderId: self.orderId!.stringValue ) { (result) in
-            SpinnerView.hideSpinnerView()
             switch result {
                 case .success(let response):
                     elDebugPrint(response)
@@ -46,8 +45,8 @@ class OrderNavigationHandler {
                         self.order = latestOrderObj
                         self.orderEditHandler()
                     }
-                case .failure(let error):
-                    elDebugPrint("error : \(error.localizedMessage)")
+                case .failure(let _):
+                    SpinnerView.hideSpinnerView()
                     if let closure = self.editProcess , closure != nil {
                         closure!(false)
                     }
@@ -180,20 +179,24 @@ class OrderNavigationHandler {
                                     }
                                     
                                     ELGrocerRecipeMeduleAPI().addRecipeToCart(retailerID: self.order.grocery.getCleanGroceryID() , productsArray: productA) { (result) in
+                                        DatabaseHelper.sharedInstance.saveDatabase()
+                                        SpinnerView.hideSpinnerView()
+                                        self.navigateToBasket()
+                                        
                                     }
-                                    
-                                    
-                                    DatabaseHelper.sharedInstance.saveDatabase()
-                                    self.navigateToBasket()
                                     return
-                                    
+                                }else {
+                                    SpinnerView.hideSpinnerView()
                                 }
                             
+                        }else {
+                            SpinnerView.hideSpinnerView()
                         }
                         if let closure = self.editProcess , closure != nil {
                             closure!(false)
                         }
                     case .failure(let error):
+                        SpinnerView.hideSpinnerView()
                         error.showErrorAlert()
                         if let closure = self.editProcess , closure != nil {
                             closure!(false)
@@ -248,6 +251,7 @@ class OrderNavigationHandler {
         ShoppingBasketItem.clearActiveGroceryShoppingBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         if self.order.isCandCOrder() {
             processDataForCandCMode()
+            SpinnerView.hideSpinnerView()
         }else{
             processDataForDeliveryMode()
         }
@@ -258,6 +262,7 @@ class OrderNavigationHandler {
         let basketController = ElGrocerViewControllers.myBasketViewController()
         let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
         navigationController.hideSeparationLine()
+        navigationController.setLogoHidden(true)
         navigationController.viewControllers = [basketController]
         basketController.modalPresentationStyle = .fullScreen
         navigationController.modalPresentationStyle = .fullScreen

@@ -11,7 +11,7 @@ import UIKit
 import MessageUI
 import FirebaseAnalytics
 import FirebaseCrashlytics
-import FBSDKCoreKit
+//import FBSDKCoreKit
 
 import Lottie
 import RxSwift
@@ -123,6 +123,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         //Todo: this should be removed; all data handling should be from view model.
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem()
+        self.setNavigationAppearance()
         self.getOrderDetail()
         if !self.statusView.isHidden  {
             self.viewModel.reloadData()
@@ -1634,12 +1636,14 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     @IBAction func goToOrderDetailAction(_ sender: Any) {
         
       
+        
         let controller = ElGrocerViewControllers.orderDetailsViewController()
         controller.order = self.order
         controller.isCommingFromOrderConfirmationScreen = true
         controller.mode = .dismiss
-        self.navigationController?.pushViewController(controller, animated: true)
-        
+        Thread.OnMainThread { [weak self] in
+            self?.navigationController?.pushViewController(controller, animated: true)
+        }
         // Logging segment event for order details clicked
         SegmentAnalyticsEngine.instance.logEvent(event: OrderDetailsClickedEvent(order: order))
         

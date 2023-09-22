@@ -11,7 +11,7 @@ import CoreLocation
 import AdSupport
 import CleverTapSDK
 import AdSupport
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import CoreLocation
 import RxSwift
     // import MaterialShowcase
@@ -183,6 +183,17 @@ class GenericStoresViewController: BasketBasicViewController {
             }
             
         })
+        
+        self.logAbTestEvents()
+    }
+    
+    func logAbTestEvents() {
+        // Log AB Test Event
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            let authToken = ABTestManager.shared.authToken
+            let variant = ABTestManager.shared.storeConfigs.variant
+            SegmentAnalyticsEngine.instance.logEvent(event: ABTestExperimentEvent(authToken: authToken, variant: variant.rawValue, experimentType: .store))
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -568,7 +579,9 @@ class GenericStoresViewController: BasketBasicViewController {
         }
     }
     fileprivate func checkIFDataNotLoadedAndCall() {
-        
+        defer {
+            self.checkForPushNotificationRegisteration()
+        }
         
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {
             return
@@ -626,8 +639,6 @@ class GenericStoresViewController: BasketBasicViewController {
 //        else {
 //            self.tableView.reloadDataOnMain()
 //        }
-        
-        self.checkForPushNotificationRegisteration()
     }
     
     private func setUserProfileData() {

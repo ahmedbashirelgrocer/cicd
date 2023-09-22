@@ -9,7 +9,7 @@
 import UIKit
 //import HMSegmentedControl
 import FirebaseAnalytics
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import FirebaseCrashlytics
 
 class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDataSource, UICollectionViewDelegate,UICollectionViewDelegateFlowLayout , AWSegmentViewProtocol, UIGestureRecognizerDelegate {
@@ -49,6 +49,8 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     }
 
     var collectionViewBottomConstraint: NSLayoutConstraint?
+    private var cacheScrollPosition: [IndexPath: CGPoint] = [:]
+    
     
     // MARK: Life cycle
     
@@ -69,6 +71,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         self.viewHandler.trackCateNavClick()
         self.addLocationHeader()
         self.hidesBottomBarWhenPushed = true
+        
         
         // Logging segment screen event 
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .productListingScreen))
@@ -304,6 +307,10 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex:Int) {
         self.viewHandler.subCategorySegmentIndexChange(selectedSegmentIndex)
         self.collectionView.setContentOffset(CGPoint.zero, animated: false)
+        
+        // Logging segment event for product sub-category clicked event
+        let event = ProductSubCategoryClickedEvent(subCategory: viewHandler.getlastSelectedSubCategory())
+        SegmentAnalyticsEngine.instance.logEvent(event: event)
     }
     
         
@@ -429,6 +436,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         let cell : SubCategoryBrandWiseProductsViewCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: KSubCategoryBrandWiseProductsViewCollectionViewCellIdentifier, for: indexPath) as! SubCategoryBrandWiseProductsViewCollectionViewCell
         if let grocery = self.viewHandler.grocery {
             cell.configureCell(self.viewHandler.ListbrandsArray[indexPath.row], grocery: grocery , productDelegate: productDelegate.setGrocery(self.viewHandler.grocery))
+            cell.collectionView.contentOffset = self.cacheScrollPosition[indexPath] ?? .zero
             cell.brandViewAllClicked = { [weak self] (brand) in
                 guard let self = self else {return}
                 self.navigateToBrandsDetailViewBrand(brand!)
@@ -506,8 +514,16 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         return UIEdgeInsets.init(top: 5, left: 5 , bottom: 20, right: 10)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let cell = cell as? SubCategoryBrandWiseProductsViewCollectionViewCell {
+            self.cacheScrollPosition[indexPath] = cell.collectionView.contentOffset
+        }
+    }
+    
    // MARK:- Scroll Delegate
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        
         
         scrollView.layoutIfNeeded()
         
@@ -525,13 +541,12 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             }
             
             if (self.viewHandler.isGridView ? self.viewHandler.moreGridProducts : self.viewHandler.moreGroceryBrand) {
-                var kLoadingDistance = 2 * kProductCellHeight + 8
-                if self.viewHandler.isGridView {
-                    kLoadingDistance = CGFloat(10)
-                }
+                var kLoadingDistance = 4 * kProductCellHeight + 8
                 let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
-                if y + kLoadingDistance > scrollView.contentSize.height - 250 {
-                    self.viewHandler.loadMore()
+                if y  > scrollView.contentSize.height - kLoadingDistance {
+                    if(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y < 0) {
+                        self.viewHandler.loadMore()
+                    }
                     return
                 }
             }
@@ -559,13 +574,15 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         }
         
         if (self.viewHandler.isGridView ? self.viewHandler.moreGridProducts : self.viewHandler.moreGroceryBrand) {
-            var kLoadingDistance = 2 * kProductCellHeight + 8
-            if self.viewHandler.isGridView {
-                kLoadingDistance = CGFloat(10)
-            }
+            var kLoadingDistance = 4 * kProductCellHeight + 8
+//            if self.viewHandler.isGridView {
+//                kLoadingDistance = CGFloat(10)
+//            }
             let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
-            if y + kLoadingDistance > scrollView.contentSize.height - 250 {
-                self.viewHandler.loadMore()
+            if y  > scrollView.contentSize.height - kLoadingDistance {
+                if(scrollView.panGestureRecognizer.translation(in: scrollView.superview).y < 0) {
+                    self.viewHandler.loadMore()
+                }
                 return
             }
         }
@@ -577,6 +594,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             self.collectionView.reloadDataOnMainThread()
         }
     }
+    
  
     // MARK: Navigation
     
@@ -633,13 +651,15 @@ extension SubCategoriesViewController :  CateAndSubcategoryViewDelegate  {
         if !self.viewHandler.isGridView && index != nil {
             let visibleIndexPaths = self.collectionView.indexPathsForVisibleItems
             if visibleIndexPaths.first(where: { indexs in
-                indexs == index
+                indexs.row == index?.row
             }) != nil, ((index?.row ?? -1)) % 5 != 0   {
                 self.collectionView.performBatchUpdates {
                     self.collectionView.reloadItems(at: [index!])
                 }
                 return
-            } else { }
+            } else {
+                debugPrint("")
+            }
         }
         if index == nil  || (index?.row ?? Int.max) < 2 ||  (index?.row ?? Int.max) % 5 == 0 || (index?.row ?? Int.max) % 5 == 2  {
             self.collectionView.reloadDataOnMainThread()

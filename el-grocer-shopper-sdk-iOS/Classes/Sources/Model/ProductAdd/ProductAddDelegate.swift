@@ -87,6 +87,19 @@ extension ProductDelegate : ProductCellProtocol {
         if let product = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             productQuantity += product.count.intValue
         }
+         
+         let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+         if isNewCart {
+             let cartCreatedEvent = CartCreatedEvent(grocery: self.grocery)
+             SegmentAnalyticsEngine.instance.logEvent(event: cartCreatedEvent)
+             let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: product, actionType: .added, quantity: productQuantity)
+             SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+         } else {
+             let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: product, actionType: .added, quantity: productQuantity)
+             SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+         }
+         
+         
         
         self.updateProductsQuantity(productQuantity, product: product)
     }

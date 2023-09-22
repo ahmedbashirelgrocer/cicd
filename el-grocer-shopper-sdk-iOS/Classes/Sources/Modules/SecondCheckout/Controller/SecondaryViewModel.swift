@@ -38,6 +38,8 @@ class SecondaryViewModel {
     private var carouselProductsArray : [Product]? = []
     private var selectedPreferenceId : Int? = nil
     private var additionalInstructions: String?
+    private var tabbyEnabled: Bool = false
+    
     var basketDataValue: BasketDataClass? = nil
     var deliverySlots: [DeliverySlotDTO] = []
     private var selectedCreditCard: CreditCard? = nil
@@ -45,7 +47,7 @@ class SecondaryViewModel {
     private var order: Order?
     private var userid: NSNumber?
     private var editOrderPrimarySelectedMethod: Int?
-    
+    var tabbyWebUrl: String?
     
     
     private var defaultApiData: [String : Any] = [:] // will provide default data with grocery delivery address and slot if provide in init method
@@ -172,9 +174,6 @@ class SecondaryViewModel {
                         self.basketDataValue = checkoutData.data
                         self.basketData.onNext(checkoutData.data)
                         self.updateViewModelDataAccordingToBasket(data: checkoutData.data)
-                        
-                        // Logging segment event for checkout started
-                        SegmentAnalyticsEngine.instance.logEvent(event: CheckoutStartedEvent())
                     } catch(let error) {
                         //    print(error)
                         self.basketError.onNext(ElGrocerError.parsingError())
@@ -292,6 +291,8 @@ extension SecondaryViewModel {
             secondaryPayments["promo_code"] = false
         }
         
+        secondaryPayments["tabby"] = self.tabbyEnabled
+        
         if let additionalInstruction  = self.additionalInstructions {
             finalParams["shopper_note"] = additionalInstruction
         }
@@ -349,8 +350,6 @@ extension SecondaryViewModel {
     }
     
     func getCreditCardsFromAdyen() {
-        
-        
         PaymentMethodFetcher.getPaymentMethods(amount: AdyenManager.createAmount(amount: 100), addApplePay: true) { paymentMethods, applePay, error in
             if self.getSelectedPaymentOption() == .creditCard {
                 if let cardsArray = paymentMethods {
@@ -365,6 +364,9 @@ extension SecondaryViewModel {
                                 break
                             }
                         }
+                        if self.selectedCreditCard == nil && applePay != nil && self.order != nil {
+                            self.applePaySelectedMethod = applePay
+                        }
                     }
                 }
             }else if self.getSelectedPaymentOption() == .applePay{
@@ -374,6 +376,11 @@ extension SecondaryViewModel {
     }
     
     func updateViewModelDataAccordingToBasket(data: BasketDataClass) {
+        
+        if self.basketDataValue?.paymentTypes?.first( where: { ($0.id == self.basketDataValue?.primaryPaymentTypeID) || ( (self.basketDataValue?.primaryPaymentTypeID ?? -1) == PaymentOption.applePay.rawValue &&  $0.id == PaymentOption.creditCard.rawValue) }) == nil {
+            self.basketDataValue?.primaryPaymentTypeID = nil
+            self.basketData.onNext(self.basketDataValue)
+        }
         
         if let elwalletRedeem = data.elWalletRedeem , elwalletRedeem > 0 {
             self.isWalletTrue = true
@@ -395,6 +402,13 @@ extension SecondaryViewModel {
             self.isPromoCodeTrue = false
         }
         
+        if let tabbyRedeem = data.tabbyRedeem, tabbyRedeem > 0 {
+            self.tabbyEnabled = true
+        } else {
+            self.tabbyEnabled = false
+        }
+
+        self.tabbyWebUrl = data.tabbyWebUrl
     }
 }
 
@@ -477,6 +491,17 @@ extension SecondaryViewModel {
     }
     func getAdditionalInstructions()-> String {
         return self.additionalInstructions ?? ""
+    }
+    
+    func setTabbyEnabled(enabled: Bool) {
+        self.tabbyEnabled = enabled
+        
+        // Logging segment event Tabby Enabled
+        SegmentAnalyticsEngine.instance.logEvent(event: TabbyEnabledEvent(isEnabled: enabled))
+    }
+    
+    func getTabbyEnabled() -> Bool {
+        return self.tabbyEnabled
     }
     
     func updateCreditCard(_ selectedCreditCard : CreditCard?) {
@@ -644,6 +669,7 @@ extension SecondaryViewModel {
         secondaryPayments["smiles"] = self.isSmileTrue
         secondaryPayments["el_wallet"] = self.isWalletTrue
         secondaryPayments["promo_code"] = self.isPromoCodeTrue
+        secondaryPayments["tabby"] = self.tabbyEnabled
         
         parameters["secondary_payments"] = secondaryPayments
         parameters.update(other: self.setDefaultApiData())
@@ -849,223 +875,5 @@ extension SecondaryViewModel {
             }
             CarouselProducts.DeleteAll(forDBID: userProfile?.dbID as! Int64 , context)
         }
-    }
-    
-    
-}
-
-
-// TODO: move DTOs to Models folder of SecondCheckout
-    // MARK: - BasketDataResponse
-struct BasketDataResponse: Codable {
-    let status: String
-    let data: BasketDataClass
-    
-    enum CodingKeys: String, CodingKey {
-        case status = "status"
-        case data = "data"
-    }
-}
-
-    // MARK: - BasketDataClass
-struct BasketDataClass: Codable {
-    
-    var primaryPaymentTypeID: Int?
-    let finalAmount, totalValue: Double?
-    let promoCodes: Bool?
-    let smilesBalance: Double?
-    let elWalletBalance, productsTotal, serviceFee, productsSaving: Double?
-    let promoCode: PromoCode?
-    let smilesRedeem, elWalletRedeem: Double?
-    let smilesPoints: Int?
-    //let deliverySlots: [DeliverySlotDTO]?
-    let selectedDeliverySlot: Int?
-    let paymentTypes: [PaymentType]?
-   // let retailerDeliveryZoneId: Int?
-    let quantity: Int?
-    let totalDiscount: Double?
-    let extraBalanceMessage: String?
-    let extraBalance: Double?
-    let smilesEarn: Int?
-    let priceVariance: Double?
-    var smilesSubscriber: Bool?
-    
-    enum CodingKeys: String, CodingKey {
-        case finalAmount = "final_amount"
-        case totalValue = "total"
-        case promoCodes = "promo_codes"
-        case primaryPaymentTypeID = "primary_payment_type_id"
-        case serviceFee = "service_fee"
-        case smilesBalance = "smiles_balance"
-        case elWalletBalance = "el_wallet_balance"
-        case productsSaving = "products_saving"
-        case promoCode = "promo_code"
-        case smilesRedeem = "smiles_redeem"
-        case elWalletRedeem = "el_wallet_redeem"
-        //case deliverySlots = "delivery_slots"
-        case paymentTypes = "retailer_payment_methods"
-        case selectedDeliverySlot = "selected_delivery_slot"
-        case productsTotal = "products_total"
-        case smilesPoints = "smiles_points"
-       // case retailerDeliveryZoneId = "retailer_delivery_zone_id"
-        case quantity
-        case totalDiscount = "total_discount"
-        case extraBalanceMessage = "balance_message"
-        case smilesEarn = "smiles_earn"
-        case priceVariance = "Price_variance"
-        case extraBalance = "balance"
-        case smilesSubscriber = "food_subscription_status"
-        
-    }
-    
-    init(from decoder: Decoder) throws {
-       
-    
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        
-        finalAmount = (try? values.decode(Double.self, forKey: .finalAmount))
-        totalValue = (try? values.decode(Double.self, forKey: .totalValue))
-        promoCodes  = (try? values.decode(Bool.self, forKey: .promoCodes))
-        primaryPaymentTypeID = (try? values.decode(Int.self, forKey: .primaryPaymentTypeID))
-        smilesBalance = (try? values.decode(Double.self, forKey: .smilesBalance))
-        elWalletBalance = (try? values.decode(Double.self, forKey: .elWalletBalance))
-        productsTotal = (try? values.decode(Double.self, forKey: .productsTotal))
-        serviceFee = (try? values.decode(Double.self, forKey: .serviceFee))
-        productsSaving = (try? values.decode(Double.self, forKey: .productsSaving))
-        promoCode = (try? values.decode(PromoCode.self, forKey: .promoCode))
-        smilesRedeem = (try? values.decode(Double.self, forKey: .smilesRedeem))
-        elWalletRedeem = (try? values.decode(Double.self, forKey: .elWalletRedeem))
-        smilesPoints = (try? values.decode(Int.self, forKey: .smilesPoints))
-       // deliverySlots = deliverySlots
-       // deliverySlots = (try? values.decode([DeliverySlotDTO].self, forKey: .deliverySlots))
-        selectedDeliverySlot = (try? values.decode(Int.self, forKey: .selectedDeliverySlot))
-        paymentTypes = (try? values.decode([PaymentType].self, forKey: .paymentTypes))
-      //  retailerDeliveryZoneId = (try? values.decode(Int.self, forKey: .retailerDeliveryZoneId))
-        quantity = (try? values.decode(Int.self, forKey: .quantity))
-        totalDiscount = (try? values.decode(Double.self, forKey: .totalDiscount))
-        extraBalanceMessage = (try? values.decode(String.self, forKey: .extraBalanceMessage))
-        smilesEarn = (try? values.decode(Int.self, forKey: .smilesEarn))
-        priceVariance = (try? values.decode(Double.self, forKey: .smilesEarn))
-        extraBalance = (try? values.decode(Double.self, forKey: .extraBalance))
-        smilesSubscriber = (try? values.decode(Bool.self, forKey: .smilesSubscriber)) //?? false
-
-    }
-}
-
-    // MARK: - DeliverySlot
-struct DeliverySlotDTO: Codable {
-    let id: Int
-    let timeMilli, usid: Int?
-    let startTime, endTime, estimatedDeliveryAt: String?
-    
-    var isToday: Bool {
-        return self.startTime?.toDate()?.date.isToday ?? false
-    }
-    
-    var isTomorrow: Bool {
-        return self.startTime?.toDate()?.date.isTomorrow ?? false
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case timeMilli = "time_milli"
-        case usid
-        case startTime = "start_time"
-        case endTime = "end_time"
-        case estimatedDeliveryAt = "estimated_delivery_at"
-    }
-    
-    func getInstantText() -> String {
-        return localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "") + "⚡️"
-    }
-}
-
-    // MARK: - PaymentType
-struct PaymentType: Codable {
-    let id: Int
-    let name: String?
-    let accountType: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case name
-        case accountType = "account_type"
-    }
-    
-    func getLocalPaymentOption() -> PaymentOption {
-        
-        if self.id == 1 {
-            return PaymentOption.cash
-        }else if self.id == 2 {
-            return PaymentOption.card
-        }else if self.id == 3 {
-            return PaymentOption.creditCard
-        }else if self.id == PaymentOption.applePay.rawValue {
-            return PaymentOption.applePay
-        }else {
-            return PaymentOption.none
-        }
-    }
-    func getLocalizedName() -> String {
-        
-        if self.id == 1 {
-            return localizedString("txt_pay_cash", comment: "")
-        }else if self.id == 2 {
-            return localizedString("pay_via_card", comment: "")
-        }else if self.id == 3 {
-            return localizedString("pay_via_CreditCard", comment: "")
-        }else if self.id == PaymentOption.applePay.rawValue {
-            return localizedString("pay_via_Apple_pay", comment: "")
-        }else {
-            return self.name ?? ""
-        }
-    }
-}
-    // MARK: - PromoCode
-struct PromoCode: Codable {
-    let code: String?
-    let promotionCodeRealizationID: Int?
-    let value: Double?
-    let errorMessage: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case code
-        case promotionCodeRealizationID = "realization_id"
-        case value
-        case errorMessage = "error_message"
-    }
-}
-
-
-
-struct DeliverySlotsResponse: Codable {
-    let status: String
-    let data: DeliverySlotsData
-}
-
-struct DeliverySlotsData: Codable {
-    let retailer: Retailer
-    let deliverySlots: [DeliverySlotDTO]?
-    
-    enum CodingKeys: String, CodingKey {
-        case retailer
-        case deliverySlots = "delivery_slots"
-    }
-}
-
-struct Retailer: Codable {
-    let id: String?
-    let isOpened: Bool?
-    
-    enum CodingKeys: String, CodingKey {
-        case id
-        case isOpened = "is_opened"
-    }
-    
-    init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        
-        id = (try? values.decode(String.self, forKey: .id))
-        isOpened = (try? values.decode(Bool.self, forKey: .isOpened))
     }
 }

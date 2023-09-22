@@ -23,7 +23,7 @@ class DatabaseHelper : DatabaseManager {
     override init() {
         super.init()
         
-        let applicationStore = PersistentStoreCoreDataItem(name: "SmileUpdated")
+        let applicationStore = PersistentStoreCoreDataItem(name: "SmilesElgrocer")
         self.persistentStoreItems = [applicationStore]
     }
     

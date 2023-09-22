@@ -250,21 +250,10 @@ class DatabaseManager : NSObject {
         
         context.performAndWait {[weak self]() -> Void in
             guard let self = self else {return}
-            
             object = self.getEntityWithName(entityName, entityDbId: entityDbId, keyId: keyId, context: context)
-            
-            
-            
             if self.isNotNull(object: object) == false {
                 object = NSEntityDescription.insertNewObject(forEntityName: entityName, into: context)
                 object.setValue(entityDbId, forKey: keyId)
-                if entityName == ProductEntity {
-                    elDebugPrint("Test-Product NewAddIndb : \(entityDbId)")
-                }
-            } else {
-                if entityName == ProductEntity {
-                    elDebugPrint("Test-Product AlreadyIndb : \(entityDbId)")
-                }
             }
         }
         

@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import FBSDKCoreKit
+//import FBSDKCoreKit
 import FirebaseCrashlytics
 
 class BrandDetailsViewController :   BasketBasicViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
@@ -158,6 +158,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
            
         }
    
+        self.navigationController?.navigationBar.isHidden = false
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         if sdkManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
         self.addLocationHeader()
@@ -890,12 +891,28 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
 //
 //        ElGrocerUtility.sharedInstance.logAddToCartEventWithProduct(product , self.brand.name)
         
+        
+       
+        
+        
         var productQuantity = 1
         
         // If the product already is in the basket, just increment its quantity by 1
         if let product = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             productQuantity += product.count.intValue
         }
+        
+        let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+        if isNewCart {
+            let cartCreatedEvent = CartCreatedEvent(grocery: self.grocery)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartCreatedEvent)
+            let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: product, actionType: .added, quantity: productQuantity)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+        } else {
+            let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: product, actionType: .added, quantity: productQuantity)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+        }
+        
         
         ShoppingBasketItem.addOrUpdateProductInBasket(product, grocery: self.grocery, brandName: self.brand.name, quantity: productQuantity, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
         DatabaseHelper.sharedInstance.saveDatabase()

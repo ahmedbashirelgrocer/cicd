@@ -229,9 +229,6 @@ class SuggestionsModelDataSource {
                 if isNeedToClear {
                     let currentStringCount = self.currentSearchString.count
                     self.clearAllData()
-                    if currentStringCount == 0 {
-                        self.papulateUsersearchedData()
-                    }
                 }
                 
                 if let mainIndex = data!["results"] as? [NSDictionary] {

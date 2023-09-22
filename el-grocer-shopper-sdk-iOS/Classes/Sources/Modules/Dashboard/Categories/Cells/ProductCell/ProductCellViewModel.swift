@@ -49,6 +49,7 @@ protocol ProductCellViewModelOutput {
     var plusButtonEnabled: Observable<Bool> { get }
     var addToCartButtonEnabled: Observable<Bool> { get }
     var quantityValue: Int { get }
+    var border: Observable<Bool> { get }
 }
 
 protocol ProductCellViewModelType: ProductCellViewModelInput, ProductCellViewModelOutput {
@@ -100,6 +101,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     var plusButtonEnabled: Observable<Bool> { plusButtonEnabledSubject.asObservable() }
     var addToCartButtonEnabled: Observable<Bool> { addToCartButtonEnabledSubject.asObservable() }
     var quantityValue: Int { getShoppingBasketItemForActiveRetailer()?.count.intValue ?? 0 }
+    var border: Observable<Bool> { borderSubject.asObservable() }
     
     // MARK: Subjects
     private var quickAddButtonTapSubject = PublishSubject<Void>()
@@ -134,6 +136,7 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     private var plusButtonEnabledSubject = BehaviorSubject<Bool>(value: true)
     private var addToCartButtonEnabledSubject = BehaviorSubject<Bool>(value: true)
     private var refreshDataSubject = PublishSubject<Void>()
+    private var borderSubject = BehaviorSubject<Bool>(value: true)
 
     var reusableIdentifier: String { ProductCell.defaultIdentifier }
     
@@ -141,9 +144,11 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     private var product: ProductDTO
     private let PRODUCT_LIMIT = 3
     
-    init(product: ProductDTO, grocery: Grocery?) {
+    init(product: ProductDTO, grocery: Grocery?, border: Bool = true) {
         self.grocery = grocery
         self.product = product
+        CellSelectionState.shared.grocery = grocery
+        self.borderSubject.onNext(border)
         
         self.refreshCell()
         
@@ -153,12 +158,15 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
         
         // MARK: Add To Cart Button Tap Listner
         quickAddButtonTapSubject
-            .withLatestFrom(self.quantitySubject)
+            .withLatestFrom(self.quantity)
             .subscribe(onNext: { [weak self] quantity in
             guard let self = self else { return }
             
             CellSelectionState.shared.inputs.selectProductWithID.onNext(self.productDB?.dbID ?? "")
-            if (quantity as NSString).integerValue > 0 { return }
+            if (quantity as NSString).integerValue > 0 {
+                CellSelectionState.shared.inputs.productQuantityObserver.onNext(self.product.id)
+                return
+            }
             
             product.isPg18
                 ? self.showPg18PopupAndAddToCart()
@@ -195,6 +203,10 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
         checkProductExistanceInCartAndUpdateUI()
         checkPromotionValidityAndUpdateUI()
         checkStockAvailabilityAndUpdateUI()
+        
+        if CellSelectionState.shared.outputs.isProductSelected(id: self.productDB?.dbID ?? "") {
+            CellSelectionState.shared.inputs.selectProductWithID.onNext("")
+        }
     }
 }
 
@@ -215,6 +227,7 @@ private extension ProductCellViewModel {
     }
     
     func checkProductExistanceInCartAndUpdateUI() {
+        CellSelectionState.shared.inputs.productQuantityObserver.onNext(self.product.id)
         if let item = getShoppingBasketItemForActiveRetailer() {
             plusButtonIconNameSubject.onNext("add_product_cell")
             minusButtonIconNameSubject.onNext(item.count == 1 ? "delete_product_cell" : "remove_product_cell")
@@ -344,6 +357,7 @@ private extension ProductCellViewModel {
         
         if updatedQuantity == 0 {
             ShoppingBasketItem.removeProductFromBasket(selectedProduct, grocery: self.grocery, context: context)
+            CellSelectionState.shared.inputs.selectProductWithID.onNext("")
         } else {
             ShoppingBasketItem.addOrUpdateProductInBasket(selectedProduct, grocery: self.grocery, brandName: selectedProduct.brandNameEn , quantity: updatedQuantity, context: context)
         }
@@ -433,9 +447,11 @@ private extension ProductCellViewModel {
 
 protocol CellSelectionStateInputs {
     var selectProductWithID: AnyObserver<String> { get }
+    var productQuantityObserver: AnyObserver<Int> { get }
 }
 protocol CellSelectionStateOutputs {
     var selectionChanged: Observable<Void> { get }
+    var productQuantity: Observable<String> { get }
     func isProductSelected(id: String) -> Bool
 }
 protocol CellSelectionStateType: CellSelectionStateInputs, CellSelectionStateOutputs {
@@ -453,16 +469,21 @@ class CellSelectionState: CellSelectionStateType {
     
     // Inputs
     var selectProductWithID: RxSwift.AnyObserver<String> { productIDSubject.asObserver() }
+    var productQuantityObserver: AnyObserver<Int> { productQuantityChangedSubject.asObserver() }
     
     // Outputs
     var selectionChanged: RxSwift.Observable<Void> { selectionChangedSubject.asObservable() }
+    var productQuantity: RxSwift.Observable<String> { quantitySubject.asObservable() }
     func isProductSelected(id: String) -> Bool { return _selectedProductID == id }
     
     private var productIDSubject = RxSwift.PublishSubject<String>()
     private var selectionChangedSubject = RxSwift.PublishSubject<Void>()
+    private var productQuantityChangedSubject = RxSwift.PublishSubject<Int>()
+    private var quantitySubject = RxSwift.PublishSubject<String>()
     
     private var disposeBag = DisposeBag()
     private var _selectedProductID = ""
+    var grocery: Grocery?
     
     
     init() {
@@ -472,5 +493,18 @@ class CellSelectionState: CellSelectionStateType {
                 self?.selectionChangedSubject.onNext(())
             })
             .disposed(by: disposeBag)
+        
+        productQuantityChangedSubject.subscribe(onNext: { [weak self] productId in
+            guard let self = self else { return }
+            
+            let quantity = self.getShoppingBasketItemForActiveRetailer(productId: productId)?.count.stringValue ?? "0"
+            self.quantitySubject.onNext(ElGrocerUtility.sharedInstance.isArabicSelected() ? quantity.changeToArabic() : quantity)
+        }).disposed(by: disposeBag)
+    }
+    
+    func getShoppingBasketItemForActiveRetailer(productId: Int) -> ShoppingBasketItem? {
+        guard let retailer = self.grocery else { return nil }
+        
+        return ShoppingBasketItem.checkIfProductIsInBasket(productId: productId, grocery: retailer, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
     }
 }
