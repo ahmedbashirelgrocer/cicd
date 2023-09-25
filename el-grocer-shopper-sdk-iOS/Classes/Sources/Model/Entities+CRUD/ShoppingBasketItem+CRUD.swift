@@ -487,7 +487,7 @@ extension ShoppingBasketItem {
             return
         }
         if quantity > 0 {
-            guard product.availableQuantity != 0 else {
+            guard product.availableQuantity.intValue != 0 else {
                 NotificationCenter.default.post(name: KProductNotification, object: product)
                 return
             }

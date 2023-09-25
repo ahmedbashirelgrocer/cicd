@@ -267,6 +267,8 @@ class FireBaseEventsLogger  {
     
     class func logEventToFirebaseWithEventName( _ screenName : String = "" ,  eventName : String ,  parameter : [String : Any]? = nil ){
         
+        return
+        /*
         guard SDKManager.shared.isShopperApp else { return}
         
         var eventNameToSend = ""
@@ -381,7 +383,7 @@ class FireBaseEventsLogger  {
         DispatchQueue.global(qos: .background).async {
             usleep(1)
             Analytics.logEvent( eventNameToSend  , parameters:newParms != nil ? newParms : [:]) //40 char limit
-        }
+        }*/
     }
     
     class func setScreenName (_ screenName : String?  , screenClass : String? ) {

@@ -4589,7 +4589,7 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
       func generateEditOrderWithBackendData(parameters : [String: Any], completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
           
           setAccessToken()
-          FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
+          //FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
           NetworkCall.put(ElGrocerApiEndpoint.generateOrder.rawValue  + "?market_type_id=\(sdkManager.isGrocerySingleStore ? "1":"0")", parameters: parameters, success: { (operation  , response: Any) -> Void in
               
               guard let response = response as? NSDictionary else {
