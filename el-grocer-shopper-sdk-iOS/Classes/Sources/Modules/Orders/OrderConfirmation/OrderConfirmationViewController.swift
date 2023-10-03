@@ -1635,6 +1635,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     
     @IBAction func goToOrderDetailAction(_ sender: Any) {
         
+        guard self.order != nil else { return }
       
         
         let controller = ElGrocerViewControllers.orderDetailsViewController()
