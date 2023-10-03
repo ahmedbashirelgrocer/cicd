@@ -63,6 +63,14 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             }
         }
     }}
+    var _thinBanners: [BannerCampaign] = [] { didSet {
+        self.combineBannersAndProducts()
+        for index in 0..<_thinBanners.count {
+            if let bidID = _thinBanners[index].resolvedBidId {
+                TopsortManager.shared.log(.impressions(resolvedBidId: bidID))
+            }
+        }
+    }}
     var combineProductsBanners: [Any] = []
     
     var productsDict : Dictionary<String, Array<Product>> = [:]
@@ -1084,6 +1092,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         self.searchBarView.layer.borderColor = UIColor.borderGrayColor().cgColor
         if self.searchFor == .isForStoreSearch {
             fetchTopSortSearchBanners()
+            fetchTopSortThinSearchBanners()
         }
     }
     
@@ -1767,6 +1776,32 @@ fileprivate extension UniversalSearchViewController {
 //                let c2 = WinnerBanner.init()
 //                self._productBanners = [ c1.toBannerCampaign(), c2.toBannerCampaign() ]
 //
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func fetchTopSortThinSearchBanners() {
+        
+        guard let text = txtSearch.text, text != "" else { return }
+        guard let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map({ "\($0)" }) else { return }
+        
+        let placementID =  ElGrocerUtility.sharedInstance.adSlots?.thinBannerSlots.first?.placementId ?? BannerLocation.in_search_product.getPlacementID()
+        let slots = ElGrocerUtility.sharedInstance.adSlots?.thinBannerSlots.first?.noOfSlots ?? 10
+        
+        TopsortManager.shared.auctionBanners(slotId: placementID, slots: slots, searchQuery: text, storeTypes: storeTypes){ [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let winners):
+                var thinBanners = winners.map{ $0.toBannerCampaign() }
+                
+                for i in 0..<thinBanners.count {
+                    thinBanners[i].storeTypes = storeTypes.map{ ($0 as NSString).integerValue }
+                }
+                
+                self._thinBanners = thinBanners
+
             case .failure(let error):
                 print(error.localizedDescription)
             }
