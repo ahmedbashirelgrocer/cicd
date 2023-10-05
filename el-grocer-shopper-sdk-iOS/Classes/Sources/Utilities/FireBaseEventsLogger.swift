@@ -1178,7 +1178,7 @@ class FireBaseEventsLogger  {
     
     class func trackFirstOrder (_ order : Order) {
    
-        if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
+        /*if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             let finalParms = [
                 AnalyticsParameterCoupon.capitalized: (order.promoCode?.code ?? ""),
                 AnalyticsParameterCoupon.capitalized + "Value": (order.promoCode?.valueCents ?? ""),
@@ -1189,7 +1189,7 @@ class FireBaseEventsLogger  {
                 AnalyticsParameterValue.capitalized : order.totalValue , FireBaseParmName.CurrentScreen.rawValue : topControllerName
             ] as [String : Any]
             FireBaseEventsLogger.logEventToFirebaseWithEventName( "" , eventName: FireBaseElgrocerPrefix + "FirstOrder" , parameter: finalParms)
-        }
+        }*/
     }
     
     class func trackPurchaseItems (  productList : [Product] , orderId : String , carosalA : [Product] = []  , grocerID : String , eventName : String, _ isWallet : Bool,_ walletUseAmount: Double) {
