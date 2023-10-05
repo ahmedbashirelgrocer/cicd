@@ -273,114 +273,114 @@ class CandCGetDetailTableViewCell: UITableViewCell {
             self.selectionHandler(dataHandler: dataHandler)
         }
         return
-        if let type = self.currentCellType {
-            if type == .car {
-                
-                /*
-                if self.currentTopVc is MyBasketViewController {
-                    let dataController : MyBasketViewController = self.currentTopVc as! MyBasketViewController
-                    if dataController.dataHandler.carList.count > 0 {
-                        var size = dataController.dataHandler.carList.count * 50
-                        if CGFloat(size + 300) > ScreenSize.SCREEN_HEIGHT {
-                            size = Int(ScreenSize.SCREEN_HEIGHT - 280.0)
-                        }
-                        
-                        var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(CGFloat(size + 210)))
-                        configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
-                        let bottomSheetController = NBBottomSheetController(configuration: configuration)
-                        let controler = OrderCollectorDetailsVC(nibName: "OrderCollectorDetailsVC", bundle: Bundle.resource)
-                        controler.detailsType = .car
-                        controler.carDataList = dataController.dataHandler.carList
-                        controler.selectedCar = dataController.dataHandler.selectedCar
-                        controler.dataHandlerView = dataController
-                        controler.carSelected = { (car) in
-                            dataController.dataHandler.selectedCar = car
-                            dataController.reloadTableData()
-                        }
-                        controler.carDeleted = { (carId) in
-                            let index = dataController.dataHandler.carList.firstIndex { (car) -> Bool in
-                                return car.dbId == carId
-                            }
-                            if index != nil {
-                                dataController.dataHandler.carList.remove(at: index!)
-                            }
-                            dataController.reloadTableData()
-                            
-                        }
-                        
-                
-                        
-                        if self.currentTopVc is UIViewController {
-                            bottomSheetController.present(controler, on: self.currentTopVc as! UIViewController)
-                        }
-                        return
-                    }
-                }*/
-                
-       
-                var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(555))
-                configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
-                let bottomSheetController = NBBottomSheetController(configuration: configuration)
-                let controler = AddCarDetailsVC(nibName: "AddCarDetailsVC", bundle: Bundle.resource)
-                    controler.carType  = .addNew
-                if self.currentTopVc is UIViewController {
-                    controler.currentVc = self.currentTopVc as? UIViewController
-                }
-                controler.carSelected = { (car) in
-                   /* if self.currentTopVc is MyBasketViewController {
-                        let dataController : MyBasketViewController = self.currentTopVc as! MyBasketViewController
-                        if car != nil {
-                            dataController.dataHandler.carList.append(car!)
-                            dataController.dataHandler.selectedCar = car
-                            dataController.reloadTableData()
-                        }
-                    }*/
-                }
-                  //  controler.currentTopVc = self.currentTopVc
-                if self.currentTopVc is UIViewController {
-                    bottomSheetController.present(controler, on: self.currentTopVc as! UIViewController)
-                    controler.btnBack.visibility = .gone
-                }
-            }else{
-                /*
-                if self.currentTopVc is MyBasketViewController {
-                    let dataController : MyBasketViewController = self.currentTopVc as! MyBasketViewController
-                    if dataController.dataHandler.collectorList.count > 0 {
-                        var size = dataController.dataHandler.collectorList.count * 50
-                        if CGFloat(size + 300) > ScreenSize.SCREEN_HEIGHT {
-                            size = Int(ScreenSize.SCREEN_HEIGHT - 280.0)
-                        }
-                        var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(CGFloat(size + 210)))
-                        configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
-                        let bottomSheetController = NBBottomSheetController(configuration: configuration)
-                        let controler = OrderCollectorDetailsVC(nibName: "OrderCollectorDetailsVC", bundle: Bundle.resource)
-                        controler.dataList = dataController.dataHandler.collectorList
-                        controler.selectedCollector = dataController.dataHandler.selectedCollector
-                        controler.dataHandlerView = dataController
-                        controler.collectorSelected = { (collector) in
-                            dataController.dataHandler.selectedCollector = collector
-                            dataController.reloadTableData()
-                        }
-                        if self.currentTopVc is UIViewController {
-                            bottomSheetController.present(controler, on: self.currentTopVc as! UIViewController)
-                        }
-                        return
-                    }
-                }*/
-                var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(378))
-                configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
-                let bottomSheetController = NBBottomSheetController(configuration: configuration)
-                let controler = CartPickerAddDetails(nibName: "CartPickerAddDetails", bundle: Bundle.resource)
-                controler.collectorType  = .AddNewCollector
-                if self.currentTopVc is UIViewController {
-                    controler.currentVc = self.currentTopVc as? UIViewController
-                }
-                if self.currentTopVc is UIViewController {
-                    bottomSheetController.present(controler, on: self.currentTopVc as! UIViewController)
-                    controler.btnBack.visibility = .gone
-                }
-            }
-        }
+//        if let type = self.currentCellType {
+//            if type == .car {
+//                
+//                /*
+//                if self.currentTopVc is MyBasketViewController {
+//                    let dataController : MyBasketViewController = self.currentTopVc as! MyBasketViewController
+//                    if dataController.dataHandler.carList.count > 0 {
+//                        var size = dataController.dataHandler.carList.count * 50
+//                        if CGFloat(size + 300) > ScreenSize.SCREEN_HEIGHT {
+//                            size = Int(ScreenSize.SCREEN_HEIGHT - 280.0)
+//                        }
+//                        
+//                        var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(CGFloat(size + 210)))
+//                        configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
+//                        let bottomSheetController = NBBottomSheetController(configuration: configuration)
+//                        let controler = OrderCollectorDetailsVC(nibName: "OrderCollectorDetailsVC", bundle: Bundle.resource)
+//                        controler.detailsType = .car
+//                        controler.carDataList = dataController.dataHandler.carList
+//                        controler.selectedCar = dataController.dataHandler.selectedCar
+//                        controler.dataHandlerView = dataController
+//                        controler.carSelected = { (car) in
+//                            dataController.dataHandler.selectedCar = car
+//                            dataController.reloadTableData()
+//                        }
+//                        controler.carDeleted = { (carId) in
+//                            let index = dataController.dataHandler.carList.firstIndex { (car) -> Bool in
+//                                return car.dbId == carId
+//                            }
+//                            if index != nil {
+//                                dataController.dataHandler.carList.remove(at: index!)
+//                            }
+//                            dataController.reloadTableData()
+//                            
+//                        }
+//                        
+//                
+//                        
+//                        if self.currentTopVc is UIViewController {
+//                            bottomSheetController.present(controler, on: self.currentTopVc as! UIViewController)
+//                        }
+//                        return
+//                    }
+//                }*/
+//                
+//       
+//                var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(555))
+//                configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
+//                let bottomSheetController = NBBottomSheetController(configuration: configuration)
+//                let controler = AddCarDetailsVC(nibName: "AddCarDetailsVC", bundle: Bundle.resource)
+//                    controler.carType  = .addNew
+//                if self.currentTopVc is UIViewController {
+//                    controler.currentVc = self.currentTopVc as? UIViewController
+//                }
+//                controler.carSelected = { (car) in
+//                   /* if self.currentTopVc is MyBasketViewController {
+//                        let dataController : MyBasketViewController = self.currentTopVc as! MyBasketViewController
+//                        if car != nil {
+//                            dataController.dataHandler.carList.append(car!)
+//                            dataController.dataHandler.selectedCar = car
+//                            dataController.reloadTableData()
+//                        }
+//                    }*/
+//                }
+//                  //  controler.currentTopVc = self.currentTopVc
+//                if self.currentTopVc is UIViewController {
+//                    bottomSheetController.present(controler, on: self.currentTopVc as! UIViewController)
+//                    controler.btnBack.visibility = .gone
+//                }
+//            }else{
+//                /*
+//                if self.currentTopVc is MyBasketViewController {
+//                    let dataController : MyBasketViewController = self.currentTopVc as! MyBasketViewController
+//                    if dataController.dataHandler.collectorList.count > 0 {
+//                        var size = dataController.dataHandler.collectorList.count * 50
+//                        if CGFloat(size + 300) > ScreenSize.SCREEN_HEIGHT {
+//                            size = Int(ScreenSize.SCREEN_HEIGHT - 280.0)
+//                        }
+//                        var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(CGFloat(size + 210)))
+//                        configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
+//                        let bottomSheetController = NBBottomSheetController(configuration: configuration)
+//                        let controler = OrderCollectorDetailsVC(nibName: "OrderCollectorDetailsVC", bundle: Bundle.resource)
+//                        controler.dataList = dataController.dataHandler.collectorList
+//                        controler.selectedCollector = dataController.dataHandler.selectedCollector
+//                        controler.dataHandlerView = dataController
+//                        controler.collectorSelected = { (collector) in
+//                            dataController.dataHandler.selectedCollector = collector
+//                            dataController.reloadTableData()
+//                        }
+//                        if self.currentTopVc is UIViewController {
+//                            bottomSheetController.present(controler, on: self.currentTopVc as! UIViewController)
+//                        }
+//                        return
+//                    }
+//                }*/
+//                var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(378))
+//                configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
+//                let bottomSheetController = NBBottomSheetController(configuration: configuration)
+//                let controler = CartPickerAddDetails(nibName: "CartPickerAddDetails", bundle: Bundle.resource)
+//                controler.collectorType  = .AddNewCollector
+//                if self.currentTopVc is UIViewController {
+//                    controler.currentVc = self.currentTopVc as? UIViewController
+//                }
+//                if self.currentTopVc is UIViewController {
+//                    bottomSheetController.present(controler, on: self.currentTopVc as! UIViewController)
+//                    controler.btnBack.visibility = .gone
+//                }
+//            }
+//        }
         
         
     }

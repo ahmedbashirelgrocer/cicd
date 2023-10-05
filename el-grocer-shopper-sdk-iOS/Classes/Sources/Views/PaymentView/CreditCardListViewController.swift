@@ -868,26 +868,26 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
         self.performZeroTokenization()
         
         return
-        if isFromSetting {
-                //var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(CGFloat(500)))
-                //configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
-                //let bottomSheetController = NBBottomSheetController(configuration: configuration)
-            let vc = ElGrocerViewControllers.getEmbededPaymentWebViewController()
-            vc.isAddNewCard = true
-            self.navigationController?.pushViewController(vc, animated: true)
-                //bottomSheetController.present(vc, on: self)
-            vc.refreshCardApi = { [weak self] (isNeedToSelectLast) in
-                guard let self = self else {return}
-                self.checkForCreditCards()
-            }
-            return
-        }
-        
-        self.backButton("")
-        if let clouser =  goToAddNewCard {
-            clouser(self)
-        }
-        return
+//        if isFromSetting {
+//                //var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(CGFloat(500)))
+//                //configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
+//                //let bottomSheetController = NBBottomSheetController(configuration: configuration)
+//            let vc = ElGrocerViewControllers.getEmbededPaymentWebViewController()
+//            vc.isAddNewCard = true
+//            self.navigationController?.pushViewController(vc, animated: true)
+//                //bottomSheetController.present(vc, on: self)
+//            vc.refreshCardApi = { [weak self] (isNeedToSelectLast) in
+//                guard let self = self else {return}
+//                self.checkForCreditCards()
+//            }
+//            return
+//        }
+//        
+//        self.backButton("")
+//        if let clouser =  goToAddNewCard {
+//            clouser(self)
+//        }
+//        return
         
     }
     
