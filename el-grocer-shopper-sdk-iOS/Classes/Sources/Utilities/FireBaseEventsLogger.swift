@@ -1180,8 +1180,8 @@ class FireBaseEventsLogger  {
    
         if let topControllerName = FireBaseEventsLogger.gettopViewControllerName() {
             let finalParms = [
-                AnalyticsParameterCoupon.capitalized: order.promoCode?.code ?? "" ,
-                AnalyticsParameterCoupon.capitalized + "Value": order.promoCode?.valueCents ?? "" ,
+                AnalyticsParameterCoupon.capitalized: (order.promoCode?.code ?? ""),
+                AnalyticsParameterCoupon.capitalized + "Value": (order.promoCode?.valueCents ?? ""),
                 AnalyticsParameterCurrency.capitalized: kProductCurrencyEngAEDName ,
                 AnalyticsParameterShipping.capitalized: order.grocery.vat ,
                 AnalyticsParameterTax.capitalized: order.grocery.vat ,
