@@ -278,9 +278,13 @@ class TopsortManager {
     fileprivate var apiManager: ApiManager
     
     fileprivate var baseURL: String = {
-        let isStaging = ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
         
-        if isStaging {
+        if Platform.isDebugBuild {
+            return "https://api.topsort.com/public" // testing
+        }
+        
+        let isStaging = ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
+        if isStaging && !Platform.isDebugBuild {
             return "https://ts-ohio.api.sandbox.topsort.ai" // Staging
         } else {
             return "https://ts-ireland.api.topsort.ai" // Live
@@ -288,6 +292,11 @@ class TopsortManager {
     }()
     
     fileprivate var defaultHeader: [String: String] = {
+        
+        if Platform.isDebugBuild {
+            return ["Authorization": "Bearer TSE_5e7FYGU4ZtA0aOAMz9U41pkg3dnXeS0kAXCd"]
+        }
+        
         let isStaging = ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
         
         if isStaging {
