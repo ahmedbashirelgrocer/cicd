@@ -280,8 +280,10 @@ class TopsortManager {
     fileprivate var baseURL: String = {
         let isStaging = ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
         
+        
+        
         if isStaging {
-            return "https://ts-ohio.api.sandbox.topsort.ai" // Staging
+            return "https://api.topsort.com" // Staging
         } else {
             return "https://ts-ireland.api.topsort.ai" // Live
         }
@@ -291,7 +293,7 @@ class TopsortManager {
         let isStaging = ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
         
         if isStaging {
-            return ["Authorization": "Bearer 6f1fb708-c0ba-456c-aabd-8aa7b3752f11"] // Staging
+            return ["Authorization": "Bearer TSE_5e7FYGU4ZtA0aOAMz9U41pkg3dnXeS0kAXCd"] // Staging
         } else {
             return ["Authorization": "Bearer TSE_3YWhU5jLx8Wskdc5kk16YMnFzFCowc3wgkiA"] // Live
         }
@@ -360,7 +362,7 @@ struct BannerTarget {
     var categories: [String] = []
     var locations: [String] = []
     var vendor: String = ""
-    
+    var brands: [String] = []
     init() { }
     
     init(from json: String) {
@@ -369,6 +371,7 @@ struct BannerTarget {
             categories = json["categories"] as? [String] ?? []
             locations = json["locations"] as? [String] ?? []
             vendor = json["vendor"] as? String ?? ""
+            brands = json["brands"] as? [String] ?? []
         }
     }
 }
