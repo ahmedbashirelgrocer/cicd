@@ -278,29 +278,22 @@ class TopsortManager {
     fileprivate var apiManager: ApiManager
     
     fileprivate var baseURL: String = {
-        
-        if Platform.isDebugBuild {
-            return "https://api.topsort.com/public" // testing
-        }
-        
         let isStaging = ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
-        if isStaging && !Platform.isDebugBuild {
-            return "https://ts-ohio.api.sandbox.topsort.ai" // Staging
+        
+        
+        
+        if isStaging {
+            return "https://api.topsort.com" // Staging
         } else {
             return "https://ts-ireland.api.topsort.ai" // Live
         }
     }()
     
     fileprivate var defaultHeader: [String: String] = {
-        
-        if Platform.isDebugBuild {
-            return ["Authorization": "Bearer TSE_5e7FYGU4ZtA0aOAMz9U41pkg3dnXeS0kAXCd"]
-        }
-        
         let isStaging = ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
         
         if isStaging {
-            return ["Authorization": "Bearer 6f1fb708-c0ba-456c-aabd-8aa7b3752f11"] // Staging
+            return ["Authorization": "Bearer TSE_5e7FYGU4ZtA0aOAMz9U41pkg3dnXeS0kAXCd"] // Staging
         } else {
             return ["Authorization": "Bearer TSE_3YWhU5jLx8Wskdc5kk16YMnFzFCowc3wgkiA"] // Live
         }
@@ -369,7 +362,7 @@ struct BannerTarget {
     var categories: [String] = []
     var locations: [String] = []
     var vendor: String = ""
-    
+    var brands: [String] = []
     init() { }
     
     init(from json: String) {
@@ -378,6 +371,7 @@ struct BannerTarget {
             categories = json["categories"] as? [String] ?? []
             locations = json["locations"] as? [String] ?? []
             vendor = json["vendor"] as? String ?? ""
+            brands = json["brands"] as? [String] ?? []
         }
     }
 }
@@ -399,7 +393,7 @@ struct Asset: Codable {
 }
 
 extension WinnerBanner {
-    func toBannerCampaign() -> BannerCampaign {
+    func toBannerCampaign(_ type: bannerType = .product) -> BannerCampaign {
         let banner = BannerCampaign()
         
         banner.dbId = 0
@@ -409,6 +403,7 @@ extension WinnerBanner {
         banner.imageUrl = self.asset.first?.url ?? ""
         banner.bannerImageUrl = self.asset.first?.url ?? ""
         banner.url = self.asset.first?.url ?? ""
+        banner.bannerType = type
 //        banner.categories = queryParms.categories.map{
 //            bannerCategories(dbId: ($0 as NSString).integerValue as NSNumber, name: "", slug: "")
 //        }
@@ -419,10 +414,19 @@ extension WinnerBanner {
                                      slug: "")
         }
         
-        banner.brands = [ bannerBrands(dbId: ((target.vendor as NSString).integerValue) as NSNumber,
-                                       name: "",
-                                       slug: "",
-                                       image_url: "") ]
+        banner.brands =  target.brands.map {
+            bannerBrands(dbId: ($0 as NSString).integerValue as NSNumber,
+                                           name: "",
+                                           slug: "",
+                                           image_url: "")
+        }
+        //vendor deprciated
+        /*
+         [ bannerBrands(dbId: ((target.vendor as NSString).integerValue) as NSNumber,
+                                        name: "",
+                                        slug: "",
+                                        image_url: "") ]
+         */
         banner.retailerIds = nil
         banner.locations = nil
         banner.storeTypes = target.locations.map{ ($0 as NSString).integerValue }

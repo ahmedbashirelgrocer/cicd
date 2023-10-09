@@ -553,18 +553,20 @@ class SDKManager: NSObject, SDKManagerType  {
                     
                     //manager.setHomeView()
                 } else {
-                 let alert = ElGrocerAlertView.createAlert(localizedString("error_500", comment: ""), description: nil, positiveButton: positiveButton, negativeButton: nil) { index in
-                        Thread.OnMainThread {
-                            if let topVC = UIApplication.topViewController() {
-                                if let navVc = topVC.navigationController, navVc.viewControllers.count > 1 {
-                                    navVc.popViewController(animated: true)
-                                } else {
-                                    topVC.dismiss(animated: true, completion: nil)
-                                }
-                            }
-                        }
+                    ElGrocerUtility.sharedInstance.delay(0.01) {
+                        let alert = ElGrocerAlertView.createAlert(localizedString("error_500", comment: ""), description: nil, positiveButton: positiveButton, negativeButton: nil) { index in
+                               Thread.OnMainThread {
+                                   if let topVC = UIApplication.topViewController() {
+                                       if let navVc = topVC.navigationController, navVc.viewControllers.count > 1 {
+                                           navVc.popViewController(animated: true)
+                                       } else {
+                                           topVC.dismiss(animated: true, completion: nil)
+                                       }
+                                   }
+                               }
+                           }
+                           alert.show()
                     }
-                    alert.show()
                 }
             }
         } else {

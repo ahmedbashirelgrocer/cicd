@@ -182,6 +182,11 @@ struct bannerBrands {
     var image_url : String = ""
 }
 
+enum bannerType {
+    case product
+    case thin
+}
+
 
 class BannerCampaign: NSObject {
     
@@ -201,6 +206,7 @@ class BannerCampaign: NSObject {
     var storeTypes  : [Int]? = nil
     var retailerGroups  : [Int]? = nil
     var resolvedBidId: String?
+    var bannerType: bannerType = .product
     
     var isViewed = false
     
