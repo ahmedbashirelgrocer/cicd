@@ -1205,8 +1205,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         }
         self.dataSource?.papulateTrengingData(true)
     }
-    
-    
+
     func userSearchClick(_ searchData : String , model : SuggestionsModelObj?) {
         
         defer {

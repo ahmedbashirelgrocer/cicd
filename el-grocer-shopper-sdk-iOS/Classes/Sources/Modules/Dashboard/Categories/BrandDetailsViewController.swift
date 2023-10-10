@@ -354,16 +354,21 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
 
         let storeID = ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)
         let slots = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsBrandPage ?? 3
-        var subcategoryId = self.subCategory?.subCategoryId.stringValue ?? ""
-        var categoryId = self.category?.dbID.stringValue ?? ""
-        var brandID = self.brand?.brandId != nil ? "\(String(describing: self.brand?.brandId ?? 0))"  : ""
         
-        ProductBrowser.shared.searchProductListForStoreCategory(storeID: storeID,
+        let subcategoryId = self.isFromBanner ? "" : self.subCategory?.subCategoryId.stringValue ?? ""
+        let categoryId = self.category?.dbID.stringValue ?? ""
+        let brandID = self.brand?.brandId != nil ? "\(String(describing: self.brand?.brandId ?? 0))"  : ""
+        var brandIds = self.brands.map { $0.dbId.stringValue }
+        if brandIds.count == 0 && brandID.count > 0 {
+            brandIds.append(brandID)
+        }
+        
+        ProductBrowser.shared.searchProductListForStoreCategoryWithMultiBrands(storeID: storeID,
                                                                 pageNumber: pageNumber,
                                                                 categoryId: categoryId,
                                                                 hitsPerPage: hitsPerPage,
                                                                 subcategoryId,
-                                                                brandID,
+                                                                brandIds,
                                                                 slots: slots,
                                                                 completion: { [weak self] (content, error) in
             if  let responseObject = content {

@@ -278,9 +278,8 @@ class TopsortManager {
     fileprivate var apiManager: ApiManager
     
     fileprivate var baseURL: String = {
+        
         let isStaging = ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
-        
-        
         
         if isStaging {
             return "https://api.topsort.com" // Staging
@@ -290,6 +289,7 @@ class TopsortManager {
     }()
     
     fileprivate var defaultHeader: [String: String] = {
+      
         let isStaging = ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
         
         if isStaging {

@@ -73,7 +73,7 @@ class AlgoliaApi {
     
     init() {
         
-        var isStaging = ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
+        var isStaging =  ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
         
         if isStaging { algoliaApplicationID = algoliaApplicationIDStaging }
         let apiKeySearch = isStaging ? ALGOLIA_API_KEY_SEARCH_STAGING : ALGOLIA_API_KEY_SEARCH_LIVE
@@ -986,6 +986,57 @@ extension Encodable {
 
 
 extension AlgoliaApi {
+    
+    
+    func searchProductListForStoreCategoryWithMultiBrands ( storeID : String , pageNumber : Int , categoryId: String , _ hitsPerPage : Int = 20, _ subCategoryID : String = "", _ brandIds : [String] = []  , completion : @escaping responseBlock ) -> Void {
+        
+        
+        var facetFiltersA : [SingleOrList<String>] = []
+        let facetFiltersForCurrentStoreID : String = "shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+        facetFiltersA.append(SingleOrList.single(facetFiltersForCurrentStoreID))
+        
+        
+        if categoryId.count > 0 {
+            let facetFiltersForCategoryId : String = "categories.id:\(categoryId)"
+            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+        }
+        
+        
+        if subCategoryID.count > 0 {
+            let facetFiltersForCategoryId : String = "subcategories.id:\(subCategoryID)"
+            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+        }
+        
+        
+        var brandFilterString : [String] = []
+        for brandId in brandIds {
+            let brandIdString : String = "brand.id:\(brandId)"
+            brandFilterString.append(brandIdString)
+        }
+        
+        facetFiltersA.append(SingleOrList.list(brandFilterString))
+        
+        var query = Query("")
+            .set(\.facetFilters, to: FiltersStorage.init(rawValue: facetFiltersA) )
+            .set(\.clickAnalytics, to: true)
+            .set(\.getRankingInfo, to: true)
+            .set(\.analytics, to: true)
+            .set(\.analyticsTags, to: self.getAlgoliaTags(isUniversal: false , searchType: "ProductListing"))
+        
+        query.page = pageNumber
+        query.hitsPerPage = hitsPerPage
+        var requestOptions = RequestOptions()
+        requestOptions.headers["X-Algolia-UserToken"] = (Insights.shared(appId:  algoliaApplicationID)?.userToken).map { $0.rawValue }
+        
+        self.algoliaProductBrowserIndex.browse(query: query, requestOptions: requestOptions) { (content) in
+            if case .success(let response) = content {
+                completion(response.convertHits() , nil)
+            }else if case .failure (let error) = content{
+                completion(nil , error)
+            }
+        }
+  
+    }
     
     
     
