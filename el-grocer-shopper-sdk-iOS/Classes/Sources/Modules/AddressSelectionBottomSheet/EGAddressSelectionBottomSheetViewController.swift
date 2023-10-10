@@ -47,8 +47,9 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
     private weak var mapDelegate : LocationMapDelegation? = nil
     private weak var presentIn : UIViewController? = nil
     private var isSingleStore: Bool = false
+    private var locationSelectionHandler: (() -> Void)?
     
-    class func showInBottomSheet(_ activeGrocery: Grocery?, mapDelegate: LocationMapDelegation?, presentIn: UIViewController) {
+    class func showInBottomSheet(_ activeGrocery: Grocery?, mapDelegate: LocationMapDelegation?, presentIn: UIViewController, locationSelectionHandler: (() -> Void)? = nil) {
         
         
         func showView() {
@@ -62,6 +63,7 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
             let addressView = EGAddressSelectionBottomSheetViewController.init(nibName: "EGAddressSelectionBottomSheetViewController", bundle: .resource)
             addressView.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(height))
             addressView.configure(addressList, activeGrocery, mapDelegate: mapDelegate, presentIn: presentIn)
+            addressView.locationSelectionHandler = locationSelectionHandler
             
             let popupController = STPopupController(rootViewController: addressView)
             popupController.navigationBarHidden = true
@@ -215,6 +217,10 @@ extension EGAddressSelectionBottomSheetViewController : UITableViewDelegate, UIT
                     self?.makeLocationToDefault(address)
                 }else {
                     self?.crossAction("")
+                }
+                
+                if let locationSelectionHandler = self?.locationSelectionHandler {
+                    locationSelectionHandler()
                 }
             }
         }

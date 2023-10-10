@@ -657,8 +657,10 @@ extension SubCategoriesViewController :  CateAndSubcategoryViewDelegate  {
             if visibleIndexPaths.first(where: { indexs in
                 indexs.row == index?.row
             }) != nil, ((index?.row ?? -1)) % 5 != 0   {
-                self.collectionView.performBatchUpdates {
-                    self.collectionView.reloadItems(at: [index!])
+                if self.viewHandler.ListbrandsArray.count > (index?.row ?? -1) {
+                    self.collectionView.performBatchUpdates {
+                        self.collectionView.reloadItems(at: [index!])
+                    }
                 }
                 return
             } else {

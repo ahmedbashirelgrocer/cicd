@@ -89,6 +89,9 @@ class SecondCheckoutVC: UIViewController {
         self.secondaryPaymentView.delegate = self
         self.tabbyView.delegate = self
         
+        // Hides tabby view by default
+        self.tabbyView.isHidden = true
+        
         self.checkoutDeliverySlotView.changeSlot = { [weak self] (slot) in
             guard let self = self, let slot = slot else {return}
             self.viewModel.setSelectedSlotId(slot.dbID.intValue)
@@ -227,7 +230,6 @@ class SecondCheckoutVC: UIViewController {
 //            self.viewModel.fetchDeliverySlots()
         })
         .disposed(by: disposeBag)
-        self.viewModel.getCreditCardsFromAdyen()
      
         // Logging segment screen event and checkout started
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .checkoutScreen))
@@ -296,8 +298,6 @@ class SecondCheckoutVC: UIViewController {
                     }, buttonIcon: UIImage(named: "crossWhite"))
                 }
             }
-        } else {
-            self.tabbyView.isHidden = true
         }
     }
     

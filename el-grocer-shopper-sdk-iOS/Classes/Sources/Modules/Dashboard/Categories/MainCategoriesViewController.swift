@@ -367,6 +367,12 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         }
         
         self.initViewModel()
+        
+        self.locationHeaderFlavor.locationChangedHandler = { [weak self] in
+            if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
+                self?.callForLatestDeliverySlotsWithGroceryLoader(grocery: grocery, true)
+            }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -657,9 +663,10 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     }
     
     
-    func callForLatestDeliverySlotsWithGroceryLoader(grocery : Grocery) {
+    func callForLatestDeliverySlotsWithGroceryLoader(grocery : Grocery, _ isLoaderHidden: Bool = false) {
         
-        self.showGroceryLoader( grocery: grocery)
+        if isLoaderHidden == false { self.showGroceryLoader( grocery: grocery) }
+        
         self.grocerySlotbasketWorkItem = DispatchWorkItem {
             self.getGroceryDeliverySlots()
         }
