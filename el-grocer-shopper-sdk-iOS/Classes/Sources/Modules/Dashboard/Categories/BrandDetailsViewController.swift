@@ -33,6 +33,9 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             setPushWooshBrandTag(brandName)
         }
     }
+    
+    var brands:[bannerBrands] = [] // in support of multibrands search allow
+    
     var subCategory:SubCategory!
     var category:Category?
     var products:[Product] = [Product]()

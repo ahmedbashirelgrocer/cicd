@@ -936,6 +936,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
             if let banner = combineProductsBanners[indexPath.row] as? BannerCampaign,
                let url = URL(string: banner.url) {
                 cell.imageView.sd_setImage(with: url, placeholderImage: nil, options: SDWebImageOptions(rawValue: 7), completed: nil)
+                cell.setImageWithBannerType(banner.bannerType)
                 handleNavigationsFor(cell, and: banner)
             }
             
@@ -998,7 +999,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
                 cellSpacing = 3.0
                 numberOfCell = 2.965
             }
-            var cellSize = CGSize(width: ((collectionView.frame.size.width) - cellSpacing * 1.5 ) / numberOfCell , height: kProductCellHeight)
+            var cellSize = CGSize(width: ((collectionView.frame.size.width) - cellSpacing * 0.99 ) / numberOfCell , height: kProductCellHeight)
             
             if cellSize.width > collectionView.frame.width {
                 cellSize.width = collectionView.frame.width
@@ -1777,7 +1778,9 @@ fileprivate extension UniversalSearchViewController {
         for i in 0..<_thinBanners.count {
             if i < locations.count {
                 if locations[i] < self.combineProductsBanners.count {
-                    self.combineProductsBanners.insert(_thinBanners[i] as Any, at: 8) //
+                    var locationIndex = locations[i]
+                    if locationIndex % 2 == 1 { locationIndex += 1 }
+                    self.combineProductsBanners.insert(_thinBanners[i] as Any, at: locationIndex) //
                 } else {
                     self.combineProductsBanners.append(_thinBanners[i] as Any)
                 }
