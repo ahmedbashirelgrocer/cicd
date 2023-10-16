@@ -1101,7 +1101,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         if self.searchFor == .isForStoreSearch {
             ElGrocerUtility.sharedInstance.delay(2) {
                 self.fetchTopSortSearchBanners()
-                self.fetchTopSortThinSearchBanners()
+                ElGrocerUtility.sharedInstance.delay(2) { [weak self] in self?.fetchTopSortThinSearchBanners()}
             }
            
         }
@@ -1216,7 +1216,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         
         if self.searchFor == .isForStoreSearch {
             fetchTopSortSearchBanners()
-            fetchTopSortThinSearchBanners()
+            ElGrocerUtility.sharedInstance.delay(2) { [weak self] in self?.fetchTopSortThinSearchBanners()}
         }
         
         // Logging segment event for Universal & Store Search
@@ -1777,7 +1777,8 @@ fileprivate extension UniversalSearchViewController {
         for i in 0..<_thinBanners.count {
             if i < locations.count {
                 if locations[i] < self.combineProductsBanners.count {
-                    let locationIndex = locations[i]
+                    var locationIndex = locations[i]
+                    if locationIndex % 2  > 0 {  locationIndex = locationIndex + 1 }
                     self.combineProductsBanners.insert(_thinBanners[i] as Any, at: locationIndex) //
                 } else {
                     self.combineProductsBanners.append(_thinBanners[i] as Any)
