@@ -54,7 +54,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     var pageNumber : Int = 0
     var _loadedProductList : [Product] = [] { didSet {
         self.combineBannersAndProducts()
-        self.combineThinBannersAndProducts()
+        self.combineThinBannersAndProducts(true)
     }}
     var _productBanners: [BannerCampaign] = [] { didSet {
         self.combineBannersAndProducts()
@@ -935,7 +935,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
             
             if let banner = combineProductsBanners[indexPath.row] as? BannerCampaign,
                let url = URL(string: banner.url) {
-                cell.imageView.sd_setImage(with: url, placeholderImage: nil, options: SDWebImageOptions(rawValue: 7), completed: nil)
+                cell.imageView.sd_setImage(with: url, placeholderImage: productPlaceholderPhoto, options: SDWebImageOptions(rawValue: 8), completed: nil)
                 cell.setImageWithBannerType(banner.bannerType)
                 handleNavigationsFor(cell, and: banner)
             }
@@ -1017,9 +1017,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
                     cellSize.height = cellSize.width  / 9.375
                 }
             }
-            
             return cellSize
-            
         }
         
         let wid = (ScreenSize.SCREEN_WIDTH - 30)
@@ -1764,21 +1762,22 @@ fileprivate extension UniversalSearchViewController {
         self.showCollectionView(combineProductsBanners.count > 0)
     }
     
-    func combineThinBannersAndProducts() {
+    func combineThinBannersAndProducts(_ getCombine: Bool = false) {
         if self._loadedProductList.count == 0 {
             self.combineProductsBanners = []
             return
         }
         
-        self.combineProductsBanners = self._loadedProductList as [Any]
+      //  self.combineProductsBanners =  getCombine ? self.combineProductsBanners : self._loadedProductList as [Any]
         
         let locations = ElGrocerUtility.sharedInstance.adSlots?.thinBannerSlots.first?.position ?? []
+        
+      //  var isLocationThinBannerAdded = false
         
         for i in 0..<_thinBanners.count {
             if i < locations.count {
                 if locations[i] < self.combineProductsBanners.count {
-                    var locationIndex = locations[i]
-                    if locationIndex % 2 == 1 { locationIndex += 1 }
+                    let locationIndex = locations[i]
                     self.combineProductsBanners.insert(_thinBanners[i] as Any, at: locationIndex) //
                 } else {
                     self.combineProductsBanners.append(_thinBanners[i] as Any)
@@ -1810,12 +1809,6 @@ fileprivate extension UniversalSearchViewController {
                 }
                 
                 self._productBanners = productBanners
-                // self._productBanners = winners.map{ $0.toBannerCampaign() }
-                
-//                let c1 = WinnerBanner.init()
-//                let c2 = WinnerBanner.init()
-//                self._productBanners = [ c1.toBannerCampaign(), c2.toBannerCampaign() ]
-//
             case .failure(let error):
                 print(error.localizedDescription)
             }

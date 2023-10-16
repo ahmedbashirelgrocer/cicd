@@ -23,7 +23,8 @@ class ProductBrowser {
                                            categoryId: String,
                                            hitsPerPage: Int,
                                            _ subCategoryID: String = "",
-                                           _ brandId: [String] = [],
+                                           _ brandIds: [String] = [],
+                                           _ categoryIds: [String] = [],
                                            slots: Int,
                                            completion: @escaping ResponseBlock ) {
         
@@ -33,7 +34,8 @@ class ProductBrowser {
                                                categoryId: categoryId,
                                                hitsPerPage,
                                                subCategoryID,
-                                               brandId) { responseObject, error in
+                                               brandIds,
+                                               categoryIds) { responseObject, error in
                 if error == nil, let response = responseObject as? NSDictionary {
                     DispatchQueue.main.async {
                         let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)

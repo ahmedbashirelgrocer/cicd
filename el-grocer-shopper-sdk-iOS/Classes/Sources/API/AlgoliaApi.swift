@@ -988,7 +988,7 @@ extension Encodable {
 extension AlgoliaApi {
     
     
-    func searchProductListForStoreCategoryWithMultiBrands ( storeID : String , pageNumber : Int , categoryId: String , _ hitsPerPage : Int = 20, _ subCategoryID : String = "", _ brandIds : [String] = []  , completion : @escaping responseBlock ) -> Void {
+    func searchProductListForStoreCategoryWithMultiBrands ( storeID : String , pageNumber : Int , categoryId: String , _ hitsPerPage : Int = 20, _ subCategoryID : String = "", _ brandIds : [String] = [], _ categoriesIds: [String] = []  , completion : @escaping responseBlock ) -> Void {
         
         
         var facetFiltersA : [SingleOrList<String>] = []
@@ -1013,8 +1013,15 @@ extension AlgoliaApi {
             let brandIdString : String = "brand.id:\(brandId)"
             brandFilterString.append(brandIdString)
         }
+        if brandFilterString.count > 0 { facetFiltersA.append(SingleOrList.list(brandFilterString)) }
         
-        facetFiltersA.append(SingleOrList.list(brandFilterString))
+        var categoryFilterString : [String] = []
+        for categoryId in categoriesIds {
+            let categoryIdString : String = "categories.id:\(categoryId)"
+            categoryFilterString.append(categoryIdString)
+        }
+        if categoryFilterString.count > 0 { facetFiltersA.append(SingleOrList.list(categoryFilterString)) }
+        
         
         var query = Query("")
             .set(\.facetFilters, to: FiltersStorage.init(rawValue: facetFiltersA) )
