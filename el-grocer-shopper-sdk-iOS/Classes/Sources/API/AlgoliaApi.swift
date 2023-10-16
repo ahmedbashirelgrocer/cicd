@@ -73,7 +73,7 @@ class AlgoliaApi {
     
     init() {
         
-        var isStaging =  ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
+        var isStaging = ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
         
         if isStaging { algoliaApplicationID = algoliaApplicationIDStaging }
         let apiKeySearch = isStaging ? ALGOLIA_API_KEY_SEARCH_STAGING : ALGOLIA_API_KEY_SEARCH_LIVE
@@ -996,7 +996,7 @@ extension AlgoliaApi {
         facetFiltersA.append(SingleOrList.single(facetFiltersForCurrentStoreID))
         
         
-        if categoryId.count > 0 {
+        if categoryId.count > 0 && categoriesIds.count == 0 {
             let facetFiltersForCategoryId : String = "categories.id:\(categoryId)"
             facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
         }
