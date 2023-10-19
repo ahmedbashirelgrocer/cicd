@@ -145,6 +145,8 @@ class ElgrocerStoreHeader:  UIView  {
         }
     }
     
+    var locationChangedHandler: (() -> Void)?
+    
     func setDismisType(_ type: ElgrocerStoreHeaderDismissType) {
         self.dimisType = type
         
@@ -396,7 +398,7 @@ class ElgrocerStoreHeader:  UIView  {
                 if let sdkHomeVc = top as? SmileSdkHomeVC {
                     sdkHomeVc.locationButtonClick()
                 } else if let storePage = top as? MainCategoriesViewController {
-                EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, mapDelegate: storePage.mapDelegate, presentIn: storePage)
+                    EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, mapDelegate: storePage.mapDelegate, presentIn: storePage, locationSelectionHandler: self.locationChangedHandler)
                 } else {
                     let dashboardLocationVC = ElGrocerViewControllers.dashboardLocationViewController()
                     dashboardLocationVC.isFromNewHome = true

@@ -140,7 +140,6 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
 //             removeBackButton()
 //        }
         
-        fetchLocations()
         setUpSearchTextFieldAppearance()
         setupDoneButtonAppearance()
         showViewAccordingToLocationService()

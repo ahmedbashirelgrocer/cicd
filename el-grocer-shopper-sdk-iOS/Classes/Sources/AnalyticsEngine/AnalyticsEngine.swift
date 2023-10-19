@@ -92,33 +92,9 @@ private extension SegmentAnalyticsEngine {
                 metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
                 return metaData
             }
-        }else {
+        } else {
             var metaData = metaData
             metaData[EventParameterKeys.marketType] = sdkManager.isShopperApp ? "Shopper Marketplace" : "Smiles Marketplace"
-            metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
-            return metaData
-        }
-        
-        return metaData
-    }
-    
-    func addMarketTypeProperty(metaData: [String: Any], launchOptions: LaunchOptions) -> [String: Any] {
-        switch launchOptions.marketType {
-        case .marketPlace:
-            var metaData = metaData
-            metaData[EventParameterKeys.marketType] = "Smiles Marketplace"
-            metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
-            return metaData
-            
-        case .shopper:
-            var metaData = metaData
-            metaData[EventParameterKeys.marketType] = "Shopper Marketplace"
-            metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
-            return metaData
-            
-        case .grocerySingleStore:
-            var metaData = metaData
-            metaData[EventParameterKeys.marketType] = "Smiles Market"
             metaData[EventParameterKeys.sessionId] = ElGrocerUtility.sharedInstance.getSesstionId()
             return metaData
         }
@@ -131,7 +107,6 @@ private extension SegmentAnalyticsEngine {
         print("Event Type: \(eventType)")
         print("Event Name: \(eventName)")
         print("Event Params: \(params)")
-        print("\n")
         print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< END >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
         #endif
     }

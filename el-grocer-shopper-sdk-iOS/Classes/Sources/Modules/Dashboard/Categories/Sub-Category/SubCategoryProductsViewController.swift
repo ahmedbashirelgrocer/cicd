@@ -114,6 +114,9 @@ class SubCategoryProductsViewController: BasketBasicViewController {
         setupViews()
         setupConstraint()
         bindViews()
+        
+        // Logging segment screen event for Product List Screen
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .productListingScreen))
     }
     
     override func viewWillAppear(_ animated: Bool) {

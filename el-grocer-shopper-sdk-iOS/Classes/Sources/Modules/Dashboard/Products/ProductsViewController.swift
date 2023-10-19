@@ -1109,10 +1109,8 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         
         if  let dataDict = responseObject["data"] as? [NSDictionary] {
             responseObjects = dataDict
-        }else {
-            let dataDict = responseObject["data"] as! NSDictionary
-                 responseObjects = dataDict["products"] as! [NSDictionary]
-            
+        } else if let dataDict = responseObject["data"] as? NSDictionary, let responseObjectsDic = dataDict["products"] as? [NSDictionary]  {
+            responseObjects = responseObjectsDic
         }
         
         let context = self.productsArray.count == 0 ? DatabaseHelper.sharedInstance.mainManagedObjectContext :  DatabaseHelper.sharedInstance.backgroundManagedObjectContext

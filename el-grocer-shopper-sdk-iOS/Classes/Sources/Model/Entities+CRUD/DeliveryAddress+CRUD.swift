@@ -153,7 +153,7 @@ extension DeliveryAddress {
         
         location.isArchive = NSNumber(value: false as Bool)
 
-        userProfile.addDeliveryAddress(location)
+//        userProfile.addDeliveryAddress(location)
 
         return location
     }
