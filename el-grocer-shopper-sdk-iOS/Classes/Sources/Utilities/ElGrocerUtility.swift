@@ -471,7 +471,7 @@ class ElGrocerUtility {
                 }
                 
             } catch let error as NSError {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+               // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
                elDebugPrint(error)
             }
         }
@@ -1222,7 +1222,7 @@ class ElGrocerUtility {
             do {
                 return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
             } catch (let error) {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+               // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
                elDebugPrint(error.localizedDescription)
             }
         }

@@ -1768,20 +1768,18 @@ fileprivate extension UniversalSearchViewController {
             return
         }
         
-      //  self.combineProductsBanners =  getCombine ? self.combineProductsBanners : self._loadedProductList as [Any]
+        self.combineProductsBanners = self._loadedProductList as [Any]
         
         let locations = ElGrocerUtility.sharedInstance.adSlots?.thinBannerSlots.first?.position ?? []
-        
-      //  var isLocationThinBannerAdded = false
         
         for i in 0..<_thinBanners.count {
             if i < locations.count {
                 if locations[i] < self.combineProductsBanners.count {
                     var locationIndex = locations[i]
-                    if locationIndex % 2  > 0 {  locationIndex = locationIndex + 1 }
+                    if locationIndex % 2  > 0 {  locationIndex = locationIndex - 1 }
                     self.combineProductsBanners.insert(_thinBanners[i] as Any, at: locationIndex) //
                 } else {
-                    self.combineProductsBanners.append(_thinBanners[i] as Any)
+                   // self.combineProductsBanners.append(_thinBanners[i] as Any)
                 }
             }
         }
@@ -1830,6 +1828,7 @@ fileprivate extension UniversalSearchViewController {
             case .success(let winners):
                 let thinBanners = winners.map{ $0.toBannerCampaign(.thin) }
                 
+             
                 for i in 0..<thinBanners.count {
                     thinBanners[i].storeTypes = storeTypes.map{ ($0 as NSString).integerValue }
                 }

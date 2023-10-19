@@ -1511,8 +1511,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     item.updatedAt = product.updatedAt
                     do {
                         try DatabaseHelper.sharedInstance.mainManagedObjectContext.save()
-                    } catch (let error) {
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+                    } catch (let _) {
+                       // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
                     }
                 }
             } else {

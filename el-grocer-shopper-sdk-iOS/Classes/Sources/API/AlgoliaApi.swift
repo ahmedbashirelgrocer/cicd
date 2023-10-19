@@ -73,7 +73,7 @@ class AlgoliaApi {
     
     init() {
         
-        var isStaging = ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
+        let isStaging = ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
         
         if isStaging { algoliaApplicationID = algoliaApplicationIDStaging }
         let apiKeySearch = isStaging ? ALGOLIA_API_KEY_SEARCH_STAGING : ALGOLIA_API_KEY_SEARCH_LIVE
@@ -988,7 +988,7 @@ extension Encodable {
 extension AlgoliaApi {
     
     
-    func searchProductListForStoreCategoryWithMultiBrands ( storeID : String , pageNumber : Int , categoryId: String , _ hitsPerPage : Int = 20, _ subCategoryID : String = "", _ brandIds : [String] = [], _ categoriesIds: [String] = []  , completion : @escaping responseBlock ) -> Void {
+    func searchProductListForStoreCategoryWithMultiBrands ( storeID : String , pageNumber : Int , categoryId: String , _ hitsPerPage : Int = 20, _ subCategoryID : String = "", _ brandIds : [String] = [], _ subCategoriesIds: [String] = []  , completion : @escaping responseBlock ) -> Void {
         
         
         var facetFiltersA : [SingleOrList<String>] = []
@@ -996,7 +996,7 @@ extension AlgoliaApi {
         facetFiltersA.append(SingleOrList.single(facetFiltersForCurrentStoreID))
         
         
-        if categoryId.count > 0 && categoriesIds.count == 0 {
+        if categoryId.count > 0 {
             let facetFiltersForCategoryId : String = "categories.id:\(categoryId)"
             facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
         }
@@ -1015,12 +1015,12 @@ extension AlgoliaApi {
         }
         if brandFilterString.count > 0 { facetFiltersA.append(SingleOrList.list(brandFilterString)) }
         
-        var categoryFilterString : [String] = []
-        for categoryId in categoriesIds {
-            let categoryIdString : String = "categories.id:\(categoryId)"
-            categoryFilterString.append(categoryIdString)
+        var subCategoryFilterString : [String] = []
+        for subCategoryId in subCategoriesIds {
+            let subCategoriesIdString : String = "subcategories.id:\(subCategoryId)"
+            subCategoryFilterString.append(subCategoriesIdString)
         }
-        if categoryFilterString.count > 0 { facetFiltersA.append(SingleOrList.list(categoryFilterString)) }
+        if subCategoryFilterString.count > 0 { facetFiltersA.append(SingleOrList.list(subCategoryFilterString)) }
         
         
         var query = Query("")

@@ -30,8 +30,8 @@ extension ReferralWallet {
         }
         do {
             try context.save()
-        } catch (let error) {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+        } catch (let _) {
+            // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
         }
     }
     

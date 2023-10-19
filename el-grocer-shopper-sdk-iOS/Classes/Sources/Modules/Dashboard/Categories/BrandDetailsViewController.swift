@@ -363,10 +363,8 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         if brandIds.count == 0 && brandID.count > 0 {
             brandIds.append(brandID)
         }
-        var bannerCategoriesIds = self.bannerSubCategories.map { $0.dbId.stringValue }
-        if bannerCategoriesIds.count == 0 && categoryId.count > 0 {
-            bannerCategoriesIds.append(categoryId)
-        }
+        let bannerSubCategoriesIds = self.bannerSubCategories.map { $0.dbId.stringValue }
+        
         
         ProductBrowser.shared.searchProductListForStoreCategoryWithMultiBrands(storeID: storeID,
                                                                 pageNumber: pageNumber,
@@ -374,7 +372,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
                                                                 hitsPerPage: hitsPerPage,
                                                                 subcategoryId,
                                                                 brandIds,
-                                                                bannerCategoriesIds,
+                                                                bannerSubCategoriesIds,
                                                                 slots: slots,
                                                                 completion: { [weak self] (content, error) in
             if  let responseObject = content {
