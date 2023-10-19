@@ -54,11 +54,20 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     var pageNumber : Int = 0
     var _loadedProductList : [Product] = [] { didSet {
         self.combineBannersAndProducts()
+        self.combineThinBannersAndProducts()
     }}
     var _productBanners: [BannerCampaign] = [] { didSet {
         self.combineBannersAndProducts()
         for index in 0..<_productBanners.count {
             if let bidID = _productBanners[index].resolvedBidId {
+                TopsortManager.shared.log(.impressions(resolvedBidId: bidID))
+            }
+        }
+    }}
+    var _thinBanners: [BannerCampaign] = [] { didSet {
+        self.combineThinBannersAndProducts()
+        for index in 0..<_thinBanners.count {
+            if let bidID = _thinBanners[index].resolvedBidId {
                 TopsortManager.shared.log(.impressions(resolvedBidId: bidID))
             }
         }
@@ -315,7 +324,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionFootersPinToVisibleBounds = false
-        flowLayout.sectionInset = UIEdgeInsets.init(top: 5 , left: 5, bottom: 10 , right: 10)
+        flowLayout.sectionInset = UIEdgeInsets.init(top: 5 , left: 0, bottom: 10 , right: 0)
         flowLayout.minimumInteritemSpacing = 0
         flowLayout.minimumLineSpacing = 0
         self.collectionView.collectionViewLayout = flowLayout
@@ -927,6 +936,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
             if let banner = combineProductsBanners[indexPath.row] as? BannerCampaign,
                let url = URL(string: banner.url) {
                 cell.imageView.sd_setImage(with: url, placeholderImage: nil, options: SDWebImageOptions(rawValue: 7), completed: nil)
+                cell.setImageWithBannerType(banner.bannerType)
                 handleNavigationsFor(cell, and: banner)
             }
             
@@ -989,7 +999,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
                 cellSpacing = 3.0
                 numberOfCell = 2.965
             }
-            var cellSize = CGSize(width: ((collectionView.frame.size.width - 32) - cellSpacing * 2 ) / numberOfCell , height: kProductCellHeight)
+            var cellSize = CGSize(width: ((collectionView.frame.size.width) - cellSpacing * 0.99 ) / numberOfCell , height: kProductCellHeight)
             
             if cellSize.width > collectionView.frame.width {
                 cellSize.width = collectionView.frame.width
@@ -1000,6 +1010,14 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
             }
             
             cellSize.height = cellSize.width * 853 / 506
+            
+            if let banner = combineProductsBanners[indexPath.row] as? BannerCampaign {
+                if banner.bannerType == .thin {
+                    cellSize.width = ScreenSize.SCREEN_WIDTH
+                    cellSize.height = cellSize.width  / 9.375
+                }
+            }
+            
             return cellSize
             
         }
@@ -1024,7 +1042,7 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 6 , bottom: 0 , right: 6)
+        return UIEdgeInsets(top: 0, left: 0 , bottom: 0 , right: 0)
     }
     
     
@@ -1083,7 +1101,11 @@ extension UniversalSearchViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.searchBarView.layer.borderColor = UIColor.borderGrayColor().cgColor
         if self.searchFor == .isForStoreSearch {
-            fetchTopSortSearchBanners()
+            ElGrocerUtility.sharedInstance.delay(2) {
+                self.fetchTopSortSearchBanners()
+                self.fetchTopSortThinSearchBanners()
+            }
+           
         }
     }
     
@@ -1183,8 +1205,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         }
         self.dataSource?.papulateTrengingData(true)
     }
-    
-    
+
     func userSearchClick(_ searchData : String , model : SuggestionsModelObj?) {
         
         defer {
@@ -1197,6 +1218,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
         
         if self.searchFor == .isForStoreSearch {
             fetchTopSortSearchBanners()
+            fetchTopSortThinSearchBanners()
         }
         
         // Logging segment event for Universal & Store Search
@@ -1742,6 +1764,33 @@ fileprivate extension UniversalSearchViewController {
         self.showCollectionView(combineProductsBanners.count > 0)
     }
     
+    func combineThinBannersAndProducts() {
+        if self._loadedProductList.count == 0 {
+            self.combineProductsBanners = []
+            return
+        }
+        
+        self.combineProductsBanners = self._loadedProductList as [Any]
+        
+        let locations = ElGrocerUtility.sharedInstance.adSlots?.thinBannerSlots.first?.position ?? []
+        
+        for i in 0..<_thinBanners.count {
+            if i < locations.count {
+                if locations[i] < self.combineProductsBanners.count {
+                    var locationIndex = locations[i]
+                    if locationIndex % 2 == 1 { locationIndex += 1 }
+                    self.combineProductsBanners.insert(_thinBanners[i] as Any, at: locationIndex) //
+                } else {
+                    self.combineProductsBanners.append(_thinBanners[i] as Any)
+                }
+            }
+        }
+        
+        self.showCollectionView(combineProductsBanners.count > 0)
+    }
+    
+    
+    
     func fetchTopSortSearchBanners() {
         
         guard let text = txtSearch.text, text != "" else { return }
@@ -1754,7 +1803,7 @@ fileprivate extension UniversalSearchViewController {
             guard let self = self else { return }
             switch result {
             case .success(let winners):
-                var productBanners = winners.map{ $0.toBannerCampaign() }
+                let productBanners = winners.map{ $0.toBannerCampaign() }
                 
                 for i in 0..<productBanners.count {
                     productBanners[i].storeTypes = storeTypes.map{ ($0 as NSString).integerValue }
@@ -1767,6 +1816,32 @@ fileprivate extension UniversalSearchViewController {
 //                let c2 = WinnerBanner.init()
 //                self._productBanners = [ c1.toBannerCampaign(), c2.toBannerCampaign() ]
 //
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    func fetchTopSortThinSearchBanners() {
+        
+        guard let text = txtSearch.text, text != "" else { return }
+        guard let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map({ "\($0)" }) else { return }
+        
+        let placementID =  ElGrocerUtility.sharedInstance.adSlots?.thinBannerSlots.first?.placementId ?? BannerLocation.in_search_product.getPlacementID()
+        let slots = ElGrocerUtility.sharedInstance.adSlots?.thinBannerSlots.first?.noOfSlots ?? 10
+        
+        TopsortManager.shared.auctionBanners(slotId: placementID, slots: slots, searchQuery: text, storeTypes: storeTypes){ [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let winners):
+                let thinBanners = winners.map{ $0.toBannerCampaign(.thin) }
+                
+                for i in 0..<thinBanners.count {
+                    thinBanners[i].storeTypes = storeTypes.map{ ($0 as NSString).integerValue }
+                }
+                
+                self._thinBanners = thinBanners
+
             case .failure(let error):
                 print(error.localizedDescription)
             }

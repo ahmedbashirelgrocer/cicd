@@ -18,6 +18,38 @@ class ProductBrowser {
     }
     
     /// Browse products for category
+    func searchProductListForStoreCategoryWithMultiBrands(storeID: String,
+                                           pageNumber: Int,
+                                           categoryId: String,
+                                           hitsPerPage: Int,
+                                           _ subCategoryID: String = "",
+                                           _ brandId: [String] = [],
+                                           slots: Int,
+                                           completion: @escaping ResponseBlock ) {
+        
+        AlgoliaApi.sharedInstance
+            .searchProductListForStoreCategoryWithMultiBrands(storeID: storeID,
+                                               pageNumber: pageNumber,
+                                               categoryId: categoryId,
+                                               hitsPerPage,
+                                               subCategoryID,
+                                               brandId) { responseObject, error in
+                if error == nil, let response = responseObject as? NSDictionary {
+                    DispatchQueue.main.async {
+                        let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                        self.fetchTopSortProducts(products.products, slots: slots) { productsOly in
+                            DispatchQueue.main.async{ completion((productsOly, products.algoliaCount), nil) }
+                        }
+                    }
+                } else {
+                    completion(nil, error)
+                }
+            }
+    }
+    
+    
+    
+    /// Browse products for category
     func searchProductListForStoreCategory(storeID: String,
                                            pageNumber: Int,
                                            categoryId: String,
