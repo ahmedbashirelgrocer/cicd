@@ -27,7 +27,7 @@
 		<key>segmentSDKWriteKey</key>
 		<string>twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b</string>
 		<key>backendUrl</key>
-		<string>https://el-grocer-staging-dev.herokuapp.com/api/</string>
+		<string>https://staging.elgrocer.com/api/</string>
 	</dict>
 	<key>LocalHost192.168.5.21</key>
 	<dict>
