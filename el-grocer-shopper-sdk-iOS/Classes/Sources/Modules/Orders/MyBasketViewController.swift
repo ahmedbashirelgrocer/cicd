@@ -2526,6 +2526,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     
                     self.checkIfOutOfStockProductAvailable()
                     self.setSummaryData()
+                    self.reloadTableData()
                     DispatchQueue.main.async(execute: {
                         UIView.performWithoutAnimation {
                             cell.carosalView.reloadData()
