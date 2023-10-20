@@ -1777,11 +1777,10 @@ fileprivate extension UniversalSearchViewController {
                     if locationIndex % 2  > 0 {  locationIndex = locationIndex - 1 }
                     self.combineProductsBanners.insert(_thinBanners[i] as Any, at: locationIndex) //
                 } else {
-                   // self.combineProductsBanners.append(_thinBanners[i] as Any)
+                    self.combineProductsBanners.append(_thinBanners[i] as Any)
                 }
             }
         }
-        
         self.showCollectionView(combineProductsBanners.count > 0)
     }
     
