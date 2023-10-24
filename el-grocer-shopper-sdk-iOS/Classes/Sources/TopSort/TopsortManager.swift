@@ -420,13 +420,13 @@ extension WinnerBanner {
                                            slug: "",
                                            image_url: "")
         }
-        //vendor deprciated
-        /*
-         [ bannerBrands(dbId: ((target.vendor as NSString).integerValue) as NSNumber,
-                                        name: "",
-                                        slug: "",
-                                        image_url: "") ]
-         */
+        if  banner.brands?.count == 0 {
+            banner.brands = [bannerBrands(dbId: ((target.vendor as NSString).integerValue) as NSNumber,
+                                           name: "",
+                                           slug: "",
+                                           image_url: "")]
+        }
+        
         banner.retailerIds = nil
         banner.locations = nil
         banner.storeTypes = target.locations.map{ ($0 as NSString).integerValue }

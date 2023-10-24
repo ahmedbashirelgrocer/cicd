@@ -54,7 +54,6 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
     var pageNumber : Int = 0
     var _loadedProductList : [Product] = [] { didSet {
         self.combineBannersAndProducts()
-        self.combineThinBannersAndProducts(true)
     }}
     var _productBanners: [BannerCampaign] = [] { didSet {
         self.combineBannersAndProducts()
@@ -65,7 +64,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         }
     }}
     var _thinBanners: [BannerCampaign] = [] { didSet {
-        self.combineThinBannersAndProducts()
+        self.combineBannersAndProducts()
         for index in 0..<_thinBanners.count {
             if let bidID = _thinBanners[index].resolvedBidId {
                 TopsortManager.shared.log(.impressions(resolvedBidId: bidID))
@@ -1757,34 +1756,22 @@ fileprivate extension UniversalSearchViewController {
             }
         }
         
-        self.showCollectionView(combineProductsBanners.count > 0)
-    }
-    
-    func combineThinBannersAndProducts(_ getCombine: Bool = false) {
-        if self._loadedProductList.count == 0 {
-            self.combineProductsBanners = []
-            return
-        }
-        
-        self.combineProductsBanners = self._loadedProductList as [Any]
-        
-        let locations = ElGrocerUtility.sharedInstance.adSlots?.thinBannerSlots.first?.position ?? []
+        let thinBannerslocations = ElGrocerUtility.sharedInstance.adSlots?.thinBannerSlots.first?.position ?? []
         
         for i in 0..<_thinBanners.count {
-            if i < locations.count {
+            if i < thinBannerslocations.count {
                 if locations[i] < self.combineProductsBanners.count {
-                    var locationIndex = locations[i]
-                    if locationIndex % 2  > 0 {  locationIndex = locationIndex - 1 }
+                    var locationIndex = thinBannerslocations[i]
+                        locationIndex = locationIndex - 1
                     self.combineProductsBanners.insert(_thinBanners[i] as Any, at: locationIndex) //
                 } else {
                     self.combineProductsBanners.append(_thinBanners[i] as Any)
                 }
             }
         }
+        
         self.showCollectionView(combineProductsBanners.count > 0)
     }
-    
-    
     
     func fetchTopSortSearchBanners() {
         
