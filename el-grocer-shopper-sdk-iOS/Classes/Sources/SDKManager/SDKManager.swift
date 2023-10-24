@@ -419,7 +419,9 @@ class SDKManager: NSObject, SDKManagerType  {
     }
     
     private func initializeSegmentSDK() {
-        let configurationName =  self.launchOptions?.environmentType.value() ??  "Release"
+        
+        
+        let configurationName =  self.launchOptions?.environmentType.value() ?? (ElGrocerUtility.sharedInstance.isTesting() ? "StagingProduction" : "Release")
         let environmentsPath = Bundle.resource.path(forResource: "EnvironmentVariables", ofType: "plist")
         let environmentsDict = NSDictionary(contentsOfFile: environmentsPath!)
         var dictionary = environmentsDict![configurationName] as! NSDictionary

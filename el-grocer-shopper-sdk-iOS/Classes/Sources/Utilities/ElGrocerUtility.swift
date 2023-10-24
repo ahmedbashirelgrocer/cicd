@@ -791,10 +791,11 @@ class ElGrocerUtility {
     }
     
     func setDefaultGroceryAgain() {
-        
-        if let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext){
-            if let activeGrocery = ElGrocerUtility.sharedInstance.activeGrocery {
-                UserDefaults.setGroceryId(activeGrocery.dbID , WithLocationId: (currentAddress.dbID))
+        Thread.OnMainThread {
+            if let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext){
+                if let activeGrocery = ElGrocerUtility.sharedInstance.activeGrocery {
+                    UserDefaults.setGroceryId(activeGrocery.dbID , WithLocationId: (currentAddress.dbID))
+                }
             }
         }
     }

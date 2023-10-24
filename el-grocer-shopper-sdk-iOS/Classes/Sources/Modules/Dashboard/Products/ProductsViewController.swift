@@ -1120,9 +1120,6 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             self.homeObj!.products += newProduct.products
         }
         
-        
-
-        
         DispatchQueue.main.async(execute: {
             self.isGettingProducts = false
             self.checkEmptyView()
@@ -1133,11 +1130,6 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
     //MARK: - Scrolling
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        
-       
-        
-        
         
         //load more only if we are searching
         let kLoadingDistance = 2 * kProductCellHeight + 8

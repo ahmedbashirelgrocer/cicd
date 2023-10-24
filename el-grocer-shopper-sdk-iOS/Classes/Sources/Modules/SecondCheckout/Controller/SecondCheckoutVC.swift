@@ -153,6 +153,7 @@ class SecondCheckoutVC: UIViewController {
                 func logPurchaseEvents() {
                     self?.viewModel.setRecipeCartAnalyticsAndRemoveRecipe()
                     ElGrocerUtility.sharedInstance.delay(0.5) { 
+                        
                         ElGrocerEventsLogger.sharedInstance.recordPurchaseAnalytics(
                             finalOrderItems:self?.viewModel.getShoppingItems() ?? []
                             , finalProducts:self?.viewModel.getFinalisedProducts() ?? []
@@ -160,8 +161,8 @@ class SecondCheckoutVC: UIViewController {
                             , availableProductsPrices:[:]
                             , priceSum : self?.viewModel.basketDataValue?.finalAmount! ?? 0.0
                             , discountedPrice : self?.viewModel.basketDataValue?.productsSaving! ?? 0.0
-                            , grocery : self!.viewModel.getGrocery()!
-                            , deliveryAddress : self!.viewModel.getDeliveryAddressObj()!
+                            , grocery : self?.viewModel.getGrocery() 
+                            , deliveryAddress : self?.viewModel.getDeliveryAddressObj()
                             , carouselproductsArray : self?.viewModel.getCarouselProductsArray() ?? []
                             , promoCode : self?.viewModel.basketDataValue?.promoCode?.code ?? ""
                             , serviceFee : self?.viewModel.basketDataValue?.serviceFee ?? 0.0
