@@ -58,14 +58,11 @@ class ShopByCategoriesViewController: UIViewController, UIScrollViewDelegate {
     }
     
     func setDelegates() {
-        setNavigationBarAppearence()
         setTableViewHeader()
     }
     
-    override func rightBackButtonClicked() {
-        //self.navigationController?.popViewController(animated: true)
+    override func backButtonClick() {
         self.dismiss(animated: true)
-       
     }
     
     func setDelegatesCollection(){
@@ -87,8 +84,7 @@ class ShopByCategoriesViewController: UIViewController, UIScrollViewDelegate {
         self.view.backgroundColor = .textfieldBackgroundColor()
         self.navigationItem.hidesBackButton = true
         self.title = localizedString("all_cate", comment: "")
-        self.addRightCrossButton(true)
-//        self.addBackButton(isGreen: false)
+        self.addWhiteBackButton()
         
         if let controller = self.navigationController as? ElGrocerNavigationController {
             
@@ -99,22 +95,6 @@ class ShopByCategoriesViewController: UIViewController, UIScrollViewDelegate {
             controller.setChatButtonHidden(true)
             controller.setNavBarHidden(false)
             controller.setWhiteTitleColor()
-        }
-    }
-
-    func setNavigationBarAppearence(){
-        if self.navigationController is ElGrocerNavigationController {
-            (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
-            (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-            (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
-            (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
-            (self.navigationController as? ElGrocerNavigationController)?.setNavBarHidden(false)
-            (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
-            
-            self.navigationItem.hidesBackButton = true
-            self.title = "Shop by store category"
-            self.addRightCrossButton(true)
         }
     }
     
