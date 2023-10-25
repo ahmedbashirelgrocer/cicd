@@ -12,8 +12,9 @@ class SmilesNavigationViewAr: UIView, SmilesNavigationView {
     
     lazy var profileButton: UIButton = {
         let button = UIButton()
-        let image = UIImage(name: "profile-icon")
+        let image = UIImage(name: "menu")
         button.setImage(image, for: .normal)
+        button.tintColor = .white
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
