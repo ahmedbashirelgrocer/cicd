@@ -330,7 +330,7 @@ extension SecondaryViewModel {
         finalParams["products"] = products
         finalParams["retailer_delivery_zone_id"] = self.getGrocery()?.deliveryZoneId
         finalParams["payment_type_id"] = primaryPaymentTypeId
-        finalParams["selected_delivery_slot"] = self.selectedSlotId
+        finalParams["selected_delivery_slot"] = String(describing: self.selectedSlotId)
         if let slot = self.getDeliverySlot() {
             if slot.isInstant != nil && !(slot.isInstant.boolValue) {
                 finalParams["usid"] = slot.getdbID()
