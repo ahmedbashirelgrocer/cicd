@@ -2220,4 +2220,5 @@ Oreo";
 "eg_detecting_location" = "Detecting location...";
 "eg_address_nick_name_address" = "Enter address nickname, 'Home/Work'*";
 "eg_msg_selected_location_not_covering" = "Selected location for that store is outside delivery area range. What would you like to do?";
+"recipe_title_home" = "👨‍🍳 Recipes";
 

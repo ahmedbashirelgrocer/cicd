@@ -26,6 +26,16 @@ class GenricHomeRecipeTableViewCell: RxUITableViewCell {
     
     @IBOutlet weak var cellHeight: NSLayoutConstraint!
     
+    @IBOutlet weak var recipeTitleViewHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var lblTitle: UILabel! {
+        didSet {
+            lblTitle.setH4SemiBoldStyle()
+            lblTitle.textColor = .black
+            lblTitle.text = localizedString("recipe_title_home", comment: "")
+        }
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -41,6 +51,7 @@ class GenricHomeRecipeTableViewCell: RxUITableViewCell {
         recipeList.superview?.backgroundColor = recipeList.backgroundColor
         recipeList.showMiniVersion = isMiniView
         recipeList.configureData(recipeA , page: pageControl)
+        self.recipeTitleViewHeight.constant = 30
         
         //permanently hiding page control Darkstore new UI 2.0 for home and universal search
         if !isMiniView {
@@ -104,5 +115,10 @@ extension GenricHomeRecipeTableViewCell {
                 self.recipeList.collectionView?.isPagingEnabled = false
             }
         }).disposed(by: disposeBag)
+        
+        viewModel.outputs.hideRecipeTitle
+            .subscribe(onNext: {
+                self.recipeTitleViewHeight.constant = $0 ? 0 : 30
+            }).disposed(by: disposeBag)
     }
 }
