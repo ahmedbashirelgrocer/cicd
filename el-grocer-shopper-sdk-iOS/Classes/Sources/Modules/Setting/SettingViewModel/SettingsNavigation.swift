@@ -64,7 +64,7 @@ class SettingsNavigation {
         case .TermsAndConditions:
             navigateToPrivacyPolicyViewControllerWithTermsEnable(true)
         case .PrivacyPolicy:
-            navigateToPrivacyPolicyViewControllerWithTermsEnable(true)
+            navigateToPrivacyPolicyViewControllerWithTermsEnable(false)
         case .Faqs:
             showFAQs()
         case .none:

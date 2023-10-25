@@ -419,7 +419,12 @@ class SDKManager: NSObject, SDKManagerType  {
     }
     
     private func initializeSegmentSDK() {
-        let configurationName =  self.launchOptions?.environmentType.value() ??  "Release"
+        
+        var isTesting = ElGrocerUtility.sharedInstance.isTesting()
+        if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-admin.herokuapp.com/api/" ||  ElGrocerApi.sharedInstance.baseApiPath == "https://nginx.elgrocer.com/api/" {
+            isTesting = true
+        }
+        let configurationName =  self.launchOptions?.environmentType.value() ?? (isTesting ? "StagingProduction" : "Release")
         let environmentsPath = Bundle.resource.path(forResource: "EnvironmentVariables", ofType: "plist")
         let environmentsDict = NSDictionary(contentsOfFile: environmentsPath!)
         var dictionary = environmentsDict![configurationName] as! NSDictionary
@@ -558,18 +563,20 @@ class SDKManager: NSObject, SDKManagerType  {
                     
                     //manager.setHomeView()
                 } else {
-                 let alert = ElGrocerAlertView.createAlert(localizedString("error_500", comment: ""), description: nil, positiveButton: positiveButton, negativeButton: nil) { index in
-                        Thread.OnMainThread {
-                            if let topVC = UIApplication.topViewController() {
-                                if let navVc = topVC.navigationController, navVc.viewControllers.count > 1 {
-                                    navVc.popViewController(animated: true)
-                                } else {
-                                    topVC.dismiss(animated: true, completion: nil)
-                                }
-                            }
-                        }
+                    ElGrocerUtility.sharedInstance.delay(0.01) {
+                        let alert = ElGrocerAlertView.createAlert(localizedString("error_500", comment: ""), description: nil, positiveButton: positiveButton, negativeButton: nil) { index in
+                               Thread.OnMainThread {
+                                   if let topVC = UIApplication.topViewController() {
+                                       if let navVc = topVC.navigationController, navVc.viewControllers.count > 1 {
+                                           navVc.popViewController(animated: true)
+                                       } else {
+                                           topVC.dismiss(animated: true, completion: nil)
+                                       }
+                                   }
+                               }
+                           }
+                           alert.show()
                     }
-                    alert.show()
                 }
             }
         } else {
@@ -1010,7 +1017,7 @@ fileprivate extension SDKManager {
         CleverTapEventsLogger.shared.startCleverTapSharedSDK()
         
         // logToCrashleytics
-        self.logApiError()
+//        self.logApiError()
         ElGrocerEventsLogger.sharedInstance.firstOpen()
         
         // MARK:- TODO fixappsflyer

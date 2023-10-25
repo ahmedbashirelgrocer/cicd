@@ -291,7 +291,7 @@ extension CateAndSubcategoryView {
             let algoliaCall = config == nil ||  (config?.fetchCatalogFromAlgolia == true)
             
             guard algoliaCall else {
-                SpinnerView.showSpinnerViewInView()
+                Thread.OnMainThread { SpinnerView.showSpinnerViewInView() }
                 self.hitsPerPage = self.currentLimit
                 ProductBrowser.shared.getAllProductsOfCategory(self.parentCategory, forGrocery: self.grocery, limit: self.currentLimit, offset: currentOffSet){ (result) -> Void in
                     SpinnerView.hideSpinnerView()
@@ -309,7 +309,7 @@ extension CateAndSubcategoryView {
             
             
             guard (self.parentCategory?.dbID.intValue ?? 0) > 1 else {
-                SpinnerView.showSpinnerViewInView()
+                Thread.OnMainThread { SpinnerView.showSpinnerViewInView() }
                 ProductBrowser.shared.searchOffersProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, hitsPerPage: hitsPerPage, ElGrocerUtility.sharedInstance.getCurrentMillis(), slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
                     SpinnerView.hideSpinnerView()
                     if  let responseObject = content {
@@ -322,7 +322,7 @@ extension CateAndSubcategoryView {
             }
             
             
-            SpinnerView.showSpinnerViewInView()
+            Thread.OnMainThread { SpinnerView.showSpinnerViewInView() } 
             ProductBrowser.shared.searchProductListForStoreCategory(storeID: ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID), pageNumber: pageNumber, categoryId: self.parentCategory?.dbID.stringValue ?? "", hitsPerPage: hitsPerPage, slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsSubcategories ?? 3, completion: { [weak self] (content, error) in
                 SpinnerView.hideSpinnerView()
                 if  let responseObject = content {

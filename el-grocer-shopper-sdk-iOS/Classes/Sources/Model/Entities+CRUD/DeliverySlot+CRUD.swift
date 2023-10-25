@@ -36,9 +36,9 @@ extension DeliverySlot {
                     do {
                         self.deleteSlotsNotInJSON(jsonSlotIds, groceryID:  grocery?.dbID ?? "-1" , context: context)
                         try context.save()
-                    } catch (let error) {
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                        elDebugPrint("self.deleteSlotsNotInJSON(jsonSlotIds, context: context)")
+                    } catch (let _) {
+                        //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+                        //elDebugPrint("self.deleteSlotsNotInJSON(jsonSlotIds, context: context)")
                     }
             }
 
@@ -60,9 +60,9 @@ extension DeliverySlot {
                 do {
                     self.deleteSlotsNotInJSON(jsonSlotIds, groceryID:  grocery?.dbID ?? "-1" , context: context)
                     try context.save()
-                } catch (let error) {
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                    elDebugPrint("self.deleteSlotsNotInJSON(jsonSlotIds, context: context)")
+                } catch (let _) {
+                    //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+                    //elDebugPrint("self.deleteSlotsNotInJSON(jsonSlotIds, context: context)")
                 }
         }
         return deliverySlots
@@ -116,9 +116,9 @@ extension DeliverySlot {
         grocery.clearDeliverySlots(context: context)
         do {
             try context.save()
-        } catch (let error) {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-            elDebugPrint(error.localizedDescription)
+        } catch (let _) {
+            //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+            //elDebugPrint(error.localizedDescription)
         }
         
         for responseDict in deliverySlotsArray {
@@ -127,9 +127,9 @@ extension DeliverySlot {
         }
         do {
             try context.save()
-        } catch (let error) {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-            elDebugPrint(error.localizedDescription)
+        } catch (let _) {
+            //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+            //elDebugPrint(error.localizedDescription)
         }
     }
 
