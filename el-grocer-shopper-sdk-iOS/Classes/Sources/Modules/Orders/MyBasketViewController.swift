@@ -253,7 +253,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     var slotWorkItem:DispatchWorkItem?
     
         //MARK: View Var
-    var myBasketOutOfStockInfo : MyBasketOutOfStockInfo = {
+    lazy var myBasketOutOfStockInfo : MyBasketOutOfStockInfo = {
         let locationHeader = MyBasketOutOfStockInfo.loadFromNib()
         locationHeader?.configure()
         locationHeader?.alpha = 1
