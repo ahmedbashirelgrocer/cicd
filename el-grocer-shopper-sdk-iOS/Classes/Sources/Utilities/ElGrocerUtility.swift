@@ -471,7 +471,7 @@ class ElGrocerUtility {
                 }
                 
             } catch let error as NSError {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+               // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
                elDebugPrint(error)
             }
         }
@@ -791,10 +791,11 @@ class ElGrocerUtility {
     }
     
     func setDefaultGroceryAgain() {
-        
-        if let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext){
-            if let activeGrocery = ElGrocerUtility.sharedInstance.activeGrocery {
-                UserDefaults.setGroceryId(activeGrocery.dbID , WithLocationId: (currentAddress.dbID))
+        Thread.OnMainThread {
+            if let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext){
+                if let activeGrocery = ElGrocerUtility.sharedInstance.activeGrocery {
+                    UserDefaults.setGroceryId(activeGrocery.dbID , WithLocationId: (currentAddress.dbID))
+                }
             }
         }
     }
@@ -1222,7 +1223,7 @@ class ElGrocerUtility {
             do {
                 return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
             } catch (let error) {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+               // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
                elDebugPrint(error.localizedDescription)
             }
         }
@@ -1597,7 +1598,8 @@ class ElGrocerUtility {
     
     
     func isTesting() -> Bool {
-        if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" || ElGrocerApi.sharedInstance.baseApiPath == "https://stg.elgrocer.com/api/" || ElGrocerApi.sharedInstance.baseApiPath == "https://nginx.elgrocer.com/api/" {
+        // || ElGrocerApi.sharedInstance.baseApiPath == "https://nginx.elgrocer.com/api/"
+        if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" || ElGrocerApi.sharedInstance.baseApiPath == "https://stg.elgrocer.com/api/"  {
             return true
         }else{
             return false

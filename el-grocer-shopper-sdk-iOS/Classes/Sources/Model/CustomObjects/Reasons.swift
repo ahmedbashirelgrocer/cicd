@@ -37,12 +37,9 @@ class Reasons : NSObject, NSCoding, NSSecureCoding {
     required convenience init(coder decoder: NSCoder) {
         
         self.init()
-        if (decoder.decodeObject(forKey: "reasonKey") != nil) {
-            self.reasonKey = decoder.decodeObject(forKey: "reasonKey") as! NSNumber
-        }
-        if (decoder.decodeObject(forKey: "reasonString") != nil) {
-            self.reasonString = decoder.decodeObject(forKey: "reasonString") as! String
-        }
+        self.reasonKey = decoder.decodeObject(of: [ NSNumber.self], forKey: "reasonKey") as? NSNumber ?? NSNumber.init(value: 0)
+        self.reasonString = decoder.decodeObject(of: [ NSString.self], forKey: "reasonString") as? String ?? ""
+      
     }
     func encode(with coder: NSCoder) {
         

@@ -456,7 +456,12 @@ public class SDKManagerShopper: NSObject, SDKManagerType {
         let configurationName =  self.launchOptions?.environmentType.value() ??  "Release"
         let environmentsPath = Bundle.resource.path(forResource: "EnvironmentVariables", ofType: "plist")
         let environmentsDict = NSDictionary(contentsOfFile: environmentsPath!)
-        let dictionary = environmentsDict![configurationName] as! NSDictionary
+        var dictionary = environmentsDict![configurationName] as! NSDictionary
+        
+        // select staging segment for debug builds
+        #if DEBUG
+        dictionary = environmentsDict!["StagingProduction"] as! NSDictionary
+        #endif
         
         guard let segmentSDKWriteKey = dictionary["segmentSDKWriteKeyShopper"] as? String else { return }
         

@@ -73,7 +73,7 @@ class AlgoliaApi {
     
     init() {
         
-        var isStaging =  ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
+        let isStaging = ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
         
         if isStaging { algoliaApplicationID = algoliaApplicationIDStaging }
         let apiKeySearch = isStaging ? ALGOLIA_API_KEY_SEARCH_STAGING : ALGOLIA_API_KEY_SEARCH_LIVE
@@ -988,7 +988,7 @@ extension Encodable {
 extension AlgoliaApi {
     
     
-    func searchProductListForStoreCategoryWithMultiBrands ( storeID : String , pageNumber : Int , categoryId: String , _ hitsPerPage : Int = 20, _ subCategoryID : String = "", _ brandIds : [String] = []  , completion : @escaping responseBlock ) -> Void {
+    func searchProductListForStoreCategoryWithMultiBrands ( storeID : String , pageNumber : Int , categoryId: String , _ hitsPerPage : Int = 20, _ subCategoryID : String = "", _ brandIds : [String] = [], _ subCategoriesIds: [String] = []  , completion : @escaping responseBlock ) -> Void {
         
         
         var facetFiltersA : [SingleOrList<String>] = []
@@ -1013,8 +1013,15 @@ extension AlgoliaApi {
             let brandIdString : String = "brand.id:\(brandId)"
             brandFilterString.append(brandIdString)
         }
+        if brandFilterString.count > 0 { facetFiltersA.append(SingleOrList.list(brandFilterString)) }
         
-        facetFiltersA.append(SingleOrList.list(brandFilterString))
+        var subCategoryFilterString : [String] = []
+        for subCategoryId in subCategoriesIds {
+            let subCategoriesIdString : String = "subcategories.id:\(subCategoryId)"
+            subCategoryFilterString.append(subCategoriesIdString)
+        }
+        if subCategoryFilterString.count > 0 { facetFiltersA.append(SingleOrList.list(subCategoryFilterString)) }
+        
         
         var query = Query("")
             .set(\.facetFilters, to: FiltersStorage.init(rawValue: facetFiltersA) )

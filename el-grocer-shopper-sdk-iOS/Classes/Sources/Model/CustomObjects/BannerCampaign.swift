@@ -379,8 +379,7 @@ class BannerCampaign: NSObject {
                     brandC?.brandId = selectObj.dbId.intValue
                     brandC?.imageURL = selectObj.image_url
                 }
-                
-                self.goToBrandOrCate(currentActive: currentActive , subCate: subC, brand: brandC,self.brands ?? [])
+                self.goToBrandOrCate(currentActive: currentActive , subCate: subC, brand: brandC,self.brands ?? [], self.subCategories ?? [])
                 return
             }
             if self.categories != nil , self.categories?.count ?? 0 > 0 {
@@ -447,7 +446,7 @@ class BannerCampaign: NSObject {
    
     }
     
-    func goToBrandOrCate(currentActive : Grocery? , subCate : SubCategory? , brand : GroceryBrand?, _ multiBrands: [bannerBrands] = []) {
+    func goToBrandOrCate(currentActive : Grocery? , subCate : SubCategory? , brand : GroceryBrand?, _ multiBrands: [bannerBrands] = [], _ bannerSubCategories: [bannerSubCategories] = []) {
         
         let brandDetailsVC = ElGrocerViewControllers.brandDetailsViewController()
         brandDetailsVC.hidesBottomBarWhenPushed = false
@@ -461,11 +460,12 @@ class BannerCampaign: NSObject {
             brandDetailsVC.subCategory  = subCate
         }
         brandDetailsVC.brands = multiBrands
+        brandDetailsVC.bannerSubCategories = bannerSubCategories
         ElGrocerUtility.sharedInstance.delay(0.1) {
             if let topVc = UIApplication.topViewController() {
                 if topVc is GroceryLoaderViewController {
                     ElGrocerUtility.sharedInstance.delay(2) {
-                        self.goToBrandOrCate(currentActive: currentActive, subCate: subCate, brand: brand)
+                        self.goToBrandOrCate(currentActive: currentActive, subCate: subCate, brand: brand, self.brands ?? [] , self.subCategories ?? [])
                     }
                 }else{
                     topVc.navigationController?.pushViewController(brandDetailsVC, animated: true)

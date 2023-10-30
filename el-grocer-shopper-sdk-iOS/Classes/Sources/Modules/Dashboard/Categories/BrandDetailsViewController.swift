@@ -35,6 +35,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
     }
     
     var brands:[bannerBrands] = [] // in support of multibrands search allow
+    var bannerSubCategories:[bannerSubCategories] = [] // in support of multibrands search allow
     
     var subCategory:SubCategory!
     var category:Category?
@@ -309,14 +310,14 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
     
     // MARK: API Calling
     @objc
-    func getProductsForSelectedBrand(){
+    func getProductsForSelectedBrand(_ isFromScroll: Bool = false){
         
         self.isGettingProducts = true
         
         currentLoadedPage = isFirst ? 0 : currentLoadedPage + 1
         self.currentOffset = self.currentLimit*currentLoadedPage
         
-        if self.subCategory != nil {
+        if self.subCategory != nil && !isFromScroll{
              _ = SpinnerView.showSpinnerViewInView(self.view)
         }
         
@@ -362,6 +363,8 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         if brandIds.count == 0 && brandID.count > 0 {
             brandIds.append(brandID)
         }
+        let bannerSubCategoriesIds = self.bannerSubCategories.map { $0.dbId.stringValue }
+        
         
         ProductBrowser.shared.searchProductListForStoreCategoryWithMultiBrands(storeID: storeID,
                                                                 pageNumber: pageNumber,
@@ -369,6 +372,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
                                                                 hitsPerPage: hitsPerPage,
                                                                 subcategoryId,
                                                                 brandIds,
+                                                                bannerSubCategoriesIds,
                                                                 slots: slots,
                                                                 completion: { [weak self] (content, error) in
             if  let responseObject = content {
@@ -386,9 +390,10 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         
         Thread.OnMainThread {
           //  let newProduct = Product.insertOrReplaceProductsFromDictionary(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-            if (newProduct.algoliaCount ?? 25)  > 0 {
+            let hitsPerPage = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsBrandPage ?? 25
+            if (newProduct.algoliaCount ?? hitsPerPage)  > 0 {
                 self.products += newProduct.products
-                self.isMoreProducts =  (newProduct.algoliaCount ?? 25) % 25 == 0
+                self.isMoreProducts =  (newProduct.algoliaCount ?? hitsPerPage) % hitsPerPage == 0
                 if self.isFromDynamicLink {
                  
                     self.brand.imageURL = newProduct.products.first?.brandImageUrl ?? ""
@@ -736,7 +741,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
                 
                 if y + kLoadingDistance > scrollView.contentSize.height - 350 {
                     DispatchQueue.main.async(execute: { () -> Void in
-                        self.getProductsForSelectedBrand()
+                        self.getProductsForSelectedBrand(true)
                     })
                 }
             }
@@ -1004,12 +1009,8 @@ extension BrandDetailsViewController {
                     elDebugPrint(response)
                     let dataDict = response["data"]
                     let brand = GroceryBrand.createGroceryBrandFromDictionary(dataDict as! NSDictionary)
-                    if brand.imageURL != "" {
-                        self.brand.imageURL = brand.imageURL
-                        DispatchQueue.main.async {
-                            self.collectionView.reloadData()
-                        }
-                    }
+                    self.brand = brand
+                    DispatchQueue.main.async {  self.collectionView.reloadData() }
                 case .failure(let error):
                     elDebugPrint(error.localizedMessage)
             }

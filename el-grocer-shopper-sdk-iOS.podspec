@@ -180,7 +180,7 @@ Pod::Spec.new do |s|
     s.dependency 'SendBirdUIKit','3.6.2'
     s.dependency 'SendBirdDesk', '1.1.3'
       # add file
-  s.dependency 'Adyen', '~> 4.10.0'
+  s.dependency 'Adyen', '4.10.4'
   
   s.dependency 'SDWebImage', '~> 5.12.3'
   

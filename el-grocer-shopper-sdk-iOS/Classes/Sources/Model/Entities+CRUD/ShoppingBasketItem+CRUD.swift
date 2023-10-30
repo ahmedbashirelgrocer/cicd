@@ -241,8 +241,8 @@ extension ShoppingBasketItem {
         
         do {
             try context.save()
-        } catch (let error) {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+        } catch (let _) {
+           // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
         }
     }
     
@@ -282,8 +282,8 @@ extension ShoppingBasketItem {
        
         do {
             try context.save()
-        } catch (let error) {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+        } catch (let _) {
+          //  NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
         }
     }
     
@@ -342,8 +342,8 @@ extension ShoppingBasketItem {
                 do {
                     try context.save()
                 } catch let error {
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                    elDebugPrint(error.localizedDescription)
+                  //  NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+                  //  elDebugPrint(error.localizedDescription)
                 }
             }
 
@@ -367,8 +367,8 @@ extension ShoppingBasketItem {
                 do {
                     try context.save()
                 } catch let error {
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                    elDebugPrint(error.localizedDescription)
+                  //  NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+                   // elDebugPrint(error.localizedDescription)
                 }
             }
             
@@ -402,8 +402,8 @@ extension ShoppingBasketItem {
             do {
                 try context.save()
             } catch  {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-                elDebugPrint(error.localizedDescription)
+             //   NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+             //   elDebugPrint(error.localizedDescription)
             }
         }
 
@@ -442,8 +442,8 @@ extension ShoppingBasketItem {
         do {
             try context.save()
         } catch  {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-            elDebugPrint(error.localizedDescription)
+            //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+           // elDebugPrint(error.localizedDescription)
         }
 
     }
@@ -475,8 +475,8 @@ extension ShoppingBasketItem {
         
         do {
             try context.save()
-        } catch (let error) {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+        } catch (let _) {
+            // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
         }
     }
     
@@ -512,8 +512,8 @@ extension ShoppingBasketItem {
                         }
                         do {
                             try context.save()
-                        } catch (let error) {
-                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+                        } catch (let _) {
+                            // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
                         }
                     }
                     NotificationCenter.default.post(name: KProductNotification, object: product)
@@ -531,8 +531,8 @@ extension ShoppingBasketItem {
                     ShoppingBasketItem.addOrUpdateProductInBasket(product, grocery: grocery, brandName: nil, quantity: (item?.count.intValue ?? quantity)  , context: context, orderID: nil, nil , false)
                     do {
                         try context.save()
-                    } catch (let error) {
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+                    } catch (let _) {
+                        // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
                     }
                     NotificationCenter.default.post(name: KProductNotification, object: product)
                     ShoppingBasketItem.showMessage(msg)

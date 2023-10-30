@@ -284,7 +284,7 @@ class GroceryCell : UITableViewCell {
                 }
                 
             } catch let error as NSError {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+              //  NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
                elDebugPrint(error)
             }
         }

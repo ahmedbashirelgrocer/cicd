@@ -414,10 +414,20 @@ class SDKManager: NSObject, SDKManagerType  {
     }
     
     private func initializeSegmentSDK() {
-        let configurationName =  self.launchOptions?.environmentType.value() ??  "Release"
+        
+        var isTesting = ElGrocerUtility.sharedInstance.isTesting()
+        if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-admin.herokuapp.com/api/" ||  ElGrocerApi.sharedInstance.baseApiPath == "https://nginx.elgrocer.com/api/" {
+            isTesting = true
+        }
+        let configurationName =  self.launchOptions?.environmentType.value() ?? (isTesting ? "StagingProduction" : "Release")
         let environmentsPath = Bundle.resource.path(forResource: "EnvironmentVariables", ofType: "plist")
         let environmentsDict = NSDictionary(contentsOfFile: environmentsPath!)
-        let dictionary = environmentsDict![configurationName] as! NSDictionary
+        var dictionary = environmentsDict![configurationName] as! NSDictionary
+        
+        // select staging segment for debug builds
+        #if DEBUG
+        dictionary = environmentsDict!["StagingProduction"] as! NSDictionary
+        #endif
         
         guard let segmentSDKWriteKey = dictionary["segmentSDKWriteKey"] as? String else { return }
         
@@ -1002,7 +1012,7 @@ fileprivate extension SDKManager {
         CleverTapEventsLogger.shared.startCleverTapSharedSDK()
         
         // logToCrashleytics
-        self.logApiError()
+//        self.logApiError()
         ElGrocerEventsLogger.sharedInstance.firstOpen()
         
         // MARK:- TODO fixappsflyer

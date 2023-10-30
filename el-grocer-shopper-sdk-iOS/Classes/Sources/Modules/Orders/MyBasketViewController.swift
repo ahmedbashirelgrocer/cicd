@@ -1511,8 +1511,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     item.updatedAt = product.updatedAt
                     do {
                         try DatabaseHelper.sharedInstance.mainManagedObjectContext.save()
-                    } catch (let error) {
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+                    } catch (let _) {
+                       // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
                     }
                 }
             } else {
@@ -2526,6 +2526,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     
                     self.checkIfOutOfStockProductAvailable()
                     self.setSummaryData()
+                    self.reloadTableData()
                     DispatchQueue.main.async(execute: {
                         UIView.performWithoutAnimation {
                             cell.carosalView.reloadData()

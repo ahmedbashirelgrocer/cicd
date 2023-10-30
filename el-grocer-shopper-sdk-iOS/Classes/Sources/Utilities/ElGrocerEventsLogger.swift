@@ -588,7 +588,7 @@ extension  ElGrocerEventsLogger   {
     }
     
     
-    func recordPurchaseAnalytics (finalOrderItems:[ShoppingBasketItem] , finalProducts:[Product]! , finalOrder:Order! ,  availableProductsPrices:NSDictionary?  , priceSum : Double , discountedPrice : Double  , grocery : Grocery , deliveryAddress : DeliveryAddress , carouselproductsArray : [Product] , promoCode : String , serviceFee : Double , payment : PaymentOption , discount : Double , IsSmiles : Bool, smilePoints: Int, pointsEarned: Int, pointsBurned: Int, _ isWallet : Bool = false ,_ walletUseAmount: Double = 0.0){
+    func recordPurchaseAnalytics (finalOrderItems:[ShoppingBasketItem] , finalProducts:[Product]! , finalOrder:Order! ,  availableProductsPrices:NSDictionary?  , priceSum : Double , discountedPrice : Double  , grocery : Grocery? , deliveryAddress : DeliveryAddress? , carouselproductsArray : [Product] , promoCode : String , serviceFee : Double , payment : PaymentOption , discount : Double , IsSmiles : Bool, smilePoints: Int, pointsEarned: Int, pointsBurned: Int, _ isWallet : Bool = false ,_ walletUseAmount: Double = 0.0){
         var queryIDs : [String] = []
         var idData : [String] = []
         for product in finalProducts {
@@ -604,7 +604,7 @@ extension  ElGrocerEventsLogger   {
         let cleanGroceryID =  Grocery.getGroceryIdForGrocery(grocery)
         AlgoliaApi.sharedInstance.purchase(productQueryIDsList: queryIDs , productIDsList: idData , cleanGroceryID: cleanGroceryID)
         FireBaseEventsLogger.setUserProperty(nil, key: "shopping_cart_amount")
-        UserDefaults.removeSponsoredItemArray(grocerID: grocery.dbID)
+        UserDefaults.removeSponsoredItemArray(grocerID: grocery?.dbID ?? "-1")
         
     }
     

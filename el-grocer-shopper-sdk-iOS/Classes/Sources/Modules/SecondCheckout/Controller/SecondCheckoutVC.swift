@@ -89,6 +89,9 @@ class SecondCheckoutVC: UIViewController {
         self.secondaryPaymentView.delegate = self
         self.tabbyView.delegate = self
         
+        // Hides tabby view by default
+        self.tabbyView.isHidden = true
+        
         self.checkoutDeliverySlotView.changeSlot = { [weak self] (slot) in
             guard let self = self, let slot = slot else {return}
             self.viewModel.setSelectedSlotId(slot.dbID.intValue)
@@ -150,6 +153,7 @@ class SecondCheckoutVC: UIViewController {
                 func logPurchaseEvents() {
                     self?.viewModel.setRecipeCartAnalyticsAndRemoveRecipe()
                     ElGrocerUtility.sharedInstance.delay(0.5) { 
+                        
                         ElGrocerEventsLogger.sharedInstance.recordPurchaseAnalytics(
                             finalOrderItems:self?.viewModel.getShoppingItems() ?? []
                             , finalProducts:self?.viewModel.getFinalisedProducts() ?? []
@@ -157,8 +161,8 @@ class SecondCheckoutVC: UIViewController {
                             , availableProductsPrices:[:]
                             , priceSum : self?.viewModel.basketDataValue?.finalAmount! ?? 0.0
                             , discountedPrice : self?.viewModel.basketDataValue?.productsSaving! ?? 0.0
-                            , grocery : self!.viewModel.getGrocery()!
-                            , deliveryAddress : self!.viewModel.getDeliveryAddressObj()!
+                            , grocery : self?.viewModel.getGrocery() 
+                            , deliveryAddress : self?.viewModel.getDeliveryAddressObj()
                             , carouselproductsArray : self?.viewModel.getCarouselProductsArray() ?? []
                             , promoCode : self?.viewModel.basketDataValue?.promoCode?.code ?? ""
                             , serviceFee : self?.viewModel.basketDataValue?.serviceFee ?? 0.0
@@ -227,7 +231,6 @@ class SecondCheckoutVC: UIViewController {
 //            self.viewModel.fetchDeliverySlots()
         })
         .disposed(by: disposeBag)
-        self.viewModel.getCreditCardsFromAdyen()
      
         // Logging segment screen event and checkout started
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .checkoutScreen))
@@ -296,8 +299,6 @@ class SecondCheckoutVC: UIViewController {
                     }, buttonIcon: UIImage(named: "crossWhite"))
                 }
             }
-        } else {
-            self.tabbyView.isHidden = true
         }
     }
     
