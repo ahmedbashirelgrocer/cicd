@@ -268,7 +268,44 @@ fileprivate extension EditLocationSignupViewController {
                 
                 DatabaseHelper.sharedInstance.saveDatabase()
                 if self.flowOrientation == .basketNav {
-                    LoginSignupService.goToBasketView(from: self)
+                    
+                    self.isGroceryAvailableForLocation(latitude: activeAddress.latitude, longitude: activeAddress.longitude) { isAvailable in
+                        if isAvailable {
+                            LoginSignupService.goToBasketView(from: self)
+                            return
+                        }
+                        
+                        if sdkManager.isGrocerySingleStore {
+                            guard let newLaunchOption = sdkManager.launchOptions?.getLaunchOption(from: activeAddress) else {
+                                SDKManager.shared.rootContext?.dismiss(animated: true)
+                                return
+                            }
+                            FlavorAgent.restartEngineWithLaunchOptions(newLaunchOption) {
+                                let _ = SpinnerView.showSpinnerViewInView(self.view)
+                            } completion: { isCompleted, grocery in
+                                SpinnerView.hideSpinnerView()
+                                ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                                
+                                if grocery == nil {
+                                    self.navigationController?.dismiss(animated: false, completion: {
+                                        FlavorNavigation.shared.navigateToNoLocation()
+                                    })
+                                } else {
+                                    if let tab = sdkManager.currentTabBar  {
+                                        ElGrocerUtility.sharedInstance.resetTabbar(tab)
+                                        tab.selectedIndex = 1
+                                    }
+                                    
+                                    self.navigationController?.popViewController(animated: true)
+                                }
+                            }
+                        } else {
+                            if let tab = sdkManager.currentTabBar  {
+                                ElGrocerUtility.sharedInstance.resetTabbar(tab)
+                                tab.selectedIndex = 0
+                            }
+                        }
+                    }
                 } else {
                     if self.isPresented || (self.navigationController?.viewControllers.count ?? 0) < 3 {
                         if SDKManager.shared.launchOptions?.navigationType == .singleStore {
@@ -286,6 +323,11 @@ fileprivate extension EditLocationSignupViewController {
                                         FlavorNavigation.shared.navigateToNoLocation()
                                     })
                                 } else {
+                                    if let tab = sdkManager.currentTabBar  {
+                                        ElGrocerUtility.sharedInstance.resetTabbar(tab)
+                                        tab.selectedIndex = 1
+                                    }
+                                    
                                     self.navigationController?.dismiss(animated: true)
                                 }
                             }
@@ -386,6 +428,32 @@ fileprivate extension EditLocationSignupViewController {
         tableView.endUpdates()
         
         return isValid
+    }
+    
+    private func isGroceryAvailableForLocation(latitude: Double, longitude: Double, completion: @escaping (Bool)->()) {
+        
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+        let storeId = ElGrocerUtility.sharedInstance.activeGrocery?.dbID
+        let parentId = ElGrocerUtility.sharedInstance.activeGrocery?.parentID.stringValue
+        ElGrocerApi.sharedInstance.checkIfGroceryAvailable(location, storeID: storeId ?? "", parentID: parentId ?? "") { result in
+            switch result {
+            case .success(let response):
+                let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+                if  let groceryDict = response["data"] as? NSDictionary {
+                    if groceryDict.allKeys.count > 0 {
+                        let groceryArray = Grocery.insertOrReplaceGroceriesFromDictionary(response, context: context)
+                        if groceryArray.count > 0 {
+                            completion(groceryArray[0].dbID == storeId)
+                            return
+                        }
+                    }
+                }
+                
+                completion(false)
+            case .failure:
+                completion(false)
+            }
+        }
     }
     
     func reloadData() {

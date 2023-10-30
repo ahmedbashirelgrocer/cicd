@@ -1788,6 +1788,37 @@ private extension MainCategoriesViewController {
             return
         }
         
+        if sdkManager.isGrocerySingleStore {
+            if let smilesCoorinates = sdkManager.launchOptions?.location, let defaultAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() {
+                let smilesLocaation = CLLocation(latitude: smilesCoorinates.latitude, longitude: smilesCoorinates.longitude)
+                let defaultLocation = CLLocation(latitude: defaultAddress.latitude, longitude: defaultAddress.longitude)
+                
+                let distance = smilesLocaation.distance(from: defaultLocation)
+                
+                var intervalInMins = 0.0
+                if let checkedAt = UserDefaults.getLastLocationChangedDate() {
+                    intervalInMins = Date().timeIntervalSince(checkedAt) / 60
+                } else {
+                    intervalInMins = 66.0
+                }
+                
+                if distance > 300 && intervalInMins > 60 {
+                    DispatchQueue.main.async {
+                        let vc = LocationChangedViewController.getViewController()
+                        
+                        vc.currentLocation = smilesLocaation
+                        vc.currentSavedLocation = defaultLocation
+                        
+                        vc.modalPresentationStyle = .overFullScreen
+                        vc.modalTransitionStyle = .crossDissolve
+                        self.present(vc, animated: true, completion: nil)
+                    }
+                    UserDefaults.setLocationChanged(date: Date())
+                    return
+                }
+            }
+        }
+        
         LocationManager.sharedInstance.locationWithStatus = { [weak self]  (location , state) in
             guard state != nil else {
                 return

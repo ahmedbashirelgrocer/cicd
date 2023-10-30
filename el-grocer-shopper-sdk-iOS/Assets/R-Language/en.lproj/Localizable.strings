@@ -2142,6 +2142,7 @@ Oreo";
 "secondry_payment_error_msg_smiles" = "To use smiles your balance has to be more than 1 AED";
 "promo_code_apply_notification" = "You must apply a promo code to get discount";
 "extra_balacnce_details" = "Balance details";
+"secondary_payment_error_message" = "Please specify a payment method in order to handle substitutions or weight variance";
 
 //MARK: substitution
 
