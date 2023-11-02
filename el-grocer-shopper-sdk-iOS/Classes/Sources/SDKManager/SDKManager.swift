@@ -952,6 +952,10 @@ class SDKManager: NSObject, SDKManagerType  {
 
 extension SDKManager {
     
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        return false
+    }
+    
     func beginBackgroundUpdateTask() {
         self.backgroundUpdateTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
             self.endBackgroundUpdateTask()

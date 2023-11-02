@@ -373,14 +373,16 @@ public class SDKManagerShopper: NSObject, SDKManagerType {
         let urlCameFrom = userActivity.webpageURL?.getQueryItemValueForKey("_osl")
         let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
             
+            var deepLinkString = ""
             if let dynamiclink = dynamiclink, let urlString = dynamiclink.url {
-                ElGrocerUtility.sharedInstance.deepLinkURL = (dynamiclink.url?.absoluteString)!
-                print("Deep Link URL Str:%@",ElGrocerUtility.sharedInstance.deepLinkURL)
-                DynamicLinksHelper.handleIncomingDynamicLinksWithUrl(ElGrocerUtility.sharedInstance.deepLinkURL)
-                ElGrocerUtility.sharedInstance.deepLinkShotURL = urlCameFrom ?? urlString.absoluteString
-                
-                FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: "EG_DeepLink", parameter: ["url" : urlString.absoluteString , "DeepLink" : urlCameFrom ?? urlString.absoluteString])
+                deepLinkString = dynamiclink.url?.absoluteString ?? ""
+            }else if error != nil {
+                deepLinkString = userActivity.webpageURL?.absoluteString ?? ""
             }
+            ElGrocerUtility.sharedInstance.deepLinkURL = deepLinkString
+            print("Deep Link URL Str:%@",deepLinkString)
+            DynamicLinksHelper.handleIncomingDynamicLinksWithUrl(ElGrocerUtility.sharedInstance.deepLinkURL)
+            ElGrocerUtility.sharedInstance.deepLinkShotURL = urlCameFrom ?? deepLinkString
         }
         return handled
         

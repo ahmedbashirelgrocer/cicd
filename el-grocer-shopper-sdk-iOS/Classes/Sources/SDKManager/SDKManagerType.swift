@@ -129,7 +129,7 @@ public extension SDKManagerType {
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool { return false }
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool { return false }
     func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool { return false }
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool { return false }
+
     func initializeExternalServices(_ application: UIApplication, didFinishLaunchingWithOptions: [UIApplication.LaunchOptionsKey : Any]?) { }
     func logout() { }
     func application(_ application: UIApplication, shouldSaveApplicationState coder: NSCoder) -> Bool { return false }

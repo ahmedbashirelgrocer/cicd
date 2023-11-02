@@ -255,7 +255,7 @@ class DynamicLinksHelper {
         self.serviceId = ""
         self.productBarcode = ""
         self.productId = ""
-        
+       
 
         let marketType = dUrl?.getQueryItemValueForKey("market_type_id")
         if marketType != nil , marketType == "1" {
@@ -295,8 +295,10 @@ class DynamicLinksHelper {
             self.groceryId = tmpGroceryId!
         }
         
-        let tempProductId = dUrl?.getQueryItemValueForKey("productId")
-        //elDebugPrint("tmpParent  is:%@", tempProductBarCode ?? "nil")
+        var tempProductId = dUrl?.getQueryItemValueForKey("productId")
+        if tempProductId == nil {
+            tempProductId = dUrl?.getQueryItemValueForKey("productID")
+        }
         if tempProductId != nil {
             self.productId = tempProductId!
             self.gotoProductZoomController()
@@ -310,7 +312,10 @@ class DynamicLinksHelper {
             return
         }
         self.brandId = ""
-        let tmpBrandId = dUrl?.getQueryItemValueForKey("BrandID")
+        var tmpBrandId = dUrl?.getQueryItemValueForKey("BrandID")
+        if tmpBrandId == nil {
+            tmpBrandId = dUrl?.getQueryItemValueForKey("BrandId")
+        }
         //elDebugPrint("Brand Id is:%@",tmpBrandId ?? "nil")
         if tmpBrandId != nil {
             self.brandId = tmpBrandId!
