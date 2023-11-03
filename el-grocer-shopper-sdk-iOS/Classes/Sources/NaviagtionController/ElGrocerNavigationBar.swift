@@ -79,7 +79,7 @@ class ElGrocerNavigationBar : UINavigationBar {
         
         let logoYPossition = 0.0 // kSearchBarTopOrigin + 5
         
-        let searchBarMultiplier = CGFloat(0.58)
+        // let searchBarMultiplier = CGFloat(0.58)
         
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
 
@@ -148,12 +148,14 @@ class ElGrocerNavigationBar : UINavigationBar {
      
             if let width = self.chatButton.constraints.first(where: { $0.firstAnchor == widthAnchor }) {
                 width.constant = 40
-            }else{
-                let widthConstraint =  NSLayoutConstraint(item: self.chatButton!, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 40)
-                NSLayoutConstraint.activate([ centerHorizontally , heightConstraint , widthConstraint])
+            }else {
+                if let chatButton = self.chatButton {
+                    let widthConstraint =  NSLayoutConstraint(item: chatButton, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 40)
+                    NSLayoutConstraint.activate([ centerHorizontally , heightConstraint , widthConstraint])
+                }
+               
             }
             self.chatButton.constraints.first { $0.firstAnchor == widthAnchor }?.isActive = !self.chatButton.isHidden
-           // self.chatButton.navChatButton.centerVertically()
             
         }
         

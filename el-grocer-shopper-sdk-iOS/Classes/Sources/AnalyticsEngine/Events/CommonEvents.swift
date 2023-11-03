@@ -107,9 +107,15 @@ struct ABTestExperimentEvent: AnalyticsEventDataType {
             EventParameterKeys.experimentType: experimentType.rawValue,
         ]
     }
-    
     enum ExperimentType: String {
         case home = "home"
         case store = "store"
     }
 }
+
+/*
+ struct GenericABTestConfigError: AnalyticsEventDataType {
+     var eventType: AnalyticsEventType
+     var metaData: [String : Any]?
+}
+ */

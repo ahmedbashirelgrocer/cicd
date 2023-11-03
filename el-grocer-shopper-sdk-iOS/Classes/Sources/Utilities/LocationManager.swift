@@ -67,8 +67,8 @@ class LocationManager: NSObject {
         let manager = CLLocationManager()
         manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         manager.activityType = CLActivityType.fitness
-        manager.pausesLocationUpdatesAutomatically = true
-        manager.distanceFilter = 10.0
+       // manager.pausesLocationUpdatesAutomatically = true
+        // manager.distanceFilter = 10.0
         manager.desiredAccuracy = 2000
         manager.delegate = self
         return manager
@@ -449,7 +449,7 @@ class LocationManager: NSObject {
                 completionHandler(status, true,fetchedLocation)
              
             } catch (let error) {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+              //  NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
                completionHandler("", false,nil)
             }
             

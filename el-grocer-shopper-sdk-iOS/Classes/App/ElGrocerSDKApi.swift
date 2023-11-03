@@ -27,6 +27,7 @@ extension ElGrocerApi {
             
             parameters = [
                 "phone_number" : phoneNumber as AnyObject,
+                "device_type" : 1 as AnyObject
             ]
         }
         

@@ -113,13 +113,6 @@ class SmileSdkHomeVC: BasketBasicViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             let authToken = ABTestManager.shared.authToken
             let storeVarient = ABTestManager.shared.storeConfigs.variant.rawValue
-            
-            // Preventing the Home ABTestExperimentEvent for single store
-            if sdkManager.isGrocerySingleStore == false {
-                let variant = ABTestManager.shared.configs.variant
-                SegmentAnalyticsEngine.instance.logEvent(event: ABTestExperimentEvent(authToken: authToken, variant: variant, experimentType: .home))
-            }
-            
             // Logging segment event for Store Screen ABTestExperiment
             SegmentAnalyticsEngine.instance.logEvent(event: ABTestExperimentEvent(authToken: authToken, variant: storeVarient, experimentType: .store))
         }

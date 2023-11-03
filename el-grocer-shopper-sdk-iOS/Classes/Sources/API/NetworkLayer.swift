@@ -74,6 +74,8 @@ class NetworkLayer {
         let requestManager = AFHTTPSessionManagerCustom.init(baseURL: NSURL(string: baseurl)! as URL)
         requestManager.requestSerializer = AFJSONRequestSerializerCustom.serializer()
         requestManager.requestSerializer.cachePolicy = .reloadIgnoringLocalCacheData
+        requestManager.requestSerializer.timeoutInterval = 120
+        requestManager.operationQueue.maxConcurrentOperationCount = 2
         return requestManager
     }()
     
@@ -296,29 +298,13 @@ class NetworkLayer {
     }
     
     func setAuthriztionToken() {
+        
         if let token = ElGrocerUtility.sharedInstance.projectScope?.access_token {
             self.requestManager.requestSerializer.setValue(token, forHTTPHeaderField: "access_token")
             self.requestManager.requestSerializer.setValue(token, forHTTPHeaderField: "Access-Token")
-//            debugPrint("call token: ")
         }
         
         self.requestManager.requestSerializer.setValue(sdkManager.isSmileSDK ?  elGrocerSDKConfiguration.version : elGrocerSDKConfiguration.superAppVersion, forHTTPHeaderField: "app_version")
-        
-        
-        
-//        if sdkManager.isShopperApp {
-//            if let version = Bundle.infoDictionary?["CFBundleShortVersionString"] as? String {
-//                self.requestManager.requestSerializer.setValue(version, forHTTPHeaderField: "app_version")
-//            }else{
-//                self.requestManager.requestSerializer.setValue("1000000", forHTTPHeaderField: "app_version")
-//            }
-//        }else {
-//            if let version = Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
-//                self.requestManager.requestSerializer.setValue(version, forHTTPHeaderField: "app_version")
-//            }else{
-//                self.requestManager.requestSerializer.setValue("1000000", forHTTPHeaderField: "app_version")
-//            }
-//        }
         
         let isDelivery = ElGrocerUtility.sharedInstance.isDeliveryMode ? "1" : "2"
         self.requestManager.requestSerializer.setValue(isDelivery , forHTTPHeaderField: "service_id")
@@ -355,14 +341,8 @@ class NetworkLayer {
         
         self.requestManager.requestSerializer.setValue(sdkManager.isSmileSDK ?  "smileSDK" : "elgrocerShopperApp", forHTTPHeaderField: "user-agent")
         self.requestManager.requestSerializer.setValue(sdkManager.isSmileSDK ? "elgrocer.ios.sdk" : "elgrocer.com.ElGrocerShopper", forHTTPHeaderField: "App-Agent")
-        
-        
-        
-        
         self.requestManager.requestSerializer.setValue(elGrocerSDKConfiguration.version, forHTTPHeaderField: "Sdk-Version")
-        
-        
-    
+
     }
     
 }
@@ -385,7 +365,7 @@ extension ScopeDetail {
         expires_in =  tokenDetail["expires_in"] as? TimeInterval ?? 0
         scope = tokenDetail["scope"] as? String ?? ""
         token_type = tokenDetail["token_type"] as? String ?? ""
-        FireBaseEventsLogger.setUserProperty(access_token , key: "access_token")
+        //FireBaseEventsLogger.setUserProperty(access_token , key: "access_token")
     }
 
 }

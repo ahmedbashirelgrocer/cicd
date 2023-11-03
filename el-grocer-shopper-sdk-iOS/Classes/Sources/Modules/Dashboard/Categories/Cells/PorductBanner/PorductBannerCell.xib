@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -54,17 +54,22 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="mXd-Gz-J20" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="1vR-lG-Ps6"/>
-                <constraint firstItem="mXd-Gz-J20" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="8" id="WC4-xO-Mia"/>
-                <constraint firstAttribute="bottom" secondItem="mXd-Gz-J20" secondAttribute="bottom" constant="8" id="XZZ-TC-g7r"/>
-                <constraint firstAttribute="trailing" secondItem="mXd-Gz-J20" secondAttribute="trailing" constant="8" id="hRN-62-lr4"/>
+                <constraint firstItem="mXd-Gz-J20" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" priority="999" constant="8" id="1vR-lG-Ps6"/>
+                <constraint firstItem="mXd-Gz-J20" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" priority="999" constant="8" id="WC4-xO-Mia"/>
+                <constraint firstAttribute="bottom" secondItem="mXd-Gz-J20" secondAttribute="bottom" priority="999" constant="8" id="XZZ-TC-g7r"/>
+                <constraint firstAttribute="trailing" secondItem="mXd-Gz-J20" secondAttribute="trailing" priority="999" constant="8" id="hRN-62-lr4"/>
             </constraints>
             <size key="customSize" width="131" height="177"/>
             <connections>
+                <outlet property="bgView" destination="mXd-Gz-J20" id="eT3-t6-S0c"/>
+                <outlet property="bottomConstraint" destination="XZZ-TC-g7r" id="n1R-d8-QH4"/>
                 <outlet property="imageTapButton" destination="67x-Ee-5kd" id="Tu8-aE-udq"/>
                 <outlet property="imageView" destination="zSC-0n-yD1" id="YMR-Ig-9aB"/>
+                <outlet property="leadingConstraint" destination="1vR-lG-Ps6" id="esL-PI-A1I"/>
+                <outlet property="topConstraint" destination="WC4-xO-Mia" id="eH2-Xu-5ed"/>
+                <outlet property="trailingConstraint" destination="hRN-62-lr4" id="Pez-0f-3dg"/>
             </connections>
-            <point key="canvasLocation" x="314" y="73"/>
+            <point key="canvasLocation" x="313.768115942029" y="72.65625"/>
         </collectionViewCell>
     </objects>
 </document>

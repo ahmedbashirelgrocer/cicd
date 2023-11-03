@@ -123,8 +123,8 @@ struct ProductSubCategoryClickedEvent: AnalyticsEventDataType {
     init(subCategory: SubCategory?) {
         self.eventType = .track(eventName: AnalyticsEventName.productSubCategoryClicked)
         self.metaData = [
-            EventParameterKeys.subcategoryID: subCategory?.subCategoryId.stringValue ?? "0",
-            EventParameterKeys.subcategoryName: subCategory?.subCategoryNameEn ?? "All",
+            EventParameterKeys.subcategoryID: subCategory?.subCategoryId.stringValue ?? "",
+            EventParameterKeys.subcategoryName: subCategory?.subCategoryNameEn ?? "",
         ]
     }
 }

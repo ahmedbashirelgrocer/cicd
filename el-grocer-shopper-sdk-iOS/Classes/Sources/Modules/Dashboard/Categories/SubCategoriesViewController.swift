@@ -308,8 +308,12 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         self.viewHandler.subCategorySegmentIndexChange(selectedSegmentIndex)
         self.collectionView.setContentOffset(CGPoint.zero, animated: false)
         
-        // Logging segment event for product sub-category clicked event
-        let event = ProductSubCategoryClickedEvent(subCategory: viewHandler.getlastSelectedSubCategory())
+        // Logging segment for sub-category changed
+        let selectedSubcategory = selectedSegmentIndex != 0
+            ? self.viewHandler.getsubCategories()[selectedSegmentIndex - 1]
+            : SubCategory.init(id: -1, name: "All Categories")
+        
+        let event = ProductSubCategoryClickedEvent(subCategory: selectedSubcategory)
         SegmentAnalyticsEngine.instance.logEvent(event: event)
     }
     
@@ -653,8 +657,10 @@ extension SubCategoriesViewController :  CateAndSubcategoryViewDelegate  {
             if visibleIndexPaths.first(where: { indexs in
                 indexs.row == index?.row
             }) != nil, ((index?.row ?? -1)) % 5 != 0   {
-                self.collectionView.performBatchUpdates {
-                    self.collectionView.reloadItems(at: [index!])
+                if self.viewHandler.ListbrandsArray.count > (index?.row ?? -1) {
+                    self.collectionView.performBatchUpdates {
+                        self.collectionView.reloadItems(at: [index!])
+                    }
                 }
                 return
             } else {

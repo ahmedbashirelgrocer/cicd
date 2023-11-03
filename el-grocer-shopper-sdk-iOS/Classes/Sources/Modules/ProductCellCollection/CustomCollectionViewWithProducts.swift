@@ -155,7 +155,7 @@ class CustomCollectionViewWithProducts: CustomCollectionView {
                 if winners.count > 0 {
                     for index in 0..<self.collectionA.count {
                         if var product = self.collectionA[index] as? Product {
-                            let id = products[index].productId
+                            let id = product.productId
                             product.winner = winners.first{ $0.id == "\(id)" }
                         }
                     }

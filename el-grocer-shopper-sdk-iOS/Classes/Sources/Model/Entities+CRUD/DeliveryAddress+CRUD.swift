@@ -82,8 +82,8 @@ extension DeliveryAddress {
         do {
             try context.save()
         } catch (let error) {
-            elDebugPrint(error.localizedDescription)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+             //elDebugPrint(error.localizedDescription)
+            //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
             //FireBaseEventsLogger.cu
         }
     
@@ -153,7 +153,7 @@ extension DeliveryAddress {
         
         location.isArchive = NSNumber(value: false as Bool)
 
-        userProfile.addDeliveryAddress(location)
+//        userProfile.addDeliveryAddress(location)
 
         return location
     }

@@ -11,6 +11,7 @@ import RxSwift
 
 protocol PaymentSelectionViewModelInputs {
     var selectedItemObserver: AnyObserver<PaymentSelectionCellViewModel> { get }
+    var fetchPaymentMethodsObserver: AnyObserver<Void> { get }
 }
 
 protocol PaymentSelectionViewModelOutputs {
@@ -46,9 +47,11 @@ class PaymentSelectionViewModel: PaymentSelectionViewModelType, PaymentSelection
     private var selectedItemSubject = PublishSubject<PaymentSelectionCellViewModel>()
     private var titleSubject = BehaviorSubject<String>(value: "")
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
+    private var fetchPaymentMethodsSubject = PublishSubject<Void>()
     
     // MARK: Inputs
     var selectedItemObserver: AnyObserver<PaymentSelectionCellViewModel> { selectedItemSubject.asObserver() }
+    var fetchPaymentMethodsObserver: AnyObserver<Void> { fetchPaymentMethodsSubject.asObserver() }
     
     // MARK: Output
     var cellViewModels: Observable<[PaymentSelectionCellViewModel]> { return cellViewModelsSubject.asObservable() }
@@ -67,7 +70,10 @@ class PaymentSelectionViewModel: PaymentSelectionViewModelType, PaymentSelection
         self.titleSubject.onNext(localizedString("payment_method_title", comment: ""))
         self.paymentTypes = paymentTypes
         
-        self.fetchPaymentMethods()
+        fetchPaymentMethodsSubject.subscribe(onNext: { [weak self] _ in
+            self?.viewModels = []
+            self?.fetchPaymentMethods()
+        }).disposed(by: disposeBag)
     }
 }
 

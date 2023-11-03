@@ -111,7 +111,8 @@ class PreLoadData {
            //  print("self.retryAttemp: \(self.retryAttemp)")
             if isSuccess {
                 ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
-                self.updateLocationIfNeeded {
+                self.updateLocationIfNeeded { [weak self] in
+                    guard let self = self else { return }
                     self.retryAttemp = 0
                     completion?(true)
                 }

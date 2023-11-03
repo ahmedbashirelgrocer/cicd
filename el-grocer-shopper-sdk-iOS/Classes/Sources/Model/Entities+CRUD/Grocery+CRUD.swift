@@ -106,8 +106,8 @@ extension Grocery {
         //TODO: Make sure that data is saving after this
         do {
             try context.save()
-        } catch (let error) {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+        } catch (let _) {
+            // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
         }
         
         return resultGroceries
@@ -140,8 +140,8 @@ extension Grocery {
             //TODO: Make sure that data is saving after this
         do {
             try context.save()
-        } catch (let error) {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+        } catch (let _) {
+            // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
         }
         
         return resultGroceries
@@ -203,8 +203,8 @@ extension Grocery {
             do {
                 return try JSONSerialization.jsonObject(with: data, options: []) as? [String:AnyObject]
             } catch let error as NSError {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-               elDebugPrint(error)
+                // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+                // elDebugPrint(error)
             }
         }
         return nil

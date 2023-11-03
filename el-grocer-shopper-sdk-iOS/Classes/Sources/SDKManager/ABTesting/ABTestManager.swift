@@ -66,7 +66,7 @@ class ABTestManager {
         Installations.installations(app: app).authToken { result, error in
             if let error = error {
                 let error = ElGrocerError(error: error as NSError)
-                print(error.localizedMessage)
+                elDebugPrint(error.localizedMessage)
             } else {
                 self.authToken = result?.authToken ?? ""
                 elDebugPrint("Firebase A/B Test Token: \(result?.authToken ?? "NA")")

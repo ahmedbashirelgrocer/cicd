@@ -39,6 +39,7 @@ class SecondaryViewModel {
     private var selectedPreferenceId : Int? = nil
     private var additionalInstructions: String?
     private var tabbyEnabled: Bool = false
+    private var isNeedToFetchAdyenCreditCards: Bool = true
     
     var basketDataValue: BasketDataClass? = nil
     var deliverySlots: [DeliverySlotDTO] = []
@@ -126,7 +127,6 @@ class SecondaryViewModel {
         self.apiCall.onNext(true)
         debugPrint("SplitPayment: createApi: \(parameter)")
         netWork.createSecondCheckoutCartDetailsEditOrder(parameters: parameter) { result in
-            self.apiCall.onNext(false)
             switch result {
                 case .success(let response):
                 //  print(response)
@@ -140,6 +140,12 @@ class SecondaryViewModel {
                         self.basketDataValue = checkoutData.data
                         self.basketData.onNext(checkoutData.data)
                         self.updateViewModelDataAccordingToBasket(data: checkoutData.data)
+                        
+                        if self.isNeedToFetchAdyenCreditCards {
+                            self.getCreditCardsFromAdyen { self.apiCall.onNext(false) }
+                        } else {
+                            self.apiCall.onNext(false)
+                        }
                     } catch(let error) {
                         //  print(error)
                         self.basketError.onNext(ElGrocerError.parsingError())
@@ -160,7 +166,6 @@ class SecondaryViewModel {
         self.apiCall.onNext(true)
         debugPrint("SplitPayment: createApi: \(parameter)")
         netWork.createSecondCheckoutCartDetails(parameters: parameter) { result in
-            self.apiCall.onNext(false)
             switch result {
                 case .success(let response):
                 //  print(response)
@@ -174,6 +179,12 @@ class SecondaryViewModel {
                         self.basketDataValue = checkoutData.data
                         self.basketData.onNext(checkoutData.data)
                         self.updateViewModelDataAccordingToBasket(data: checkoutData.data)
+                        
+                        if self.isNeedToFetchAdyenCreditCards {
+                            self.getCreditCardsFromAdyen { self.apiCall.onNext(false) }
+                        } else {
+                            self.apiCall.onNext(false)
+                        }
                     } catch(let error) {
                         //    print(error)
                         self.basketError.onNext(ElGrocerError.parsingError())
@@ -319,7 +330,7 @@ extension SecondaryViewModel {
         finalParams["products"] = products
         finalParams["retailer_delivery_zone_id"] = self.getGrocery()?.deliveryZoneId
         finalParams["payment_type_id"] = primaryPaymentTypeId
-        finalParams["selected_delivery_slot"] = self.selectedSlotId
+        finalParams["selected_delivery_slot"] = String(describing: self.selectedSlotId)
         if let slot = self.getDeliverySlot() {
             if slot.isInstant != nil && !(slot.isInstant.boolValue) {
                 finalParams["usid"] = slot.getdbID()
@@ -349,7 +360,9 @@ extension SecondaryViewModel {
         return finalParams
     }
     
-    func getCreditCardsFromAdyen() {
+    func getCreditCardsFromAdyen(completion: (()->Void)? = nil) {
+        self.isNeedToFetchAdyenCreditCards = false
+        
         PaymentMethodFetcher.getPaymentMethods(amount: AdyenManager.createAmount(amount: 100), addApplePay: true) { paymentMethods, applePay, error in
             if self.getSelectedPaymentOption() == .creditCard {
                 if let cardsArray = paymentMethods {
@@ -372,6 +385,8 @@ extension SecondaryViewModel {
             }else if self.getSelectedPaymentOption() == .applePay{
                 self.applePaySelectedMethod = applePay
             }
+            
+            completion?()
         }
     }
     

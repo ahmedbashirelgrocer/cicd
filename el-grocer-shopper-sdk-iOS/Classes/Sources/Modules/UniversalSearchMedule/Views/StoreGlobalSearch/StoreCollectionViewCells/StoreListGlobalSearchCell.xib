@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="211" id="QI0-en-Axs" customClass="StoreListGlobalSearchCell" customModule="ElGrocerShopper" customModuleProvider="target">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="211" id="QI0-en-Axs" customClass="StoreListGlobalSearchCell" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="414" height="211"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="QI0-en-Axs" id="ZvX-Mp-xIn">
@@ -23,7 +23,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="dOu-Gb-5wF">
-                        <rect key="frame" x="16" y="61" width="382" height="105"/>
+                        <rect key="frame" x="16" y="49" width="382" height="105"/>
                         <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="105" id="fvG-pS-LSv"/>
@@ -36,7 +36,7 @@
                         </collectionViewFlowLayout>
                     </collectionView>
                     <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="Qpu-At-Ifc">
-                        <rect key="frame" x="129.5" y="166" width="155.5" height="34"/>
+                        <rect key="frame" x="149" y="154" width="116.5" height="34"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="34" id="wnk-4G-iEL"/>
                         </constraints>
@@ -52,7 +52,7 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="KMG-U1-sLo" firstAttribute="leading" secondItem="sU0-PM-hZg" secondAttribute="trailing" constant="3" id="5fz-pS-pWC"/>
-                    <constraint firstItem="dOu-Gb-5wF" firstAttribute="top" secondItem="sU0-PM-hZg" secondAttribute="bottom" constant="24" id="83G-bh-h0b"/>
+                    <constraint firstItem="dOu-Gb-5wF" firstAttribute="top" secondItem="sU0-PM-hZg" secondAttribute="bottom" constant="12" id="83G-bh-h0b"/>
                     <constraint firstItem="Qpu-At-Ifc" firstAttribute="centerX" secondItem="dOu-Gb-5wF" secondAttribute="centerX" id="BZ6-Zx-PV8"/>
                     <constraint firstItem="Qpu-At-Ifc" firstAttribute="top" secondItem="dOu-Gb-5wF" secondAttribute="bottom" id="I40-SN-KYp"/>
                     <constraint firstItem="sU0-PM-hZg" firstAttribute="leading" secondItem="ZvX-Mp-xIn" secondAttribute="leading" constant="16" id="ZPQ-ha-yhq"/>

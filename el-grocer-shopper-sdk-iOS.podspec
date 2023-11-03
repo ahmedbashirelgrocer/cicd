@@ -4,7 +4,7 @@
 #
 #  To learn more about Podspec attributes see https://guides.cocoapods.org/syntax/podspec.html
 #  To see working Podspecs in the CocoaPods repo see https://github.com/CocoaPods/Specs/
-#  // 6.7.4
+#  // Google Marchent universal linking Implemented
 
 Pod::Spec.new do |s|
     
@@ -16,9 +16,9 @@ Pod::Spec.new do |s|
   #  can feel like a chore to fill in it's definitely to your advantage. The
   #  summary should be tweet-length, and the description more in depth.
   #
-
+ 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '100.6561.2943'
+  s.version          = '100.6565.2963'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -180,7 +180,7 @@ Pod::Spec.new do |s|
     s.dependency 'SendBirdUIKit','3.6.2'
     s.dependency 'SendBirdDesk', '1.1.3'
       # add file
-  s.dependency 'Adyen', '~> 4.10.0'
+  s.dependency 'Adyen', '4.10.4'
   
   s.dependency 'SDWebImage', '~> 5.12.3'
   

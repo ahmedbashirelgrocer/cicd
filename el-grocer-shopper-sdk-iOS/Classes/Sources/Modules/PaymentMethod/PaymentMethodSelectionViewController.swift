@@ -52,6 +52,12 @@ class PaymentMethodSelectionViewController: UIViewController {
         bindViews()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.viewModel.inputs.fetchPaymentMethodsObserver.onNext(())
+    }
+    
     func bindViews() {
         self.viewModel.outputs.title.bind(to: self.lblTitle.rx.text).disposed(by: disposeBag)
         

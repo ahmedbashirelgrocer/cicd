@@ -4,7 +4,9 @@
 //  Created by Awais Arshad Chatha on 01.07.2015.
 //  Copyright (c) 2015 RST IT. All rights reserved.
 //  Final Release Build & Update
-//from commit update pod file for xcode 14 & ios16 ==== branch : origin/DevSDK/Xcode14-IOS16Fixing
+//  xcode 15 changes merged
+//  Before performance changes merges
+
 
 import UIKit
 import CoreData
@@ -12,24 +14,17 @@ import FirebaseCrashlytics
 import GoogleMaps
 import GooglePlaces
 import UserNotifications
-// import AFNetworking
 import BackgroundTasks
 import IQKeyboardManagerSwift
 import CleverTapSDK
 import AdSupport
-//import AppsFlyerLib
-// import FBSDKCoreKit
 import FirebaseCore
 import Messages
-// import AFNetworkActivityLogger
 import SendbirdChatSDK
 import SwiftDate
 import Adyen
 import Segment
 import Segment_CleverTap
-// import FirebaseDynamicLinks
-// import FirebaseAuth
-// import FirebaseMessaging
 
 extension SDKManager {
     var isSmileSDK: Bool { SDKManager.shared.launchOptions?.isSmileSDK == true }
@@ -419,10 +414,20 @@ class SDKManager: NSObject, SDKManagerType  {
     }
     
     private func initializeSegmentSDK() {
-        let configurationName =  self.launchOptions?.environmentType.value() ??  "Release"
+        
+        var isTesting = ElGrocerUtility.sharedInstance.isTesting()
+        if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-admin.herokuapp.com/api/" ||  ElGrocerApi.sharedInstance.baseApiPath == "https://nginx.elgrocer.com/api/" {
+            isTesting = true
+        }
+        let configurationName =  self.launchOptions?.environmentType.value() ?? (isTesting ? "StagingProduction" : "Release")
         let environmentsPath = Bundle.resource.path(forResource: "EnvironmentVariables", ofType: "plist")
         let environmentsDict = NSDictionary(contentsOfFile: environmentsPath!)
-        let dictionary = environmentsDict![configurationName] as! NSDictionary
+        var dictionary = environmentsDict![configurationName] as! NSDictionary
+        
+        // select staging segment for debug builds
+        #if DEBUG
+        dictionary = environmentsDict!["StagingProduction"] as! NSDictionary
+        #endif
         
         guard let segmentSDKWriteKey = dictionary["segmentSDKWriteKey"] as? String else { return }
         
@@ -553,18 +558,20 @@ class SDKManager: NSObject, SDKManagerType  {
                     
                     //manager.setHomeView()
                 } else {
-                 let alert = ElGrocerAlertView.createAlert(localizedString("error_500", comment: ""), description: nil, positiveButton: positiveButton, negativeButton: nil) { index in
-                        Thread.OnMainThread {
-                            if let topVC = UIApplication.topViewController() {
-                                if let navVc = topVC.navigationController, navVc.viewControllers.count > 1 {
-                                    navVc.popViewController(animated: true)
-                                } else {
-                                    topVC.dismiss(animated: true, completion: nil)
-                                }
-                            }
-                        }
+                    ElGrocerUtility.sharedInstance.delay(0.01) {
+                        let alert = ElGrocerAlertView.createAlert(localizedString("error_500", comment: ""), description: nil, positiveButton: positiveButton, negativeButton: nil) { index in
+                               Thread.OnMainThread {
+                                   if let topVC = UIApplication.topViewController() {
+                                       if let navVc = topVC.navigationController, navVc.viewControllers.count > 1 {
+                                           navVc.popViewController(animated: true)
+                                       } else {
+                                           topVC.dismiss(animated: true, completion: nil)
+                                       }
+                                   }
+                               }
+                           }
+                           alert.show()
                     }
-                    alert.show()
                 }
             }
         } else {
@@ -945,6 +952,10 @@ class SDKManager: NSObject, SDKManagerType  {
 
 extension SDKManager {
     
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        return false
+    }
+    
     func beginBackgroundUpdateTask() {
         self.backgroundUpdateTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {
             self.endBackgroundUpdateTask()
@@ -1005,7 +1016,7 @@ fileprivate extension SDKManager {
         CleverTapEventsLogger.shared.startCleverTapSharedSDK()
         
         // logToCrashleytics
-        self.logApiError()
+//        self.logApiError()
         ElGrocerEventsLogger.sharedInstance.firstOpen()
         
         // MARK:- TODO fixappsflyer

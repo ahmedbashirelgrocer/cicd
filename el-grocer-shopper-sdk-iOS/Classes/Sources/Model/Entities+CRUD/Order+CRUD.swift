@@ -65,8 +65,8 @@ extension Order {
             do {
                 self.deleteOrdersNotInJSON(jsonOrderIds, context: context)
                 try context.save()
-            } catch (let error){
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+            } catch (let _){
+                //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
             }
         }
  
@@ -101,9 +101,9 @@ extension Order {
         do {
             self.deleteOrdersNotInJSON(jsonOrderIds, context: context)
             try context.save()
-        } catch (let error) {
+        } catch (let _) {
             
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+            //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
         }
         
     }
@@ -742,9 +742,9 @@ extension Order {
         
         do {
             try context.save()
-        } catch (let error) {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-            elDebugPrint("")
+        } catch (let _) {
+            //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+            // elDebugPrint("")
         }
 
         return order
