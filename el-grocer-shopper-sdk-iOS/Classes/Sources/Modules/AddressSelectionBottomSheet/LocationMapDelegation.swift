@@ -77,7 +77,7 @@ extension LocationMapDelegation : LocationMapViewControllerDelegate {
             } else {
                 // user logged in add new address and go to Home
                 let _  = SpinnerView.showSpinnerViewInView(controller.view)
-                deliveryAddress.isActive = NSNumber(value: false as Bool)
+                deliveryAddress.isActive = NSNumber(value: true as Bool)
                 let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 if userProfile != nil {
                     deliveryAddress.userProfile = userProfile!
@@ -123,6 +123,8 @@ extension LocationMapDelegation : LocationMapViewControllerDelegate {
                                             ElGrocerUtility.sharedInstance.resetTabbar(tab)
                                             tab.selectedIndex = 1
                                         }
+                                        
+                                        self.presentedController.dismiss(animated: true)
                                     }
                                 } else {
                                     let SDKManager = SDKManager.shared
@@ -130,6 +132,8 @@ extension LocationMapDelegation : LocationMapViewControllerDelegate {
                                         ElGrocerUtility.sharedInstance.resetTabbar(tab)
                                         tab.selectedIndex = 0
                                     }
+                                    
+                                    self.presentedController.dismiss(animated: true)
                                 }
                             }
                         }
@@ -210,7 +214,7 @@ extension LocationMapDelegation : LocationMapViewControllerDelegate {
             } else {
                 // user logged in add new address and go to Home
                 let _  = SpinnerView.showSpinnerViewInView(controller.view)
-                deliveryAddress.isActive = NSNumber(value: false as Bool)
+                deliveryAddress.isActive = NSNumber(value: true as Bool)
                 let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 if userProfile != nil {
                     deliveryAddress.userProfile = userProfile!

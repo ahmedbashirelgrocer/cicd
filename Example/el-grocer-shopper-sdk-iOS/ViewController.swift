@@ -35,6 +35,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var btnLoadData: UIButton!
     @IBOutlet weak var btnSearch: UIButton!
     
+    @IBOutlet weak var rememberMeSwitch: UISwitch!
     // var searchClient: IntegratedSearchClient!
     
     fileprivate lazy var languagePicker: UIPickerView = {
@@ -92,7 +93,9 @@ class ViewController: UIViewController {
             SwiftSpinner.hide()
         }
 
-        
+        /// remember phone number
+        let isRememberMeEnabled = self.rememberMeSwitch.isOn
+        self.rememberPhoneNumber(phoneNumber: self.txtAccountNumber.text, isRemember: isRememberMeEnabled)
         
 //        FlavorAgent.startFlavorEngine(launchOptions) {
 //            debugPrint("startAnimation")
@@ -104,6 +107,10 @@ class ViewController: UIViewController {
     
     @IBAction func btnGoToSDK(_ sender: Any) {
         self.startSDK()
+        
+        /// remember phone number
+        let isRememberMeEnabled = self.rememberMeSwitch.isOn
+        self.rememberPhoneNumber(phoneNumber: self.txtAccountNumber.text, isRemember: isRememberMeEnabled)
     }
     
     @IBAction func btnLoadDataPressed(_ sender: Any) {
@@ -125,9 +132,9 @@ class ViewController: UIViewController {
     }
     
     func setDefaultData() {
-        txtAccountNumber.text =  "+923138157023"
+        txtAccountNumber.text = self.getRemeberedPhoneNumber()
         #if DEBUG
-        txtAccountNumber.text =  "+923138157024"
+        txtAccountNumber.text = self.getRemeberedPhoneNumber()
         #endif
         txtLat.text = "\(31.4125128)"
         txtLong.text = "\(73.1165197)"
@@ -317,5 +324,19 @@ extension ViewController {
         } else {
             // Fallback on earlier versions
         }
+    }
+}
+
+fileprivate extension ViewController {
+    func rememberPhoneNumber(phoneNumber: String?, isRemember: Bool) {
+        if isRemember {
+            UserDefaults.standard.setValue(phoneNumber, forKey: "smiles.wrapper.phone.number")
+        } else {
+            UserDefaults.standard.setValue("", forKey: "smiles.wrapper.phone.number")
+        }
+    }
+    
+    func getRemeberedPhoneNumber() -> String? {
+        return UserDefaults.standard.string(forKey: "smiles.wrapper.phone.number")
     }
 }

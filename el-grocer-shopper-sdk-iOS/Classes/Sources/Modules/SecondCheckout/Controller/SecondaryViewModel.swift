@@ -65,7 +65,33 @@ class SecondaryViewModel {
         self.setDeliveryAddress(address)
         self.setDeliverySlot(deliverySlot)
         self.setDefaultApiData()
-        self.fetchDeliverySlots()
+        
+        self.fetchDeliverySlots {
+            // Auto Selection of delivery slot
+            if self.deliverySlots.isNotEmpty {
+                let selectedSlot: DeliverySlotDTO? = self.deliverySlots.filter { $0.id ==  slotId }.first
+                
+                if  selectedSlot != nil {
+                    self.setSelectedSlotId(slotId)
+                    
+                    if let grocery = self.grocery, let slot = selectedSlot {
+                        let slotDB = DeliverySlot.getDeliverySlot(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: grocery.dbID, slotId: String(slot.id))
+                        self.setDeliverySlot(slotDB)
+                    }
+                    
+                } else {
+                    let selectedSlot = self.deliverySlots.first
+                    self.setSelectedSlotId(selectedSlot?.id)
+
+                    if let grocery = self.grocery, let slot = selectedSlot {
+                        let slotDB = DeliverySlot.getDeliverySlot(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: grocery.dbID, slotId: String(slot.usid ?? 0))
+                        self.setDeliverySlot(slotDB)
+                    }
+                }
+                
+                self.updateSlotToBackEnd()
+            }
+        }
         
     }
 
