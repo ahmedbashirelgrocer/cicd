@@ -85,8 +85,6 @@ extension Reactive where Base: GenricBannerList {
     var banners: Binder<[BannerDTO]> {
         return Binder(self.base) { bannerListView, banners in
             bannerListView.collectionData = banners
-            bannerListView.behavior = MSCollectionViewPeekingBehavior(cellSpacing: CGFloat(8), cellPeekWidth: CGFloat(2), maximumItemsToScroll: Int(1), numberOfItemsToShow: Int(1), scrollDirection: .horizontal, velocityThreshold: 0.2)
-            bannerListView.collectionView?.configureForPeekingBehavior(behavior: bannerListView.behavior)
             
             UIView.performWithoutAnimation {
                 bannerListView.layoutIfNeeded()
