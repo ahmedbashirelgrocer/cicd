@@ -189,7 +189,7 @@ Pod::Spec.new do |s|
   #s.dependency 'GoogleIDFASupport'
   s.dependency 'GoogleMaps', '~> 4.2.0'
   s.dependency 'GooglePlaces', '~> 4.2.0'
-  s.dependency 'lottie-ios', '~> 3.5.0'
+  s.dependency 'lottie-ios', '~> 3.5.0' 
 #s.dependency 'AppsFlyerFramework'
 
   # Segment analytics dependency

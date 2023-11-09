@@ -649,6 +649,17 @@ class ElGrocerViewControllers {
     }
     
     
+    class func marketingCustomLandingPageViewController() -> MarketingCustomLandingPageViewController {
+        
+        
+        
+        return MarketingCustomLandingPageViewController(storeId: "test", marketingId: "test")
+    }
+    
+    
+    
+    
+    
 }
 
 

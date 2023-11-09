@@ -147,6 +147,10 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.refreshLogoView()
             controller.navigationBar.topItem?.title = ""
         }
+        
+        
+        let landingVC = ElGrocerViewControllers.marketingCustomLandingPageViewController()
+        self.present(landingVC, animated: true)
     }
     
         // MARK: - UI Customization
