@@ -295,7 +295,7 @@ class GenericStoresViewController: BasketBasicViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        searchBarHeader.clearSmilesPoints()
+//        searchBarHeader.clearSmilesPoints()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
