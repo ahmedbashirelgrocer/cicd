@@ -1903,7 +1903,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         if section == 0 {
-            return 4
+            return 3
         }
         if section == 1 {
             return self.myBasketDataObj.getReasonA().count + 1
@@ -1929,7 +1929,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         guard !self.isOutOfStockProductAvailablePreCart else {
             if indexPath.section == 0 {
-                return indexPath.row == 0 ? 60 : 0
+                return indexPath.row == 0 ? 40 : 0
             }
             if indexPath.section == self.notAvailableProductSectionNumber {
                 return kProductCellHeight + 15
@@ -1949,7 +1949,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         if indexPath.section == 0 {
             
             if indexPath.row == 0 {
-                return 60
+                return 40
                 // Disabling progress view cell in favour of new design
                 if self.isMinimumOrderValueFulfilled() { return 90 }
                 return (priceSum < minimumBasketValueForGrocery) ? 155 : 90
@@ -1957,8 +1957,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 // hiding summary cell in favour of new design
                 return 0
                 return (self.products.count > 0) ? 40 :  0.1
-            } else if indexPath.row == 2 {  return (self.products.count > 0) ? 104 :  0.1 }
-            else if indexPath.row == 3 {  return 15 }
+            }
+//            else if indexPath.row == 2 {  return (self.products.count > 0) ? 104 :  0.1 }
+            else if indexPath.row == 2 {  return 15 }
         }
         if indexPath.section == 1 {
             if indexPath.row == 0 { return 40 }
@@ -2073,34 +2074,36 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     cell.configureCell(title: localizedString("order_summary_label", comment: ""))
                     return cell
                     
-                }else if indexPath.row == 2 {
-                    let replaceProductCell : ProductsImagesTableViewCell = tableView.dequeueReusableCell(withIdentifier: KProductsImagesTableViewCellIdentifier , for: indexPath) as! ProductsImagesTableViewCell
-                    if let grocer = self.grocery {
-                        let notAWithNoSub = self.notAvailableProductsList.filter { (product) -> Bool in
-                            if let item = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: self.grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                                if item.isSubtituted.boolValue {
-                                    return false
-                                }
-                            }
-                            return true
-                        }
-                        
-                        let productList = notAWithNoSub + self.availableProducts
-                        replaceProductCell.configuredData(productList, self.shoppingItems, grocery: grocer)
-                    }
-                    replaceProductCell.selectedProduct = { [weak self] (selectedProdc , index) in
-                        if let prod = selectedProdc {
-                            if let indexOfProd = self?.notAvailableProductsList.firstIndex(of: prod) {
-                                tableView.scrollToRow(at: NSIndexPath.init(row: indexOfProd, section: 2) as IndexPath, at: .top, animated: true)
-                                return
-                            }
-                        }
-                        let outOfStockProductCount = self?.notAvailableProductsList.count ?? 0
-                        tableView.scrollToRow(at: NSIndexPath.init(row: index - outOfStockProductCount , section: 4) as IndexPath, at: .top, animated: true)
-                    }
-                    return replaceProductCell
-                    
-                } else if indexPath.row == 3 {
+                }
+//                else if indexPath.row == 2 {
+//                    let replaceProductCell : ProductsImagesTableViewCell = tableView.dequeueReusableCell(withIdentifier: KProductsImagesTableViewCellIdentifier , for: indexPath) as! ProductsImagesTableViewCell
+//                    if let grocer = self.grocery {
+//                        let notAWithNoSub = self.notAvailableProductsList.filter { (product) -> Bool in
+//                            if let item = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: self.grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+//                                if item.isSubtituted.boolValue {
+//                                    return false
+//                                }
+//                            }
+//                            return true
+//                        }
+//
+//                        let productList = notAWithNoSub + self.availableProducts
+//                        replaceProductCell.configuredData(productList, self.shoppingItems, grocery: grocer)
+//                    }
+//                    replaceProductCell.selectedProduct = { [weak self] (selectedProdc , index) in
+//                        if let prod = selectedProdc {
+//                            if let indexOfProd = self?.notAvailableProductsList.firstIndex(of: prod) {
+//                                tableView.scrollToRow(at: NSIndexPath.init(row: indexOfProd, section: 2) as IndexPath, at: .top, animated: true)
+//                                return
+//                            }
+//                        }
+//                        let outOfStockProductCount = self?.notAvailableProductsList.count ?? 0
+//                        tableView.scrollToRow(at: NSIndexPath.init(row: index - outOfStockProductCount , section: 4) as IndexPath, at: .top, animated: true)
+//                    }
+//                    return replaceProductCell
+//
+//                }
+                else if indexPath.row == 2 {
                     
                     let spaceTableViewCell : SpaceTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SpaceTableViewCell" , for: indexPath) as! SpaceTableViewCell
                     return spaceTableViewCell
