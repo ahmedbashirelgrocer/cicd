@@ -8,6 +8,14 @@
 import UIKit
 
 class SmilesPointsViewEn: UIView, SmilesPointsView {
+    let elLogo: UIImageView = {
+        let view = UIImageView(image: UIImage(name: "el_logo"))
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.contentMode = .scaleAspectFit
+        view.backgroundColor = .clear
+        return view
+    }()
+    
     let titleLogo: UIImageView = {
         let view = UIImageView(image: UIImage(name: "smiles_logo_white"))
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -20,6 +28,7 @@ class SmilesPointsViewEn: UIView, SmilesPointsView {
         let label = CircularGradientLabel()
         label.font = .systemFont(ofSize: 13, weight: .medium)
         label.textColor = .white
+        label.backgroundColor = UIColor.colorWithHexString(hexString: "423B79")
         return label
     }()
     
@@ -47,7 +56,7 @@ class SmilesPointsViewEn: UIView, SmilesPointsView {
         
         let setPoints = {
             if points == -1 {
-                self.titleLabel.text = "    \(localizedString("earn_rewards_now", comment: ""))    "
+                self.titleLabel.text = localizedString("earn_rewards_now", comment: "")
             } else {
                 let string = localizedString("smiles_pts", comment: "")
                 self.titleLabel.text = String.localizedStringWithFormat(string, "\(points)")
@@ -80,23 +89,29 @@ class SmilesPointsViewEn: UIView, SmilesPointsView {
         isUserInteractionEnabled = true
         translatesAutoresizingMaskIntoConstraints = false
         
+        addSubview(elLogo)
         addSubview(titleLogo)
         addSubview(titleLabel)
         titleLabel.addSubview(animationView)
         
         NSLayoutConstraint.activate([
-            titleLogo.leftAnchor.constraint(equalTo: leftAnchor),
-            titleLogo.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: 0),
-            titleLogo.heightAnchor.constraint(equalToConstant: 22),
-            titleLogo.widthAnchor.constraint(equalTo: titleLogo.heightAnchor, multiplier: 116 / 48)
+            elLogo.leftAnchor.constraint(equalTo: leftAnchor),
+            elLogo.centerYAnchor.constraint(equalTo: centerYAnchor),
+            elLogo.heightAnchor.constraint(equalToConstant: 21),
+            elLogo.widthAnchor.constraint(equalTo: titleLogo.heightAnchor, multiplier: 20 / 21)
+        ])
+        
+        NSLayoutConstraint.activate([
+            titleLogo.leftAnchor.constraint(equalTo: elLogo.rightAnchor, constant: 8),
+            titleLogo.centerYAnchor.constraint(equalTo: centerYAnchor),
+            titleLogo.heightAnchor.constraint(equalToConstant: 16),
+            titleLogo.widthAnchor.constraint(equalTo: titleLogo.heightAnchor, multiplier: 52 / 16)
         ])
         NSLayoutConstraint.activate([
-            titleLabel.leftAnchor.constraint(equalTo: titleLogo.rightAnchor, constant: 2),
+            titleLabel.leftAnchor.constraint(equalTo: titleLogo.rightAnchor, constant: 8),
             titleLabel.rightAnchor.constraint(equalTo: rightAnchor),
             titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            // titleLabel.topAnchor.constraint(equalTo: topAnchor),
-            // titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
-            titleLabel.heightAnchor.constraint(equalToConstant: 24)
+            titleLabel.heightAnchor.constraint(equalToConstant: 34)
         ])
     }
     

@@ -65,7 +65,7 @@ class SmilesNavigationViewAr: UIView, SmilesNavigationView {
         addSubview(cartButton)
         addSubview(titleView)
         titleView.addSubview(smilesPointsView)
-        titleView.addSubview(logoView)
+//        titleView.addSubview(logoView)
         
         NSLayoutConstraint.activate([
             profileButton.centerYAnchor.constraint(equalTo: centerYAnchor),
@@ -87,15 +87,15 @@ class SmilesNavigationViewAr: UIView, SmilesNavigationView {
             titleView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
         
-        NSLayoutConstraint.activate([
-            logoView.topAnchor.constraint(equalTo: titleView.topAnchor),
-            logoView.centerXAnchor.constraint(equalTo: titleView.centerXAnchor),
-            logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: 5),
-            logoView.heightAnchor.constraint(equalTo: smilesPointsView.heightAnchor, multiplier: 1),
-        ])
+//        NSLayoutConstraint.activate([
+//            logoView.topAnchor.constraint(equalTo: titleView.topAnchor),
+//            logoView.centerXAnchor.constraint(equalTo: titleView.centerXAnchor),
+//            logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor, multiplier: 5),
+//            logoView.heightAnchor.constraint(equalTo: smilesPointsView.heightAnchor, multiplier: 1),
+//        ])
         
         NSLayoutConstraint.activate([
-            smilesPointsView.topAnchor.constraint(equalTo: logoView.bottomAnchor, constant: 2),
+            smilesPointsView.topAnchor.constraint(equalTo: titleView.topAnchor, constant: 2),
             smilesPointsView.bottomAnchor.constraint(equalTo: titleView.bottomAnchor),
             smilesPointsView.leftAnchor.constraint(equalTo: titleView.leftAnchor),
             smilesPointsView.rightAnchor.constraint(equalTo: titleView.rightAnchor)

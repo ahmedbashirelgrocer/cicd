@@ -7,8 +7,8 @@
 */
 
 "Download tax invoice" = " Download tax invoice";
-"smiles_pts" = "    %@ pts    ";
-"earn_rewards_now" = "Earn rewards now! ❯";
+"smiles_pts" = "%@ pts";
+"earn_rewards_now" = "Earn Smiles Points!";
 "Oops! Something went wrong on our side 🤔" = "Oops! Something went wrong on our side 🤔";
 "We are fixing the problem.\nPlease, try again soon." = "We are fixing the problem.\nPlease, try again soon.";
 
