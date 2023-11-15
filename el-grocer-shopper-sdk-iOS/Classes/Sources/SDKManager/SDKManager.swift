@@ -430,9 +430,9 @@ class SDKManager: NSObject, SDKManagerType  {
         var dictionary = environmentsDict![configurationName] as! NSDictionary
         
         // select staging segment for debug builds
-        #if DEBUG
-        dictionary = environmentsDict!["StagingProduction"] as! NSDictionary
-        #endif
+//        #if DEBUG
+//        dictionary = environmentsDict!["StagingProduction"] as! NSDictionary
+//        #endif
         
         guard let segmentSDKWriteKey = dictionary["segmentSDKWriteKey"] as? String else { return }
         
