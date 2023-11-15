@@ -655,21 +655,28 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         DispatchQueue.global().async(execute: self.carouselWorkItem!)
     }
     
+    // Previous purchase items will be visible here ...
     fileprivate func getCarouselProduct () {
+        let parameters = NSMutableDictionary()
+        parameters["limit"] = 20
+        parameters["offset"] = 0
+        parameters["retailer_id"] = self.grocery?.dbID
+        parameters["shopper_id"] = UserDefaults.getLogInUserID()
+        parameters["delivery_time"] = ElGrocerUtility.sharedInstance.getCurrentMillis()
         
-        
-        ElGrocerApi.sharedInstance.getCarouselProducts(self.grocery) {[unowned self] (result) -> Void in
+        ElGrocerApi.sharedInstance.getTopSellingProductsOfGrocery(parameters , false) { [weak self] (result) in
             
             switch result {
-                    
-                case .success(let response):
-                        // elDebugPrint(response)
-                    self.saveCarouselProductResponseForCategory(response)
-                case .failure(let error):
-                    self.reloadTableData()
+                
+            case .success(let response):
+                self?.saveCarouselProductResponseForCategory(response)
+                break
+                
+            case .failure(_):
+                self?.reloadTableData()
+                break
             }
         }
-        
     }
     
     func saveCarouselProductResponseForCategory(_ response: NSDictionary) {
@@ -2491,7 +2498,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             if indexPath.row == 0 {
                 
                 let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-                cell.configureCell(title: localizedString("txt_recommende_for_you", comment: ""))
+                cell.configureCell(title: localizedString("buy_it_again_text", comment: ""))
                 return cell
                 
             }else if indexPath.row == 1 {
