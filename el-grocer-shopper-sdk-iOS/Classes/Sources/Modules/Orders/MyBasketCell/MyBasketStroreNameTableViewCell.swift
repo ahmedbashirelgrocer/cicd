@@ -17,7 +17,14 @@ class MyBasketStroreNameTableViewCell: UITableViewCell {
         }
     }
     @IBOutlet var lblGrocery: UILabel!
+    @IBOutlet weak var buttonReturnToStore: UIButton! {
+        didSet {
+            buttonReturnToStore.setCaption1SemiBoldGreenStyle()
+        }
+    }
     
+    @IBOutlet weak var ivUndo: UIImageView!
+    var returnToStoreHandler: (()->())?
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -60,4 +67,11 @@ class MyBasketStroreNameTableViewCell: UITableViewCell {
         })
         
     }
+    
+    @IBAction func returnToStoreTapped(_ sender: Any) {
+        if let returnToStoreHandler = self.returnToStoreHandler {
+            returnToStoreHandler()
+        }
+    }
+    
 }

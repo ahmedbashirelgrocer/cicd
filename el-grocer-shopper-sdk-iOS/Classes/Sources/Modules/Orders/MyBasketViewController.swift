@@ -1929,7 +1929,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         guard !self.isOutOfStockProductAvailablePreCart else {
             if indexPath.section == 0 {
-                return indexPath.row == 0 ? 40 : 0
+                return indexPath.row == 0 ? 60 : 0
             }
             if indexPath.section == self.notAvailableProductSectionNumber {
                 return kProductCellHeight + 15
@@ -1949,7 +1949,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         if indexPath.section == 0 {
             
             if indexPath.row == 0 {
-                return 40
+                return 60
                 // Disabling progress view cell in favour of new design
                 if self.isMinimumOrderValueFulfilled() { return 90 }
                 return (priceSum < minimumBasketValueForGrocery) ? 155 : 90
@@ -2046,6 +2046,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 if indexPath.row == 0 {
                     let cell : MyBasketStroreNameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MyBasketStroreNameTableViewCell" , for: indexPath) as! MyBasketStroreNameTableViewCell
                     cell.setGrocery(grocery: self.grocery)
+                    
+                    cell.returnToStoreHandler = { [weak self] in
+                        self?.backButtonClick()
+                    }
+                    
                     return cell
                     // Disabling progress view cell in favour of new design
                     /*
@@ -2115,6 +2120,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 if indexPath.row == 0 {
                     let cell : MyBasketStroreNameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MyBasketStroreNameTableViewCell" , for: indexPath) as! MyBasketStroreNameTableViewCell
                     cell.setGrocery(grocery: self.grocery)
+                    cell.returnToStoreHandler = { [weak self] in
+                        self?.backButtonClick()
+                    }
                     return cell
                     // Disabling progress view cell in favour of new design
                     /*
