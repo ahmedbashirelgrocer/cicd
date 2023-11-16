@@ -12,6 +12,7 @@ class SelectedMissingItemPreference: UITableViewCell {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblSelectedOption: UILabel!
     @IBOutlet weak var viewBG: AWView!
+    @IBOutlet weak var ivArrowForward: UIImageView!
     
     var cellTapHandler: (()->())?
     
@@ -20,6 +21,10 @@ class SelectedMissingItemPreference: UITableViewCell {
         
         lblTitle.setBodyBoldDarkStyle()
         lblSelectedOption.setCaptionOneRegDarkStyle()
+        
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            self.ivArrowForward.transform = CGAffineTransform(scaleX: -1, y: 1)
+        }
         
         self.viewBG.isUserInteractionEnabled = true
         self.viewBG.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cellTap)))

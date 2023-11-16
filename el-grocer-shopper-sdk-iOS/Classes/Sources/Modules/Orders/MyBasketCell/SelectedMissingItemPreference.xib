@@ -34,16 +34,16 @@
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="ryK-cy-xhd">
-                                <rect key="frame" x="60" y="27" width="201.5" height="33"/>
+                                <rect key="frame" x="60" y="27" width="201.5" height="33.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What to do if items are missing?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tkG-ub-At5">
-                                        <rect key="frame" x="0.0" y="0.0" width="201.5" height="16.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="201.5" height="17"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Call me to confirm replacement" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vit-l4-74x">
-                                        <rect key="frame" x="0.0" y="18.5" width="201.5" height="14.5"/>
+                                        <rect key="frame" x="0.0" y="19" width="201.5" height="14.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -86,6 +86,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="ivArrowForward" destination="wk9-pL-tXe" id="dG4-dG-AWt"/>
                 <outlet property="lblSelectedOption" destination="vit-l4-74x" id="jfu-qV-wxn"/>
                 <outlet property="lblTitle" destination="tkG-ub-At5" id="EN5-2P-Snb"/>
                 <outlet property="viewBG" destination="JH1-D3-EAI" id="2NQ-Y1-Iql"/>
