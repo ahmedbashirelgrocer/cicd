@@ -846,6 +846,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.tblBasket.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
         self.tblBasket.register(UINib(nibName: "SelectedMissingItemPreference", bundle: .resource), forCellReuseIdentifier: "SelectedMissingItemPreference")
         
+        let sectionTitleNib = UINib(nibName: "SectionTitleCell", bundle: .resource)
+        self.tblBasket.register(sectionTitleNib, forCellReuseIdentifier: "SectionTitleCell")
+        
         
             // self.tblBasket.tableFooterView = tblFooterCheckOutView
         
@@ -1983,9 +1986,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         } // reason section
         if indexPath.section == 2 { return kProductCellHeight + 15 }
         if indexPath.section == 3 {
-            if indexPath.row == 0 {  return self.carouselProducts.count > 0 ? 50 :  0.1  }
+            if indexPath.row == 0 {  return self.carouselProducts.count > 0 ? tableView.rowHeight :  0.1  }
             if indexPath.row == 1 {  return self.carouselProducts.count > 0 ? kProductCellHeight :  0.1 }
-            if indexPath.row == 2 {  return self.availableProducts.count > 0 ? 60 :  0.1   }
+            if indexPath.row == 2 {  return self.availableProducts.count > 0 ? tableView.rowHeight :  0.1   }
         }
         if indexPath.section == 4 {
             if indexPath.row < self.availableProducts.count {
@@ -2477,11 +2480,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         if indexPath.section == 3 {
             
             if indexPath.row == 0 {
-                
-                let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-                cell.configureCell(title: localizedString("buy_it_again_text", comment: ""))
+                let cell = tableView.dequeueReusableCell(withIdentifier: "SectionTitleCell", for: indexPath) as! SectionTitleCell
+                cell.configure(title: localizedString("buy_it_again_text", comment: ""), topPadding: 24, bottomPadding: 10)
                 return cell
-                
             }else if indexPath.row == 1 {
                 let cell : MyBasketCarousalTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MyBasketCarousalTableViewCell" , for: indexPath) as! MyBasketCarousalTableViewCell
                 cell.configureCarousal(self.carouselProducts as! [Product])
@@ -2591,10 +2592,17 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 
                 return cell
             }else if indexPath.row == 2 {
-                
-                let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-                cell.configureCell(title: localizedString("lbl_Cart_details", comment: ""))
+                let cell = tableView.dequeueReusableCell(withIdentifier: "SectionTitleCell", for: indexPath) as! SectionTitleCell
+                cell.configure(
+                    title: localizedString("lbl_Cart_details", comment: ""),
+                    topPadding: 18,
+                    bottomPadding: 12
+                )
                 return cell
+                
+//                let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
+//                cell.configureCell(title: localizedString("lbl_Cart_details", comment: ""))
+//                return cell
                 
             }
             
