@@ -46,12 +46,12 @@ class GenricHomeRecipeTableViewCell: RxUITableViewCell {
 
     }
     
-    func configureData(_ recipeA  : [Recipe], isMiniView:Bool = false, withGrayBg: Bool = false) {
+    func configureData(_ recipeA  : [Recipe], isMiniView:Bool = false, withGrayBg: Bool = false, isTitleHidden: Bool = true) {
         recipeList.backgroundColor = withGrayBg ? .tableViewBackgroundColor() : #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         recipeList.superview?.backgroundColor = recipeList.backgroundColor
         recipeList.showMiniVersion = isMiniView
         recipeList.configureData(recipeA , page: pageControl)
-        self.recipeTitleViewHeight.constant = 30
+        self.recipeTitleViewHeight.constant = isTitleHidden ? 0 : 30
         
         //permanently hiding page control Darkstore new UI 2.0 for home and universal search
         if !isMiniView {

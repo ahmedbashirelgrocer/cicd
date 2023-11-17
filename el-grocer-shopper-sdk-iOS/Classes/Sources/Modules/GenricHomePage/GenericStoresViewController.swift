@@ -1471,7 +1471,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
             return cell
         } else { // if indexPath.row == 2
             let cell : GenricHomeRecipeTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenricHomeRecipeTableViewCell , for: indexPath) as! GenricHomeRecipeTableViewCell
-            cell.configureData(self.homeDataHandler.recipeList, isMiniView: true)
+            cell.configureData(self.homeDataHandler.recipeList, isMiniView: true, isTitleHidden: false)
             return cell
         }
     }
