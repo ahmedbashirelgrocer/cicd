@@ -2593,11 +2593,13 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 return cell
             }else if indexPath.row == 2 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SectionTitleCell", for: indexPath) as! SectionTitleCell
-                cell.configure(
-                    title: localizedString("lbl_Cart_details", comment: ""),
-                    topPadding: 18,
-                    bottomPadding: 12
-                )
+                let productCount = self.availableProducts.count
+                
+                let title = productCount > 1
+                    ? String(format: localizedString("lbl_cart_details_title", comment: ""), "\(self.availableProducts.count)")
+                    : String(format: localizedString("lbl_cart_details_title_single_item", comment: ""), "\(self.availableProducts.count)")
+                
+                cell.configure(title: title, topPadding: 18, bottomPadding: 12)
                 return cell
                 
 //                let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell

@@ -381,7 +381,7 @@
 "need_assistance_lable" = "Need more support? ";
 "launch_live_chat_text" = "Chat with elGrocer";
 
-"lbl_Hurray_Success_Msg" = "HURRAY!\nYOUR ORDER SUCCESSFULLY PLACED";
+"lbl_Hurray_Success_Msg" = "HURRAY!\nYour order is successfully placed";
 
 
 // Orders history
@@ -1278,7 +1278,8 @@
 
 //Mybasket
 "top_selling_Products_title" = "Top selling products";
-"lbl_Cart_details" = "Cart details";
+"lbl_cart_details_title" = "%@ items in your order";
+"lbl_cart_details_title_single_item" = "%@ item in your order";
 "lbl_View_All_Cap" = "VIEW ALL";
 "btn_Replace_title" = "Replace";
 

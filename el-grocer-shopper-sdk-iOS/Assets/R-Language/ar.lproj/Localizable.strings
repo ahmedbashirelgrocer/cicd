@@ -409,7 +409,7 @@
 "order_schedule_Instant_lable" = "سيتم توصيل طلبك في غضون الـ ";
 "order_schedule_InstantTime_lable" = "60 دقيقة القادمة";
 
-"lbl_Hurray_Success_Msg" = "تم إرسال طلبك بنجاح";
+"lbl_Hurray_Success_Msg" = "HURRAY!\nYour order is successfully placed";
 
     // Orders history
 "orders_top_title" = "طلباتي";
@@ -1285,7 +1285,8 @@
 
     //Mybasket
 "top_selling_Products_title" = "المنتجات الأعلى مبيعاً";
-"lbl_Cart_details" = "تفاصيل عربة التسوق";
+"lbl_cart_details_title" = "%@ items in your order";
+"lbl_cart_details_title_single_item" = "%@ item in your order";
 "No_Item_Cart" = "أضف بعض المنتجات لإستكمال التسوق";
 "lbl_View_All_Cap" = "عرض الكل";
 "btn_Replace_title" = "استبدل";
