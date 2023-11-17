@@ -21,6 +21,7 @@ class CategoriesCell: RxUITableViewCell {
         didSet {
             btnViewAll.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
             btnViewAll.setBackgroundColorForAllState(.clear)
+            btnViewAll.titleLabel?.font = UIFont.SFProDisplayBoldFont(14)
         }
     }
     @IBOutlet weak var ivArrow: UIImageView! {

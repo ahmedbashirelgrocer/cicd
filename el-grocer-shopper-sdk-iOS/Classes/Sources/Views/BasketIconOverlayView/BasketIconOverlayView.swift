@@ -102,39 +102,44 @@ class BasketIconOverlayView : UIView {
     }
     
     @IBAction func cartButtonTapped(_ sender: UIButton) {
-        if let topVc = UIApplication.topViewController() {
-            
-            let userProfile = UserProfile.getOptionalUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-            if  userProfile == nil {
-                // not login case
-                ElGrocerEventsLogger.sharedInstance.trackSettingClicked("CreateAccount")
-                let signInVC = ElGrocerViewControllers.signInViewController()
-                    signInVC.isForLogIn = false
-                    signInVC.isCommingFrom = .cart
-                let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-                navController.viewControllers = [signInVC]
-                navController.modalPresentationStyle = .fullScreen
-                topVc.present(navController, animated: true, completion: nil)
-                return
-            } else if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                let isDataFilled = ElGrocerUtility.sharedInstance.validateUserProfile(userProfile, andUserDefaultLocation: deliveryAddress)
-                if !isDataFilled {
-                    let locationDetails = LocationDetails(location: nil, editLocation: deliveryAddress, name: deliveryAddress.shopperName)
-                    let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, userProfile, FlowOrientation.basketNav)
-                    topVc.navigationController?.pushViewController(editLocationController, animated: true)
+        
+        Thread.OnMainThread {
+            if let topVc = UIApplication.topViewController() {
+                
+                let userProfile = UserProfile.getOptionalUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                if  userProfile == nil {
+                    // not login case
+                    ElGrocerEventsLogger.sharedInstance.trackSettingClicked("CreateAccount")
+                    let signInVC = ElGrocerViewControllers.signInViewController()
+                        signInVC.isForLogIn = false
+                        signInVC.isCommingFrom = .cart
+                    let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+                    navController.viewControllers = [signInVC]
+                    navController.modalPresentationStyle = .fullScreen
+                    topVc.present(navController, animated: true, completion: nil)
                     return
+                } else if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                    let isDataFilled = ElGrocerUtility.sharedInstance.validateUserProfile(userProfile, andUserDefaultLocation: deliveryAddress)
+                    if !isDataFilled {
+                        let locationDetails = LocationDetails(location: nil, editLocation: deliveryAddress, name: deliveryAddress.shopperName)
+                        let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, userProfile, FlowOrientation.basketNav)
+                        topVc.navigationController?.pushViewController(editLocationController, animated: true)
+                        return
+                    }
+                }
+            
+                if topVc.navigationController is ElGrocerNavigationController {
+                    MixpanelEventLogger.trackStoreCart()
+                    let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
+                    topVc.navigationController?.pushViewController(myBasketViewController, animated: true)
+                    
+                    // Logging segment event Cart Event
+                    SegmentAnalyticsEngine.instance.logEvent(event: CartClickedEvent(grocery: self.grocery))
                 }
             }
-        
-            if topVc.navigationController is ElGrocerNavigationController {
-                MixpanelEventLogger.trackStoreCart()
-                let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
-                topVc.navigationController?.pushViewController(myBasketViewController, animated: true)
-                
-                // Logging segment event Cart Event
-                SegmentAnalyticsEngine.instance.logEvent(event: CartClickedEvent(grocery: self.grocery))
-            }
         }
+        
+     
     }
     
     // MARK: Appearance

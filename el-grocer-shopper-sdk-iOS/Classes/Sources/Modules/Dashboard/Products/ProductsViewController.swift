@@ -1109,10 +1109,8 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         
         if  let dataDict = responseObject["data"] as? [NSDictionary] {
             responseObjects = dataDict
-        }else {
-            let dataDict = responseObject["data"] as! NSDictionary
-                 responseObjects = dataDict["products"] as! [NSDictionary]
-            
+        } else if let dataDict = responseObject["data"] as? NSDictionary, let responseObjectsDic = dataDict["products"] as? [NSDictionary]  {
+            responseObjects = responseObjectsDic
         }
         
         let context = self.productsArray.count == 0 ? DatabaseHelper.sharedInstance.mainManagedObjectContext :  DatabaseHelper.sharedInstance.backgroundManagedObjectContext
@@ -1121,9 +1119,6 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         if let _ = self.homeObj {
             self.homeObj!.products += newProduct.products
         }
-        
-        
-
         
         DispatchQueue.main.async(execute: {
             self.isGettingProducts = false
@@ -1135,11 +1130,6 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
     //MARK: - Scrolling
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        
-       
-        
-        
         
         //load more only if we are searching
         let kLoadingDistance = 2 * kProductCellHeight + 8

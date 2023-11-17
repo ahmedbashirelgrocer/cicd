@@ -304,8 +304,7 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
      
         if indexPath.section == 0 {
-            return .leastNormalMagnitude
-            return (self.dataSource.matchedGroceryList?.count ?? 0) > 0 ? ((self.dataSource.matchedGroceryList?.count ?? 0) == 1 ? 175 : 210) : .leastNonzeroMagnitude
+            return (self.dataSource.matchedGroceryList?.count ?? 0) > 0 ? ((self.dataSource.matchedGroceryList?.count ?? 0) == 1 ? 161 : 186) : .leastNonzeroMagnitude
         }
         
         if indexPath.section == 2 {
@@ -346,9 +345,9 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        if section == 1 {
-//            return 40
-//        }
+        if section == 1 {
+            return 40
+        }
         return .leastNormalMagnitude
     }
     
@@ -357,7 +356,7 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return nil
+//        return nil
         
         if section == 1 && self.dataSource.productList?.count ?? 0 > 0  {
             

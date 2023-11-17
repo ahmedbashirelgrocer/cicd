@@ -375,9 +375,9 @@ class GroceryDetailCell: UICollectionViewCell {
                     timeStr = String(format: "%@ - %@",openingStr,closingStr)
                 }
                 
-            } catch let error as NSError {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-               elDebugPrint(error)
+            } catch let _ as NSError {
+               // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+               // elDebugPrint(error)
             }
         }
         

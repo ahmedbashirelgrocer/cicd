@@ -20,6 +20,7 @@ class GroceryBrand {
     var isNextProducts = false
     var products = [Product]()
     
+ 
     
     class func getGroceryBrandFromResponse(_ dictionary:[String:AnyObject] , _ subcateID : Int = 0) -> GroceryBrand {
         

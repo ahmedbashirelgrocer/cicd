@@ -449,7 +449,7 @@ class LocationManager: NSObject {
                 completionHandler(status, true,fetchedLocation)
              
             } catch (let error) {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+              //  NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
                completionHandler("", false,nil)
             }
             

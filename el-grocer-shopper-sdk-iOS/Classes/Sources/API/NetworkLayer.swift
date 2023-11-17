@@ -365,7 +365,7 @@ extension ScopeDetail {
         expires_in =  tokenDetail["expires_in"] as? TimeInterval ?? 0
         scope = tokenDetail["scope"] as? String ?? ""
         token_type = tokenDetail["token_type"] as? String ?? ""
-        FireBaseEventsLogger.setUserProperty(access_token , key: "access_token")
+        //FireBaseEventsLogger.setUserProperty(access_token , key: "access_token")
     }
 
 }

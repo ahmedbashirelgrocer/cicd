@@ -120,8 +120,8 @@ extension Product {
         
         do {
             try context.save()
-        } catch (let error) {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+        } catch (let _) {
+           // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
         }
     }
     
@@ -324,8 +324,8 @@ extension Product {
 
                 do {
                     try context.save()
-                } catch (let error) {
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+                } catch (let _) {
+                  //  NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
                 }
             }
 //        }
@@ -376,9 +376,9 @@ extension Product {
         
         do {
             try context.save()
-        } catch (let error) {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
-            elDebugPrint(error.localizedDescription)
+        } catch (let _) {
+           // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+           // elDebugPrint(error.localizedDescription)
         }
         
         return (resultProducts,brandsArray.count)
@@ -640,8 +640,8 @@ extension Product {
    
         do {
             try context.save()
-        } catch (let error) {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+        } catch (let _) {
+           // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
         }
         
         return (resultProducts, algoliaProductsCount)
@@ -1023,8 +1023,8 @@ extension Product {
         
         do {
             try context.save()
-        } catch (let error) {
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+        } catch (let _) {
+           // NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
         }
         
         return resultProducts

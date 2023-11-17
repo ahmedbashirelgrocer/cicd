@@ -46,8 +46,8 @@ public struct SDKLoginManager {
         SDKManager.shared.logout() {
             loginRegisterUser(launchOptions.accountNumber ?? "") { isSuccess, errorMessage in
                 if isSuccess {
-                    ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("user_login")
-                    FireBaseEventsLogger.trackSignIn()
+//                    ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("user_login")
+//                    FireBaseEventsLogger.trackSignIn()
                       SendBirdManager().createNewUserAndDeActivateOld()
                 }
                 completionHandler(isSuccess, errorMessage)

@@ -28,18 +28,18 @@ PODS:
   - AdyenNetworking (1.0.0)
   - AlgoliaSearchClient (8.14.0):
     - Logging
-  - Analytics (4.1.6)
+  - Analytics (4.1.8)
   - AnimatedGradientView (3.1.0)
   - BadgeControl (1.2.1)
   - BetterSegmentedControl (2.0.1)
   - CCValidator (1.2.0)
   - CHDropDownTextField (1.0.0)
-  - CleverTap-iOS-SDK (4.1.4):
-    - SDWebImage (~> 5.1)
+  - CleverTap-iOS-SDK (5.2.0):
+    - SDWebImage (~> 5.11)
   - Differentiator (4.0.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (1.8.3):
+  - el-grocer-shopper-sdk-iOS (1.8.9):
     - Adyen (~> 4.10.0)
     - AlgoliaSearchClient (~> 8.0)
     - Analytics
@@ -79,7 +79,7 @@ PODS:
     - RxSwift (~> 5.1.1)
     - SDWebImage (~> 5.12.3)
     - Segment-CleverTap
-    - SendbirdChatSDK (= 4.9.6)
+    - SendbirdChatSDK (= 4.10.0)
     - SendBirdDesk (= 1.1.3)
     - SendBirdUIKit (= 3.6.2)
     - Shimmer (~> 1.0)
@@ -287,9 +287,9 @@ PODS:
     - MaterialComponents/private/Math
     - MaterialComponents/ShadowLayer
   - MDFInternationalization (3.0.0)
-  - Mixpanel-swift (4.0.4):
-    - Mixpanel-swift/Complete (= 4.0.4)
-  - Mixpanel-swift/Complete (4.0.4)
+  - Mixpanel-swift (4.1.4):
+    - Mixpanel-swift/Complete (= 4.1.4)
+  - Mixpanel-swift/Complete (4.1.4)
   - MotionAnimator (4.0.1):
     - MotionInterchange (~> 3.0)
   - MotionInterchange (3.0.0)
@@ -315,10 +315,10 @@ PODS:
   - SDWebImage (5.12.5):
     - SDWebImage/Core (= 5.12.5)
   - SDWebImage/Core (5.12.5)
-  - Segment-CleverTap (1.2.4):
+  - Segment-CleverTap (1.2.6):
     - Analytics
-    - CleverTap-iOS-SDK (= 4.1.4)
-  - SendbirdChatSDK (4.9.6)
+    - CleverTap-iOS-SDK (>= 4.2.2)
+  - SendbirdChatSDK (4.10.0)
   - SendBirdDesk (1.1.3):
     - SendbirdChatSDK (>= 4.6.7)
   - SendBirdUIKit (3.6.2):
@@ -421,17 +421,17 @@ SPEC CHECKSUMS:
   Adyen3DS2: e683a519946e99a78adec8d89459e6eec53b0a4f
   AdyenNetworking: 14567bd00c00ba2e2580a904708c7ba5f010b1f9
   AlgoliaSearchClient: aef6b9a39ead22178c4b96a2f92814c280e7d769
-  Analytics: eefe524436f904b8bb3f8c8c3425280e43b34efc
+  Analytics: 9655e0e1c71ea98107cfcb2b14891168acc6c6c9
   AnimatedGradientView: f249740238c6b491a10d505ab06bb98d897ca3a7
   BadgeControl: 67036e7f586930bba15084dbf89ebce7aa2f2bc2
   BetterSegmentedControl: 09607b27861d49cbce48b7673b74f9150a3d371a
   CCValidator: 19c090b536c0152863795aa291bf7be3ffccf457
   CHDropDownTextField: d8a2843acbdd75b5b8d26b27dca9e07c2b1ae5e1
-  CleverTap-iOS-SDK: ec4a641fcec7255759252eb91ff3ee603bd5e5e3
+  CleverTap-iOS-SDK: 6a38eea6d2f0c336fb142baadcca2cd8aafd2290
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: 6fcb0b71c0ad488ab6557da8d23c465827ac8486
+  el-grocer-shopper-sdk-iOS: 109f7b59ec5492c83e4e0ecbbae98ef46d797010
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Firebase: 4ba896cb8e5105d4b9e247e1c1b6222b548df55a
   FirebaseABTesting: cd1ec762a0078b46a7ce91dfe5b7b8991c2dff8f
@@ -464,7 +464,7 @@ SPEC CHECKSUMS:
   lottie-ios: c55158d67d0629a260625cc2ded2052b829e3c3e
   MaterialComponents: 1a9b2d9d45b1601ae544de85089adc4c464306d4
   MDFInternationalization: d697c55307816222a55685c4ccb1044ffb030c12
-  Mixpanel-swift: 95fa64d39f15141f1c5b7797003e2123d4c3207e
+  Mixpanel-swift: 4991762c97c3535ce4e67c395a93e40ab7b666f7
   MotionAnimator: 5f99d7c9592928c0f28a66283eda9c3b657dc480
   MotionInterchange: 13adae439b377e31d1674cc165539d50e1d1566a
   MSPeekCollectionViewDelegateImplementation: be35a217bd302976a9e4476151be992c1f150127
@@ -477,8 +477,8 @@ SPEC CHECKSUMS:
   RxRelay: 5a18c2eb2d68326ebaf0112f80d837ae41b92b97
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
-  Segment-CleverTap: 985696b61005f0cbe52e32912e71a199fafbd9bb
-  SendbirdChatSDK: 7a0ab2bf205303306c086d449722df924a48b97d
+  Segment-CleverTap: 1558a5ac123bbc1cf4d4b56c1163ed2552c70230
+  SendbirdChatSDK: d8752353d071024076ce1d1e527d3ba352beca88
   SendBirdDesk: b700219c7cb267332f5fa866035244c400bd7a2e
   SendBirdUIKit: 5aa0e6a246d59499f8f2cf2cf1107d7241891b13
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
@@ -489,6 +489,6 @@ SPEC CHECKSUMS:
   SwiftMessages: f0c7ef4705a570ad6c5e208b611f4333e660ed92
   SwiftSpinner: f9b59477fe107427f2b5b835497d6636fa167ede
 
-PODFILE CHECKSUM: 6e79ecf4f93cbfcaff982502a9c135d0a59ee032
+PODFILE CHECKSUM: 554cd90e9f25cea4e7160c712b87c0f5adb6f444
 
 COCOAPODS: 1.12.1
