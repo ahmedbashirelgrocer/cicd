@@ -21,7 +21,7 @@ extension GenericHomePageSearchHeader {
     
     /// Resets smiles points view
     func clearSmilesPoints() {
-        self.smileView.clearSmilesPoints()
+        self.smileView.setSmilesPoints(-1)
     }
 }
 
@@ -91,12 +91,16 @@ class GenericHomePageSearchHeader: UIView {
         setLocationHidden(false)
     }
     
+//    private lazy var smileView: SmilesNavigationView = {
+//        if LanguageManager.sharedInstance.getSelectedLocale() == "ar" {
+//            return SmilesNavigationViewAr()
+//        } else {
+//            return SmilesNavigationViewEn()
+//        }
+//    }()
+    
     private lazy var smileView: SmilesNavigationView = {
-        if LanguageManager.sharedInstance.getSelectedLocale() == "ar" {
-            return SmilesNavigationViewAr()
-        } else {
-            return SmilesNavigationViewEn()
-        }
+        return SmilesNavigationView()
     }()
     
     func setUpNavigationContainer() {

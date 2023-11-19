@@ -34,20 +34,12 @@ class CircularGradientLabel: UIView {
     
     private let gradientLayer: CAGradientLayer = {
         let gradient = CAGradientLayer()
-        let purple = UIColor.colorWithHexString(hexString: "423B79")
-        let red = UIColor.colorWithHexString(hexString: "423B79")
+        let purple = #colorLiteral(red: 0.5440375805, green: 0.3271837234, blue: 0.6164366603, alpha: 1)
+        let red = #colorLiteral(red: 0.875736475, green: 0.2409847379, blue: 0.1460545063, alpha: 1)
         gradient.colors = [purple.cgColor, red.cgColor]
         gradient.startPoint = CGPoint(x: 0, y: 0)
         gradient.endPoint = CGPoint(x: 1, y: 1)
         return gradient
-    }()
-    
-    private let emojiImageView: UIImageView = {
-        let view = UIImageView(image: UIImage(name: "smiles_face"))
-        view.backgroundColor = .clear
-        view.contentMode = .center
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
     }()
     
     func initialSetup() {
@@ -58,25 +50,20 @@ class CircularGradientLabel: UIView {
     }
     
     func layoutSetup() {
-//        layer.insertSublayer(gradientLayer, at: 0)
-        addSubview(emojiImageView)
+        layer.insertSublayer(gradientLayer, at: 0)
         addSubview(label)
         NSLayoutConstraint.activate([
-            emojiImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 4),
-            emojiImageView.widthAnchor.constraint(equalToConstant: 30),
-        ])
-        
-        NSLayoutConstraint.activate([
-            label.centerYAnchor.constraint(equalTo: centerYAnchor),
-            label.rightAnchor.constraint(equalTo: rightAnchor, constant: -8),
-            label.leftAnchor.constraint(equalTo: emojiImageView.rightAnchor, constant: 8)
+            label.topAnchor.constraint(equalTo: topAnchor),
+            label.bottomAnchor.constraint(equalTo: bottomAnchor),
+            label.rightAnchor.constraint(equalTo: rightAnchor),
+            label.leftAnchor.constraint(equalTo: leftAnchor)
         ])
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         layer.cornerRadius = self.frame.size.height / 2
-//        gradientLayer.frame = self.bounds
+        gradientLayer.frame = self.bounds
     }
     
     override init(frame: CGRect) {

@@ -390,7 +390,6 @@ class GenericStoresViewController: BasketBasicViewController {
     // MARK:- OpenOrders
     
     private func getSmileUserInfo() {
-        self.searchBarHeader.setSmilesPoints(-1)
         SmilesManager.getCachedSmileUser { [weak self] (smileUser) in
             if let user = smileUser {
                 if let points = user.availablePoints {
