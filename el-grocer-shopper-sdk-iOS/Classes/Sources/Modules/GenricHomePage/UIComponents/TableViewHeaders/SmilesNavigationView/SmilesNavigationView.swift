@@ -117,14 +117,14 @@ class SmilesNavigationView: UIView {
     private func setupConstraint() {
         NSLayoutConstraint.activate([
             profileButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            profileButton.leftAnchor.constraint(equalTo: leftAnchor, constant: 6),
+            profileButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 6),
             profileButton.heightAnchor.constraint(equalToConstant: 45),
             profileButton.widthAnchor.constraint(equalTo: profileButton.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
             cartButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            cartButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -6),
+            cartButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -6),
             cartButton.heightAnchor.constraint(equalToConstant: 55),
             cartButton.widthAnchor.constraint(equalTo: cartButton.heightAnchor)
         ])
