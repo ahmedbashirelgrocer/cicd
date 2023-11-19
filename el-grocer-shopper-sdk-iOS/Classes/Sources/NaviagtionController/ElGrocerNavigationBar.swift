@@ -67,7 +67,7 @@ class ElGrocerNavigationBar : UINavigationBar {
             self.setChatIcon(isUnreadMessage)
             if isUnreadMessage {
                 self.chatButton.navChatButton.setImage(UIImage(name: "nav_chat_icon_unread") , for: UIControl.State())
-            }else{
+            }else {
                 let image = UIImage(name: "nav_chat_icon")!
                 self.chatButton.navChatButton.setImage(image , for: UIControl.State())
             }
@@ -78,8 +78,6 @@ class ElGrocerNavigationBar : UINavigationBar {
         super.layoutSubviews()
         
         let logoYPossition = 0.0 // kSearchBarTopOrigin + 5
-        
-        // let searchBarMultiplier = CGFloat(0.58)
         
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
 
@@ -149,9 +147,11 @@ class ElGrocerNavigationBar : UINavigationBar {
             if let width = self.chatButton.constraints.first(where: { $0.firstAnchor == widthAnchor }) {
                 width.constant = 40
             }else {
-                if let chatButton = self.chatButton {
-                    let widthConstraint =  NSLayoutConstraint(item: chatButton, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 40)
-                    NSLayoutConstraint.activate([ centerHorizontally , heightConstraint , widthConstraint])
+                if let chatButton = self.chatButton  {
+                    if self.chatButton.isHidden == false {
+                        let widthConstraint =  NSLayoutConstraint(item: chatButton, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 40)
+                        NSLayoutConstraint.activate([ centerHorizontally , heightConstraint , widthConstraint])
+                    }
                 }
                
             }

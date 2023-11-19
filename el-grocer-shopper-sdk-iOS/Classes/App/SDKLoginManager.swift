@@ -140,7 +140,7 @@ public struct SDKLoginManager {
         newDeliveryAddress.latitude = launchOptions.latitude ?? 0
         newDeliveryAddress.longitude = launchOptions.longitude ?? 0
         newDeliveryAddress.isActive = NSNumber(value: true)
-        newDeliveryAddress.addressType = "1"
+        newDeliveryAddress.addressType = "2"
         
         self.addAddressFromDeliveryAddress(newDeliveryAddress, forUser: userProfile) { isSuccess, errorMessage in
             if isSuccess {

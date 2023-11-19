@@ -77,7 +77,7 @@ extension LocationMapDelegation : LocationMapViewControllerDelegate {
             } else {
                 // user logged in add new address and go to Home
                 let _  = SpinnerView.showSpinnerViewInView(controller.view)
-                deliveryAddress.isActive = NSNumber(value: false as Bool)
+                deliveryAddress.isActive = NSNumber(value: true as Bool)
                 let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 if userProfile != nil {
                     deliveryAddress.userProfile = userProfile!
@@ -109,10 +109,31 @@ extension LocationMapDelegation : LocationMapViewControllerDelegate {
                                 return
                             }
                             controller.dismiss(animated: true) {
-                                let SDKManager = SDKManager.shared
-                                if let tab = SDKManager.currentTabBar  {
-                                    ElGrocerUtility.sharedInstance.resetTabbar(tab)
-                                    tab.selectedIndex = 0
+                                if sdkManager.isGrocerySingleStore {
+                                    guard let newLaunchOption = sdkManager.launchOptions?.getLaunchOption(from: deliveryAddress) else {
+                                        SDKManager.shared.rootContext?.dismiss(animated: true)
+                                        return
+                                    }
+                                    
+                                    FlavorAgent.restartEngineWithLaunchOptions(newLaunchOption) { } completion: { isCompleted, grocery in
+                                        SpinnerView.hideSpinnerView()
+                                        ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                                        
+                                        if let tab = sdkManager.currentTabBar  {
+                                            ElGrocerUtility.sharedInstance.resetTabbar(tab)
+                                            tab.selectedIndex = 1
+                                        }
+                                        
+                                        self.presentedController.dismiss(animated: true)
+                                    }
+                                } else {
+                                    let SDKManager = SDKManager.shared
+                                    if let tab = SDKManager.currentTabBar  {
+                                        ElGrocerUtility.sharedInstance.resetTabbar(tab)
+                                        tab.selectedIndex = 0
+                                    }
+                                    
+                                    self.presentedController.dismiss(animated: true)
                                 }
                             }
                         }
@@ -193,7 +214,7 @@ extension LocationMapDelegation : LocationMapViewControllerDelegate {
             } else {
                 // user logged in add new address and go to Home
                 let _  = SpinnerView.showSpinnerViewInView(controller.view)
-                deliveryAddress.isActive = NSNumber(value: false as Bool)
+                deliveryAddress.isActive = NSNumber(value: true as Bool)
                 let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 if userProfile != nil {
                     deliveryAddress.userProfile = userProfile!

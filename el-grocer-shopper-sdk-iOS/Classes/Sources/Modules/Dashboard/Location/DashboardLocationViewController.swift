@@ -1226,6 +1226,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                 let _ = SpinnerView.showSpinnerViewInView(self.view)
             } completion: { isLoaded, grocery in
                 if isLoaded ?? false {
+                    ElGrocerUtility.sharedInstance.activeGrocery = grocery
                     completion(true)
                 } else {
                     FlavorNavigation.shared.navigateToNoLocation()

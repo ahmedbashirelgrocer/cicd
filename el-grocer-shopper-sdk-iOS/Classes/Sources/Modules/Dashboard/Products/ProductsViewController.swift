@@ -394,19 +394,12 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
                 // var segmentTitleList = self.productsDict.keys.map({ $0 })
                 segmentTitleList.insert(localizedString("all_cate", comment: ""), at: 0)
                 self.showSubcateList(segmentTitleList)
-            }else{
+            } else {
                 let key = self.segmentedView.segmentTitles[selectedIndex]
-                var loaddata : [Product] = []
-                if let isContain = self.productsDict[key] {
-                    loaddata = isContain
-                }
-                if self.pageNumber != 0 {
-                    loaddata += productList
-                }else{
-                    loaddata += productList
-                    loaddata = loaddata.uniqued()
-                }
-                self.productsArray = loaddata
+                let subCategoryProducts = ((self.productsDict[key] ?? []) + productList).uniqued()
+                
+                self.productsDict[key] = subCategoryProducts
+                self.productsArray = subCategoryProducts
                 self.collectionView.reloadData()
             }
         }
@@ -1142,14 +1135,13 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
                         let selectedSegmentIndex =  segmentedView.lastSelection.row
                         let selectedDataTitle =  segmentedView.segmentTitles[selectedSegmentIndex]
                         if let productsAvailableToLoad = self.productsDict[selectedDataTitle] {
-                            self.productsArray = productsAvailableToLoad
-                            self.pageNumber =   (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(currentLimit)
+                            self.pageNumber =   (productsAvailableToLoad.count) / Int(currentLimit)
                         }else{
                             self.pageNumber  = 0
                         }
-                        self.dataSource?.getProductDataForStore(true, searchString: self.universalSearchString ?? "",  "", segmentedView.segmentTitles[segmentedView.lastSelection.row] , storeIds: [ self.dataSource?.currentGrocery?.dbID ?? "0"], pageNumber: self.pageNumber  + 1 , hitsPerPage: UInt(currentLimit))
+                        self.dataSource?.getProductDataForStore(true, searchString: self.universalSearchString ?? "",  "", segmentedView.segmentTitles[segmentedView.lastSelection.row] , storeIds: [ self.dataSource?.currentGrocery?.dbID ?? "0"], pageNumber: self.pageNumber, hitsPerPage: UInt(currentLimit))
                     }else{
-                        self.pageNumber =   (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(currentLimit)
+                        self.pageNumber =   (self.dataSource?.productsList.count ?? 0) / Int(currentLimit)
                         self.dataSource?.getProductDataForStore(true, searchString: self.universalSearchString ?? "",  "", "" , storeIds: [ self.dataSource?.currentGrocery?.dbID ?? "0"], pageNumber: self.pageNumber , hitsPerPage: UInt(currentLimit))
                     }
                 }
@@ -1258,18 +1250,24 @@ extension ProductsViewController: AWSegmentViewProtocol {
         self.dataSource?.selectedIndex = NSIndexPath.init(row: selectedSegmentIndex , section: 0)
         if selectedSegmentIndex == 0 {
             self.productsArray = self.dataSource?.productsList ?? []
-            self.pageNumber =  (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(currentLimit)
-            self.dataSource?.getProductDataForStore(true, searchString: self.universalSearchString ?? "" ,  "", segmentedView.segmentTitles[segmentedView.lastSelection.row] , storeIds: [self.dataSource?.currentGrocery?.dbID ?? "0"], pageNumber: self.pageNumber   , hitsPerPage: UInt(currentLimit))
+            self.pageNumber =  (self.dataSource?.productsList.count ?? 0) / Int(currentLimit)
+            self.dataSource?.getProductDataForStore(
+                true,
+                searchString: self.universalSearchString ?? "" ,  "", "", storeIds: [self.dataSource?.currentGrocery?.dbID ?? "0"], pageNumber: self.pageNumber   , hitsPerPage: UInt(currentLimit))
         }else{
             let selectedDataTitle =  segmentedView.segmentTitles[selectedSegmentIndex]
             if let productsAvailableToLoad = self.productsDict[selectedDataTitle] {
                 self.productsArray = productsAvailableToLoad
-                self.pageNumber =  (self.dataSource?.algoliaTotalProductCount ?? 0) / Int(currentLimit)
+                self.pageNumber =  (productsAvailableToLoad.count) / Int(currentLimit)
             }else{
                 self.pageNumber  = 0
             }
             self.dataSource?.getProductDataForStore(true, searchString: self.universalSearchString ?? "" ,  "", segmentedView.segmentTitles[segmentedView.lastSelection.row] , storeIds: [self.dataSource?.currentGrocery?.dbID ?? "0"], pageNumber: self.pageNumber   , hitsPerPage: UInt(currentLimit))
         }
         self.collectionView.reloadData()
+        
+        if self.productsArray.isNotEmpty {
+            self.collectionView.scrollToItem(at: IndexPath(item: 0, section: 1), at: .top, animated: false)
+        }
     }
 }

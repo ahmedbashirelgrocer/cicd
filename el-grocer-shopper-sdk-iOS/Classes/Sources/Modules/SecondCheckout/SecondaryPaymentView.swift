@@ -67,10 +67,10 @@ class SecondaryPaymentView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(smilesBalance: Double, elWalletBalance: Double, smilesRedeem: Double, elWalletRedeem: Double, smilesPoint: Int, paymentTypes: SecondaryPaymentViewType) {
+    func configure(smilesBalance: Double, elWalletBalance: Double, smilesRedeem: Double, elWalletRedeem: Double, smilesPoint: Int, paymentTypes: SecondaryPaymentViewType, selectedPrimaryMethod: PaymentOption) {
         self.setUpPaymentViewHidden(type: paymentTypes)
-        self.elWalletView.configure(type: .elWallet(balancd: elWalletBalance, redeem: elWalletRedeem), balance: elWalletBalance, redeem: elWalletRedeem, smilesPoints: 0)
-        self.smilesView.configure(type: .smile(balancd: smilesBalance, redeem: smilesRedeem), balance: smilesBalance, redeem: smilesRedeem, smilesPoints: smilesPoint)
+        self.elWalletView.configure(type: .elWallet(balancd: elWalletBalance, redeem: elWalletRedeem), balance: elWalletBalance, redeem: elWalletRedeem, smilesPoints: 0, selectedPrimaryPaymentMethod: selectedPrimaryMethod)
+        self.smilesView.configure(type: .smile(balancd: smilesBalance, redeem: smilesRedeem), balance: smilesBalance, redeem: smilesRedeem, smilesPoints: smilesPoint, selectedPrimaryPaymentMethod: selectedPrimaryMethod)
         
         self.elWalletView.switchStateChange = { [weak self] (type, state) in
             self?.delegate?.switchStateChange(type: type, switchState: state)
@@ -280,6 +280,7 @@ class PaymentSourceView: UIView {
 
     private var type: SourceType?
     private var balance: Double?
+    private var selectedPrimaryPaymentMethod: PaymentOption = .none
     
     override init(frame: CGRect = .zero) {
         super.init(frame: frame)
@@ -294,9 +295,10 @@ class PaymentSourceView: UIView {
         }
     }
     
-    func configure(type: SourceType, balance: Double, redeem: Double, smilesPoints: Int) {
+    func configure(type: SourceType, balance: Double, redeem: Double, smilesPoints: Int, selectedPrimaryPaymentMethod: PaymentOption) {
         self.type = type
         self.balance = balance
+        self.selectedPrimaryPaymentMethod = selectedPrimaryPaymentMethod
         
         self.logo.image = type.logo
         self.lblUseSourceText.text = type.text
@@ -331,6 +333,15 @@ class PaymentSourceView: UIView {
     
     @objc func switchChanged(_ sender: UISwitch) {
         guard let type = self.type else { return }
+        
+        if self.selectedPrimaryPaymentMethod == .none {
+            self.useBalanceSwitch.isOn = false
+            
+            if let switchStateChange = self.switchStateChange {
+                switchStateChange(type, false)
+            }
+            return
+        }
         
         if (Double(type.balance) == nil || (Double(type.balance) ?? 0) < 1) && (Double(type.redeem) == nil || (Double(type.redeem) ?? 0) < 1) {
             self.useBalanceSwitch.isOn = false

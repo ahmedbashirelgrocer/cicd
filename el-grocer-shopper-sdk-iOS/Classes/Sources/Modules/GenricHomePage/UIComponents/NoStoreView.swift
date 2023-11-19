@@ -82,7 +82,7 @@ class NoStoreView: UIView {
     func configureNoDefaultSelectedStore() {
         
         self.setUpApearence()
-        self.imgNoData.image = UIImage(name: "noSelectedStore")
+        self.imgNoData.image =  sdkManager.isShopperApp ?  UIImage(name: "noSelectedStore") : UIImage(name: "store-NoCoverage")
         self.lblTopMsg.text = localizedString("No_Selected_Store", comment: "")
         self.lblExtraDetail.text = sdkManager.isGrocerySingleStore ? "" : localizedString("No_Selected_Store_Detail", comment: "")
         self.btnNoData.setTitle(sdkManager.isGrocerySingleStore ? localizedString("btn_Go_Back", comment: "") :  localizedString("No_Choose_The_Store", comment: ""), for: .normal)

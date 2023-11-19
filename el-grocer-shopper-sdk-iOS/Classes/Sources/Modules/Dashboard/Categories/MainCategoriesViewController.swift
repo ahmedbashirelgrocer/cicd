@@ -748,7 +748,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             [weak self] in
             guard let self = self else {return}
             sdkManager.isGrocerySingleStore ?
-            self.locationHeaderFlavor.configureHeader(grocery: grocery, location: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
+            self.locationHeaderFlavor.configureHeader(grocery: grocery, location: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress(), isArrowDownHidden: false): self.locationHeader.configuredLocationAndGrocey(grocery)
             
             self.tableViewCategories.tableHeaderView = nil
         })
@@ -1786,6 +1786,37 @@ private extension MainCategoriesViewController {
         
         guard SDKManager.shared.launchOptions?.navigationType != .search else {
             return
+        }
+        
+        if sdkManager.isGrocerySingleStore {
+            if let smilesCoorinates = sdkManager.launchOptions?.location, let defaultAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() {
+                let smilesLocaation = CLLocation(latitude: smilesCoorinates.latitude, longitude: smilesCoorinates.longitude)
+                let defaultLocation = CLLocation(latitude: defaultAddress.latitude, longitude: defaultAddress.longitude)
+                
+                let distance = smilesLocaation.distance(from: defaultLocation)
+                
+                var intervalInMins = 0.0
+                if let checkedAt = UserDefaults.getLastLocationChangedDate() {
+                    intervalInMins = Date().timeIntervalSince(checkedAt) / 60
+                } else {
+                    intervalInMins = 66.0
+                }
+                
+                if distance > 300 && intervalInMins > 60 {
+                    DispatchQueue.main.async {
+                        let vc = LocationChangedViewController.getViewController()
+                        
+                        vc.currentLocation = smilesLocaation
+                        vc.currentSavedLocation = defaultLocation
+                        
+                        vc.modalPresentationStyle = .overFullScreen
+                        vc.modalTransitionStyle = .crossDissolve
+                        self.present(vc, animated: true, completion: nil)
+                    }
+                    UserDefaults.setLocationChanged(date: Date())
+                    return
+                }
+            }
         }
         
         LocationManager.sharedInstance.locationWithStatus = { [weak self]  (location , state) in

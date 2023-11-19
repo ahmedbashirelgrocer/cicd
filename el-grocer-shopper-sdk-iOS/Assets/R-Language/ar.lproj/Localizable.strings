@@ -2180,6 +2180,7 @@
 "secondry_payment_error_msg_smiles" = "الحد الأدني للإستخدام ١ درهم";
 "promo_code_apply_notification" = "You must apply a promo code to get discount";
 "extra_balacnce_details" = "رصيد المحفظة";
+"secondary_payment_error_message" = "يرجى تحديد طريقة الدفع لتغطية البدائل أو اختلاف الأوزان";
 
 
 //MARK: substitution
