@@ -1386,6 +1386,7 @@
 Sign In or Sign Up to elGrocer";
 "lbl_myBasket_add_Address" = "To Checkout please
 Add delivery details";
+"return_to_store_text" = "Return to store";
 
 //MARK: Cart Collector
 

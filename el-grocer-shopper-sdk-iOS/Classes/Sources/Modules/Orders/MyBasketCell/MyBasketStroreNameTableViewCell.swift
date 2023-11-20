@@ -27,7 +27,8 @@ class MyBasketStroreNameTableViewCell: UITableViewCell {
     var returnToStoreHandler: (()->())?
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        buttonReturnToStore.setTitle(localizedString("return_to_store_text", comment: ""), for: .normal)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
