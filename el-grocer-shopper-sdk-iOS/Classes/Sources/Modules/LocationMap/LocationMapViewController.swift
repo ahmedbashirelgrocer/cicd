@@ -298,18 +298,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
                             }
                             SpinnerView.hideSpinnerView()
                             StoreOutConverageAreaBottomSheetViewController.showInBottomSheet(location: location, address: self.viewModel.locationAddress.value ?? "Unknown", presentIn: self){ [weak self] (isChangeLocation) in
-                                if isChangeLocation {
-                                    guard let self = self else {return}
-                                    
-                                    var cityName = "null"
-                                    if let administrativeArea =  self.viewModel.selectedAddress.value?.administrativeArea {
-                                        cityName = administrativeArea
-                                    }
-                                    if let localicty =  self.viewModel.selectedAddress.value?.locality {
-                                        cityName = localicty
-                                    }
-                                    self.delegate?.locationMapViewControllerWithBuilding(self, didSelectLocation: self.viewModel.selectedLocation.value, withName:  self.locName, withAddress: self.locAddress, withBuilding: self.buildingName, withCity: cityName)
-                                }else {
+                                if isChangeLocation == false {
                                     self?.backButtonClick()
                                 }
                             }
