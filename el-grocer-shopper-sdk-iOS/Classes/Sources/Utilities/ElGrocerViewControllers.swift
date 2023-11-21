@@ -649,11 +649,10 @@ class ElGrocerViewControllers {
     }
     
     
-    class func marketingCustomLandingPageViewController() -> MarketingCustomLandingPageViewController {
-        
-        
-        
-        return MarketingCustomLandingPageViewController(storeId: "test", marketingId: "test")
+    class func marketingCustomLandingPageViewController(_ viewModel: MarketingCustomLandingPageViewModel) -> MarketingCustomLandingPageViewController {
+        let campaignPage: MarketingCustomLandingPageViewController = ElGrocerViewControllers.initializeControllerFromStoryboard("MarketingCustomLandingPage", storyboardControllerId: "MarketingCustomLandingPageViewController")
+        campaignPage.viewModel = viewModel
+        return campaignPage
     }
     
     

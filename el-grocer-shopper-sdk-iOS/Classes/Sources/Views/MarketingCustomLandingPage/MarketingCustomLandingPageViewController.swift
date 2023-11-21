@@ -6,37 +6,54 @@
 //
 
 import UIKit
-
+import RxSwift
 class MarketingCustomLandingPageViewController: UIViewController {
     
+    @IBOutlet weak var tableView: UITableView!
     
-    var storeId: String?
-    var marketingId: String?
-    
-    init(storeId: String, marketingId: String) {
-        super.init(nibName: nil, bundle: nil)
-        self.storeId = storeId
-        self.marketingId = marketingId
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+    // MARK: - Properties
+        private let disposeBag = DisposeBag()
+        var viewModel: MarketingCustomLandingPageViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if let storeId = storeId, let marketingId = marketingId {
-            print("Store ID: \(storeId), Marketing ID: \(marketingId)")
-        }
         self.view.backgroundColor = .white
+        bindViews()
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.loadLocalJson()
     }
     
+    private func bindViews() {
+        
+        viewModel?.componentsSubject
+                   .observeOn(MainScheduler.instance)
+                   .subscribe(onNext: { [weak self] components in
+                       self?.updateUI(with: components)
+                   })
+                   .disposed(by: disposeBag)
+        
+    }
     
+    private func updateUI(with components: DynamicComponentContainer) {
+            // Update your UI based on the new components
+        tableView.reloadData()
+
+               // Or, if you want to insert specific rows, assuming components is an array of sections:
+               // (Modify this based on your specific data structure)
+               var indexPathsToInsert: [IndexPath] = []
+
+               for (sectionIndex, componentSection) in components.enumerated() {
+                   for (rowIndex, _) in componentSection.enumerated() {
+                       let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
+                       indexPathsToInsert.append(indexPath)
+                   }
+               }
+               // Insert specific rows
+               tableView.insertRows(at: indexPathsToInsert, with: .automatic)
+    }
+   
     /*
      // MARK: - Navigation
      
@@ -49,95 +66,3 @@ class MarketingCustomLandingPageViewController: UIViewController {
     
 }
 
-extension MarketingCustomLandingPageViewController {
-    
-    // help func for testing
-    private func loadLocalJson() {
-        
-        let jsonString = """
-        {
-          "component": [
-            {
-              "type": 1,
-              "image": "https://www.eglrocer.com",
-              "query": "brand.id:1234",
-              "action": "/brand"
-            },
-            {
-              "type": 2,
-              "scrollType": 1,
-              "bgColor": "#ffffff",
-              "query": "object.id:123 OR object.id:124",
-              "headLine": ""
-            },
-            {
-              "type": 3,
-              "image": "https://www.eglrocer.com",
-              "query": "brand.id:1234",
-              "action": "/brand"
-            },
-            {
-              "type": 2,
-              "scrollType": 2,
-              "query": "object.id:123 OR object.id:124 OR object.id:125 OR object.id:126",
-              "headLine": "ComponentHeadline"
-            },
-            {
-              "type": 3,
-              "image": "https://www.eglrocer.com",
-              "query": "subcategory.id:1234",
-              "action": "/subcategory"
-            },
-            {
-              "type": 2,
-              "scrollType": 2,
-              "query": "object.id:123 OR object.id:124",
-              "headLine": ""
-            },
-            {
-              "type": 4,
-              "headLine": "Campaign Headline",
-              "filters": [
-                {
-                  "name": "All",
-                  "nameAR": "test",
-                  "type": -1,
-                  "query": "brand.id:193",
-                  "priority": 0
-                },
-                {
-                  "name": "TCL",
-                  "nameAR": "TCL",
-                  "query": "subcategory.id:123 AND brand.id:193",
-                  "priority": 1
-                },
-                {
-                  "name": "Durex",
-                  "nameAR": "Durex",
-                  "query": "brand.id:193",
-                  "priority": 2
-                },
-                {
-                  "name": "New Deals",
-                  "nameAR": "New Deals",
-                  "query": "object.id:123 OR object.id:124",
-                  "priority": 3
-                }
-              ]
-            }
-          ]
-        }
-        """
-        
-        if let jsonData = jsonString.data(using: .utf8) {
-            do {
-                let componentContainer = try JSONDecoder().decode(DynamicComponentContainer.self, from: jsonData)
-                print(componentContainer)
-            } catch {
-                print("Error decoding JSON: \(error)")
-            }
-        }
-        
-    }
-    
-}
