@@ -53,6 +53,9 @@ class ElgrocerStoreHeader:  UIView  {
     @IBOutlet weak var arrowDown: UIImageView!
     
     @IBOutlet weak var btnMenu: UIButton! { didSet {
+        let menuIcon = UIImage(named: "menu")?.withRenderingMode(.alwaysTemplate)
+        self.btnMenu.tintColor = UIColor.smileBaseColor()
+        self.btnMenu.setImage(menuIcon, for: .normal)
         self.btnMenu.setTitle("", for: .normal)
         self.btnMenu.addTarget(self, action: #selector(profileBTNClicked), for: .touchUpInside)
     }}
