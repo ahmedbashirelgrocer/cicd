@@ -172,7 +172,7 @@ fileprivate extension EditLocationSignupViewController {
             SpinnerView.hideSpinnerView()
             if code == 200 {
                 
-                _ = DeliveryAddress.setActiveDeliveryAddress(deliveryAddress, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                let activeAddress = DeliveryAddress.setActiveDeliveryAddress(deliveryAddress, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 
                 // Logging segment Confrim Address Details event
                 SegmentAnalyticsEngine.instance.logEvent(event: ConfirmAddressDetailsEvent())
@@ -181,7 +181,34 @@ fileprivate extension EditLocationSignupViewController {
                 if self.flowOrientation == .basketNav {
                     LoginSignupService.goToBasketView(from: self)
                 } else if self.flowOrientation == .AddNewAddress {
-                    LoginSignupService.goToDashBoard(from: self)
+                    if SDKManager.shared.launchOptions?.navigationType == .singleStore {
+                        guard let newLaunchOption = sdkManager.launchOptions?.getLaunchOption(from: activeAddress) else {
+                            SDKManager.shared.rootContext?.dismiss(animated: true)
+                            return
+                        }
+                        FlavorAgent.restartEngineWithLaunchOptions(newLaunchOption) {
+                            let _ = SpinnerView.showSpinnerViewInView(self.view)
+                        } completion: { isCompleted, grocery in
+                            SpinnerView.hideSpinnerView()
+                            ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                            if grocery == nil {
+                                SDKManager.shared.rootContext?.dismiss(animated: true)
+                            }else{
+                                if (self.navigationController?.viewControllers.count ?? 0) > 2 {
+                                    self.navigationController?.popToRootViewController(animated: true)
+                                    return
+                                }
+                                
+                                self.presentingViewController?.dismiss(animated: true, completion: nil)
+                            }
+                        }
+                    }else {
+                        if (self.navigationController?.viewControllers.count ?? 0) > 2 {
+                            self.navigationController?.popToRootViewController(animated: true)
+                            return
+                        }
+                        self.presentingViewController?.dismiss(animated: true, completion: nil)
+                    }
                 }  else {
                     LoginSignupService.setHomeView(from: self)
                 }
@@ -257,7 +284,6 @@ fileprivate extension EditLocationSignupViewController {
         _ = SpinnerView.showSpinnerViewInView(self.view)
         LoginSignupService.updateDeliveryAddress(deliveryAddress, userProfile: userProfile) { [weak self] code in
             guard let self = self else { return }
-            SpinnerView.hideSpinnerView()
             if code == 200 {
                 
                 let activeAddress = DeliveryAddress.setActiveDeliveryAddress(deliveryAddress, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -270,6 +296,8 @@ fileprivate extension EditLocationSignupViewController {
                 if self.flowOrientation == .basketNav {
                     
                     self.isGroceryAvailableForLocation(latitude: activeAddress.latitude, longitude: activeAddress.longitude) { isAvailable in
+                        SpinnerView.hideSpinnerView()
+                        
                         if isAvailable {
                             LoginSignupService.goToBasketView(from: self)
                             return
@@ -307,6 +335,7 @@ fileprivate extension EditLocationSignupViewController {
                         }
                     }
                 } else {
+                    SpinnerView.hideSpinnerView()
                     if self.isPresented || (self.navigationController?.viewControllers.count ?? 0) < 3 {
                         if SDKManager.shared.launchOptions?.navigationType == .singleStore {
                             guard let newLaunchOption = sdkManager.launchOptions?.getLaunchOption(from: activeAddress) else {
@@ -323,12 +352,19 @@ fileprivate extension EditLocationSignupViewController {
                                         FlavorNavigation.shared.navigateToNoLocation()
                                     })
                                 } else {
-                                    if let tab = sdkManager.currentTabBar  {
-                                        ElGrocerUtility.sharedInstance.resetTabbar(tab)
-                                        tab.selectedIndex = 1
-                                    }
-                                    
                                     self.navigationController?.dismiss(animated: true)
+                                    if let secondCheckOutNav = (self.presentingViewController as? UINavigationController) {
+                                        if secondCheckOutNav.viewControllers.count == 2 {
+                                            if let secondCheckOut = secondCheckOutNav.viewControllers[1] as? SecondCheckoutVC {
+                                                secondCheckOut.updateAddressInOrder(address: activeAddress)
+                                            }
+                                        } else if secondCheckOutNav.viewControllers.count == 1 {
+                                            secondCheckOutNav.popViewController(animated: true)
+                                            return
+                                        }
+                                        
+                                        secondCheckOutNav.popToRootViewController(animated: true)
+                                    }
                                 }
                             }
                         } else {
@@ -339,11 +375,10 @@ fileprivate extension EditLocationSignupViewController {
                                         secondCheckOut.updateAddressInOrder(address: activeAddress)
                                     }
                                 }else if secondCheckOutNav.viewControllers.count == 1 {
-                                    if let nav = (sdkManager.currentTabBar?.viewControllers?[sdkManager.currentTabBar?.selectedIndex ?? 0] as? UINavigationController) {
-                                        nav.popViewController(animated: true)
-                                        return
-                                    }
+                                    secondCheckOutNav.popViewController(animated: true)
+                                    return
                                 }
+                                
                                 secondCheckOutNav.popToRootViewController(animated: true)
                             }else if sdkManager.isShopperApp {
                                 UIApplication.topViewController()?.navigationController?.popToRootViewController(animated: true)
@@ -365,7 +400,12 @@ fileprivate extension EditLocationSignupViewController {
                                 if grocery == nil {
                                     SDKManager.shared.rootContext?.dismiss(animated: true)
                                 }else{
-                                    self.navigationController?.dismiss(animated: true)
+                                    if (self.navigationController?.viewControllers.count ?? 0) > 2 {
+                                        self.navigationController?.popToRootViewController(animated: true)
+                                        return
+                                    }
+                                    
+                                    self.presentingViewController?.dismiss(animated: true, completion: nil)
                                 }
                             }
                         }else {
@@ -375,12 +415,10 @@ fileprivate extension EditLocationSignupViewController {
                             }
                             self.presentingViewController?.dismiss(animated: true, completion: nil)
                         }
-                        
-                        
                     }
-
                 }
             }else {
+                SpinnerView.hideSpinnerView()
                 if code == 4200 { // Add code for email error
                     self.tableView.beginUpdates()
                     (self.tableCells[3] as? TextFieldCell)?.setError("This email is already registered in elGrocer.")
