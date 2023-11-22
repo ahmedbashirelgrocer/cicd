@@ -231,6 +231,8 @@ extension GenricBannerList : UICollectionViewDelegate , UICollectionViewDataSour
                 }
                 
                 FireBaseEventsLogger.trackBannerClicked(brandName: banner.brands?.map { $0.slug }.joined(separator: ",") ?? "", banner.categories?.map { $0.slug }.joined(separator: ",") ?? "", banner.subCategories?.map { $0.slug }.joined(separator: ",") ?? "", link: banner, possition: String(describing: (indexPath.row ) + 1) )
+                
+                ElGrocerUtility.sharedInstance.resolvedBidIdForBannerClicked = banner.resolvedBidId
                 clouser(banner)
                 
                 // Logging segment event for banner clicked

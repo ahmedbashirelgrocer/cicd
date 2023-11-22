@@ -20,6 +20,11 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         }
     }
     
+    
+    deinit {
+        ElGrocerUtility.sharedInstance.resolvedBidIdForBannerClicked = nil
+    }
+    
     @IBOutlet weak var searchBar: AWView!
     @IBOutlet weak var searchLabel: UILabel!
     

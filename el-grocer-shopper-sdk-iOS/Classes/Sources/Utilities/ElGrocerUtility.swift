@@ -31,6 +31,7 @@ let productPlaceholderPhoto = UIImage(name: "product_placeholder")!
 class ElGrocerUtility {
     
     // use in network class
+    var resolvedBidIdForBannerClicked: String?
     var projectScope : ScopeDetail?
     var isTokenCalling: Bool = false
     var isDeliveryMode: Bool = true 
