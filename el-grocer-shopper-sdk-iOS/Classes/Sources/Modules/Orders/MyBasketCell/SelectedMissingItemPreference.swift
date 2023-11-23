@@ -25,6 +25,9 @@ class SelectedMissingItemPreference: UITableViewCell {
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.ivArrowForward.transform = CGAffineTransform(scaleX: -1, y: 1)
         }
+        let undoIcon = UIImage(name: "arrowRight")?.withRenderingMode(.alwaysTemplate)
+        ivArrowForward.image = undoIcon
+        ivArrowForward.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         
         self.viewBG.isUserInteractionEnabled = true
         self.viewBG.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(cellTap)))

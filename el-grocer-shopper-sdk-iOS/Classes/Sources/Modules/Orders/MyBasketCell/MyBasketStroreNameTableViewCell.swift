@@ -29,6 +29,9 @@ class MyBasketStroreNameTableViewCell: UITableViewCell {
         super.awakeFromNib()
         
         buttonReturnToStore.setTitle(localizedString("return_to_store_text", comment: ""), for: .normal)
+        let undoIcon = UIImage(name: "undo")?.withRenderingMode(.alwaysTemplate)
+        ivUndo.image = undoIcon
+        ivUndo.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
