@@ -18,6 +18,7 @@ class MissingItemsPreferenceViewController: UIViewController {
     private var questions: [Reasons] = []
     private var selectedQuestion: Reasons?
     var selectionHandler: ((Reasons)->())?
+    var crossButtonHandler: (()->())?
     
     static func make(questions: [Reasons], selectedQuestion: Reasons?) -> MissingItemsPreferenceViewController {
         let vc = MissingItemsPreferenceViewController(nibName: "MissingItemsPreferenceViewController", bundle: .resource)
@@ -38,6 +39,10 @@ class MissingItemsPreferenceViewController: UIViewController {
     
     @IBAction func closeButtonTap(_ sender: Any) {
         self.dismiss(animated: true)
+        
+        if let crossButtonHandler = self.crossButtonHandler {
+            crossButtonHandler()
+        }
     }
     
 }

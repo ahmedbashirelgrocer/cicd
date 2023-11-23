@@ -3711,11 +3711,17 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.isReloadScreen = false
         
         // Option selection closure
-        missingItemVC.selectionHandler = { reason in
+        missingItemVC.selectionHandler = { [weak self] reason in
+            guard let self = self else { return }
+            
             self.myBasketDataObj.setNewSelectedReason(reason)
             self.tblBasket.reloadData()
             
             ElGrocerUtility.sharedInstance.delay(0.5) { self.isReloadScreen = true }
+        }
+        
+        missingItemVC.crossButtonHandler = { [weak self] in
+            ElGrocerUtility.sharedInstance.delay(0.5) { self?.isReloadScreen = true }
         }
         
         let popupController = STPopupController(rootViewController: missingItemVC)
