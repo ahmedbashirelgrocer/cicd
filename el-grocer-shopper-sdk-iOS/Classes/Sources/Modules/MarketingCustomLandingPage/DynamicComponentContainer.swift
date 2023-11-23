@@ -7,66 +7,54 @@
 
 import Foundation
 
-enum ComponentType: Int, Codable {
-    case smallBanner = 1
-    case Products = 2
-    case largeBanner = 3
-    case CustomProducts = 4
-    case unknown
-
-    init(fromRawValue rawValue: Int) {
-        if let componentType = ComponentType(rawValue: rawValue) {
-            self = componentType
-        } else {
-            self = .unknown
-        }
-    }
+enum SectionName: String, Codable {
+    case backgroundBannerImage = "background_banner_image"
+    case bannerImage = "banner_image"
+    case topDeals = "top_deals"
+    case productsOnly = "products_only"
+    case categorySection = "category_section"
+    case subcategorySection = "subcategory_section"
 }
 
-enum ScrollType: Int, Codable {
-    case horizontal = 1
-    case vertical = 2
-    // Add other scroll types as needed
-}
-
-struct DynamicComponentContainer: Codable {
-    let component: [Component]
-}
-
-struct Component: Codable, ReusableTableViewCellViewModelType {
+struct CampaignSection: Codable {
     
-    var reusableIdentifier: String {
-            switch type {
-            case .smallBanner:
-                return "TypeACellIdentifier"
-            case .Products:
-                return "TypeBCellIdentifier"
-            default:
-            return ""
-        }
-    }
-    let type: ComponentType
-    let image: String?
+    let id: Int
+    let title: String?
+    let titleAr: String?
+    let sectionName: SectionName
+    let priority: Int
     let query: String?
-    let action: String?
-    let scrollType: ScrollType?
-    let bgColor: String?
-    let headLine: String?
+    let image: String?
+    let backgroundColor: String?
     let filters: [Filter]?
-    
     enum CodingKeys: String, CodingKey {
-        case type, image, query, action, scrollType, bgColor, headLine, filters
+            case id, title, titleAr, sectionName = "section_name", priority, query, image, backgroundColor, filters
     }
+    
+}
+
+struct CampaignData: Codable {
+    let id: Int
+    let name: String
+    let campaignSections: [CampaignSection]
+   
+    enum CodingKeys: String, CodingKey {
+            case id, name, campaignSections = "campaign_sections"
+    }
+}
+
+struct CampaignResponse: Codable {
+    let status: String
+    let data: CampaignData
 }
 
 struct Filter: Codable {
     let name: String
     let nameAR: String?
-    let type: Int?
     let query: String?
     let priority: Int?
     
     enum CodingKeys: String, CodingKey {
-        case name, nameAR, type, query, priority
+        case name, nameAR = "name_ar", query, priority
     }
 }

@@ -22,11 +22,13 @@ struct BannerDTO: Codable {
     let locations: [Int]?
     let storeTypes: [Int]?
     let retailerGroups: [Int]?
-    
+    let customScreenId: String? = ""
     var resolvedBidId: String?
+    
     
     enum CodingKeys: String, CodingKey {
         case id, name, priority
+        case customScreenId = "custom_screen_id"
         case campaignType = "campaign_type"
         case imageURL = "image_url"
         case bannerImageURL = "banner_image_url"

@@ -1868,6 +1868,9 @@ private extension MainCategoriesViewController {
             bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: ElGrocerUtility.sharedInstance.groceries)
             MixpanelEventLogger.trackStoreBannerClick(id: bannerCampaign.dbId.stringValue, title: bannerCampaign.title, tier: "1")
             break
+        case .customBanners:
+                //FIXME: custom banners handling
+            break
         }
     }
     

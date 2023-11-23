@@ -39,7 +39,7 @@ PODS:
   - Differentiator (4.0.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (1.9.27):
+  - el-grocer-shopper-sdk-iOS (1.9.29):
     - Adyen (= 4.10.4)
     - AlgoliaSearchClient (~> 8.0)
     - Analytics
@@ -431,7 +431,7 @@ SPEC CHECKSUMS:
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: ce06271e6acc492c33c56ae698d70ff64ea82e4a
+  el-grocer-shopper-sdk-iOS: 5d19bbe9e6e61c092386ab08db3946d9cb36000e
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Firebase: 4ba896cb8e5105d4b9e247e1c1b6222b548df55a
   FirebaseABTesting: cd1ec762a0078b46a7ce91dfe5b7b8991c2dff8f
@@ -491,4 +491,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 554cd90e9f25cea4e7160c712b87c0f5adb6f444
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.13.0

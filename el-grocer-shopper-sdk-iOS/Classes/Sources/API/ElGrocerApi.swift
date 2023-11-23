@@ -186,6 +186,7 @@ enum ElGrocerApiEndpoint : String {
     
     // banner new api
     case campaignAPi = "v1/campaigns" //https://elgrocerdxb.atlassian.net/browse/EG-584
+    case customCampaignAPi = "v1/custom_campaigns"
     //sab
     //case campaignProductsApi = "v1/campaigns/products"
     case campaignProductsApi = "v1/campaigns/products/list"
@@ -4831,6 +4832,50 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
         }
         
     }
+      
+      
+      // MARK: custom campaigns
+      
+      //v1/custom_campaigns
+      
+    func getCustomCampaigns( customScreenId: String ,  completion:@escaping (_ result: Either<CampaignData>) -> Void) {
+          
+          setAccessToken()
+          var parameters = [String : AnyObject]()
+           if UserDefaults.isUserLoggedIn(){
+              let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+              parameters["shopper_id"] = userProfile?.dbID
+          }
+          parameters["custom_screen_id"] = customScreenId as AnyObject
+          NetworkCall.get(ElGrocerApiEndpoint.customCampaignAPi.rawValue, parameters: parameters, progress: { (progress) in
+              
+          }, success: { (operation,responseObject) in
+              do {
+                  if let rootJson = responseObject as? [String: Any] {
+                      let data = try JSONSerialization.data(withJSONObject: rootJson)
+                      let campaignResponse = try JSONDecoder().decode(CampaignResponse.self, from: data)
+                      completion(.success(campaignResponse.data))
+                      return
+                  }
+                  
+                  completion(.failure(ElGrocerError.parsingError()))
+              } catch {
+                  completion(.failure(ElGrocerError.parsingError()))
+              }
+              
+          }) { (operation  , error) in
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completion(Either.failure(errorToParse))
+              }
+          }
+        
+        
+        
+          
+      }
+      
+      
     
     
     func getOpenOrderDetails(  completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {

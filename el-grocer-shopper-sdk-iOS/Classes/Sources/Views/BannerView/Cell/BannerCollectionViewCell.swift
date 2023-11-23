@@ -25,6 +25,7 @@ class BannerCollectionViewCell: RxUICollectionViewCell {
         
         self.viewModel = viewModel
         self.bindViews()
+        
     }
     
     

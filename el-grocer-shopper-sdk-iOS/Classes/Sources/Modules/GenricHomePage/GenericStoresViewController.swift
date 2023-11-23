@@ -836,6 +836,10 @@ extension GenericStoresViewController {
                     bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: self.homeDataHandler.groceryA ?? [])
                 })
                 break
+                
+            case .customBanners:
+                    //FIXME: custom banners handling
+                break
             }
             
         }).disposed(by: disposeBag)
