@@ -8,10 +8,10 @@
 import Foundation
 
 enum ComponentType: Int, Codable {
-    case smallBanner = 0
-    case Products = 1
-    case largeBanner = 2
-    case CustomProducts = 3
+    case smallBanner = 1
+    case Products = 2
+    case largeBanner = 3
+    case CustomProducts = 4
     case unknown
 
     init(fromRawValue rawValue: Int) {
@@ -33,7 +33,18 @@ struct DynamicComponentContainer: Codable {
     let component: [Component]
 }
 
-struct Component: Codable {
+struct Component: Codable, ReusableTableViewCellViewModelType {
+    
+    var reusableIdentifier: String {
+            switch type {
+            case .smallBanner:
+                return "TypeACellIdentifier"
+            case .Products:
+                return "TypeBCellIdentifier"
+            default:
+            return ""
+        }
+    }
     let type: ComponentType
     let image: String?
     let query: String?

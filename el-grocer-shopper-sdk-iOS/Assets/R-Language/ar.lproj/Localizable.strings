@@ -2258,3 +2258,7 @@
 "eg_detecting_location" = "البحث عن العنوان";
 "eg_address_nick_name_address" = "أدخل اسم مميز للعنوان، المنزل/العمل*";
 "eg_msg_selected_location_not_covering" = "الموقع المحدد لا يغطي التوصيل من هذا المتجر وسيتم مسح سلة تسوقك. هل تريد تغيير الموقع؟";
+
+// custom landing page
+
+"eg_No_Campgin_Found" = "عفوا.. يؤسفنا أن الصفحة فارغة ولكن يجب أن تكون مليئة بالأشياء الجميلة";

@@ -2222,3 +2222,6 @@ Oreo";
 "eg_address_nick_name_address" = "Enter address nickname, 'Home/Work'*";
 "eg_msg_selected_location_not_covering" = "Selected location for that store is outside delivery area range. What would you like to do?";
 
+// custom landing page
+
+"eg_No_Campgin_Found" = "Ooops.. this is awkward. the page is empty but should be filled with beautiful stuff";

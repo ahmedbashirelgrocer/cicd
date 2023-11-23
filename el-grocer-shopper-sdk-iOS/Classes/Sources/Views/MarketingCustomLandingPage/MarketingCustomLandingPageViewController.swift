@@ -7,13 +7,21 @@
 
 import UIKit
 import RxSwift
+import RxDataSources
 class MarketingCustomLandingPageViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    private lazy var emptyView : NoStoreView = {
+        let emptyView = NoStoreView.loadFromNib()
+        emptyView?.delegate = self
+        emptyView?.configureNoDefaultSelectedStoreCart()
+        return emptyView!
+    }()
     
     // MARK: - Properties
-        private let disposeBag = DisposeBag()
-        var viewModel: MarketingCustomLandingPageViewModel?
+    private var dataSource: RxTableViewSectionedReloadDataSource<SectionModel<Int, ReusableTableViewCellViewModelType>>!
+        var viewModel: MarketingCustomLandingPageViewModel!
+    private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,32 +35,49 @@ class MarketingCustomLandingPageViewController: UIViewController {
     
     private func bindViews() {
         
-        viewModel?.componentsSubject
+       
+        
+        self.dataSource = RxTableViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in
+            let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUITableViewCell
+            cell.selectionStyle = .none
+            cell.configure(viewModel: viewModel)
+            return cell
+        })
+        
+        self.viewModel.outputs.cellViewModels
+            .bind(to: self.tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        self.tableView.rx.modelSelected(Component.self)
+            .bind(to: self.viewModel.inputs.cellSelectedObserver)
+            .disposed(by: disposeBag)
+        
+        self.viewModel.outputs.tableViewBackGround
                    .observeOn(MainScheduler.instance)
                    .subscribe(onNext: { [weak self] components in
-                       self?.updateUI(with: components)
+                       self?.addTableViewBackgroundComponent(components)
                    })
                    .disposed(by: disposeBag)
         
+        self.viewModel.outputs.loading.subscribe(onNext: { [weak self] loading in
+            guard let self = self else { return }
+            loading
+                ? _ = SpinnerView.showSpinnerViewInView(self.view)
+                : SpinnerView.hideSpinnerView()
+        }).disposed(by: disposeBag)
+        
+        
+        self.viewModel.outputs.showEmptyView.subscribe(onNext: { [weak self] _ in
+            guard let self = self else { return }
+            
+            self.emptyView.configureNoActiveCampaign()
+            self.tableView.backgroundView = self.emptyView
+           
+        }).disposed(by: disposeBag)
+        
     }
     
-    private func updateUI(with components: DynamicComponentContainer) {
-            // Update your UI based on the new components
-        tableView.reloadData()
-
-               // Or, if you want to insert specific rows, assuming components is an array of sections:
-               // (Modify this based on your specific data structure)
-               var indexPathsToInsert: [IndexPath] = []
-
-               for (sectionIndex, componentSection) in components.enumerated() {
-                   for (rowIndex, _) in componentSection.enumerated() {
-                       let indexPath = IndexPath(row: rowIndex, section: sectionIndex)
-                       indexPathsToInsert.append(indexPath)
-                   }
-               }
-               // Insert specific rows
-               tableView.insertRows(at: indexPathsToInsert, with: .automatic)
-    }
+  
    
     /*
      // MARK: - Navigation
@@ -65,4 +90,20 @@ class MarketingCustomLandingPageViewController: UIViewController {
      */
     
 }
-
+extension MarketingCustomLandingPageViewController {
+    
+    private func addTableViewBackgroundComponent(_ uiObj: Component?) {
+        guard let uiObj = uiObj, let imageURL = URL(string: uiObj.image ?? "") else {
+                  return
+        }
+        let backgroundImageView = UIImageView()
+        backgroundImageView.sd_setImage(with: imageURL, completed: { (_, _, _, _) in })
+        backgroundImageView.contentMode = .scaleAspectFill
+        tableView.backgroundView = backgroundImageView
+    }
+}
+extension MarketingCustomLandingPageViewController: NoStoreViewDelegate {
+    func noDataButtonDelegateClick(_ state: actionState) {
+        self.dismiss(animated: true)
+    }
+}

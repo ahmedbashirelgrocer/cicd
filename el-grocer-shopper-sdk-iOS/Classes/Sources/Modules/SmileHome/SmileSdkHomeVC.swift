@@ -149,8 +149,10 @@ class SmileSdkHomeVC: BasketBasicViewController {
         }
         
         
-        let landingVC = ElGrocerViewControllers.marketingCustomLandingPageViewController(MarketingCustomLandingPageViewModel.init(storeId: "16", marketingId: "123"))
+        let customVm = MarketingCustomLandingPageViewModel.init(storeId: "16", marketingId: "123")
+        let landingVC = ElGrocerViewControllers.marketingCustomLandingPageViewController(customVm)
         self.present(landingVC, animated: true)
+      
     }
     
         // MARK: - UI Customization
