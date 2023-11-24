@@ -16,6 +16,7 @@ class MyBasketStroreNameTableViewCell: UITableViewCell {
             imageGrocery.backgroundColor = .navigationBarWhiteColor()
         }
     }
+    @IBOutlet weak var returnToStoreStackView: UIStackView!
     @IBOutlet var lblGrocery: UILabel!
     @IBOutlet weak var buttonReturnToStore: UIButton! {
         didSet {
@@ -40,7 +41,7 @@ class MyBasketStroreNameTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setGrocery(grocery : Grocery?) {
+    func setGrocery(grocery : Grocery?, editOrder: Bool = UserDefaults.isOrderInEdit()) {
         guard grocery != nil else {
             return
         }
@@ -50,6 +51,8 @@ class MyBasketStroreNameTableViewCell: UITableViewCell {
         }else{
             self.imageGrocery.image = productPlaceholderPhoto
         }
+        
+        returnToStoreStackView.isHidden = editOrder
     }
     
     fileprivate func setGroceryImage(_ urlString : String) {

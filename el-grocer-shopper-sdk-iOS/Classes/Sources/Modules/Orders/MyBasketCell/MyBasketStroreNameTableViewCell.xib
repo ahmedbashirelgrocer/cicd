@@ -37,43 +37,48 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Union Coop" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oy3-NL-tVt">
-                                <rect key="frame" x="68" y="10" width="232" height="20.5"/>
-                                <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="17"/>
-                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="undo" translatesAutoresizingMaskIntoConstraints="NO" id="uHs-b0-uTY">
-                                <rect key="frame" x="68" y="34.5" width="16" height="16"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="16" id="XYn-D8-Gzr"/>
-                                    <constraint firstAttribute="width" constant="16" id="xAI-qb-eNB"/>
-                                </constraints>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="odj-NX-akL">
-                                <rect key="frame" x="88" y="34.5" width="120" height="16"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="16" id="61E-Fx-SaX"/>
-                                </constraints>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="4" maxY="0.0"/>
-                                <state key="normal" title="Return to store"/>
-                                <connections>
-                                    <action selector="returnToStoreTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="p9R-l9-GM7"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="ZQB-vS-3xH">
+                                <rect key="frame" x="68" y="10" width="140" height="40.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Union Coop" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oy3-NL-tVt">
+                                        <rect key="frame" x="0.0" y="0.0" width="90.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="17"/>
+                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="t3b-Bq-OM5">
+                                        <rect key="frame" x="0.0" y="24.5" width="140" height="16"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="undo" translatesAutoresizingMaskIntoConstraints="NO" id="uHs-b0-uTY">
+                                                <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="16" id="XYn-D8-Gzr"/>
+                                                    <constraint firstAttribute="width" constant="16" id="xAI-qb-eNB"/>
+                                                </constraints>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="odj-NX-akL">
+                                                <rect key="frame" x="20" y="0.0" width="120" height="16"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="16" id="61E-Fx-SaX"/>
+                                                </constraints>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="4" maxY="0.0"/>
+                                                <state key="normal" title="Return to store"/>
+                                                <connections>
+                                                    <action selector="returnToStoreTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="p9R-l9-GM7"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="odj-NX-akL" firstAttribute="centerY" secondItem="uHs-b0-uTY" secondAttribute="centerY" id="0TK-YY-hhf"/>
-                            <constraint firstItem="uHs-b0-uTY" firstAttribute="top" secondItem="oy3-NL-tVt" secondAttribute="bottom" constant="4" id="6pE-mp-j00"/>
-                            <constraint firstAttribute="trailing" secondItem="oy3-NL-tVt" secondAttribute="trailing" constant="20" id="PlV-kO-Ide"/>
-                            <constraint firstItem="uHs-b0-uTY" firstAttribute="leading" secondItem="oy3-NL-tVt" secondAttribute="leading" id="Q4J-6g-A5h"/>
+                            <constraint firstItem="ZQB-vS-3xH" firstAttribute="centerY" secondItem="9aL-qN-v6T" secondAttribute="centerY" id="Drg-da-ocy"/>
                             <constraint firstAttribute="height" constant="60" id="Tos-Uh-zVY"/>
                             <constraint firstItem="9aL-qN-v6T" firstAttribute="leading" secondItem="cKt-Dz-SFO" secondAttribute="leading" constant="20" id="ZL9-iw-Ozd"/>
-                            <constraint firstItem="oy3-NL-tVt" firstAttribute="leading" secondItem="9aL-qN-v6T" secondAttribute="trailing" constant="8" id="ca7-b1-QAR"/>
-                            <constraint firstItem="oy3-NL-tVt" firstAttribute="top" secondItem="9aL-qN-v6T" secondAttribute="top" id="cmi-cp-cep"/>
                             <constraint firstItem="9aL-qN-v6T" firstAttribute="top" secondItem="cKt-Dz-SFO" secondAttribute="top" constant="10" id="eiz-3Y-mlE"/>
-                            <constraint firstItem="odj-NX-akL" firstAttribute="leading" secondItem="uHs-b0-uTY" secondAttribute="trailing" constant="4" id="i1H-Ac-rzK"/>
+                            <constraint firstItem="ZQB-vS-3xH" firstAttribute="leading" secondItem="9aL-qN-v6T" secondAttribute="trailing" constant="8" id="wpR-b5-Vph"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -92,6 +97,7 @@
                 <outlet property="imageGrocery" destination="9aL-qN-v6T" id="SdO-ny-Hu4"/>
                 <outlet property="ivUndo" destination="uHs-b0-uTY" id="RbS-Wo-3hq"/>
                 <outlet property="lblGrocery" destination="oy3-NL-tVt" id="XL4-Ij-iwK"/>
+                <outlet property="returnToStoreStackView" destination="t3b-Bq-OM5" id="Ywa-fK-MMK"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="60.9375"/>
         </tableViewCell>
