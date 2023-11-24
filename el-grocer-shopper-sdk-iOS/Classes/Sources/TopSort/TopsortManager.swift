@@ -453,7 +453,7 @@ extension WinnerBanner {
                   retailerIDS: nil,
                   locations: nil,
                   storeTypes: target.locations.map{ ($0 as NSString).integerValue },
-                  retailerGroups: nil,
+                  retailerGroups: nil, customScreenId: nil,
                   resolvedBidId: resolvedBidId)
     }
 }

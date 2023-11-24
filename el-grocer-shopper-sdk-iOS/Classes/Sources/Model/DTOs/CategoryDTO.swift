@@ -29,6 +29,7 @@ struct CategoryDTO: Codable {
     let pg18: Bool? // ask backend for type of this
     let photoUrl: String?
     let slug: String?
+    let customPage: Int?
     
     let messageAr: String?
     let nameAr: String?
@@ -47,6 +48,7 @@ struct CategoryDTO: Codable {
         case slug
         case nameAr = "name_ar"
         case messageAr = "message_ar"
+        case customPage = "customPage"
     }
 }
 
@@ -116,6 +118,8 @@ extension CategoryDTO {
         
         self.coloredImageUrl = nil
         self.description = nil
+        
+        self.customPage = dic["custom_screen_id"] as? Int
     }
 }
 
@@ -135,6 +139,7 @@ extension CategoryDTO {
         self.slug = nil
         self.nameAr = nil
         self.messageAr = nil
+        self.customPage = nil
     }
 }
 

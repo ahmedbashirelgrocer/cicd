@@ -49,6 +49,7 @@ class DynamicLinksHelper {
     var chefID = ""
     var productBarcode = ""
     var productId = ""
+    var cpid = ""
     var isNewGroceryLoading = false
     var StoreDataSource : StoresDataHandler! {
         let StoreDataSource = StoresDataHandler()
@@ -255,6 +256,10 @@ class DynamicLinksHelper {
         self.serviceId = ""
         self.productBarcode = ""
         self.productId = ""
+        self.cpid = ""
+        
+        
+        
         
 
         let marketType = dUrl?.getQueryItemValueForKey("market_type_id")
@@ -267,6 +272,8 @@ class DynamicLinksHelper {
             return
         }
         
+        
+        
         let order_id = dUrl?.getQueryItemValueForKey("order_id")
         if order_id != nil  {
             self.gotoOrderDetail(order_id)
@@ -278,6 +285,12 @@ class DynamicLinksHelper {
         if serviceID != nil {
             self.serviceId = serviceID!
         }
+        
+        let cpid = dUrl?.getQueryItemValueForKey("cpid")
+        if cpid != nil {
+            self.cpid = cpid!
+        }
+        
         let tmpParentId = dUrl?.getQueryItemValueForKey("parentID")
         //elDebugPrint("tmpParent  is:%@",tmpParentId ?? "nil")
         if tmpParentId != nil {
@@ -431,7 +444,8 @@ class DynamicLinksHelper {
             }
             return
         }
-       
+        
+      
         if !self.groceryId.isEmpty ||  self.parentId.count > 0 || self.parentIds.count > 0 {
             self.navigateToScreen()
             return
@@ -486,6 +500,11 @@ class DynamicLinksHelper {
                 }
                 
             }
+            return
+        }
+        
+        if let tabbar = sdkManager.currentTabBar {
+            tabbar.selectedIndex = 1
             return
         }
         sdkManager.showEntryView()
@@ -924,28 +943,62 @@ class DynamicLinksHelper {
                                 break
                             }
                         }
+                    
                     }else if self.groceryId.isEmpty && self.parentId.isEmpty  {
                         if deliveryGroceryList.count > 0 {
                             self.groceryId = deliveryGroceryList[0].dbID
                         }
                     }
+                    
+                    
+                    
+                    if !self.groceryId.isEmpty {
+                        if let grocery = deliveryGroceryList.first(where: { (grocery) -> Bool in
+                            return groceryId == grocery.dbID
+                        }){
+                            self.groceryId = grocery.dbID
+                            self.parentId = grocery.parentID.stringValue
+                            navigateToGrocery(grocery)
+                            return
+                        }
+                    }
+                    
+                
+                    
+                    func navigateToGrocery(_ grocery: Grocery) {
+                        ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                        UserDefaults.setGroceryId(ElGrocerUtility.sharedInstance.activeGrocery?.dbID , WithLocationId: dbID)
+                        ElGrocerUtility.sharedInstance.isDeliveryMode = true
+                        ElGrocerUtility.sharedInstance.groceries = deliveryGroceryList
+                        self.getGroceryDeliverySlots(ElGrocerUtility.sharedInstance.activeGrocery)
+                        if isBrand {
+                            checkForBrand()
+                        }else if isSubCatogryOrCategory{
+                            checkForCategories(lat: lat, lng: lng)
+                        }else{
+                            if !self.cpid.isEmpty {
+                                Thread.OnMainThread {
+                                    if let topVc = UIApplication.topViewController() {
+                                        let customVm = MarketingCustomLandingPageViewModel.init(storeId: ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? "" , marketingId: self.cpid)
+                                        let landingVC = ElGrocerViewControllers.marketingCustomLandingPageViewController(customVm)
+                                        topVc.present(landingVC, animated: true)
+                                    }
+                                }
+                                return
+                            }
+                            self.loadGroceryAlreadySelected()
+                            
+                        }
+                    }
+                    
+                    
+                    
                     ElGrocerApi.sharedInstance.getGroceryFrom(lat: lat, lng: lng, storeID: self.groceryId , parentID: self.parentId) { (result) in
                         switch result {
                             case.success(let data):
                                 let responseData = Grocery.insertOrReplaceGroceriesFromDictionary(data, context: DatabaseHelper.sharedInstance.mainManagedObjectContext , false)
                                 if responseData.count > 0 {
-                                    ElGrocerUtility.sharedInstance.activeGrocery = responseData[0]
-                                    UserDefaults.setGroceryId(ElGrocerUtility.sharedInstance.activeGrocery?.dbID , WithLocationId: dbID)
-                                    ElGrocerUtility.sharedInstance.isDeliveryMode = true
-                                    ElGrocerUtility.sharedInstance.groceries = deliveryGroceryList
-                                    self.getGroceryDeliverySlots(ElGrocerUtility.sharedInstance.activeGrocery)
-                                    if isBrand {
-                                        checkForBrand()
-                                    }else if isSubCatogryOrCategory{
-                                        checkForCategories(lat: lat, lng: lng)
-                                    }else{
-                                        self.loadGroceryAlreadySelected()
-                                    }
+                                    navigateToGrocery( responseData[0])
                                 }else if checkBoth {
                                     checkForCandC(lat: lat, lng: lng)
                                 }

@@ -72,11 +72,11 @@ enum BannerLocation : Int, Decodable {
         .post_checkout,
         .sdk_post_checkout,
         .sdk_Flavor_Grocery_post_checkout,
-        
-        .custom_campaign_shopper,
-        .sdk_custom_campaign,
-        .sdk_Flavor_custom_campaign
-        
+//        
+//        .custom_campaign_shopper,
+//        .sdk_custom_campaign,
+//        .sdk_Flavor_custom_campaign
+//        
         
     
     ]
@@ -224,6 +224,7 @@ class BannerCampaign: NSObject {
     var retailerGroups  : [Int]? = nil
     var resolvedBidId: String?
     var bannerType: bannerType = .product
+    var customCampaignId: Int? = nil
     
     var isViewed = false
     
@@ -282,7 +283,7 @@ class BannerCampaign: NSObject {
         banner.locations = bannerDict["locations"] as? [Int] ?? []
         banner.storeTypes = bannerDict["store_types"] as? [Int] ?? []
         banner.retailerGroups = bannerDict["retailer_groups"] as? [Int] ?? []
-      
+        banner.customCampaignId =  bannerDict["custom_screen_id"] as? Int ?? nil
         return banner
     }
 
@@ -565,7 +566,9 @@ extension BannerCampaign {
                                retailerIDS: self.retailerIds,
                                locations: self.locations,
                                storeTypes: self.storeTypes,
-                               retailerGroups: self.retailerGroups)
+                               retailerGroups: self.retailerGroups,
+                               customScreenId: self.customCampaignId,
+                               resolvedBidId: self.resolvedBidId)
         return banner
     }
 }

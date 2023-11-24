@@ -670,7 +670,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.grocerySlotbasketWorkItem = DispatchWorkItem {
             self.getGroceryDeliverySlots()
         }
-        DispatchQueue.global(qos: .default).async(execute: self.grocerySlotbasketWorkItem!)
+        DispatchQueue.global(qos: .background).async(execute: self.grocerySlotbasketWorkItem!)
         
     }
     
@@ -1722,6 +1722,10 @@ private extension MainCategoriesViewController {
                 productsVC.homeObj = Home("", withCategory: nil, products: [], self.grocery)
                 productsVC.grocery = self.grocery
                 self.navigationController?.pushViewController(productsVC, animated: true)
+            } else if category.customPage != nil {
+                let customVm = MarketingCustomLandingPageViewModel.init(storeId: self.grocery?.dbID ?? "", marketingId: String(category.customPage ?? 0))
+                let landingVC = ElGrocerViewControllers.marketingCustomLandingPageViewController(customVm)
+                self.present(landingVC, animated: true)
             } else {
                 if ABTestManager.shared.storeConfigs.variant == .baseline {
                     self.selectedCategory = category.categoryDB

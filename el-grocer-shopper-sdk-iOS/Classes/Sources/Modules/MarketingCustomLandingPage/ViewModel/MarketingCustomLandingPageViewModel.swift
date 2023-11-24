@@ -92,7 +92,16 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
 extension MarketingCustomLandingPageViewModel {
     
     private func fetchViews() {
+        
         self.loadingSubject.onNext(true)
+        
+        if self.marketingId.isEmpty || self.storeId.isEmpty {
+            self.showEmptyViewSubject.onNext(())
+            self.loadingSubject.onNext(false)
+            return
+        }
+        
+       
         apiClient?.getCustomCampaigns(customScreenId: self.marketingId) { data in
             self.loadingSubject.onNext(false)
             switch data {

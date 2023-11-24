@@ -95,6 +95,6 @@ class RxBannersViewModel: DynamicComponentContainerCellViewModel {
 
 extension CampaignSection {
     func convertToBannerDTO() -> BannerDTO {
-        return BannerDTO(name: self.title, campaignType: BannerCampaignType.customBanners, imageURL: self.image, bannerImageURL: self.image, url: self.image, categories: nil, subcategories: nil, brands: nil, retailerIDS: nil, locations: nil, storeTypes: nil, retailerGroups: nil)
+        return BannerDTO(name: self.title, campaignType: BannerCampaignType.customBanners, imageURL: self.image, bannerImageURL: self.image, url: self.image, categories: nil, subcategories: nil, brands: nil, retailerIDS: nil, locations: nil, storeTypes: nil, retailerGroups: nil, customScreenId: nil)
     }
 }

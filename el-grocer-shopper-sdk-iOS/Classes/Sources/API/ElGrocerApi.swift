@@ -185,7 +185,7 @@ enum ElGrocerApiEndpoint : String {
     case openOrderDetail = "v1/orders/show/cnc_open_orders"
     
     // banner new api
-    case campaignAPi = "v1/campaigns" //https://elgrocerdxb.atlassian.net/browse/EG-584
+    case campaignAPi = "v2/campaigns"
     case customCampaignAPi = "v1/custom_campaigns"
     //sab
     //case campaignProductsApi = "v1/campaigns/products"
@@ -4775,6 +4775,56 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
 //            }
           }
       }
+      
+      func getCustomCategories(for location : BannerLocation,
+                      retailer_ids : [String]? = nil,
+                      store_type_ids : [String]? = nil,
+                      retailer_group_ids :  [String]? = nil,
+                      category_id : Int? = nil,
+                      subcategory_id : Int? = nil,
+                      brand_id : Int? = nil,
+                      search_input : String? = nil,
+                      completionHandler:@escaping (_ result: Either<[BannerCampaign]>) -> Void) {
+          
+          
+          
+          var elGrocerBanners: [BannerCampaign] = []
+          var fetchError: ElGrocerError?
+          let fetchGroup = DispatchGroup()
+          
+          fetchGroup.enter()
+          self.getBannersFor(location: location,
+                             retailer_ids: retailer_ids,
+                             store_type_ids: store_type_ids,
+                             retailer_group_ids: retailer_group_ids,
+                             category_id: category_id,
+                             subcategory_id: subcategory_id,
+                             brand_id: brand_id,
+                             search_input: search_input) { result in
+              AccessQueue.execute {
+                  switch result {
+                  case .success(let response):
+                      elGrocerBanners = BannerCampaign.getBannersFromResponse(response)
+                  case .failure(let error):
+                      fetchError = error
+                  }
+                  fetchGroup.leave()
+              }
+          }
+          
+          // 2
+          fetchGroup.notify(queue: DispatchQueue.main) {
+//            AccessQueue.execute {
+              if let error = fetchError {
+                  completionHandler(.failure(error))
+              } else {
+                  elGrocerBanners = elGrocerBanners.sorted(by: { $0.priority < $1.priority})
+                  completionHandler(.success(elGrocerBanners))
+              }
+//            }
+          }
+      }
+    
     
     fileprivate func getBannersFor( location : BannerLocation ,  retailer_ids : [String]? = nil , store_type_ids : [String]? = nil , retailer_group_ids :  [String]? = nil , category_id : Int? = nil , subcategory_id : Int? = nil , brand_id : Int? = nil , search_input : String? = nil ,  completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
         
