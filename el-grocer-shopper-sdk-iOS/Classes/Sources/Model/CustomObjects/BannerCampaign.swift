@@ -376,6 +376,17 @@ class BannerCampaign: NSObject {
     
     func actionForBanner (currentActive : Grocery) {
         
+        
+        if self.customCampaignId != nil {
+            let customVm = MarketingCustomLandingPageViewModel.init(storeId: currentActive.dbID, marketingId: String(self.customCampaignId ?? -1))
+                    let landingVC = ElGrocerViewControllers.marketingCustomLandingPageViewController(customVm)
+            Thread.OnMainThread {
+                if let topVc = UIApplication.topViewController() {
+                    topVc.present(landingVC, animated: true)
+                }
+            }
+        }
+        
         if self.campaignType.intValue == BannerCampaignType.brand.rawValue {
             ElGrocerUtility.sharedInstance.delay(1) {
                 self.goToProductViewController(currentActive)

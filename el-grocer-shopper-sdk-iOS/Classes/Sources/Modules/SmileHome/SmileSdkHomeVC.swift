@@ -750,7 +750,7 @@ extension SmileSdkHomeVC {
                 break
             case .customBanners:
                 activeCartVC?.dismiss(animated: true, completion: {
-                    //FIXME: case needs to handle
+                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
                 })
             }
             

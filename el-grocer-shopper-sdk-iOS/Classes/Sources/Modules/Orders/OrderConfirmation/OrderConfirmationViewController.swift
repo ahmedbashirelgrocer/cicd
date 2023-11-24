@@ -291,16 +291,12 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: sdkManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery!] : (HomePageData.shared.groceryA ?? [ElGrocerUtility.sharedInstance.activeGrocery!]))
                 break
                 
-            case .retailer:
+            case .retailer,.customBanners:
                 bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: sdkManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery!] : (HomePageData.shared.groceryA ?? [ElGrocerUtility.sharedInstance.activeGrocery!]))
                 break
                 
             case .web:
                 ElGrocerUtility.sharedInstance.showWebUrl(banner.url ?? "", controller: self)
-                break
-                
-            case .customBanners:
-                    //FIXME: custom banners handling
                 break
                 
             case .priority:

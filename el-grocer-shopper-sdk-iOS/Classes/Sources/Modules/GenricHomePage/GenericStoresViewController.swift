@@ -819,7 +819,7 @@ extension GenericStoresViewController {
                 })
                 break
                 
-            case .retailer:
+            case .retailer,.customBanners:
                 activeCartVC?.dismiss(animated: true, completion: {
                     bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: self.homeDataHandler.groceryA ?? [])
                 })
@@ -837,9 +837,6 @@ extension GenericStoresViewController {
                 })
                 break
                 
-            case .customBanners:
-                    //FIXME: custom banners handling
-                break
             }
             
         }).disposed(by: disposeBag)
