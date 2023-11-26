@@ -249,6 +249,24 @@ class ProductBrowser {
             }
     }
     
+    // browse products with query
+    func searchWithQuery(query : String, pageNumber : Int, _ hitsPerPage : Int = 20, completion : @escaping ResponseBlock) -> Void {
+        AlgoliaApi.sharedInstance
+            .searchWithQuery (query: query,
+                             pageNumber: pageNumber,
+                             hitsPerPage, completion: { responseObject, error in
+                if error == nil, let response = responseObject as? NSDictionary {
+                    DispatchQueue.main.async {
+                        let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                        DispatchQueue.main.async{ completion((products.products, products.algoliaCount), nil) }
+                        }
+                } else {
+                    completion(nil, error)
+                }
+            })
+
+    }
+    
 }
 
 // MARK: - Fetch Products from elGrocer Server

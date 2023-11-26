@@ -15,7 +15,7 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
         return emptyView!
     }()
     // MARK: - Properties
-    private var dataSource: RxTableViewSectionedReloadDataSource<SectionModel<Int, ReusableTableViewCellViewModelType>>!
+    private var dataSource: RxTableViewSectionedReloadDataSource<SectionHeaderModel<Int,String, ReusableTableViewCellViewModelType>>!
         var viewModel: MarketingCustomLandingPageViewModel!
     private let disposeBag = DisposeBag()
 
@@ -28,17 +28,25 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
     }
     
     private func registerCells() {
+        
         tableView.register(UINib(nibName: RxBannersTableViewCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: RxBannersTableViewCell.defaultIdentifier)
+        tableView.register(UINib(nibName: "HomeCell", bundle: .resource), forCellReuseIdentifier: kHomeCellIdentifier)
+
         tableView.separatorColor = .clear
+        tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
     }
     
     private func bindViews() {
         
-        dataSource = RxTableViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in
+        
+        self.dataSource = RxTableViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in
+            debugPrint("IndexPath is: \(indexPath)")
             let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUITableViewCell
             cell.selectionStyle = .none
             cell.configure(viewModel: viewModel)
             return cell
+        },titleForHeaderInSection: { dataSource, sectionIndex in
+            return dataSource[sectionIndex].header
         })
         
         viewModel.outputs.cellViewModels
@@ -90,7 +98,7 @@ extension MarketingCustomLandingPageViewController {
         backgroundImageView.frame = CGRect.init(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width)
         containerView.addSubview(backgroundImageView)
         tableView.backgroundView = containerView
-        let imageHeight = UIScreen.main.bounds.width * 0.70
+        let imageHeight = UIScreen.main.bounds.width * 0.80
         tableView.contentInset = UIEdgeInsets(top: imageHeight, left: 0, bottom: 0, right: 0)
        // tableView.contentOffset = CGPoint(x: 0, y: 0)
     }
@@ -100,6 +108,18 @@ extension MarketingCustomLandingPageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
             return UITableView.automaticDimension
        }
+    
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        
+//        let height =   dataSource.sectionModels[section].header.count == 0 ? 5.0 : 30.0
+//        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: height))
+//        headerView.backgroundColor = .tableViewBackgroundColor()
+//        let label = UILabel(frame: CGRect(x: 16, y: 0, width: tableView.frame.width - 30.0, height: height))
+//        label.text = dataSource.sectionModels[section].header
+//        label.setH4SemiBoldStyle()
+//        headerView.addSubview(label)
+//        return headerView
+//    }
 }
 
 extension MarketingCustomLandingPageViewController: NoStoreViewDelegate {

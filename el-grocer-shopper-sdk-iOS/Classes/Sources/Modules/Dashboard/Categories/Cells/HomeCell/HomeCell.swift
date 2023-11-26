@@ -89,8 +89,17 @@ private extension HomeCell {
             }
         }).disposed(by: disposeBag)
         
+        viewModel.outputs.bgColor
+            .bind(to: self.contentView.rx.backgroundColor)
+            .disposed(by: disposeBag)
         viewModel.outputs.viewAllText
             .bind(to: self.viewMoreButton.rx.title(for: UIControl.State()))
+            .disposed(by: disposeBag)
+        viewModel.outputs.viewAllHidden
+            .bind(to: rightArrowImageView.rx.isHidden)
+            .disposed(by: disposeBag)
+        viewModel.outputs.viewAllHidden
+            .bind(to: viewMoreButton.rx.isHidden)
             .disposed(by: disposeBag)
         
         self.setStateWithOutImageView()

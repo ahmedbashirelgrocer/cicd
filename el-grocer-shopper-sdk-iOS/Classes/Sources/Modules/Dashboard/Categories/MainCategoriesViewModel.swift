@@ -277,6 +277,7 @@ private extension MainCategoriesViewModel {
                 
                 if self.showProductsSection {
                     // TODO: Need to update the logic of for shopping list
+                
                     self.homeCellVMs = self.categories.filter { $0.id != -1 }.map({
                         let viewModel = HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery)
                         

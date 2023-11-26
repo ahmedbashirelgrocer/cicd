@@ -1141,6 +1141,31 @@ extension AlgoliaApi {
     }
     
     
+    func searchWithQuery(query : String, pageNumber : Int, _ hitsPerPage : Int = 20, completion : @escaping responseBlock) -> Void {
+        
+        var algoliaquery = Query("")
+            .set(\.facetFilters, to: [FiltersStorage.Unit.and(query)])
+            .set(\.clickAnalytics, to: true)
+            .set(\.getRankingInfo, to: true)
+            .set(\.analytics, to: true)
+            .set(\.analyticsTags, to: self.getAlgoliaTags(isUniversal: false , searchType: "CustomLandingPage"))
+        
+        algoliaquery.page = pageNumber
+        algoliaquery.hitsPerPage = hitsPerPage
+        var requestOptions = RequestOptions()
+        requestOptions.headers["X-Algolia-UserToken"] = (Insights.shared(appId:  algoliaApplicationID)?.userToken).map { $0.rawValue }
+        
+        self.algoliaProductBrowserIndex.browse(query: algoliaquery, requestOptions: requestOptions) { (content) in
+            if case .success(let response) = content {
+                completion(response.convertHits() , nil)
+            }else if case .failure (let error) = content{
+                completion(nil , error)
+            }
+        }
+        
+    }
+    
+    
     
 }
 

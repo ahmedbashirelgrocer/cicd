@@ -33,8 +33,8 @@ class DynamicComponentContainerCellViewModel: DynamicComponentContainerCellType,
         switch component.sectionName {
         case .bannerImage:
             return "RxBannersTableViewCell"
-        case .productsOnly:
-            return "TypeBCellIdentifier"
+        case .topDeals:
+            return kHomeCellIdentifier
         default:
             return ""
         }

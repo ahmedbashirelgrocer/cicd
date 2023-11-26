@@ -178,14 +178,15 @@ extension UIColor {
         var cString:String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).uppercased()
         
         if (cString.hasPrefix("#")) {
+            cString.removeFirst()
             //cString = cString.substringFrom(cString.startIndex.advancedBy(1)) let newStr = String(str[..<index])
-            let index = cString.index(cString.startIndex, offsetBy: 1)
-            cString = String(cString[..<index])
+//            let index = cString.index(cString.startIndex, offsetBy: 1)
+//            cString = String(cString[..<index])
         }
         
         //if ((cString.characters.count) != 6) {
         if ((cString.count) != 6) {
-            return UIColor.gray
+            return UIColor.clear
         }
         
         var rgbValue:UInt32 = 0

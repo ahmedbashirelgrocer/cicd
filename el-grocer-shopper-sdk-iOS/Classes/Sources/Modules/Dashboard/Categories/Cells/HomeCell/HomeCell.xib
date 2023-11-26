@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -35,10 +35,10 @@
                                         <rect key="frame" x="66" y="0.0" width="273" height="45"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="IeI-Wu-GKA">
-                                                <rect key="frame" x="0.0" y="9" width="103.5" height="36.5"/>
+                                                <rect key="frame" x="0.0" y="9" width="98.5" height="34"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Trending Near You" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xoe-u4-VbD">
-                                                        <rect key="frame" x="0.0" y="0.0" width="103.5" height="16.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="98.5" height="14"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="32" id="U0W-XP-ivY"/>
                                                         </constraints>
@@ -46,7 +46,7 @@
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="ENK-cB-8dH">
-                                                        <rect key="frame" x="0.0" y="20.5" width="46.5" height="16"/>
+                                                        <rect key="frame" x="0.0" y="18" width="46.5" height="16"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="instatntDeliveryBolt" translatesAutoresizingMaskIntoConstraints="NO" id="AgW-vh-rih">
                                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
@@ -74,7 +74,7 @@
                                         </constraints>
                                     </view>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowRight" translatesAutoresizingMaskIntoConstraints="NO" id="rsm-H3-X0P">
-                                        <rect key="frame" x="362" y="19.5" width="16" height="16"/>
+                                        <rect key="frame" x="362" y="18" width="16" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="16" id="V5H-jS-8np"/>
                                             <constraint firstAttribute="width" secondItem="rsm-H3-X0P" secondAttribute="height" multiplier="1:1" id="boi-3I-eAm"/>
@@ -95,7 +95,7 @@
                                         </connections>
                                     </collectionView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cMZ-Wc-CVT">
-                                        <rect key="frame" x="16" y="7.5" width="40" height="40"/>
+                                        <rect key="frame" x="16" y="6" width="40" height="40"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="40" id="MXJ-Op-Lzf"/>
@@ -109,7 +109,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tJF-7D-6rz" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="302" y="15.5" width="60" height="24"/>
+                                        <rect key="frame" x="302" y="14" width="60" height="24"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="BHB-jd-NSg"/>
@@ -214,7 +214,7 @@
     </objects>
     <designables>
         <designable name="tJF-7D-6rz">
-            <size key="intrinsicContentSize" width="49" height="29"/>
+            <size key="intrinsicContentSize" width="48" height="29"/>
         </designable>
     </designables>
     <resources>

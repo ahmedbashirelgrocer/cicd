@@ -43,8 +43,7 @@ struct BannerDTO: Codable {
 extension BannerDTO {
     
     func toCategoryDTO () -> CategoryDTO {
-        return CategoryDTO(id: self.id ?? -2, name: self.name, coloredImageUrl: nil, description: nil, isFood: nil, isShowBrand: nil, message: nil, pg18: nil, photoUrl: self.imageURL ?? self.bannerImageURL, slug: nil, customPage: self.customScreenId ?? nil, messageAr: nil, nameAr: self.name)
-
+        return CategoryDTO(id: self.id ?? -2, name: self.name, coloredImageUrl: self.imageURL ?? self.bannerImageURL, description: nil, isFood: nil, isShowBrand: nil, message: nil, pg18: nil, photoUrl: self.imageURL ?? self.bannerImageURL, slug: nil, customPage: self.customScreenId ?? nil, messageAr: nil, nameAr: self.name,algoliaQuery: nil)
     }
     
     
