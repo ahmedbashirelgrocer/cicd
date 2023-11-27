@@ -1724,7 +1724,7 @@ private extension MainCategoriesViewController {
                 self.navigationController?.pushViewController(productsVC, animated: true)
             } else if category.customPage != nil {
                 let customVm = MarketingCustomLandingPageViewModel.init(storeId: self.grocery?.dbID ?? "", marketingId: String(category.customPage ?? 0))
-                let landingVC = ElGrocerViewControllers.marketingCustomLandingPageViewController(customVm)
+                let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
                 self.present(landingVC, animated: true)
             } else {
                 if ABTestManager.shared.storeConfigs.variant == .baseline {

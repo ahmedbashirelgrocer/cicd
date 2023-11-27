@@ -379,7 +379,7 @@ class BannerCampaign: NSObject {
         
         if self.customCampaignId != nil {
             let customVm = MarketingCustomLandingPageViewModel.init(storeId: currentActive.dbID, marketingId: String(self.customCampaignId ?? -1))
-                    let landingVC = ElGrocerViewControllers.marketingCustomLandingPageViewController(customVm)
+                    let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
             Thread.OnMainThread {
                 if let topVc = UIApplication.topViewController() {
                     topVc.present(landingVC, animated: true)

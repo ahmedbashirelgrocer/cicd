@@ -8,35 +8,32 @@ import UIKit
 import RxSwift
 import RxDataSources
 class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDelegate {
-    @IBOutlet weak var tableView: UITableView!
    
+    @IBOutlet weak var tableView: UITableView!
     private lazy var emptyView : NoStoreView = {
         let emptyView = NoStoreView.loadFromNib()
         emptyView?.delegate = self; emptyView?.configureNoDefaultSelectedStoreCart()
         return emptyView!
     }()
-    
-    private lazy var locationHeader : ElgrocerlocationView = {
-        let locationHeader = ElgrocerlocationView.loadFromNib()
-        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
-        return locationHeader!
-    }()
-    
-    /// Begin Collapsing Table Header Shopper
+    lazy var locationHeader : ElgrocerlocationView = {
+    let locationHeader = ElgrocerlocationView.loadFromNib()
+    locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+    return locationHeader!
+}()
     lazy var locationHeaderShopper : ElGrocerStoreHeaderShopper = {
         let locationHeader = ElGrocerStoreHeaderShopper.loadFromNib()
         locationHeader?.translatesAutoresizingMaskIntoConstraints = false
         locationHeader?.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         return locationHeader!
     }()
+    lazy var locationHeaderFlavor : ElgrocerStoreHeader = {
+    let locationHeader = ElgrocerStoreHeader.loadFromNib()
+        locationHeader?.setDismisType(.dismisVC)
+    locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+    return locationHeader!
+}()
+         var superSectionHeader: SubCateSegmentTableViewHeader!
     
-    private lazy var locationHeaderFlavor : ElgrocerStoreHeader = {
-        let locationHeader = ElgrocerStoreHeader.loadFromNib()
-        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
-        return locationHeader!
-    }()
-    
-    private var superSectionHeader: SubCateSegmentTableViewHeader!
     // MARK: - Properties
     private var dataSource: RxTableViewSectionedReloadDataSource<SectionHeaderModel<Int,String, ReusableTableViewCellViewModelType>>!
         var viewModel: MarketingCustomLandingPageViewModel!
@@ -48,7 +45,12 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.adjustHeaderDisplay()
+        setupNavigationBar()
+        adjustHeaderDisplay()
+    }
+    
+    @objc func backButtonPressed() {
+        self.backButtonClick()
     }
     
     private func registerCells() {
@@ -58,124 +60,6 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
         tableView.register(UINib(nibName: "HomeCell", bundle: .resource), forCellReuseIdentifier: kHomeCellIdentifier)
         tableView.separatorColor = .clear
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
-    }
-    
-    private func addLocationHeader() {
-        // For shoppor
-        if sdkManager.launchOptions?.marketType == .shopper {
-            addLocationHeaderShopper(); return  }
-        self.view.addSubview(self.locationHeaderFlavor)
-        self.setLocationViewFlavorHeaderConstraints()
-
-        self.view.addSubview(self.locationHeader)
-        self.setLocationViewConstraints()
-        
-    }
-    
-    private func setLocationViewConstraints() {
-        
-        self.locationHeader.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            self.locationHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            self.locationHeader.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            self.locationHeader.bottomAnchor.constraint(equalTo: self.tableView.topAnchor, constant: 0)
-          
-        ])
-        
-        let widthConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
-        let heightConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeader.headerMaxHeight)
-        NSLayoutConstraint.activate([ widthConstraint, heightConstraint])
-      
-    }
-    
-    private func setLocationViewFlavorHeaderConstraints() {
-        
-        self.locationHeaderFlavor.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            self.locationHeaderFlavor.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            self.locationHeaderFlavor.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            self.locationHeaderFlavor.bottomAnchor.constraint(equalTo: self.tableView.topAnchor, constant: 0)
-          
-        ])
-        
-        let widthConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
-        let heightConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeaderFlavor.headerMaxHeight)
-        NSLayoutConstraint.activate([ widthConstraint, heightConstraint])
-      
-    }
-    
-    private func addLocationHeaderShopper() {
-        
-        self.view.addSubview(self.locationHeaderShopper)
-        
-        NSLayoutConstraint.activate([
-            locationHeaderShopper.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            locationHeaderShopper.leftAnchor.constraint(equalTo: view.leftAnchor),
-            locationHeaderShopper.rightAnchor.constraint(equalTo: view.rightAnchor),
-            locationHeaderShopper.bottomAnchor.constraint(equalTo: tableView.topAnchor)
-        ])
-    }
-    
-    private func adjustHeaderDisplay() {
-        
-        // print("sdkManager.isGrocerySingleStore: \(sdkManager.isGrocerySingleStore)")
-
-        self.locationHeaderFlavor.isHidden = !sdkManager.isGrocerySingleStore
-        self.locationHeader.isHidden = sdkManager.isGrocerySingleStore
-        
-        let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
-        if constraintA.count > 0 {
-            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
-            let headerViewHeightConstraint = constraint
-            headerViewHeightConstraint.isActive  = sdkManager.isGrocerySingleStore
-        }else {
-            
-            if sdkManager.isGrocerySingleStore {
-                let heightConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeaderFlavor.headerMaxHeight)
-                NSLayoutConstraint.activate([heightConstraint])
-            }
-           
-        }
-        
-        let locationHeaderConstraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
-        if locationHeaderConstraintA.count > 0 {
-            let constraint = locationHeaderConstraintA.count > 1 ? locationHeaderConstraintA[1] : locationHeaderConstraintA[0]
-            let headerViewHeightConstraint = constraint
-            headerViewHeightConstraint.isActive  = !sdkManager.isGrocerySingleStore
-        } else {
-            if !sdkManager.isGrocerySingleStore {
-                let heightConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeader.headerMaxHeight)
-                NSLayoutConstraint.activate([heightConstraint])
-            }
-        }
-        self.view.layoutIfNeeded()
-    }
-    
-    private func setHeaderData(_ grocery : Grocery?) {
-        guard let grocery = grocery  else{
-            return
-        }
-        
-        if sdkManager.launchOptions?.marketType == .shopper {
-            DispatchQueue.main.async {
-                self.locationHeaderShopper.configuredLocationAndGrocey(grocery)
-            }
-            return
-        }
-        
-        DispatchQueue.main.async(execute: {
-            [weak self] in
-            guard let self = self else {return}
-            sdkManager.isGrocerySingleStore ?
-            self.locationHeaderFlavor.configureHeader(grocery: grocery, location: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress(), isArrowDownHidden: false): self.locationHeader.configuredLocationAndGrocey(grocery)
-        })
-        
-    }
-    
-    @objc func backButtonPressed() {
-        self.backButtonClick()
     }
     
     private func bindViews() {
@@ -267,7 +151,7 @@ extension MarketingCustomLandingPageViewController {
         tableView.backgroundView = containerView
         let imageHeight = UIScreen.main.bounds.width * 0.80
         tableView.contentInset = UIEdgeInsets(top: imageHeight, left: 0, bottom: 0, right: 0)
-       // tableView.contentOffset = CGPoint(x: 0, y: 0)
+        tableView.contentOffset = CGPoint(x: 0, y: imageHeight)
     }
 }
 
@@ -312,7 +196,6 @@ extension MarketingCustomLandingPageViewController: AWSegmentViewProtocol {
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex: Int) {
         debugPrint("")
     }
-    
     
 }
 
