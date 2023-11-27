@@ -151,7 +151,7 @@ extension MarketingCustomLandingPageViewController {
         tableView.backgroundView = containerView
         let imageHeight = UIScreen.main.bounds.width * 0.80
         tableView.contentInset = UIEdgeInsets(top: imageHeight, left: 0, bottom: 0, right: 0)
-        tableView.contentOffset = CGPoint(x: 0, y: imageHeight)
+        tableView.contentOffset = CGPoint(x: 0, y: -imageHeight)
     }
 }
 
