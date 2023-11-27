@@ -592,6 +592,9 @@ class ProductCell : RxUICollectionViewCell {
     }
 
     @IBAction func addToCartHandler(_ sender: Any) {
+        if let bidID = ElGrocerUtility.sharedInstance.resolvedBidIdForBannerClicked, UIApplication.topViewController() is BrandDetailsViewController {
+            TopsortManager.shared.log(.clicks(resolvedBidId: bidID, productID: "\(self.product.getCleanProductId())"))
+        }
         if viewModel != nil {
             self.viewModel.inputs.addToCartButtonTapObserver.onNext(())
             return

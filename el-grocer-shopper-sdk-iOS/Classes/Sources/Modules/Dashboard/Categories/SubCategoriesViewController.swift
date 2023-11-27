@@ -444,6 +444,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             cell.brandViewAllClicked = { [weak self] (brand) in
                 guard let self = self else {return}
                 self.navigateToBrandsDetailViewBrand(brand!)
+                ElGrocerUtility.sharedInstance.resolvedBidIdForBannerClicked = nil
             }
             cell.loadMoreProducts = {[weak self] (brand) in
                 guard let self = self,let brand = brand else {return}

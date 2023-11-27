@@ -1849,6 +1849,7 @@ private extension MainCategoriesViewController {
     }
     
     func bannerNavigation(banner: BannerDTO) {
+        ElGrocerUtility.sharedInstance.resolvedBidIdForBannerClicked = banner.resolvedBidId
         guard let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
         
         let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
