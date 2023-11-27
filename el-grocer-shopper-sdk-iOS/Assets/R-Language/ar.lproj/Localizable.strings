@@ -871,76 +871,208 @@
 "want_to_add_title" = "هل تريد إضافة عنوانك الحالي؟";
 "language_change_message" = "يتوجب عليك إعادة تشغيل التطبيق لتفعيل التغيير في اللغة";
 
-    // FAQ's
+// FAQ's
+"faq_title_1" = "أين يمكنني استخدام الجروسر؟ ";
+"faq_description_1" = "خدمتنا متوفرة في جميع أنحاء الإمارات العربية المتحدة (دبي، أبو ظبي، العين، الشارقة، رأس الخيمة، الفجيرة، أم القيوين، وعجمان) ";
 
-"faq_title_1" = "Where can I use El Grocer?";
-"faq_description_1" = "Our service is available across UAE (Dubai, Abu Dhabi, Al Ain, Sharjah, RAK, Fujairah, Umm Al Quwain & Ajman)";
+"faq_title_2" = "كيف سأستلم مشترياتي من البقالة؟ ";
+"faq_description_2" = "تتولى متاجرنا الشريكة مهمة التوصيل. يتم إرسال طلبك - فور وصوله - إلى المتجر، ويتم التوصيل والتسليم في غضون 60 دقيقة للطلبات الفورية. قد نتصل بك في حالات الاستبدال أو أي استفسارات أخرى. ";
 
-"faq_title_2" = "How do I receive my groceries?";
-"faq_description_2" = "Our partner stores take care of the delivery. Your order is transmitted in real-time to the store and delivery happens within 60 minutes for instant orders. We may contact you in case of substitution or any other queries. ";
+"faq_title_3" = "كيف أدفع ثمن مشترياتي من البقالة؟ ";
+"faq_description_3" = "خيارات الدفع هي: الدفع عبر الإنترنت أو نقداً أو ببطاقة ائتمان عند التسليم أو بنقاط Smiles، وتختلف هذه الخيارات من متجر لآخر. ";
 
-"faq_title_3" = "How do I pay for my groceries?";
-"faq_description_3" = "Payment options are Online Payment or Cash or Credit Card on Delivery or Smiles Points and these options vary from store to store.";
+"faq_title_4" = "
+هل تختلف الأسعار مقارنة بأسعار التسوق المباشر من المتاجر؟";
+"faq_description_4" = "لا فرق! الأسعار هي نفسها. الميزة الكبرى هي أنك لست مضطراً لإضاعة الوقت في الذهاب إلى المتاجر. ببساطة، اطلب كل ما تحتاجه ببضع نقرات فقط.";
 
-"faq_title_4" = "Are the prices different compared to me just going to the store directly?";
-"faq_description_4" = "No difference! The prices are the same. The big advantage is that you do not have to waste time going to the store. Simply order all you need with just a few taps. ";
+"faq_title_5" = "ما هي المدة التي عليّ انتظارها حتى تصل بقالتي؟ ";
+"faq_description_5" = "سيتم توصيل البقالة إليك في أسرع وقت ممكن؛ حيث ستبذل المتاجر الشريكة قصارى جهدها للتسليم في الوقت المحدد. ومع ذلك، قد يتأثر ذلك بتوافر موظفي التوصيل وحجم وضغط العمل، والطرق أو الأحوال الجوية، والمسافة بين المتجر وعنوان التسليم. إذا كان هناك أي تأخير فسوف نتأكد من إبلاغك في أبكر وقت ممكن.
+ ";
 
-"faq_title_5" = "How long do I have to wait for my groceries to arrive?";
-"faq_description_5" = "Your groceries will be brought to you as fast as possible; our partner stores will do their absolute best to deliver on time. However, this may be affected by delivery personnel availability and workload, roads or weather conditions, and the distance between the store and the delivery address. If there is any delay, we will make sure to inform you as early as possible. ";
+"faq_title_6" = "
+هل يمكنني تتبع طلباتي؟ 
+";
+"faq_description_6" = "بالطبع، يمكنك تتبع حالة طلبك بالذهاب إلى عنصر 'طلباتي' في القائمة. سيتم إعلامك أيضاً من خلال الإشعارات. ";
 
-"faq_title_6" = "Can I track my orders?";
-"faq_description_6" = "You can track the status of your order by going to the 'My Orders' menu item. You will also be notified via push notifications. ";
+"faq_title_7" = "كيف أبدأ؟ ";
+"faq_description_7" = "بمجرد تنزيل التطبيق، ما عليك سوى تحديد موقعك الحالي للاطلاع على قائمة المتاجر الشريكة المتوفرة بالقرب منك. اختر متجراً وابدأ تجربة تسوق البقالة بكل أريحية. الأمر في غاية البساطة!  ";
 
-"faq_title_7" = "How do I get started?";
-"faq_description_7" = "Once you have downloaded the app, simply select your current location to see the list of partner stores available around you. Pick a store and start your grocery shopping experience. It is that simple! ";
+"faq_title_8" = "أنا جديد على هذا النوع من الخدمات. هل يمكنني تصفح تطبيقكم أولاً؟ ";
+"faq_description_8" = "نعم، يمكنك تصفح تطبيقنا بحرية أولاً قبل الطلب. بمجرد فتح التطبيق في المرة الأولى، ما عليك سوى تحديد خيار 'استكشف وسجّل لاحقاً'. سيطلب منك التطبيق تحديد موقعك وسيعرض لك المتاجر المتاحة في منطقتك. بعد اختيار متجر وإضافة المنتجات التي تريدها إلى سلتك، سيُطلب منك إدخال معلومات الاتصال الخاصة بك لمتابعة عملية الدفع. ";
 
-"faq_title_8" = "I’m new to this type of service. Can I browse your app first?";
-"faq_description_8" = "Yes, you can freely browse our app first before ordering. Once you open the app the first time, simply select 'Explore and Register later' option. The app will ask you to select your location and will show you the available stores in the area. After choosing a store and adding the products you want to your basket, you will be prompted to enter your contact details to proceed to checkout. ";
+"faq_title_9" = "هل يمكنكم توصيل بقالتي إلى عناوين تسليم متعددة؟ ";
+"faq_description_9" = "بالتأكيد! يمكنك وضع عدة عناوين للتسليم حسبما تفضل. ";
 
-"faq_title_9" = "Can I have multiple delivery addresses?";
-"faq_description_9" = "Absolutely! You can create multiple delivery addresses based on your preference";
+"faq_title_10" = "
+هل يوجد حد أدنى للطلب أو رسوم توصيل مقابل عمليات التوصيل؟ 
+";
+"faq_description_10" = "أسعار الجروسر هي نفسها التي تراها في المتاجر. تتطلب بعض المتاجر المزيد من عمال التوصيل الذين يعملون بالتناوب. هذا يعني أن الحد الأدنى للطلبات ورسوم التوصيل تختلف باختلاف بائع التجزئة الذي تطلب منه. تأخذ المتاجر الصغيرة الطلبات بقيم سلة منخفضة عند حد أدنى 30 درهم إماراتي. بينما في حالة بعض بائعي التجزئة الذين يقومون بالتوصيل في نفس المبنى أو في حدود 500 متر، لا توجد رسوم توصيل. يتم عرض جميع شروط التوصيل كتفاصيل للمتاجر المدرجة لدينا، وكذلك على شاشة ملخص الطلب، حيث يُطلب منك تأكيد طلبك.  ";
 
-"faq_title_10" = "Is there any minimum order or delivery charge for deliveries?";
-"faq_description_10" = "elGrocer prices are the same as you see in stores. Some stores require more delivery men that work in shifts. This means minimum orders and delivery fees vary according to the retailer you order from. Smaller stores take orders with basket values as low as AED30. While in the case of some retailers that deliver in the same building or within 500m there are no delivery fees. All delivery terms are shown as details for our listed stores as well as on your order summary screen, where you are prompted to confirm your order. ";
+"faq_title_11" = "هناك العديد من المنتجات التي أطلبها عادة، فهل يمكنني تحديدها دون البحث عنها أو التصفح لإيجادها؟ ";
+"faq_description_11" = "بالتأكيد، يتم إدراج المنتجات التي يتم شراؤها بشكل معتاد في سجل التسوق؛ ليكون اختيارها سهلاً.  ";
 
-"faq_title_11" = "I have several products that I usually order. Can I have an option to select them without searching or browsing for them?";
-"faq_description_11" = "Absolutely. Products usually purchased are listed in Shopping history for easy selection. ";
+"faq_title_12" = "لا يمكنني العثور على المنتج الذي أبحث عنه. ";
+"faq_description_12" = "تعكس المنتجات التي تراها في التطبيق مخزون المتاجر الشريكة لنا. نقوم بتحديث المنتجات باستمرار لتزويدك بمعلومات دقيقة وتوضيح مدى توافر كل منتج. إذا لم تتمكن من العثور على ما تحتاجه، يرجى استخدام خاصية الدردشة المباشرة وإخبارنا بما تبحث عنه، حتى نتمكن من العمل مع المتاجر الشريكة لنا لإضافة هذا المنتج (المنتجات).  ";
 
-"faq_title_12" = "I can’t find the product that I am looking for?";
-"faq_description_12" = "The products you see in the app reflect our partner stores' inventories. We constantly update the products to provide accuracy and availability. If you cannot find what you need, please use the live chat feature so we can work with our partner stores to add the product (s). ";
+"faq_title_13" = " تلقيت تحديثاً بشأن طلبي يشير إلى أن بعض العناصر غير متوفرة. ";
+"faq_description_13" = "إذا نفد المخزون من المتجر، فسيتم الاتصال بك وعرض خيار تحديد بديل للمنتج (المنتجات) الذي اخترته أولاً.  ";
 
-"faq_title_13" = "I received an update about my order mentioning that some items are not available?";
-"faq_description_13" = "If the store runs out of stock, you will get contacted and offered the option to select a substitute for the initial product. ";
+"faq_title_14" = "هل يمكنني جدولة موعد التوصيل ليوم أو وقت لاحق؟ ";
+"faq_description_14" = "نعم، يمكنك ببساطة اختيار يوم ووقت التوصيل المناسبين لك من صفحة الدفع. ";
 
-"faq_title_14" = "Can I schedule my delivery to be sent at a later time/day?";
-"faq_description_14" = "Yes, simply can choose the delivery Day and time that is suitable for you from checkout page ";
+"faq_title_15" = "هل يمكنني تكرار نفس الطلب الذي سبق وقدمته؟ ";
+"faq_description_15" = "نعم، ما عليك سوى التوجه إلى 'طلباتي' واختيار إعادة الطلب. ";
 
-"faq_title_15" = "Can I repeat the same order as one previously placed?";
-"faq_description_15" = "Yes, simply go to “My Orders“ and select “Re-Order”";
+"faq_title_16" = "كيف يمكنني إلغاء طلبي؟ ";
+"faq_description_16" = "يعتمد الإلغاء على حالة طلبك:
+- إذا كانت حالة طلبك ' معلق'، فيمكنك تعديل طلبك وإلغائه
+- إذا كانت حالة طلبك 'مقبول'، فهذا يعني أن طلبك لا يزال في المتجر ويمكن إلغاؤه. يرجى الاتصال بنا عبر الدردشة المباشرة حتى نتمكن من مساعدتك
+- إذا كانت حالة طلبك 'في الطريق'، فهذا يعني أن فريق التوصيل خرج لتوصيل طلبك بالفعل. يتم إلغاء الطلب بموجب هذه الحالة تبعاً لكل حالة على حدة. يرجى الاتصال بنا حتى نتمكن من التنسيق مع متجرنا الشريك. ";
 
-"faq_title_16" = "How do I cancel my order?";
-"faq_description_16" = "Cancellation depends on the status of your order:
-- If your order is still under “pending“ status, you can edit your order and cancel it
-- If your order is under the “accepted“ status, it means that your order is still in the shop and can still be canceled. Please contact us over live chat so we can assist you
-- If your order is under the “En route“ status, it means that the delivery team is already out for delivery. Canceling an order under this status works on a case-by-case basis. Please contact us so we can coordinate with our partner store. ";
+"faq_title_17" = "استلمت منتجاً به عيب ما أو غير صحيح، ماذا أفعل؟ ";
+"faq_description_17" = "نوصي بشدة بفحص المنتجات أولاً. لديك خيار رفض العناصر إذا كانت غير صحيحة أو في حالة سيئة. يرجى الاتصال بنا على الفور حتى نتمكن من تنسيق عمليات الاستبدال مع المتاجر الشريكة لنا.  ";
 
-"faq_title_17" = "I received an incorrect/defective product, what do I do?";
-"faq_description_17" = "We strongly recommend checking the products first. You have the option to refuse items if they are incorrect or in bad condition. Please contact us immediately so we can coordinate replacements with our partner stores. ";
+// Online Payment FAQ
 
-"faq_title_18" = "I just placed an order, have I been charged more than my amount?";
-"faq_description_18" = "We have not charged you yet, we have requested an amount to be on hold, and we request to hold an extra AED10 in for fresh items, extra weights, and OOS replacements ";
+"faq_title_18" = "لقد قدمت طلباً للتو، هل تم محاسبتي/تحصيل أكثر من مبلغ بقالتي الأساسي؟ ";
+"faq_description_18" = "لم نحصّل منك أي مبلغ بعد. لقد طلبنا مبلغاً ليتم تعليقه، ونطلب تعليق مبلغ إضافي قيمته 10 دراهم للعناصر الطازجة والأوزان الإضافية وبدائل OOS (نفاذ المنتج من المخزون).  ";
 
-"faq_title_19" = "I got 2 SMS about my payment; did you charge me twice?";
-"faq_description_19" = "No, the 1st SMS is likely to be from your bank, this is an amount we have requested to be on hold. The second SMS is from elGrocer, and this is the actual amount that we have charged your card at checkout in store. (After processing order with fresh items and OOS) ";
+"faq_title_19" = "
+2- تلقيت رسالتين قصيرتين بخصوص عملية الدفع الخاص بي؛ هل يعني أنكم حاسبتموني مرتين؟ ";
+"faq_description_19" = "لا، من المحتمل أن تكون أول رسالة نصية قصيرة من البنك الذي تتعامل معه، وهذا هو المبلغ الذي طلبنا تعليقه. الرسالة الثانية من الجروسر، وهذا هو المبلغ الفعلي الذي قمنا بتحصيله من بطاقتك عند الدفع في المتجر. (بعد معالجة وتجهيز الطلب بالعناصر الطازجة وبدائل OOS).  ";
 
-"faq_title_20" = "I want to cancel my order, can you please refund my payment?";
-"faq_description_20" = " Your order will be cancelled, and the charges on your card will be cancelled. ";
+"faq_title_20" = " أريد إلغاء طلبي، هل يمكنكم إعادة المبلغ المدفوع؟ ";
+"faq_description_20" = " سيتم إلغاء طلبك وإلغاء المبلغ المفترض تحصيله من بطاقتك. ";
 
-"faq_title_21" = "I placed an order, and then edited it to add more items. I have been charged twice.";
-"faq_description_21" = "The first charge will be cancelled automatically; we will only charge for the final amount of the edited order.";
+"faq_title_21" = "لقد قدمت طلباً، ثم قمت بتعديله لإضافة المزيد من العناصر. لقد تم محاسبتي مرتين؟ ";
+"faq_description_21" = "سيتم إلغاء تحصيل المبلغ الأول بشكل تلقائي. سنقوم فقط بتحصيل المبلغ النهائي للطلب الذي جرى تعديله. ";
 
-"faq_title_22" = "I made an order and paid online, can I add more items?";
-"faq_description_22" = "Yes, we will add the extra amount to charge your card once we check out from store.  ";
+"faq_title_22" = "لقد قدمت طلباً ودفعت عبر الإنترنت، هل يمكنني إضافة المزيد من العناصر؟ ";
+"faq_description_22" = "نعم، سنضيف المبلغ الإضافي ليتم تحصيله من بطاقتك بمجرد الدفع في المتجر. ";
+
+// Earn & Redeem FAQ
+
+"faq_title_23" = "كيف يمكنني التسجيل؟ ";
+"faq_description_23" = "العملية بسيطة! انقر فوق بانر Smiles في تطبيق الجروسر، وسيتم توجيهك خلال عملية التسجيل. ";
+
+"faq_title_24" = "أين يمكنني إيجاد جميع معلومات حساباتي؟ ";
+"faq_description_24" = "يمكن الوصول إلى معلومات رصيدك في الجروسر وSmiles من قائمة الملف الشخصي في تطبيق الجروسر.  ";
+
+"faq_title_25" = "
+هل يوجد حد أقصى لعدد محاولات إدخال الـ OTP (كلمة مرور لمرة واحدة) الصحيحة؟  ";
+"faq_description_25" = "بعد ثلاث محاولات كحد أقصى، سيتم رفض معاملتك، وسيتم حظر خدمة المصادقة. سيكون هناك فترة 24 ساعة حتى يمكنك محاولة المصادقة مرة أخرى. يتم التعرف على 3 محاولات OTP فقط في اليوم الواحد.  ";
+
+"faq_title_26" = "إذا كان لدي ملف شخصي موجود في تطبيق الجروسر، كيف يمكنني ربطه بملف Smiles الشخصي لكسب النقاط واستبدالها؟  ";
+"faq_description_26" = "إذا كان لديك حساب الجروسر وحساب Smiles، عند فتح التطبيق سترى بانر تسجيل الدخول للكسب والاسترداد.
+بمجرد النقر فوق البانر، سيتم إرسالك إلى شاشة التحقق.
+سيتعرف عليك النظام على أنك Smiles، وستتلقى رسالة OTP.
+بعد النقر فوق موافق، والعودة إلى الشاشة الرئيسية، سترى رصيدك الحالي في Smiles في الملف الشخصي . ";
+
+"faq_title_27" = "هل يمكن لكل من الحسابين الأساسي والمرتبط تسجيل الدخول إلى تطبيق الجروسر؟  ";
+"faq_description_27" = "الحسابات الأساسية والمرتبطة هي إشارة إلى حسابات Smiles وليس الجروسر.
+يدعم الجروسر جميع حسابات Smiles. سيصل كل حساب إلى نفس رصيد Smiles الموجود على تطبيق Smiles الخاص به.  ";
+
+"faq_title_28" = "إذا كان لدي رقم هاتف تجاري أو رقم خط زائر أو رقم SWYP أو رقم Du أو رقم دولي أو أي نوع آخر، فهل يزال بإمكاني كسب واستبدال نقاط Smiles باستخدام تطبيق الجروسر؟ ";
+"faq_description_28" = "لا يميز الجروسر بين أنواع الأرقام. يمكن لأي رقم تسجل من خلاله للحصول على حساب Smiles كسب النقاط واستبدالها على تطبيق الجروسر.
+ ";
+
+"faq_title_29" = "ما هي فوائد برنامج' اكسب واستبدل'؟  ";
+"faq_description_29" = "مع كل عملية شراء ستكسب نقاط Smiles التي يمكن استخدامها لشراء البقالة وطلبات Smiles Food وأي شريك آخر في Smiles. يمكنك أيضاً استبدال نقاطك Smiles عند تقديم طلباتك على الجروسر. ";
+
+"faq_title_30" = "
+هل سأحصل على نقاط مقابل المشتريات التي اشتريتها قبل إنشاء حساب المكافآت الخاص بي؟
+  ";
+"faq_description_30" = "سيبدأ كسب نقاط Smiles بعد إنشاء حساب لك في الجروسر، واختيار تسجيل الدخول إلى حسابك في  Smiles من داخل تطبيق الجروسر. ";
+
+"faq_title_31" = "هل سأتمكن من استخدام نقاط Smiles التي كانت في محفظتي في Smiles سابقاً؟  ";
+"faq_description_31" = "نعم  ";
+
+"faq_title_32" = "كيف يمكنني كسب النقاط؟  ";
+"faq_description_32" = "بمجرد ربط حسابك Smiles بحسابك في الجروسر عن طريق النقر فوق بانر Smiles، ستكسب نقاط Smiles مع كل درهم تنفقه على تطبيق الجروسر. كل 1 درهم تنفقه سيكسبك 1 نقطة Smiles. يمكنك أيضاً كسب نقاط من خلال العديد من الطرق الأخرى من خلال تطبيق Smiles. ";
+
+"faq_title_33" = "كيف تتم آلية كسب النقاط؟ ";
+"faq_description_33" = "مقابل كل 1 درهم إماراتي تنفقه على الجروسر، ستحصل على 1 نقطة Smiles. ";
+
+"faq_title_34" = "إذا استخدمت كود ترويجي، فكيف سيتم احتساب نقاط Smiles؟  ";
+"faq_description_34" = "عند استخدام الكود الترويجي، ستكسب النقاط على المبلغ المدفوع بعد الخصم.
+على سبيل المثال، إذا كان لديك فاتورة بقيمة 100 درهم، وأنت تستخدم الكود NEW10 الذي يمنحك خصم 10 دراهم على فاتورتك.
+عند استخدام الكود، ستدفع 90 درهم فقط، وستكسب 90 نقطة Smiles في المقابل.  ";
+
+"faq_title_35" = "عندما أقوم بالدفع بنقاطي Smiles، هل سأكسب نقاط جديدة؟  ";
+"faq_description_35" = "عند اختيارك دفع الطلب بنقاط Smiles، لن تكسب نقاطاً. عند استبدال النقاط، لا تنطبق خاصية الكسب. في أي معاملة يمكنك إما كسب أو استبدال - واحدة من هاتين الخاصيتين فقط في كل معاملة.  ";
+
+"faq_title_36" = "هل يوجد حد أدنى لإجراء الدفع باستخدام نقاط Smiles؟  ";
+"faq_description_36" = "لا يوجد حد أدنى لقيمة الطلب عندما يتعلق الأمر باستخدام نقاط Smiles .
+لكن بعض المتاجر لديها حد أدنى للمبلغ لتقديم الطلب فيها.
+لذلك، في هذه اللحظة، تحتاج إلى أن يكون بحوزتك مبلغ طلبك بالكامل في صورة نقاط Smiles. 
+ ";
+
+"faq_title_37" = "كيف يمكنني استبدال نقاطي عند الدفع؟ ";
+"faq_description_37" = "في صفحة الدفع داخل تطبيق الجروسر، سيظهر لك رصيدك Smiles. يمكنك اختيار شراء طلبك من الجروسر باستخدام رصيدك الحالي من Smiles.  ";
+
+"faq_title_38" = "هل يمكنني استخدام نقاط Smiles لدفع جزء من الفاتورة؟ ";
+"faq_description_38" = "نعم، هذا ممكن. ";
+
+"faq_title_39" = "هل يمكنك دفع فاتورة قيمتها 200 درهم بـ 200 نقطة Smiles التي كسبتها عند شرائك بقيمة 200 درهم من الجروسر؟  ";
+"faq_description_39" = "لا، ستكسب 1 نقطة مع كل 1 درهم تنفقه. لكن الأمر يتطلب حوالي 111 نقطة لدفع ما قيمته 1 درهم من البقالة. يبدو الأمر كما لو كنت تحصل على استرداد نقدي بنسبة 1٪ على مشترياتك في شكل نقاط Smiles.  ";
+
+"faq_title_40" = "هل تنتهي صلاحية نقاطي؟ ";
+"faq_description_40" = "تخضع جميع نقاطك Smiles للشروط والأحكام المنصوص عليها في تطبيق Smiles. ";
+
+"faq_title_41" = "كيف يمكنني استبدال نقاطي على Smiles؟ أم أن الرصيد على Smiles والجروسر مماثل؟ أو إذا دفعت بنقاطي Smiles على الجروسر، فهل سينخفض رصيدي في تطبيق Smiles؟ وتبعاً لذلك، إذا ربحتُ نقاطاً على الجروسر، فهل سأرى نقاطي مضافة إلى محفظة الجروسر؟  ";
+"faq_description_41" = "رصيدك في Smiles مرتبط مباشرة بتطبيق الجروسر. إذا كسبت نقاطاً عن طريق طلب واستلام بقالة  الجروسر، فستنعكس النقاط على رصيدك في تطبيق Smiles. إذا قمت باستبدال أي نقاط على تطبيق الجروسر، فسيتم خصم النقاط تلقائياً من رصيدك Smiles داخل تطبيق Smiles.  ";
+
+"faq_title_42" = "لقد استبدلت النقاط بآخر عملية شراء، لكنني الآن أرغب في استعادتها. ماذا سيحدث لمكافأتي؟ أو في حالة فشل الدفع؟ أو في حالة الاستبدال؟ ";
+"faq_description_42" = "إذا تم إلغاء طلب في الجروسر يستخدم نقاط Smiles لأي سبب من الأسباب، فسيتم إرجاع نقاط Smiles إلى رصيد Smiles الخاص بك.  ";
+
+"faq_title_43" =
+"21- ما هو الهامش الزمني لاستلام نقاط Smiles بعد الإرجاع؟ 
+ ";
+
+"faq_description_43" = " ساعة (حوالي يومين)";
+
+"faq_title_44" = "إذا استخدمت كود ترويجي، فكيف سيتم احتساب نقاط Smiles؟  ";
+"faq_description_44" = "عند استخدام الكود الترويجي، ستكسب النقاط على المبلغ المدفوع بعد الخصم.
+على سبيل المثال، إذا كان لديك فاتورة بقيمة 100 درهم، وأنت تستخدم الكود NEW10 الذي يمنحك خصم 10 دراهم على فاتورتك.
+عند استخدام الكود، ستدفع 90 درهم فقط، وستكسب 90 نقطة Smiles في المقابل.
+  ";
+
+"faq_title_45" = "
+عندما أقوم بالدفع بنقاطي Smiles، هل سأكسب نقاط جديدة؟ ";
+"faq_description_45" = "عند اختيارك دفع الطلب بنقاط Smiles، لن تكسب نقاطاً. عند استبدال النقاط، لا تنطبق خاصية الكسب. في أي معاملة يمكنك إما كسب أو استبدال - واحدة من هاتين الخاصيتين فقط في كل معاملة. ";
+
+// Tabby
+
+"faq_title_46" = "1. ما هو تابي؟ ";
+"faq_description_46" = "احصل على مزيد من الوقت للدفع. مع الجروسر وتابي، يمكنك التسوق الآن والدفع في نهاية الشهر مع رسوم الفائدة 0٪. ";
+
+"faq_title_47" = "كيف يمكنني استخدام تابي؟  ";
+"faq_description_47" = "اختر تابي كخيار للدفع في صفحة الدفع للطلب. ";
+
+"faq_title_48" = "هل يجب أن يكون لدي حساب على تابي لتقديم طلب؟ ";
+"faq_description_48" = "نعم، سيتم إعادة توجيه العملاء إلى تابي للتسجيل. ";
+
+"faq_title_49" = "إذا لم أكن من عملاء تابي، كيف يمكنني الاشتراك؟  ";
+"faq_description_49" = "ستتم إعادة توجيهك إلى صفحة الإشتراك التي تحتاج فيها إلى رقم هاتف محمول صالح في دولة الإمارات العربية المتحدة، وبريد إلكتروني صالح، وهوية إماراتية صالحة، وبطاقة ائتمان صالحة.  ";
+
+"faq_title_50" = "كم من الوقت يستغرق تفعيل حسابي؟ ";
+"faq_description_50" = "يتم التعامل مع هذا بالكامل بواسطة تابي. ستخضع موافقتهم على طلبك لمراجعتهم لبياناتك وظروفك المقدمة.  ";
+
+"faq_title_51" = "هل هناك رسوم فائدة إذا لم أدفع في نهاية الشهر؟ ";
+"faq_description_51" = "يتم التعامل مع هذا بالكامل بواسطة تابي. تتعهد بدفع المبالغ التالية بسبب التأخر في السداد:
+25 درهم بعد تاريخ السداد (دفعة نهاية الشهر).
+25 درهم إضافية إذا كان المبلغ مستحقاً بعد 14 يوماً من تاريخ السداد.
+25 درهم إضافية إذا كان المبلغ مستحقاً بعد 28 يوماً من تاريخ السداد.  ";
+
+"faq_title_52" = "كم يمكنني أن أنفق مع تابي؟ ";
+"faq_description_52" = "للحفاظ على أمان التسوق، تعتمد حدود الإنفاق على عدد من العوامل بما في ذلك نوع المنتجات التي تشتريها، والمتجر الذي تشتري منه، وسجلك مع تابي.  ";
+
+"faq_title_53" = "هل استخدام تابي مجاني؟ ";
+"faq_description_53" = "نعم! لا يفرض تابي أي فائدة أو رسوم على أي دفعات تتم في الوقت المحدد لها.  ";
+
+"faq_title_54" = " متى يجب علي الدفع؟";
+"faq_description_54" = "تبدأ دورة الدفع لتابي من اليوم 25 من الشهر حتى اليوم 24 من الشهر التالي. وفي يوم 25، ستحصل على ملخص لطلباتك لتلك الدورة. عليك أن تدفع بحلول يوم 28.  ";
+
 
 
 /*
