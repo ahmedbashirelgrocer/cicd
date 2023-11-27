@@ -4900,6 +4900,8 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
           NetworkCall.get(ElGrocerApiEndpoint.customCampaignAPi.rawValue, parameters: parameters, progress: { (progress) in
               
           }, success: { (operation,responseObject) in
+              
+              debugPrint("customApi Response: \(responseObject)")
               do {
                   if let rootJson = responseObject as? [String: Any] {
                       let data = try JSONSerialization.data(withJSONObject: rootJson)

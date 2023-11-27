@@ -21,6 +21,8 @@ protocol MarketingCustomLandingPageViewModelOutput {
     var cellViewModels: Observable<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]> { get }
     var cellSelected: Observable<DynamicComponentContainerCellViewModel> { get }
     var tableViewBackGround: Observable<CampaignSection?> { get }
+    var filterArrayData: Observable<[Filter]> { get }
+    var selectedgrocery: Observable<Grocery?> { get }
     var loading: Observable<Bool> { get }
     var showEmptyView: Observable<Void> { get }
     var error: Observable<ElGrocerError> { get }
@@ -53,7 +55,8 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     var cellViewModels: Observable<[SectionHeaderModel<Int, String , ReusableTableViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
     var tableViewBackGround: Observable<CampaignSection?> { tableViewBackGroundSubject.asObservable() }
     var cellSelected: Observable<DynamicComponentContainerCellViewModel> { cellSelectedSubject.asObservable() }
-    
+    var filterArrayData: Observable<[Filter]> { filterArrayDataSubject.asObservable() }
+    var selectedgrocery: Observable<Grocery?> { grocerySubject.asObservable() }
     // MARK: Subjects
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private let errorSubject = PublishSubject<ElGrocerError>()
@@ -62,12 +65,15 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     private let cellSelectedSubject = PublishSubject<DynamicComponentContainerCellViewModel>()
     private let componentSubject = BehaviorSubject<[CampaignSection]>(value: [])
     private let tableViewBackGroundSubject = BehaviorSubject<CampaignSection?>(value: nil)
+    private let filterArrayDataSubject = BehaviorSubject<[Filter]>(value: [])
+    private let grocerySubject = BehaviorSubject<Grocery?>(value: nil)
     private let disposeBag = DisposeBag()
     
     private var storeId: String
     private var marketingId: String
     private var apiClient: ElGrocerApi?
     private var grocery: Grocery?
+    private var tableviewVms : [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] = []
     
     init(storeId: String, marketingId: String,_ apiClient: ElGrocerApi? = ElGrocerApi.sharedInstance ,_ analyticsEngine: AnalyticsEngineType = SegmentAnalyticsEngine()) {
         
@@ -85,9 +91,11 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
         self.components
                    .observeOn(MainScheduler.instance)
                    .subscribe(onNext: { components in
+                       self.grocerySubject.onNext(self.grocery)
                        self.updateUI(with: components)
                    })
                    .disposed(by: disposeBag)
+   
     }
 }
 
@@ -103,8 +111,9 @@ extension MarketingCustomLandingPageViewModel {
             self.loadingSubject.onNext(false)
             return
         }
-        
-       
+        // product only 81
+        // all data 66
+       // apiClient?.getCustomCampaigns(customScreenId: self.marketingId) { data in
         apiClient?.getCustomCampaigns(customScreenId: self.marketingId) { data in
             switch data {
             case .success(let response):
@@ -125,18 +134,43 @@ extension MarketingCustomLandingPageViewModel {
                self.tableViewBackGroundSubject.onNext(backGroundBanner)
         }
        
-        var viewModels : [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] = []
+        var viewModel : [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] = []
             for (sectionIndex, componentSection) in componetFilterA.enumerated() {
-                    if componentSection.sectionName == .bannerImage {
+                switch componentSection.sectionName {
+                case .bannerImage:
                     let bannerVM = RxBannersViewModel(component: componentSection)
-                        viewModels.append(SectionHeaderModel(model: sectionIndex, header: "" , items: [bannerVM]))
-                    }else if componentSection.sectionName == .topDeals {
-                        let homeCellViewModel = HomeCellViewModel(forDynamicPage: ElGrocerApi.sharedInstance, algoliaAPI: AlgoliaApi.sharedInstance, deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000), category: CategoryDTO(id: componentSection.id, name: componentSection.title, algoliaQuery: componentSection.query, nameAr: componentSection.titleAr, bgColor : componentSection.backgroundColor), grocery: self.grocery)
-                        viewModels.append(SectionHeaderModel(model: sectionIndex, header: "" , items: [homeCellViewModel]))
+                    viewModel.append(SectionHeaderModel(model: sectionIndex, header: "" , items: [bannerVM]))
+                case .topDeals:
+                    let homeCellVM = HomeCellViewModel(forDynamicPage: ElGrocerApi.sharedInstance, algoliaAPI: AlgoliaApi.sharedInstance, deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000), category: CategoryDTO(id: componentSection.id, name: componentSection.title, algoliaQuery: componentSection.query, nameAr: componentSection.titleAr, bgColor : componentSection.backgroundColor), grocery: self.grocery)
+                    viewModel.append(SectionHeaderModel(model: sectionIndex, header: "" , items: [homeCellVM]))
+                case .backgroundBannerImage:
+                    break
+                case .productsOnly:
+                    let collectionViewOnlyTableViewCellVM = RxCollectionViewOnlyTableViewCellViewModel.init(deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000), category:  CategoryDTO(id: componentSection.id, name: componentSection.title, algoliaQuery: componentSection.query, nameAr: componentSection.titleAr, bgColor : componentSection.backgroundColor), grocery: self.grocery, component: componentSection)
+                    viewModel.append(SectionHeaderModel(model: sectionIndex, header: "" , items: [collectionViewOnlyTableViewCellVM]))
+                case .categorySection:
+                    let collectionViewOnlyTableViewCellVM = RxCollectionViewOnlyTableViewCellViewModel.init(deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000), category:  CategoryDTO(id: componentSection.id, name: componentSection.title, algoliaQuery: componentSection.query, nameAr: componentSection.titleAr, bgColor : componentSection.backgroundColor), grocery: self.grocery, component: componentSection)
+                    viewModel.append(SectionHeaderModel(model: sectionIndex, header: componentSection.title ?? "" , items: [collectionViewOnlyTableViewCellVM]))
+                case .subcategorySection:
+                    debugPrint(componentSection)
+                    if let filters = componentSection.filters {
+                        self.filterArrayDataSubject.onNext(filters)
+                        var filterVms : [ReusableTableViewCellViewModelType] = []
+                        var id = 0
+                        for filerObj in filters {
+                            let filterVm = HomeCellViewModel(forDynamicPage: ElGrocerApi.sharedInstance, algoliaAPI: AlgoliaApi.sharedInstance, deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000), category: CategoryDTO(id: id, name: filerObj.name, algoliaQuery: filerObj.query, nameAr: filerObj.nameAR, bgColor : componentSection.backgroundColor), grocery: self.grocery)
+                            filterVms.append(filterVm)
+                            id += 1
+                        }
+                        viewModel.append(SectionHeaderModel(model: sectionIndex, header: componentSection.title ?? "" , items: filterVms))
                     }
+                }
             }
-        self.cellViewModelsSubject.onNext(viewModels)
+        self.cellViewModelsSubject.onNext(viewModel)
     }
+    
+    
+   
     
     
 }

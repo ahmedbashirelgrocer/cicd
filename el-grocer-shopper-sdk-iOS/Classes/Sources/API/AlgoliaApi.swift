@@ -73,7 +73,7 @@ class AlgoliaApi {
     
     init() {
         
-        let isStaging = ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
+        let isStaging = false// ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/"
         
         if isStaging { algoliaApplicationID = algoliaApplicationIDStaging }
         let apiKeySearch = isStaging ? ALGOLIA_API_KEY_SEARCH_STAGING : ALGOLIA_API_KEY_SEARCH_LIVE

@@ -9,11 +9,34 @@ import RxSwift
 import RxDataSources
 class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDelegate {
     @IBOutlet weak var tableView: UITableView!
+   
     private lazy var emptyView : NoStoreView = {
         let emptyView = NoStoreView.loadFromNib()
         emptyView?.delegate = self; emptyView?.configureNoDefaultSelectedStoreCart()
         return emptyView!
     }()
+    
+    private lazy var locationHeader : ElgrocerlocationView = {
+        let locationHeader = ElgrocerlocationView.loadFromNib()
+        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+        return locationHeader!
+    }()
+    
+    /// Begin Collapsing Table Header Shopper
+    lazy var locationHeaderShopper : ElGrocerStoreHeaderShopper = {
+        let locationHeader = ElGrocerStoreHeaderShopper.loadFromNib()
+        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+        locationHeader?.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        return locationHeader!
+    }()
+    
+    private lazy var locationHeaderFlavor : ElgrocerStoreHeader = {
+        let locationHeader = ElgrocerStoreHeader.loadFromNib()
+        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+        return locationHeader!
+    }()
+    
+    private var superSectionHeader: SubCateSegmentTableViewHeader!
     // MARK: - Properties
     private var dataSource: RxTableViewSectionedReloadDataSource<SectionHeaderModel<Int,String, ReusableTableViewCellViewModelType>>!
         var viewModel: MarketingCustomLandingPageViewModel!
@@ -21,19 +44,138 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white; registerCells(); bindViews()
+        view.backgroundColor = .white; addLocationHeader(); registerCells(); bindViews()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.adjustHeaderDisplay()
     }
     
     private func registerCells() {
         
         tableView.register(UINib(nibName: RxBannersTableViewCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: RxBannersTableViewCell.defaultIdentifier)
+        tableView.register(UINib(nibName: RxCollectionViewOnlyTableViewCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: RxCollectionViewOnlyTableViewCell.defaultIdentifier)
         tableView.register(UINib(nibName: "HomeCell", bundle: .resource), forCellReuseIdentifier: kHomeCellIdentifier)
-
         tableView.separatorColor = .clear
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+    }
+    
+    private func addLocationHeader() {
+        // For shoppor
+        if sdkManager.launchOptions?.marketType == .shopper {
+            addLocationHeaderShopper(); return  }
+        self.view.addSubview(self.locationHeaderFlavor)
+        self.setLocationViewFlavorHeaderConstraints()
+
+        self.view.addSubview(self.locationHeader)
+        self.setLocationViewConstraints()
+        
+    }
+    
+    private func setLocationViewConstraints() {
+        
+        self.locationHeader.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            self.locationHeader.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            self.locationHeader.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            self.locationHeader.bottomAnchor.constraint(equalTo: self.tableView.topAnchor, constant: 0)
+          
+        ])
+        
+        let widthConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
+        let heightConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeader.headerMaxHeight)
+        NSLayoutConstraint.activate([ widthConstraint, heightConstraint])
+      
+    }
+    
+    private func setLocationViewFlavorHeaderConstraints() {
+        
+        self.locationHeaderFlavor.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            self.locationHeaderFlavor.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            self.locationHeaderFlavor.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            self.locationHeaderFlavor.bottomAnchor.constraint(equalTo: self.tableView.topAnchor, constant: 0)
+          
+        ])
+        
+        let widthConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
+        let heightConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeaderFlavor.headerMaxHeight)
+        NSLayoutConstraint.activate([ widthConstraint, heightConstraint])
+      
+    }
+    
+    private func addLocationHeaderShopper() {
+        
+        self.view.addSubview(self.locationHeaderShopper)
+        
+        NSLayoutConstraint.activate([
+            locationHeaderShopper.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            locationHeaderShopper.leftAnchor.constraint(equalTo: view.leftAnchor),
+            locationHeaderShopper.rightAnchor.constraint(equalTo: view.rightAnchor),
+            locationHeaderShopper.bottomAnchor.constraint(equalTo: tableView.topAnchor)
+        ])
+    }
+    
+    private func adjustHeaderDisplay() {
+        
+        // print("sdkManager.isGrocerySingleStore: \(sdkManager.isGrocerySingleStore)")
+
+        self.locationHeaderFlavor.isHidden = !sdkManager.isGrocerySingleStore
+        self.locationHeader.isHidden = sdkManager.isGrocerySingleStore
+        
+        let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
+        if constraintA.count > 0 {
+            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+            let headerViewHeightConstraint = constraint
+            headerViewHeightConstraint.isActive  = sdkManager.isGrocerySingleStore
+        }else {
+            
+            if sdkManager.isGrocerySingleStore {
+                let heightConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeaderFlavor.headerMaxHeight)
+                NSLayoutConstraint.activate([heightConstraint])
+            }
+           
+        }
+        
+        let locationHeaderConstraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
+        if locationHeaderConstraintA.count > 0 {
+            let constraint = locationHeaderConstraintA.count > 1 ? locationHeaderConstraintA[1] : locationHeaderConstraintA[0]
+            let headerViewHeightConstraint = constraint
+            headerViewHeightConstraint.isActive  = !sdkManager.isGrocerySingleStore
+        } else {
+            if !sdkManager.isGrocerySingleStore {
+                let heightConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeader.headerMaxHeight)
+                NSLayoutConstraint.activate([heightConstraint])
+            }
+        }
+        self.view.layoutIfNeeded()
+    }
+    
+    private func setHeaderData(_ grocery : Grocery?) {
+        guard let grocery = grocery  else{
+            return
+        }
+        
+        if sdkManager.launchOptions?.marketType == .shopper {
+            DispatchQueue.main.async {
+                self.locationHeaderShopper.configuredLocationAndGrocey(grocery)
+            }
+            return
+        }
+        
+        DispatchQueue.main.async(execute: {
+            [weak self] in
+            guard let self = self else {return}
+            sdkManager.isGrocerySingleStore ?
+            self.locationHeaderFlavor.configureHeader(grocery: grocery, location: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress(), isArrowDownHidden: false): self.locationHeader.configuredLocationAndGrocey(grocery)
+        })
+        
+    }
+    
+    @objc func backButtonPressed() {
+        self.backButtonClick()
     }
     
     private func bindViews() {
@@ -63,6 +205,7 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
                        self?.addTableViewBackgroundComponent(components)
                    })
                    .disposed(by: disposeBag)
+        
         viewModel.outputs.loading.subscribe(onNext: { [weak self] loading in
             guard let self = self else { return }
             loading
@@ -72,19 +215,43 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
         
         viewModel.outputs.showEmptyView.subscribe(onNext: { [weak self] _ in
             guard let self = self else { return }
-            
             self.emptyView.configureNoActiveCampaign()
             self.tableView.backgroundView = self.emptyView
-           
         }).disposed(by: disposeBag)
         
+        
+        viewModel.outputs.filterArrayData.subscribe(onNext: { [weak self] filter in
+            guard let self = self, filter.count > 0 else { return }
+            self.newTitleArrayUpdate(data: filter, selectedIndexPath: NSIndexPath.init(row: 0, section: 0))
+        }).disposed(by: disposeBag)
+        
+        
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
+        
         tableView.rx.itemSelected
                     .subscribe(onNext: { indexPath in })
                     .disposed(by: disposeBag)
+        
+        viewModel.outputs.selectedgrocery.subscribe(onNext: { [weak self] grocery in
+            guard let self = self, let grocery = grocery else { return }
+            setHeaderData(grocery)
+        }).disposed(by: disposeBag)
+        
+        
+        
+        
+        self.superSectionHeader   = (Bundle.resource.loadNibNamed("SubCateSegmentTableViewHeader", owner: self, options: nil)![0] as? SubCateSegmentTableViewHeader)!
+        self.superSectionHeader.frame = CGRect.init(origin: .zero, size: CGSize.init(width: ScreenSize.SCREEN_WIDTH , height: KSubCateSegmentTableViewHeaderWithOutMessageHeight))
+        self.superSectionHeader.refreshWithSubCategoryText("")
+        self.superSectionHeader.segmenntCollectionView.segmentDelegate = self
+        self.superSectionHeader.viewLayoutCliced = { [weak self ] () in
+            guard let self = self else {return}
+        }
+        
     }
 }
 extension MarketingCustomLandingPageViewController {
+    
     private func addTableViewBackgroundComponent(_ uiObj: CampaignSection?) {
         
         guard let uiObj = uiObj, let image = uiObj.image, image.count > 0, let imageURL = URL(string: image) else {
@@ -109,17 +276,44 @@ extension MarketingCustomLandingPageViewController: UITableViewDelegate {
             return UITableView.automaticDimension
        }
     
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        
-//        let height =   dataSource.sectionModels[section].header.count == 0 ? 5.0 : 30.0
-//        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: height))
-//        headerView.backgroundColor = .tableViewBackgroundColor()
-//        let label = UILabel(frame: CGRect(x: 16, y: 0, width: tableView.frame.width - 30.0, height: height))
-//        label.text = dataSource.sectionModels[section].header
-//        label.setH4SemiBoldStyle()
-//        headerView.addSubview(label)
-//        return headerView
-//    }
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let isTextAvailable = dataSource.sectionModels[section].header.count > 0
+        let isSubcategorySection = dataSource.sectionModels[section].items.count > 1
+        if isSubcategorySection {
+            self.superSectionHeader.refreshWithCategoryName(dataSource.sectionModels[section].header)
+            return self.superSectionHeader
+        }
+        guard isTextAvailable else { return UIView() }
+        let height =   isTextAvailable ? 30.0 : 1.0
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: height + 20))
+        headerView.backgroundColor = .white //isTextAvailable ? .white : .clear
+        let label = UILabel(frame: CGRect(x: 16, y: 0, width: tableView.frame.width - 30.0, height: height))
+        label.text = dataSource.sectionModels[section].header
+        label.setH4SemiBoldStyle()
+        headerView.addSubview(label)
+        headerView.clipsToBounds = true
+        return headerView
+    }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let isTextAvailable = dataSource.sectionModels[section].header.count > 0
+        if dataSource.sectionModels[section].items.count > 1 { return KSubCateSegmentTableViewHeaderWithOutMessageHeight }
+        return isTextAvailable ? 30.0 : 1.0
+    }
+   
+}
+
+extension MarketingCustomLandingPageViewController: AWSegmentViewProtocol {
+    
+    
+    func newTitleArrayUpdate(data: [Filter] ,  selectedIndexPath: NSIndexPath) {
+        self.superSectionHeader.configureView(data.map({ $0.name }), index: selectedIndexPath)
+    }
+    
+    func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex: Int) {
+        debugPrint("")
+    }
+    
+    
 }
 
 extension MarketingCustomLandingPageViewController: NoStoreViewDelegate {

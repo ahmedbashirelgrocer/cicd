@@ -24,13 +24,34 @@ struct CampaignSection: Codable {
     let sectionName: SectionName
     let priority: Int
     let query: String?
-    let image: String?
+    var image: String?
     let backgroundColor: String?
     let filters: [Filter]?
-    enum CodingKeys: String, CodingKey {
-            case id, title, titleAr, sectionName = "section_name", priority, query, image, backgroundColor, filters
-    }
     
+    //extra need to remove
+    let background_banner_image: String?
+    let banner_image:String?
+    
+    enum CodingKeys: String, CodingKey {
+            case id, title, titleAr = "title_ar", sectionName = "section_name", priority, query, image, backgroundColor = "background_color", filters, background_banner_image, banner_image
+    }
+    init(from decoder: Decoder) throws {
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decode(Int.self, forKey: .id)
+        title = try container.decode(String?.self, forKey: .title)
+        titleAr = try container.decode(String?.self, forKey: .titleAr)
+        sectionName = try container.decode(SectionName.self, forKey: .sectionName)
+        priority = try container.decode(Int.self, forKey: .priority)
+        query = try container.decode(String?.self, forKey: .query)
+        backgroundColor = try container.decode(String?.self, forKey: .backgroundColor)
+        filters = try container.decode([Filter]?.self, forKey: .filters)
+        background_banner_image = try container.decode(String?.self, forKey: .background_banner_image)
+        banner_image = try container.decode(String?.self, forKey: .banner_image)
+    
+        image = (background_banner_image?.count ?? 0) > 0 ? background_banner_image : banner_image
+        }
+     
 }
 
 struct CampaignData: Codable {

@@ -652,6 +652,7 @@ class ElGrocerViewControllers {
     class func marketingCustomLandingPageViewController(_ viewModel: MarketingCustomLandingPageViewModel) -> MarketingCustomLandingPageViewController {
         let campaignPage: MarketingCustomLandingPageViewController = ElGrocerViewControllers.initializeControllerFromStoryboard("MarketingCustomLandingPage", storyboardControllerId: "MarketingCustomLandingPageViewController")
         campaignPage.viewModel = viewModel
+        campaignPage.modalPresentationStyle = .fullScreen
         return campaignPage
     }
     

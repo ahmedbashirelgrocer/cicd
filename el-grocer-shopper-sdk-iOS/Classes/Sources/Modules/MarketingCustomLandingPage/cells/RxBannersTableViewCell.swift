@@ -49,7 +49,7 @@ class RxBannersTableViewCell: RxUITableViewCell {
             self?.viewModel.bannerTapObserver.onNext(banner)
         }
         
-        self.viewModel.isArbic
+        self.viewModel.isArabic
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] isArabic in
                 self?.bannerView.transform = isArabic ? CGAffineTransform(scaleX: -1, y: 1) : CGAffineTransform(scaleX: 1, y: 1)
