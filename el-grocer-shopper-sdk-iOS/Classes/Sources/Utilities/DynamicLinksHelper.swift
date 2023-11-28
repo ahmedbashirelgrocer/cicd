@@ -253,7 +253,7 @@ class DynamicLinksHelper {
         self.groceryId = ""
         self.brandId = ""
         self.parentIds = ""
-        self.serviceId = ""
+        self.serviceId = "1"
         self.productBarcode = ""
         self.productId = ""
         self.cpid = ""

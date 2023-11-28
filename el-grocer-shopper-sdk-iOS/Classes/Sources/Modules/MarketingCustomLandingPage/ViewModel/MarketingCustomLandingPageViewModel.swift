@@ -13,6 +13,7 @@ import RxDataSources
 
 protocol MarketingCustomLandingPageViewModelInput {
     var cellSelectedObserver: AnyObserver<DynamicComponentContainerCellViewModel> { get }
+    var filterUpdateIndexObserver: AnyObserver<Int> { get }
    }
 
 protocol MarketingCustomLandingPageViewModelOutput {
@@ -47,6 +48,7 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     
     // MARK: Inputs
     var cellSelectedObserver: AnyObserver<DynamicComponentContainerCellViewModel> { cellSelectedSubject.asObserver() }
+    var filterUpdateIndexObserver: AnyObserver<Int> { filterUpdateIndexSubject.asObserver() }
     // MARK: Outputs
     var loading: Observable<Bool> { loadingSubject.asObservable() }
     var error: Observable<ElGrocerError> { errorSubject.asObservable() }
@@ -63,6 +65,7 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     private let showEmptyViewSubject = PublishSubject<Void>()
     private var cellViewModelsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
     private let cellSelectedSubject = PublishSubject<DynamicComponentContainerCellViewModel>()
+    private let filterUpdateIndexSubject = PublishSubject<Int>()
     private let componentSubject = BehaviorSubject<[CampaignSection]>(value: [])
     private let tableViewBackGroundSubject = BehaviorSubject<CampaignSection?>(value: nil)
     private let filterArrayDataSubject = BehaviorSubject<[Filter]>(value: [])
@@ -73,7 +76,7 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     private var marketingId: String
     private var apiClient: ElGrocerApi?
     private var grocery: Grocery?
-    private var tableviewVms : [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] = []
+    private let tableviewVmsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
     
     init(storeId: String, marketingId: String,_ apiClient: ElGrocerApi? = ElGrocerApi.sharedInstance ,_ analyticsEngine: AnalyticsEngineType = SegmentAnalyticsEngine()) {
         
@@ -91,12 +94,47 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
         self.components
                    .observeOn(MainScheduler.instance)
                    .subscribe(onNext: { components in
+                       guard components.count > 0 else { return}
                        self.grocerySubject.onNext(self.grocery)
                        self.updateUI(with: components)
                    })
                    .disposed(by: disposeBag)
+
+        self.filterUpdateIndexSubject
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { index in
+                var defaultVms : [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] = []
+                var updatedSechtionHeaderModel: SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>
+                do {
+                    let lastValue = try tableviewVmsSubject.value()
+                    defaultVms = lastValue
+                } catch {  print("Error: \(error.localizedDescription)")  }
+                
+                guard defaultVms.count > 0 else { return }
+               
+                var upddateIndex = 0
+                var itemToKeepArray : [HomeCellViewModel] = []
+                
+                for (arrayIndex,vm) in defaultVms.enumerated() {
+                    if vm.items.count > 1, var items = vm.items as? [HomeCellViewModel] {
+                        updatedSechtionHeaderModel = vm
+                        let itemToKeep =  items.remove(at: index)
+                        upddateIndex = arrayIndex
+                        itemToKeepArray = [itemToKeep]
+                        defaultVms[upddateIndex] = SectionHeaderModel(model: updatedSechtionHeaderModel.model, header: updatedSechtionHeaderModel.header, items: itemToKeepArray)
+                        break
+                    }
+                }
+               
+                self.cellViewModelsSubject.onNext(defaultVms)
+            })
+            .disposed(by: disposeBag)
+        
    
     }
+    
+    
+    //cellViewModels
 }
 
 
@@ -113,7 +151,9 @@ extension MarketingCustomLandingPageViewModel {
         }
         // product only 81
         // all data 66
+        // 103 for filter
        // apiClient?.getCustomCampaigns(customScreenId: self.marketingId) { data in
+       // self.marketingId = "103"
         apiClient?.getCustomCampaigns(customScreenId: self.marketingId) { data in
             switch data {
             case .success(let response):
@@ -152,7 +192,6 @@ extension MarketingCustomLandingPageViewModel {
                     let collectionViewOnlyTableViewCellVM = RxCollectionViewOnlyTableViewCellViewModel.init(deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000), category:  CategoryDTO(id: componentSection.id, name: componentSection.title, algoliaQuery: componentSection.query, nameAr: componentSection.titleAr, bgColor : componentSection.backgroundColor), grocery: self.grocery, component: componentSection)
                     viewModel.append(SectionHeaderModel(model: sectionIndex, header: componentSection.title ?? "" , items: [collectionViewOnlyTableViewCellVM]))
                 case .subcategorySection:
-                    debugPrint(componentSection)
                     if let filters = componentSection.filters {
                         self.filterArrayDataSubject.onNext(filters)
                         var filterVms : [ReusableTableViewCellViewModelType] = []
@@ -167,6 +206,7 @@ extension MarketingCustomLandingPageViewModel {
                 }
             }
         self.cellViewModelsSubject.onNext(viewModel)
+        self.tableviewVmsSubject.onNext(viewModel)
     }
     
     

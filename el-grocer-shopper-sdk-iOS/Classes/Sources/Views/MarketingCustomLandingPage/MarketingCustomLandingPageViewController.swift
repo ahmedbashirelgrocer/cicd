@@ -36,6 +36,7 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
     
     // MARK: - Properties
     private var dataSource: RxTableViewSectionedReloadDataSource<SectionHeaderModel<Int,String, ReusableTableViewCellViewModelType>>!
+    private var sections: [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] = []
         var viewModel: MarketingCustomLandingPageViewModel!
     private let disposeBag = DisposeBag()
 
@@ -46,7 +47,7 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationBar()
-        adjustHeaderDisplay()
+        adjustHeaderDisplay(); 
     }
     
     @objc func backButtonPressed() {
@@ -89,6 +90,11 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
                        self?.addTableViewBackgroundComponent(components)
                    })
                    .disposed(by: disposeBag)
+        
+        viewModel.outputs.selectedgrocery.subscribe(onNext: { [weak self] grocery in
+            guard let self = self, let grocery = grocery else { return }
+            setHeaderData(grocery)
+        }).disposed(by: disposeBag)
         
         viewModel.outputs.loading.subscribe(onNext: { [weak self] loading in
             guard let self = self else { return }
@@ -163,7 +169,7 @@ extension MarketingCustomLandingPageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let isTextAvailable = dataSource.sectionModels[section].header.count > 0
         let isSubcategorySection = dataSource.sectionModels[section].items.count > 1
-        if isSubcategorySection {
+        if isSubcategorySection || (isTextAvailable && dataSource.sectionModels[section].header == "filters") {
             self.superSectionHeader.refreshWithCategoryName(dataSource.sectionModels[section].header)
             return self.superSectionHeader
         }
@@ -180,8 +186,15 @@ extension MarketingCustomLandingPageViewController: UITableViewDelegate {
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let isTextAvailable = dataSource.sectionModels[section].header.count > 0
-        if dataSource.sectionModels[section].items.count > 1 { return KSubCateSegmentTableViewHeaderWithOutMessageHeight }
+        let isSubcategorySection = dataSource.sectionModels[section].items.count > 1
+        if isSubcategorySection || (isTextAvailable && dataSource.sectionModels[section].header == "filters") {
+            return KSubCateSegmentTableViewHeaderWithOutMessageHeight
+        }
         return isTextAvailable ? 30.0 : 1.0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return .leastNormalMagnitude
     }
    
 }
@@ -195,6 +208,7 @@ extension MarketingCustomLandingPageViewController: AWSegmentViewProtocol {
     
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex: Int) {
         debugPrint("")
+        self.viewModel.inputs.filterUpdateIndexObserver.onNext(selectedSegmentIndex)
     }
     
 }
