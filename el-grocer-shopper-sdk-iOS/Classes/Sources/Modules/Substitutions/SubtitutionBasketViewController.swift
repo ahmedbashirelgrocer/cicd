@@ -638,13 +638,8 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
             
             switch result {
             case .success(_):
-                
-//                let notification = ElGrocerAlertView.createAlert(localizedString("order_cancel_alert_title", comment: ""),description: localizedString("order_cancel_success_message", comment: ""),positiveButton:nil,negativeButton:nil,buttonClickCallback:nil)
-//                notification.showPopUp()
                 ElGrocerUtility.sharedInstance.showTopMessageView(localizedString("order_cancel_success_message", comment: "") , image: UIImage(name: "MyBasketOutOfStockStatusBar"), -1 , false) { (t1, t2, t3) in }
-                
                 self.perform(#selector(self.dismissView), with: nil, afterDelay: 3.0)
-                
             case .failure(let error):
                 error.showErrorAlert()
             }
