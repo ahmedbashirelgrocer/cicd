@@ -17,8 +17,7 @@ protocol MarketingCustomLandingPageViewModelInput {
    }
 
 protocol MarketingCustomLandingPageViewModelOutput {
-    //var components: Observable<[Component]> { get }
-    
+
     var cellViewModels: Observable<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]> { get }
     var cellSelected: Observable<DynamicComponentContainerCellViewModel> { get }
     var tableViewBackGround: Observable<CampaignSection?> { get }
@@ -34,19 +33,14 @@ protocol MarketingCustomLandingPageViewModelType: MarketingCustomLandingPageView
     var inputs: MarketingCustomLandingPageViewModelInput { get }
     var outputs: MarketingCustomLandingPageViewModelOutput { get }
 }
-
 extension MarketingCustomLandingPageViewModelType {
     var inputs: MarketingCustomLandingPageViewModelInput { self }
     var outputs: MarketingCustomLandingPageViewModelOutput { self }
 }
 
-
 struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelType {
     
-    
-  
     var reusableIdentifier: String { ActiveCartTableViewCell.defaultIdentifier }
-    
     // MARK: Inputs
     var cellSelectedObserver: AnyObserver<DynamicComponentContainerCellViewModel> { cellSelectedSubject.asObserver() }
     var filterUpdateIndexObserver: AnyObserver<Int> { filterUpdateIndexSubject.asObserver() }
@@ -90,7 +84,12 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
         self.grocery = HomePageData.shared.groceryA?.first(where: { $0.dbID == self.storeId })
         self.fetchViews()
         self.bindComponents()
+        if let store = self.grocery { ElGrocerUtility.sharedInstance.activeGrocery = store }
         
+    }
+    
+    func getGrocery() -> Grocery? {
+        return self.grocery
     }
     
     private func bindComponents() {
@@ -130,35 +129,21 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
                         }
                     }
                 }
-               
                 self.cellViewModelsSubject.onNext(defaultVms)
             })
             .disposed(by: disposeBag)
-        
     }
-    
-    
-    //cellViewModels
 }
-
-
 extension MarketingCustomLandingPageViewModel {
     
     private func fetchViews() {
         
         self.loadingSubject.onNext(true)
-        
-        if self.marketingId.isEmpty || self.storeId.isEmpty {
-            self.showEmptyViewSubject.onNext(())
-            self.loadingSubject.onNext(false)
+        if self.marketingId.isEmpty || self.storeId.isEmpty || self.grocery == nil {
+            showEmptyViewWithDelay()
             return
         }
-        // product only 81
-        // all data 66
-        // 103 for filter
-       // apiClient?.getCustomCampaigns(customScreenId: self.marketingId) { data in
-       // self.marketingId = "103"
-        apiClient?.getCustomCampaigns(customScreenId: "117") { data in
+        apiClient?.getCustomCampaigns(customScreenId: self.marketingId) { data in
             switch data {
             case .success(let response):
                 componentSubject.onNext(response.campaignSections)
@@ -170,6 +155,16 @@ extension MarketingCustomLandingPageViewModel {
         }
     }
     
+    private func showEmptyViewWithDelay() {
+        let observableValue = Observable.just(())
+        observableValue
+            .delay(.seconds(2), scheduler: MainScheduler.instance) // Adjust the delay duration as needed
+            .subscribe(onNext: { _ in
+                self.showEmptyViewSubject.onNext(())
+                self.loadingSubject.onNext(false)
+            })
+            .disposed(by: disposeBag)
+    }
     
     private func updateUI(with components: [CampaignSection]) {
         
@@ -225,9 +220,4 @@ extension MarketingCustomLandingPageViewModel {
         self.cellViewModelsSubject.onNext(viewModel)
         self.tableviewVmsSubject.onNext(viewModel)
     }
-    
-    
-   
-    
-    
 }

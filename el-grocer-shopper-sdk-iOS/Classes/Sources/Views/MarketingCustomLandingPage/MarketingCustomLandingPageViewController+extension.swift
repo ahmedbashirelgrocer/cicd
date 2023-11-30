@@ -11,6 +11,10 @@ extension MarketingCustomLandingPageViewController: NavigationBarProtocol {
     
     
     func addLocationHeader() {
+        
+        guard self.viewModel.getGrocery() != nil else { return }
+        
+        
         // For shoppor
         if sdkManager.launchOptions?.marketType == .shopper {
             addLocationHeaderShopper(); return  }

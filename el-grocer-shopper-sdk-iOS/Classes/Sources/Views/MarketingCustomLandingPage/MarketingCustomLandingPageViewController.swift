@@ -114,6 +114,9 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
             guard let self = self else { return }
             self.emptyView.configureNoActiveCampaign()
             self.tableView.backgroundView = self.emptyView
+            self.locationHeaderFlavor.isHidden = true
+            self.locationHeader.isHidden = true
+            self.locationHeaderShopper.isHidden = true
         }).disposed(by: disposeBag)
         
         

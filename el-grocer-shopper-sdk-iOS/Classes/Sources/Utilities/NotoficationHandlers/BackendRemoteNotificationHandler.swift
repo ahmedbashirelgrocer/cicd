@@ -38,6 +38,9 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
     fileprivate let elGrocerChatOriginKey = "el-grocer-Chat"
     fileprivate let elGrocerCTOriginKey = "el-grocer-ct"
     fileprivate let pushTypeKey = "message_type"
+    fileprivate let customPageId = "customPageId"
+    fileprivate let storeId = "storeID"
+    
     fileprivate let pushMessageKey = "message"
     fileprivate let pushOrderIdKey = "order_id"
     fileprivate let shopperIdKey = "shopper_id"
@@ -58,6 +61,23 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
         
         guard let origin = notification[originKey] as? String , (origin == elGrocerBackendOriginKey || origin == elGrocerChatOriginKey || origin == elGrocerCTOriginKey || SDKManager.shared.isSmileSDK)  else {
             return false
+        }
+        
+        if let customPageId:Int = notification[customPageId] as? Int, var storeId:Int = notification[storeId] as? Int  {
+            
+            if let store = HomePageData.shared.groceryA?.first(where: { $0.dbID == String(storeId) }) {
+                ElGrocerUtility.sharedInstance.activeGrocery = store
+            }else {
+                storeId = -1000
+            }
+            Thread.OnMainThread {
+                if let topVc = UIApplication.topViewController() {
+                    let customVm = MarketingCustomLandingPageViewModel.init(storeId: String(storeId) , marketingId: String(customPageId ))
+                    let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
+                    topVc.present(landingVC, animated: true)
+                }
+            }
+            return true
         }
         
         if origin == elGrocerCTOriginKey {
