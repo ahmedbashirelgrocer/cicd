@@ -107,6 +107,7 @@ extension MarketingCustomLandingPageViewController: NavigationBarProtocol {
         guard let grocery = grocery  else{
             return
         }
+        addBasketIcon(grocery)
         
         if sdkManager.launchOptions?.marketType == .shopper {
             DispatchQueue.main.async {
@@ -146,6 +147,16 @@ extension MarketingCustomLandingPageViewController: NavigationBarProtocol {
             self.navigationController?.navigationBar.isHidden = true
         }
     }
+    
+    func addBasketIcon(_ grocery : Grocery?) {
+        if grocery != nil {
+            addBasketIconOverlay(self, grocery: grocery, shouldShowGroceryActiveBasket:  grocery != nil)
+            self.basketIconOverlay?.grocery = grocery
+            self.basketIconOverlay?.shouldShow = true
+            self.refreshBasketIconStatus()
+        }
+    }
+    
     
     func backButtonClickedHandler() {
         self.dismiss(animated: true)

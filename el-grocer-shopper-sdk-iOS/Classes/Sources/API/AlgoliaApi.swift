@@ -1144,7 +1144,8 @@ extension AlgoliaApi {
     func searchWithQuery(query : String, pageNumber : Int, _ hitsPerPage : Int = 20, completion : @escaping responseBlock) -> Void {
         
         var algoliaquery = Query("")
-            .set(\.facetFilters, to: [FiltersStorage.Unit.and(query)])
+            .set(\.filters, to: query)
+           // .set(\.facetFilters, to: [FiltersStorage.Unit.and(query)])
             .set(\.clickAnalytics, to: true)
             .set(\.getRankingInfo, to: true)
             .set(\.analytics, to: true)

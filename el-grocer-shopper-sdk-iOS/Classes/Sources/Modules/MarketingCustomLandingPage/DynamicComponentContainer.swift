@@ -72,8 +72,8 @@ struct CampaignResponse: Codable {
 
 struct Filter: Codable {
     let name: String
-    let nameAR: String?
-    let query: String?
+    let nameAR: String
+    let query: String
     let priority: Int?
     let type: Int?
     

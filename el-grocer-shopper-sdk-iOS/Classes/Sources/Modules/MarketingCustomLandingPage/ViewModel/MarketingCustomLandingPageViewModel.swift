@@ -24,6 +24,7 @@ protocol MarketingCustomLandingPageViewModelOutput {
     var tableViewBackGround: Observable<CampaignSection?> { get }
     var filterArrayData: Observable<[Filter]> { get }
     var selectedgrocery: Observable<Grocery?> { get }
+    var basketUpdated: Observable<Void> { get }
     var loading: Observable<Bool> { get }
     var showEmptyView: Observable<Void> { get }
     var error: Observable<ElGrocerError> { get }
@@ -54,15 +55,18 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     var error: Observable<ElGrocerError> { errorSubject.asObservable() }
     var showEmptyView: Observable<Void> { showEmptyViewSubject.asObservable() }
     var components: Observable<[CampaignSection]> { componentSubject.asObservable() }
+    var basketUpdated: Observable<Void> { basketUpdatedSubject.asObservable() }
     var cellViewModels: Observable<[SectionHeaderModel<Int, String , ReusableTableViewCellViewModelType>]> { cellViewModelsSubject.asObservable() }
     var tableViewBackGround: Observable<CampaignSection?> { tableViewBackGroundSubject.asObservable() }
     var cellSelected: Observable<DynamicComponentContainerCellViewModel> { cellSelectedSubject.asObservable() }
     var filterArrayData: Observable<[Filter]> { filterArrayDataSubject.asObservable() }
     var selectedgrocery: Observable<Grocery?> { grocerySubject.asObservable() }
+    var refreshBasketSubject = BehaviorSubject<Void>(value: ())
     // MARK: Subjects
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private let errorSubject = PublishSubject<ElGrocerError>()
     private let showEmptyViewSubject = PublishSubject<Void>()
+    var basketUpdatedSubject = PublishSubject<Void>()
     private var cellViewModelsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
     private let cellSelectedSubject = PublishSubject<DynamicComponentContainerCellViewModel>()
     private let filterUpdateIndexSubject = PublishSubject<Int>()
@@ -76,7 +80,7 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     private var marketingId: String
     private var apiClient: ElGrocerApi?
     private var grocery: Grocery?
-    private let tableviewVmsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
+            let tableviewVmsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
     
     init(storeId: String, marketingId: String,_ apiClient: ElGrocerApi? = ElGrocerApi.sharedInstance ,_ analyticsEngine: AnalyticsEngineType = SegmentAnalyticsEngine()) {
         
@@ -111,18 +115,19 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
                 } catch {  print("Error: \(error.localizedDescription)")  }
                 
                 guard defaultVms.count > 0 else { return }
-               
-                var upddateIndex = 0
-                var itemToKeepArray : [HomeCellViewModel] = []
-                
                 for (arrayIndex,vm) in defaultVms.enumerated() {
-                    if vm.items.count > 1, var items = vm.items as? [HomeCellViewModel] {
+                    if vm.items.count > 1, let items = vm.items as? [HomeCellViewModel] {
                         updatedSechtionHeaderModel = vm
-                        let itemToKeep =  items.remove(at: index)
-                        upddateIndex = arrayIndex
-                        itemToKeepArray = [itemToKeep]
-                        defaultVms[upddateIndex] = SectionHeaderModel(model: updatedSechtionHeaderModel.model, header: updatedSechtionHeaderModel.header, items: itemToKeepArray)
-                        break
+                        guard index <= updatedSechtionHeaderModel.items.count else { continue }
+                        if index == 0 {
+                            defaultVms[arrayIndex] = SectionHeaderModel(model: updatedSechtionHeaderModel.model, header: updatedSechtionHeaderModel.header, items: updatedSechtionHeaderModel.items)
+                        }else {
+                            let items =  [items[index-1]]
+                            defaultVms[arrayIndex] = SectionHeaderModel(model: updatedSechtionHeaderModel.model, header: updatedSechtionHeaderModel.header, items: items)
+                            for item in items {
+                                item.inputs.refreshProductCellObserver.onNext(())
+                            }
+                        }
                     }
                 }
                
@@ -130,7 +135,6 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
             })
             .disposed(by: disposeBag)
         
-   
     }
     
     
@@ -154,7 +158,7 @@ extension MarketingCustomLandingPageViewModel {
         // 103 for filter
        // apiClient?.getCustomCampaigns(customScreenId: self.marketingId) { data in
        // self.marketingId = "103"
-        apiClient?.getCustomCampaigns(customScreenId: self.marketingId) { data in
+        apiClient?.getCustomCampaigns(customScreenId: "117") { data in
             switch data {
             case .success(let response):
                 componentSubject.onNext(response.campaignSections)
@@ -169,12 +173,16 @@ extension MarketingCustomLandingPageViewModel {
     
     private func updateUI(with components: [CampaignSection]) {
         
-        let componetFilterA = components.filter({ $0.sectionName != .backgroundBannerImage})
-        if let backGroundBanner = components.first(where: { $0.sectionName == .backgroundBannerImage}) {
+        var sortedComponents = components
+        sortedComponents.sort(by: {$0.priority < $1.priority})
+        
+        let componetFilterA = sortedComponents.filter({ $0.sectionName != .backgroundBannerImage})
+        if let backGroundBanner = sortedComponents.first(where: { $0.sectionName == .backgroundBannerImage}) {
                self.tableViewBackGroundSubject.onNext(backGroundBanner)
         }
-       
+    
         var viewModel : [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] = []
+        
             for (sectionIndex, componentSection) in componetFilterA.enumerated() {
                 switch componentSection.sectionName {
                 case .bannerImage:
@@ -182,6 +190,9 @@ extension MarketingCustomLandingPageViewModel {
                     viewModel.append(SectionHeaderModel(model: sectionIndex, header: "" , items: [bannerVM]))
                 case .topDeals:
                     let homeCellVM = HomeCellViewModel(forDynamicPage: ElGrocerApi.sharedInstance, algoliaAPI: AlgoliaApi.sharedInstance, deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000), category: CategoryDTO(id: componentSection.id, name: componentSection.title, algoliaQuery: componentSection.query, nameAr: componentSection.titleAr, bgColor : componentSection.backgroundColor), grocery: self.grocery)
+                    homeCellVM.outputs.basketUpdated.subscribe { _ in
+                        self.basketUpdatedSubject.onNext(())
+                    }.disposed(by: disposeBag)
                     viewModel.append(SectionHeaderModel(model: sectionIndex, header: "" , items: [homeCellVM]))
                 case .backgroundBannerImage:
                     break
@@ -192,14 +203,20 @@ extension MarketingCustomLandingPageViewModel {
                     let collectionViewOnlyTableViewCellVM = RxCollectionViewOnlyTableViewCellViewModel.init(deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000), category:  CategoryDTO(id: componentSection.id, name: componentSection.title, algoliaQuery: componentSection.query, nameAr: componentSection.titleAr, bgColor : componentSection.backgroundColor), grocery: self.grocery, component: componentSection)
                     viewModel.append(SectionHeaderModel(model: sectionIndex, header: componentSection.title ?? "" , items: [collectionViewOnlyTableViewCellVM]))
                 case .subcategorySection:
-                    if let filters = componentSection.filters {
+                    if let filters = componentSection.filters?.sorted(by: { $0.priority ?? 0 < $1.priority ?? 0 }) {
                         self.filterArrayDataSubject.onNext(filters)
                         var filterVms : [ReusableTableViewCellViewModelType] = []
-                        var id = 0
+                        var id = 1
                         for filerObj in filters {
-                            let filterVm = HomeCellViewModel(forDynamicPage: ElGrocerApi.sharedInstance, algoliaAPI: AlgoliaApi.sharedInstance, deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000), category: CategoryDTO(id: id, name: filerObj.name, algoliaQuery: filerObj.query, nameAr: filerObj.nameAR, bgColor : componentSection.backgroundColor), grocery: self.grocery)
-                            filterVms.append(filterVm)
-                            id += 1
+                            if filerObj.type == -1 {}
+                            else {
+                                let filterVm = HomeCellViewModel(forDynamicPage: ElGrocerApi.sharedInstance, algoliaAPI: AlgoliaApi.sharedInstance, deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000), category: CategoryDTO(id: id, name: filerObj.name, algoliaQuery: filerObj.query, nameAr: filerObj.nameAR, bgColor : componentSection.backgroundColor), grocery: self.grocery)
+                                filterVm.outputs.basketUpdated.subscribe { _ in
+                                    self.basketUpdatedSubject.onNext(())
+                                }.disposed(by: disposeBag)
+                                filterVms.append(filterVm)
+                                id += 1
+                            }
                         }
                         viewModel.append(SectionHeaderModel(model: sectionIndex, header: componentSection.title ?? "" , items: filterVms))
                     }

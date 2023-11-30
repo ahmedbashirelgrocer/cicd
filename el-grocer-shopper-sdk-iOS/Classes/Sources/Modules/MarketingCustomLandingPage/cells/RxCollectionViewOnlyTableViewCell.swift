@@ -136,7 +136,7 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
     func updateCollectionViewHeight(_ productCount : Int) {
             productsCollectionView.collectionViewLayout.invalidateLayout()
             //let newHeight = productsCollectionView.contentSize.height
-            cellHeight.constant = (CGFloat(productCount/2) * (kProductCellHeight + 20) )
+            cellHeight.constant = (CGFloat(productCount/2) * (kProductCellHeight + 12) )
             self.invalidateIntrinsicContentSize()
              //layoutIfNeeded()
         }

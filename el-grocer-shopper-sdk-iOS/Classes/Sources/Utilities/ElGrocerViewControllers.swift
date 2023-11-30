@@ -663,6 +663,7 @@ class ElGrocerViewControllers {
         let campaignPage: MarketingCustomLandingPageViewController = ElGrocerViewControllers.marketingCustomLandingPageViewController(viewModel)
         navigationController.viewControllers = [campaignPage]
         navigationController.setLogoHidden(true)
+        navigationController.modalPresentationStyle = .fullScreen
         return navigationController
     }
    

@@ -63,7 +63,14 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
     }
     
+   
     private func bindViews() {
+        
+        self.superSectionHeader   = (Bundle.resource.loadNibNamed("SubCateSegmentTableViewHeader", owner: self, options: nil)![0] as? SubCateSegmentTableViewHeader)!
+        self.superSectionHeader.frame = CGRect.init(origin: .zero, size: CGSize.init(width: ScreenSize.SCREEN_WIDTH , height: KSubCateSegmentTableViewHeaderWithOutMessageHeight))
+        self.superSectionHeader.refreshWithSubCategoryText("")
+        self.superSectionHeader.segmenntCollectionView.segmentDelegate = self
+        self.superSectionHeader.viewLayoutCliced = { () in }
         
         
         self.dataSource = RxTableViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in
@@ -115,6 +122,11 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
             self.newTitleArrayUpdate(data: filter, selectedIndexPath: NSIndexPath.init(row: 0, section: 0))
         }).disposed(by: disposeBag)
         
+        viewModel.basketUpdated.subscribe { _ in
+            self.refreshBasketIconStatus()
+        }.disposed(by: disposeBag)
+
+        
         
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
         
@@ -127,16 +139,6 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
             setHeaderData(grocery)
         }).disposed(by: disposeBag)
         
-        
-        
-        
-        self.superSectionHeader   = (Bundle.resource.loadNibNamed("SubCateSegmentTableViewHeader", owner: self, options: nil)![0] as? SubCateSegmentTableViewHeader)!
-        self.superSectionHeader.frame = CGRect.init(origin: .zero, size: CGSize.init(width: ScreenSize.SCREEN_WIDTH , height: KSubCateSegmentTableViewHeaderWithOutMessageHeight))
-        self.superSectionHeader.refreshWithSubCategoryText("")
-        self.superSectionHeader.segmenntCollectionView.segmentDelegate = self
-        self.superSectionHeader.viewLayoutCliced = { [weak self ] () in
-            guard let self = self else {return}
-        }
         
     }
 }
@@ -167,9 +169,15 @@ extension MarketingCustomLandingPageViewController: UITableViewDelegate {
        }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        var isSubcategorySection : Bool = false
+        do {
+            let lastValue = try self.viewModel.tableviewVmsSubject.value()
+            if  section < lastValue.count { isSubcategorySection = lastValue[section].items.count > 1 }
+        } catch {  print("Error: \(error.localizedDescription)")  }
+        
         let isTextAvailable = dataSource.sectionModels[section].header.count > 0
-        let isSubcategorySection = dataSource.sectionModels[section].items.count > 1
-        if isSubcategorySection || (isTextAvailable && dataSource.sectionModels[section].header == "filters") {
+        if isSubcategorySection {
             self.superSectionHeader.refreshWithCategoryName(dataSource.sectionModels[section].header)
             return self.superSectionHeader
         }
@@ -185,36 +193,44 @@ extension MarketingCustomLandingPageViewController: UITableViewDelegate {
         return headerView
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        var isSubcategorySection : Bool = false
+        do {
+            let lastValue = try self.viewModel.tableviewVmsSubject.value()
+            if  section < lastValue.count { isSubcategorySection = lastValue[section].items.count > 1 }
+            
+        } catch {  print("Error: \(error.localizedDescription)")  }
+        
         let isTextAvailable = dataSource.sectionModels[section].header.count > 0
-        let isSubcategorySection = dataSource.sectionModels[section].items.count > 1
-        if isSubcategorySection || (isTextAvailable && dataSource.sectionModels[section].header == "filters") {
+        if isSubcategorySection{
             return KSubCateSegmentTableViewHeaderWithOutMessageHeight
         }
         return isTextAvailable ? 30.0 : 1.0
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return .leastNormalMagnitude
+        return 5
     }
    
 }
 
 extension MarketingCustomLandingPageViewController: AWSegmentViewProtocol {
     
-    
     func newTitleArrayUpdate(data: [Filter] ,  selectedIndexPath: NSIndexPath) {
-        self.superSectionHeader.configureView(data.map({ $0.name }), index: selectedIndexPath)
+            self.superSectionHeader.configureView(data.map({ ElGrocerUtility.sharedInstance.isArabicSelected() ? $0.nameAR : $0.name }), index: selectedIndexPath)
     }
-    
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex: Int) {
-        debugPrint("")
         self.viewModel.inputs.filterUpdateIndexObserver.onNext(selectedSegmentIndex)
     }
-    
 }
 
-extension MarketingCustomLandingPageViewController: NoStoreViewDelegate {
+extension MarketingCustomLandingPageViewController: NoStoreViewDelegate, BasketIconOverlayViewProtocol {
     func noDataButtonDelegateClick(_ state: actionState) {
         self.dismiss(animated: true)
     }
+    func basketIconOverlayViewDidTouchBasket(_ basketIconOverlayView: BasketIconOverlayView) {
+        
+    }
 }
+
+

@@ -208,7 +208,7 @@ private extension MainCategoriesViewModel {
                         if let selectedSlot = deliverySlotsResponse.data.deliverySlots?.first, let deliveryTime = selectedSlot.timeMilli {
                             self.fetchCategories(deliveryTime: deliveryTime)
                             self.fetchPreviousPurchasedProducts(deliveryTime: deliveryTime)
-                            self.fetchCustomCatogires(for: BannerLocation.custom_campaign_shopper)
+                            self.fetchCustomCatogires(for: BannerLocation.custom_campaign_shopper.getType())
                         } else {
                             let currentTime = Int(Date().getUTCDate().timeIntervalSince1970 * 1000)
                             self.fetchCategories(deliveryTime: currentTime)
