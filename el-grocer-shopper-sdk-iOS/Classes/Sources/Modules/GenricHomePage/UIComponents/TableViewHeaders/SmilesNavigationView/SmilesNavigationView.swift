@@ -153,7 +153,7 @@ class SmilesNavigationView: UIView {
             emojiView.centerYAnchor.constraint(equalTo: centerYAnchor),
             emojiView.leadingAnchor.constraint(equalTo: smilesPointsView.leadingAnchor, constant: 0.63),
             emojiView.heightAnchor.constraint(equalToConstant: 32),
-            emojiView.widthAnchor.constraint(equalToConstant: 33),
+            emojiView.widthAnchor.constraint(equalTo: emojiView.heightAnchor),
         ])
         
         NSLayoutConstraint.activate([

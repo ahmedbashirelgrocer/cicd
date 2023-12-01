@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "smiles_face.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "smiles_face@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "smiles_face@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "smiles_2.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {
