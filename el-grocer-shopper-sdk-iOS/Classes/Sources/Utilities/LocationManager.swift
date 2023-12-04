@@ -65,11 +65,11 @@ class LocationManager: NSObject {
     
     lazy fileprivate var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
-        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-        manager.activityType = CLActivityType.fitness
+//        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+//        manager.activityType = CLActivityType.fitness
        // manager.pausesLocationUpdatesAutomatically = true
         // manager.distanceFilter = 10.0
-        manager.desiredAccuracy = 20
+//        manager.desiredAccuracy = 20
         manager.delegate = self
         return manager
     }()
@@ -515,11 +515,11 @@ extension LocationManager: CLLocationManagerDelegate {
             self.state.value = .error(ElGrocerError.genericError())
             return
         }
-        
-        if currentLocation.horizontalAccuracy > manager.desiredAccuracy {
-            self.state.value = .fetchingLocation
-            return
-        }
+        //-1
+//        if currentLocation.horizontalAccuracy > manager.desiredAccuracy {
+//            self.state.value = .fetchingLocation
+//            return
+//        }
         
         self.currentLocation.value = currentLocation
         self.state.value = .success
