@@ -583,6 +583,11 @@ extension UIButton {
         self.setTitleColor(UIColor.navigationBarWhiteColor(), for: .normal)
     }
     
+    func setCaption1SemiBoldGreenStyle(){
+        self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(12)
+        self.setTitleColor(ApplicationTheme.currentTheme.themeBasePrimaryColor, for: .normal)
+    }
+    
     func setCaptionBoldGreenStyle(){
         self.titleLabel?.font = UIFont.SFProDisplayBoldFont(12)
         self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: .normal)

@@ -14,6 +14,7 @@ protocol RecipeCellViewModelOuput {
     var recipeList: Observable<[Recipe]> { get }
     var isBgGrey: Observable<Bool> { get }
     var showMiniView: Observable<Bool> { get }
+    var hideRecipeTitle: Observable<Bool> { get }
 }
 
 protocol RecipeCellViewModelType: RecipeCellViewModelInput, RecipeCellViewModelOuput {
@@ -35,11 +36,13 @@ class RecipeCellViewModel: RecipeCellViewModelType, ReusableTableViewCellViewMod
     var recipeList: Observable<[Recipe]> { recipeListSubject.asObservable() }
     var isBgGrey: Observable<Bool> { isBgGreySubject.asObservable() }
     var showMiniView: Observable<Bool> { showMiniViewSubject.asObservable() }
+    var hideRecipeTitle: Observable<Bool> { hidesRecipeTitleSubject.asObservable() }
     
     // Subjects
     private let recipeListSubject = BehaviorSubject<[Recipe]>(value: [])
     private let isBgGreySubject = BehaviorSubject<Bool>(value: false)
     private let showMiniViewSubject = BehaviorSubject<Bool>(value: false)
+    private let hidesRecipeTitleSubject = BehaviorSubject<Bool>(value: true)
     
     // Properties
     

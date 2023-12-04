@@ -710,9 +710,10 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     
     fileprivate func addSideMenuButton() {
-        let image = sdkManager.isShopperApp ? UIImage(name: "profile-icon") :  UIImage(name: "menu")
+        let image = UIImage(name: "menu")?.withRenderingMode(.alwaysTemplate)
         self.profileButton  = UIButton(type: .custom)
         self.profileButton.setImage(image, for: .normal)
+        self.profileButton.tintColor = sdkManager.isSmileSDK ? UIColor.smileBaseColor() : .white
         self.addSubview(self.profileButton)
         setSideMenuButtonHidden(true)
     }

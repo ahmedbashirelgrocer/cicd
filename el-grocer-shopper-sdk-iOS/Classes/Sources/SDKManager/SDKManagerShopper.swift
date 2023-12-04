@@ -183,10 +183,21 @@ public class SDKManagerShopper: NSObject, SDKManagerType {
                 apiData[FireBaseParmName.SessionID.rawValue] = ElGrocerUtility.sharedInstance.getGenericSessionID()
                 FirebaseCrashlytics.Crashlytics.crashlytics().record(error: error.addItemsToUserInfo(newUserInfo: apiData))
                 FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)"  ,  apiData  , false)
+                
+                let elError = ElGrocerError(error: error)
+                let url = (apiData["url"] as? String) ?? ""
+                let isNoNeedToLogged = url.contains("sendbird.com") || url.contains("member_info_cache")
+                if !isNoNeedToLogged {
+                    SegmentAnalyticsEngine.instance.logEvent(event: GeneralAPIErrorEvent(endPoint: apiData["url"] as? String, message: elError.message ?? elError.localizedMessage, code: elError.code))
+                }
+                
+                
             }else{
                 FirebaseCrashlytics.Crashlytics.crashlytics().record(error: error.addItemsToUserInfo(newUserInfo:  [ FireBaseParmName.SessionID.rawValue : ElGrocerUtility.sharedInstance.getGenericSessionID() ]))
                 
                 FireBaseEventsLogger.trackCustomEvent(eventType: "errorToParse", action: "error.localizedDescription : \(error.localizedDescription)" , [:] , false )
+                let elError = ElGrocerError(error: error)
+                SegmentAnalyticsEngine.instance.logEvent(event: GeneralAPIErrorEvent(endPoint: "", message: elError.message ?? elError.localizedMessage, code: elError.code))
             }
         }
     }
@@ -362,14 +373,16 @@ public class SDKManagerShopper: NSObject, SDKManagerType {
         let urlCameFrom = userActivity.webpageURL?.getQueryItemValueForKey("_osl")
         let handled = dynamicLinks.handleUniversalLink(userActivity.webpageURL!) { (dynamiclink, error) in
             
+            var deepLinkString = ""
             if let dynamiclink = dynamiclink, let urlString = dynamiclink.url {
-                ElGrocerUtility.sharedInstance.deepLinkURL = (dynamiclink.url?.absoluteString)!
-                print("Deep Link URL Str:%@",ElGrocerUtility.sharedInstance.deepLinkURL)
-                DynamicLinksHelper.handleIncomingDynamicLinksWithUrl(ElGrocerUtility.sharedInstance.deepLinkURL)
-                ElGrocerUtility.sharedInstance.deepLinkShotURL = urlCameFrom ?? urlString.absoluteString
-                
-                FireBaseEventsLogger.logEventToFirebaseWithEventName("", eventName: "EG_DeepLink", parameter: ["url" : urlString.absoluteString , "DeepLink" : urlCameFrom ?? urlString.absoluteString])
+                deepLinkString = dynamiclink.url?.absoluteString ?? ""
+            }else if error != nil {
+                deepLinkString = userActivity.webpageURL?.absoluteString ?? ""
             }
+            ElGrocerUtility.sharedInstance.deepLinkURL = deepLinkString
+            print("Deep Link URL Str:%@",deepLinkString)
+            DynamicLinksHelper.handleIncomingDynamicLinksWithUrl(ElGrocerUtility.sharedInstance.deepLinkURL)
+            ElGrocerUtility.sharedInstance.deepLinkShotURL = urlCameFrom ?? deepLinkString
         }
         return handled
         

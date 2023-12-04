@@ -56,6 +56,26 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
         return locationHeader!
     }()
     
+    private lazy var locationHeaderShopper: ElGrocerStoreHeaderShopper = {
+        let locationHeader = ElGrocerStoreHeaderShopper.loadFromNib()
+        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+        locationHeader?.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
+        return locationHeader!
+    }()
+    
+    private var effectiveOffset: CGFloat = 0
+    private var offset: CGFloat = 0 {
+        didSet {
+            let diff = offset - oldValue
+            if diff > 0 { effectiveOffset = min(60, effectiveOffset + diff) }
+            else { effectiveOffset = max(0, effectiveOffset + diff) }
+        }
+    }
+    
+    @objc func backButtonPressed() {
+        self.navigationController?.popViewController(animated: true)
+    }
+    
     lazy var NoDataView : NoStoreView = {
         let noStoreView = NoStoreView.loadFromNib()
         noStoreView?.configureNoSavedCar()
@@ -67,16 +87,22 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
     }
     
     private func addLocationHeader() {
+        let marketType = sdkManager.launchOptions?.marketType ?? .shopper
         
-        if sdkManager.isGrocerySingleStore {
-            self.view.addSubview(self.locationHeaderFlavor)
-            self.setLocationViewFlavorHeaderConstraints()
-        } else {
+        switch marketType {
+            
+        case .marketPlace:
             self.view.addSubview(self.locationHeader)
             self.setLocationViewConstraints()
+            
+        case .shopper:
+            self.view.addSubview(self.locationHeaderShopper)
+            self.setupShopperLocationHeaderConstraint()
+            
+        case .grocerySingleStore:
+            self.view.addSubview(self.locationHeaderFlavor)
+            self.setLocationViewFlavorHeaderConstraints()
         }
-        
-        
     }
     
     private func setLocationViewFlavorHeaderConstraints() {
@@ -113,6 +139,15 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
         
     }
     
+    private func setupShopperLocationHeaderConstraint() {
+        NSLayoutConstraint.activate([
+            locationHeaderShopper.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            locationHeaderShopper.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            locationHeaderShopper.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            locationHeaderShopper.bottomAnchor.constraint(equalTo: self.tableViewCategories.topAnchor)
+        ])
+    }
+    
     ///To adjust the bottom constraint for basketIconOverlay appear/disappear
     func setTableViewBottomConstraint() {
         if (tableViewBottomConstraint == nil) && (self.basketIconOverlay != nil) {
@@ -131,7 +166,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        if sdkManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
+        if sdkManager.isSmileSDK || sdkManager.isShopperApp { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
         self.registerCellsForTableView()
         self.setupClearNavBar()
         DispatchQueue.main.async {
@@ -290,7 +325,7 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
    
         if let controller = self.navigationController as? ElGrocerNavigationController {
-            controller.setNavBarHidden(isSingleStore)
+            controller.setNavBarHidden(isSingleStore || sdkManager.isShopperApp)
             controller.setupGradient()
         }
         
@@ -332,8 +367,15 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
         DispatchQueue.main.async(execute: {
             [weak self] in
             guard let self = self else {return}
-            sdkManager.isGrocerySingleStore ?
-            self.locationHeaderFlavor.configureHeader(grocery: grocery, location: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()): self.locationHeader.configuredLocationAndGrocey(grocery)
+            
+            if sdkManager.isShopperApp {
+                self.locationHeaderShopper.configuredLocationAndGrocey(grocery)
+                self.locationHeaderShopper.setSlotData()
+            } else {
+                sdkManager.isGrocerySingleStore
+                    ? self.locationHeaderFlavor.configureHeader(grocery: grocery, location: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress())
+                    : self.locationHeader.configuredLocationAndGrocey(grocery)
+            }
             
             self.tableViewCategories.tableHeaderView = nil
         })
@@ -524,27 +566,34 @@ extension BrowseViewController: UIScrollViewDelegate {
              return
          }
          
-         let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
-         if constraintA.count > 0 {
-             let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
-             let headerViewHeightConstraint = constraint
-             let maxHeight = self.locationHeader.headerMaxHeight
-             headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,64),maxHeight)
-         }
-         
-         UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
-             self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
-         }
-        
-         UIView.animate(withDuration: 0.2) {
-             self.view.layoutIfNeeded()
-             self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
-             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
-             self.navigationController?.navigationBar.topItem?.title = title
-             sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
-         }
-    
-        
+        if sdkManager.isShopperApp {
+            offset = scrollView.contentOffset.y
+            let value = min(effectiveOffset, scrollView.contentOffset.y)
+            
+            self.locationHeaderShopper.searchViewTopAnchor.constant = 62 - value
+            self.locationHeaderShopper.searchViewLeftAnchor.constant = 16 + ((value / 60) * 30)
+            self.locationHeaderShopper.groceryBGView.alpha = max(0, 1 - (value / 60))
+        } else {
+            let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
+            if constraintA.count > 0 {
+                let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+                let headerViewHeightConstraint = constraint
+                let maxHeight = self.locationHeader.headerMaxHeight
+                headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,64),maxHeight)
+            }
+            
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
+                self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
+            }
+           
+            UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+                self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
+                let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
+                self.navigationController?.navigationBar.topItem?.title = title
+                sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+            }
+        }
     }
     
    

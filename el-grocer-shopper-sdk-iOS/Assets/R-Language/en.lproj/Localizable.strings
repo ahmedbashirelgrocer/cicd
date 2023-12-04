@@ -7,8 +7,8 @@
 */
 
 "Download tax invoice" = " Download tax invoice";
-"smiles_pts" = "    %@ pts    ";
-"earn_rewards_now" = "Earn rewards now! ❯";
+"smiles_pts" = "%@ pts";
+"earn_rewards_now" = "Earn Smiles Points!";
 "Oops! Something went wrong on our side 🤔" = "Oops! Something went wrong on our side 🤔";
 "We are fixing the problem.\nPlease, try again soon." = "We are fixing the problem.\nPlease, try again soon.";
 
@@ -381,7 +381,7 @@
 "need_assistance_lable" = "Need more support? ";
 "launch_live_chat_text" = "Chat with elGrocer";
 
-"lbl_Hurray_Success_Msg" = "HURRAY!\nYOUR ORDER SUCCESSFULLY PLACED";
+"lbl_Hurray_Success_Msg" = "HURRAY!\nYour order is successfully placed";
 
 
 // Orders history
@@ -1394,7 +1394,8 @@ Smiles points will be returned to your Smiles balance. ";
 
 //Mybasket
 "top_selling_Products_title" = "Top selling products";
-"lbl_Cart_details" = "Cart details";
+"lbl_cart_details_title" = "%@ items in your order";
+"lbl_cart_details_title_single_item" = "%@ item in your order";
 "lbl_View_All_Cap" = "VIEW ALL";
 "btn_Replace_title" = "Replace";
 
@@ -1501,6 +1502,7 @@ Smiles points will be returned to your Smiles balance. ";
 Sign In or Sign Up to elGrocer";
 "lbl_myBasket_add_Address" = "To Checkout please
 Add delivery details";
+"return_to_store_text" = "Return to store";
 
 //MARK: Cart Collector
 
@@ -2337,4 +2339,5 @@ Oreo";
 "eg_detecting_location" = "Detecting location...";
 "eg_address_nick_name_address" = "Enter address nickname, 'Home/Work'*";
 "eg_msg_selected_location_not_covering" = "Selected location for that store is outside delivery area range. What would you like to do?";
+"recipe_title_home" = "👨‍🍳 Recipes";
 

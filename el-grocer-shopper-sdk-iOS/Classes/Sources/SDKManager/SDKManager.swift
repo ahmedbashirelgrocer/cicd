@@ -4,7 +4,9 @@
 //  Created by Awais Arshad Chatha on 01.07.2015.
 //  Copyright (c) 2015 RST IT. All rights reserved.
 //  Final Release Build & Update
-//from commit update pod file for xcode 14 & ios16 ==== branch : origin/DevSDK/Xcode14-IOS16Fixing
+//  xcode 15 changes merged
+//  Before performance changes merges
+
 
 import UIKit
 import CoreData
@@ -12,24 +14,17 @@ import FirebaseCrashlytics
 import GoogleMaps
 import GooglePlaces
 import UserNotifications
-// import AFNetworking
 import BackgroundTasks
 import IQKeyboardManagerSwift
 import CleverTapSDK
 import AdSupport
-//import AppsFlyerLib
-// import FBSDKCoreKit
 import FirebaseCore
 import Messages
-// import AFNetworkActivityLogger
 import SendbirdChatSDK
 import SwiftDate
 import Adyen
 import Segment
 import Segment_CleverTap
-// import FirebaseDynamicLinks
-// import FirebaseAuth
-// import FirebaseMessaging
 
 extension SDKManager {
     var isSmileSDK: Bool { SDKManager.shared.launchOptions?.isSmileSDK == true }
@@ -956,6 +951,10 @@ class SDKManager: NSObject, SDKManagerType  {
 }
 
 extension SDKManager {
+    
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        return false
+    }
     
     func beginBackgroundUpdateTask() {
         self.backgroundUpdateTask = UIApplication.shared.beginBackgroundTask(expirationHandler: {

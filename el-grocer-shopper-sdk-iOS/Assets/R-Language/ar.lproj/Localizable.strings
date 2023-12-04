@@ -9,7 +9,7 @@
 // new message
 "Download tax invoice" = " تحميل الفاتورة الضريبية";
 "smiles_pts" =  "    نقطة %@    ";
-"earn_rewards_now" = "اكسب المكافآت الآن!";
+"earn_rewards_now" = "اكسب نقاط الابتسامات";
 "Oops! Something went wrong on our side 🤔" = "للأسف حدث خطأ ما من جانبنا 🤔";
 "We are fixing the problem.\nPlease, try again soon." = "نحن نصلح المشكلة.
 من فضلك ، حاول مرة أخرى قريبا.";
@@ -409,7 +409,7 @@
 "order_schedule_Instant_lable" = "سيتم توصيل طلبك في غضون الـ ";
 "order_schedule_InstantTime_lable" = "60 دقيقة القادمة";
 
-"lbl_Hurray_Success_Msg" = "تم إرسال طلبك بنجاح";
+"lbl_Hurray_Success_Msg" = "تم تأكيد طلبك بنجاح";
 
     // Orders history
 "orders_top_title" = "طلباتي";
@@ -1417,7 +1417,8 @@
 
     //Mybasket
 "top_selling_Products_title" = "المنتجات الأعلى مبيعاً";
-"lbl_Cart_details" = "تفاصيل عربة التسوق";
+"lbl_cart_details_title" = "%@منتج بطلبك";
+"lbl_cart_details_title_single_item" = "%@منتجات بطلبك";
 "No_Item_Cart" = "أضف بعض المنتجات لإستكمال التسوق";
 "lbl_View_All_Cap" = "عرض الكل";
 "btn_Replace_title" = "استبدل";
@@ -1502,6 +1503,7 @@
 "lbl_AreaStreet" = "المنطقة / الشارع (غير إلزامي)";
 "lbl_Floor" = "الطابق*";
 "global_search_result_screen_title_text" = "نتائج البحث";
+"return_to_store_text" = "العودة إلى المتجر";
 
 
 "lbl_choose_nick" = "ضع علامة على هذا الموقع";
@@ -2390,3 +2392,4 @@
 "eg_detecting_location" = "البحث عن العنوان";
 "eg_address_nick_name_address" = "أدخل اسم مميز للعنوان، المنزل/العمل*";
 "eg_msg_selected_location_not_covering" = "الموقع المحدد لا يغطي التوصيل من هذا المتجر وسيتم مسح سلة تسوقك. هل تريد تغيير الموقع؟";
+"recipe_title_home" = "👨‍🍳 Recipes";

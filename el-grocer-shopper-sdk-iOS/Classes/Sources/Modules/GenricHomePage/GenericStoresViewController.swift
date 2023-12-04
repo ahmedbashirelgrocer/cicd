@@ -4,7 +4,7 @@
 //
 //  Created by M Abubaker Majeed on 27/07/2020.
 //  Copyright © 2020 elGrocer. All rights reserved.
-//
+//  6.5.50 2905 sent for approval
 
 import UIKit
 import CoreLocation
@@ -295,7 +295,7 @@ class GenericStoresViewController: BasketBasicViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        searchBarHeader.clearSmilesPoints()
+//        searchBarHeader.clearSmilesPoints()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -390,7 +390,6 @@ class GenericStoresViewController: BasketBasicViewController {
     // MARK:- OpenOrders
     
     private func getSmileUserInfo() {
-        
         SmilesManager.getCachedSmileUser { [weak self] (smileUser) in
             if let user = smileUser {
                 if let points = user.availablePoints {
@@ -1471,7 +1470,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
             return cell
         } else { // if indexPath.row == 2
             let cell : GenricHomeRecipeTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenricHomeRecipeTableViewCell , for: indexPath) as! GenricHomeRecipeTableViewCell
-            cell.configureData(self.homeDataHandler.recipeList, isMiniView: true)
+            cell.configureData(self.homeDataHandler.recipeList, isMiniView: true, isTitleHidden: false)
             return cell
         }
     }

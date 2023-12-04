@@ -117,7 +117,7 @@ class SpecialtyStoresGroceryViewController: UIViewController, UIScrollViewDelega
             // self.title = self.controllerTitle
         }
         
-        self.addRightCrossButton(true)
+        addWhiteBackButton()
         
         if let controller = self.navigationController as? ElGrocerNavigationController {
             
@@ -130,8 +130,12 @@ class SpecialtyStoresGroceryViewController: UIViewController, UIScrollViewDelega
             controller.setWhiteTitleColor()
         }
     }
-    override func backButtonClick(){
-        self.navigationController?.popViewController(animated: true)
+    override func backButtonClick() {
+        if self.controllerType == .specialty {
+            self.dismiss(animated: true)
+        } else {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     func registerCellsAndSetDelegates() {
@@ -251,21 +255,6 @@ class SpecialtyStoresGroceryViewController: UIViewController, UIScrollViewDelega
             // self.searchBarHeader.layoutIfNeeded()
             // self.tableViewTopConstraint.constant = self.searchBarHeader.frame.size.height
         })
-    }
-    
-    override func rightBackButtonClicked() {
-//        self.navigationController?.popViewController(animated: true)
-        self.dismiss(animated: true)
-        if self.retailerType?.getRetailerType() == GroceryRetailerMarketType.speciality || self.retailerType?.getRetailerType() == GroceryRetailerMarketType.supermarket{
-            MixpanelEventLogger.trackStoreListingClose(storeListCategoryId: "\(self.retailerType?.dbId ?? -1)" , storeListCategoryName: self.retailerType?.getRetailerName() ?? "")
-        }
-        /*
-        if  self.navigationController?.viewControllers.count == 1 {
-            self.navigationController?.dismiss(animated: true, completion: nil)
-        }else{
-             self.navigationController?.popViewController(animated: true)
-        }*/
-        //self.dismiss(animated: true)
     }
     
     func makeActiveTopGroceryOfArray() {

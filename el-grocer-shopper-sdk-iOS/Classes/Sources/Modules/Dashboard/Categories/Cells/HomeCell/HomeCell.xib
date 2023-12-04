@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -29,16 +29,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="191"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WIu-Gk-TEB">
-                                <rect key="frame" x="0.0" y="0.0" width="390" height="171"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="175"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y27-gC-WzO" customClass="FBShimmeringView">
                                         <rect key="frame" x="66" y="0.0" width="273" height="45"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="IeI-Wu-GKA">
-                                                <rect key="frame" x="0.0" y="9" width="103.5" height="36.5"/>
+                                                <rect key="frame" x="0.0" y="9" width="105" height="36.5"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Trending Near You" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xoe-u4-VbD">
-                                                        <rect key="frame" x="0.0" y="0.0" width="103.5" height="16.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="105" height="16.5"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="32" id="U0W-XP-ivY"/>
                                                         </constraints>
@@ -81,7 +81,7 @@
                                         </constraints>
                                     </imageView>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Zvl-98-KOg">
-                                        <rect key="frame" x="0.0" y="45" width="390" height="126"/>
+                                        <rect key="frame" x="0.0" y="45" width="390" height="130"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="ziR-2U-Mcl">
                                             <size key="itemSize" width="148" height="194"/>
@@ -167,7 +167,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="UQj-xR-YIj" firstAttribute="top" secondItem="WIu-Gk-TEB" secondAttribute="bottom" constant="4" id="2Ye-Kv-xlR"/>
+                            <constraint firstItem="UQj-xR-YIj" firstAttribute="top" secondItem="WIu-Gk-TEB" secondAttribute="bottom" id="2Ye-Kv-xlR"/>
                             <constraint firstItem="WIu-Gk-TEB" firstAttribute="top" secondItem="Utc-OR-b1X" secondAttribute="top" id="7B2-ts-eWo"/>
                             <constraint firstAttribute="trailing" secondItem="UQj-xR-YIj" secondAttribute="trailing" id="7bu-To-2lx"/>
                             <constraint firstItem="UQj-xR-YIj" firstAttribute="leading" secondItem="Utc-OR-b1X" secondAttribute="leading" id="JG2-Qa-liT"/>
