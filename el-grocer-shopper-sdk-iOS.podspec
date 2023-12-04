@@ -18,7 +18,6 @@ Pod::Spec.new do |s|
   #
  
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '100.6568.2974'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -167,7 +166,7 @@ Pod::Spec.new do |s|
   s.dependency 'BadgeControl', '~> 1.2.1'
   s.dependency 'DisplaySwitcher', '~> 2.0'
   #s.dependency 'PMAlertController' ###
-  s.dependency 'SwiftMessages', '~> 9.0.6'
+  s.dependency 'SwiftMessages', '9.0.9'
 
   s.dependency 'GrowingTextView', '~> 0.7.2'
   #s.dependency 'KAPinField' ###
