@@ -1,9 +1,9 @@
 //
-//  ElGrocerNavigationBar.swift
-//  ElGrocerShopper
+// ElGrocerNavigationBar.swift
+// ElGrocerShopper
 //
-//  Created by Adam Szeremeta on 01.07.2015.
-//  Copyright (c) 2015 RST IT. All rights reserved.
+// Created by Adam Szeremeta on 01.07.2015.
+// Copyright (c) 2015 RST IT. All rights reserved.
 //
 
 import Foundation
@@ -73,14 +73,14 @@ class ElGrocerNavigationBar : UINavigationBar {
             }
         }
     }
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
         let logoYPossition = 0.0 // kSearchBarTopOrigin + 5
         
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
-
+            
             if self.backButton != nil {
                 self.backButton.frame = CGRect(x: self.frame.size.width - (16)  , y: self.frame.size.height / 2 - self.logoView.image!.size.height / 2.2, width: 18, height: self.logoView.image!.size.height)
                 self.backButton.transform = CGAffineTransform(scaleX: -1, y: 1)
@@ -126,79 +126,97 @@ class ElGrocerNavigationBar : UINavigationBar {
         
         if self.chatButton != nil {
             
-            self.chatButton.translatesAutoresizingMaskIntoConstraints = false
+            // self.chatButton.translatesAutoresizingMaskIntoConstraints = false
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                chatButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16).isActive = true
+                self.chatButton.frame.origin.x = 16
+                // chatButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16).isActive = true
             }else{
-                chatButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16).isActive = true
+                self.chatButton.frame.origin.x = self.bounds.size.width - 16 - self.chatButton.frame.size.width
+                // chatButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16).isActive = true
             }
-            let centerHorizontally = NSLayoutConstraint(item: self.chatButton!,
-                                                        attribute: .centerY,
-                                                        relatedBy: .equal,
-                                                        toItem: self.logoView,
-                                                        attribute: .centerY,
-                                                        multiplier: 1.0,
-                                                        constant: 0.0)
+            self.chatButton.center.y = self.logoView.center.y
+            self.chatButton.frame.size.height = 37
+            self.chatButton.frame.size.width = 40
             
-            
-            let heightConstraint =  NSLayoutConstraint(item: self.chatButton!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 37)
-            NSLayoutConstraint.activate([ centerHorizontally , heightConstraint ])
-     
-            if let width = self.chatButton.constraints.first(where: { $0.firstAnchor == widthAnchor }) {
-                width.constant = 40
-            }else {
-                if let chatButton = self.chatButton  {
-                    if self.chatButton.isHidden == false {
-                        let widthConstraint =  NSLayoutConstraint(item: chatButton, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 40)
-                        NSLayoutConstraint.activate([ centerHorizontally , heightConstraint , widthConstraint])
-                    }
-                }
-               
-            }
-            self.chatButton.constraints.first { $0.firstAnchor == widthAnchor }?.isActive = !self.chatButton.isHidden
+            // let centerHorizontally = NSLayoutConstraint(item: self.chatButton!,
+            // attribute: .centerY,
+            // relatedBy: .equal,
+            // toItem: self.logoView,
+            // attribute: .centerY,
+            // multiplier: 1.0,
+            // constant: 0.0)
+            // let heightConstraint =  NSLayoutConstraint(item: self.chatButton!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 37)
+            // NSLayoutConstraint.activate([ centerHorizontally , heightConstraint ])
+            // if let width = self.chatButton.constraints.first(where: { $0.firstAnchor == widthAnchor }) {
+            // width.constant = 40
+            // }else {
+            // if let chatButton = self.chatButton  {
+            // if self.chatButton.isHidden == false {
+            // let widthConstraint =  NSLayoutConstraint(item: chatButton, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 40)
+            // NSLayoutConstraint.activate([ centerHorizontally , heightConstraint , widthConstraint])
+            // }
+            // }
+            //
+            // }
+            // self.chatButton.constraints.first { $0.firstAnchor == widthAnchor }?.isActive = !self.chatButton.isHidden
             
         }
         
         if self.searchBar != nil {
-            self.searchBar.translatesAutoresizingMaskIntoConstraints = false
+            // self.searchBar.translatesAutoresizingMaskIntoConstraints = false
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                searchBar.leftAnchor.constraint(equalTo: self.chatButton.rightAnchor, constant: 0).isActive = true
-                searchBar.rightAnchor.constraint(equalTo: self.logoView.leftAnchor, constant: -15).isActive = true
+                self.chatButton.frame.origin.x = self.chatButton.frame.origin.x + self.chatButton.frame.size.width
+                self.chatButton.frame.size.width = abs(self.logoView.frame.origin.x - self.chatButton.frame.origin.x) - 15
+                
+                // searchBar.leftAnchor.constraint(equalTo: self.chatButton.rightAnchor, constant: 0).isActive = true
+                // searchBar.rightAnchor.constraint(equalTo: self.logoView.leftAnchor, constant: -15).isActive = true
             }else{
-                searchBar.leftAnchor.constraint(equalTo: logoView.rightAnchor, constant: 15).isActive = true
-                searchBar.rightAnchor.constraint(equalTo: self.chatButton.leftAnchor, constant: 0).isActive = true
+                self.chatButton.frame.origin.x = self.logoView.frame.origin.x + self.logoView.frame.size.width + 15
+                self.chatButton.frame.size.width = abs(self.chatButton.frame.origin.x - self.chatButton.frame.origin.x)
+                
+                // searchBar.leftAnchor.constraint(equalTo: logoView.rightAnchor, constant: 15).isActive = true
+                // searchBar.rightAnchor.constraint(equalTo: self.chatButton.leftAnchor, constant: 0).isActive = true
             }
-         
-            let centerHorizontally = NSLayoutConstraint(item: self.searchBar!,
-                                                        attribute: .centerY,
-                                                        relatedBy: .equal,
-                                                        toItem: self.logoView,
-                                                        attribute: .centerY,
-                                                        multiplier: 1.0,
-                                                        constant: 0.0)
-            let heightConstraint =  NSLayoutConstraint(item: self.searchBar!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 36)
-            NSLayoutConstraint.activate([ centerHorizontally , heightConstraint])
+            
+            self.searchBar.center.y = self.logoView.center.y
+            self.searchBar.frame.size.height = 36
+            // let centerHorizontally = NSLayoutConstraint(item: self.searchBar!,
+            // attribute: .centerY,
+            // relatedBy: .equal,
+            // toItem: self.logoView,
+            // attribute: .centerY,
+            // multiplier: 1.0,
+            // constant: 0.0)
+            // let heightConstraint =  NSLayoutConstraint(item: self.searchBar!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 36)
+            // NSLayoutConstraint.activate([ centerHorizontally , heightConstraint])
         }
         
         if self.locationView != nil {
-            self.locationView.translatesAutoresizingMaskIntoConstraints = false
+            // self.locationView.translatesAutoresizingMaskIntoConstraints = false
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                locationView.leftAnchor.constraint(equalTo: self.chatButton.rightAnchor, constant: 0).isActive = true
-                locationView.rightAnchor.constraint(equalTo: self.logoView.leftAnchor, constant: -15).isActive = true
+                locationView.frame.origin.x = self.chatButton.frame.origin.x + self.chatButton.frame.size.width
+                locationView.frame.size.width = abs(self.logoView.frame.origin.x - locationView.frame.origin.x) - 15
+                // locationView.leftAnchor.constraint(equalTo: self.chatButton.rightAnchor, constant: 0).isActive = true
+                // locationView.rightAnchor.constraint(equalTo: self.logoView.leftAnchor, constant: -15).isActive = true
             }else{
-                locationView.leftAnchor.constraint(equalTo: logoView.rightAnchor, constant: 15).isActive = true
-                locationView.rightAnchor.constraint(equalTo: self.chatButton.leftAnchor, constant: 0).isActive = true
+                locationView.frame.origin.x = self.logoView.frame.origin.x + self.logoView.frame.size.width + 15
+                locationView.frame.size.width = abs(self.chatButton.frame.origin.x - locationView.frame.origin.x)
+                // locationView.leftAnchor.constraint(equalTo: logoView.rightAnchor, constant: 15).isActive = true
+                // locationView.rightAnchor.constraint(equalTo: self.chatButton.leftAnchor, constant: 0).isActive = true
             }
-         
-            let centerHorizontally = NSLayoutConstraint(item: self.locationView!,
-                                                        attribute: .centerY,
-                                                        relatedBy: .equal,
-                                                        toItem: self.logoView,
-                                                        attribute: .centerY,
-                                                        multiplier: 1.0,
-                                                        constant: 0.0)
-            let heightConstraint =  NSLayoutConstraint(item: self.locationView!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 36)
-            NSLayoutConstraint.activate([ centerHorizontally , heightConstraint])
+            
+            self.locationView.center.y = logoView.center.y
+            self.locationView.frame.size.height = 36
+            
+            // let centerHorizontally = NSLayoutConstraint(item: self.locationView!,
+            // attribute: .centerY,
+            // relatedBy: .equal,
+            // toItem: self.logoView,
+            // attribute: .centerY,
+            // multiplier: 1.0,
+            // constant: 0.0)
+            // let heightConstraint =  NSLayoutConstraint(item: self.locationView!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 36)
+            // NSLayoutConstraint.activate([ centerHorizontally , heightConstraint])
         }
         
         
@@ -234,15 +252,15 @@ class ElGrocerNavigationBar : UINavigationBar {
         
         
         if self.cartButton != nil {
-
-//            self.cartButton.frame = CGRect(x:self.frame.size.width-16-44, y: (self.frame.size.height*0.5)-22 , width: 44, height: 44)
+            
+            // self.cartButton.frame = CGRect(x:self.frame.size.width-16-44, y: (self.frame.size.height*0.5)-22 , width: 44, height: 44)
             //cart icon size is 44x44 but withj shadow its 58x58
             self.cartButton.frame = CGRect(x:self.frame.size.width-16-54, y: (self.frame.size.height*0.5)-29 , width: 58, height: 58)
             
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
-//                self.cartButton.frame = CGRect(x:16, y: (self.frame.size.height*0.5)-22, width: 44, height: 44)
+                // self.cartButton.frame = CGRect(x:16, y: (self.frame.size.height*0.5)-22, width: 44, height: 44)
                 self.cartButton.frame = CGRect(x:6, y: (self.frame.size.height*0.5)-29, width: 58, height: 58)
-               // self.cartButton.transform = CGAffineTransform(scaleX: -1, y: 1)
+                // self.cartButton.transform = CGAffineTransform(scaleX: -1, y: 1)
                 self.cartButton.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
             }
         }
@@ -281,17 +299,17 @@ class ElGrocerNavigationBar : UINavigationBar {
             barAppearance.shadowColor = .clear
             barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor :  UIColor.navigationBarWhiteColor()]
             barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
-
+            
             self.standardAppearance = barAppearance
             self.scrollEdgeAppearance = barAppearance
-
+            
         } else {
             // Fallback on earlier versions
         }
         
-//        if sdkManager.isSmileSDK {
-//            self.setClearBackground()
-//        }
+        // if sdkManager.isSmileSDK {
+        // self.setClearBackground()
+        // }
     }
     func setWhiteBackground() {
         
@@ -306,11 +324,11 @@ class ElGrocerNavigationBar : UINavigationBar {
             barAppearance.shadowColor = .clear
             barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.secondaryBlackColor()]
             barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.secondaryBlackColor()]
-        
+            
             
             self.standardAppearance = barAppearance
             self.scrollEdgeAppearance = barAppearance
-
+            
         } else {
             // Fallback on earlier versions
         }
@@ -329,11 +347,11 @@ class ElGrocerNavigationBar : UINavigationBar {
             barAppearance.shadowColor = .clear
             barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
             barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
-        
+            
             
             self.standardAppearance = barAppearance
             self.scrollEdgeAppearance = barAppearance
-
+            
         } else {
             // Fallback on earlier versions
         }
@@ -352,11 +370,11 @@ class ElGrocerNavigationBar : UINavigationBar {
             barAppearance.shadowColor = .clear
             barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.themeBasePrimaryColor]
             barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.themeBasePrimaryColor]
-        
+            
             
             self.standardAppearance = barAppearance
             self.scrollEdgeAppearance = barAppearance
-
+            
         } else {
             // Fallback on earlier versions
         }
@@ -409,7 +427,7 @@ class ElGrocerNavigationBar : UINavigationBar {
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor :UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1),
                                                             NSAttributedString.Key.font : UIFont.SFProDisplaySemiBoldFont(17.0)]
     }
-
+    
     func setBackgroundColorForBar(_ bgColor:UIColor) {
         self.backgroundColor 	= bgColor
         self.barTintColor       = bgColor
@@ -501,13 +519,13 @@ class ElGrocerNavigationBar : UINavigationBar {
             } else {
                 image = UIImage(name: "smile_Logo_elgrocer")!
             }
-           
+            
         }
         self.logoView = UIImageView(image: image)
         self.addSubview(self.logoView)
     }
     
-     func refreshLogoView() {
+    func refreshLogoView() {
         
         var image = UIImage(name: "menu_logo")!
         if sdkManager.isSmileSDK {
@@ -520,9 +538,9 @@ class ElGrocerNavigationBar : UINavigationBar {
             } else {
                 image = UIImage(name: "smile_Logo_elgrocer")!
             }
-           
+            
         }
-         self.logoView.image = image
+        self.logoView.image = image
     }
     
     func changeLogoColor(color: UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor){
@@ -532,7 +550,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     func setBackButtonHidden(_ hidden:Bool) {
         
         if let btnBack = self.backButton {
-               btnBack.isHidden = hidden
+            btnBack.isHidden = hidden
         }
     }
     
@@ -580,9 +598,9 @@ class ElGrocerNavigationBar : UINavigationBar {
     
     // MARK: SearchBar
     
-
+    
     func setSearchBarHidden(_ hidden:Bool) {
-     
+        
         guard self.searchBar != nil else {return}
         self.searchBar.isHidden = hidden
         if self.searchBar.isHidden {
@@ -616,7 +634,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     
     func setSearchBarDelegate(_ delegate:NavigationBarSearchProtocol?) {
-     guard self.searchBar != nil else {return}
+        guard self.searchBar != nil else {return}
         self.searchBar.delegate = delegate
     }
     
@@ -668,9 +686,9 @@ class ElGrocerNavigationBar : UINavigationBar {
     func changeBackButtonImagetoPurple() {
         
         if let back = self.backButton{
-                var image = UIImage(name: "backPinPurple")!
-                back.setImage(image, for: UIControl.State())
-                self.backButton = back
+            var image = UIImage(name: "backPinPurple")!
+            back.setImage(image, for: UIControl.State())
+            self.backButton = back
         }
     }
     
@@ -678,15 +696,15 @@ class ElGrocerNavigationBar : UINavigationBar {
     func changeBackButtonImage(_ isWhite: Bool = false, _ isBlack: Bool = SDKManager.shared.isSmileSDK) {
         
         if let back = self.backButton{
-                var image = UIImage(name: "BackGreen")!
-                if isWhite{
-                    image = UIImage(name: "BackWhite")!
-                }
-                if isBlack {
-                    image = UIImage(name: "BackButtonIconGrey")!
-                }
-                back.setImage(image, for: UIControl.State())
-                self.backButton = back
+            var image = UIImage(name: "BackGreen")!
+            if isWhite{
+                image = UIImage(name: "BackWhite")!
+            }
+            if isBlack {
+                image = UIImage(name: "BackButtonIconGrey")!
+            }
+            back.setImage(image, for: UIControl.State())
+            self.backButton = back
         }
     }
     
@@ -700,7 +718,7 @@ class ElGrocerNavigationBar : UINavigationBar {
         self.chatButton = NavigationBarChatButton.loadFromNib()
         self.addSubview(self.chatButton)
     }
-  
+    
     fileprivate func addProfileButton() {
         let image = UIImage(name: "profile-icon")
         self.profileButton  = UIButton(type: .custom)
