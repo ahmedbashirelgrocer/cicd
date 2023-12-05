@@ -227,7 +227,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     var isOutOfStockProductAvailablePreCart = false
     var isFromOrderbanner = false
     var isNeedToHideBackButton = false
-    var isItemOOSCellsNeedToExpand = true
+    var isItemOOSCellsNeedToExpand = false
     
         //MARK: IndexPath Var
     var promoCellIndex : NSIndexPath = NSIndexPath.init(row: 1, section: 2)
@@ -283,7 +283,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     
         //MARK: delegate weak var
     weak var delegate:MyBasketViewProtocol?
-    
+    // This flag is added to keep track of whether reload the screen data or not.
+    // In case of showing substitution option bottom sheet no need to reload the screen data
+    private var isReloadScreen = true
     
     
     
@@ -318,6 +320,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        if isReloadScreen == false { return }
         if  !(UserDefaults.isOrderInEdit() && self.order != nil) {
             self.searchBar.isHidden = true
         }
@@ -329,7 +332,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         updateGroceryData()
         self.myBasketDataObj.getReasons()
-        self.isItemOOSCellsNeedToExpand = self.myBasketDataObj.getSelectedReason() == nil
+//        self.isItemOOSCellsNeedToExpand = self.myBasketDataObj.getSelectedReason() == nil
         if UserDefaults.isUserLoggedIn() {
             let _ = SpinnerView.showSpinnerViewInView(self.view)
             self.tblBasket.isHidden = true
@@ -351,6 +354,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if isReloadScreen == false { return }
+        
         GoogleAnalyticsHelper.trackScreenWithName(kGoogleAnalyticsBasketScreen)
         FireBaseEventsLogger.setScreenName( FireBaseScreenName.MyBasket.rawValue , screenClass: String(describing: self.classForCoder))
         self.setUpNavigationAppearance()
@@ -655,21 +661,28 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         DispatchQueue.global().async(execute: self.carouselWorkItem!)
     }
     
+    // Previous purchase items will be visible here ...
     fileprivate func getCarouselProduct () {
+        let parameters = NSMutableDictionary()
+        parameters["limit"] = 20
+        parameters["offset"] = 0
+        parameters["retailer_id"] = self.grocery?.dbID
+        parameters["shopper_id"] = UserDefaults.getLogInUserID()
+        parameters["delivery_time"] = ElGrocerUtility.sharedInstance.getCurrentMillis()
         
-        
-        ElGrocerApi.sharedInstance.getCarouselProducts(self.grocery) {[unowned self] (result) -> Void in
+        ElGrocerApi.sharedInstance.getTopSellingProductsOfGrocery(parameters , false) { [weak self] (result) in
             
             switch result {
-                    
-                case .success(let response):
-                        // elDebugPrint(response)
-                    self.saveCarouselProductResponseForCategory(response)
-                case .failure(let error):
-                    self.reloadTableData()
+                
+            case .success(let response):
+                self?.saveCarouselProductResponseForCategory(response)
+                break
+                
+            case .failure(_):
+                self?.reloadTableData()
+                break
             }
         }
-        
     }
     
     func saveCarouselProductResponseForCategory(_ response: NSDictionary) {
@@ -831,6 +844,10 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         let spaceTableViewCell = UINib(nibName: "SpaceTableViewCell", bundle: Bundle.resource)
         self.tblBasket.register(spaceTableViewCell, forCellReuseIdentifier: "SpaceTableViewCell")
+        self.tblBasket.register(UINib(nibName: "SelectedMissingItemPreference", bundle: .resource), forCellReuseIdentifier: "SelectedMissingItemPreference")
+        
+        let sectionTitleNib = UINib(nibName: "SectionTitleCell", bundle: .resource)
+        self.tblBasket.register(sectionTitleNib, forCellReuseIdentifier: "SectionTitleCell")
         
         
             // self.tblBasket.tableFooterView = tblFooterCheckOutView
@@ -1903,10 +1920,10 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         if section == 0 {
-            return 4
+            return 3
         }
         if section == 1 {
-            return self.myBasketDataObj.getReasonA().count + 1
+            return 1
         }
         if section == 2 {
             return self.notAvailableProductsList.count
@@ -1957,19 +1974,21 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 // hiding summary cell in favour of new design
                 return 0
                 return (self.products.count > 0) ? 40 :  0.1
-            } else if indexPath.row == 2 {  return (self.products.count > 0) ? 104 :  0.1 }
-            else if indexPath.row == 3 {  return 15 }
+            }
+//            else if indexPath.row == 2 {  return (self.products.count > 0) ? 104 :  0.1 }
+            else if indexPath.row == 2 {  return 15 }
         }
         if indexPath.section == 1 {
+            return 68
             if indexPath.row == 0 { return 40 }
             if indexPath.row == 1 { return UITableView.automaticDimension }
             return self.isItemOOSCellsNeedToExpand ? UITableView.automaticDimension : 0.1
         } // reason section
         if indexPath.section == 2 { return kProductCellHeight + 15 }
         if indexPath.section == 3 {
-            if indexPath.row == 0 {  return self.carouselProducts.count > 0 ? 50 :  0.1  }
+            if indexPath.row == 0 {  return self.carouselProducts.count > 0 ? tableView.rowHeight :  0.1  }
             if indexPath.row == 1 {  return self.carouselProducts.count > 0 ? kProductCellHeight :  0.1 }
-            if indexPath.row == 2 {  return self.availableProducts.count > 0 ? 60 :  0.1   }
+            if indexPath.row == 2 {  return self.availableProducts.count > 0 ? tableView.rowHeight :  0.1   }
         }
         if indexPath.section == 4 {
             if indexPath.row < self.availableProducts.count {
@@ -2045,6 +2064,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 if indexPath.row == 0 {
                     let cell : MyBasketStroreNameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MyBasketStroreNameTableViewCell" , for: indexPath) as! MyBasketStroreNameTableViewCell
                     cell.setGrocery(grocery: self.grocery)
+                    
+                    cell.returnToStoreHandler = { [weak self] in
+                        self?.backButtonClick()
+                    }
+                    
                     return cell
                     // Disabling progress view cell in favour of new design
                     /*
@@ -2073,34 +2097,36 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     cell.configureCell(title: localizedString("order_summary_label", comment: ""))
                     return cell
                     
-                }else if indexPath.row == 2 {
-                    let replaceProductCell : ProductsImagesTableViewCell = tableView.dequeueReusableCell(withIdentifier: KProductsImagesTableViewCellIdentifier , for: indexPath) as! ProductsImagesTableViewCell
-                    if let grocer = self.grocery {
-                        let notAWithNoSub = self.notAvailableProductsList.filter { (product) -> Bool in
-                            if let item = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: self.grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                                if item.isSubtituted.boolValue {
-                                    return false
-                                }
-                            }
-                            return true
-                        }
-                        
-                        let productList = notAWithNoSub + self.availableProducts
-                        replaceProductCell.configuredData(productList, self.shoppingItems, grocery: grocer)
-                    }
-                    replaceProductCell.selectedProduct = { [weak self] (selectedProdc , index) in
-                        if let prod = selectedProdc {
-                            if let indexOfProd = self?.notAvailableProductsList.firstIndex(of: prod) {
-                                tableView.scrollToRow(at: NSIndexPath.init(row: indexOfProd, section: 2) as IndexPath, at: .top, animated: true)
-                                return
-                            }
-                        }
-                        let outOfStockProductCount = self?.notAvailableProductsList.count ?? 0
-                        tableView.scrollToRow(at: NSIndexPath.init(row: index - outOfStockProductCount , section: 4) as IndexPath, at: .top, animated: true)
-                    }
-                    return replaceProductCell
-                    
-                } else if indexPath.row == 3 {
+                }
+//                else if indexPath.row == 2 {
+//                    let replaceProductCell : ProductsImagesTableViewCell = tableView.dequeueReusableCell(withIdentifier: KProductsImagesTableViewCellIdentifier , for: indexPath) as! ProductsImagesTableViewCell
+//                    if let grocer = self.grocery {
+//                        let notAWithNoSub = self.notAvailableProductsList.filter { (product) -> Bool in
+//                            if let item = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: self.grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+//                                if item.isSubtituted.boolValue {
+//                                    return false
+//                                }
+//                            }
+//                            return true
+//                        }
+//
+//                        let productList = notAWithNoSub + self.availableProducts
+//                        replaceProductCell.configuredData(productList, self.shoppingItems, grocery: grocer)
+//                    }
+//                    replaceProductCell.selectedProduct = { [weak self] (selectedProdc , index) in
+//                        if let prod = selectedProdc {
+//                            if let indexOfProd = self?.notAvailableProductsList.firstIndex(of: prod) {
+//                                tableView.scrollToRow(at: NSIndexPath.init(row: indexOfProd, section: 2) as IndexPath, at: .top, animated: true)
+//                                return
+//                            }
+//                        }
+//                        let outOfStockProductCount = self?.notAvailableProductsList.count ?? 0
+//                        tableView.scrollToRow(at: NSIndexPath.init(row: index - outOfStockProductCount , section: 4) as IndexPath, at: .top, animated: true)
+//                    }
+//                    return replaceProductCell
+//
+//                }
+                else if indexPath.row == 2 {
                     
                     let spaceTableViewCell : SpaceTableViewCell = tableView.dequeueReusableCell(withIdentifier: "SpaceTableViewCell" , for: indexPath) as! SpaceTableViewCell
                     return spaceTableViewCell
@@ -2112,6 +2138,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 if indexPath.row == 0 {
                     let cell : MyBasketStroreNameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MyBasketStroreNameTableViewCell" , for: indexPath) as! MyBasketStroreNameTableViewCell
                     cell.setGrocery(grocery: self.grocery)
+                    cell.returnToStoreHandler = { [weak self] in
+                        self?.backButtonClick()
+                    }
                     return cell
                     // Disabling progress view cell in favour of new design
                     /*
@@ -2250,47 +2279,20 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         if indexPath.section == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "SelectedMissingItemPreference", for: indexPath) as! SelectedMissingItemPreference
             
-            if indexPath.row == 0 {
-                
-                let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-                cell.configureCellWithEditOrder(title: localizedString("If_items_are_out_of_stock_unselected", comment: ""))
-                cell.viewAll.isHidden = !(self.myBasketDataObj.getSelectedReason() != nil)
-                cell.viewAllAction = { [weak self] in
-                    if self?.orderToReplace ?? false{
-                        MixpanelEventLogger.trackEditCartEditOOSInstruction()
-                    }else {
-                        MixpanelEventLogger.trackCartEditOOSInstruction()
-                    }
-                    
-                    self?.isItemOOSCellsNeedToExpand = !(self?.isItemOOSCellsNeedToExpand ?? false)
-                    self?.tblBasket.reloadDataOnMain()
-                }
-                return cell
-                
-            }else {
-                
-                let cell : QuestionareCell = tableView.dequeueReusableCell(withIdentifier: "QuestionareCell") as! QuestionareCell
-                cell.buttonClicked = { [weak self] (selectedReason , index) in
-                    guard self?.tblBasket != nil , index != nil else {return }
-                    let reason: String = (selectedReason as? Reasons)?.reasonString ?? ""
-                    if self?.orderToReplace ?? false {
-                        MixpanelEventLogger.trackEditCartOOSInstructionSelected(reason: reason)
-                    }else {
-                        MixpanelEventLogger.trackCartOOSInstructionSelected(instruction: reason)
-                    }
-                    self?.tableView(self!.tblBasket, didSelectRowAt: index!)
-                }
-                let reasonIndex = indexPath.row - 1
-                let reason = self.myBasketDataObj.getSortedReasonA()[reasonIndex]
-                let isSelected = self.myBasketDataObj.getSelectedReason()?.reasonKey == reason.reasonKey
-                cell.ConfigureCell(isSelected: isSelected, text: reason.reasonString, reason, indexPath)
-                cell.setNeedsLayout()
-                cell.layoutIfNeeded()
-                return cell
-                
+            
+            let selectedOption = self.myBasketDataObj.getReasonA().first(where: {
+                $0.reasonKey == self.myBasketDataObj.getSelectedReason()?.reasonKey
+            })
+            
+            cell.configure(selectedOption: selectedOption)
+            
+            cell.cellTapHandler = { [weak self] in
+                self?.showReasonsBottomSheet()
             }
             
+            return cell
         }
         /// display pre OOS cart
         if indexPath.section == 2 {
@@ -2478,11 +2480,9 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         if indexPath.section == 3 {
             
             if indexPath.row == 0 {
-                
-                let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-                cell.configureCell(title: localizedString("txt_recommende_for_you", comment: ""))
+                let cell = tableView.dequeueReusableCell(withIdentifier: "SectionTitleCell", for: indexPath) as! SectionTitleCell
+                cell.configure(title: localizedString("buy_it_again_text", comment: ""), topPadding: 24, bottomPadding: 10)
                 return cell
-                
             }else if indexPath.row == 1 {
                 let cell : MyBasketCarousalTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MyBasketCarousalTableViewCell" , for: indexPath) as! MyBasketCarousalTableViewCell
                 cell.configureCarousal(self.carouselProducts as! [Product])
@@ -2593,10 +2593,19 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 
                 return cell
             }else if indexPath.row == 2 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "SectionTitleCell", for: indexPath) as! SectionTitleCell
+                let productCount = self.availableProducts.count
                 
-                let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
-                cell.configureCell(title: localizedString("lbl_Cart_details", comment: ""))
+                let title = productCount > 1
+                    ? String(format: localizedString("lbl_cart_details_title", comment: ""), "\(self.availableProducts.count)")
+                    : String(format: localizedString("lbl_cart_details_title_single_item", comment: ""), "\(self.availableProducts.count)")
+                
+                cell.configure(title: title, topPadding: 18, bottomPadding: 12)
                 return cell
+                
+//                let cell : GenericViewTitileTableViewCell = tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
+//                cell.configureCell(title: localizedString("lbl_Cart_details", comment: ""))
+//                return cell
                 
             }
             
@@ -3683,7 +3692,45 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
     }
     
-    
+    private func showReasonsBottomSheet() {
+        let questionsArray = self.myBasketDataObj.getReasonA()
+        let missingItemVC = MissingItemsPreferenceViewController.make(questions:  questionsArray, selectedQuestion: self.myBasketDataObj.getSelectedReason())
+        
+        let headerHeight = 60.0
+        let margins = 24.0
+        var height =  headerHeight + questionsArray.reduce(0.0, { partialResult, reason in
+            let widthConstraint = ScreenSize.SCREEN_WIDTH - 64
+            let font = UIFont.SFProDisplaySemiBoldFont(16)
+            
+            return partialResult + reason.reasonString.heightOfString(withConstrainedWidth: widthConstraint, font: font) + margins
+        })
+        
+        if height >= ScreenSize.SCREEN_HEIGHT { height = ScreenSize.SCREEN_HEIGHT * 0.5 }
+        missingItemVC.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, height)
+        
+        self.isReloadScreen = false
+        
+        // Option selection closure
+        missingItemVC.selectionHandler = { [weak self] reason in
+            guard let self = self else { return }
+            
+            self.myBasketDataObj.setNewSelectedReason(reason)
+            self.tblBasket.reloadData()
+            
+            ElGrocerUtility.sharedInstance.delay(0.5) { self.isReloadScreen = true }
+        }
+        
+        missingItemVC.crossButtonHandler = { [weak self] in
+            ElGrocerUtility.sharedInstance.delay(0.5) { self?.isReloadScreen = true }
+        }
+        
+        let popupController = STPopupController(rootViewController: missingItemVC)
+        popupController.navigationBarHidden = true
+        popupController.style = .bottomSheet
+        popupController.backgroundView?.alpha = 1
+        popupController.containerView.layer.cornerRadius = 16
+        popupController.present(in: self)
+    }
     
 }
 

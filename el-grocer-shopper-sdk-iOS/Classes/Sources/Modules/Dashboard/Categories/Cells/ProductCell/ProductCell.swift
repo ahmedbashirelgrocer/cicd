@@ -592,6 +592,12 @@ class ProductCell : RxUICollectionViewCell {
     }
 
     @IBAction func addToCartHandler(_ sender: Any) {
+        if let bidID = ElGrocerUtility.sharedInstance.resolvedBidIdForBannerClicked, UIApplication.topViewController() is BrandDetailsViewController {
+            TopsortManager.shared.log(.clicks(resolvedBidId: bidID, productID: "\(self.product.getCleanProductId())"))
+        }
+        if let bidID = product?.winner?.resolvedBidId {
+            TopsortManager.shared.log(.clicks(resolvedBidId: bidID))
+        }
         if viewModel != nil {
             self.viewModel.inputs.addToCartButtonTapObserver.onNext(())
             return
@@ -601,9 +607,7 @@ class ProductCell : RxUICollectionViewCell {
         let newValue = product.dbID
         ProductSelectedStore.setValue(newValue)
         
-        if let bidID = product?.winner?.resolvedBidId {
-            TopsortManager.shared.log(.clicks(resolvedBidId: bidID))
-        }
+      
         
         guard self.product != nil else {return}
         // need to confirm this check from ABM bhai or suboor

@@ -65,11 +65,11 @@ class LocationManager: NSObject {
     
     lazy fileprivate var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
-        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-        manager.activityType = CLActivityType.fitness
+//        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+//        manager.activityType = CLActivityType.fitness
        // manager.pausesLocationUpdatesAutomatically = true
         // manager.distanceFilter = 10.0
-        manager.desiredAccuracy = 2000
+//        manager.desiredAccuracy = 20
         manager.delegate = self
         return manager
     }()
@@ -178,47 +178,48 @@ class LocationManager: NSObject {
     
     func fetchCurrentLocation(_ needToFetchNew: Bool = false) {
          
-         DispatchQueue.global().async { [weak self] in
-            
+//        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+//             guard let self = self else { return }
+             
              guard CLLocationManager.locationServicesEnabled() == true && CLLocationManager.authorizationStatus() != .denied &&
-             CLLocationManager.authorizationStatus() != .notDetermined &&
-             CLLocationManager.authorizationStatus() != .restricted  else {
+             CLLocationManager.authorizationStatus() != .notDetermined && CLLocationManager.authorizationStatus() != .restricted  else {
                  
                  guard CLLocationManager.locationServicesEnabled() else {
-                     self?.state.value = .error(ElGrocerError.locationServicesDisabledError())
+                     self.state.value = .error(ElGrocerError.locationServicesDisabledError())
                      return
                  }
                  switch CLLocationManager.authorizationStatus(){
                      case .authorizedWhenInUse, .authorizedAlways:
                      if !needToFetchNew { return }
                      case .notDetermined:
-                         self?.requestLocationAuthorization()
-                         self?.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
+                     self.requestLocationAuthorization()
+                     self.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
                      case .restricted:
-                         self?.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
+                     self.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
                          
                      case .denied:
-                         self?.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
+                     self.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
                          
                      @unknown default:
-                         self?.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
+                     self.state.value = .error(ElGrocerError.locationServicesAuthorizationError())
                  }
                  return
              }
                  
             
             elDebugPrint("fetchCurrentLocation")
-             self?.state.value = .fetchingLocation
+             self.state.value = .fetchingLocation
              DispatchQueue.main.async {
-                 self?.locationManager.startUpdatingLocation()
+                 self.locationManager.startUpdatingLocation()
              }
-         }
+//         }
     
     }
     
-    func stopUpdatingCurrentLocation() {
+    func stopUpdatingCurrentLocation(_ manager: CLLocationManager? = nil) {
         Thread.OnMainThread {
             self.locationManager.stopUpdatingLocation()
+            manager?.stopUpdatingLocation()
         }
     }
     
@@ -510,18 +511,19 @@ extension LocationManager: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
-        if locations.last!.horizontalAccuracy > manager.desiredAccuracy {
-            self.state.value = .fetchingLocation
-            return
-        }
         guard let currentLocation = locations.last else {
             self.state.value = .error(ElGrocerError.genericError())
             return
         }
+        //-1
+//        if currentLocation.horizontalAccuracy > manager.desiredAccuracy {
+//            self.state.value = .fetchingLocation
+//            return
+//        }
+        
         self.currentLocation.value = currentLocation
         self.state.value = .success
-        self.stopUpdatingCurrentLocation()
+        self.stopUpdatingCurrentLocation(manager)
     }
     
     func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {

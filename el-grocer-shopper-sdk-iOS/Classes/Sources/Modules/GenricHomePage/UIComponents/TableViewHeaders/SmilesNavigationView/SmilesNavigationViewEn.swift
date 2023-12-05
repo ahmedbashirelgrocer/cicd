@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SmilesNavigationViewEn: UIView, SmilesNavigationView {
+class SmilesNavigationViewEn: UIView, SmilesNavigationViewType {
     
     lazy var profileButton: UIButton = {
         let button = UIButton()

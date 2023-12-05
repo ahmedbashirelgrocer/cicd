@@ -71,7 +71,12 @@ class ElgorcerNoLocationViewController: UIViewController {
     }
     @IBAction func backButtonClicked(_ sender: Any) {
         guard ElGrocerUtility.sharedInstance.activeGrocery != nil else {
-            SDKManager.shared.rootContext?.dismiss(animated: true)
+            if let rootContext = SDKManager.shared.rootContext {
+                rootContext.dismiss(animated: true)
+            }else if SDKManager.shared.rootViewController == nil {
+                self.dismiss(animated: true)
+            }
+            
             return
         }
         self.dismiss(animated: true)

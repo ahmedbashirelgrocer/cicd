@@ -10,8 +10,8 @@ import Foundation
 
 // Events
 enum TopSortEvent {
-    case impressions(resolvedBidId: String)
-    case clicks(resolvedBidId: String)
+    case impressions(resolvedBidId: String, productID: String? = nil)
+    case clicks(resolvedBidId: String, productID: String? = nil)
     case purchases(orderID: String, items: [Item])
 
     struct Item {
@@ -24,43 +24,45 @@ enum TopSortEvent {
 extension TopSortEvent {
     var requestBody: [String: Any] {
         switch self {
-        case .impressions(let resolvedBidId):
-            return [
-                "impressions": [
-                    [
-                        "id": UUID().uuidString,
-                        "occurredAt": isoTimestamp,
-                        "opaqueUserId": userID,
-                        "resolvedBidId": resolvedBidId,
-                        "placement": [
-                            "path": "/categories/wines"
-                            // "position": 1,
-                            // "page": 1,
-                            // "pageSize": 15,
-                            // "categoryIds": ["wines"]
-                        ]
-                    ]
+        case .impressions(let resolvedBidId, let productID):
+            var impression: [String: Any] = [
+                "id": UUID().uuidString,
+                "occurredAt": isoTimestamp,
+                "opaqueUserId": userID,
+                "resolvedBidId": resolvedBidId,
+                "placement": [
+                    "path": "/categories/wines"
                 ]
             ]
             
-        case .clicks(let resolvedBidId):
-            return [
-                "clicks": [
-                    [
-                        "id": UUID().uuidString,
-                        "occurredAt": isoTimestamp,
-                        "opaqueUserId": userID,
-                        "resolvedBidId": resolvedBidId,
-                        "placement": [
-                            "path": "/categories/wines"
-                            // "position": 1,
-                            // "page": 1,
-                            // "pageSize": 15,
-                            // "categoryIds": ["wines"]
-                        ]
-                    ]
+            if let id = productID {
+                impression["additionalAttribution"] = [
+                  "type": "product",
+                  "id": id
+                ]
+            }
+            
+            return [ "impressions": [ impression ] ]
+            
+        case .clicks(let resolvedBidId, let productID):
+            var click: [String: Any] = [
+                "id": UUID().uuidString,
+                "occurredAt": isoTimestamp,
+                "opaqueUserId": userID,
+                "resolvedBidId": resolvedBidId,
+                "placement": [
+                    "path": "/categories/wines"
                 ]
             ]
+            
+            if let id = productID {
+                click["additionalAttribution"] = [
+                  "type": "product",
+                  "id": id
+                ]
+            }
+            
+            return [ "clicks": [ click ] ]
             
         case .purchases(let orderID, let items):
             return [
@@ -77,31 +79,9 @@ extension TopSortEvent {
                                     "quantity": item.quantity
                                 ]
                             })
-                    ]
+                    ] as [String: Any]
                 ]
             ]
-            
-//            {
-//                "purchases": [
-//                    {
-//                        "id": "{{$randomUUID}}",
-//                        "occurredAt": "{{$isoTimestamp}}",
-//                        "opaqueUserId": "{{OPAQUE_USER_ID}}",
-//                        "items": [
-//                            {
-//                                "productId": "ZIaf7TR7",
-//                                "unitPrice": 19.99,
-//                                "quantity": 2
-//                            },
-//                            {
-//                                "productId": "57BLfvQn",
-//                                "unitPrice": 83.99,
-//                                "quantity": 1
-//                            }
-//                        ]
-//                    }
-//                ]
-//            }
         }
     }
     

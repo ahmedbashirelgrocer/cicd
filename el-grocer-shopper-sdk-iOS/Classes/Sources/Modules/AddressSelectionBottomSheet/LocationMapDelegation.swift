@@ -109,10 +109,31 @@ extension LocationMapDelegation : LocationMapViewControllerDelegate {
                                 return
                             }
                             controller.dismiss(animated: true) {
-                                let SDKManager = SDKManager.shared
-                                if let tab = SDKManager.currentTabBar  {
-                                    ElGrocerUtility.sharedInstance.resetTabbar(tab)
-                                    tab.selectedIndex = 0
+                                if sdkManager.isGrocerySingleStore {
+                                    guard let newLaunchOption = sdkManager.launchOptions?.getLaunchOption(from: deliveryAddress) else {
+                                        SDKManager.shared.rootContext?.dismiss(animated: true)
+                                        return
+                                    }
+                                    
+                                    FlavorAgent.restartEngineWithLaunchOptions(newLaunchOption) { } completion: { isCompleted, grocery in
+                                        SpinnerView.hideSpinnerView()
+                                        ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                                        
+                                        if let tab = sdkManager.currentTabBar  {
+                                            ElGrocerUtility.sharedInstance.resetTabbar(tab)
+                                            tab.selectedIndex = 1
+                                        }
+                                        
+                                        self.presentedController.dismiss(animated: true)
+                                    }
+                                } else {
+                                    let SDKManager = SDKManager.shared
+                                    if let tab = SDKManager.currentTabBar  {
+                                        ElGrocerUtility.sharedInstance.resetTabbar(tab)
+                                        tab.selectedIndex = 0
+                                    }
+                                    
+                                    self.presentedController.dismiss(animated: true)
                                 }
                             }
                         }

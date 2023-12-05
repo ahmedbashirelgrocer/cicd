@@ -16,11 +16,23 @@ class MyBasketStroreNameTableViewCell: UITableViewCell {
             imageGrocery.backgroundColor = .navigationBarWhiteColor()
         }
     }
+    @IBOutlet weak var returnToStoreStackView: UIStackView!
     @IBOutlet var lblGrocery: UILabel!
+    @IBOutlet weak var buttonReturnToStore: UIButton! {
+        didSet {
+            buttonReturnToStore.setCaption1SemiBoldGreenStyle()
+        }
+    }
     
+    @IBOutlet weak var ivUndo: UIImageView!
+    var returnToStoreHandler: (()->())?
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        buttonReturnToStore.setTitle(localizedString("return_to_store_text", comment: ""), for: .normal)
+        let undoIcon = UIImage(name: "undo")?.withRenderingMode(.alwaysTemplate)
+        ivUndo.image = undoIcon
+        ivUndo.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -29,7 +41,7 @@ class MyBasketStroreNameTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setGrocery(grocery : Grocery?) {
+    func setGrocery(grocery : Grocery?, editOrder: Bool = UserDefaults.isOrderInEdit()) {
         guard grocery != nil else {
             return
         }
@@ -39,6 +51,8 @@ class MyBasketStroreNameTableViewCell: UITableViewCell {
         }else{
             self.imageGrocery.image = productPlaceholderPhoto
         }
+        
+        returnToStoreStackView.isHidden = editOrder
     }
     
     fileprivate func setGroceryImage(_ urlString : String) {
@@ -60,4 +74,11 @@ class MyBasketStroreNameTableViewCell: UITableViewCell {
         })
         
     }
+    
+    @IBAction func returnToStoreTapped(_ sender: Any) {
+        if let returnToStoreHandler = self.returnToStoreHandler {
+            returnToStoreHandler()
+        }
+    }
+    
 }

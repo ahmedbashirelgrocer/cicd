@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Bold.otf">
+            <string>SFProDisplay-Bold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="87" id="KGk-i7-Jjw" customClass="SelectedMissingItemPreference" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="87"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="87"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JH1-D3-EAI" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                        <rect key="frame" x="16" y="0.0" width="288" height="87"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="missing_item" translatesAutoresizingMaskIntoConstraints="NO" id="uli-94-SPq">
+                                <rect key="frame" x="16" y="25.5" width="36" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="36" id="MIp-hA-oJV"/>
+                                    <constraint firstAttribute="width" constant="36" id="wxM-qo-n7g"/>
+                                </constraints>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="ryK-cy-xhd">
+                                <rect key="frame" x="60" y="27" width="201.5" height="33.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="What to do if items are missing?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tkG-ub-At5">
+                                        <rect key="frame" x="0.0" y="0.0" width="201.5" height="17"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="14"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Call me to confirm replacement" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vit-l4-74x">
+                                        <rect key="frame" x="0.0" y="19" width="201.5" height="14.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowRight" translatesAutoresizingMaskIntoConstraints="NO" id="wk9-pL-tXe">
+                                <rect key="frame" x="264" y="35.5" width="16" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="16" id="8rz-1S-IwC"/>
+                                    <constraint firstAttribute="height" constant="16" id="H9J-nO-nCD"/>
+                                    <constraint firstAttribute="width" constant="16" id="Py8-Mb-KVA"/>
+                                    <constraint firstAttribute="width" constant="16" id="z2y-R7-VFQ"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="uli-94-SPq" firstAttribute="centerY" secondItem="JH1-D3-EAI" secondAttribute="centerY" id="45l-FQ-43S"/>
+                            <constraint firstItem="ryK-cy-xhd" firstAttribute="centerY" secondItem="uli-94-SPq" secondAttribute="centerY" id="BJj-f4-LvZ"/>
+                            <constraint firstAttribute="trailing" secondItem="wk9-pL-tXe" secondAttribute="trailing" constant="8" id="NI1-bG-Fyy"/>
+                            <constraint firstItem="wk9-pL-tXe" firstAttribute="centerY" secondItem="uli-94-SPq" secondAttribute="centerY" id="Nvy-k2-WWF"/>
+                            <constraint firstItem="uli-94-SPq" firstAttribute="leading" secondItem="JH1-D3-EAI" secondAttribute="leading" constant="16" id="b0a-uD-5rI"/>
+                            <constraint firstItem="ryK-cy-xhd" firstAttribute="leading" secondItem="uli-94-SPq" secondAttribute="trailing" constant="8" id="eaY-by-1l5"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="JH1-D3-EAI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="9UZ-fw-yOm"/>
+                    <constraint firstAttribute="bottom" secondItem="JH1-D3-EAI" secondAttribute="bottom" id="L8y-jF-k27"/>
+                    <constraint firstItem="JH1-D3-EAI" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="rrs-gm-bCF"/>
+                    <constraint firstAttribute="trailing" secondItem="JH1-D3-EAI" secondAttribute="trailing" constant="16" id="vcj-y9-pQU"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="ivArrowForward" destination="wk9-pL-tXe" id="dG4-dG-AWt"/>
+                <outlet property="lblSelectedOption" destination="vit-l4-74x" id="jfu-qV-wxn"/>
+                <outlet property="lblTitle" destination="tkG-ub-At5" id="EN5-2P-Snb"/>
+                <outlet property="viewBG" destination="JH1-D3-EAI" id="2NQ-Y1-Iql"/>
+            </connections>
+            <point key="canvasLocation" x="-58.015267175572518" y="34.859154929577464"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="arrowRight" width="25" height="24"/>
+        <image name="missing_item" width="36" height="36"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

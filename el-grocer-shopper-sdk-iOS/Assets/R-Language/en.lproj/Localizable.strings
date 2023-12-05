@@ -7,8 +7,8 @@
 */
 
 "Download tax invoice" = " Download tax invoice";
-"smiles_pts" = "    %@ pts    ";
-"earn_rewards_now" = "Earn rewards now! ❯";
+"smiles_pts" = "%@ pts";
+"earn_rewards_now" = "Earn Smiles Points!";
 "Oops! Something went wrong on our side 🤔" = "Oops! Something went wrong on our side 🤔";
 "We are fixing the problem.\nPlease, try again soon." = "We are fixing the problem.\nPlease, try again soon.";
 
@@ -381,7 +381,7 @@
 "need_assistance_lable" = "Need more support? ";
 "launch_live_chat_text" = "Chat with elGrocer";
 
-"lbl_Hurray_Success_Msg" = "HURRAY!\nYOUR ORDER SUCCESSFULLY PLACED";
+"lbl_Hurray_Success_Msg" = "HURRAY!\nYour order is successfully placed";
 
 
 // Orders history
@@ -868,7 +868,7 @@
 "faq_description_2" = "Our partner stores take care of the delivery. Your order is transmitted in real-time to the store and delivery happens within 60 minutes for instant orders. We may contact you in case of substitution or any other queries. ";
 
 "faq_title_3" = "How do I pay for my groceries?";
-"faq_description_3" = "Payment options are Online Payment or Cash or Credit Card on Delivery or Smiles Points and these options vary from store to store.";
+"faq_description_3" = "Payment options are Online Payment or Cash or Credit Card on Delivery or Smiles Points or Wallet and these options vary from store to store. ";
 
 "faq_title_4" = "Are the prices different compared to me just going to the store directly?";
 "faq_description_4" = "No difference! The prices are the same. The big advantage is that you do not have to waste time going to the store. Simply order all you need with just a few taps. ";
@@ -886,7 +886,7 @@
 "faq_description_8" = "Yes, you can freely browse our app first before ordering. Once you open the app the first time, simply select 'Explore and Register later' option. The app will ask you to select your location and will show you the available stores in the area. After choosing a store and adding the products you want to your basket, you will be prompted to enter your contact details to proceed to checkout. ";
 
 "faq_title_9" = "Can I have multiple delivery addresses?";
-"faq_description_9" = "Absolutely! You can create multiple delivery addresses based on your preference";
+"faq_description_9" = "Absolutely! You can create multiple delivery addresses based on your preference. ";
 
 "faq_title_10" = "Is there any minimum order or delivery charge for deliveries?";
 "faq_description_10" = "elGrocer prices are the same as you see in stores. Some stores require more delivery men that work in shifts. This means minimum orders and delivery fees vary according to the retailer you order from. Smaller stores take orders with basket values as low as AED30. While in the case of some retailers that deliver in the same building or within 500m there are no delivery fees. All delivery terms are shown as details for our listed stores as well as on your order summary screen, where you are prompted to confirm your order. ";
@@ -895,13 +895,13 @@
 "faq_description_11" = "Absolutely. Products usually purchased are listed in Shopping history for easy selection. ";
 
 "faq_title_12" = "I can’t find the product that I am looking for?";
-"faq_description_12" = "The products you see in the app reflect our partner stores' inventories. We constantly update the products to provide accuracy and availability. If you cannot find what you need, please use the live chat feature so we can work with our partner stores to add the product (s). ";
+"faq_description_12" = "The products you see in the app reflect our partner stores' inventories. We constantly update the products to provide accuracy and availability. If you cannot find what you need, please use the live chat feature so we can work with our partner stores to add the product (s).  ";
 
 "faq_title_13" = "I received an update about my order mentioning that some items are not available?";
 "faq_description_13" = "If the store runs out of stock, you will get contacted and offered the option to select a substitute for the initial product. ";
 
 "faq_title_14" = "Can I schedule my delivery to be sent at a later time/day?";
-"faq_description_14" = "Yes, simply can choose the delivery Day and time that is suitable for you from checkout page ";
+"faq_description_14" = "Yes, you can choose the delivery Day and time that is suitable for you from checkout page. ";
 
 "faq_title_15" = "Can I repeat the same order as one previously placed?";
 "faq_description_15" = "Yes, simply go to “My Orders“ and select “Re-Order”";
@@ -914,6 +914,8 @@
 
 "faq_title_17" = "I received an incorrect/defective product, what do I do?";
 "faq_description_17" = "We strongly recommend checking the products first. You have the option to refuse items if they are incorrect or in bad condition. Please contact us immediately so we can coordinate replacements with our partner stores. ";
+
+// Online Payment FAQ
 
 "faq_title_18" = "I just placed an order, have I been charged more than my amount?";
 "faq_description_18" = "We have not charged you yet, we have requested an amount to be on hold, and we request to hold an extra AED10 in for fresh items, extra weights, and OOS replacements ";
@@ -929,6 +931,120 @@
 
 "faq_title_22" = "I made an order and paid online, can I add more items?";
 "faq_description_22" = "Yes, we will add the extra amount to charge your card once we check out from store.  ";
+
+// Earn & Redeem FAQ
+
+"faq_title_23" = "How do I sign up? ";
+"faq_description_23" = "The process is simple! Click on the Smiles banner in the elGrocer app and you will be guided through the sign-up process. ";
+
+"faq_title_24" = "Where can I find all my accounts’ info?";
+"faq_description_24" = "Both your elGrocer and Smiles balance info can be accessed from the Profile menu within the elGrocer app. ";
+
+"faq_title_25" = "Is there a maximum number of attempts to enter the correct OTP? ";
+"faq_description_25" = "After a maximum of three attempts your transaction will be declined, and the authentication service will be blocked. There is a period of 24 hours until you can try again the authentication. Only 3 OTP attempts are recognized in one day. ";
+
+"faq_title_26" = "If I have an existing profile in elGrocer app, how can I link it with the Smiles profile to earn and redeem points? ";
+"faq_description_26" = "If you have both an elGrocer account and a Smiles account when opening the App, you will see the Earn & Redeem Login Banner.
+Once you click on the banner, you will be sent to a verification screen. The system will recognize you as Smiles, and you will receive an OTP message.
+After clicking ok and returning to the home screen, in the profile, you will see your existing balance from Smiles. ";
+
+"faq_title_27" = "Can both primary and linked accounts login to elGrocer app? ";
+"faq_description_27" = "Primary and Linked accounts are a reference to Smiles accounts not elGrocer.
+elGrocer supports all Smiles accounts. Each account will access the same smiles balance they have on their Smiles app. ";
+
+"faq_title_28" = "If I have a Business Mobile Number OR a Visitor Line Number OR a SWYP Number OR a Du Number OR an International Number OR any other type, can I still earn and redeem smiles points using elGrocer app?";
+"faq_description_28" = "elGrocer does not distinguish between number types. Any number that can register for a Smiles account can Earn and Redeem points on the elGrocer app. ";
+
+"faq_title_29" = "What are the benefits of this Earn and Redeem program? ";
+"faq_description_29" = "With every purchase, you will earn Smiles points that can be used for Grocery shopping, Smiles Food orders, and any other Smiles partner. You can also redeem your Smiles points when you are placing your orders with elGrocer. ";
+
+"faq_title_30" = "Will I receive points for purchases I made prior to creating my rewards account? ";
+"faq_description_30" = "Earning Smiles points will start after you have created your elGrocer account and chosen to login to your Smiles account from within the elGrocer app. ";
+
+"faq_title_31" = "Will I be able to use Smiles points that I had in my Smiles wallet previously? ";
+"faq_description_31" = "Yes ";
+
+"faq_title_32" = "How can I earn points? ";
+"faq_description_32" = "Once you have linked your Smiles account with your elGrocer account by clicking on the Smiles banner, you will earn Smiles points with every dirham spent on the elGrocer app. Every AED 1 spent will earn 1 Smiles point. You can also earn points in many other ways through the Smiles App.";
+
+"faq_title_33" = "How are my points determined? ";
+"faq_description_33" = "For each AED 1 spent on elGrocer, you will earn 1 Smiles point.";
+
+"faq_title_34" = "If I use a promo code how will the Smiles points be calculated? ";
+"faq_description_34" = "When using a promo code, you will earn points on the amount paid after the discount. For example, you have a bill of AED 100, and you are using the code NEW10 for AED 10 off on your purchase. Upon introducing the code, you will pay AED 90 ONLY and you will EARN 90 Smiles Points. ";
+
+"faq_title_35" = "When I pay with my Smiles Points, will I still earn points? ";
+"faq_description_35" = "When selecting to pay the order with Smiles points, you will NOT earn Points. When redeeming points, the earn feature does not apply. In a transaction, you can either EARN or REDEEM. ";
+
+"faq_title_36" = "Is there a minimum order amount to checkout using Smiles points? ";
+"faq_description_36" = "There is no min order value to use the Smiles Points.
+However certain stores have a minimum amount to place the order.
+So, at this moment you need to have the entire amount for your order in Smiles points. ";
+
+"faq_title_37" = "How can I redeem my points at checkout? ";
+"faq_description_37" = "At the Checkout page within the elGrocer app, you will be presented with your Smiles balance. You can choose to purchase your elGrocer order by using your existing Smiles balance. ";
+
+"faq_title_38" = "Can I use Smiles points to pay part of the bill? ";
+"faq_description_38" = "Yes, it's possible. ";
+
+"faq_title_39" = "Can you pay a AED 200 bill with 200 Smiles points that you earned buying 200 AED on elGrocer? ";
+"faq_description_39" = "No, you earn 1 point with every 1 AED 1 spent. BUT it takes around 111 points to pay for 1 AED worth of groceries. It is as if you are getting a 1% cash back on your purchases. ";
+
+"faq_title_40" = "Do my points expire? ";
+"faq_description_40" = "All your Smiles points are governed by the terms and conditions stated in the Smiles App. ";
+
+"faq_title_41" = "How can I redeem my points on Smiles? Or is the balance on Smiles and elGrocer equivalent? Or If I pay with my Smiles points on elGrocer will my balance on Smiles app decrease? Respectively, if I earn points on elGrocer will I see my points added to elGrocer wallet? ";
+"faq_description_41" = "Your Smiles balance is directly connected with your elGrocer app. If you earn points
+by ordering and receiving elGrocer groceries, the points will be reflected on your
+Smiles App balance. If you redeem any points on the elGrocer app, the points will
+be reduced automatically from your Smiles balance within the Smiles App. ";
+
+"faq_title_42" = "I redeemed points with my last purchase, but now I want to return them. What will happen to my reward? Or if payment failed? Or in the case of substitution? ";
+"faq_description_42" = "If an elGrocer order placed using Smiles points is canceled for any reason, the
+Smiles points will be returned to your Smiles balance. ";
+
+"faq_title_43" = "What is the buffer time to receive the Smiles points after the return? ";
+"faq_description_43" = "48 hours (about 2 days) ";
+
+"faq_title_44" = "If I use a promo code how will the Smiles points be calculated? ";
+"faq_description_44" = "When using a promo code, you will earn points on the amount paid after the discount. For example, you have a bill of AED 100, and you are using the code NEW10 for AED 10 off on your purchase. Upon introducing the code, you will pay AED 90 ONLY and you will EARN 90 Smiles Points. ";
+
+"faq_title_45" = "When I pay with my Smiles Points, will I still earn points? ";
+"faq_description_45" = "When selecting to pay the order with Smiles points, you will NOT earn Points. When redeeming points, the earn feature does not apply. In a transaction, you can either EARN or REDEEM.";
+
+// Tabby
+
+"faq_title_46" = "What is Tabby? ";
+"faq_description_46" = "Get more time to pay. With Elgrocer x Tabby you can shop NOW & pay at the end of the month with 0% interest fees. ";
+
+"faq_title_47" = "How can I use Tabby? ";
+"faq_description_47" = "Choose Tabby as a payment option on the checkout page.";
+
+"faq_title_48" = "Should I have a Tabby account to place an order? ";
+"faq_description_48" = "Yes, customers will be redirected to Tabby’s to register. ";
+
+"faq_title_49" = "If I am not a Tabby customer, how should I subscribe? ";
+"faq_description_49" = "You will be redirected to the page where you need a valid UAE Mobile Number, valid Email, Valid Emirates ID & Credit Card. ";
+
+"faq_title_50" = "How long does it take to activate my account? ";
+"faq_description_50" = "This is totally handled by Tabby. Their approval of your application will be subject to their review of your submitted data and circumstances. ";
+
+"faq_title_51" = "Is there an interest fee if I don't pay at the end of month? ";
+"faq_description_51" = "This is totally handled by Tabby. You undertake to pay the following amounts because of late payment:
+- 25 dirhams after the payment date (end-of-month payment).
+- An additional 25 dirhams if the amount is outstanding 14 days after the payment date.
+- An additional 25 dirhams if the amount is outstanding 28 days after the payment date. ";
+
+"faq_title_52" = "How much can I spend with Tabby? ";
+"faq_description_52" = "To keep shopping safe, spending limits are based on a number of factors including the type of products you're buying, the store you're buying from, and your history with Tabby. ";
+
+"faq_title_53" = "Is Tabby free to use? ";
+"faq_description_53" = "It is! Tabby does not charge interest or fees for any payments that are made on time. ";
+
+"faq_title_54" = "When do I have to pay? ";
+"faq_description_54" = "The Tabby Tab payment cycle runs from the 25th of the month until the 24th of the next month. On the 25th you get an overview of your orders for that cycle. You have to pay by the 28th. ";
+
+
 
 
 
@@ -1278,7 +1394,8 @@
 
 //Mybasket
 "top_selling_Products_title" = "Top selling products";
-"lbl_Cart_details" = "Cart details";
+"lbl_cart_details_title" = "%@ items in your order";
+"lbl_cart_details_title_single_item" = "%@ item in your order";
 "lbl_View_All_Cap" = "VIEW ALL";
 "btn_Replace_title" = "Replace";
 
@@ -1385,6 +1502,7 @@
 Sign In or Sign Up to elGrocer";
 "lbl_myBasket_add_Address" = "To Checkout please
 Add delivery details";
+"return_to_store_text" = "Return to store";
 
 //MARK: Cart Collector
 
@@ -2142,6 +2260,7 @@ Oreo";
 "secondry_payment_error_msg_smiles" = "To use smiles your balance has to be more than 1 AED";
 "promo_code_apply_notification" = "You must apply a promo code to get discount";
 "extra_balacnce_details" = "Balance details";
+"secondary_payment_error_message" = "Please specify a payment method in order to handle substitutions or weight variance";
 
 //MARK: substitution
 
@@ -2220,4 +2339,5 @@ Oreo";
 "eg_detecting_location" = "Detecting location...";
 "eg_address_nick_name_address" = "Enter address nickname, 'Home/Work'*";
 "eg_msg_selected_location_not_covering" = "Selected location for that store is outside delivery area range. What would you like to do?";
+"recipe_title_home" = "👨‍🍳 Recipes";
 

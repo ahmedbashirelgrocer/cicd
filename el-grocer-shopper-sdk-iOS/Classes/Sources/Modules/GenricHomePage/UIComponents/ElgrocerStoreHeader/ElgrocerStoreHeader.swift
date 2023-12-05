@@ -50,9 +50,12 @@ class ElgrocerStoreHeader:  UIView  {
     
     @IBOutlet var groceryBGView: UIView!
     
- 
+    @IBOutlet weak var arrowDown: UIImageView!
     
     @IBOutlet weak var btnMenu: UIButton! { didSet {
+        let menuIcon = UIImage(named: "menu")?.withRenderingMode(.alwaysTemplate)
+        self.btnMenu.tintColor = UIColor.smileBaseColor()
+        self.btnMenu.setImage(menuIcon, for: .normal)
         self.btnMenu.setTitle("", for: .normal)
         self.btnMenu.addTarget(self, action: #selector(profileBTNClicked), for: .touchUpInside)
     }}
@@ -201,8 +204,9 @@ class ElgrocerStoreHeader:  UIView  {
         callSendBird()
     }
     
-    func configureHeader(grocery: Grocery, location: DeliveryAddress?){
+    func configureHeader(grocery: Grocery, location: DeliveryAddress?, isArrowDownHidden: Bool = true){
        
+        self.arrowDown.isHidden = isArrowDownHidden
         self.setSlotData()
         guard let location = location else {
             self.lblLocation.text = ""
@@ -400,14 +404,14 @@ class ElgrocerStoreHeader:  UIView  {
                 } else if let storePage = top as? MainCategoriesViewController {
                     EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, mapDelegate: storePage.mapDelegate, presentIn: storePage, locationSelectionHandler: self.locationChangedHandler)
                 } else {
-                    let dashboardLocationVC = ElGrocerViewControllers.dashboardLocationViewController()
-                    dashboardLocationVC.isFromNewHome = true
-                    dashboardLocationVC.isRootController = true
-                    let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-                    navigationController.viewControllers = [dashboardLocationVC]
-                    navigationController.modalPresentationStyle = .fullScreen
-                    navigationController.setLogoHidden(true)
-                    top.present(navigationController, animated: true)
+//                    let dashboardLocationVC = ElGrocerViewControllers.dashboardLocationViewController()
+//                    dashboardLocationVC.isFromNewHome = true
+//                    dashboardLocationVC.isRootController = true
+//                    let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+//                    navigationController.viewControllers = [dashboardLocationVC]
+//                    navigationController.modalPresentationStyle = .fullScreen
+//                    navigationController.setLogoHidden(true)
+//                    top.present(navigationController, animated: true)
                 }
             }
         }

@@ -183,27 +183,6 @@ class GenericStoresViewController: BasketBasicViewController {
             }
             
         })
-        
-        self.logAbTestEvents()
-    }
-    
-    func logAbTestEvents() {
-        // Log AB Test Event
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            let authToken = ABTestManager.shared.authToken
-            let variant = ABTestManager.shared.storeConfigs.variant
-            SegmentAnalyticsEngine.instance.logEvent(event: ABTestExperimentEvent(authToken: authToken, variant: variant.rawValue, experimentType: .store))
-        }
-
-        // Log if AB Test Failed to Configure // will be remove in // commented on purpose for future ref
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-//            if ABTestManager.shared.testEvent.count > 0 {
-//                let events = ABTestManager.shared.testEvent
-//                ABTestManager.shared.testEvent = []
-//                SegmentAnalyticsEngine.instance.logEvent(event: GenericABTestConfigError(eventsArray: events))
-//            }
-//        }
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -295,7 +274,7 @@ class GenericStoresViewController: BasketBasicViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        searchBarHeader.clearSmilesPoints()
+//        searchBarHeader.clearSmilesPoints()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -390,7 +369,6 @@ class GenericStoresViewController: BasketBasicViewController {
     // MARK:- OpenOrders
     
     private func getSmileUserInfo() {
-        
         SmilesManager.getCachedSmileUser { [weak self] (smileUser) in
             if let user = smileUser {
                 if let points = user.availablePoints {
@@ -1471,7 +1449,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
             return cell
         } else { // if indexPath.row == 2
             let cell : GenricHomeRecipeTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenricHomeRecipeTableViewCell , for: indexPath) as! GenricHomeRecipeTableViewCell
-            cell.configureData(self.homeDataHandler.recipeList, isMiniView: true)
+            cell.configureData(self.homeDataHandler.recipeList, isMiniView: true, isTitleHidden: false)
             return cell
         }
     }

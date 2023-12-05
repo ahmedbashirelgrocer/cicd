@@ -85,8 +85,6 @@ extension Reactive where Base: GenricBannerList {
     var banners: Binder<[BannerDTO]> {
         return Binder(self.base) { bannerListView, banners in
             bannerListView.collectionData = banners
-            bannerListView.behavior = MSCollectionViewPeekingBehavior(cellSpacing: CGFloat(8), cellPeekWidth: CGFloat(2), maximumItemsToScroll: Int(1), numberOfItemsToShow: Int(1), scrollDirection: .horizontal, velocityThreshold: 0.2)
-            bannerListView.collectionView?.configureForPeekingBehavior(behavior: bannerListView.behavior)
             
             UIView.performWithoutAnimation {
                 bannerListView.layoutIfNeeded()
@@ -233,6 +231,8 @@ extension GenricBannerList : UICollectionViewDelegate , UICollectionViewDataSour
                 }
                 
                 FireBaseEventsLogger.trackBannerClicked(brandName: banner.brands?.map { $0.slug }.joined(separator: ",") ?? "", banner.categories?.map { $0.slug }.joined(separator: ",") ?? "", banner.subCategories?.map { $0.slug }.joined(separator: ",") ?? "", link: banner, possition: String(describing: (indexPath.row ) + 1) )
+                
+                ElGrocerUtility.sharedInstance.resolvedBidIdForBannerClicked = banner.resolvedBidId
                 clouser(banner)
                 
                 // Logging segment event for banner clicked

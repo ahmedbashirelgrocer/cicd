@@ -16,9 +16,13 @@ class FAQViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     @IBOutlet weak var tableView: UITableView!
     
-    let faqTitles = ["faq_title_1", "faq_title_2", "faq_title_3","faq_title_4", "faq_title_5", "faq_title_6","faq_title_7", "faq_title_8", "faq_title_9","faq_title_10", "faq_title_11", "faq_title_12","faq_title_13", "faq_title_14", "faq_title_15","faq_title_16", "faq_title_17"]
     
-    let faqDescriptions = ["faq_description_1", "faq_description_2", "faq_description_3", "faq_description_4", "faq_description_5", "faq_description_6", "faq_description_7", "faq_description_8", "faq_description_9", "faq_description_10", "faq_description_11", "faq_description_12", "faq_description_13", "faq_description_14", "faq_description_15", "faq_description_16", "faq_description_17"]
+    
+    
+    
+    var faqTitles: [String] = []//["faq_title_1", "faq_title_2", "faq_title_3","faq_title_4", "faq_title_5", "faq_title_6","faq_title_7", "faq_title_8", "faq_title_9","faq_title_10", "faq_title_11", "faq_title_12","faq_title_13", "faq_title_14", "faq_title_15","faq_title_16", "faq_title_17"]
+    
+    var faqDescriptions: [String] = [] //["faq_description_1", "faq_description_2", "faq_description_3", "faq_description_4", "faq_description_5", "faq_description_6", "faq_description_7", "faq_description_8", "faq_description_9", "faq_description_10", "faq_description_11", "faq_description_12", "faq_description_13", "faq_description_14", "faq_description_15", "faq_description_16", "faq_description_17"]
 
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -35,6 +39,16 @@ class FAQViewController: UIViewController, UITableViewDataSource, UITableViewDel
        // Do any additional setup after loading the view.
         
         self.title = localizedString("setting_faq", comment: "")
+        
+        let maxlimit =  sdkManager.isSmileSDK ? 46 : 55
+        
+        for index in (1..<maxlimit) {
+            print(index)
+            faqTitles.append("faq_title_\(index)")
+            faqDescriptions.append("faq_description_\(index)")
+        }
+        
+        
         //addBackButton()
         populateQuestionArray()
         
@@ -135,8 +149,17 @@ class FAQViewController: UIViewController, UITableViewDataSource, UITableViewDel
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let title = localizedString(self.faqTitles[(indexPath as NSIndexPath).row], comment: "")
-        let descritpon = localizedString(self.faqDescriptions[(indexPath as NSIndexPath).row], comment: "")
+        var titleLocString = self.filteredQuestionArray[(indexPath as NSIndexPath).row]
+        
+       let titleFromFAQS =  faqTitles.filter { title in
+            localizedString(title, comment: "") == titleLocString
+        }
+        titleLocString = titleFromFAQS[0]
+        
+        let title = localizedString(titleLocString, comment: "")
+        
+        let desciptionLocString = titleLocString.replacingOccurrences(of: "faq_title_", with: "faq_description_")
+        let descritpon = localizedString(desciptionLocString, comment: "")
         
         let questionVC = ElGrocerViewControllers.questionViewController()
         questionVC.titleStr = title

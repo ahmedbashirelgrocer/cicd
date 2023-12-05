@@ -1827,7 +1827,9 @@ fileprivate extension UniversalSearchViewController {
     
     func handleNavigationsFor(_ cell: PorductBannerCell, and banner: BannerCampaign) {
         let grocery = HomePageData.shared.groceryA ?? []
-
+        
+        ElGrocerUtility.sharedInstance.resolvedBidIdForBannerClicked = banner.resolvedBidId
+        
         cell.navigationHandeler = {
             Thread.OnMainThread {
                 

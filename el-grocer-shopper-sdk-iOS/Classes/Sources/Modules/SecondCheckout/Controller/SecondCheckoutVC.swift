@@ -277,7 +277,7 @@ class SecondCheckoutVC: UIViewController {
             self.secondaryPaymentView.isHidden = true
         }else {
 
-            self.secondaryPaymentView.configure(smilesBalance: data.smilesBalance ?? 0.00, elWalletBalance: data.elWalletBalance ?? 0.00, smilesRedeem: data.smilesRedeem ?? 0.00, elWalletRedeem: data.elWalletRedeem ?? 0.00, smilesPoint: data.smilesPoints ?? 0, paymentTypes: secondaryPaymentTypes)
+            self.secondaryPaymentView.configure(smilesBalance: data.smilesBalance ?? 0.00, elWalletBalance: data.elWalletBalance ?? 0.00, smilesRedeem: data.smilesRedeem ?? 0.00, elWalletRedeem: data.elWalletRedeem ?? 0.00, smilesPoint: data.smilesPoints ?? 0, paymentTypes: secondaryPaymentTypes, selectedPrimaryMethod: self.viewModel.getSelectedPaymentOption())
         }
         let paymentOption = self.viewModel.createPaymentOptionFromString(paymentTypeId: data.primaryPaymentTypeID ?? 0)
         
@@ -654,10 +654,6 @@ extension SecondCheckoutVC: PromocodeDelegate {
                 self.viewModel.setPromoCodeRealisationId(realizationId: "", promoAmount: nil)
                 self.viewModel.updateSecondaryPaymentMethods()
             }
-            
-            // Logging segment event for promo code applied
-            let promoCodeAppliedEvent = PromoCodeAppliedEvent(isApplied: success, promoCode: promoCode?.code, realizationId: promoCode?.promotionCodeRealizationId)
-            SegmentAnalyticsEngine.instance.logEvent(event: promoCodeAppliedEvent)
         }
         
         vc.dismissWithoutPromoClosure = { [weak self] (isDismisingWithPromoApplied) in
@@ -677,6 +673,13 @@ extension SecondCheckoutVC: PromocodeDelegate {
 
 extension SecondCheckoutVC: SecondaryPaymentViewDelegate {
     func switchStateChange(type: SourceType, switchState: Bool) {
+        if self.viewModel.getSelectedPaymentOption() == .none && switchState == false {
+            let errorMsg = localizedString("secondary_payment_error_message", comment: "")
+            ElGrocerUtility.sharedInstance.showTopMessageView(errorMsg, image: nil, -1, false, backButtonClicked: { sender, index, inUndo in
+            }, buttonIcon: UIImage(name: "crossWhite"))
+            return
+        }
+        
         switch type {
         case .elWallet:
             //  print("elwallet switch changed to >> \(switchState)")
