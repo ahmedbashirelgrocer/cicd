@@ -63,6 +63,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         
         didSet{
             lblCreatShoppingList.text =      localizedString("lbl_shopping_list", comment: "Create your shopping list")
+            lblCreatShoppingList.textColor = AppSetting.theme.navigationBarColor
         }
         
     }
@@ -70,6 +71,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         
         didSet{
             lblSearchAndShop.text = localizedString("lbl_search_shop", comment: "Search and shop products")
+            lblSearchAndShop.textColor = AppSetting.theme.navigationBarColor
         }
         
     }
@@ -78,14 +80,40 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     @IBOutlet var lblOne: UILabel! {
         didSet {
             lblOne.text = localizedString("lbl_One", comment: "")
+            lblOne.textColor = AppSetting.theme.navigationBarColor
         }
     }
+    
+    @IBOutlet weak var lblOneCircularView: AWView!{
+        didSet{
+            lblOneCircularView.borderColor = AppSetting.theme.navigationBarColor
+        }
+    }
+    
     @IBOutlet var lblTwo: UILabel!{
         didSet {
             lblTwo.text = localizedString("lbl_Two", comment: "")
+            lblTwo.textColor = AppSetting.theme.navigationBarColor
+        }
+    }
+    @IBOutlet weak var lblTwoCircularView: AWView! {
+        didSet{
+            lblTwoCircularView.borderColor = AppSetting.theme.navigationBarColor
         }
     }
     @IBOutlet weak var searchBgView: UIView!
+    
+    @IBOutlet weak var createShoppingListProgressViewBar: AWView! {
+        didSet {
+            createShoppingListProgressViewBar.backgroundColor =  AppSetting.theme.navigationBarColor
+        }
+    }
+    @IBOutlet weak var searchProductsShoppingListProgressViewBar: AWView!{
+        didSet {
+            searchProductsShoppingListProgressViewBar.backgroundColor =  AppSetting.theme.navigationBarColor
+        }
+    }
+    
     
     private var bannerWorkItem:DispatchWorkItem?
     var topSearchesArray = [String]()
