@@ -786,12 +786,12 @@ class SDKManager: NSObject, SDKManagerType  {
         
     }
     
-    func logout(completion: (() -> Void)? = nil) {
+    func logout(shouldCallAPI: Bool = true,  completion: (() -> Void)? = nil) {
         
         SendBirdManager().logout { success in }
         
         ElGrocerUtility.sharedInstance.isDeliveryMode = true
-        if UserDefaults.getLogInUserID() != "0" {
+        if shouldCallAPI, UserDefaults.getLogInUserID() != "0" {
             ElGrocerApi.sharedInstance.logoutUser { (result) -> Void in  }
         }
        

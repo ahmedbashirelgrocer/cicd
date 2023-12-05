@@ -43,7 +43,7 @@ public struct SDKLoginManager {
         //UserProfile.clearEntity()
         //DeliveryAddress.clearDeliveryAddressEntity()
         //DatabaseHelper.sharedInstance.clearDatabase(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        SDKManager.shared.logout() {
+        SDKManager.shared.logout(shouldCallAPI: false) {
             loginRegisterUser(launchOptions.accountNumber ?? "") { isSuccess, errorMessage in
                 if isSuccess {
 //                    ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("user_login")
