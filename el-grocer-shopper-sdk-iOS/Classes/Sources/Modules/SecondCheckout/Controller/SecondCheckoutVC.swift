@@ -654,10 +654,6 @@ extension SecondCheckoutVC: PromocodeDelegate {
                 self.viewModel.setPromoCodeRealisationId(realizationId: "", promoAmount: nil)
                 self.viewModel.updateSecondaryPaymentMethods()
             }
-            
-            // Logging segment event for promo code applied
-            let promoCodeAppliedEvent = PromoCodeAppliedEvent(isApplied: success, promoCode: promoCode?.code, realizationId: promoCode?.promotionCodeRealizationId)
-            SegmentAnalyticsEngine.instance.logEvent(event: promoCodeAppliedEvent)
         }
         
         vc.dismissWithoutPromoClosure = { [weak self] (isDismisingWithPromoApplied) in

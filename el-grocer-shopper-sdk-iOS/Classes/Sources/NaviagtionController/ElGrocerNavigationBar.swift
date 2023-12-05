@@ -67,7 +67,7 @@ class ElGrocerNavigationBar : UINavigationBar {
             self.setChatIcon(isUnreadMessage)
             if isUnreadMessage {
                 self.chatButton.navChatButton.setImage(UIImage(name: "nav_chat_icon_unread") , for: UIControl.State())
-            }else {
+            }else{
                 let image = UIImage(name: "nav_chat_icon")!
                 self.chatButton.navChatButton.setImage(image , for: UIControl.State())
             }
@@ -78,6 +78,8 @@ class ElGrocerNavigationBar : UINavigationBar {
         super.layoutSubviews()
         
         let logoYPossition = 0.0 // kSearchBarTopOrigin + 5
+        
+        // let searchBarMultiplier = CGFloat(0.58)
         
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
 
@@ -126,79 +128,97 @@ class ElGrocerNavigationBar : UINavigationBar {
         
         if self.chatButton != nil {
             
-            self.chatButton.translatesAutoresizingMaskIntoConstraints = false
+            // self.chatButton.translatesAutoresizingMaskIntoConstraints = false
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                chatButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16).isActive = true
+                self.chatButton.frame.origin.x = 16
+                // chatButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16).isActive = true
             }else{
-                chatButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16).isActive = true
+                self.chatButton.frame.origin.x = self.bounds.size.width - 16 - self.chatButton.frame.size.width
+                // chatButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16).isActive = true
             }
-            let centerHorizontally = NSLayoutConstraint(item: self.chatButton!,
-                                                        attribute: .centerY,
-                                                        relatedBy: .equal,
-                                                        toItem: self.logoView,
-                                                        attribute: .centerY,
-                                                        multiplier: 1.0,
-                                                        constant: 0.0)
+            self.chatButton.center.y = self.logoView.center.y
+            self.chatButton.frame.size.height = 37
+            self.chatButton.frame.size.width = 40
             
-            
-            let heightConstraint =  NSLayoutConstraint(item: self.chatButton!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 37)
-            NSLayoutConstraint.activate([ centerHorizontally , heightConstraint ])
-     
-            if let width = self.chatButton.constraints.first(where: { $0.firstAnchor == widthAnchor }) {
-                width.constant = 40
-            }else {
-                if let chatButton = self.chatButton  {
-                    if self.chatButton.isHidden == false {
-                        let widthConstraint =  NSLayoutConstraint(item: chatButton, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 40)
-                        NSLayoutConstraint.activate([ centerHorizontally , heightConstraint , widthConstraint])
-                    }
-                }
-               
-            }
-            self.chatButton.constraints.first { $0.firstAnchor == widthAnchor }?.isActive = !self.chatButton.isHidden
+            // let centerHorizontally = NSLayoutConstraint(item: self.chatButton!,
+            // attribute: .centerY,
+            // relatedBy: .equal,
+            // toItem: self.logoView,
+            // attribute: .centerY,
+            // multiplier: 1.0,
+            // constant: 0.0)
+            // let heightConstraint =  NSLayoutConstraint(item: self.chatButton!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 37)
+            // NSLayoutConstraint.activate([ centerHorizontally , heightConstraint ])
+            // if let width = self.chatButton.constraints.first(where: { $0.firstAnchor == widthAnchor }) {
+            // width.constant = 40
+            // }else {
+            // if let chatButton = self.chatButton  {
+            // if self.chatButton.isHidden == false {
+            // let widthConstraint =  NSLayoutConstraint(item: chatButton, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 40)
+            // NSLayoutConstraint.activate([ centerHorizontally , heightConstraint , widthConstraint])
+            // }
+            // }
+            //
+            // }
+            // self.chatButton.constraints.first { $0.firstAnchor == widthAnchor }?.isActive = !self.chatButton.isHidden
             
         }
         
         if self.searchBar != nil {
-            self.searchBar.translatesAutoresizingMaskIntoConstraints = false
+            // self.searchBar.translatesAutoresizingMaskIntoConstraints = false
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                searchBar.leftAnchor.constraint(equalTo: self.chatButton.rightAnchor, constant: 0).isActive = true
-                searchBar.rightAnchor.constraint(equalTo: self.logoView.leftAnchor, constant: -15).isActive = true
+                self.chatButton.frame.origin.x = self.chatButton.frame.origin.x + self.chatButton.frame.size.width
+                self.chatButton.frame.size.width = abs(self.logoView.frame.origin.x - self.chatButton.frame.origin.x) - 15
+                
+                // searchBar.leftAnchor.constraint(equalTo: self.chatButton.rightAnchor, constant: 0).isActive = true
+                // searchBar.rightAnchor.constraint(equalTo: self.logoView.leftAnchor, constant: -15).isActive = true
             }else{
-                searchBar.leftAnchor.constraint(equalTo: logoView.rightAnchor, constant: 15).isActive = true
-                searchBar.rightAnchor.constraint(equalTo: self.chatButton.leftAnchor, constant: 0).isActive = true
+                self.chatButton.frame.origin.x = self.logoView.frame.origin.x + self.logoView.frame.size.width + 15
+                self.chatButton.frame.size.width = abs(self.chatButton.frame.origin.x - self.chatButton.frame.origin.x)
+                
+                // searchBar.leftAnchor.constraint(equalTo: logoView.rightAnchor, constant: 15).isActive = true
+                // searchBar.rightAnchor.constraint(equalTo: self.chatButton.leftAnchor, constant: 0).isActive = true
             }
-         
-            let centerHorizontally = NSLayoutConstraint(item: self.searchBar!,
-                                                        attribute: .centerY,
-                                                        relatedBy: .equal,
-                                                        toItem: self.logoView,
-                                                        attribute: .centerY,
-                                                        multiplier: 1.0,
-                                                        constant: 0.0)
-            let heightConstraint =  NSLayoutConstraint(item: self.searchBar!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 36)
-            NSLayoutConstraint.activate([ centerHorizontally , heightConstraint])
+            
+            self.searchBar.center.y = self.logoView.center.y
+            self.searchBar.frame.size.height = 36
+            // let centerHorizontally = NSLayoutConstraint(item: self.searchBar!,
+            // attribute: .centerY,
+            // relatedBy: .equal,
+            // toItem: self.logoView,
+            // attribute: .centerY,
+            // multiplier: 1.0,
+            // constant: 0.0)
+            // let heightConstraint =  NSLayoutConstraint(item: self.searchBar!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 36)
+            // NSLayoutConstraint.activate([ centerHorizontally , heightConstraint])
         }
         
         if self.locationView != nil {
-            self.locationView.translatesAutoresizingMaskIntoConstraints = false
+            // self.locationView.translatesAutoresizingMaskIntoConstraints = false
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                locationView.leftAnchor.constraint(equalTo: self.chatButton.rightAnchor, constant: 0).isActive = true
-                locationView.rightAnchor.constraint(equalTo: self.logoView.leftAnchor, constant: -15).isActive = true
+                locationView.frame.origin.x = self.chatButton.frame.origin.x + self.chatButton.frame.size.width
+                locationView.frame.size.width = abs(self.logoView.frame.origin.x - locationView.frame.origin.x) - 15
+                // locationView.leftAnchor.constraint(equalTo: self.chatButton.rightAnchor, constant: 0).isActive = true
+                // locationView.rightAnchor.constraint(equalTo: self.logoView.leftAnchor, constant: -15).isActive = true
             }else{
-                locationView.leftAnchor.constraint(equalTo: logoView.rightAnchor, constant: 15).isActive = true
-                locationView.rightAnchor.constraint(equalTo: self.chatButton.leftAnchor, constant: 0).isActive = true
+                locationView.frame.origin.x = self.logoView.frame.origin.x + self.logoView.frame.size.width + 15
+                locationView.frame.size.width = abs(self.chatButton.frame.origin.x - locationView.frame.origin.x)
+                // locationView.leftAnchor.constraint(equalTo: logoView.rightAnchor, constant: 15).isActive = true
+                // locationView.rightAnchor.constraint(equalTo: self.chatButton.leftAnchor, constant: 0).isActive = true
             }
-         
-            let centerHorizontally = NSLayoutConstraint(item: self.locationView!,
-                                                        attribute: .centerY,
-                                                        relatedBy: .equal,
-                                                        toItem: self.logoView,
-                                                        attribute: .centerY,
-                                                        multiplier: 1.0,
-                                                        constant: 0.0)
-            let heightConstraint =  NSLayoutConstraint(item: self.locationView!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 36)
-            NSLayoutConstraint.activate([ centerHorizontally , heightConstraint])
+            
+            self.locationView.center.y = logoView.center.y
+            self.locationView.frame.size.height = 36
+            
+            // let centerHorizontally = NSLayoutConstraint(item: self.locationView!,
+            // attribute: .centerY,
+            // relatedBy: .equal,
+            // toItem: self.logoView,
+            // attribute: .centerY,
+            // multiplier: 1.0,
+            // constant: 0.0)
+            // let heightConstraint =  NSLayoutConstraint(item: self.locationView!, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 36)
+            // NSLayoutConstraint.activate([ centerHorizontally , heightConstraint])
         }
         
         
@@ -234,15 +254,15 @@ class ElGrocerNavigationBar : UINavigationBar {
         
         
         if self.cartButton != nil {
-
-//            self.cartButton.frame = CGRect(x:self.frame.size.width-16-44, y: (self.frame.size.height*0.5)-22 , width: 44, height: 44)
+            
+            // self.cartButton.frame = CGRect(x:self.frame.size.width-16-44, y: (self.frame.size.height*0.5)-22 , width: 44, height: 44)
             //cart icon size is 44x44 but withj shadow its 58x58
             self.cartButton.frame = CGRect(x:self.frame.size.width-16-54, y: (self.frame.size.height*0.5)-29 , width: 58, height: 58)
             
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
-//                self.cartButton.frame = CGRect(x:16, y: (self.frame.size.height*0.5)-22, width: 44, height: 44)
+                // self.cartButton.frame = CGRect(x:16, y: (self.frame.size.height*0.5)-22, width: 44, height: 44)
                 self.cartButton.frame = CGRect(x:6, y: (self.frame.size.height*0.5)-29, width: 58, height: 58)
-               // self.cartButton.transform = CGAffineTransform(scaleX: -1, y: 1)
+                // self.cartButton.transform = CGAffineTransform(scaleX: -1, y: 1)
                 self.cartButton.semanticContentAttribute = UISemanticContentAttribute.forceRightToLeft
             }
         }

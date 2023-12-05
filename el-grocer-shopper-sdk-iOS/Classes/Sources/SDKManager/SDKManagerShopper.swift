@@ -126,7 +126,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType {
         GoogleAnalyticsHelper.configureGoogleAnalytics()
         self.initiliazeMarketingCampaignTrackingServices()
         CleverTapEventsLogger.shared.startCleverTapSharedSDK()
-        self.logApiError()
+//        self.logApiError()
         ElGrocerEventsLogger.sharedInstance.firstOpen()
         AlgoliaApi.sharedInstance.reStartInsights()
         
