@@ -78,7 +78,7 @@ extension UIViewController {
         }
         
         let backButton = UIBarButtonItem(image: image, style: UIBarButtonItem.Style.plain, target: self, action: #selector(backButtonClick))
-        backButton.tintColor = sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : (isGreen ? ApplicationTheme.currentTheme.buttonTextWithClearBGColor : ApplicationTheme.currentTheme.newBlackColor)
+        backButton.tintColor = sdkManager.isShopperApp ? ApplicationTheme.currentTheme.navigationBarWhiteColor : (isGreen ? ApplicationTheme.currentTheme.buttonTextWithClearBGColor : ApplicationTheme.currentTheme.newBlackColor)
         self.navigationItem.leftBarButtonItem = backButton
     }
     

@@ -1578,9 +1578,9 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
   setAccessToken()
   
   var parameters = [String : AnyObject]()
-
-  if let category = parentCategory {
-  parameters["parent_id"] = category.dbID.intValue as AnyObject
+          
+  if let categoryID = parentCategory?.dbID.intValue, categoryID > 0 {
+     parameters["parent_id"] = categoryID as AnyObject
   }
   
   if let groc = grocery {
@@ -4590,7 +4590,7 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
       func generateEditOrderWithBackendData(parameters : [String: Any], completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
           
           setAccessToken()
-          FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
+          //FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
           NetworkCall.put(ElGrocerApiEndpoint.generateOrder.rawValue  + "?market_type_id=\(sdkManager.isGrocerySingleStore ? "1":"0")", parameters: parameters, success: { (operation  , response: Any) -> Void in
               
               guard let response = response as? NSDictionary else {

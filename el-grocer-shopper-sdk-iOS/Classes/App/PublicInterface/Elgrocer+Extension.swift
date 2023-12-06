@@ -115,6 +115,17 @@ public extension ElGrocer {
             sdkManager = SDKManagerShopper.shared
         }
         
+        if !(sdkManager.launchOptions?.language?.isEmptyStr ?? true) && sdkManager.launchOptions?.language != launchOptions.language {
+            // language change
+            guard ElGrocerAppState.checkDBCanBeLoaded() else {
+                ElGrocer.showDefaultErrorForDB()
+                return
+            }
+            if let userProfile = UserProfile.getOptionalUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                UserProfile.deleteObject(userProfile)
+            }
+        }
+        
         func startFlavorStore(_ launchOptions: LaunchOptions ) {
             SDKManager.shared.launchOptions = launchOptions
             FlavorAgent.startFlavorEngine(launchOptions) {
@@ -123,6 +134,8 @@ public extension ElGrocer {
               //  debugPrint("Animation Completed")
             }
         }
+        
+        
       
         SDKManager.shared.launchOptionsLocation = launchOptions.convertOptionsToCLlocation()
         SDKManager.shared.startBasicThirdPartyInit()

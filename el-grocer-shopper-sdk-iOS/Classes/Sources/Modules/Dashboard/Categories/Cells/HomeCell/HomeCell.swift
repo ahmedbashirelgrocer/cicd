@@ -172,6 +172,8 @@ class HomeCell: RxUITableViewCell {
     @IBOutlet var rightButtonWidth: NSLayoutConstraint! // view all button width
     @IBOutlet weak var lblGrocerySlot: UILabel! {  // grocery slot label visible in case of Global Search
         didSet {
+            lblGrocerySlot.setSubHead2RegDarkStyle()
+            
             if let lng = UserDefaults.getCurrentLanguage(){
                 if lng == "ar"{
                     lblGrocerySlot.textAlignment = .right
@@ -392,26 +394,12 @@ class HomeCell: RxUITableViewCell {
     
     func updateDeliverySlot(_ data : String, isInstant: Bool) {
         let dataA = data.components(separatedBy: CharacterSet.newlines)
-        var attrs1 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Light", size: 11) , NSAttributedString.Key.foregroundColor : self.lblGrocerySlot.textColor ]
         
-        self.ivDeliverySlotIcon.image = isInstant ? UIImage(name: "instatntDeliveryBolt") : UIImage(name: "ClockIcon")
-        
-        if dataA.count == 1 {
-            if self.lblGrocerySlot.text?.count ?? 0 > 13 {
-                attrs1 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Light", size: 9) , NSAttributedString.Key.foregroundColor : self.lblGrocerySlot.textColor ]
-                self.lblGrocerySlot.attributedText = NSMutableAttributedString(string: dataA[0], attributes:attrs1 as [NSAttributedString.Key : Any])
-                return
-            }
+        if dataA.isNotEmpty {
+            self.ivDeliverySlotIcon.image = isInstant ? UIImage(name: "instatntDeliveryBolt") : UIImage(name: "ClockIcon")
+            let timeText = dataA.count > 1 ? dataA[1] : ""
+            self.lblGrocerySlot.text = dataA[0] + ": " + timeText
         }
-        let attrs2 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Semibold", size: 11) , NSAttributedString.Key.foregroundColor : self.lblGrocerySlot.textColor]
-        
-        let attributedString1 = NSMutableAttributedString(string:dataA[0], attributes:attrs1 as [NSAttributedString.Key : Any])
-        let timeText = dataA.count > 1 ? dataA[1] : ""
-        let attributedString2 = NSMutableAttributedString(string:" \(timeText)", attributes:attrs2 as [NSAttributedString.Key : Any])
-        
-        attributedString1.append(attributedString2)
-        
-        self.lblGrocerySlot.attributedText = attributedString1
     }
     
     func setImageData (homeFeed: Home) {

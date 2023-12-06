@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -45,13 +45,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="We're Sorry." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YO0-zH-ody">
-                                <rect key="frame" x="-4" y="95" width="398" height="24.666666666666671"/>
+                                <rect key="frame" x="-4" y="95" width="398" height="21"/>
                                 <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="But XYZ Grocery had to cancel the order because" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lOS-y2-iDG">
-                                <rect key="frame" x="97.666666666666686" y="138.66666666666666" width="195" height="28"/>
+                                <rect key="frame" x="97.666666666666686" y="135" width="195" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="195" id="J0D-qv-gWT"/>
                                 </constraints>
@@ -60,7 +60,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dfw-xE-AOj">
-                                <rect key="frame" x="65" y="303.66666666666669" width="120" height="32"/>
+                                <rect key="frame" x="65" y="286" width="120" height="32"/>
                                 <color key="backgroundColor" red="0.31372549020000001" green="0.65098039220000004" blue="0.2784313725" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="GQh-Tp-d0k"/>
@@ -78,7 +78,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hru-Km-LpO">
-                                <rect key="frame" x="193" y="303.66666666666669" width="120" height="32"/>
+                                <rect key="frame" x="193" y="286" width="120" height="32"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="32" id="5m7-gL-gQa"/>
@@ -94,7 +94,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your products have been put back into your basket so you can select a new grocery store to handle your delivery" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ciX-TK-nUD">
-                                <rect key="frame" x="92" y="223.66666666666666" width="206" height="55.999999999999972"/>
+                                <rect key="frame" x="92" y="214" width="206" height="48"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="206" id="11e-lU-hyD"/>
                                 </constraints>
@@ -103,7 +103,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Too busy with other orders" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K1D-9v-TMs">
-                                <rect key="frame" x="65" y="182.66666666666666" width="260" height="14"/>
+                                <rect key="frame" x="65" y="175" width="260" height="12"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="260" id="HcA-oC-AZ1"/>
                                 </constraints>
@@ -245,7 +245,7 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="USM-Ap-X4o">
-                                <rect key="frame" x="0.0" y="47" width="390" height="797"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="akD-sL-Ewo">
                                     <size key="itemSize" width="50" height="50"/>
@@ -478,7 +478,7 @@
                         <viewControllerLayoutGuide type="bottom" id="191-iJ-cDh"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="T5T-ae-5Ij">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="787"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="category_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="YzF-F3-ipt" userLabel="groceryImage">
@@ -510,7 +510,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bce-Ar-hs3">
-                                <rect key="frame" x="0.0" y="125" width="390" height="628"/>
+                                <rect key="frame" x="0.0" y="125" width="390" height="709"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="BCB-5O-p1s" id="TqW-At-Ebi"/>
@@ -766,7 +766,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" keyboardDismissMode="onDrag" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="dI9-vu-LCC">
-                                <rect key="frame" x="0.0" y="47" width="390" height="797"/>
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="aic-Jw-Uv7">
                                     <size key="itemSize" width="50" height="50"/>
@@ -780,13 +780,23 @@
                                     <outlet property="delegate" destination="Kwk-rF-vNq" id="MZI-9z-oCu"/>
                                 </connections>
                             </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fWr-JL-KAu">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="60"/>
+                                <color key="backgroundColor" red="0.93725490196078431" green="0.94117647058823528" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="mUq-Oo-nD1"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="tintColor" red="0.93725490199999995" green="0.94117647059999998" blue="0.97647058819999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="dI9-vu-LCC" secondAttribute="trailing" id="Jnf-uU-xMH"/>
+                            <constraint firstItem="fWr-JL-KAu" firstAttribute="top" secondItem="9Mn-YR-5Bs" secondAttribute="top" id="PXS-Uz-rsf"/>
                             <constraint firstItem="dI9-vu-LCC" firstAttribute="leading" secondItem="9Mn-YR-5Bs" secondAttribute="leading" id="a6N-Kx-imB"/>
+                            <constraint firstAttribute="trailing" secondItem="fWr-JL-KAu" secondAttribute="trailing" id="bXU-gm-vBa"/>
                             <constraint firstAttribute="bottom" secondItem="dI9-vu-LCC" secondAttribute="bottom" priority="999" id="gzo-12-Kiv"/>
+                            <constraint firstItem="fWr-JL-KAu" firstAttribute="leading" secondItem="9Mn-YR-5Bs" secondAttribute="leading" id="kka-ue-leY"/>
                             <constraint firstItem="dI9-vu-LCC" firstAttribute="top" secondItem="awt-z5-ICW" secondAttribute="bottom" priority="999" id="t9P-ch-IIf"/>
                         </constraints>
                     </view>
@@ -794,12 +804,13 @@
                     <navigationItem key="navigationItem" id="bY3-16-b4h"/>
                     <connections>
                         <outlet property="collectionView" destination="dI9-vu-LCC" id="S4f-7L-4Gw"/>
+                        <outlet property="customSafeArea" destination="fWr-JL-KAu" id="qur-VL-ULR"/>
                         <segue destination="a4J-xl-tRl" kind="show" identifier="BrandsListToDetails" id="9oW-dY-Vrr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5sA-Xv-e5e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="312" y="1314"/>
+            <point key="canvasLocation" x="310.76923076923077" y="1313.7440758293837"/>
         </scene>
         <!--Dashboard Location View Controller-->
         <scene sceneID="9Vm-2G-PEw">

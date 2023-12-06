@@ -114,8 +114,7 @@ class SplashAnimationViewController: UIViewController {
                 // splash_animation_shopper
                 LottieAniamtionViewUtil.showAnimation(onView:  self.splashLottieLogoAnimator,
                                                       contentMode: .scaleToFill,
-                                                      withJsonFileName:
-                                                      sdkManager.isSmileSDK ? "splash_animation_sdk" : "splash_animation_shopper",
+                                                      withJsonFileName: self.getLottieFileName(),
                                                       removeFromSuper: false,
                                                       loopMode: .playOnce) {[weak self] isloaded in
                     guard let self = self else { return }
@@ -167,6 +166,19 @@ class SplashAnimationViewController: UIViewController {
             }
         }
        
+    }
+    
+    private func getLottieFileName() -> String {
+        if sdkManager.isSmileSDK { return "splash_animation_sdk" }
+        
+        let currentDate = Date()
+        
+        // start and end date of splash animation with UAE flag
+        let startDate = Calendar.current.date(from: DateComponents(year: 2023, month: 11, day: 20))!
+        let endDate = Calendar.current.date(from: DateComponents(year: 2023, month: 12, day: 15))!
+        
+        let shopperLottieFileName = (currentDate <= endDate) && (currentDate >= startDate) ? "splash_animation_shopper_with_uae_flag" : "splash_animation_shopper"
+        return shopperLottieFileName
     }
     
     private func forLogoAnimatorStartFetchProcess() {

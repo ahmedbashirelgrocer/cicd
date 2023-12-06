@@ -278,11 +278,7 @@ class GlobalSearchResultsViewController: UIViewController {
 extension GlobalSearchResultsViewController : NavigationBarProtocol , NavigationBarSearchProtocol {
     
     func backButtonClickedHandler() {
-        self.navigationController?.dismiss(animated: false, completion: {
-            self.presentingVC?.tabBarController?.selectedIndex = 2
-            self.presentingVC?.tabBarController?.selectedIndex = 0
-        })
-  
+        self.navigationController?.popViewController(animated: true)
     }
     
 

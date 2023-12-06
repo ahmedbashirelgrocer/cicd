@@ -77,7 +77,7 @@ extension LocationMapDelegation : LocationMapViewControllerDelegate {
             } else {
                 // user logged in add new address and go to Home
                 let _  = SpinnerView.showSpinnerViewInView(controller.view)
-                deliveryAddress.isActive = NSNumber(value: true as Bool)
+                deliveryAddress.isActive = NSNumber(value: false as Bool)
                 let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 if userProfile != nil {
                     deliveryAddress.userProfile = userProfile!
@@ -214,7 +214,7 @@ extension LocationMapDelegation : LocationMapViewControllerDelegate {
             } else {
                 // user logged in add new address and go to Home
                 let _  = SpinnerView.showSpinnerViewInView(controller.view)
-                deliveryAddress.isActive = NSNumber(value: true as Bool)
+                deliveryAddress.isActive = NSNumber(value: false as Bool)
                 let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 if userProfile != nil {
                     deliveryAddress.userProfile = userProfile!

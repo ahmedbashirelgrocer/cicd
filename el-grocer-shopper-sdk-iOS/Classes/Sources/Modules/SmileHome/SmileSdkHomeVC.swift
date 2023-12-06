@@ -104,18 +104,6 @@ class SmileSdkHomeVC: BasketBasicViewController {
         if sdkManager.launchOptions?.marketType == .marketPlace {
             SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
         }
-        
-        self.logAbTestEvents()
-    }
-    
-    func logAbTestEvents() {
-        // Log AB Test Event
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            let authToken = ABTestManager.shared.authToken
-            let storeVarient = ABTestManager.shared.storeConfigs.variant.rawValue
-            // Logging segment event for Store Screen ABTestExperiment
-            SegmentAnalyticsEngine.instance.logEvent(event: ABTestExperimentEvent(authToken: authToken, variant: storeVarient, experimentType: .store))
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

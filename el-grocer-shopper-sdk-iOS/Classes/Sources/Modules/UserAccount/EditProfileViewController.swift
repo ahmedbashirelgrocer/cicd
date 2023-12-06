@@ -50,9 +50,7 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
             phoneTextField.delegate = self
             phoneTextField.flagSize = CGSize.init(width: 24, height: 24)
             phoneTextField.flagButtonEdgeInsets = UIEdgeInsets.init(top: 0, left: -16, bottom: 0, right: 8)
-            if sdkManager.launchOptions?.isSmileSDK == true {
-                phoneTextField.isEnabled = false
-            }
+            phoneTextField.isEnabled = false
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 phoneTextField.textAlignment = .right
                 phoneTextField.flagButtonEdgeInsets = UIEdgeInsets.init(top: 0, left: 10, bottom: 0, right: 8)

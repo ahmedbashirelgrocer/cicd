@@ -229,8 +229,9 @@ class StoresDataHandler {
                 self.delegate?.refreshMessageView(msg: localizedString("error_wrong", comment: ""))
             }
         }) { (task, error) in
-            elDebugPrint(error.localizedDescription)
-             self.delegate?.refreshMessageView(msg: error.localizedDescription)
+            let egError = ElGrocerError(error: error as NSError)
+            //elDebugPrint(error.localizedDescription)
+            self.delegate?.refreshMessageView(msg: egError.message ?? error.localizedDescription)
         }
     }
     

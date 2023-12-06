@@ -20,6 +20,11 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         }
     }
     
+    
+    deinit {
+        ElGrocerUtility.sharedInstance.resolvedBidIdForBannerClicked = nil
+    }
+    
     @IBOutlet weak var searchBar: AWView!
     @IBOutlet weak var searchLabel: UILabel!
     
@@ -59,6 +64,14 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
     var brandID: String?
     var isFromDynamicLink = false
     var isBannerViewed = false
+    private var effectiveOffset: CGFloat = 0
+    private var offset: CGFloat = 0 {
+        didSet {
+            let diff = offset - oldValue
+            if diff > 0 { effectiveOffset = min(60, effectiveOffset + diff) }
+            else { effectiveOffset = max(0, effectiveOffset + diff) }
+        }
+    }
     
     var bannerCampaign : [BannerCampaign]? = nil
     lazy var locationHeader : ElgrocerlocationView = {
@@ -70,6 +83,13 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         let locationHeader = ElgrocerStoreHeader.loadFromNib()
         locationHeader?.translatesAutoresizingMaskIntoConstraints = false
         locationHeader?.setDismisType(.popVc)
+        return locationHeader!
+    }()
+    
+    private lazy var locationHeaderShopper: ElGrocerStoreHeaderShopper = {
+        let locationHeader = ElGrocerStoreHeaderShopper.loadFromNib()
+        locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+        locationHeader?.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         return locationHeader!
     }()
     
@@ -88,6 +108,9 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             guard let self = self else {return}
             if sdkManager.isGrocerySingleStore {
                 self.locationHeaderFlavor.configureHeader(grocery: grocery, location: self.deliveryAddress)
+            } else if sdkManager.isShopperApp {
+                self.locationHeaderShopper.configuredLocationAndGrocey(self.grocery)
+                self.locationHeaderShopper.setSlotData()
             } else {
                 self.locationHeader.configuredLocationAndGrocey(grocery)
                 if optGrocery != nil { } else {
@@ -114,7 +137,11 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = sdkManager.isGrocerySingleStore ? .clear : #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) // UIColor.productBGColor()
+        if sdkManager.isShopperApp {
+            self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+        } else {
+            self.view.backgroundColor = sdkManager.isGrocerySingleStore ? .clear : #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) // UIColor.productBGColor()
+        }
         self.collectionView.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) //UIColor.productBGColor()
         
         NotificationCenter.default.addObserver(self,selector: #selector(BrandDetailsViewController.refreshProductsView), name: NSNotification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
@@ -168,7 +195,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         self.addLocationHeader()
         
         if let controller = self.navigationController as? ElGrocerNavigationController {
-            controller.setNavBarHidden(isSingleStore)
+            controller.setNavBarHidden(isSingleStore || sdkManager.isShopperApp)
             controller.setupGradient()
         }
         
@@ -198,6 +225,10 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         self.collectionView.reloadData()
     }
     
+    @objc func backButtonPressed() {
+        self.backButtonClick()
+    }
+    
     func addLocationHeader() {
         
         
@@ -206,8 +237,14 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             self.setLocationViewFlavorHeaderConstraints()
         } else {
             if  self.grocery != nil {
-                self.view.addSubview(self.locationHeader)
-                self.setLocationViewConstraints()
+                
+                if sdkManager.isShopperApp {
+                    self.view.addSubview(self.locationHeaderShopper)
+                    self.setupShopperLocationHeaderConstraint()
+                } else {
+                    self.view.addSubview(self.locationHeader)
+                    self.setLocationViewConstraints()
+                }
             }
         }
         self.setTableViewHeader(self.grocery)
@@ -247,6 +284,15 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         let heightConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeader.headerMaxHeight)
         NSLayoutConstraint.activate([ widthConstraint, heightConstraint])
         
+    }
+    
+    private func setupShopperLocationHeaderConstraint() {
+        NSLayoutConstraint.activate([
+            locationHeaderShopper.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            locationHeaderShopper.leftAnchor.constraint(equalTo: view.leftAnchor),
+            locationHeaderShopper.rightAnchor.constraint(equalTo: view.rightAnchor),
+            locationHeaderShopper.bottomAnchor.constraint(equalTo: self.collectionView.topAnchor)
+        ])
     }
     
     ///To adjust the bottom constraint for basketIconOverlay appear/disappear
@@ -764,27 +810,35 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
             
             return
         }
-      
-        let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
-        if constraintA.count > 0 {
-            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
-            let headerViewHeightConstraint = constraint
-            let maxHeight = self.locationHeader.headerMaxHeight
-            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,64),maxHeight)
-        }
         
-        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
-            self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
+        if sdkManager.isShopperApp {
+            offset = scrollView.contentOffset.y
+            let value = min(effectiveOffset, scrollView.contentOffset.y)
+            
+            self.locationHeaderShopper.searchViewTopAnchor.constant = 62 - value
+            self.locationHeaderShopper.searchViewLeftAnchor.constant = 16 + ((value / 60) * 30)
+            self.locationHeaderShopper.groceryBGView.alpha = max(0, 1 - (value / 60))
+        } else {
+            let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
+            if constraintA.count > 0 {
+                let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+                let headerViewHeightConstraint = constraint
+                let maxHeight = self.locationHeader.headerMaxHeight
+                headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,64),maxHeight)
+            }
+            
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
+                self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
+            }
+           
+            UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+                self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
+                let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
+                self.navigationController?.navigationBar.topItem?.title = title
+                sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+            }
         }
-       
-        UIView.animate(withDuration: 0.2) {
-            self.view.layoutIfNeeded()
-            self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
-            let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
-            self.navigationController?.navigationBar.topItem?.title = title
-            sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
-        }
-        
     }
         
     // MARK: ProductDetailsViewProtocol

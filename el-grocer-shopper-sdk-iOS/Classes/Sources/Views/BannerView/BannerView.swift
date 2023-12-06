@@ -125,7 +125,10 @@ extension BannerView: UICollectionViewDelegateFlowLayout, UICollectionViewDelega
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let bannerTapped = self.bannerTapped {
-            bannerTapped(self.banners[indexPath.row])
+            
+            let banner = self.banners[indexPath.row]
+            ElGrocerUtility.sharedInstance.resolvedBidIdForBannerClicked = banner.resolvedBidId            
+            bannerTapped(banner)
         }
     }
 }
