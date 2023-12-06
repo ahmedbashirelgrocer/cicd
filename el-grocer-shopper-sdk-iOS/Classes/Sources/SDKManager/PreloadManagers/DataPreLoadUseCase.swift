@@ -105,7 +105,7 @@ class PreLoadData {
         let launchOptions = SDKManager.shared.launchOptions!
         let manager = SDKLoginManager(launchOptions: launchOptions)
         self.retryAttemp += 1
-        manager.loginFlowForSDK() { [weak self] isSuccess, errorMessage in
+        manager.loginFlowForSDK() { [weak self] isSuccess, errorMessage, errorCode in
             guard let self = self else { return }
             //let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
            //  print("self.retryAttemp: \(self.retryAttemp)")
@@ -116,10 +116,13 @@ class PreLoadData {
                     self.retryAttemp = 0
                     completion?(true)
                 }
-            } else if self.retryAttemp < 4 {
-                self.configLoginFailureCase(coompletion: completion)
             } else {
-                completion?(false)
+                if self.retryAttemp < 4, errorCode != 4237 {
+                    self.configLoginFailureCase(coompletion: completion)
+                } else {
+                    self.retryAttemp = 0
+                    completion?(false)
+                }
             }
         }
     }
@@ -179,7 +182,7 @@ class PreLoadData {
             newDeliveryAddress.isActive = NSNumber(value: true)
             newDeliveryAddress.addressType = "1"
             
-            SDKLoginManager(launchOptions: launchOptions).addAddressFromDeliveryAddress(newDeliveryAddress, forUser: userProfile) { isSuccess, errorMessage in
+            SDKLoginManager(launchOptions: launchOptions).addAddressFromDeliveryAddress(newDeliveryAddress, forUser: userProfile) { isSuccess, errorMessage, errorCode  in
                 if isSuccess {
                     UserDefaults.setDidUserSetAddress(true)
                     UserDefaults.setUserLoggedIn(true)
