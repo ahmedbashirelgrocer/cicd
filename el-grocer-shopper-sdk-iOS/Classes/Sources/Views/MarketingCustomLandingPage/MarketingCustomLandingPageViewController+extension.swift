@@ -170,3 +170,66 @@ extension MarketingCustomLandingPageViewController: NavigationBarProtocol {
     
     
 }
+
+extension MarketingCustomLandingPageViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+        guard let grocery =  self.viewModel.getGrocery() else {return}
+        // For shopper
+        if AppSetting.currentSetting.isElgrocerApp() {
+            self.scrollViewDidScrollForShopper(forShopper: scrollView)
+            return
+        }
+        scrollView.layoutIfNeeded()
+        guard !sdkManager.isGrocerySingleStore else {
+            let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
+            if constraintA.count > 0 {
+                let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+                let headerViewHeightConstraint = constraint
+                let maxHeight = self.locationHeaderFlavor.headerMaxHeight
+                headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,self.locationHeaderFlavor.headerMinHeight),maxHeight)
+            }
+            
+            UIView.animate(withDuration: 0.2) {
+                self.view.layoutIfNeeded()
+            }
+            
+            return
+        }
+        
+        let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
+        if constraintA.count > 0 {
+            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+            let headerViewHeightConstraint = constraint
+            let maxHeight = self.locationHeader.headerMaxHeight
+            headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,64),maxHeight)
+        }
+        
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut) {
+            self.locationHeader.myGroceryName.alpha = scrollView.contentOffset.y < 10 ? 1 : scrollView.contentOffset.y / 100
+        }
+       
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+            self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
+            let title = scrollView.contentOffset.y > 40 ? grocery.name : ""
+            self.navigationController?.navigationBar.topItem?.title = title
+            sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
+           
+            self.title = title
+        }
+   
+    }
+    
+    func scrollViewDidScrollForShopper(forShopper scrollView: UIScrollView) {
+        offset = scrollView.contentOffset.y
+        let value = min(effectiveOffset, scrollView.contentOffset.y)
+        
+        self.locationHeaderShopper.searchViewTopAnchor.constant = 62 - value
+        self.locationHeaderShopper.searchViewLeftAnchor.constant = 16 + ((value / 60) * 30)
+        self.locationHeaderShopper.groceryBGView.alpha = max(0, 1 - (value / 60))
+    }
+    
+  
+}

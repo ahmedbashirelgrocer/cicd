@@ -7,7 +7,7 @@
 import UIKit
 import RxSwift
 import RxDataSources
-class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDelegate {
+class MarketingCustomLandingPageViewController: UIViewController {
    
     @IBOutlet weak var tableView: UITableView!
     private lazy var emptyView : NoStoreView = {
@@ -39,6 +39,15 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
     private var sections: [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] = []
         var viewModel: MarketingCustomLandingPageViewModel!
     private let disposeBag = DisposeBag()
+    
+    var effectiveOffset: CGFloat = 0
+    var offset: CGFloat = 0 {
+        didSet {
+            let diff = offset - oldValue
+            if diff > 0 { effectiveOffset = min(60, effectiveOffset + diff) }
+            else { effectiveOffset = max(0, effectiveOffset + diff) }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +56,7 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationBar()
-        adjustHeaderDisplay(); 
+        adjustHeaderDisplay()
     }
     
     @objc func backButtonPressed() {
@@ -61,6 +70,7 @@ class MarketingCustomLandingPageViewController: UIViewController, UIScrollViewDe
         tableView.register(UINib(nibName: "HomeCell", bundle: .resource), forCellReuseIdentifier: kHomeCellIdentifier)
         tableView.separatorColor = .clear
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        tableView.estimatedRowHeight = ScreenSize.SCREEN_HEIGHT
     }
     
    
@@ -179,7 +189,7 @@ extension MarketingCustomLandingPageViewController: UITableViewDelegate {
             if  section < lastValue.count { isSubcategorySection = lastValue[section].items.count > 1 }
         } catch {  print("Error: \(error.localizedDescription)")  }
         
-        let isTextAvailable = dataSource.sectionModels[section].header.count > 0
+        let isTextAvailable = dataSource.sectionModels[section].header.count > 0 && dataSource.sectionModels[section].items.count > 0
         if isSubcategorySection {
             self.superSectionHeader.refreshWithCategoryName(dataSource.sectionModels[section].header)
             return self.superSectionHeader

@@ -15,6 +15,7 @@ protocol RxCollectionViewOnlyTableViewCellInput { }
 
 protocol RxCollectionViewOnlyTableViewCellOutput {
     var updateCellHeight: Observable<CGFloat> { get }
+    var basketUpdated: Observable<Void> { get }
 }
 
 protocol RxCollectionViewOnlyTableViewCellType: RxCollectionViewOnlyTableViewCellOutput, RxCollectionViewOnlyTableViewCellInput {
@@ -30,11 +31,11 @@ extension RxCollectionViewOnlyTableViewCellType {
 
 class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
     
-    @IBOutlet weak var productsCollectionView: TouchlessCollectionView! {
+    @IBOutlet weak var productsCollectionView: UICollectionView! {
         didSet {
             productsCollectionView.backgroundColor = .white
             productsCollectionView.delegate = self
-            productsCollectionView.isScrollEnabled = false
+            productsCollectionView.isScrollEnabled = true
         }
     }
     private var viewModel: RxCollectionViewOnlyTableViewCellViewModel!
@@ -42,9 +43,10 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
     
     //MARK: OutPut
     var updateCellHeight: Observable<CGFloat>  { updateCellHeightSubject.asObservable() }
+    var basketUpdated: Observable<Void> { basketUpdatedSubject.asObservable() }
     //MARK: Subject
     private let updateCellHeightSubject = BehaviorSubject<CGFloat>(value: .leastNormalMagnitude)
-  
+    private let basketUpdatedSubject = PublishSubject<Void>()
     
     
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
@@ -104,6 +106,8 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
             }
         }).disposed(by: disposeBag)
         
+        
+        
         // Pagination
         productsCollectionView.rx.didScroll.subscribe { [weak self] _ in
             guard let self = self else { return }
@@ -120,26 +124,17 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
             updateCollectionViewHeight(productCount)
             self.setNeedsLayout()
             self.layoutIfNeeded()
-            //self.updateCellHeightSubject.onNext(self.collectionViewHeight.constant)
         }).disposed(by: disposeBag)
         
         
-//        productsCollectionView.rx.contentSize
-//                   .subscribe(onNext: { [weak self] contentSize in
-//                       // Update the height constraint of the cell based on the content size of the collection view
-//                       self?.cellHeight.constant = contentSize.height
-//                   })
-//                   .disposed(by: disposeBag)
         
     }
     
     func updateCollectionViewHeight(_ productCount : Int) {
             productsCollectionView.collectionViewLayout.invalidateLayout()
-            //let newHeight = productsCollectionView.contentSize.height
-            cellHeight.constant = (CGFloat(productCount/2) * (kProductCellHeight + 12) )
+            cellHeight.constant = max(ScreenSize.SCREEN_HEIGHT,(CGFloat(ceil(Double(productCount) / 2)) * (kProductCellHeight + 6)))
             self.invalidateIntrinsicContentSize()
-             //layoutIfNeeded()
-        }
+    }
     
 }
 
@@ -147,8 +142,13 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
 extension RxCollectionViewOnlyTableViewCell: UICollectionViewDelegateFlowLayout  {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let cellSize:CGSize = CGSize(width: kProductCellWidth, height: kProductCellHeight)
-        return cellSize
+        
+        let spacing: CGFloat = 16
+       // let collectionViewWidth = collectionView.bounds.width
+        let totalSpacing = (3 * spacing) // 2 cells with spacing on each side // 16 extra to center spacing
+        let itemWidth = (ScreenSize.SCREEN_WIDTH - totalSpacing) / 2
+            return CGSize(width: itemWidth, height: kProductCellHeight)
+        
     }
 
     
@@ -166,10 +166,12 @@ class RxCollectionViewOnlyTableViewCellViewModel: DynamicComponentContainerCellV
     var fetchProductsObserver: AnyObserver<Void> { fetchProductsSubject.asObserver() }
     var refreshProductCellObserver: AnyObserver<Void> { refreshProductCellSubject.asObserver() }
     // MARK: Outputs
+    var basketUpdated: Observable<Void> { basketUpdatedSubject.asObservable() }
     // Parent
     // MARK: Subject
     private let fetchProductsSubject = PublishSubject<Void>()
     private var refreshProductCellSubject = PublishSubject<Void>()
+    private let basketUpdatedSubject = PublishSubject<Void>()
     // MARK: Properties
     private var disposeBag = DisposeBag()
     private var productCellVMs: [ProductCellViewModel] = []
@@ -277,7 +279,7 @@ private extension RxCollectionViewOnlyTableViewCellViewModel {
             }
         }
         
-        DispatchQueue.global(qos: .utility).async(execute: self.dispatchWorkItem!)
+        DispatchQueue.global(qos: .userInitiated).async(execute: self.dispatchWorkItem!)
     }
     
     func handleAlgoliaSuccessResponse(response products: (products: [Product], algoliaCount: Int?)) {
@@ -286,11 +288,12 @@ private extension RxCollectionViewOnlyTableViewCellViewModel {
         self.moreAvailable = (products.algoliaCount ?? products.products.count) >= self.limit
         let cellVMs = products.products.map { product -> ProductCellViewModel in
             let vm = ProductCellViewModel(product: ProductDTO(product: product), grocery: self.grocery)
+            vm.outputs.basketUpdated.bind(to: self.basketUpdatedSubject).disposed(by: self.disposeBag)
             refreshProductCellSubject.asObservable().bind(to: vm.inputs.refreshDataObserver).disposed(by: disposeBag)
             return vm
         }
         
-        if products.algoliaCount == 0{
+        if products.algoliaCount == 0 {
             debugPrint("")
         }
         

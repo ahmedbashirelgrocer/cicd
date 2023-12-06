@@ -76,8 +76,9 @@ struct Filter: Codable {
     let query: String
     let priority: Int?
     let type: Int?
+    let backgroundColor: String?
     
     enum CodingKeys: String, CodingKey {
-        case name, nameAR = "name_ar", query, priority, type
+        case name, nameAR = "name_ar", query, priority, type, backgroundColor
     }
 }

@@ -69,7 +69,7 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     private let filterArrayDataSubject = BehaviorSubject<[Filter]>(value: [])
     private let grocerySubject = BehaviorSubject<Grocery?>(value: nil)
     private let disposeBag = DisposeBag()
-    
+    private var analyticsEngine: AnalyticsEngineType
     private var storeId: String
     private var marketingId: String
     private var apiClient: ElGrocerApi?
@@ -81,6 +81,7 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
         self.storeId = storeId
         self.marketingId = marketingId
         self.apiClient = apiClient
+        self.analyticsEngine = analyticsEngine
         self.grocery = HomePageData.shared.groceryA?.first(where: { $0.dbID == self.storeId })
         self.fetchViews()
         self.bindComponents()
@@ -100,6 +101,7 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
                        guard components.count > 0 else { return}
                        self.grocerySubject.onNext(self.grocery)
                        self.updateUI(with: components)
+                       self.analyticsEngine.logEvent(event: ScreenRecordEvent(screenName: .customMarketingCampaign))
                    })
                    .disposed(by: disposeBag)
 
@@ -166,7 +168,7 @@ extension MarketingCustomLandingPageViewModel {
             .disposed(by: disposeBag)
     }
     
-    private func updateUI(with components: [CampaignSection]) {
+   /* private func updateUI(with components: [CampaignSection]) {
         
         var sortedComponents = components
         sortedComponents.sort(by: {$0.priority < $1.priority})
@@ -193,9 +195,15 @@ extension MarketingCustomLandingPageViewModel {
                     break
                 case .productsOnly:
                     let collectionViewOnlyTableViewCellVM = RxCollectionViewOnlyTableViewCellViewModel.init(deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000), category:  CategoryDTO(id: componentSection.id, name: componentSection.title, algoliaQuery: componentSection.query, nameAr: componentSection.titleAr, bgColor : componentSection.backgroundColor), grocery: self.grocery, component: componentSection)
+                    collectionViewOnlyTableViewCellVM.basketUpdated.subscribe { _ in
+                        self.basketUpdatedSubject.onNext(())
+                    }.disposed(by: disposeBag)
                     viewModel.append(SectionHeaderModel(model: sectionIndex, header: "" , items: [collectionViewOnlyTableViewCellVM]))
                 case .categorySection:
                     let collectionViewOnlyTableViewCellVM = RxCollectionViewOnlyTableViewCellViewModel.init(deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000), category:  CategoryDTO(id: componentSection.id, name: componentSection.title, algoliaQuery: componentSection.query, nameAr: componentSection.titleAr, bgColor : componentSection.backgroundColor), grocery: self.grocery, component: componentSection)
+                    collectionViewOnlyTableViewCellVM.basketUpdated.subscribe { _ in
+                        self.basketUpdatedSubject.onNext(())
+                    }.disposed(by: disposeBag)
                     viewModel.append(SectionHeaderModel(model: sectionIndex, header: componentSection.title ?? "" , items: [collectionViewOnlyTableViewCellVM]))
                 case .subcategorySection:
                     if let filters = componentSection.filters?.sorted(by: { $0.priority ?? 0 < $1.priority ?? 0 }) {
@@ -219,5 +227,143 @@ extension MarketingCustomLandingPageViewModel {
             }
         self.cellViewModelsSubject.onNext(viewModel)
         self.tableviewVmsSubject.onNext(viewModel)
+    }*/
+    
+    
+    private func updateUI(with components: [CampaignSection]) {
+        let sortedComponents = components.sorted { $0.priority < $1.priority }
+        
+        let backgroundBanner = sortedComponents.first { $0.sectionName == .backgroundBannerImage }
+        if let backGroundBanner = backgroundBanner {
+            self.tableViewBackGroundSubject.onNext(backGroundBanner)
+        }
+        
+        var viewModel: [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] = []
+        
+        for (sectionIndex, componentSection) in sortedComponents.enumerated() {
+            guard componentSection.sectionName != .backgroundBannerImage else { continue }
+            
+            switch componentSection.sectionName {
+            case .bannerImage:
+                let bannerVM = RxBannersViewModel(component: componentSection)
+                viewModel.append(SectionHeaderModel(model: sectionIndex, header: "", items: [bannerVM]))
+                
+            case .topDeals, .productsOnly, .categorySection:
+                let cellVM = createCellViewModel(for: componentSection)
+                viewModel.append(SectionHeaderModel(model: sectionIndex, header: "", items: [cellVM]))
+                
+            case .subcategorySection:
+                if let filters = componentSection.filters?.sorted(by: { $0.priority ?? 0 < $1.priority ?? 0 }) {
+                    self.filterArrayDataSubject.onNext(filters)
+                    let filterVms = createFilterViewModels(for: filters, in: componentSection)
+                    viewModel.append(SectionHeaderModel(model: sectionIndex, header: componentSection.title ?? "", items: filterVms))
+                }
+            case .backgroundBannerImage:
+                  break
+            }
+        }
+        
+        self.cellViewModelsSubject.onNext(viewModel)
+        self.tableviewVmsSubject.onNext(viewModel)
     }
+
+    private func createCellViewModel(for component: CampaignSection) -> ReusableTableViewCellViewModelType {
+        var cellVM: ReusableTableViewCellViewModelType
+        
+        switch component.sectionName {
+        case .topDeals:
+            cellVM = createHomeCellViewModel(for: component)
+            
+        case .productsOnly, .categorySection:
+            cellVM = createCollectionViewCellViewModel(for: component)
+            
+        default:
+            fatalError("Unexpected section type: \(component.sectionName)")
+        }
+        
+        return cellVM
+    }
+
+    private func createHomeCellViewModel(for component: CampaignSection) -> HomeCellViewModel {
+        let homeCellVM = HomeCellViewModel(
+            forDynamicPage: ElGrocerApi.sharedInstance,
+            algoliaAPI: AlgoliaApi.sharedInstance,
+            deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000),
+            category: CategoryDTO(
+                id: component.id,
+                name: component.title,
+                algoliaQuery: component.query,
+                nameAr: component.titleAr,
+                bgColor: component.backgroundColor
+            ),
+            grocery: self.grocery
+        )
+        
+        homeCellVM.outputs.basketUpdated.subscribe { _ in
+            self.basketUpdatedSubject.onNext(())
+        }.disposed(by: disposeBag)
+        
+        return homeCellVM
+    }
+
+    private func createCollectionViewCellViewModel(for component: CampaignSection) -> RxCollectionViewOnlyTableViewCellViewModel {
+        let collectionViewCellVM = RxCollectionViewOnlyTableViewCellViewModel(
+            deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000),
+            category: CategoryDTO(
+                id: component.id,
+                name: component.title,
+                algoliaQuery: component.query,
+                nameAr: component.titleAr,
+                bgColor: component.backgroundColor
+            ),
+            grocery: self.grocery,
+            component: component
+        )
+        
+        collectionViewCellVM.basketUpdated.subscribe { _ in
+            self.basketUpdatedSubject.onNext(())
+        }.disposed(by: disposeBag)
+        
+        return collectionViewCellVM
+    }
+
+    private func createFilterViewModels(for filters: [Filter], in component: CampaignSection) -> [ReusableTableViewCellViewModelType] {
+        var filterVms: [ReusableTableViewCellViewModelType] = []
+        var id = 1
+        
+        for filterObj in filters {
+            if filterObj.type == -1 {
+                // Handle special case if needed
+            } else {
+                let filterVm = createHomeCellViewModel(for: filterObj, id: id)
+                filterVms.append(filterVm)
+                id += 1
+            }
+        }
+        
+        return filterVms
+    }
+
+    private func createHomeCellViewModel(for filterObj: Filter, id: Int) -> HomeCellViewModel {
+        let filterVm = HomeCellViewModel(
+            forDynamicPage: ElGrocerApi.sharedInstance,
+            algoliaAPI: AlgoliaApi.sharedInstance,
+            deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000),
+            category: CategoryDTO(
+                id: id,
+                name: filterObj.name,
+                algoliaQuery: filterObj.query,
+                nameAr: filterObj.nameAR,
+                bgColor: filterObj.backgroundColor
+            ),
+            grocery: self.grocery
+        )
+        
+        filterVm.outputs.basketUpdated.subscribe { _ in
+            self.basketUpdatedSubject.onNext(())
+        }.disposed(by: disposeBag)
+        
+        return filterVm
+    }
+
 }

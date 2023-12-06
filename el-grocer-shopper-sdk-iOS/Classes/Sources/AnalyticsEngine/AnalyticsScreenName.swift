@@ -29,5 +29,7 @@ enum ScreenName: String {
     case orderListingScreen      = "Order List Screen"
     case elWalletScreen          = "elWallet Screen"
     case transactionHistoryScreen = "Transaction History Screen"
+    case customMarketingCampaign = "Custom Marketing Campaign"
+    
      
 }

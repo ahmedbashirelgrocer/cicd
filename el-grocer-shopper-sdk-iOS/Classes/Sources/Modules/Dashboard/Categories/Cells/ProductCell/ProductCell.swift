@@ -1248,7 +1248,7 @@ class ProductCell : RxUICollectionViewCell {
     func showImagePopUp(){
     
         if let topVc = UIApplication.topViewController() {
-            if topVc is SubstitutionsProductViewController {
+            if topVc is SubstitutionsProductViewController || topVc is MarketingCustomLandingPageViewController {
                 return
             }
         }

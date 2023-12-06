@@ -16,3 +16,13 @@ struct ScreenRecordEvent: AnalyticsEventDataType {
         self.eventType = .screen(screenName: screenName.rawValue)
     }
 }
+
+
+//struct ScreenDismissedEvent: AnalyticsEventDataType {
+//    var eventType: AnalyticsEventType
+//    var metaData: [String : Any]?
+//    
+//    init(screenName: ScreenName) {
+//        self.eventType = .screen(screenName: screenName.rawValue)
+//    }
+//}
