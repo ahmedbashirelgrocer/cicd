@@ -31,8 +31,11 @@ class DashboardLocationCell : UITableViewCell {
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var defaultButton: UIButton! {
         didSet {
+            let tickIcon = UIImage(name: "checkGreen")?.withRenderingMode(.alwaysTemplate)
+            defaultButton.setImage(tickIcon, for: .normal)
             defaultButton.setTitle(localizedString("btn_default", comment: ""), for: UIControl.State())
             defaultButton.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
+            defaultButton.tintColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
         }
     }
     
