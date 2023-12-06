@@ -68,7 +68,7 @@ class ElgrocerChannelController : SBUGroupChannelViewController {
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
          self.navigationController?.navigationBar.isTranslucent = true
-        self.addBackButton(isGreen: true)
+        self.addBackButton(true)
         self.readLastMessage()
         self.closeChatIfNeeded()
         self.handleArabicMode()
