@@ -452,7 +452,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             
         }
         
-        self.dataSource?.productListData = { [weak self] (productList , searchString) in
+        self.dataSource?.productListData = { [weak self] (productList , algoliaCount, searchString) in
             guard let self = self else {return}
             if self.searchFor == .isForUniversalSearch {
                 DispatchQueue.main.async {
@@ -470,7 +470,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
                 }
             }else if self.searchFor == .isForStoreSearch {
                 
-                if productList.count < self.hitsPerPage {
+                if algoliaCount < self.hitsPerPage {
                     self.moreProductsAvailable = false
                 }
                 

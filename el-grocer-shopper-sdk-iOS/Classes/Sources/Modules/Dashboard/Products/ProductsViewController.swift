@@ -368,7 +368,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
             self.isGettingProducts = false
         }
         
-        self.dataSource?.productListData = { [weak self] (productList , searchString) in
+        self.dataSource?.productListData = { [weak self] (productList , algoliaCount, searchString) in
             guard let self = self else {return}
             
             self.moreProductsAvailable = (productList.count == self.currentLimit)
