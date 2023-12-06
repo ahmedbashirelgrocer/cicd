@@ -74,7 +74,7 @@ class PaymentMethodView: UIView {
         case .applePay:
             self.lblPaymentTitle.textColor = .newBlackColor()
             self.lblPaymentTitle.text = name ?? ""
-            self.imagePaymentType.image = UIImage(name: "selectedApplePayMethod")
+            self.imagePaymentType.image = UIImage(name: "payWithApple")
         default:
             self.lblPaymentTitle.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             self.lblPaymentTitle.text = localizedString("payment_method_title", comment: "")
