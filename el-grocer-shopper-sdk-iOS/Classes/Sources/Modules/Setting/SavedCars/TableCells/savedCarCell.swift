@@ -89,7 +89,8 @@ class savedCarCell: UITableViewCell {
             carImageView.image = UIImage(name: kCarImageBlack)
             imgEdit.image = UIImage(name: kEditImageBlack)
             imgDelete.image = UIImage(name: kDeleteImageBlack)
-            imgDefault.image = UIImage(name: kCheckImage)
+            imgDefault.image = UIImage(name: kCheckImage)?.withRenderingMode(.alwaysTemplate)
+            imgDefault.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
             lblEdit.text = localizedString("btn_edit", comment: "")
             lblDelete.text = localizedString("btn_delete", comment: "")
             
