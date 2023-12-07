@@ -101,6 +101,8 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
                        guard components.count > 0 else { return}
                        self.grocerySubject.onNext(self.grocery)
                        self.updateUI(with: components)
+                       var screen = ScreenRecordEvent(screenName: .customMarketingCampaign)
+                       screen.metaData = [EventParameterKeys.campaignId : self.marketingId, EventParameterKeys.storeId : self.storeId]
                        self.analyticsEngine.logEvent(event: ScreenRecordEvent(screenName: .customMarketingCampaign))
                    })
                    .disposed(by: disposeBag)

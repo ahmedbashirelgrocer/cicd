@@ -362,7 +362,10 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         
         // Logging Segment Event/Screen
         if self.grocery != nil && self.isSegmentEventLogged == false {
-            SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .storeScreen))
+            
+            var screen = ScreenRecordEvent(screenName: .storeScreen)
+            screen.metaData = [EventParameterKeys.storeName : self.grocery?.name ?? "", EventParameterKeys.storeId : self.grocery?.dbID ?? ""]
+            SegmentAnalyticsEngine.instance.logEvent(event: screen)
             self.isSegmentEventLogged = true
         }
         
