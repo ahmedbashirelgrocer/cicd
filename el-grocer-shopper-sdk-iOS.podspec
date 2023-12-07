@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   #  summary should be tweet-length, and the description more in depth.
   #
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '100.6569.2975'
+  s.version          = '100.6569.2978'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
