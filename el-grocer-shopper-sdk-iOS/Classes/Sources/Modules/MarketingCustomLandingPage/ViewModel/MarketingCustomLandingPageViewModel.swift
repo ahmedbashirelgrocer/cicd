@@ -193,45 +193,31 @@ extension MarketingCustomLandingPageViewModel {
                     let quantity = responseDict["quantity"] as! Int
                     productA.append( ["product_id": productDict["id"] as Any   , "quantity": quantity])
                     let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-                    context.perform({ () -> Void in
+                    let product = Product.createProductFromDictionary(productDict, context: context)
+                    if let brandDict = productDict["brand"] as? NSDictionary {
                         
-                        let product = Product.createProductFromDictionary(productDict, context: context)
+                        let brandId = brandDict["id"] as! Int
+                        let brandName = brandDict["name"] as? String
+                        let brandImage = brandDict["image_url"] as? String
                         
-                        //insert brand
-                        if let brandDict = productDict["brand"] as? NSDictionary {
-                            
-                            let brandId = brandDict["id"] as! Int
-                            let brandName = brandDict["name"] as? String
-                            let brandImage = brandDict["image_url"] as? String
-                            
-                            let brand = DatabaseHelper.sharedInstance.insertOrReplaceObjectForEntityForName(BrandEntity, entityDbId: brandId as AnyObject, keyId: "dbID", context: context) as! Brand
-                            brand.name = brandName
-                            brand.imageUrl = brandImage
-                            
-                            product.brandId = brand.dbID
-                            
-                            let brandSlugName = brandDict["slug"] as? String
-                            brand.nameEn = brandSlugName
-                            product.brandNameEn = brand.nameEn
-                            
-                        }
+                        let brand = DatabaseHelper.sharedInstance.insertOrReplaceObjectForEntityForName(BrandEntity, entityDbId: brandId as AnyObject, keyId: "dbID", context: context) as! Brand
+                        brand.name = brandName
+                        brand.imageUrl = brandImage
                         
-                        ShoppingBasketItem.addOrUpdateProductInBasket(product, grocery: grocery, brandName: nil, quantity: quantity, context: context, orderID: nil, nil , false)
-                    })
-                }
-            }
-            
-            if let groceryID = grocery?.dbID  {
-                DispatchQueue.global(qos: .background).async {
-                    ELGrocerRecipeMeduleAPI().addRecipeToCart(retailerID: groceryID , productsArray: productA) { (result) in
-                        DispatchQueue.main.async(execute: {
-                            if let grocery = self.grocery {
-                                self.refreshBasketSubject.onNext(())
-                            }
-                        })
+                        product.brandId = brand.dbID
+                        
+                        let brandSlugName = brandDict["slug"] as? String
+                        brand.nameEn = brandSlugName
+                        product.brandNameEn = brand.nameEn
+                        
                     }
+                    
+                    ShoppingBasketItem.addOrUpdateProductInBasket(product, grocery: grocery, brandName: nil, quantity: quantity, context: context, orderID: nil, nil , false)
                 }
             }
+            DispatchQueue.main.async(execute: {
+                self.refreshBasketSubject.onNext(())
+            })
         }
       
     }
@@ -436,7 +422,7 @@ extension MarketingCustomLandingPageViewModel {
                 name: filterObj.name,
                 algoliaQuery: filterObj.query,
                 nameAr: filterObj.nameAR,
-                bgColor: filterObj.backgroundColor
+                bgColor: filterObj.backgroundColor == nil ? "#f5f5f5" : filterObj.backgroundColor
             ),
             grocery: self.grocery
         )

@@ -221,6 +221,8 @@ class NoStoreView: UIView {
         self.lblTopMsg.setBody2SemiboldDarkStyle()
         self.lblExtraDetail.setBody3RegDarkStyle()
         self.btnNoData.setH4SemiBoldWhiteStyle()
+        self.imgNoData.contentMode = .center
+        self.imgNoData.image = "🙁".image(fontSize:150, imageSize:CGSize(width:self.imgNoData.frame.size.width,height:self.imgNoData.frame.size.height))
 //        self.btnNoData.setBackgroundColor( ApplicationTheme.currentTheme.themeBasePrimaryColor, forState: .normal )
         
         self.lblTopMsg.text = localizedString("eg_No_Campgin_Found", comment: "")
@@ -228,7 +230,7 @@ class NoStoreView: UIView {
         self.btnNoData.setTitle(localizedString("lbl_Contnue_shopping", comment: ""), for: .normal)
         self.btnNoData.isHidden = false
         self.state = .defaultAction
-        self.imgNoData.isHidden = true
+        self.imgNoData.isHidden = false
         self.backgroundColor = .colorWithHexString(hexString: "f5f5f5")
     }
     

@@ -1284,7 +1284,7 @@ class ProductCell : RxUICollectionViewCell {
                 } else {
                     self.isProductSelected = false
                 }
-            
+            self.cellOtherAreaDidTap()
         }
         popupController.transitionStyle = .slideVertical
         if let topController = UIApplication.topViewController() { 

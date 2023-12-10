@@ -1116,6 +1116,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     }
     
     fileprivate func showGroceryLoader( grocery: Grocery) {
+        
+     
         ElGrocerUtility.sharedInstance.delay(0.1) { [weak self] in
             guard let self = self else {return}
             self.needToLogScreenEvent = false

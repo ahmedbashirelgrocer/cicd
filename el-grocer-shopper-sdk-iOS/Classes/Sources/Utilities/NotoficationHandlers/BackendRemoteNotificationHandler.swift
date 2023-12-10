@@ -59,6 +59,10 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
         
         elDebugPrint("notification : \(notification)")
         
+    
+        
+        
+        
         guard let origin = notification[originKey] as? String , (origin == elGrocerBackendOriginKey || origin == elGrocerChatOriginKey || origin == elGrocerCTOriginKey || SDKManager.shared.isSmileSDK)  else {
             return false
         }
@@ -70,13 +74,7 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
             }else {
                 storeId = -1000
             }
-            Thread.OnMainThread {
-                if let topVc = UIApplication.topViewController() {
-                    let customVm = MarketingCustomLandingPageViewModel.init(storeId: String(storeId) , marketingId: String(customPageId ))
-                    let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
-                    topVc.present(landingVC, animated: true)
-                }
-            }
+            self.showCustomCampgin(storeId: storeId, customPageId: customPageId)
             return true
         }
         
@@ -205,6 +203,24 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
                         self.setCollectorStatus(orderId,  shopperId: shopperId  ,  isOnTheWay: true )
                     }
                 }
+        
+    }
+    
+    fileprivate func showCustomCampgin(storeId : Int, customPageId : Int ) {
+       
+        Thread.OnMainThread {
+            if let topVc = UIApplication.topViewController() {
+                if topVc is GroceryLoaderViewController {
+                    ElGrocerUtility.sharedInstance.delay(2) {
+                        self.showCustomCampgin(storeId: storeId, customPageId: customPageId)
+                    }
+                    return
+                }
+                let customVm = MarketingCustomLandingPageViewModel.init(storeId: String(storeId) , marketingId: String(customPageId ))
+                let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
+                topVc.present(landingVC, animated: true)
+            }
+        }
         
     }
     

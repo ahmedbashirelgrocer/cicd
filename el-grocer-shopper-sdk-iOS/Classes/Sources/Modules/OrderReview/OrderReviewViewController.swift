@@ -447,7 +447,7 @@ extension OrderReviewViewController: ReviewQuestionDelegate {
         self.dismiss(animated: true) {
             if ElGrocerUtility.sharedInstance.deliveryRating > 3 {
                 ElGrocerUtility.sharedInstance.deliveryRating = 0
-                ElGrocerUtility.sharedInstance.showAppStoreReviewPopUp()
+                if sdkManager.isShopperApp { ElGrocerUtility.sharedInstance.showAppStoreReviewPopUp() }
             }
         }
     }

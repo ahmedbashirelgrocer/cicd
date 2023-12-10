@@ -259,7 +259,8 @@ class ProductBrowser {
                     DispatchQueue.main.async {
                         let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         DispatchQueue.main.async{ completion((products.products, products.algoliaCount), nil) }
-                        }
+                    }
+                    
                 } else {
                     completion(nil, error)
                 }

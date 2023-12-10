@@ -213,7 +213,7 @@ private extension MainCategoriesViewModel {
                             let currentTime = Int(Date().getUTCDate().timeIntervalSince1970 * 1000)
                             self.fetchCategories(deliveryTime: currentTime)
                             self.fetchPreviousPurchasedProducts(deliveryTime: currentTime)
-                            self.fetchCustomCatogires(for: BannerLocation.custom_campaign_shopper)
+                            self.fetchCustomCatogires(for: BannerLocation.custom_campaign_shopper.getType())
                         }
                         return
                     }
@@ -278,7 +278,7 @@ private extension MainCategoriesViewModel {
                 if self.showProductsSection {
                     // TODO: Need to update the logic of for shopping list
                 
-                    self.homeCellVMs = self.categories.filter { $0.id != -1 }.map({
+                    self.homeCellVMs = self.categories.filter { $0.id != -1 && $0.customPage == nil }.map({
                         let viewModel = HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery)
                         
                         viewModel.outputs.viewAll
@@ -361,9 +361,9 @@ private extension MainCategoriesViewModel {
                 var index = 2
                 for category in customCategories {
                     if index < self.categories.count {
-                        self.categories.insert(category, at: index)
+                        if category.customPage != nil { self.categories.insert(category, at: index) }
                     }else {
-                        self.categories.append(category)
+                        if category.customPage != nil { self.categories.append(category) }
                     }
                     index += 1
                 }

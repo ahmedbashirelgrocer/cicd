@@ -54,7 +54,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white; 
+        view.backgroundColor = AppSetting.theme.tableViewBGGreyColor;
         addLocationHeader(); registerCells(); bindViews()
         
     }
@@ -82,6 +82,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
         tableView.bounces = true
         tableView.estimatedRowHeight = 400
         tableView.rowHeight = UITableView.automaticDimension
+        tableView.backgroundColor = AppSetting.theme.tableViewBGGreyColor
        
         tableView.rx.didScroll
                     .subscribe(onNext: { [weak self] in
@@ -156,6 +157,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
         
         viewModel.outputs.showEmptyView.subscribe(onNext: { [weak self] _ in
             guard let self = self else { return }
+            self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             self.emptyView.configureNoActiveCampaign()
             self.tableView.backgroundView = self.emptyView
             self.locationHeaderFlavor.isHidden = true
@@ -173,10 +175,12 @@ class MarketingCustomLandingPageViewController: UIViewController {
         viewModel.basketUpdated
             .filter({ self.basketIconOverlay != nil })
             .subscribe { _ in
-            self.basketIconOverlay?.grocery = self.viewModel.getGrocery()
+            guard let cartView = self.basketIconOverlay else { return }
+                cartView.grocery = self.viewModel.getGrocery()
             self.refreshBasketIconStatus()
-            let itemCount =  Int(self.basketIconOverlay?.itemsCount?.text ?? "") ?? 0
+            let itemCount =  ElGrocerUtility.sharedInstance.lastItemsCount
             self.collectionViewBottomConstraint?.isActive = itemCount > 0
+                self.refreshBasketIconStatus()
         }.disposed(by: disposeBag)
 
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
@@ -221,12 +225,14 @@ extension MarketingCustomLandingPageViewController {
                                         attribute: .bottom,
                                         multiplier: 1.0,
                                         constant: 0.0)
-        itemCount =  Int(self.basketIconOverlay?.itemsCount?.text ?? "") ?? 0
+        itemCount = ElGrocerUtility.sharedInstance.lastItemsCount
             self.basketIconOverlay?.grocery = self.viewModel.getGrocery()
         }
         
         collectionViewBottomConstraint?.isActive = itemCount > 0
         self.refreshBasketIconStatus()
+        
+       
        
     }
     
@@ -265,7 +271,10 @@ extension MarketingCustomLandingPageViewController: UITableViewDelegate {
             self.superSectionHeader.refreshWithCategoryName(dataSource.sectionModels[section].header)
             return self.superSectionHeader
         }
-        guard isTextAvailable else { return UIView() }
+        guard isTextAvailable else {
+            let view = UIView()
+            view.backgroundColor = section == 0 ? .clear : .white
+            return view }
         let height =   isTextAvailable ? 30.0 : 1.0
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: height + 20))
         headerView.backgroundColor = .white //isTextAvailable ? .white : .clear
@@ -293,9 +302,13 @@ extension MarketingCustomLandingPageViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 5
+        return 0.01
     }
-   
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }
 }
 
 extension MarketingCustomLandingPageViewController: AWSegmentViewProtocol {

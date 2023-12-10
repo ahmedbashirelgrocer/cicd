@@ -234,11 +234,6 @@ private extension HomeCellViewModel {
             refreshProductCellSubject.asObservable().bind(to: vm.inputs.refreshDataObserver).disposed(by: disposeBag)
             return vm
         }
-        
-        if products.algoliaCount == 0{
-            debugPrint("")
-        }
-        
         // this check ensure that the first call products is zero
         if offset == 0 {
             self.productCountSubject.onNext(products.algoliaCount ?? products.products.count)

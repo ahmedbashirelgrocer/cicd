@@ -22,7 +22,7 @@ class EnvironmentVariables {
     fileprivate init() {
         
         let bundle = Bundle.resource
-        let configurationName = SDKManager.shared.launchOptions?.environmentType.value() ??  "StagingProduction"
+        let configurationName = SDKManager.shared.launchOptions?.environmentType.value() ??  "PreAdmin"
         //load our configuration plist
         let environmentsPath = bundle.path(forResource: kEnvironmentPlistName, ofType: "plist")
         let environmentsDict = NSDictionary(contentsOfFile: environmentsPath!)

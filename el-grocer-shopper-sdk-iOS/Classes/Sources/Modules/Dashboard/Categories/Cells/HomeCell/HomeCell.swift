@@ -747,12 +747,12 @@ extension HomeCell: UICollectionViewDelegateFlowLayout  {
                 cellSize = CGSize(width: 60, height: height)
             }
         }
-        if cellSize.width > collectionView.frame.width {
-            cellSize.width = collectionView.frame.width
-        }
-        if cellSize.height > collectionView.frame.height {
-            cellSize.height = collectionView.frame.height
-        }
+//        if cellSize.width > collectionView.frame.width {
+//            cellSize.width = collectionView.frame.width
+//        }
+//        if cellSize.height > collectionView.frame.height {
+//            cellSize.height = collectionView.frame.height
+//        }
         return cellSize
     }
 

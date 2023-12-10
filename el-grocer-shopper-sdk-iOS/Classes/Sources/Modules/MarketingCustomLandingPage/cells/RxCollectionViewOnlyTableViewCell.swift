@@ -99,9 +99,9 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
             subject
                 .subscribe(onNext: { [weak self] (contentOffset, _) in
                     guard let self = self else { return }
-                    let offSetY = contentOffset.y
-                    let contentHeight = self.productsCollectionView.contentSize.height 
-                    if offSetY > ((contentHeight + 200) - (self.productsCollectionView.frame.size.width)  ) {
+                    let offSetY = contentOffset.y + 250 + self.bounds.maxY
+                    let contentHeight = self.productsCollectionView.contentSize.height - 200
+                    if offSetY > ((contentHeight) - (self.productsCollectionView.frame.size.width)  ) {
                         self.viewModel.fetchProductsObserver.onNext(())
                     }
                 })
@@ -140,9 +140,7 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
                 // self.viewModel.fetchProductsObserver.onNext(())
             }
         }.disposed(by: disposeBag)
-        
-       // self.cellHeight.constant = ScreenSize.SCREEN_HEIGHT - 200
-        
+    
         /*
         productsCollectionView.rx.contentSize
             .subscribe(onNext: { [weak self] newSize in
@@ -156,9 +154,6 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
                // self.getHeightChangeSubject().onNext((self,newSize))
             })
             .disposed(by: disposeBag)
-        
-
-        
         */
         
         viewModel.productCount
@@ -167,20 +162,14 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
             // self.productCountValue = productCount
                 updateCollectionViewHeight(productCount)
         }).disposed(by: disposeBag)
-        
-     
-        
-      //  loadMoreFooterView.observeLoadingState(loadingObservable: viewModel.loading)
-        
     }
     
     func updateCollectionViewHeight(_ productCount : Int) {
-        print("productCount: \(productCount)")
         guard productCount > 0, lastUpdateProductCount != productCount else {
             return
         }
         lastUpdateProductCount = productCount
-        self.cellHeight.constant = productCount == 0 ? .leastNormalMagnitude : (CGFloat(ceil(Double(productCount) / 2)) * (kProductCellHeight + 4) )
+        self.cellHeight.constant = productCount == 0 ? .leastNormalMagnitude : (CGFloat(ceil(Double(productCount) / 2)) * (kProductCellHeight + 12) + ( productCount % 2 == 0 ? 0 : 32) )
         DispatchQueue.main.async {
             self.updateTableViewWithSpringAnimation()
         }
@@ -192,7 +181,7 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
             delay: 0.2,
             usingSpringWithDamping: 0.8, // Adjust the damping ratio as needed
             initialSpringVelocity: 0.5, // Adjust the initial velocity as needed
-            options: .curveEaseInOut, // Adjust the animation curve as needed
+            options: .allowAnimatedContent, // Adjust the animation curve as needed
             animations: { [weak self] in
                 (self?.superview as? UITableView)?.beginUpdates()
                 (self?.superview as? UITableView)?.endUpdates()
@@ -203,13 +192,6 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
     }
     
 }
-
-extension RxCollectionViewOnlyTableViewCell: LoadMoreFooterViewDelegate {
-    func loadMoreButtonTapped() {
-        self.viewModel.fetchProductsObserver.onNext(())
-    }
-}
-
 
 extension RxCollectionViewOnlyTableViewCell: UICollectionViewDelegateFlowLayout  {
     
@@ -371,9 +353,9 @@ private extension RxCollectionViewOnlyTableViewCellViewModel {
         }
         
         if self.offset == 0 {
-            DispatchQueue.global(qos: .utility).async(execute: self.dispatchWorkItem!)
+            DispatchQueue.global(qos: .default).async(execute: self.dispatchWorkItem!)
         }else {
-            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2, execute: self.dispatchWorkItem!)
+            DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 2, execute: self.dispatchWorkItem!)
         }
         
     }
@@ -400,83 +382,4 @@ private extension RxCollectionViewOnlyTableViewCellViewModel {
     }
 }
 
-
-
-
-// Need to move to seprate class
-
-import UIKit
-
-protocol LoadMoreFooterViewDelegate: AnyObject {
-    func loadMoreButtonTapped()
-}
-
-class LoadMoreFooterView: UICollectionReusableView {
-    
-    static var identifier = "LoadMoreFooterViewIdentifier"
-    weak var delegate: LoadMoreFooterViewDelegate?
-    private var disposeBag = DisposeBag()
-
-    private let loadMoreButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Load More", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.addTarget(LoadMoreFooterView.self, action: #selector(loadMoreButtonTapped), for: .touchUpInside)
-        return button
-    }()
-
-    private let activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .medium)
-        indicator.hidesWhenStopped = true
-        return indicator
-    }()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupUI()
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupUI()
-    }
-
-    private func setupUI() {
-        addSubview(loadMoreButton)
-        addSubview(activityIndicator)
-
-        loadMoreButton.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-
-        NSLayoutConstraint.activate([
-            loadMoreButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            loadMoreButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-
-            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
-        ])
-    }
-
-    @objc private func loadMoreButtonTapped() {
-        delegate?.loadMoreButtonTapped()
-    }
-
-    func updateState(isLoading: Bool) {
-        if isLoading {
-            loadMoreButton.isHidden = true
-            activityIndicator.startAnimating()
-        } else {
-            loadMoreButton.isHidden = false
-            activityIndicator.stopAnimating()
-        }
-    }
-    
-    func observeLoadingState(loadingObservable: Observable<Bool>) {
-            loadingObservable
-                .subscribe(onNext: { [weak self] isLoading in
-                    self?.updateState(isLoading: isLoading)
-                })
-                .disposed(by: disposeBag)
-        }
-}
 
