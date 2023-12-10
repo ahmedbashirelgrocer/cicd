@@ -13,7 +13,7 @@
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" indentationWidth="10" reuseIdentifier="RxCollectionViewOnlyTableViewCell" rowHeight="11" id="KGk-i7-Jjw" customClass="RxCollectionViewOnlyTableViewCell" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="11"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-            <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="11"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
@@ -36,8 +36,8 @@
                 <constraints>
                     <constraint firstItem="ITf-gU-h7v" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="2Fi-5h-r6I"/>
                     <constraint firstItem="ITf-gU-h7v" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Otk-h7-fIR"/>
-                    <constraint firstAttribute="bottom" secondItem="ITf-gU-h7v" secondAttribute="bottom" id="ZLz-87-OPb"/>
                     <constraint firstAttribute="trailing" secondItem="ITf-gU-h7v" secondAttribute="trailing" id="ocu-gg-vfR"/>
+                    <constraint firstAttribute="bottom" secondItem="ITf-gU-h7v" secondAttribute="bottom" constant="1" id="rPe-tH-QKK"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>

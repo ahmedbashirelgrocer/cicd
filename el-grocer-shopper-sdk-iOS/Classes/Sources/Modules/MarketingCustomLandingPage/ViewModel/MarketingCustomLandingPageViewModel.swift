@@ -147,6 +147,9 @@ extension MarketingCustomLandingPageViewModel {
             showEmptyViewWithDelay()
             return
         }
+        self.getBasketFromServerWithGrocery(self.grocery)
+        
+        
         apiClient?.getCustomCampaigns(customScreenId: self.marketingId) { data in
             switch data {
             case .success(let response):
@@ -158,6 +161,82 @@ extension MarketingCustomLandingPageViewModel {
             }
         }
     }
+    
+    func getBasketFromServerWithGrocery(_ grocery:Grocery?){
+        
+        guard UserDefaults.isUserLoggedIn() else {return}
+        apiClient?.fetchBasketFromServerWithGrocery(grocery) { (result) in
+            switch result {
+                case .success(let responseDict):
+                    self.saveResponseData(responseDict, andWithGrocery: grocery)
+                case .failure(let error):
+                   elDebugPrint("Fetch Basket Error:%@",error.localizedMessage)
+            }
+        }
+    }
+    
+    // MARK: Basket Data
+    func saveResponseData(_ responseObject:NSDictionary, andWithGrocery grocery:Grocery?) {
+    
+        ElGrocerUtility.sharedInstance.basketFetchDict[(grocery?.dbID)!] = true
+        let shopperCartProducts = responseObject["data"] as! [NSDictionary]
+        Thread.OnMainThread {
+            if(shopperCartProducts.count > 0) {
+                let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+                context.performAndWait {
+                    ShoppingBasketItem.clearActiveGroceryShoppingBasket(context)
+                }
+            }
+            var productA : [Dictionary<String, Any>] = [Dictionary<String, Any>]()
+            for responseDict in shopperCartProducts {
+                if let productDict =  responseDict["product"] as? NSDictionary {
+                    let quantity = responseDict["quantity"] as! Int
+                    productA.append( ["product_id": productDict["id"] as Any   , "quantity": quantity])
+                    let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+                    context.perform({ () -> Void in
+                        
+                        let product = Product.createProductFromDictionary(productDict, context: context)
+                        
+                        //insert brand
+                        if let brandDict = productDict["brand"] as? NSDictionary {
+                            
+                            let brandId = brandDict["id"] as! Int
+                            let brandName = brandDict["name"] as? String
+                            let brandImage = brandDict["image_url"] as? String
+                            
+                            let brand = DatabaseHelper.sharedInstance.insertOrReplaceObjectForEntityForName(BrandEntity, entityDbId: brandId as AnyObject, keyId: "dbID", context: context) as! Brand
+                            brand.name = brandName
+                            brand.imageUrl = brandImage
+                            
+                            product.brandId = brand.dbID
+                            
+                            let brandSlugName = brandDict["slug"] as? String
+                            brand.nameEn = brandSlugName
+                            product.brandNameEn = brand.nameEn
+                            
+                        }
+                        
+                        ShoppingBasketItem.addOrUpdateProductInBasket(product, grocery: grocery, brandName: nil, quantity: quantity, context: context, orderID: nil, nil , false)
+                    })
+                }
+            }
+            
+            if let groceryID = grocery?.dbID  {
+                DispatchQueue.global(qos: .background).async {
+                    ELGrocerRecipeMeduleAPI().addRecipeToCart(retailerID: groceryID , productsArray: productA) { (result) in
+                        DispatchQueue.main.async(execute: {
+                            if let grocery = self.grocery {
+                                self.refreshBasketSubject.onNext(())
+                            }
+                        })
+                    }
+                }
+            }
+        }
+      
+    }
+    
+    
     
     private func showEmptyViewWithDelay() {
         let observableValue = Observable.just(())
@@ -250,7 +329,11 @@ extension MarketingCustomLandingPageViewModel {
                 let bannerVM = RxBannersViewModel(component: componentSection)
                 viewModel.append(SectionHeaderModel(model: sectionIndex, header: "", items: [bannerVM]))
                 
-            case .topDeals, .productsOnly, .categorySection:
+            case  .categorySection:
+                let cellVM = createCellViewModel(for: componentSection)
+                viewModel.append(SectionHeaderModel(model: sectionIndex, header: componentSection.title ?? "", items: [cellVM]))
+                
+            case .topDeals, .productsOnly:
                 let cellVM = createCellViewModel(for: componentSection)
                 viewModel.append(SectionHeaderModel(model: sectionIndex, header: "", items: [cellVM]))
                 
@@ -332,11 +415,8 @@ extension MarketingCustomLandingPageViewModel {
     private func createFilterViewModels(for filters: [Filter], in component: CampaignSection) -> [ReusableTableViewCellViewModelType] {
         var filterVms: [ReusableTableViewCellViewModelType] = []
         var id = 1
-        
         for filterObj in filters {
-            if filterObj.type == -1 {
-                // Handle special case if needed
-            } else {
+            if filterObj.type != -1 {
                 let filterVm = createHomeCellViewModel(for: filterObj, id: id)
                 filterVms.append(filterVm)
                 id += 1

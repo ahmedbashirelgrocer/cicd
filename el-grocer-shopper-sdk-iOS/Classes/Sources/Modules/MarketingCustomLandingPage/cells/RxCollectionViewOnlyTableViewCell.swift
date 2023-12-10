@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxDataSources
+import RxCocoa
 
 
 
@@ -31,13 +32,16 @@ extension RxCollectionViewOnlyTableViewCellType {
 
 class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
     
-    @IBOutlet weak var productsCollectionView: UICollectionView! {
+    @IBOutlet weak var productsCollectionView: TouchlessCollectionView! {
         didSet {
             productsCollectionView.backgroundColor = .white
             productsCollectionView.delegate = self
-            productsCollectionView.isScrollEnabled = true
+            productsCollectionView.isScrollEnabled = false
+            productsCollectionView.bounces = true
+//            productsCollectionView.isPagingEnabled = true
         }
     }
+
     private var viewModel: RxCollectionViewOnlyTableViewCellViewModel!
     @IBOutlet weak var cellHeight: NSLayoutConstraint!
     
@@ -47,6 +51,10 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
     //MARK: Subject
     private let updateCellHeightSubject = BehaviorSubject<CGFloat>(value: .leastNormalMagnitude)
     private let basketUpdatedSubject = PublishSubject<Void>()
+   
+    private var lastUpdateProductCount = 0
+    private var isViewBinded: Bool = false
+    private var loadMoreFooterView: LoadMoreFooterView!
     
     
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
@@ -68,12 +76,6 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
         bindViews()
     }
   
-       // Optional: Override intrinsicContentSize in your UICollectionViewCell subclass
-    override var intrinsicContentSize: CGSize {
-            self.layoutIfNeeded()
-           return productsCollectionView.contentSize
-    }
-    
     private func registerCells() {
         
         let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle.resource)
@@ -84,6 +86,26 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
         
         let productSekeltonCelllNib = UINib(nibName: "ProductSekeltonCell", bundle: Bundle.resource)
         self.productsCollectionView.register(productSekeltonCelllNib, forCellWithReuseIdentifier: kProductSekeltonCellIdentifier)
+        
+//        self.productsCollectionView.register(LoadMoreFooterView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: LoadMoreFooterView.identifier)
+//               // Create an instance of LoadMoreFooterView
+//        loadMoreFooterView = productsCollectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: LoadMoreFooterView.identifier, for: IndexPath()) as? LoadMoreFooterView
+//        loadMoreFooterView.delegate = self
+       
+
+    }
+    
+    override func bind(to subject: PublishSubject<(contentOffset: CGPoint, didScrollEvent: Void)>) {
+            subject
+                .subscribe(onNext: { [weak self] (contentOffset, _) in
+                    guard let self = self else { return }
+                    let offSetY = contentOffset.y
+                    let contentHeight = self.productsCollectionView.contentSize.height 
+                    if offSetY > ((contentHeight + 200) - (self.productsCollectionView.frame.size.width)  ) {
+                        self.viewModel.fetchProductsObserver.onNext(())
+                    }
+                })
+                .disposed(by: disposeBag)
     }
     
     private func bindViews() {
@@ -95,6 +117,9 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
         })
         
         viewModel.outputs.productCollectionCellViewModels
+            .do(onNext: { item in
+               // self.updateCollectionViewHeight(item.first?.items.count ?? 0)
+            })
             .bind(to: self.productsCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
@@ -106,40 +131,98 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
             }
         }).disposed(by: disposeBag)
         
-        
-        
         // Pagination
         productsCollectionView.rx.didScroll.subscribe { [weak self] _ in
             guard let self = self else { return }
-            CellSelectionState.shared.inputs.selectProductWithID.onNext("")
             let offSetX = self.productsCollectionView.contentOffset.x
             let contentWidth = self.productsCollectionView.contentSize.width
             if offSetX > (contentWidth - self.productsCollectionView.frame.size.width - 200) {
-                self.viewModel.fetchProductsObserver.onNext(())
+                // self.viewModel.fetchProductsObserver.onNext(())
             }
         }.disposed(by: disposeBag)
         
-        viewModel.productCount.subscribe(onNext: { [weak self] productCount in
+       // self.cellHeight.constant = ScreenSize.SCREEN_HEIGHT - 200
+        
+        /*
+        productsCollectionView.rx.contentSize
+            .subscribe(onNext: { [weak self] newSize in
+                print("Collection view content size changed: \(newSize)")
+//                guard let self = self else { return }
+//                guard newSize.height > 0 else { return }
+//                guard self.cellHeight.constant != newSize.height else { return }
+//                productsCollectionView.layoutIfNeeded()
+//                self.cellHeight.constant = newSize.height
+//                //asdfasdfsd
+               // self.getHeightChangeSubject().onNext((self,newSize))
+            })
+            .disposed(by: disposeBag)
+        
+
+        
+        */
+        
+        viewModel.productCount
+            .subscribe(onNext: { [weak self] productCount in
             guard let self = self else { return }
-            updateCollectionViewHeight(productCount)
-            self.setNeedsLayout()
-            self.layoutIfNeeded()
+            // self.productCountValue = productCount
+                updateCollectionViewHeight(productCount)
         }).disposed(by: disposeBag)
         
+     
         
+      //  loadMoreFooterView.observeLoadingState(loadingObservable: viewModel.loading)
         
     }
     
     func updateCollectionViewHeight(_ productCount : Int) {
-            productsCollectionView.collectionViewLayout.invalidateLayout()
-            cellHeight.constant = max(ScreenSize.SCREEN_HEIGHT,(CGFloat(ceil(Double(productCount) / 2)) * (kProductCellHeight + 6)))
-            self.invalidateIntrinsicContentSize()
+        print("productCount: \(productCount)")
+        guard productCount > 0, lastUpdateProductCount != productCount else {
+            return
+        }
+        lastUpdateProductCount = productCount
+        self.cellHeight.constant = productCount == 0 ? .leastNormalMagnitude : (CGFloat(ceil(Double(productCount) / 2)) * (kProductCellHeight + 4) )
+        DispatchQueue.main.async {
+            self.updateTableViewWithSpringAnimation()
+        }
+    }
+    
+    private func updateTableViewWithSpringAnimation() {
+        UIView.animate(
+            withDuration: 0.5, // Adjust the duration as needed
+            delay: 0.2,
+            usingSpringWithDamping: 0.8, // Adjust the damping ratio as needed
+            initialSpringVelocity: 0.5, // Adjust the initial velocity as needed
+            options: .curveEaseInOut, // Adjust the animation curve as needed
+            animations: { [weak self] in
+                (self?.superview as? UITableView)?.beginUpdates()
+                (self?.superview as? UITableView)?.endUpdates()
+            },
+            completion:{ finished in
+               
+            })
     }
     
 }
 
+extension RxCollectionViewOnlyTableViewCell: LoadMoreFooterViewDelegate {
+    func loadMoreButtonTapped() {
+        self.viewModel.fetchProductsObserver.onNext(())
+    }
+}
+
 
 extension RxCollectionViewOnlyTableViewCell: UICollectionViewDelegateFlowLayout  {
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+//        return CGSize(width: collectionView.bounds.width, height: 44) // Adjust the height as needed
+//    }
+//    
+//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//        if kind == UICollectionView.elementKindSectionFooter {
+//            return loadMoreFooterView
+//        }
+//        return UICollectionReusableView()
+//    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
@@ -167,11 +250,13 @@ class RxCollectionViewOnlyTableViewCellViewModel: DynamicComponentContainerCellV
     var refreshProductCellObserver: AnyObserver<Void> { refreshProductCellSubject.asObserver() }
     // MARK: Outputs
     var basketUpdated: Observable<Void> { basketUpdatedSubject.asObservable() }
+    var loading: Observable<Bool> { loadingSubject.asObservable() }
     // Parent
     // MARK: Subject
     private let fetchProductsSubject = PublishSubject<Void>()
     private var refreshProductCellSubject = PublishSubject<Void>()
     private let basketUpdatedSubject = PublishSubject<Void>()
+    private var loadingSubject = BehaviorSubject<Bool>(value: false)
     // MARK: Properties
     private var disposeBag = DisposeBag()
     private var productCellVMs: [ProductCellViewModel] = []
@@ -183,8 +268,12 @@ class RxCollectionViewOnlyTableViewCellViewModel: DynamicComponentContainerCellV
     private var offset = 0
     private var limit = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsStorePage ?? 20
     private var moreAvailable = true
-    private var isLoading = false
-    
+    private var isLoading = false {
+        didSet {
+            self.loadingSubject.onNext(isLoading)
+        }
+    }
+    var productCountValue = 0
   
 
     init(apiClient: ElGrocerApi = ElGrocerApi.sharedInstance, algoliaAPI: AlgoliaApi = AlgoliaApi.sharedInstance, deliveryTime: Int, category: CategoryDTO?, grocery: Grocery?, component: CampaignSection) {
@@ -204,7 +293,7 @@ class RxCollectionViewOnlyTableViewCellViewModel: DynamicComponentContainerCellV
             }
         }).disposed(by: disposeBag)
         self.fetchProductsSubject.onNext(())
-        self.productCountSubject.onNext(1)
+       // self.productCountSubject.onNext(0)
     }
     
 }
@@ -239,12 +328,14 @@ private extension RxCollectionViewOnlyTableViewCellViewModel {
             }
             
             let storeId = ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)
+            self.limit = self.category?.algoliaQuery != nil ? 20 : self.limit
             
             let pageNumber = self.offset / self.limit
-            
+            // ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsStorePage ?? 20
             guard self.category?.algoliaQuery == nil else {
                 if let query = self.category?.algoliaQuery {
-                    ProductBrowser.shared.searchWithQuery(query:query, pageNumber: pageNumber, ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsStorePage ?? 20) { [weak self] content, error in
+                   // guard self.offset < 21 else { return }
+                    ProductBrowser.shared.searchWithQuery(query:query, pageNumber: pageNumber, self.limit) { [weak self] content, error in
                         if let _ = error {  return }
                         guard let response = content else { return }
                         self?.handleAlgoliaSuccessResponse(response: response)
@@ -279,11 +370,16 @@ private extension RxCollectionViewOnlyTableViewCellViewModel {
             }
         }
         
-        DispatchQueue.global(qos: .userInitiated).async(execute: self.dispatchWorkItem!)
+        if self.offset == 0 {
+            DispatchQueue.global(qos: .utility).async(execute: self.dispatchWorkItem!)
+        }else {
+            DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + 2, execute: self.dispatchWorkItem!)
+        }
+        
     }
     
     func handleAlgoliaSuccessResponse(response products: (products: [Product], algoliaCount: Int?)) {
-        // let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
+       
 
         self.moreAvailable = (products.algoliaCount ?? products.products.count) >= self.limit
         let cellVMs = products.products.map { product -> ProductCellViewModel in
@@ -293,21 +389,94 @@ private extension RxCollectionViewOnlyTableViewCellViewModel {
             return vm
         }
         
-        if products.algoliaCount == 0 {
-            debugPrint("")
-        }
-        
-        // this check ensure that the first call products is zero
-//        if offset == 0 {
-//            self.productCountSubject.onNext(products.algoliaCount ?? products.products.count)
-//        }
-        
+      
         self.productCellVMs.append(contentsOf: cellVMs)
         self.isLoading = false
         self.productCollectionCellViewModelsSubject.onNext([SectionModel(model: 0, items: self.productCellVMs)])
         self.offset += limit
         self.productCountSubject.onNext(self.productCellVMs.count)
-        
-        
+        self.productCountValue = self.productCellVMs.count
+      
     }
 }
+
+
+
+
+// Need to move to seprate class
+
+import UIKit
+
+protocol LoadMoreFooterViewDelegate: AnyObject {
+    func loadMoreButtonTapped()
+}
+
+class LoadMoreFooterView: UICollectionReusableView {
+    
+    static var identifier = "LoadMoreFooterViewIdentifier"
+    weak var delegate: LoadMoreFooterViewDelegate?
+    private var disposeBag = DisposeBag()
+
+    private let loadMoreButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Load More", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.addTarget(LoadMoreFooterView.self, action: #selector(loadMoreButtonTapped), for: .touchUpInside)
+        return button
+    }()
+
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupUI()
+    }
+
+    private func setupUI() {
+        addSubview(loadMoreButton)
+        addSubview(activityIndicator)
+
+        loadMoreButton.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            loadMoreButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+            loadMoreButton.centerYAnchor.constraint(equalTo: centerYAnchor),
+
+            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+    }
+
+    @objc private func loadMoreButtonTapped() {
+        delegate?.loadMoreButtonTapped()
+    }
+
+    func updateState(isLoading: Bool) {
+        if isLoading {
+            loadMoreButton.isHidden = true
+            activityIndicator.startAnimating()
+        } else {
+            loadMoreButton.isHidden = false
+            activityIndicator.stopAnimating()
+        }
+    }
+    
+    func observeLoadingState(loadingObservable: Observable<Bool>) {
+            loadingObservable
+                .subscribe(onNext: { [weak self] isLoading in
+                    self?.updateState(isLoading: isLoading)
+                })
+                .disposed(by: disposeBag)
+        }
+}
+

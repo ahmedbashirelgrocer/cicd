@@ -79,8 +79,8 @@ class MarketingCustomLandingPageViewController: UIViewController {
         tableView.register(UINib(nibName: "HomeCell", bundle: .resource), forCellReuseIdentifier: kHomeCellIdentifier)
         tableView.separatorColor = .clear
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
-        tableView.bounces = false
-        tableView.estimatedRowHeight = 500
+        tableView.bounces = true
+        tableView.estimatedRowHeight = 400
         tableView.rowHeight = UITableView.automaticDimension
        
         tableView.rx.didScroll
@@ -173,6 +173,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
         viewModel.basketUpdated
             .filter({ self.basketIconOverlay != nil })
             .subscribe { _ in
+            self.basketIconOverlay?.grocery = self.viewModel.getGrocery()
             self.refreshBasketIconStatus()
             let itemCount =  Int(self.basketIconOverlay?.itemsCount?.text ?? "") ?? 0
             self.collectionViewBottomConstraint?.isActive = itemCount > 0
@@ -211,7 +212,6 @@ extension MarketingCustomLandingPageViewController {
     func setCollectionViewBottomConstraint() {
         
         var itemCount =  0
-        
         if (collectionViewBottomConstraint == nil) && (self.basketIconOverlay != nil) {
             collectionViewBottomConstraint = NSLayoutConstraint(item:
                                         self.basketIconOverlay!,
@@ -222,6 +222,7 @@ extension MarketingCustomLandingPageViewController {
                                         multiplier: 1.0,
                                         constant: 0.0)
         itemCount =  Int(self.basketIconOverlay?.itemsCount?.text ?? "") ?? 0
+            self.basketIconOverlay?.grocery = self.viewModel.getGrocery()
         }
         
         collectionViewBottomConstraint?.isActive = itemCount > 0
