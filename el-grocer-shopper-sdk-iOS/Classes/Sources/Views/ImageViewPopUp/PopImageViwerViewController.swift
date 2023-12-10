@@ -143,6 +143,7 @@ class PopImageViwerViewController: UIViewController {
       }()
     
     var didDissmiss: ((Bool, _ products: [Product],_ grocery: Grocery,_ brandId: String) -> Void)?
+    var isProductAdded: ((Bool) -> Void)?
     var controllerType: PopImageControllerType = .productCell
     var product: Product?
     var priviousImage = UIImage()
@@ -240,7 +241,9 @@ class PopImageViwerViewController: UIViewController {
             if self.product != nil && self.grocery != nil, self.product?.brandId?.stringValue != nil{
                 didDissmiss(true,[self.product!],self.grocery!,product?.brandId?.stringValue ?? "")
             }
-            
+        }
+        if let isAdded = self.isProductAdded {
+            isAdded(isAddedToCart)
         }
     }
     

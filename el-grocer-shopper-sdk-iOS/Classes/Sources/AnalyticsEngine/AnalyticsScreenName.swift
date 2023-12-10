@@ -31,5 +31,4 @@ enum ScreenName: String {
     case transactionHistoryScreen = "Transaction History Screen"
     case customMarketingCampaign = "Custom Marketing Campaign"
     
-     
 }

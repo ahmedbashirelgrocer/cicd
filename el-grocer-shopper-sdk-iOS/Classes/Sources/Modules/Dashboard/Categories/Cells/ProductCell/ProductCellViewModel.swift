@@ -50,6 +50,7 @@ protocol ProductCellViewModelOutput {
     var addToCartButtonEnabled: Observable<Bool> { get }
     var quantityValue: Int { get }
     var border: Observable<Bool> { get }
+    func getAddToCartButtonTypeSubject() -> BehaviorSubject<Bool>  
 }
 
 protocol ProductCellViewModelType: ProductCellViewModelInput, ProductCellViewModelOutput {
@@ -143,6 +144,11 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     private var disposeBag = DisposeBag()
     private var product: ProductDTO
     private let PRODUCT_LIMIT = 3
+    
+    
+    func getAddToCartButtonTypeSubject() -> BehaviorSubject<Bool> {
+        return addToCartButtonTypeSubject
+    }
     
     init(product: ProductDTO, grocery: Grocery?, border: Bool = true) {
         self.grocery = grocery

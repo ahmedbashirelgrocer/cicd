@@ -6,6 +6,7 @@
 //
 import UIKit
 import RxSwift
+import RxCocoa
 import RxDataSources
 class MarketingCustomLandingPageViewController: UIViewController {
    
@@ -37,6 +38,8 @@ class MarketingCustomLandingPageViewController: UIViewController {
     // MARK: - Properties
     private var dataSource: RxTableViewSectionedReloadDataSource<SectionHeaderModel<Int,String, ReusableTableViewCellViewModelType>>!
     private var sections: [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] = []
+    private let tableViewScrollSubject = PublishSubject<(contentOffset: CGPoint, didScrollEvent: Void)>()
+    private var collectionViewBottomConstraint: NSLayoutConstraint?
         var viewModel: MarketingCustomLandingPageViewModel!
     private let disposeBag = DisposeBag()
     
@@ -51,12 +54,18 @@ class MarketingCustomLandingPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white; addLocationHeader(); registerCells(); bindViews()
+        view.backgroundColor = .white; 
+        addLocationHeader(); registerCells(); bindViews()
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupNavigationBar()
         adjustHeaderDisplay()
+        
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        self.viewModel.basketUpdatedSubject.onNext(())
     }
     
     @objc func backButtonPressed() {
@@ -70,7 +79,18 @@ class MarketingCustomLandingPageViewController: UIViewController {
         tableView.register(UINib(nibName: "HomeCell", bundle: .resource), forCellReuseIdentifier: kHomeCellIdentifier)
         tableView.separatorColor = .clear
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
-        tableView.estimatedRowHeight = ScreenSize.SCREEN_HEIGHT
+        tableView.bounces = false
+        tableView.estimatedRowHeight = 500
+        tableView.rowHeight = UITableView.automaticDimension
+       
+        tableView.rx.didScroll
+                    .subscribe(onNext: { [weak self] in
+                        // Notify the subject with both content offset and did scroll event
+                        guard let contentOffset = self?.tableView.contentOffset else { return }
+                        self?.tableViewScrollSubject.onNext((contentOffset, ()))
+                    })
+                    .disposed(by: disposeBag)
+        
     }
     
    
@@ -88,10 +108,23 @@ class MarketingCustomLandingPageViewController: UIViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUITableViewCell
             cell.selectionStyle = .none
             cell.configure(viewModel: viewModel)
+            cell.bind(to: self.tableViewScrollSubject)
+            cell.getHeightChangeSubject()
+                       .subscribe(onNext: { [weak tableView] cell,size in
+                           //(cell as? UITableViewCell).rowHeight = size.height
+                       })
+                       .disposed(by: cell.disposeBag)
             return cell
         },titleForHeaderInSection: { dataSource, sectionIndex in
             return dataSource[sectionIndex].header
         })
+//        
+//        self.tableView.rx.willDisplayCell
+//            .subscribe(onNext: { (cell, indexPath) in
+//                let cell = tableView.cellForRow(at:indexPath)
+//                cell.hi
+//            })
+//           
         
         viewModel.outputs.cellViewModels
             .bind(to: self.tableView.rx.items(dataSource: dataSource))
@@ -111,6 +144,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
         viewModel.outputs.selectedgrocery.subscribe(onNext: { [weak self] grocery in
             guard let self = self, let grocery = grocery else { return }
             setHeaderData(grocery)
+            setCollectionViewBottomConstraint()
         }).disposed(by: disposeBag)
         
         viewModel.outputs.loading.subscribe(onNext: { [weak self] loading in
@@ -135,24 +169,22 @@ class MarketingCustomLandingPageViewController: UIViewController {
             self.newTitleArrayUpdate(data: filter, selectedIndexPath: NSIndexPath.init(row: 0, section: 0))
         }).disposed(by: disposeBag)
         
-        viewModel.basketUpdated.subscribe { _ in
+        
+        viewModel.basketUpdated
+            .filter({ self.basketIconOverlay != nil })
+            .subscribe { _ in
             self.refreshBasketIconStatus()
+            let itemCount =  Int(self.basketIconOverlay?.itemsCount?.text ?? "") ?? 0
+            self.collectionViewBottomConstraint?.isActive = itemCount > 0
         }.disposed(by: disposeBag)
 
-        
-        
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
-        
         tableView.rx.itemSelected
                     .subscribe(onNext: { indexPath in })
                     .disposed(by: disposeBag)
         
-        viewModel.outputs.selectedgrocery.subscribe(onNext: { [weak self] grocery in
-            guard let self = self, let grocery = grocery else { return }
-            setHeaderData(grocery)
-        }).disposed(by: disposeBag)
-        
-        
+
+                
     }
 }
 extension MarketingCustomLandingPageViewController {
@@ -174,11 +206,49 @@ extension MarketingCustomLandingPageViewController {
         tableView.contentInset = UIEdgeInsets(top: imageHeight, left: 0, bottom: 0, right: 0)
         tableView.contentOffset = CGPoint(x: 0, y: -imageHeight)
     }
+    
+    ///To adjust the bottom constraint for basketIconOverlay appear/disappear
+    func setCollectionViewBottomConstraint() {
+        
+        var itemCount =  0
+        
+        if (collectionViewBottomConstraint == nil) && (self.basketIconOverlay != nil) {
+            collectionViewBottomConstraint = NSLayoutConstraint(item:
+                                        self.basketIconOverlay!,
+                                        attribute: .top,
+                                        relatedBy: .equal,
+                                        toItem: self.tableView,
+                                        attribute: .bottom,
+                                        multiplier: 1.0,
+                                        constant: 0.0)
+        itemCount =  Int(self.basketIconOverlay?.itemsCount?.text ?? "") ?? 0
+        }
+        
+        collectionViewBottomConstraint?.isActive = itemCount > 0
+        self.refreshBasketIconStatus()
+       
+    }
+    
 }
 
 extension MarketingCustomLandingPageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-            return UITableView.automaticDimension
+        
+////      
+//        do {
+//            let lastValue = try self.viewModel.tableviewVmsSubject.value()
+//            let isCategorySection = lastValue[indexPath.section].items.count > 0
+//            if isCategorySection {
+//                let categoryOrProductSection = lastValue[indexPath.section].items[0]
+//                if ((categoryOrProductSection as? RxCollectionViewOnlyTableViewCellViewModel) != nil) {
+//                    let categoryOrProductSectionVmCount = (categoryOrProductSection as? RxCollectionViewOnlyTableViewCellViewModel)?.productCountValue ?? 0
+//                    debugPrint("collection view cell height changes ;;; \(categoryOrProductSectionVmCount)")
+//                    return CGFloat(ceil(Double(categoryOrProductSectionVmCount) / 2.0)) * (kProductCellHeight) + 32
+//                }
+//            }
+//        } catch {  print("Error: \(error.localizedDescription)")  }
+
+        return UITableView.automaticDimension
        }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

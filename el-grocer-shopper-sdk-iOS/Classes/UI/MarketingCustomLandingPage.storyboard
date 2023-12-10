@@ -28,7 +28,7 @@
                         <constraints>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Ahn-5u-ejo" secondAttribute="trailing" id="595-m6-UoE"/>
                             <constraint firstItem="Ahn-5u-ejo" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="EwF-H7-fEX"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="Ahn-5u-ejo" secondAttribute="bottom" id="PVK-IZ-uvx"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="Ahn-5u-ejo" secondAttribute="bottom" priority="999" id="PVK-IZ-uvx"/>
                             <constraint firstItem="Ahn-5u-ejo" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" priority="999" id="SAo-Dp-yie"/>
                         </constraints>
                     </view>

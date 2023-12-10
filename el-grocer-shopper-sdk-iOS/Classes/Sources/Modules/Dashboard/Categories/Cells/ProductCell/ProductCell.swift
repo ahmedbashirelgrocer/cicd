@@ -1248,7 +1248,7 @@ class ProductCell : RxUICollectionViewCell {
     func showImagePopUp(){
     
         if let topVc = UIApplication.topViewController() {
-            if topVc is SubstitutionsProductViewController || topVc is MarketingCustomLandingPageViewController {
+            if topVc is SubstitutionsProductViewController  {
                 return
             }
         }
@@ -1272,6 +1272,19 @@ class ProductCell : RxUICollectionViewCell {
         if NSClassFromString("UIBlurEffect") != nil {
             let blurEffect = UIBlurEffect(style: .dark)
             popupController.backgroundView = UIVisualEffectView(effect: blurEffect)
+        }
+        popupViewController.isProductAdded = { [weak self](isAdded) in
+            guard let self = self else { return }
+                self.product.isSelected = isAdded
+                let newValue = product.dbID
+                ProductSelectedStore.setValue(newValue)
+                let dbid = ProductSelectedStore.getValue()
+                if dbid == product.dbID {
+                    self.isProductSelected = product.isSelected
+                } else {
+                    self.isProductSelected = false
+                }
+            
         }
         popupController.transitionStyle = .slideVertical
         if let topController = UIApplication.topViewController() { 

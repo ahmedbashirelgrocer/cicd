@@ -184,7 +184,9 @@ private extension HomeCellViewModel {
             
             guard self.category?.algoliaQuery == nil else {
                 if let query = self.category?.algoliaQuery {
-                    ProductBrowser.shared.searchWithQuery(query:query, pageNumber: pageNumber, ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsStorePage ?? 20) { [weak self] content, error in
+                    // for algolia query set limit to 20
+                    self.limit = 20
+                    ProductBrowser.shared.searchWithQuery(query:query, pageNumber: pageNumber, self.limit) { [weak self] content, error in
                         if let _ = error {  return }
                         guard let response = content else { return }
                         self?.handleAlgoliaSuccessResponse(response: response)
