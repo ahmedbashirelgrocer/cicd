@@ -54,7 +54,7 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
    
     private var lastUpdateProductCount = 0
     private var isViewBinded: Bool = false
-    private var loadMoreFooterView: LoadMoreFooterView!
+    
     
     
     private var dataSource: RxCollectionViewSectionedReloadDataSource<SectionModel<Int, ReusableCollectionViewCellViewModelType>>!
