@@ -1727,8 +1727,8 @@ private extension MainCategoriesViewController {
                 productsVC.homeObj = Home("", withCategory: nil, products: [], self.grocery)
                 productsVC.grocery = self.grocery
                 self.navigationController?.pushViewController(productsVC, animated: true)
-            } else if category.customPage != nil {
-                let customVm = MarketingCustomLandingPageViewModel.init(storeId: self.grocery?.dbID ?? "", marketingId: String(category.customPage ?? 0))
+            } else if category.customPage != nil, let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                let customVm = MarketingCustomLandingPageViewModel.init(storeId: self.grocery?.dbID ?? "", marketingId: String(category.customPage ?? 0), addressId: currentAddress.dbID)
                 let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
                 self.present(landingVC, animated: true)
             } else {

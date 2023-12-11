@@ -16,9 +16,10 @@ protocol AnalyticsEngineType {
 }
 
 class SegmentAnalyticsEngine: AnalyticsEngineType {
-    static let instance = SegmentAnalyticsEngine()
     
+    static let instance = SegmentAnalyticsEngine()
     private var analytics: Analytics
+    private var source: String = "" // will set when ever screen viwer event is being triggered.
     
     init(analytics: Analytics = Analytics.shared()) {
         self.analytics = analytics
@@ -42,6 +43,7 @@ class SegmentAnalyticsEngine: AnalyticsEngineType {
             self.debugLogEvent(eventType: "Track", eventName: eventName, params: metaData)
             
         case .screen(let screenName):
+            self.source = screenName
             let metaData = self.addMarketTypeProperty(metaData: event.metaData ?? [:])
             self.analytics.screen(screenName, properties: metaData)
             self.debugLogEvent(eventType: "Screen", eventName: screenName, params: metaData)
@@ -67,6 +69,10 @@ class SegmentAnalyticsEngine: AnalyticsEngineType {
     
     func reset() {
         self.analytics.reset()
+    }
+    
+    func getSource() -> String {
+        return self.source
     }
 }
 

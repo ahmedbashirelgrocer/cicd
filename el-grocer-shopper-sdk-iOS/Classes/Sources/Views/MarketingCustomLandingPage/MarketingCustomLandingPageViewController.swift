@@ -65,7 +65,9 @@ class MarketingCustomLandingPageViewController: UIViewController {
         
     }
     override func viewDidAppear(_ animated: Bool) {
+        self.viewModel.viewDidAppearCalled() // we need to call this method to sync active grocery in utilty
         self.viewModel.basketUpdatedSubject.onNext(())
+        
     }
     
     @objc func backButtonPressed() {
@@ -110,11 +112,6 @@ class MarketingCustomLandingPageViewController: UIViewController {
             cell.selectionStyle = .none
             cell.configure(viewModel: viewModel)
             cell.bind(to: self.tableViewScrollSubject)
-            cell.getHeightChangeSubject()
-                       .subscribe(onNext: { [weak tableView] cell,size in
-                           //(cell as? UITableViewCell).rowHeight = size.height
-                       })
-                       .disposed(by: cell.disposeBag)
             return cell
         },titleForHeaderInSection: { dataSource, sectionIndex in
             return dataSource[sectionIndex].header
@@ -145,7 +142,10 @@ class MarketingCustomLandingPageViewController: UIViewController {
         viewModel.outputs.selectedgrocery.subscribe(onNext: { [weak self] grocery in
             guard let self = self, let grocery = grocery else { return }
             setHeaderData(grocery)
-            setCollectionViewBottomConstraint()
+            ElGrocerUtility.sharedInstance.delay(1.5) { [weak self] in
+                self?.setCollectionViewBottomConstraint()
+            }
+            
         }).disposed(by: disposeBag)
         
         viewModel.outputs.loading.subscribe(onNext: { [weak self] loading in
@@ -180,7 +180,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
             self.refreshBasketIconStatus()
             let itemCount =  ElGrocerUtility.sharedInstance.lastItemsCount
             self.collectionViewBottomConstraint?.isActive = itemCount > 0
-                self.refreshBasketIconStatus()
+            self.refreshBasketIconStatus()
         }.disposed(by: disposeBag)
 
         tableView.rx.setDelegate(self).disposed(by: disposeBag)
@@ -215,7 +215,7 @@ extension MarketingCustomLandingPageViewController {
     ///To adjust the bottom constraint for basketIconOverlay appear/disappear
     func setCollectionViewBottomConstraint() {
         
-        var itemCount =  0
+       // var itemCount =  0
         if (collectionViewBottomConstraint == nil) && (self.basketIconOverlay != nil) {
             collectionViewBottomConstraint = NSLayoutConstraint(item:
                                         self.basketIconOverlay!,
@@ -225,14 +225,12 @@ extension MarketingCustomLandingPageViewController {
                                         attribute: .bottom,
                                         multiplier: 1.0,
                                         constant: 0.0)
-        itemCount = ElGrocerUtility.sharedInstance.lastItemsCount
             self.basketIconOverlay?.grocery = self.viewModel.getGrocery()
+            self.refreshBasketIconStatus()
+//            itemCount = Int(self.basketIconOverlay?.itemsCount.text ?? "0") ?? 0
         }
         
-        collectionViewBottomConstraint?.isActive = itemCount > 0
-        self.refreshBasketIconStatus()
-        
-       
+        collectionViewBottomConstraint?.isActive = !(self.basketIconOverlay?.isHidden ?? true)
        
     }
     

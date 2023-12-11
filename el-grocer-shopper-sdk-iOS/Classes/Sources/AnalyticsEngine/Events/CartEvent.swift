@@ -48,14 +48,25 @@ struct CartDeletedEvent: AnalyticsEventDataType {
 
 enum CartUpdatedEventSource: String {
     case searchResult = "Search Result Screen"
-    case other = ""
+    case viewScreenName = ""
+    
+    
+    func getScreenName() -> String {
+            switch self {
+            case .searchResult:
+                return "Search Result Screen"
+            case .viewScreenName:
+                return SegmentAnalyticsEngine.instance.getSource()
+        }
+    }
+    
 }
 
 struct CartUpdatedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(grocery: Grocery?, product: Product, actionType: CartActionType, quantity: Int, source: CartUpdatedEventSource = .other) {
+    init(grocery: Grocery?, product: Product, actionType: CartActionType, quantity: Int, source: CartUpdatedEventSource = .viewScreenName) {
         let eventName = actionType == .added ? AnalyticsEventName.productAdded : AnalyticsEventName.productRemoved
         
         self.eventType = .track(eventName: eventName)
@@ -78,7 +89,7 @@ struct CartUpdatedEvent: AnalyticsEventDataType {
             EventParameterKeys.isRecipe         : false,
             EventParameterKeys.quantity         : String(quantity),
             EventParameterKeys.deeplink         : product.queryID ?? "",
-            EventParameterKeys.source           : source.rawValue
+            EventParameterKeys.source           : source.getScreenName(),
         ]
     }
     
@@ -168,11 +179,12 @@ struct CartClickedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(grocery: Grocery?) {
+    init(grocery: Grocery?, source: CartUpdatedEventSource = .viewScreenName) {
         self.eventType = .track(eventName: AnalyticsEventName.cartClicked)
         self.metaData = [
             EventParameterKeys.retailerID: grocery?.dbID ?? "",
             EventParameterKeys.retailerName: grocery?.name ?? "",
+            EventParameterKeys.source : source.getScreenName()
         ]
     }
 }

@@ -76,7 +76,7 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     private var grocery: Grocery?
             let tableviewVmsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
     
-    init(storeId: String, marketingId: String,_ apiClient: ElGrocerApi? = ElGrocerApi.sharedInstance ,_ analyticsEngine: AnalyticsEngineType = SegmentAnalyticsEngine()) {
+    init(storeId: String, marketingId: String,addressId: String,_ apiClient: ElGrocerApi? = ElGrocerApi.sharedInstance ,_ analyticsEngine: AnalyticsEngineType = SegmentAnalyticsEngine()) {
         
         self.storeId = storeId
         self.marketingId = marketingId
@@ -85,12 +85,23 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
         self.grocery = HomePageData.shared.groceryA?.first(where: { $0.dbID == self.storeId })
         self.fetchViews()
         self.bindComponents()
-        if let store = self.grocery { ElGrocerUtility.sharedInstance.activeGrocery = store }
+        self.appUtiltyDependencyMangement(addressId)
         
+    }
+    
+    private func appUtiltyDependencyMangement(_ addressId: String) {
+        if self.grocery != nil { UserDefaults.setGroceryId(self.grocery!.dbID, WithLocationId: addressId) }
+        if let store = self.grocery { ElGrocerUtility.sharedInstance.activeGrocery = store }
     }
     
     func getGrocery() -> Grocery? {
         return self.grocery
+    }
+    
+    func viewDidAppearCalled() {
+        guard self.grocery != nil else { return }
+        ElGrocerUtility.sharedInstance.activeGrocery = self.grocery
+        
     }
     
     private func bindComponents() {
@@ -98,7 +109,8 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
         self.components
                    .observeOn(MainScheduler.instance)
                    .subscribe(onNext: { components in
-                       guard components.count > 0 else { return}
+                       guard components.count > 0 else { return }
+                       ElGrocerUtility.sharedInstance.activeGrocery = self.grocery
                        self.grocerySubject.onNext(self.grocery)
                        self.updateUI(with: components)
                        var screen = ScreenRecordEvent(screenName: .customMarketingCampaign)
@@ -147,13 +159,12 @@ extension MarketingCustomLandingPageViewModel {
             showEmptyViewWithDelay()
             return
         }
-        self.getBasketFromServerWithGrocery(self.grocery)
-        
-        
+       
         apiClient?.getCustomCampaigns(customScreenId: self.marketingId) { data in
             switch data {
             case .success(let response):
                 componentSubject.onNext(response.campaignSections)
+               // self.getBasketFromServerWithGrocery(self.grocery)
                 self.loadingSubject.onNext(false)
             case .failure( _):
                 self.showEmptyViewSubject.onNext(())
