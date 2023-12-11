@@ -48,7 +48,7 @@ class SegmentAnalyticsEngine: AnalyticsEngineType {
             self.analytics.screen(screenName, properties: metaData)
             self.debugLogEvent(eventType: "Screen", eventName: screenName, params: metaData)
         }
-    }
+}
     
     func logEvent(event: AnalyticsEventDataType, launchOptions: LaunchOptions) {
         switch event.eventType {

@@ -76,7 +76,7 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     private var grocery: Grocery?
             let tableviewVmsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
     
-    init(storeId: String, marketingId: String,addressId: String,_ apiClient: ElGrocerApi? = ElGrocerApi.sharedInstance ,_ analyticsEngine: AnalyticsEngineType = SegmentAnalyticsEngine()) {
+    init(storeId: String, marketingId: String,addressId: String,_ apiClient: ElGrocerApi? = ElGrocerApi.sharedInstance ,_ analyticsEngine: AnalyticsEngineType = SegmentAnalyticsEngine.instance) {
         
         self.storeId = storeId
         self.marketingId = marketingId
@@ -102,6 +102,10 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
         guard self.grocery != nil else { return }
         ElGrocerUtility.sharedInstance.activeGrocery = self.grocery
         
+        var screen = ScreenRecordEvent(screenName: .customMarketingCampaign)
+        screen.metaData = [EventParameterKeys.campaignId : self.marketingId, EventParameterKeys.storeId : self.storeId]
+        self.analyticsEngine.logEvent(event: ScreenRecordEvent(screenName: .customMarketingCampaign))
+        
     }
     
     private func bindComponents() {
@@ -113,9 +117,6 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
                        ElGrocerUtility.sharedInstance.activeGrocery = self.grocery
                        self.grocerySubject.onNext(self.grocery)
                        self.updateUI(with: components)
-                       var screen = ScreenRecordEvent(screenName: .customMarketingCampaign)
-                       screen.metaData = [EventParameterKeys.campaignId : self.marketingId, EventParameterKeys.storeId : self.storeId]
-                       self.analyticsEngine.logEvent(event: ScreenRecordEvent(screenName: .customMarketingCampaign))
                    })
                    .disposed(by: disposeBag)
 
