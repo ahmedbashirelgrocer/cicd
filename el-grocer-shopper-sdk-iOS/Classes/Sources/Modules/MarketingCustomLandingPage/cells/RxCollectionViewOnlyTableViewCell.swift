@@ -378,6 +378,7 @@ private extension RxCollectionViewOnlyTableViewCellViewModel {
         self.offset += limit
         self.productCountSubject.onNext(self.productCellVMs.count)
         self.productCountValue = self.productCellVMs.count
+        if self.productCellVMs.count >= 20 { self.moreAvailable = false } // check for custom marketing campaign page
       
     }
 }
