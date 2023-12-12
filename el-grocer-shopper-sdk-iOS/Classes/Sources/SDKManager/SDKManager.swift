@@ -115,7 +115,7 @@ class SDKManager: NSObject, SDKManagerType  {
         self.rootContext = UIWindow.key?.rootViewController
         self.configuredElgrocerClevertapMixPannelSandBirdLoggerifNeeded()
         let manager = SDKLoginManager(launchOptions: launchOptions)
-        manager.loginFlowForSDK() { isSuccess, errorMessage in
+        manager.loginFlowForSDK() { isSuccess, errorMessage, errorCode in
             
             if isSuccess {
     
@@ -157,8 +157,9 @@ class SDKManager: NSObject, SDKManagerType  {
                 }
             
         } else {
+            let alertMessage = errorCode == 4237 ? errorMessage : localizedString("error_500", comment: "")
             ElGrocerAlertView.createAlert(
-                localizedString("error_500", comment: ""),
+                alertMessage,
                 description: nil,
                 positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
                 negativeButton: nil)
@@ -541,7 +542,7 @@ class SDKManager: NSObject, SDKManagerType  {
         
         if let launchOptions = launchOptions, launchOptions.isSmileSDK { // Entry point for SDK
             let manager = SDKLoginManager(launchOptions: launchOptions)
-            manager.loginFlowForSDK() { isSuccess, errorMessage in
+            manager.loginFlowForSDK() { isSuccess, errorMessage, errorCode in
                 let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
                 if isSuccess {
                     completion(manager)
@@ -559,7 +560,9 @@ class SDKManager: NSObject, SDKManagerType  {
                     //manager.setHomeView()
                 } else {
                     ElGrocerUtility.sharedInstance.delay(0.01) {
-                        let alert = ElGrocerAlertView.createAlert(localizedString("error_500", comment: ""), description: nil, positiveButton: positiveButton, negativeButton: nil) { index in
+                        let alertMessage = errorCode == 4237 ? errorMessage : localizedString("error_500", comment: "")
+                        
+                        let alert = ElGrocerAlertView.createAlert(alertMessage, description: nil, positiveButton: positiveButton, negativeButton: nil) { index in
                                Thread.OnMainThread {
                                    if let topVC = UIApplication.topViewController() {
                                        if let navVc = topVC.navigationController, navVc.viewControllers.count > 1 {
@@ -593,7 +596,7 @@ class SDKManager: NSObject, SDKManagerType  {
          
          if let launchOptions = launchOptions, launchOptions.isSmileSDK { // Entry point for SDK
              let manager = SDKLoginManager(launchOptions: launchOptions)
-             manager.loginFlowForSDK() { isSuccess, errorMessage in
+             manager.loginFlowForSDK() { isSuccess, errorMessage, errorCode in
                  let positiveButton = localizedString("no_internet_connection_alert_button", comment: "")
                  if isSuccess {
                      manager.setHomeView()
@@ -781,12 +784,12 @@ class SDKManager: NSObject, SDKManagerType  {
         
     }
     
-    func logout(completion: (() -> Void)? = nil) {
+    func logout(shouldCallAPI: Bool = true,  completion: (() -> Void)? = nil) {
         
         SendBirdManager().logout { success in }
         
         ElGrocerUtility.sharedInstance.isDeliveryMode = true
-        if UserDefaults.getLogInUserID() != "0" {
+        if shouldCallAPI, UserDefaults.getLogInUserID() != "0" {
             ElGrocerApi.sharedInstance.logoutUser { (result) -> Void in  }
         }
        

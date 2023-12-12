@@ -10,7 +10,7 @@ enum ElGrocerSDKApiEndpoint : String {
 }
 
 extension ElGrocerApi {
-    func registerPhone(_ phoneNumber: String, completionHandler: @escaping (_ result:Bool, _ responseObject:NSDictionary?) -> Void) {
+    func registerPhone(_ phoneNumber: String, completionHandler: @escaping (_ error: ElGrocerError?, _ responseObject:NSDictionary?) -> Void) {
         
         var parameters = [String : AnyObject]()
         
@@ -36,10 +36,11 @@ extension ElGrocerApi {
         }, success: { (operation, response) in
             
             self.extractAccessToken(response as! NSDictionary)
-            completionHandler(true, response as? NSDictionary)
+            completionHandler(nil, response as? NSDictionary)
             
         }) { (operation, error) in
-            completionHandler(false, nil)
+            let error = ElGrocerError(error: error as NSError)
+            completionHandler(error, nil)
         }
     }
 }
