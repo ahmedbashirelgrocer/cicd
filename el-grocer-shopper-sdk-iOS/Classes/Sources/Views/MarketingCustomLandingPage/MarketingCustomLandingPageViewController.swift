@@ -116,14 +116,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
         },titleForHeaderInSection: { dataSource, sectionIndex in
             return dataSource[sectionIndex].header
         })
-//        
-//        self.tableView.rx.willDisplayCell
-//            .subscribe(onNext: { (cell, indexPath) in
-//                let cell = tableView.cellForRow(at:indexPath)
-//                cell.hi
-//            })
-//           
-        
+
         viewModel.outputs.cellViewModels
             .bind(to: self.tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
