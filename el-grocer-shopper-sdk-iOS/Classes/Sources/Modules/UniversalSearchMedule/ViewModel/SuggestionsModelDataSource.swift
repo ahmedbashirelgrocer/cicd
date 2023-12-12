@@ -35,7 +35,7 @@ class SuggestionsModelDataSource {
     var isProductApiCalling : Bool = false
     var displayList : ((_ dataList : [SuggestionsModelObj])->Void)?
     var productListNotFound : ((_ searchString : String)->Void)?
-    var productListData : ((_ data : [Product] , _ searchString : String)->Void)?
+    var productListData : ((_ data : [Product] , _ algoliaCount: Int, _ searchString : String)->Void)?
     var productListDataWithRecipes : ((_ data : [Product] , _ searchString : String , _ recipes : [Recipe] , _ groceryA : [Grocery]? )->Void)?
     var groceryListData : ((_ data :  Dictionary<String, Array<Product>>  ,  _ searchString : String)->Void)?
     var NoResultForGrocery : (( _ searchString : String)->Void)?
@@ -498,7 +498,7 @@ class SuggestionsModelDataSource {
                         self.algoliaCurrentCallProductCount = newProducts.algoliaCount ?? -1
                     }
                     if let clouser = self.productListData {
-                        clouser(newProducts.products, searchString)
+                        clouser(newProducts.products, newProducts.algoliaCount ?? 0, searchString)
                     }
                 }else{
                     // TODO: Below ticket can be fix here.
@@ -511,7 +511,7 @@ class SuggestionsModelDataSource {
                     }else{
                         self.algoliaCurrentCallProductCount = newProducts.algoliaCount ?? -1
                         if let clouser = self.productListData {
-                            clouser(newProducts.products, searchString)
+                            clouser(newProducts.products, newProducts.algoliaCount ?? 0, searchString)
                         }
                     }
                 }
