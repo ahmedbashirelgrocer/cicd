@@ -64,7 +64,7 @@ class ActiveCartListingViewModel: ActiveCartListingViewModelType, ReusableTableV
     private var disposeBag = DisposeBag()
     
     // MARK: Initlizations
-    init(apiClinet: ElGrocerApi, analyticsEngine: AnalyticsEngineType = SegmentAnalyticsEngine(), latitude: Double, longitude: Double) {
+    init(apiClinet: ElGrocerApi, analyticsEngine: AnalyticsEngineType = SegmentAnalyticsEngine.instance, latitude: Double, longitude: Double) {
         self.apiClinet = apiClinet
         self.analyticsEngine = analyticsEngine
         self.latitude = latitude

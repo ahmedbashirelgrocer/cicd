@@ -19,7 +19,7 @@ public struct SDKLoginManager {
     // And on the base of this we are pushing User Registered or User Signed In events to Segment Analytics
     static var isUserRegistered: Bool = false
     
-    typealias CompletionHandler = (_ isSuccess: Bool, _ errorMessage: String) -> Void
+    typealias CompletionHandler = (_ isSuccess: Bool, _ errorMessage: String, _ errorCode: Int?) -> Void
     
 
     func loginFlowForSDK(_ completionHandler:@escaping CompletionHandler) {
@@ -36,21 +36,21 @@ public struct SDKLoginManager {
             FireBaseEventsLogger.setUserID(userProfile?.dbID.stringValue)
             UserDefaults.setUserLoggedIn(true)
             UserDefaults.setDidUserSetAddress(true)
-            completionHandler(true, "")
+            completionHandler(true, "", 0)
             return
         }
         
         //UserProfile.clearEntity()
         //DeliveryAddress.clearDeliveryAddressEntity()
         //DatabaseHelper.sharedInstance.clearDatabase(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        SDKManager.shared.logout() {
-            loginRegisterUser(launchOptions.accountNumber ?? "") { isSuccess, errorMessage in
+        SDKManager.shared.logout(shouldCallAPI: false) {
+            loginRegisterUser(launchOptions.accountNumber ?? "") { isSuccess, errorMessage, code  in
                 if isSuccess {
 //                    ElGrocerUtility.sharedInstance.logEventToFirebaseWithEventName("user_login")
 //                    FireBaseEventsLogger.trackSignIn()
                       SendBirdManager().createNewUserAndDeActivateOld()
                 }
-                completionHandler(isSuccess, errorMessage)
+                completionHandler(isSuccess, errorMessage, code)
             }
         }
     }
@@ -58,17 +58,17 @@ public struct SDKLoginManager {
     private func loginRegisterUser(_ phoneNumber: String, _ completionHandler: @escaping CompletionHandler) {
         
         ElGrocerApi.sharedInstance
-            .registerPhone(phoneNumber) { result, responseObject in
-                if result {
+            .registerPhone(phoneNumber) { error, responseObject in
+                if error == nil {
                     let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                     if (locations.count > 0 && locations[0].address.count > 0) {
                         self.updateProfileAndData(responseObject!)
                         ElGrocerUtility.sharedInstance.addDeliveryToServerWithBlock(locations) { (isResult, errorMsg) in
                             if isResult {
                                 UserDefaults.setDidUserSetAddress(true)
-                                completionHandler(true, "")
+                                completionHandler(true, "", 0)
                             }else {
-                                completionHandler(false, errorMsg)
+                                completionHandler(false, errorMsg, 0)
                             }
                         }
                     }else{
@@ -76,8 +76,8 @@ public struct SDKLoginManager {
                     }
                     
                 } else {
-                    let errorMessage = localizedString("login_error_alert", comment: "")
-                    completionHandler(false, errorMessage)
+                    let errorMessage = (error?.code == 4237 ? error?.message : nil) ?? localizedString("login_error_alert", comment: "")
+                    completionHandler(false, errorMessage, error?.code ?? 0)
                 }
             }
     }
@@ -113,12 +113,12 @@ public struct SDKLoginManager {
                     UserDefaults.setUserLoggedIn(true)
                     SDKLoginManager.isUserRegistered = false
                     
-                    completionHandler(true, "")
+                    completionHandler(true, "", 0)
                 }
     
             } else {
                 let errorMessage = localizedString("registration_error_alert", comment: "")
-                completionHandler(false, errorMessage)
+                completionHandler(false, errorMessage, 0)
             }
             
         })
@@ -142,13 +142,13 @@ public struct SDKLoginManager {
         newDeliveryAddress.isActive = NSNumber(value: true)
         newDeliveryAddress.addressType = "2"
         
-        self.addAddressFromDeliveryAddress(newDeliveryAddress, forUser: userProfile) { isSuccess, errorMessage in
+        self.addAddressFromDeliveryAddress(newDeliveryAddress, forUser: userProfile) { isSuccess, errorMessage, code  in
             if isSuccess {
                 UserDefaults.setDidUserSetAddress(true)
                 UserDefaults.setUserLoggedIn(true)
                 UserDefaults.setLogInUserID(userProfile.dbID.stringValue)
             }
-            completion(isSuccess, errorMessage)
+            completion(isSuccess, errorMessage, 0)
         }
     }
     
@@ -165,9 +165,9 @@ public struct SDKLoginManager {
                 let currentAddress = DeliveryAddress.insertOrUpdateDeliveryAddressForUser(forUser, fromDictionary: addressDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 _ = DeliveryAddress.setActiveDeliveryAddress(currentAddress, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 DatabaseHelper.sharedInstance.saveDatabase()
-                completionHandler(true, "")
+                completionHandler(true, "", 0)
             } else {
-                completionHandler(false, localizedString("registration_error_alert", comment: ""))
+                completionHandler(false, localizedString("registration_error_alert", comment: ""), 0)
             }
         }
     }

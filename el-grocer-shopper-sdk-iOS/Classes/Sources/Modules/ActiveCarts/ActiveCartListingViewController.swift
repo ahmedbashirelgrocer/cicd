@@ -29,7 +29,7 @@ class ActiveCartListingViewController: UIViewController {
         return emptyView!
     }()
     
-    static func make(viewModel: ActiveCartListingViewModelType, analyticsEventLogger: AnalyticsEngineType = SegmentAnalyticsEngine()) -> ActiveCartListingViewController {
+    static func make(viewModel: ActiveCartListingViewModelType, analyticsEventLogger: AnalyticsEngineType = SegmentAnalyticsEngine.instance) -> ActiveCartListingViewController {
         let vc = ActiveCartListingViewController(nibName: "ActiveCartListingViewController", bundle: .resource)
         vc.viewModel = viewModel
         vc.analyticsEventLogger = analyticsEventLogger

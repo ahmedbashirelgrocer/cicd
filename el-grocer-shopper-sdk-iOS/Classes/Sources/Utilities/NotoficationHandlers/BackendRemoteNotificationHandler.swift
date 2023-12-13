@@ -68,13 +68,9 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
         }
         
         if let customPageId:Int = notification[customPageId] as? Int, var storeId:Int = notification[storeId] as? Int  {
-            
-            if let store = HomePageData.shared.groceryA?.first(where: { $0.dbID == String(storeId) }) {
-                ElGrocerUtility.sharedInstance.activeGrocery = store
-            }else {
-                storeId = -1000
+            if let store = HomePageData.shared.groceryA?.first(where: { $0.dbID == String(storeId) }), let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                self.showCustomCampgin(storeId: storeId, customPageId: customPageId, currentAddressId: currentAddress.dbID)
             }
-            self.showCustomCampgin(storeId: storeId, customPageId: customPageId)
             return true
         }
         
@@ -206,17 +202,17 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
         
     }
     
-    fileprivate func showCustomCampgin(storeId : Int, customPageId : Int ) {
+    fileprivate func showCustomCampgin(storeId : Int, customPageId : Int, currentAddressId: String ) {
        
         Thread.OnMainThread {
             if let topVc = UIApplication.topViewController() {
                 if topVc is GroceryLoaderViewController {
                     ElGrocerUtility.sharedInstance.delay(2) {
-                        self.showCustomCampgin(storeId: storeId, customPageId: customPageId)
+                        self.showCustomCampgin(storeId: storeId, customPageId: customPageId, currentAddressId: currentAddressId)
                     }
                     return
                 }
-                let customVm = MarketingCustomLandingPageViewModel.init(storeId: String(storeId) , marketingId: String(customPageId ))
+                let customVm = MarketingCustomLandingPageViewModel.init(storeId: String(storeId) , marketingId: String(customPageId), addressId: currentAddressId)
                 let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
                 topVc.present(landingVC, animated: true)
             }

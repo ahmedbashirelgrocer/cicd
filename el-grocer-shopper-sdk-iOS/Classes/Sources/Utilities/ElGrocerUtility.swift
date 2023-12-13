@@ -69,34 +69,14 @@ class ElGrocerUtility {
     var eventMap : [String:TimeInterval]  = [:]
     
     var completeGroceries:[Grocery] = []
-    var groceries:[Grocery] = [] {
-        didSet {
-            elDebugPrint("groceryaseeee")
-            
-        }
-    }
+    var groceries:[Grocery] = []
     var activeGrocery:Grocery?  {
         didSet {
             if let notNilGrocery = activeGrocery {
                 if let name = notNilGrocery.name {
-                    // PushWooshTracking.trackStoreName(name)
+                    debugPrint("activeGrocery: \(name)")
                 }
-                let groceryId = Grocery.getGroceryIdForGrocery(notNilGrocery)
-                   // PushWooshTracking.trackStoreID(groceryId)
-                let parnetID = notNilGrocery.parentID.stringValue
-                   // PushWooshTracking.trackStoreParentID(parnetID)
             }
-             SDImageCache.shared.removeImage(forKey: promoTagLink, fromDisk: true)
-            elDebugPrint("activeGrocery: \(String(describing: activeGrocery?.dbID ?? ""))")
-            let dataS = self.cAndcRetailerList.map { (grocery) -> String in
-                return grocery.dbID
-            }
-            let groceryDelivery = self.groceries.map { (grocery) -> String in
-                return grocery.dbID
-            }
-            elDebugPrint("candc A activeGrocery: \(dataS))")
-            elDebugPrint("groceryDelivery A activeGrocery: \(groceryDelivery))")
-            
         }
     }
     

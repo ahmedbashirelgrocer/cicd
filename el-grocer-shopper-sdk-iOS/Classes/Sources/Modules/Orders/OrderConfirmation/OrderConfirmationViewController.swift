@@ -98,7 +98,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     @IBOutlet weak var orderStatusViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var addressDetailTopWithOrderStatusBottomConstraint: NSLayoutConstraint!
     
-    static func make(viewModel: OrderConfirmationViewModelType, analyticsEventLogger: AnalyticsEngineType = SegmentAnalyticsEngine()) -> OrderConfirmationViewController {
+    static func make(viewModel: OrderConfirmationViewModelType, analyticsEventLogger: AnalyticsEngineType = SegmentAnalyticsEngine.instance) -> OrderConfirmationViewController {
         let vc = ElGrocerViewControllers.orderConfirmationViewController()
         vc.viewModel = viewModel
         vc.analyticsEventLogger = analyticsEventLogger

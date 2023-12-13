@@ -21,7 +21,7 @@ class SettingViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet var lblversionNumber: UILabel!
     
-    static func make(viewModel: SettingViewModel, analyticsEventLogger: AnalyticsEngineType = SegmentAnalyticsEngine()) -> SettingViewController {
+    static func make(viewModel: SettingViewModel, analyticsEventLogger: AnalyticsEngineType = SegmentAnalyticsEngine.instance) -> SettingViewController {
         let vc = ElGrocerViewControllers.settingViewController()
         vc.viewModel = viewModel
         vc.analyticsEventLogger = analyticsEventLogger

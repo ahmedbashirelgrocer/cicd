@@ -31,6 +31,7 @@ enum EventParameterKeys {
     static let paymentMethodId      = "paymentMethodId"
     static let paymentMethodName    = "paymentMethodName"
     static let totalOrderAmount     = "totalOrderAmount"
+    static let grandTotal = "grandTotal"
     static let productId            = "productId"
     static let productName          = "productName"
     static let promoPrice           = "promoPrice"
@@ -100,7 +101,7 @@ enum EventParameterKeys {
     // Tabby
     static let amountPaidWithTabby  = "amountPaidWithTabby"
     static let isTabbyEnabled       = "isTabbyEnabled"
-    
+
     static let campaignId       = "campaignId"
     static let storeId       = "storeId"
     static let storeName       = "storeName"
