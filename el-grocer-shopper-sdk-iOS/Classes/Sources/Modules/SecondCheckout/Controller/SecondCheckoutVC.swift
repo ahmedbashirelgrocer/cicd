@@ -481,6 +481,7 @@ private extension SecondCheckoutVC {
     }
     
     func logOrderEditedOrCompletedEvent(order: Order?) {
+        self.viewModel.basketDataValue
         if (self.viewModel.getOrderId() != nil) {
             // Edit Completed Event
             SegmentAnalyticsEngine.instance.logEvent(event: EditOrderCompletedEvent(order: order, grocery: self.grocery))
@@ -489,7 +490,7 @@ private extension SecondCheckoutVC {
         } else {
             let orderCompletedEvent = OrderPurchaseEvent(
                 products: self.viewModel.getFinalisedProducts() ?? [],
-                grocery: self.grocery,
+                grocery: self.grocery, totalValue: self.viewModel.basketDataValue?.totalValue ?? 0.0,
                 order: order,
                 isWalletEnabled: viewModel.isElWalletEnabled(),
                 isSmilesEnabled: viewModel.isSmilesEnabled(),
