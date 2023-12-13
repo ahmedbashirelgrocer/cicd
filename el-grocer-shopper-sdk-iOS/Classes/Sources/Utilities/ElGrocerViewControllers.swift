@@ -649,6 +649,25 @@ class ElGrocerViewControllers {
     }
     
     
+    class func marketingCustomLandingPageViewController(_ viewModel: MarketingCustomLandingPageViewModel) -> MarketingCustomLandingPageViewController {
+        
+        let campaignPage: MarketingCustomLandingPageViewController = ElGrocerViewControllers.initializeControllerFromStoryboard("MarketingCustomLandingPage", storyboardControllerId: "MarketingCustomLandingPageViewController")
+        campaignPage.viewModel = viewModel
+        campaignPage.modalPresentationStyle = .fullScreen
+        return campaignPage
+    }
+    
+    class func marketingCustomLandingPageNavViewController(_ viewModel: MarketingCustomLandingPageViewModel) -> ElGrocerNavigationController {
+        
+        let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+        let campaignPage: MarketingCustomLandingPageViewController = ElGrocerViewControllers.marketingCustomLandingPageViewController(viewModel)
+        navigationController.viewControllers = [campaignPage]
+        navigationController.setLogoHidden(true)
+        navigationController.modalPresentationStyle = .fullScreen
+        return navigationController
+    }
+   
+    
 }
 
 

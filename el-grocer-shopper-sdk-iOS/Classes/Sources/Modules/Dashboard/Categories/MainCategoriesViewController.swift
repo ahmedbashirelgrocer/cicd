@@ -362,7 +362,10 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         
         // Logging Segment Event/Screen
         if self.grocery != nil && self.isSegmentEventLogged == false {
-            SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .storeScreen))
+            
+            var screen = ScreenRecordEvent(screenName: .storeScreen)
+            screen.metaData = [EventParameterKeys.storeName : self.grocery?.name ?? "", EventParameterKeys.storeId : self.grocery?.dbID ?? ""]
+            SegmentAnalyticsEngine.instance.logEvent(event: screen)
             self.isSegmentEventLogged = true
         }
         
@@ -670,7 +673,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.grocerySlotbasketWorkItem = DispatchWorkItem {
             self.getGroceryDeliverySlots()
         }
-        DispatchQueue.global(qos: .default).async(execute: self.grocerySlotbasketWorkItem!)
+        DispatchQueue.global(qos: .background).async(execute: self.grocerySlotbasketWorkItem!)
         
     }
     
@@ -1113,6 +1116,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     }
     
     fileprivate func showGroceryLoader( grocery: Grocery) {
+        
+     
         ElGrocerUtility.sharedInstance.delay(0.1) { [weak self] in
             guard let self = self else {return}
             self.needToLogScreenEvent = false
@@ -1722,6 +1727,10 @@ private extension MainCategoriesViewController {
                 productsVC.homeObj = Home("", withCategory: nil, products: [], self.grocery)
                 productsVC.grocery = self.grocery
                 self.navigationController?.pushViewController(productsVC, animated: true)
+            } else if category.customPage != nil {
+                let customVm = MarketingCustomLandingPageViewModel.init(storeId: self.grocery?.dbID ?? "", marketingId: String(category.customPage ?? 0))
+                let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
+                self.present(landingVC, animated: true)
             } else {
                 if ABTestManager.shared.storeConfigs.variant == .baseline {
                     self.selectedCategory = category.categoryDB
@@ -1865,7 +1874,7 @@ private extension MainCategoriesViewController {
             MixpanelEventLogger.trackStoreBannerClick(id: bannerCampaign.dbId.stringValue, title: bannerCampaign.title, tier: "1")
             break
             
-        case .priority, .retailer:
+        case .priority, .retailer, .customBanners:
             bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: ElGrocerUtility.sharedInstance.groceries)
             MixpanelEventLogger.trackStoreBannerClick(id: bannerCampaign.dbId.stringValue, title: bannerCampaign.title, tier: "1")
             break

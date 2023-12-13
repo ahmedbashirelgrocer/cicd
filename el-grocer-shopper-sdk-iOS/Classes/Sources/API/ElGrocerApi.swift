@@ -185,7 +185,8 @@ enum ElGrocerApiEndpoint : String {
     case openOrderDetail = "v1/orders/show/cnc_open_orders"
     
     // banner new api
-    case campaignAPi = "v1/campaigns" //https://elgrocerdxb.atlassian.net/browse/EG-584
+    case campaignAPi = "v2/campaigns"
+    case customCampaignAPi = "v1/custom_campaigns"
     //sab
     //case campaignProductsApi = "v1/campaigns/products"
     case campaignProductsApi = "v1/campaigns/products/list"
@@ -4774,6 +4775,56 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
 //            }
           }
       }
+      
+      func getCustomCategories(for location : BannerLocation,
+                      retailer_ids : [String]? = nil,
+                      store_type_ids : [String]? = nil,
+                      retailer_group_ids :  [String]? = nil,
+                      category_id : Int? = nil,
+                      subcategory_id : Int? = nil,
+                      brand_id : Int? = nil,
+                      search_input : String? = nil,
+                      completionHandler:@escaping (_ result: Either<[BannerCampaign]>) -> Void) {
+          
+          
+          
+          var elGrocerBanners: [BannerCampaign] = []
+          var fetchError: ElGrocerError?
+          let fetchGroup = DispatchGroup()
+          
+          fetchGroup.enter()
+          self.getBannersFor(location: location,
+                             retailer_ids: retailer_ids,
+                             store_type_ids: store_type_ids,
+                             retailer_group_ids: retailer_group_ids,
+                             category_id: category_id,
+                             subcategory_id: subcategory_id,
+                             brand_id: brand_id,
+                             search_input: search_input) { result in
+              AccessQueue.execute {
+                  switch result {
+                  case .success(let response):
+                      elGrocerBanners = BannerCampaign.getBannersFromResponse(response)
+                  case .failure(let error):
+                      fetchError = error
+                  }
+                  fetchGroup.leave()
+              }
+          }
+          
+          // 2
+          fetchGroup.notify(queue: DispatchQueue.main) {
+//            AccessQueue.execute {
+              if let error = fetchError {
+                  completionHandler(.failure(error))
+              } else {
+                  elGrocerBanners = elGrocerBanners.sorted(by: { $0.priority < $1.priority})
+                  completionHandler(.success(elGrocerBanners))
+              }
+//            }
+          }
+      }
+    
     
     fileprivate func getBannersFor( location : BannerLocation ,  retailer_ids : [String]? = nil , store_type_ids : [String]? = nil , retailer_group_ids :  [String]? = nil , category_id : Int? = nil , subcategory_id : Int? = nil , brand_id : Int? = nil , search_input : String? = nil ,  completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
         
@@ -4831,6 +4882,52 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
         }
         
     }
+      
+      
+      // MARK: custom campaigns
+      
+      //v1/custom_campaigns
+      
+    func getCustomCampaigns( customScreenId: String ,  completion:@escaping (_ result: Either<CampaignData>) -> Void) {
+          
+          setAccessToken()
+          var parameters = [String : AnyObject]()
+           if UserDefaults.isUserLoggedIn(){
+              let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+              parameters["shopper_id"] = userProfile?.dbID
+          }
+          parameters["custom_screen_id"] = customScreenId as AnyObject
+          NetworkCall.get(ElGrocerApiEndpoint.customCampaignAPi.rawValue, parameters: parameters, progress: { (progress) in
+              
+          }, success: { (operation,responseObject) in
+              
+              debugPrint("customApi Response: \(responseObject)")
+              do {
+                  if let rootJson = responseObject as? [String: Any] {
+                      let data = try JSONSerialization.data(withJSONObject: rootJson)
+                      let campaignResponse = try JSONDecoder().decode(CampaignResponse.self, from: data)
+                      completion(.success(campaignResponse.data))
+                      return
+                  }
+                  
+                  completion(.failure(ElGrocerError.parsingError()))
+              } catch {
+                  completion(.failure(ElGrocerError.parsingError()))
+              }
+              
+          }) { (operation  , error) in
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completion(Either.failure(errorToParse))
+              }
+          }
+        
+        
+        
+          
+      }
+      
+      
     
     
     func getOpenOrderDetails(  completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {

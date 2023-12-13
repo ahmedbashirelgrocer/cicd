@@ -131,6 +131,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
             
             self.viewModels.append(SectionModel(model: 1, items: self.categoriesCellVMs))
             
+            
             if self.recentPurchasedVM.isNotEmpty {
                 self.viewModels.append(SectionModel(model: 2, items: self.recentPurchasedVM))
             }
@@ -207,10 +208,12 @@ private extension MainCategoriesViewModel {
                         if let selectedSlot = deliverySlotsResponse.data.deliverySlots?.first, let deliveryTime = selectedSlot.timeMilli {
                             self.fetchCategories(deliveryTime: deliveryTime)
                             self.fetchPreviousPurchasedProducts(deliveryTime: deliveryTime)
+                            self.fetchCustomCatogires(for: BannerLocation.custom_campaign_shopper.getType())
                         } else {
                             let currentTime = Int(Date().getUTCDate().timeIntervalSince1970 * 1000)
                             self.fetchCategories(deliveryTime: currentTime)
                             self.fetchPreviousPurchasedProducts(deliveryTime: currentTime)
+                            self.fetchCustomCatogires(for: BannerLocation.custom_campaign_shopper.getType())
                         }
                         return
                     }
@@ -274,7 +277,8 @@ private extension MainCategoriesViewModel {
                 
                 if self.showProductsSection {
                     // TODO: Need to update the logic of for shopping list
-                    self.homeCellVMs = self.categories.filter { $0.id != -1 }.map({
+                
+                    self.homeCellVMs = self.categories.filter { $0.id != -1 && $0.customPage == nil }.map({
                         let viewModel = HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery)
                         
                         viewModel.outputs.viewAll
@@ -286,14 +290,16 @@ private extension MainCategoriesViewModel {
                         return viewModel
                     })
                 }
-                
                 self.dispatchGroup.leave()
+                // get custom compagin categories
+               
                 break
             case .failure(let error):
                 // TODO: Show error message
                 self.dispatchGroup.leave()
                 break
             }
+           
         }
     }
     
@@ -326,9 +332,51 @@ private extension MainCategoriesViewModel {
                     }
                 }
                 
-            case .failure(let error):
+            case .failure(let _):
                 break
             }
+        }
+    }
+    
+    func fetchCustomCatogires(for location: BannerLocation) {
+        
+        self.dispatchGroup.enter()
+       
+        // self.dispatchGroup.enter()
+        
+        let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map{ "\($0)" } ?? []
+        
+        self.apiClient.getCustomCategories(for: location,
+                                  retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)],
+                                  store_type_ids: storeTypes) { [weak self] result in
+            
+            guard let self = self else {  self?.dispatchGroup.leave(); return }
+        
+            switch result {
+            case .success(let response):
+                let banners = response.map { $0.toBannerDTO() }
+                guard banners.count > 0 else { self.dispatchGroup.leave(); return }
+                let customCategories = banners.map { $0.toCategoryDTO() }
+                
+                var index = 2
+                for category in customCategories {
+                    if index < self.categories.count {
+                        if category.customPage != nil { self.categories.insert(category, at: index) }
+                    }else {
+                        if category.customPage != nil { self.categories.append(category) }
+                    }
+                    index += 1
+                }
+                let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)
+                categoriesCellVM.outputs.viewAll.map { self.grocery }.bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
+                categoriesCellVM.outputs.tap.bind(to: self.categoryTapSubject).disposed(by: self.disposeBag)
+                self.categoriesCellVMs = [categoriesCellVM]
+                self.dispatchGroup.leave()
+            case .failure(let _):
+                self.dispatchGroup.leave()
+                break
+            }
+            
         }
     }
     

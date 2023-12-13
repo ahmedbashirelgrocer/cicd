@@ -883,10 +883,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType {
         // Messaging.messaging().delegate = self
     }
     
-    public func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
-        
-        
-    }
+    public func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {  }
     
     
     public func zendeskNotifcationHandling (_ requestID : String) {

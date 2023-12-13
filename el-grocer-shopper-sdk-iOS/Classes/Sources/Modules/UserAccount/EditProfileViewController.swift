@@ -373,8 +373,7 @@ extension EditProfileViewController : FPNTextFieldCustomDelegate {
 
     func fpnDidSelectCountry(name: String, dialCode: String, code: String) {
        elDebugPrint(name, dialCode, code) // Output "France", "+33", "FR"
-        ElGrocerUtility.sharedInstance.delay(0.5) { [unowned self] in
-        }
+        ElGrocerUtility.sharedInstance.delay(0.5) { [unowned self] in  }
         
     }
     func fpnDidValidatePhoneNumber(textField: FPNTextField, isValid: Bool) {

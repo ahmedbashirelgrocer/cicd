@@ -22,7 +22,13 @@ class BannerView: UIView {
             collectionView.reloadData()
         }
     }
-    var bannerType : BannerLocation? = .post_checkout
+    var bannerType : BannerLocation? = .post_checkout {
+        didSet {
+            if bannerType == .custom_campaign_shopper {
+                collectionView.isScrollEnabled = false
+            }
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -70,8 +76,14 @@ extension BannerView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCollectionViewCell.defaultIdentifier, for: indexPath) as! RxUICollectionViewCell
-        cell.configure(viewModel: BannerCellViewModel(banner: self.banners[indexPath.row]))
+        let cell: BannerCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCollectionViewCell.defaultIdentifier, for: indexPath) as! BannerCollectionViewCell
+        let banner = self.banners[indexPath.row]
+        cell.configure(viewModel: BannerCellViewModel(banner: banner))
+        if banner.campaignType == .customBanners {
+            cell.backgroundColor = .clear
+            cell.contentView.backgroundColor = .clear
+            cell.viewBannerWrapper.backgroundColor = .clear
+        }
         return cell
     }
 }
@@ -83,6 +95,9 @@ extension BannerView: UICollectionViewDelegateFlowLayout, UICollectionViewDelega
         }
         if type.getType() == .sdk_all_carts_tier_2  {
             return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.width * 0.19)
+        }else if type.getType() == .custom_campaign_shopper ||  type.getType() == .sdk_custom_campaign || type.getType() == .sdk_Flavor_custom_campaign {
+            let paddingSpace = 16 * 2.0
+            return CGSize(width: collectionView.bounds.width - paddingSpace  , height: collectionView.bounds.width * 0.32)
         }else {
             return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
         }
@@ -91,11 +106,20 @@ extension BannerView: UICollectionViewDelegateFlowLayout, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        guard let type = bannerType else { return 0}
+        if type.getType() == .custom_campaign_shopper ||  type.getType() == .sdk_custom_campaign || type.getType() == .sdk_Flavor_custom_campaign {
+            return 16
+        }
         return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        let zeroEdge = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        guard let type = bannerType else { return zeroEdge}
+        if type.getType() == .custom_campaign_shopper ||  type.getType() == .sdk_custom_campaign || type.getType() == .sdk_Flavor_custom_campaign {
+            return UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        }
+        return zeroEdge
     }
     
     

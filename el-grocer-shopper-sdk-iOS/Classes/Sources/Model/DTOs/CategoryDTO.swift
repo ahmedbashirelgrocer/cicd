@@ -29,14 +29,20 @@ struct CategoryDTO: Codable {
     let pg18: Bool? // ask backend for type of this
     let photoUrl: String?
     let slug: String?
+    let customPage: Int?
+    
     
     let messageAr: String?
     let nameAr: String?
     var categoryDB: Category? = nil
+    var algoliaQuery: String?
+    var bgColor: String? = nil
+    
     
     enum CodingKeys: String, CodingKey {
         case id
         case name
+        case algoliaQuery
         case coloredImageUrl = "colored_img_url"
         case description
         case isFood = "is_food"
@@ -47,7 +53,49 @@ struct CategoryDTO: Codable {
         case slug
         case nameAr = "name_ar"
         case messageAr = "message_ar"
+        case customPage = "customPage"
     }
+    
+    init(id: Int, name: String?, algoliaQuery: String?, nameAr: String?, bgColor: String? ) {
+        self.id = id
+        self.name = name
+        self.algoliaQuery = algoliaQuery
+        self.nameAr = nameAr
+        self.bgColor = bgColor
+        self.coloredImageUrl = nil
+        self.description = nil
+        self.isFood = nil
+        self.isShowBrand = nil
+        self.message = nil
+        self.pg18 = nil
+        self.photoUrl = nil
+        self.slug = nil
+        self.messageAr = nil
+        self.customPage = nil
+        self.categoryDB = nil
+       
+        
+    }
+    
+    init(id: Int, name: String?, coloredImageUrl: String?, description: String?, isFood: Bool?, isShowBrand: Bool?, message: String?, pg18: Bool?, photoUrl: String?, slug: String?, customPage: Int?, messageAr: String?, nameAr: String?, categoryDB: Category? = nil, algoliaQuery: String? = nil) {
+        self.id = id
+        self.name = name
+        self.coloredImageUrl = coloredImageUrl
+        self.description = description
+        self.isFood = isFood
+        self.isShowBrand = isShowBrand
+        self.message = message
+        self.pg18 = pg18
+        self.photoUrl = photoUrl
+        self.slug = slug
+        self.customPage = customPage
+        self.messageAr = messageAr
+        self.nameAr = nameAr
+        self.categoryDB = categoryDB
+        self.algoliaQuery = algoliaQuery
+        self.bgColor = nil
+    }
+    
 }
 
 extension CategoryDTO {
@@ -116,6 +164,9 @@ extension CategoryDTO {
         
         self.coloredImageUrl = nil
         self.description = nil
+        
+        self.customPage = dic["custom_screen_id"] as? Int
+        self.bgColor =  dic["bgColor"] as? String
     }
 }
 
@@ -135,6 +186,7 @@ extension CategoryDTO {
         self.slug = nil
         self.nameAr = nil
         self.messageAr = nil
+        self.customPage = nil
     }
 }
 

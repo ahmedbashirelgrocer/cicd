@@ -50,7 +50,7 @@ class StoresCategoriesCollectionViewCellViewModel: StoresCategoriesCollectionVie
     init(category: CategoryDTO) {
         self.category = category
         
-        self.categoryNameSubject.onNext(category.name)
+         categoryNameSubject.onNext(category.name)
         self.coloredImageUrlSubject.onNext(category.coloredImageUrl)
         
         if category.photoUrl?.contains("http") == false {

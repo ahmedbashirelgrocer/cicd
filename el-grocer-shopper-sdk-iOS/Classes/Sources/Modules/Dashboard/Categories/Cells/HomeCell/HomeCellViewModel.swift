@@ -23,6 +23,8 @@ protocol HomeCellViewModelOuput {
     var viewAll: Observable<CategoryDTO?> { get }
     var isArabic: Observable<Bool> { get }
     var viewAllText: Observable<String> { get }
+    var bgColor: Observable<UIColor> { get }
+    var viewAllHidden: Observable<Bool> { get }
     var productCount: Observable<Int> { get }
 }
 
@@ -48,10 +50,12 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     var productCollectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { self.productCollectionCellViewModelsSubject.asObservable() }
     var scroll: Observable<Void> { self.fetchProductsSubject.asObservable() }
     var title: Observable<String?> { self.titleSubject.asObservable() }
+    var bgColor: Observable<UIColor> { self.bgColorSubject.asObserver() }
     var basketUpdated: Observable<Void> { basketUpdatedSubject.asObservable() }
     var viewAll: Observable<CategoryDTO?> { viewAllSubject.map { self.category }.asObservable() }
     var isArabic: Observable<Bool> { isArabicSubject.asObserver() }
     var viewAllText: Observable<String> { viewAllTextSubject.asObservable() }
+    var viewAllHidden: Observable<Bool> { viewAllHiddenSubject.asObserver() }
     var productCount: Observable<Int> { productCountSubject.asObservable() }
     
     // MARK: Subjects
@@ -62,6 +66,8 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     private let viewAllSubject = PublishSubject<Void>()
     private var isArabicSubject = BehaviorSubject<Bool>(value: ElGrocerUtility.sharedInstance.isArabicSelected())
     private var viewAllTextSubject = BehaviorSubject<String>(value: localizedString("view_more_title", bundle: .resource, comment: ""))
+    private var viewAllHiddenSubject = BehaviorSubject<Bool>(value: false)
+    private var bgColorSubject = BehaviorSubject<UIColor>(value: UIColor.clear)
     private var refreshProductCellSubject = PublishSubject<Void>()
     private var productCountSubject = BehaviorSubject<Int>(value: 1) // passing non-zero value to make the the height for shimmer
     
@@ -77,6 +83,33 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
     private var productCellVMs: [ProductCellViewModel] = []
     private var dispatchWorkItem: DispatchWorkItem?
     
+    
+    
+    
+    init(forDynamicPage apiClient: ElGrocerApi = ElGrocerApi.sharedInstance, algoliaAPI: AlgoliaApi = AlgoliaApi.sharedInstance, deliveryTime: Int, category: CategoryDTO?, grocery: Grocery?, _ startFetching: Bool = true) {
+        self.apiClient = apiClient
+        self.grocery = grocery
+        self.deliveryTime = deliveryTime
+        self.category = category
+        
+        self.titleSubject.onNext(category?.name)
+        self.fetchProductsSubject.asObserver().subscribe(onNext: { [weak self] category in
+            guard let self = self, let category = self.category else { return }
+            if !self.isLoading && self.moreAvailable {
+                self.fetchProduct(category: category)
+                self.isLoading = true
+            }
+        }).disposed(by: disposeBag)
+        
+        self.fetchProductsSubject.onNext(())
+        self.viewAllSubject.onNext(())
+        self.bgColorSubject.onNext(UIColor.colorWithHexString(hexString: self.category?.bgColor ?? ""))
+        self.viewAllHiddenSubject.onNext(true)
+       
+    }
+    
+    
+    
     init(apiClient: ElGrocerApi = ElGrocerApi.sharedInstance, algoliaAPI: AlgoliaApi = AlgoliaApi.sharedInstance, deliveryTime: Int, category: CategoryDTO?, grocery: Grocery?) {
         self.apiClient = apiClient
         self.grocery = grocery
@@ -86,7 +119,6 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
         self.titleSubject.onNext(category?.name)
         self.fetchProductsSubject.asObserver().subscribe(onNext: { [weak self] category in
             guard let self = self, let category = self.category else { return }
-            
             if !self.isLoading && self.moreAvailable {
                 self.fetchProduct(category: category)
                 self.isLoading = true
@@ -100,7 +132,6 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
         
         let productCellViewModels = products.map { productDTO -> ProductCellViewModel in
             let viewModel = ProductCellViewModel(product: productDTO, grocery: grocery)
-        
             viewModel.outputs.basketUpdated.bind(to: self.basketUpdatedSubject).disposed(by: disposeBag)
             refreshProductCellSubject.asObservable().bind(to: viewModel.inputs.refreshDataObserver).disposed(by: disposeBag)
             return viewModel
@@ -133,7 +164,7 @@ private extension HomeCellViewModel {
                 ])
             }
             
-            if let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia == false {
+            if let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia == false, category.algoliaQuery == nil {
                 ProductBrowser.shared.getTopSellingProductsOfGrocery(parameters, true) { result in
                     switch result {
                     case .success(let response):
@@ -150,6 +181,19 @@ private extension HomeCellViewModel {
             let storeId = ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)
             
             let pageNumber = self.offset / self.limit
+            
+            guard self.category?.algoliaQuery == nil else {
+                if let query = self.category?.algoliaQuery {
+                    // for algolia query set limit to 20
+                    self.limit = 20
+                    ProductBrowser.shared.searchWithQuery(query:query, pageNumber: pageNumber, self.limit) { [weak self] content, error in
+                        if let _ = error {  return }
+                        guard let response = content else { return }
+                        self?.handleAlgoliaSuccessResponse(response: response)
+                    }
+                }
+                return
+            }
             
             guard category.id > 1 else {
                 ProductBrowser.shared.searchOffersProductListForStoreCategory(storeID: storeId, pageNumber: pageNumber, hitsPerPage: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsStorePage ?? 20, Int64(deliveryTime), slots: ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.sponsoredSlotsStorePage ?? 3) { [weak self] content, error in
@@ -190,11 +234,6 @@ private extension HomeCellViewModel {
             refreshProductCellSubject.asObservable().bind(to: vm.inputs.refreshDataObserver).disposed(by: disposeBag)
             return vm
         }
-        
-        if products.algoliaCount == 0{
-            debugPrint("")
-        }
-        
         // this check ensure that the first call products is zero
         if offset == 0 {
             self.productCountSubject.onNext(products.algoliaCount ?? products.products.count)

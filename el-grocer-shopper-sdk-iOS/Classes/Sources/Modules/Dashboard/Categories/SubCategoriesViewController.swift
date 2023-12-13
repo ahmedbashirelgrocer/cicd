@@ -329,6 +329,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         
         
         self.superSectionHeader   = (Bundle.resource.loadNibNamed("SubCateSegmentTableViewHeader", owner: self, options: nil)![0] as? SubCateSegmentTableViewHeader)!
+        self.superSectionHeader.frame = CGRect.init(origin: .zero, size: CGSize.init(width: ScreenSize.SCREEN_WIDTH , height: getSegmentHeaderHeight()))
         self.superSectionHeader.segmenntCollectionView.segmentDelegate = self
         self.superSectionHeader.viewLayoutCliced = { [weak self ] () in
             guard let self = self else {return}

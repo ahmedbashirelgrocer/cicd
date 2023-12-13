@@ -2341,3 +2341,6 @@ Oreo";
 "eg_msg_selected_location_not_covering" = "Selected location for that store is outside delivery area range. What would you like to do?";
 "recipe_title_home" = "👨‍🍳 Recipes";
 
+// custom landing page
+
+"eg_No_Campgin_Found" = "Ooops.. this is awkward. the page is empty but should be filled with beautiful stuff";

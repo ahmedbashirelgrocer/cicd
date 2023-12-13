@@ -135,6 +135,12 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.refreshLogoView()
             controller.navigationBar.topItem?.title = ""
         }
+        
+        
+//        let customVm = MarketingCustomLandingPageViewModel.init(storeId: "16", marketingId: "66")
+//        let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
+//        self.present(landingVC, animated: true)
+      
     }
     
         // MARK: - UI Customization
@@ -730,6 +736,10 @@ extension SmileSdkHomeVC {
                     bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: self.groceryArray)
                 })
                 break
+            case .customBanners:
+                activeCartVC?.dismiss(animated: true, completion: {
+                    bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
+                })
             }
             
         }).disposed(by: disposeBag)

@@ -13,6 +13,7 @@ enum BannerCampaignType : Int, Codable {
     case retailer = 2
     case web = 3
     case priority = 4
+    case customBanners = 50
 }
 
 enum BannerLocation : Int, Decodable {
@@ -26,6 +27,7 @@ enum BannerLocation : Int, Decodable {
     case subCategory_tier_1 = 7
     case all_carts_tier_1 = 26
     case in_search_product = 50 // Same for all
+    case custom_campaign_shopper = 41
     
     // sdk
     case sdk_Home_tier_1 = 17
@@ -38,6 +40,7 @@ enum BannerLocation : Int, Decodable {
     case sdk_subcategory_tier_2 = 24
     case sdk_search_tier_2 = 25
     case sdk_all_carts_tier_2 = 27
+    case sdk_custom_campaign = 43
     
     
     // single Store Grocery
@@ -48,6 +51,7 @@ enum BannerLocation : Int, Decodable {
     case sdk_Flavor_Grocery_subcategory_tier_1 = 32
     case sdk_Flavor_Grocery_subcategory_tier_2 = 33
     case sdk_Flavor_Grocery_post_checkout = 34
+    case sdk_Flavor_custom_campaign = 42
    
     private static var retailerBannersSet: Set<BannerLocation> = [
         .home_tier_1,
@@ -67,7 +71,14 @@ enum BannerLocation : Int, Decodable {
             
         .post_checkout,
         .sdk_post_checkout,
-        .sdk_Flavor_Grocery_post_checkout
+        .sdk_Flavor_Grocery_post_checkout,
+//        
+//        .custom_campaign_shopper,
+//        .sdk_custom_campaign,
+//        .sdk_Flavor_custom_campaign
+//        
+        
+    
     ]
     
     var isNeedToFetchRetailerBanner: Bool { Self.retailerBannersSet.contains(self) }
@@ -136,6 +147,12 @@ enum BannerLocation : Int, Decodable {
                 case .grocerySingleStore: return self
                 case .marketPlace: return BannerLocation.sdk_all_carts_tier_2
                 case .shopper: return BannerLocation.all_carts_tier_1
+            }
+        } else if self == .custom_campaign_shopper {
+            switch marketType {
+                case .grocerySingleStore: return BannerLocation.sdk_Flavor_custom_campaign
+                case .marketPlace: return BannerLocation.sdk_custom_campaign
+                case .shopper: return BannerLocation.custom_campaign_shopper
             }
         } else {
             return self
@@ -207,6 +224,7 @@ class BannerCampaign: NSObject {
     var retailerGroups  : [Int]? = nil
     var resolvedBidId: String?
     var bannerType: bannerType = .product
+    var customCampaignId: Int? = nil
     
     var isViewed = false
     
@@ -265,7 +283,7 @@ class BannerCampaign: NSObject {
         banner.locations = bannerDict["locations"] as? [Int] ?? []
         banner.storeTypes = bannerDict["store_types"] as? [Int] ?? []
         banner.retailerGroups = bannerDict["retailer_groups"] as? [Int] ?? []
-      
+        banner.customCampaignId =  bannerDict["custom_screen_id"] as? Int ?? nil
         return banner
     }
 
@@ -357,6 +375,17 @@ class BannerCampaign: NSObject {
     }
     
     func actionForBanner (currentActive : Grocery) {
+        
+        
+        if self.customCampaignId != nil {
+            let customVm = MarketingCustomLandingPageViewModel.init(storeId: currentActive.dbID, marketingId: String(self.customCampaignId ?? -1))
+                    let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
+            Thread.OnMainThread {
+                if let topVc = UIApplication.topViewController() {
+                    topVc.present(landingVC, animated: true)
+                }
+            }
+        }
         
         if self.campaignType.intValue == BannerCampaignType.brand.rawValue {
             ElGrocerUtility.sharedInstance.delay(1) {
@@ -548,7 +577,9 @@ extension BannerCampaign {
                                retailerIDS: self.retailerIds,
                                locations: self.locations,
                                storeTypes: self.storeTypes,
-                               retailerGroups: self.retailerGroups)
+                               retailerGroups: self.retailerGroups,
+                               customScreenId: self.customCampaignId,
+                               resolvedBidId: self.resolvedBidId)
         return banner
     }
 }

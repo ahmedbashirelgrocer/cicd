@@ -8,6 +8,7 @@
 import Foundation
 
 enum ScreenName: String {
+    
     case splashScreen            = "Splash Screen"
     case phoneVerificationScreen = "Phone Number Verifciation Screen" // need to confirm the trigger point of this event
     case otpScreen               = "OTP Screen"
@@ -28,6 +29,6 @@ enum ScreenName: String {
     case orderListingScreen      = "Order List Screen"
     case elWalletScreen          = "elWallet Screen"
     case transactionHistoryScreen = "Transaction History Screen"
-     
+    case customMarketingCampaign = "Custom Marketing Campaign"
     
 }

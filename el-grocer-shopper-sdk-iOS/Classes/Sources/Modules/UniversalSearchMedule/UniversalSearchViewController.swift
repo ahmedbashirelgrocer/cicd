@@ -1012,8 +1012,8 @@ extension UniversalSearchViewController : UICollectionViewDelegate , UICollectio
             
             if let banner = combineProductsBanners[indexPath.row] as? BannerCampaign {
                 if banner.bannerType == .thin {
-                    cellSize.width = ScreenSize.SCREEN_WIDTH
-                    cellSize.height = cellSize.width  / 9.375
+                    cellSize.width = ScreenSize.SCREEN_WIDTH //375
+                    cellSize.height = cellSize.width  / 9.375 //40 375:40
                 }
             }
             return cellSize

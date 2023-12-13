@@ -422,15 +422,49 @@ class ElgrocerlocationView:  UIView  {
                
                 
             }else{
-                elDebugPrint("")
+                
+                if let jsonSlot = grocery.initialDeliverySlotData {
+                   if let dict = grocery.convertToDictionary(text: jsonSlot) {
+                       let slotString = DeliverySlotManager.getStoreGenericSlotFormatterTimeStringWithDictionarySpecialityMarket(dict, isDeliveryMode: grocery.isDelivery.boolValue)
+                       setDeliveryDate(slotString)
+                       return
+                   }
+               }
                 self.lblSlot.text = localizedString("no_slots_available", comment: "")
                 self.hideSlotImage(true)
+               
             }
         }else{
              self.lblSlot.text = localizedString("no_slots_available", comment: "")
             self.hideSlotImage(true)
         }
     }
+    
+    func setDeliveryDate (_ data : String) {
+        
+        
+        let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+        let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
+        
+        
+        let dataA = data.components(separatedBy: CharacterSet.newlines)
+        if dataA.count == 1 {
+            if self.lblSlot.text?.count ?? 0 > 13 {
+                 let attributedString1 = NSMutableAttributedString(string: dataA[0], attributes:attrs1 as [NSAttributedString.Key : Any])
+                 self.lblSlot.attributedText = attributedString1
+                return
+            }
+        }
+        let attributedString1 = NSMutableAttributedString(string:dataA[0], attributes:attrs1 as [NSAttributedString.Key : Any])
+        let timeText = dataA.count > 1 ? dataA[1] : ""
+        let attributedString2 = NSMutableAttributedString(string:" \(timeText)", attributes:attrs2 as [NSAttributedString.Key : Any])
+        attributedString1.append(attributedString2)
+        self.lblSlot.attributedText = attributedString1
+        self.lblSlot.minimumScaleFactor = 0.5;
+        
+    }
+    
     
     func setAttributedValueForSlotOnMainThread(_ attributedString : NSMutableAttributedString) {
         

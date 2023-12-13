@@ -22,11 +22,13 @@ struct BannerDTO: Codable {
     let locations: [Int]?
     let storeTypes: [Int]?
     let retailerGroups: [Int]?
-    
+    let customScreenId: Int? 
     var resolvedBidId: String?
+    
     
     enum CodingKeys: String, CodingKey {
         case id, name, priority
+        case customScreenId = "custom_screen_id"
         case campaignType = "campaign_type"
         case imageURL = "image_url"
         case bannerImageURL = "banner_image_url"
@@ -36,4 +38,13 @@ struct BannerDTO: Codable {
         case storeTypes = "store_types"
         case retailerGroups = "retailer_groups"
     }
+}
+
+extension BannerDTO {
+    
+    func toCategoryDTO () -> CategoryDTO {
+        return CategoryDTO(id: self.id ?? -2, name: self.name, coloredImageUrl: self.imageURL ?? self.bannerImageURL, description: nil, isFood: nil, isShowBrand: nil, message: nil, pg18: nil, photoUrl: self.imageURL ?? self.bannerImageURL, slug: nil, customPage: self.customScreenId ?? nil, messageAr: nil, nameAr: self.name,algoliaQuery: nil)
+    }
+    
+    
 }

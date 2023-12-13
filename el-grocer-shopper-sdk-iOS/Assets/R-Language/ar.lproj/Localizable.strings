@@ -1750,6 +1750,7 @@
 "lbl_delivery_feedback_Q4_A3" = "أغلى قليلًا 😱";
 "btn_feedback_send_title" = "إرسال";
 //MARK: recipee screen
+"recipe_title_home" = "👨‍🍳 Recipes";
 "search_Field_PlaceHolder" = "...بحث الوصفة";
 "title_recipe_list" = "متجر الوصفات";
 "title_no_Recipe_Found" = "لم يتم العثور على الوصفة";
@@ -2392,4 +2393,8 @@
 "eg_detecting_location" = "البحث عن العنوان";
 "eg_address_nick_name_address" = "أدخل اسم مميز للعنوان، المنزل/العمل*";
 "eg_msg_selected_location_not_covering" = "الموقع المحدد لا يغطي التوصيل من هذا المتجر وسيتم مسح سلة تسوقك. هل تريد تغيير الموقع؟";
-"recipe_title_home" = "👨‍🍳 Recipes";
+
+
+// custom landing page
+"eg_No_Campgin_Found" = "عفوا.. يؤسفنا أن الصفحة فارغة ولكن يجب أن تكون مليئة بالأشياء الجميلة";
+
