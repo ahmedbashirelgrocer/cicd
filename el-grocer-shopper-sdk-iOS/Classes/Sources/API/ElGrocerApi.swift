@@ -1577,9 +1577,9 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
   setAccessToken()
   
   var parameters = [String : AnyObject]()
-
-  if let category = parentCategory {
-  parameters["parent_id"] = category.dbID.intValue as AnyObject
+          
+  if let categoryID = parentCategory?.dbID.intValue, categoryID > 0 {
+     parameters["parent_id"] = categoryID as AnyObject
   }
   
   if let groc = grocery {
