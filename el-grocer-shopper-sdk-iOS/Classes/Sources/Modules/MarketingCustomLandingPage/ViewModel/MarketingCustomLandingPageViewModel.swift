@@ -44,6 +44,7 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     // MARK: Inputs
     var cellSelectedObserver: AnyObserver<DynamicComponentContainerCellViewModel> { cellSelectedSubject.asObserver() }
     var filterUpdateIndexObserver: AnyObserver<Int> { filterUpdateIndexSubject.asObserver() }
+    
     // MARK: Outputs
     var loading: Observable<Bool> { loadingSubject.asObservable() }
     var error: Observable<ElGrocerError> { errorSubject.asObservable() }
@@ -56,11 +57,11 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     var filterArrayData: Observable<[Filter]> { filterArrayDataSubject.asObservable() }
     var selectedgrocery: Observable<Grocery?> { grocerySubject.asObservable() }
     var refreshBasketSubject = BehaviorSubject<Void>(value: ())
+    
     // MARK: Subjects
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private let errorSubject = PublishSubject<ElGrocerError>()
     private let showEmptyViewSubject = PublishSubject<Void>()
-    var basketUpdatedSubject = PublishSubject<Void>()
     private var cellViewModelsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
     private let cellSelectedSubject = PublishSubject<DynamicComponentContainerCellViewModel>()
     private let filterUpdateIndexSubject = PublishSubject<Int>()
@@ -74,7 +75,9 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     private var marketingId: String
     private var apiClient: ElGrocerApi?
     private var grocery: Grocery?
+    private let isArabic : Bool = ElGrocerUtility.sharedInstance.isArabicSelected()
             let tableviewVmsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
+            var basketUpdatedSubject = PublishSubject<Void>()
     
     init(storeId: String, marketingId: String,addressId: String,_ apiClient: ElGrocerApi? = ElGrocerApi.sharedInstance ,_ analyticsEngine: AnalyticsEngineType = SegmentAnalyticsEngine.instance) {
         
@@ -99,13 +102,19 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     }
     
     func viewDidAppearCalled() {
+        defer {
+            self.logScreenViewEvents()
+        }
         guard self.grocery != nil else { return }
         ElGrocerUtility.sharedInstance.activeGrocery = self.grocery
-        
+        self.basketUpdatedSubject.onNext(())
+    
+    }
+    
+    private func logScreenViewEvents() {
         var screen = ScreenRecordEvent(screenName: .customMarketingCampaign)
         screen.metaData = [EventParameterKeys.campaignId : self.marketingId, EventParameterKeys.storeId : self.storeId]
         self.analyticsEngine.logEvent(event: ScreenRecordEvent(screenName: .customMarketingCampaign))
-        
     }
     
     private func bindComponents() {
@@ -150,8 +159,18 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
             })
             .disposed(by: disposeBag)
     }
+    
+    func refreshTableView() {
+        do {
+            let lastValue = try self.cellViewModelsSubject.value()
+            self.cellViewModelsSubject.onNext(lastValue)
+           
+        } catch {  print("Error: \(error.localizedDescription)")  }
+    }
 }
 extension MarketingCustomLandingPageViewModel {
+    
+    // MARK: View Components Update
     
     private func fetchViews() {
         
@@ -173,142 +192,18 @@ extension MarketingCustomLandingPageViewModel {
             }
         }
     }
-    
-    func getBasketFromServerWithGrocery(_ grocery:Grocery?){
-        
-        guard UserDefaults.isUserLoggedIn() else {return}
-        apiClient?.fetchBasketFromServerWithGrocery(grocery) { (result) in
-            switch result {
-                case .success(let responseDict):
-                    self.saveResponseData(responseDict, andWithGrocery: grocery)
-                case .failure(let error):
-                   elDebugPrint("Fetch Basket Error:%@",error.localizedMessage)
-            }
-        }
-    }
-    
-    // MARK: Basket Data
-    func saveResponseData(_ responseObject:NSDictionary, andWithGrocery grocery:Grocery?) {
-    
-        ElGrocerUtility.sharedInstance.basketFetchDict[(grocery?.dbID)!] = true
-        let shopperCartProducts = responseObject["data"] as! [NSDictionary]
-        Thread.OnMainThread {
-            if(shopperCartProducts.count > 0) {
-                let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-                context.performAndWait {
-                    ShoppingBasketItem.clearActiveGroceryShoppingBasket(context)
-                }
-            }
-            var productA : [Dictionary<String, Any>] = [Dictionary<String, Any>]()
-            for responseDict in shopperCartProducts {
-                if let productDict =  responseDict["product"] as? NSDictionary {
-                    let quantity = responseDict["quantity"] as! Int
-                    productA.append( ["product_id": productDict["id"] as Any   , "quantity": quantity])
-                    let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-                    let product = Product.createProductFromDictionary(productDict, context: context)
-                    if let brandDict = productDict["brand"] as? NSDictionary {
-                        
-                        let brandId = brandDict["id"] as! Int
-                        let brandName = brandDict["name"] as? String
-                        let brandImage = brandDict["image_url"] as? String
-                        
-                        let brand = DatabaseHelper.sharedInstance.insertOrReplaceObjectForEntityForName(BrandEntity, entityDbId: brandId as AnyObject, keyId: "dbID", context: context) as! Brand
-                        brand.name = brandName
-                        brand.imageUrl = brandImage
-                        
-                        product.brandId = brand.dbID
-                        
-                        let brandSlugName = brandDict["slug"] as? String
-                        brand.nameEn = brandSlugName
-                        product.brandNameEn = brand.nameEn
-                        
-                    }
-                    
-                    ShoppingBasketItem.addOrUpdateProductInBasket(product, grocery: grocery, brandName: nil, quantity: quantity, context: context, orderID: nil, nil , false)
-                }
-            }
-            DispatchQueue.main.async(execute: {
-                self.refreshBasketSubject.onNext(())
-            })
-        }
-      
-    }
-    
-    
-    
+   
     private func showEmptyViewWithDelay() {
         let observableValue = Observable.just(())
         observableValue
-            .delay(.seconds(2), scheduler: MainScheduler.instance) // Adjust the delay duration as needed
+            .delay(.seconds(2), scheduler: MainScheduler.instance)
             .subscribe(onNext: { _ in
                 self.showEmptyViewSubject.onNext(())
                 self.loadingSubject.onNext(false)
             })
             .disposed(by: disposeBag)
     }
-    
-   /* private func updateUI(with components: [CampaignSection]) {
-        
-        var sortedComponents = components
-        sortedComponents.sort(by: {$0.priority < $1.priority})
-        
-        let componetFilterA = sortedComponents.filter({ $0.sectionName != .backgroundBannerImage})
-        if let backGroundBanner = sortedComponents.first(where: { $0.sectionName == .backgroundBannerImage}) {
-               self.tableViewBackGroundSubject.onNext(backGroundBanner)
-        }
-    
-        var viewModel : [SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>] = []
-        
-            for (sectionIndex, componentSection) in componetFilterA.enumerated() {
-                switch componentSection.sectionName {
-                case .bannerImage:
-                    let bannerVM = RxBannersViewModel(component: componentSection)
-                    viewModel.append(SectionHeaderModel(model: sectionIndex, header: "" , items: [bannerVM]))
-                case .topDeals:
-                    let homeCellVM = HomeCellViewModel(forDynamicPage: ElGrocerApi.sharedInstance, algoliaAPI: AlgoliaApi.sharedInstance, deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000), category: CategoryDTO(id: componentSection.id, name: componentSection.title, algoliaQuery: componentSection.query, nameAr: componentSection.titleAr, bgColor : componentSection.backgroundColor), grocery: self.grocery)
-                    homeCellVM.outputs.basketUpdated.subscribe { _ in
-                        self.basketUpdatedSubject.onNext(())
-                    }.disposed(by: disposeBag)
-                    viewModel.append(SectionHeaderModel(model: sectionIndex, header: "" , items: [homeCellVM]))
-                case .backgroundBannerImage:
-                    break
-                case .productsOnly:
-                    let collectionViewOnlyTableViewCellVM = RxCollectionViewOnlyTableViewCellViewModel.init(deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000), category:  CategoryDTO(id: componentSection.id, name: componentSection.title, algoliaQuery: componentSection.query, nameAr: componentSection.titleAr, bgColor : componentSection.backgroundColor), grocery: self.grocery, component: componentSection)
-                    collectionViewOnlyTableViewCellVM.basketUpdated.subscribe { _ in
-                        self.basketUpdatedSubject.onNext(())
-                    }.disposed(by: disposeBag)
-                    viewModel.append(SectionHeaderModel(model: sectionIndex, header: "" , items: [collectionViewOnlyTableViewCellVM]))
-                case .categorySection:
-                    let collectionViewOnlyTableViewCellVM = RxCollectionViewOnlyTableViewCellViewModel.init(deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000), category:  CategoryDTO(id: componentSection.id, name: componentSection.title, algoliaQuery: componentSection.query, nameAr: componentSection.titleAr, bgColor : componentSection.backgroundColor), grocery: self.grocery, component: componentSection)
-                    collectionViewOnlyTableViewCellVM.basketUpdated.subscribe { _ in
-                        self.basketUpdatedSubject.onNext(())
-                    }.disposed(by: disposeBag)
-                    viewModel.append(SectionHeaderModel(model: sectionIndex, header: componentSection.title ?? "" , items: [collectionViewOnlyTableViewCellVM]))
-                case .subcategorySection:
-                    if let filters = componentSection.filters?.sorted(by: { $0.priority ?? 0 < $1.priority ?? 0 }) {
-                        self.filterArrayDataSubject.onNext(filters)
-                        var filterVms : [ReusableTableViewCellViewModelType] = []
-                        var id = 1
-                        for filerObj in filters {
-                            if filerObj.type == -1 {}
-                            else {
-                                let filterVm = HomeCellViewModel(forDynamicPage: ElGrocerApi.sharedInstance, algoliaAPI: AlgoliaApi.sharedInstance, deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000), category: CategoryDTO(id: id, name: filerObj.name, algoliaQuery: filerObj.query, nameAr: filerObj.nameAR, bgColor : componentSection.backgroundColor), grocery: self.grocery)
-                                filterVm.outputs.basketUpdated.subscribe { _ in
-                                    self.basketUpdatedSubject.onNext(())
-                                }.disposed(by: disposeBag)
-                                filterVms.append(filterVm)
-                                id += 1
-                            }
-                        }
-                        viewModel.append(SectionHeaderModel(model: sectionIndex, header: componentSection.title ?? "" , items: filterVms))
-                    }
-                }
-            }
-        self.cellViewModelsSubject.onNext(viewModel)
-        self.tableviewVmsSubject.onNext(viewModel)
-    }*/
-    
-    
+ 
     private func updateUI(with components: [CampaignSection]) {
         let sortedComponents = components.sorted { $0.priority < $1.priority }
         
@@ -322,6 +217,9 @@ extension MarketingCustomLandingPageViewModel {
         for (sectionIndex, componentSection) in sortedComponents.enumerated() {
             guard componentSection.sectionName != .backgroundBannerImage else { continue }
             
+           // componentSection.query = "shops.retailer_id:\(self.storeId)" + (componentSection.query ?? "")
+            
+            
             switch componentSection.sectionName {
             case .bannerImage:
                 let bannerVM = RxBannersViewModel(component: componentSection)
@@ -329,7 +227,7 @@ extension MarketingCustomLandingPageViewModel {
                 
             case  .categorySection:
                 let cellVM = createCellViewModel(for: componentSection)
-                viewModel.append(SectionHeaderModel(model: sectionIndex, header: componentSection.title ?? "", items: [cellVM]))
+                viewModel.append(SectionHeaderModel(model: sectionIndex, header: ((self.isArabic ? componentSection.titleAr : componentSection.title) ?? "" ), items: [cellVM]))
                 
             case .topDeals, .productsOnly:
                 let cellVM = createCellViewModel(for: componentSection)
@@ -339,7 +237,7 @@ extension MarketingCustomLandingPageViewModel {
                 if let filters = componentSection.filters?.sorted(by: { $0.priority ?? 0 < $1.priority ?? 0 }) {
                     self.filterArrayDataSubject.onNext(filters)
                     let filterVms = createFilterViewModels(for: filters, in: componentSection)
-                    viewModel.append(SectionHeaderModel(model: sectionIndex, header: componentSection.title ?? "", items: filterVms))
+                    viewModel.append(SectionHeaderModel(model: sectionIndex, header: (self.isArabic ? componentSection.titleAr : componentSection.title) ?? "" , items: filterVms))
                 }
             case .backgroundBannerImage:
                   break
@@ -374,8 +272,8 @@ extension MarketingCustomLandingPageViewModel {
             deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000),
             category: CategoryDTO(
                 id: component.id,
-                name: component.title,
-                algoliaQuery: component.query,
+                name: self.isArabic ? component.titleAr : component.title,
+                algoliaQuery: updateQuery(component.query),
                 nameAr: component.titleAr,
                 bgColor: component.backgroundColor
             ),
@@ -394,8 +292,8 @@ extension MarketingCustomLandingPageViewModel {
             deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000),
             category: CategoryDTO(
                 id: component.id,
-                name: component.title,
-                algoliaQuery: component.query,
+                name: self.isArabic ? component.titleAr : component.title,
+                algoliaQuery: updateQuery(component.query),
                 nameAr: component.titleAr,
                 bgColor: component.backgroundColor
             ),
@@ -431,8 +329,8 @@ extension MarketingCustomLandingPageViewModel {
             deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000),
             category: CategoryDTO(
                 id: id,
-                name: filterObj.name,
-                algoliaQuery: filterObj.query,
+                name: self.isArabic ? filterObj.nameAR : filterObj.name,
+                algoliaQuery: updateQuery(filterObj.query),
                 nameAr: filterObj.nameAR,
                 bgColor: filterObj.backgroundColor == nil ? "#f5f5f5" : filterObj.backgroundColor
             ),
@@ -444,6 +342,71 @@ extension MarketingCustomLandingPageViewModel {
         }.disposed(by: disposeBag)
         
         return filterVm
+    }
+    
+    private func updateQuery(_ query : String?) -> String {
+        if let newQuery = query, newQuery.count > 0 {
+            return "shops.retailer_id:\(self.storeId) AND " + newQuery
+        }
+        return query ?? ""
+    }
+    
+    // MARK: Basket Data
+    private func getBasketFromServerWithGrocery(_ grocery:Grocery?){
+        
+        guard UserDefaults.isUserLoggedIn() else {return}
+        apiClient?.fetchBasketFromServerWithGrocery(grocery) { (result) in
+            switch result {
+                case .success(let responseDict):
+                    self.saveResponseData(responseDict, andWithGrocery: grocery)
+                case .failure(let error):
+                   elDebugPrint("Fetch Basket Error:%@",error.localizedMessage)
+            }
+        }
+    }
+    private func saveResponseData(_ responseObject:NSDictionary, andWithGrocery grocery:Grocery?) {
+    
+        ElGrocerUtility.sharedInstance.basketFetchDict[(grocery?.dbID)!] = true
+        let shopperCartProducts = responseObject["data"] as! [NSDictionary]
+        Thread.OnMainThread {
+            if(shopperCartProducts.count > 0) {
+                let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+                context.performAndWait {
+                    ShoppingBasketItem.clearActiveGroceryShoppingBasket(context)
+                    ElGrocerUtility.sharedInstance.resetBasketPresistence()
+                }
+            }
+            var productA : [Dictionary<String, Any>] = [Dictionary<String, Any>]()
+            for responseDict in shopperCartProducts {
+                if let productDict =  responseDict["product"] as? NSDictionary {
+                    let quantity = responseDict["quantity"] as! Int
+                    productA.append( ["product_id": productDict["id"] as Any   , "quantity": quantity])
+                    let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+                    let product = Product.createProductFromDictionary(productDict, context: context)
+                    if let brandDict = productDict["brand"] as? NSDictionary {
+                        
+                        let brandId = brandDict["id"] as! Int
+                        let brandName = brandDict["name"] as? String
+                        let brandImage = brandDict["image_url"] as? String
+                        
+                        let brand = DatabaseHelper.sharedInstance.insertOrReplaceObjectForEntityForName(BrandEntity, entityDbId: brandId as AnyObject, keyId: "dbID", context: context) as! Brand
+                        brand.name = brandName
+                        brand.imageUrl = brandImage
+                        product.brandId = brand.dbID
+                        let brandSlugName = brandDict["slug"] as? String
+                        brand.nameEn = brandSlugName
+                        product.brandNameEn = brand.nameEn
+                        
+                    }
+                    
+                    ShoppingBasketItem.addOrUpdateProductInBasket(product, grocery: grocery, brandName: nil, quantity: quantity, context: context, orderID: nil, nil , false)
+                }
+            }
+            DispatchQueue.main.async(execute: {
+                self.refreshBasketSubject.onNext(())
+            })
+        }
+      
     }
 
 }

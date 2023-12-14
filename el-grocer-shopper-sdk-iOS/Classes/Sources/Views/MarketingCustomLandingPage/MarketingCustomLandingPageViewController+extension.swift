@@ -131,26 +131,30 @@ extension MarketingCustomLandingPageViewController: NavigationBarProtocol {
     }
     
     func setupNavigationBar() {
+        
+        navigationItem.hidesBackButton = true
+        
         if !sdkManager.isGrocerySingleStore {
-            (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
-            (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
-            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
-            (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
-            //(self.navigationController as? ElGrocerNavigationController)?.setSearchBarDelegate(self)
-            (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
-            (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
+            if let navigationController = navigationController as? ElGrocerNavigationController {
+                    navigationController.actiondelegate = self
+                    navigationController.setLogoHidden(true)
+                    navigationController.setSearchBarHidden(true)
+                    navigationController.setGreenBackgroundColor()
+                    navigationController.setBackButtonHidden(false)
+                    navigationController.setChatButtonHidden(true)
+                    navigationController.setLocationHidden(true)
+                    navigationController.setupGradient()
+                }
+        }else if sdkManager.isShopperApp {
+            self.navigationController?.navigationBar.isHidden = true
         }
-        self.navigationItem.hidesBackButton = true
-        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+        
         if let controller = self.navigationController as? ElGrocerNavigationController {
-            controller.setNavBarHidden(sdkManager.isGrocerySingleStore)
+            controller.setGreenBackgroundColor()
+            controller.setNavBarHidden(sdkManager.isGrocerySingleStore || sdkManager.isShopperApp)
             controller.setupGradient()
         }
 
-        if sdkManager.isShopperApp {
-            self.navigationController?.navigationBar.isHidden = true
-        }
     }
     
     func addBasketIcon(_ grocery : Grocery?) {
