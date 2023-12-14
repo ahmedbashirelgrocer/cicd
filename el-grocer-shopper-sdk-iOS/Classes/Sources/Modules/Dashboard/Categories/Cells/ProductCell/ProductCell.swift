@@ -1275,6 +1275,7 @@ class ProductCell : RxUICollectionViewCell {
         }
         popupViewController.isProductAdded = { [weak self](isAdded) in
             guard let self = self else { return }
+            ElGrocerUtility.sharedInstance.delay(0.1) {
                 self.product.isSelected = isAdded
                 let newValue = product.dbID
                 ProductSelectedStore.setValue(newValue)
@@ -1285,6 +1286,7 @@ class ProductCell : RxUICollectionViewCell {
                     self.isProductSelected = false
                 }
             self.cellOtherAreaDidTap()
+            }
         }
         popupController.transitionStyle = .slideVertical
         if let topController = UIApplication.topViewController() { 

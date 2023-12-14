@@ -221,7 +221,7 @@ class BasketIconOverlayView : UIView {
         
         if self.grocery != nil {
             
-            let isBasketForOtherGroceryActive = ShoppingBasketItem.checkIfBasketForOtherGroceryIsActive(self.grocery!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            let isBasketForOtherGroceryActive = ShoppingBasketItem.checkIfBasketForOtherGroceryIsActive(self.grocery!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) 
             if isBasketForOtherGroceryActive {
                 itemsCountStr = "x"
                 showBasketOverlay(shouldShow: false, itemCount: 0)

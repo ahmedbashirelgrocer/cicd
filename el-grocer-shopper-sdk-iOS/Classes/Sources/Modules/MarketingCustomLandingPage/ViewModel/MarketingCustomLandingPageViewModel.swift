@@ -74,6 +74,7 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     private var marketingId: String
     private var apiClient: ElGrocerApi?
     private var grocery: Grocery?
+    private let isArabic : Bool = ElGrocerUtility.sharedInstance.isArabicSelected()
             let tableviewVmsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
     
     init(storeId: String, marketingId: String,addressId: String,_ apiClient: ElGrocerApi? = ElGrocerApi.sharedInstance ,_ analyticsEngine: AnalyticsEngineType = SegmentAnalyticsEngine.instance) {
@@ -197,6 +198,7 @@ extension MarketingCustomLandingPageViewModel {
                 let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
                 context.performAndWait {
                     ShoppingBasketItem.clearActiveGroceryShoppingBasket(context)
+                    ElGrocerUtility.sharedInstance.resetBasketPresistence()
                 }
             }
             var productA : [Dictionary<String, Any>] = [Dictionary<String, Any>]()
@@ -322,6 +324,9 @@ extension MarketingCustomLandingPageViewModel {
         for (sectionIndex, componentSection) in sortedComponents.enumerated() {
             guard componentSection.sectionName != .backgroundBannerImage else { continue }
             
+           // componentSection.query = "shops.retailer_id:\(self.storeId)" + (componentSection.query ?? "")
+            
+            
             switch componentSection.sectionName {
             case .bannerImage:
                 let bannerVM = RxBannersViewModel(component: componentSection)
@@ -329,7 +334,7 @@ extension MarketingCustomLandingPageViewModel {
                 
             case  .categorySection:
                 let cellVM = createCellViewModel(for: componentSection)
-                viewModel.append(SectionHeaderModel(model: sectionIndex, header: componentSection.title ?? "", items: [cellVM]))
+                viewModel.append(SectionHeaderModel(model: sectionIndex, header: ((self.isArabic ? componentSection.titleAr : componentSection.title) ?? "" ), items: [cellVM]))
                 
             case .topDeals, .productsOnly:
                 let cellVM = createCellViewModel(for: componentSection)
@@ -339,7 +344,7 @@ extension MarketingCustomLandingPageViewModel {
                 if let filters = componentSection.filters?.sorted(by: { $0.priority ?? 0 < $1.priority ?? 0 }) {
                     self.filterArrayDataSubject.onNext(filters)
                     let filterVms = createFilterViewModels(for: filters, in: componentSection)
-                    viewModel.append(SectionHeaderModel(model: sectionIndex, header: componentSection.title ?? "", items: filterVms))
+                    viewModel.append(SectionHeaderModel(model: sectionIndex, header: (self.isArabic ? componentSection.titleAr : componentSection.title) ?? "" , items: filterVms))
                 }
             case .backgroundBannerImage:
                   break
@@ -374,8 +379,8 @@ extension MarketingCustomLandingPageViewModel {
             deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000),
             category: CategoryDTO(
                 id: component.id,
-                name: component.title,
-                algoliaQuery: component.query,
+                name: self.isArabic ? component.titleAr : component.title,
+                algoliaQuery: updateQuery(component.query),
                 nameAr: component.titleAr,
                 bgColor: component.backgroundColor
             ),
@@ -394,8 +399,8 @@ extension MarketingCustomLandingPageViewModel {
             deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000),
             category: CategoryDTO(
                 id: component.id,
-                name: component.title,
-                algoliaQuery: component.query,
+                name: self.isArabic ? component.titleAr : component.title,
+                algoliaQuery: updateQuery(component.query),
                 nameAr: component.titleAr,
                 bgColor: component.backgroundColor
             ),
@@ -431,8 +436,8 @@ extension MarketingCustomLandingPageViewModel {
             deliveryTime: Int(Date().getUTCDate().timeIntervalSince1970 * 1000),
             category: CategoryDTO(
                 id: id,
-                name: filterObj.name,
-                algoliaQuery: filterObj.query,
+                name: self.isArabic ? filterObj.nameAR : filterObj.name,
+                algoliaQuery: updateQuery(filterObj.query),
                 nameAr: filterObj.nameAR,
                 bgColor: filterObj.backgroundColor == nil ? "#f5f5f5" : filterObj.backgroundColor
             ),
@@ -444,6 +449,17 @@ extension MarketingCustomLandingPageViewModel {
         }.disposed(by: disposeBag)
         
         return filterVm
+    }
+    
+    
+    private func updateQuery(_ query : String?) -> String {
+        defer {
+            debugPrint("")
+        }
+        if let newQuery = query {
+            return "shops.retailer_id:\(self.storeId) AND " + newQuery
+        }
+        return query ?? ""
     }
 
 }

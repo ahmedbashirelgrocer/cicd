@@ -67,7 +67,6 @@ class MarketingCustomLandingPageViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         self.viewModel.viewDidAppearCalled() // we need to call this method to sync active grocery in utilty
         self.viewModel.basketUpdatedSubject.onNext(())
-        
     }
     
     @objc func backButtonPressed() {
@@ -171,8 +170,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
             guard let cartView = self.basketIconOverlay else { return }
                 cartView.grocery = self.viewModel.getGrocery()
             self.refreshBasketIconStatus()
-            let itemCount =  ElGrocerUtility.sharedInstance.lastItemsCount
-            self.collectionViewBottomConstraint?.isActive = itemCount > 0
+            self.collectionViewBottomConstraint?.isActive = !(self.basketIconOverlay?.isHidden ?? true)
             self.refreshBasketIconStatus()
         }.disposed(by: disposeBag)
 
@@ -314,7 +312,7 @@ extension MarketingCustomLandingPageViewController: AWSegmentViewProtocol {
 
 extension MarketingCustomLandingPageViewController: NoStoreViewDelegate, BasketIconOverlayViewProtocol {
     func noDataButtonDelegateClick(_ state: actionState) {
-        self.dismiss(animated: true)
+        self.dismiss(animated: true) { }
     }
     func basketIconOverlayViewDidTouchBasket(_ basketIconOverlayView: BasketIconOverlayView) {
         

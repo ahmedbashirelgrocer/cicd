@@ -358,7 +358,7 @@ private extension MainCategoriesViewModel {
                 guard banners.count > 0 else { self.dispatchGroup.leave(); return }
                 let customCategories = banners.map { $0.toCategoryDTO() }
                 
-                var index = 2
+                var index = 1
                 for category in customCategories {
                     if index < self.categories.count {
                         if category.customPage != nil { self.categories.insert(category, at: index) }
