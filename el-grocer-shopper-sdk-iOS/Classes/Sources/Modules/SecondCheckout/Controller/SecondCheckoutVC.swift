@@ -100,6 +100,9 @@ class SecondCheckoutVC: UIViewController {
             self.checkoutDeliverySlotView.configure(slots: self.viewModel.deliverySlots, selectedSlotId: self.viewModel.getCurrentDeliverySlotId())
         }
         // subscribe the delivery slots subject
+        viewModel.backSubject
+            .subscribe(onNext: { [weak self] _ in self?.backButtonClickedHandler() })
+            .disposed(by: disposeBag)
         viewModel.deliverySlotsSubject.subscribe(onNext: { [weak self] deliverySlots in
             guard let self = self else { return }
             self.checkoutDeliverySlotView.configure(slots: deliverySlots, selectedSlotId: self.viewModel.getCurrentDeliverySlotId())
@@ -542,6 +545,7 @@ extension SecondCheckoutVC: NavigationBarProtocol {
     override func backButtonClick() {
         MixpanelEventLogger.trackElWalletUnifiedClose()
         self.navigationController?.popViewController(animated: true)
+        
     }
     
     
