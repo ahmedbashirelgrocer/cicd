@@ -16,23 +16,27 @@ class MarketingCustomLandingPageViewController: UIViewController {
         emptyView?.delegate = self; emptyView?.configureNoDefaultSelectedStoreCart()
         return emptyView!
     }()
+    
     lazy var locationHeader : ElgrocerlocationView = {
     let locationHeader = ElgrocerlocationView.loadFromNib()
     locationHeader?.translatesAutoresizingMaskIntoConstraints = false
     return locationHeader!
-}()
+    }()
+    
     lazy var locationHeaderShopper : ElGrocerStoreHeaderShopper = {
         let locationHeader = ElGrocerStoreHeaderShopper.loadFromNib()
         locationHeader?.translatesAutoresizingMaskIntoConstraints = false
         locationHeader?.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         return locationHeader!
     }()
+    
     lazy var locationHeaderFlavor : ElgrocerStoreHeader = {
     let locationHeader = ElgrocerStoreHeader.loadFromNib()
         locationHeader?.setDismisType(.dismisVC)
     locationHeader?.translatesAutoresizingMaskIntoConstraints = false
     return locationHeader!
-}()
+    }()
+    private var cachedPosition = Dictionary<IndexPath,CGPoint>()
          var superSectionHeader: SubCateSegmentTableViewHeader!
     
     // MARK: - Properties
@@ -54,23 +58,30 @@ class MarketingCustomLandingPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = AppSetting.theme.tableViewBGGreyColor;
+        view.backgroundColor = AppSetting.theme.navigationBarColor;
         addLocationHeader(); registerCells(); bindViews()
         
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupNavigationBar()
-        adjustHeaderDisplay()
+        setupNavigationBar(); adjustHeaderDisplay(); adjustViewRefresh()
         
     }
     override func viewDidAppear(_ animated: Bool) {
         self.viewModel.viewDidAppearCalled() // we need to call this method to sync active grocery in utilty
-        self.viewModel.basketUpdatedSubject.onNext(())
     }
     
     @objc func backButtonPressed() {
         self.backButtonClick()
+    }
+    
+    private func adjustViewRefresh() {
+        if let commingContrller = UIApplication.topViewController() {
+            if commingContrller is GroceryLoaderViewController || String(describing: commingContrller.classForCoder) == "STPopupContainerViewController" {
+                return
+            }
+            self.viewModel.refreshTableView()
+        }
     }
     
     private func registerCells() {
@@ -82,6 +93,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         tableView.bounces = true
         tableView.estimatedRowHeight = 400
+        tableView.sectionFooterHeight = 0.01
         tableView.rowHeight = UITableView.automaticDimension
         tableView.backgroundColor = AppSetting.theme.tableViewBGGreyColor
        
@@ -111,6 +123,21 @@ class MarketingCustomLandingPageViewController: UIViewController {
             cell.selectionStyle = .none
             cell.configure(viewModel: viewModel)
             cell.bind(to: self.tableViewScrollSubject)
+            //if let cell = cell as? HomeCell { cell.productsCollectionView.contentOffset = self.cachedPosition[indexPath] ?? .zero }
+            if let homeCell = cell as? HomeCell {
+                        // Check if the indexPath is within bounds
+                        if dataSource[indexPath.section].items.indices.contains(indexPath.row) {
+                            let item = dataSource[indexPath.section].items[indexPath.row]
+
+                            // Assuming `item` is the ViewModel for the cell
+                            if let cachedOffset = self.cachedPosition[indexPath] {
+                                homeCell.productsCollectionView.contentOffset = cachedOffset
+                            } else {
+                                homeCell.productsCollectionView.contentOffset = .zero
+                            }
+                        }
+                    }
+            
             return cell
         },titleForHeaderInSection: { dataSource, sectionIndex in
             return dataSource[sectionIndex].header
@@ -228,24 +255,6 @@ extension MarketingCustomLandingPageViewController {
 }
 
 extension MarketingCustomLandingPageViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        
-////      
-//        do {
-//            let lastValue = try self.viewModel.tableviewVmsSubject.value()
-//            let isCategorySection = lastValue[indexPath.section].items.count > 0
-//            if isCategorySection {
-//                let categoryOrProductSection = lastValue[indexPath.section].items[0]
-//                if ((categoryOrProductSection as? RxCollectionViewOnlyTableViewCellViewModel) != nil) {
-//                    let categoryOrProductSectionVmCount = (categoryOrProductSection as? RxCollectionViewOnlyTableViewCellViewModel)?.productCountValue ?? 0
-//                    debugPrint("collection view cell height changes ;;; \(categoryOrProductSectionVmCount)")
-//                    return CGFloat(ceil(Double(categoryOrProductSectionVmCount) / 2.0)) * (kProductCellHeight) + 32
-//                }
-//            }
-//        } catch {  print("Error: \(error.localizedDescription)")  }
-
-        return UITableView.automaticDimension
-       }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
@@ -289,14 +298,15 @@ extension MarketingCustomLandingPageViewController: UITableViewDelegate {
         }
         return isTextAvailable ? 30.0 : 1.0
     }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 0.01
-    }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView()
         view.backgroundColor = .white
         return view
+    }
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let cell = cell as? HomeCell {
+            cachedPosition[indexPath] = cell.productsCollectionView.contentOffset
+        }
     }
 }
 

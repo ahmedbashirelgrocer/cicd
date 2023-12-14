@@ -978,9 +978,32 @@ class PopImageViwerViewController: UIViewController {
         }
         
     }
+    
+    private func checkIfOtherGroceryBasketIsActive(_ selectedProduct:Product, grocery : Grocery) -> Bool{
+        
+        //check if other grocery basket is active
+        let isOtherGroceryBasketActive = ShoppingBasketItem.checkIfBasketForOtherGroceryIsActive(grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        let activeBasketGrocery = ShoppingBasketItem.getGroceryForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        
+        if isOtherGroceryBasketActive && activeBasketGrocery != nil && activeBasketGrocery!.dbID != selectedProduct.groceryId {
+            return true
+        } else {
+            return false
+        }
+    }
+    
 
     func updateProductsQuantity(_ quantity: Int, selectedProduct: Product , grocery : Grocery?) {
-
+        
+        guard let grocery = grocery else { return }
+        let isActive = self.checkIfOtherGroceryBasketIsActive(selectedProduct, grocery: grocery)
+        if UserDefaults.isUserLoggedIn() && isActive {
+            //clear active basket and add product
+            ShoppingBasketItem.clearActiveGroceryShoppingBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            ElGrocerUtility.sharedInstance.resetBasketPresistence()
+    
+        }
+    
         if quantity == 0 {
 
             //remove product from basket

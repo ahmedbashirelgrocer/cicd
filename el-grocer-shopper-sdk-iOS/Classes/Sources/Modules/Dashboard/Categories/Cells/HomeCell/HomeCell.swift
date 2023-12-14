@@ -133,8 +133,11 @@ class HomeCell: RxUITableViewCell {
     // @IBOutlet weak var arrowImgView: UIImageView!
     @IBOutlet weak var viewMoreButton: UIButton! {
         didSet {
+        
             viewMoreButton.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
             viewMoreButton.setBackgroundColorForAllState(.clear)
+            viewMoreButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(14)
+            
         }
     }
     @IBOutlet weak var titleLbl: UILabel!{
