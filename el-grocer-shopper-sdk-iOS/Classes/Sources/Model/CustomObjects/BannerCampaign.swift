@@ -284,6 +284,9 @@ class BannerCampaign: NSObject {
         banner.storeTypes = bannerDict["store_types"] as? [Int] ?? []
         banner.retailerGroups = bannerDict["retailer_groups"] as? [Int] ?? []
         banner.customCampaignId =  bannerDict["custom_screen_id"] as? Int ?? nil
+        if (banner.customCampaignId ?? 0) == 0 {
+            banner.customCampaignId = nil
+        }
         return banner
     }
 
@@ -385,6 +388,7 @@ class BannerCampaign: NSObject {
                     topVc.present(landingVC, animated: true)
                 }
             }
+            return
         }
         
         if self.campaignType.intValue == BannerCampaignType.brand.rawValue {
