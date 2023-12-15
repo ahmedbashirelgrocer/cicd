@@ -400,13 +400,8 @@ class BackendRemoteNotificationHandler: RemoteNotificationHandlerType {
                         pasteBoard.string = promoCode
                     }
                 }).show()
-                
-            
             
         }
-        
-    
-       
         
     }
     
