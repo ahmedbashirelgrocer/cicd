@@ -83,7 +83,7 @@ class CategoryCell: UITableViewCell {
     }
     
     func setUpSubtitleAppearance() {
-        self.lblSubtitle.font      = UIFont.AvenirNextCondensedRegular(13.0)
+        self.lblSubtitle.font = UIFont.SFProDisplayNormalFont(13)
     }
     
     @IBAction func viewAllAction(_ sender: Any) {

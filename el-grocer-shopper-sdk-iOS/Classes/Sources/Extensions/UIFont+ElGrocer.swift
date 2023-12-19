@@ -298,13 +298,6 @@ extension UIFont {
         
         return UIFont.getFont(name: "SanFranciscoText-SemiboldItalic", size: size)!
     }
-    
-    // MARK: Avenir Next Condensed Fonts
-    
-    class func AvenirNextCondensedRegular(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "AvenirNextCondensed-Regular", size: size)!
-    }
 }
 extension UIFont {
     func withWeight(_ weight: UIFont.Weight) -> UIFont {
