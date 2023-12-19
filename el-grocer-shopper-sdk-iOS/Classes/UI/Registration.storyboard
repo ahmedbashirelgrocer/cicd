@@ -7,9 +7,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Gotham-Medium.otf">
-            <string>Gotham-Medium</string>
-        </array>
         <array key="Gotham-Thin.otf">
             <string>Gotham-Thin</string>
         </array>
@@ -318,9 +315,9 @@
                                                 </connections>
                                             </textField>
                                             <button opaque="NO" alpha="0.30000001192092896" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MvN-uM-xIJ">
-                                                <rect key="frame" x="26" y="340" width="323" height="32"/>
+                                                <rect key="frame" x="26" y="340" width="323" height="36"/>
                                                 <color key="backgroundColor" red="0.25882352939999997" green="0.59999999999999998" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="20"/>
+                                                <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                                                 <state key="normal" title="Submit and Continue">
                                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
@@ -626,7 +623,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ber-pQ-Pz0" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="55" y="196" width="75" height="104"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="18"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="18"/>
                                         <state key="normal" title="Done">
                                             <color key="titleColor" red="0.1647058824" green="0.58823529409999997" blue="0.4431372549" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -904,7 +901,7 @@
     </scenes>
     <designables>
         <designable name="Ber-pQ-Pz0">
-            <size key="intrinsicContentSize" width="48" height="30"/>
+            <size key="intrinsicContentSize" width="43" height="34"/>
         </designable>
         <designable name="C5s-9Q-zLB">
             <size key="intrinsicContentSize" width="36" height="33"/>

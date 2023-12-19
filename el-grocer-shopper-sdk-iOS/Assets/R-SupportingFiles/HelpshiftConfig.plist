@@ -52,7 +52,7 @@
 	<key>Table Section Header</key>
 	<dict>
 		<key>Font name</key>
-		<string>Gotham-Medium</string>
+		<string>SFProDisplay-Semibold</string>
 		<key>Font size</key>
 		<string>14</string>
 		<key>Text color</key>

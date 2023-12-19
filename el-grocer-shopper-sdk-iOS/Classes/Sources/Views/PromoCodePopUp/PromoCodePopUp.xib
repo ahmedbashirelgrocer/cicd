@@ -7,11 +7,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Gotham-Medium.otf">
-            <string>Gotham-Medium</string>
-        </array>
         <array key="SF-Pro-Display-Regular.otf">
             <string>SFProDisplay-Regular</string>
+        </array>
+        <array key="SF-Pro-Display-Semibold.otf">
+            <string>SFProDisplay-Semibold</string>
         </array>
     </customFonts>
     <objects>
@@ -28,8 +28,8 @@
                     <rect key="frame" x="20" y="180" width="335" height="205"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Promo Code" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="1" translatesAutoresizingMaskIntoConstraints="NO" id="2JP-Su-j2X">
-                            <rect key="frame" x="101.5" y="15" width="132.5" height="21"/>
-                            <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
+                            <rect key="frame" x="110" y="15" width="115" height="25.5"/>
+                            <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="21"/>
                             <color key="textColor" red="0.2901960784" green="0.58039215690000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -48,14 +48,14 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="caD-2o-dYP">
-                            <rect key="frame" x="0.0" y="65" width="335" height="0.5"/>
+                            <rect key="frame" x="0.0" y="69.5" width="335" height="0.5"/>
                             <color key="backgroundColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="0.5" id="Hhh-an-86Y"/>
                             </constraints>
                         </view>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Promotion Code" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Shb-dg-sWh">
-                            <rect key="frame" x="15" y="66" width="305" height="50"/>
+                            <rect key="frame" x="15" y="70.5" width="305" height="50"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="50" id="2aK-Sx-Y7I"/>
                             </constraints>
@@ -67,14 +67,14 @@
                             </connections>
                         </textField>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Oup-5J-dVx">
-                            <rect key="frame" x="0.0" y="117" width="335" height="0.5"/>
+                            <rect key="frame" x="0.0" y="121.5" width="335" height="0.5"/>
                             <color key="backgroundColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="0.5" id="5du-Mt-tSO"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hc2-fn-vyo">
-                            <rect key="frame" x="20" y="137" width="295" height="40"/>
+                            <rect key="frame" x="20" y="141.5" width="295" height="40"/>
                             <color key="backgroundColor" red="0.2901960784" green="0.58039215690000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="40" id="6Qc-6k-Lix"/>
