@@ -40,7 +40,7 @@ class AboutCell : UITableViewCell {
         
         let textsWidth = cellWidth - 56 - 16
         
-        let titleFont = UIFont.boldFont(12.0)
+        let titleFont = UIFont.SFProDisplayBoldFont(12.0)
         let descriptionFont = UIFont.SFProDisplayNormalFont(12.0)
         
         return kTopSpace + kTextSpace + titleFont.sizeOfString(title, constrainedToWidth: Double(textsWidth)).height + descriptionFont.sizeOfString(description, constrainedToWidth: Double(textsWidth)).height
@@ -58,7 +58,7 @@ class AboutCell : UITableViewCell {
     fileprivate func setUpTitleLabelAppearance() {
         
         self.titleLabel.textColor = UIColor.black
-        self.titleLabel.font = UIFont.boldFont(12.0)
+        self.titleLabel.font = UIFont.SFProDisplayBoldFont(12.0)
     }
     
     fileprivate func setUpDescriptionLabelAppearance() {

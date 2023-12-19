@@ -90,11 +90,6 @@ extension UIFont {
         return UIFont.getFont(name: "Gotham-Black", size: size)!
     }
     
-    class func boldFont(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "Gotham-Bold", size: size)!
-    }
-    
     class func lightFont(_ size:CGFloat) -> UIFont {
         
         return UIFont.getFont(name: "Gotham-Light", size: size)!
@@ -323,7 +318,6 @@ extension UIFont {
         "MarkaziText-Regular.ttf",
         "MarkaziText-SemiBold.ttf",
         "Gotham-Black.otf",
-        "Gotham-Bold.otf",
         "Gotham-Book-Italic.otf",
         "Gotham-Light-Italic.otf",
         "Gotham-Light.otf",

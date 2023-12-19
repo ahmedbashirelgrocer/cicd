@@ -73,7 +73,7 @@ class FreeGroceriesViewController: UIViewController {
     // MARK: Appearance
     fileprivate func setFreeGroceryTitleLabelAppearance() {
         
-        self.freeGroceryTitle.font = UIFont.boldFont(15.0)
+        self.freeGroceryTitle.font = UIFont.SFProDisplayBoldFont(15.0)
         self.freeGroceryTitle.textColor = UIColor.black
         self.freeGroceryTitle.text = localizedString("earn_free_credits", comment: "")
     }
@@ -115,10 +115,10 @@ class FreeGroceriesViewController: UIViewController {
         let titleStr = NSMutableAttributedString(string: text)
         titleStr.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, text.count))
         self.inviteButton.setAttributedTitle(titleStr, for: UIControl.State())
-        self.inviteButton.titleLabel?.font = UIFont.boldFont(12.0)
+        self.inviteButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(12.0)
         
         self.copyButton.titleLabel?.textColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor
-        self.copyButton.titleLabel?.font = UIFont.boldFont(12.0)
+        self.copyButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(12.0)
         self.copyButton.setTitle(localizedString("copy", comment: ""), for: UIControl.State())
     }
     

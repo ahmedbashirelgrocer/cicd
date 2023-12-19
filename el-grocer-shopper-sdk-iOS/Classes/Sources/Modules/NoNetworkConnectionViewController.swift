@@ -51,7 +51,7 @@ class NoNetworkConnectionViewController : UIViewController , NavigationBarProtoc
     fileprivate func setUpTitleLabelAppearance() {
         
         self.titleLabel.textColor = UIColor.emptyViewTextColor()
-        self.titleLabel.font = UIFont.boldFont(20.0)
+        self.titleLabel.font = UIFont.SFProDisplayBoldFont(20.0)
         self.titleLabel.text = localizedString("no_network_screen_title", comment: "")
     }
     

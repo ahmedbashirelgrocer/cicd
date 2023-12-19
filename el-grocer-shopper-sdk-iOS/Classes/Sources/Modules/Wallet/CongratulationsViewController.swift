@@ -72,7 +72,7 @@ class CongratulationsViewController: UIViewController {
     
     fileprivate func setMoreSharingLabelAppearance() {
         
-        self.moreSharingLabel.font = UIFont.boldFont(12.0)
+        self.moreSharingLabel.font = UIFont.SFProDisplayBoldFont(12.0)
         self.moreSharingLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.moreSharingLabel.text = localizedString("congratiolation_keep_sharing_text", comment: "")
     }
@@ -97,7 +97,7 @@ class CongratulationsViewController: UIViewController {
         self.invitationCode.text = userProfile?.referralCode
         
         self.copyButton.titleLabel?.textColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
-        self.copyButton.titleLabel?.font = UIFont.boldFont(12.0)
+        self.copyButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(12.0)
     }
     
     fileprivate func setSendInvitationButtonAppearance() {
