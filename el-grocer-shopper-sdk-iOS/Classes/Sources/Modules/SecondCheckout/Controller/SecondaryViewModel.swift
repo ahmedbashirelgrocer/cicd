@@ -19,6 +19,7 @@ class SecondaryViewModel {
     var getBasketError: BehaviorSubject<ElGrocerError?> = BehaviorSubject(value: nil)
     var getApiCall: BehaviorSubject<Bool> = BehaviorSubject(value: false)
     var deliverySlotsSubject: BehaviorSubject<[DeliverySlotDTO]> = BehaviorSubject(value: [])
+    var backSubject: PublishSubject<Void> = .init()
     private let disposeBag = DisposeBag()
     private var netWork : SecondCheckOutApi! = SecondCheckOutApi()
     private var grocery: Grocery? = nil
@@ -216,7 +217,11 @@ class SecondaryViewModel {
                         self.basketError.onNext(ElGrocerError.parsingError())
                     }
                 case .failure(let error):
-                    self.basketError.onNext(error)
+                    if (error as ElGrocerError).code == 4199 {
+                        self.backSubject.onNext(())
+                    } else {
+                        self.basketError.onNext(error)
+                    }
             }
             
         }
