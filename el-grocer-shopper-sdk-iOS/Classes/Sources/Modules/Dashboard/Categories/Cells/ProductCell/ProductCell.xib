@@ -8,9 +8,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Gotham-Thin.otf">
-            <string>Gotham-Thin</string>
-        </array>
         <array key="SF-Pro-Display-Bold.otf">
             <string>SFProDisplay-Bold</string>
         </array>
@@ -125,7 +122,7 @@
                                                                     </button>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="P7y-j2-pTo">
                                                                         <rect key="frame" x="40.333333333333336" y="0.0" width="105.33333333333331" height="40.333333333333336"/>
-                                                                        <fontDescription key="fontDescription" name="Gotham-Thin" family="Gotham" pointSize="13"/>
+                                                                        <fontDescription key="fontDescription" name="SFProDisplay-Light" family="SF Pro Display" pointSize="13"/>
                                                                         <color key="textColor" red="0.85882352941176465" green="0.85882352941176465" blue="0.85882352941176465" alpha="1" colorSpace="calibratedRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
@@ -135,7 +132,7 @@
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" secondItem="pVX-JM-t1N" secondAttribute="height" id="1Vk-QA-x3d"/>
                                                                         </constraints>
-                                                                        <fontDescription key="fontDescription" name="Gotham-Thin" family="Gotham" pointSize="14"/>
+                                                                        <fontDescription key="fontDescription" name="SFProDisplay-Light" family="SF Pro Display" pointSize="14"/>
                                                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <inset key="imageEdgeInsets" minX="7" minY="7" maxX="7" maxY="7"/>
                                                                         <state key="normal" image="add_product_cell"/>

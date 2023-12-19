@@ -7,8 +7,8 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Gotham-Thin.otf">
-            <string>Gotham-Thin</string>
+        <array key="SF-Pro-Display-Light.otf">
+            <string>SFProDisplay-Light</string>
         </array>
         <array key="SF-Pro-Display-Regular.otf">
             <string>SFProDisplay-Regular</string>
@@ -273,13 +273,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="400"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivery Address" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0IG-VC-ScB">
-                                                <rect key="frame" x="26" y="64.5" width="323" height="28.5"/>
-                                                <fontDescription key="fontDescription" name="Gotham-Thin" family="Gotham" pointSize="28"/>
+                                                <rect key="frame" x="26" y="64.5" width="323" height="33.5"/>
+                                                <fontDescription key="fontDescription" name="SFProDisplay-Light" family="SF Pro Display" pointSize="28"/>
                                                 <color key="textColor" red="0.25882352939999997" green="0.59999999999999998" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Villa / Apartment Number" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0o6-Qa-qd7">
-                                                <rect key="frame" x="26" y="195" width="323" height="35"/>
+                                                <rect key="frame" x="26" y="200" width="323" height="35"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="35" id="Arz-MS-Je9"/>
                                                 </constraints>
@@ -290,7 +290,7 @@
                                                 </connections>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Building Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ml3-1A-Wf1">
-                                                <rect key="frame" x="26" y="238" width="323" height="35"/>
+                                                <rect key="frame" x="26" y="243" width="323" height="35"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="35" id="uFy-Bo-hhH"/>
                                                 </constraints>
@@ -304,7 +304,7 @@
                                                 <rect key="frame" x="16" y="16" width="343" height="32.5"/>
                                             </imageView>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Street / Cluster" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pu5-4b-xN0">
-                                                <rect key="frame" x="26" y="281" width="323" height="35"/>
+                                                <rect key="frame" x="26" y="286" width="323" height="35"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="35" id="mD5-Oq-Hqr"/>
                                                 </constraints>
@@ -315,7 +315,7 @@
                                                 </connections>
                                             </textField>
                                             <button opaque="NO" alpha="0.30000001192092896" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MvN-uM-xIJ">
-                                                <rect key="frame" x="26" y="340" width="323" height="36"/>
+                                                <rect key="frame" x="26" y="345" width="323" height="36"/>
                                                 <color key="backgroundColor" red="0.25882352939999997" green="0.59999999999999998" blue="0.2156862745" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                                                 <state key="normal" title="Submit and Continue">
@@ -326,7 +326,7 @@
                                                 </connections>
                                             </button>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Address" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EdL-0A-z1k">
-                                                <rect key="frame" x="26" y="152" width="323" height="35"/>
+                                                <rect key="frame" x="26" y="157" width="323" height="35"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="35" id="8Fz-4x-nHd"/>
                                                 </constraints>
@@ -337,7 +337,7 @@
                                                 </connections>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Location Name (eg: Home)" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1e1-rp-aQL">
-                                                <rect key="frame" x="26" y="109" width="323" height="35"/>
+                                                <rect key="frame" x="26" y="114" width="323" height="35"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="35" id="E9x-va-ER1"/>
                                                 </constraints>
