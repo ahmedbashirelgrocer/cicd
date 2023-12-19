@@ -133,13 +133,13 @@ class ProductDetailsView : UIView {
     
     private func setUpProductDescriptionAppearance() {
         
-        self.productDescr.font = UIFont.lightFont(11.0)
+        self.productDescr.font = UIFont.SFProDisplayLightFont(11.0)
         self.productDescr.textColor = UIColor.black
     }
     
     private func setUpProductCurrencyAppearance() {
         
-        self.currency.font = UIFont.lightFont(11.0)
+        self.currency.font = UIFont.SFProDisplayLightFont(11.0)
         self.currency.textColor = UIColor.black
     }
     
@@ -152,7 +152,7 @@ class ProductDetailsView : UIView {
     private func setUpCounterLabelAppearance() {
         
         self.countLabel.textColor = UIColor.black
-        self.countLabel.font = UIFont.lightFont(28.0)
+        self.countLabel.font = UIFont.SFProDisplayLightFont(28.0)
         self.countLabel.text = "\(self.counter)"
     }
     

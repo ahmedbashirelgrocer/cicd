@@ -156,7 +156,7 @@ class WalletViewController: UIViewController,UITableViewDelegate, UITableViewDat
         self.availableBalance.textColor = UIColor.lightTextGrayColor()
         self.availableBalance.text = localizedString("available_balance", comment: "")
         
-        self.walletExpiry.font = UIFont.lightFont(14.0)
+        self.walletExpiry.font = UIFont.SFProDisplayLightFont(14.0)
         self.walletExpiry.textColor = UIColor.black
         self.walletExpiry.text = localizedString("balance_expire", comment: "")
         

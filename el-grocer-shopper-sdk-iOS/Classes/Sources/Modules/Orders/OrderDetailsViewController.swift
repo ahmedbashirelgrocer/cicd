@@ -1382,7 +1382,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
 //
 //        self.orderConfirmationButton.setTitle(localizedString("order_history_order_confirmation_button", comment: ""), for: UIControl.State())
 //        self.orderConfirmationButton.setTitleColor(UIColor.redTextColor(), for: UIControl.State())
-//        self.orderConfirmationButton.titleLabel?.font = UIFont.lightFont(14.0)
+//        self.orderConfirmationButton.titleLabel?.font = UIFont.SFProDisplayLightFont(14.0)
 //        self.orderConfirmationButton.layer.borderWidth = 1
 //        self.orderConfirmationButton.layer.borderColor = UIColor.redTextColor().cgColor
 //

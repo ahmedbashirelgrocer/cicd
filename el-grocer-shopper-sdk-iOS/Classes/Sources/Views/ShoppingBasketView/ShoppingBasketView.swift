@@ -223,7 +223,7 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
     fileprivate func setUpMyShoppingListLabelAppearance() {
     
         self.myShoppingList.setTitleColor(UIColor.textfieldErrorColor(), for: UIControl.State())
-        self.myShoppingList.titleLabel?.font = UIFont.lightFont(17.0)
+        self.myShoppingList.titleLabel?.font = UIFont.SFProDisplayLightFont(17.0)
     }
     
     fileprivate func setUptableHeaderAppearance() {

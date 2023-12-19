@@ -65,7 +65,7 @@ class UpdateLocationInfoViewController: UIViewController {
         self.titleLabel.font = UIFont.SFProDisplayNormalFont(17.0)
         self.titleLabel.textColor = UIColor.black
         self.subtitleLabel.text = localizedString("update_location_info_subtitle_label_text", comment: "")
-        self.subtitleLabel.font = UIFont.lightFont(14.0)
+        self.subtitleLabel.font = UIFont.SFProDisplayLightFont(14.0)
         self.subtitleLabel.textColor = UIColor.black
         
     }

@@ -115,7 +115,7 @@ class UserAccountViewController : UIViewController, UITableViewDataSource, UITab
         self.editProfileButton.layer.borderWidth = 1
         self.editProfileButton.setTitle(localizedString("my_account_edit_profile_button", comment: ""), for: UIControl.State())
         self.editProfileButton.setTitleColor(ApplicationTheme.currentTheme.buttonWithBorderTextColor, for: UIControl.State())
-        self.editProfileButton.titleLabel?.font = UIFont.lightFont(17.0)
+        self.editProfileButton.titleLabel?.font = UIFont.SFProDisplayLightFont(17.0)
     }
     
     func setUpShopNowButtonAppearance() {
@@ -124,7 +124,7 @@ class UserAccountViewController : UIViewController, UITableViewDataSource, UITab
         self.shopNowButton.layer.borderWidth = 1
         self.shopNowButton.setTitle(localizedString("my_account_shop_now_button", comment: ""), for: UIControl.State())
         self.shopNowButton.setTitleColor(UIColor.redInfoColor(), for: UIControl.State())
-        self.shopNowButton.titleLabel?.font = UIFont.lightFont(17.0)
+        self.shopNowButton.titleLabel?.font = UIFont.SFProDisplayLightFont(17.0)
     }
     
     func setUpNewAddressButtonAppearance() {
@@ -133,7 +133,7 @@ class UserAccountViewController : UIViewController, UITableViewDataSource, UITab
         self.newAddressButton.layer.borderWidth = 1
         self.newAddressButton.setTitle(localizedString("my_account_new_address_button", comment: ""), for: UIControl.State())
         self.newAddressButton.setTitleColor(UIColor.black, for: UIControl.State())
-        self.newAddressButton.titleLabel?.font = UIFont.lightFont(17.0)
+        self.newAddressButton.titleLabel?.font = UIFont.SFProDisplayLightFont(17.0)
     }
     
     func setButtonImagesAppearance() {
