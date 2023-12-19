@@ -21,7 +21,7 @@ class LocationAreaDropDownCell : UITableViewCell {
    
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.textLabel?.font = UIFont.bookFont(14.0)
+        self.textLabel?.font = UIFont.SFProDisplayNormalFont(14.0)
         self.textLabel?.textAlignment = NSTextAlignment.left
         
         self.separatorView = UIView()

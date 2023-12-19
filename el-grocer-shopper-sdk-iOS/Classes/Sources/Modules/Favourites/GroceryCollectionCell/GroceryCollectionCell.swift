@@ -60,7 +60,7 @@ class GroceryCollectionCell : UICollectionViewCell {
     
     fileprivate func setUpGroceryAddressAppearance() {
         
-        self.groceryAddress.font = UIFont.bookFont(9.0)
+        self.groceryAddress.font = UIFont.SFProDisplayNormalFont(9.0)
         self.groceryAddress.textColor = UIColor.white
     }
     

@@ -80,7 +80,7 @@ class FreeGroceriesViewController: UIViewController {
     
     fileprivate func setFreeGroceryDescriptionLabelAppearance() {
         
-        self.freeGroceryDescription.font = UIFont.bookFont(12.0)
+        self.freeGroceryDescription.font = UIFont.SFProDisplayNormalFont(12.0)
         self.freeGroceryDescription.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         
         let paragraphStyle = NSMutableParagraphStyle()
@@ -92,7 +92,7 @@ class FreeGroceriesViewController: UIViewController {
     
     fileprivate func setInvitationLinkLabelAppearance() {
         
-        self.invitationLink.font = UIFont.bookFont(12.0)
+        self.invitationLink.font = UIFont.SFProDisplayNormalFont(12.0)
         self.invitationLink.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.invitationLink.text = localizedString("free_groceries_invitation_link", comment: "")
     }

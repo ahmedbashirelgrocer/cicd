@@ -93,7 +93,7 @@ class BasketBannerCell: UITableViewCell {
 //        self.descriptionLabel.shadowOffset = CGSize.init(width: 0.0, height: -0.5)
        
         self.titleLabel.font = UIFont.boldFont(18.4)
-        self.descriptionLabel.font = UIFont.bookFont(10)
+        self.descriptionLabel.font = UIFont.SFProDisplayNormalFont(10)
         self.reOrderButton.titleLabel?.font = UIFont.boldFont(13.5)
         
         self.reOrderButton.layer.cornerRadius = 12

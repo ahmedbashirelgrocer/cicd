@@ -217,7 +217,7 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
         self.locationName.font = UIFont.SFProDisplaySemiBoldFont(17.0)
         
         self.locationAddress.textColor = UIColor.black
-        self.locationAddress.font = UIFont.bookFont(12.0)
+        self.locationAddress.font = UIFont.SFProDisplayNormalFont(12.0)
     }
     
     fileprivate func setUpMyShoppingListLabelAppearance() {
@@ -231,9 +231,9 @@ class ShoppingBasketView : UIView, UITableViewDataSource, UITableViewDelegate, U
         self.itemNameLabel.textColor = UIColor.black
         self.quantityLabel.textColor = UIColor.black
         self.currencyLabel.textColor = UIColor.black
-        self.itemNameLabel.font = UIFont.bookFont(11.0)
-        self.quantityLabel.font = UIFont.bookFont(11.0)
-        self.currencyLabel.font = UIFont.bookFont(11.0)
+        self.itemNameLabel.font = UIFont.SFProDisplayNormalFont(11.0)
+        self.quantityLabel.font = UIFont.SFProDisplayNormalFont(11.0)
+        self.currencyLabel.font = UIFont.SFProDisplayNormalFont(11.0)
 
         self.itemNameLabel.text = localizedString("shopping_basket_item_label", comment: "")
         self.quantityLabel.text = localizedString("shopping_basket_quantity_label", comment: "")

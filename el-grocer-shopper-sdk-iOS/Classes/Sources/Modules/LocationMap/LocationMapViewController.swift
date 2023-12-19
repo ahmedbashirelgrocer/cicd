@@ -889,7 +889,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
             footerTitleLabel.text = localizedString("location_map_label_title", comment: "")
         }
         
-        footerTitleLabel.font = UIFont.bookFont(13.0)
+        footerTitleLabel.font = UIFont.SFProDisplayNormalFont(13.0)
         footerTitleLabel.textColor = UIColor.lightGray
         
         self.addressLabel.setBody3RegDarkStyle()

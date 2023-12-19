@@ -216,28 +216,28 @@ class OrderSummaryViewController : UIViewController, UITableViewDataSource, UITa
         self.userNameLabel.font = UIFont.SFProDisplaySemiBoldFont(20.0)
         
         self.infoLabel.textColor = UIColor.black
-        self.infoLabel.font = UIFont.bookFont(13.0)
+        self.infoLabel.font = UIFont.SFProDisplayNormalFont(13.0)
         self.infoLabel.text = localizedString("order_confirmation_info_label", comment: "")
     }
     
     func setUpAddressAppearance() {
         
         self.addressLabel.text = localizedString("order_confirmation_address_label", comment: "")
-        self.addressLabel.font = UIFont.bookFont(11.0)
+        self.addressLabel.font = UIFont.SFProDisplayNormalFont(11.0)
         self.addressLabel.textColor = UIColor.lightGray
         
         self.addressValue.textColor = UIColor.black
-        self.addressValue.font = UIFont.bookFont(12.0)
+        self.addressValue.font = UIFont.SFProDisplayNormalFont(12.0)
     }
     
     func setUpPhoneAppearance() {
         
         self.phoneLabel.text = localizedString("order_confirmation_phone_label", comment: "")
-        self.phoneLabel.font = UIFont.bookFont(11.0)
+        self.phoneLabel.font = UIFont.SFProDisplayNormalFont(11.0)
         self.phoneLabel.textColor = UIColor.lightGray
         
         self.phoneValue.textColor = UIColor.black
-        self.phoneValue.font = UIFont.bookFont(12.0)
+        self.phoneValue.font = UIFont.SFProDisplayNormalFont(12.0)
     }
     
     func setUptableHeaderAppearance() {
@@ -245,9 +245,9 @@ class OrderSummaryViewController : UIViewController, UITableViewDataSource, UITa
         self.itemNameLabel.textColor = UIColor.black
         self.itemQuantityLabel.textColor = UIColor.black
         self.itemCurrencyLabel.textColor = UIColor.black
-        self.itemNameLabel.font = UIFont.bookFont(11.0)
-        self.itemQuantityLabel.font = UIFont.bookFont(11.0)
-        self.itemCurrencyLabel.font = UIFont.bookFont(11.0)
+        self.itemNameLabel.font = UIFont.SFProDisplayNormalFont(11.0)
+        self.itemQuantityLabel.font = UIFont.SFProDisplayNormalFont(11.0)
+        self.itemCurrencyLabel.font = UIFont.SFProDisplayNormalFont(11.0)
         
         self.itemNameLabel.text = localizedString("shopping_basket_item_label", comment: "")
         self.itemQuantityLabel.text = localizedString("shopping_basket_quantity_label", comment: "")

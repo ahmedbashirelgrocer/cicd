@@ -25,7 +25,7 @@ class LanguageCell: UITableViewCell {
     
     // MARK: Appearance
     fileprivate func setUpLabelAppearance() {
-        self.languageTitle.font = UIFont.bookFont(15.0)
+        self.languageTitle.font = UIFont.SFProDisplayNormalFont(15.0)
         self.languageTitle.textColor = UIColor.black
     }
     

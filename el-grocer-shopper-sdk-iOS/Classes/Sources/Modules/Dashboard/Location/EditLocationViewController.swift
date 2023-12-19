@@ -439,7 +439,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     
     fileprivate func setUpLocationNameTextFieldAppearance() {
         
-      //  self.locNameTextField.font = UIFont.bookFont(15.0)
+      //  self.locNameTextField.font = UIFont.SFProDisplayNormalFont(15.0)
        // self.locNameTextField.textColor = UIColor.darkTextGrayColor()
         self.locNameTextField.addTarget(self, action: #selector(EditLocationViewController.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         
@@ -623,7 +623,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
     func setUpSearchTextFieldAppearance(){
         
 //        self.searchTextField.placeholder = localizedString("dashboard_location_search_placeholder", comment: "")
-//        self.searchTextField.font = UIFont.bookFont(13.0)
+//        self.searchTextField.font = UIFont.SFProDisplayNormalFont(13.0)
 //        self.searchTextField.textColor = UIColor.darkTextGrayColor()
 //        self.searchTextField.backgroundColor = UIColor.lightGrayBGColor()
 //
@@ -675,7 +675,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         tapGesture.numberOfTapsRequired = 1
 //        self.noCoverageView.addGestureRecognizer(tapGesture)
 //
-//        self.noCoverageTitleLabel.font = UIFont.bookFont(12.0)
+//        self.noCoverageTitleLabel.font = UIFont.SFProDisplayNormalFont(12.0)
 //        self.noCoverageTitleLabel.textColor = UIColor.black
         
         let paragraphStyle = NSMutableParagraphStyle()

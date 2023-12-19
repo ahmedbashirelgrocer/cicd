@@ -86,7 +86,7 @@ class DashboardLocationCell : UITableViewCell {
     fileprivate func setUpLocationAddressAppearance() {
         
     //    self.locationAddress.textColor = UIColor.lightTextGrayColor()
-      //  self.locationAddress.font = UIFont.bookFont(11.0)
+      //  self.locationAddress.font = UIFont.SFProDisplayNormalFont(11.0)
     }
     
     fileprivate func setUpActionButtonsAppearance() {

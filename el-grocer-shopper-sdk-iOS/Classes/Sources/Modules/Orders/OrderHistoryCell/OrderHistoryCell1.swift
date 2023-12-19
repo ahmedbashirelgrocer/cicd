@@ -95,19 +95,19 @@ class OrderHistoryCell1 : UITableViewCell {
     fileprivate func setUpDeliveryAddressNameAppearance() {
         
         self.deliveryAddressName.textColor = UIColor.black
-        self.deliveryAddressName.font = UIFont.bookFont(12.0)
+        self.deliveryAddressName.font = UIFont.SFProDisplayNormalFont(12.0)
     }
     
     fileprivate func setUpOrderStatusLabelAppearance() {
         
         self.orderStatusLabel.textColor = UIColor.black
-        self.orderStatusLabel.font = UIFont.bookFont(18.0)
+        self.orderStatusLabel.font = UIFont.SFProDisplayNormalFont(18.0)
     }
     
     fileprivate func setUpOrderNumberLabelAppearance() {
         
         self.orderNumberLabel.textColor = UIColor(red:0.70, green:0.70, blue:0.70, alpha:1.0)
-        self.orderNumberLabel.font = UIFont.bookFont(9.0)
+        self.orderNumberLabel.font = UIFont.SFProDisplayNormalFont(9.0)
     }
     
     fileprivate func setUpOrderDateLabelAppearance() {
@@ -119,13 +119,13 @@ class OrderHistoryCell1 : UITableViewCell {
     fileprivate func setUpGroceryNameLabelAppearance() {
         
         self.groceryNameLabel.textColor = UIColor.black
-        self.groceryNameLabel.font = UIFont.bookFont(12.0)
+        self.groceryNameLabel.font = UIFont.SFProDisplayNormalFont(12.0)
     }
     
     fileprivate func setUpGroceryAddressLabelAppearance() {
         
         self.groceryAddressLabel.textColor = UIColor.black
-        self.groceryAddressLabel.font = UIFont.bookFont(13.0)
+        self.groceryAddressLabel.font = UIFont.SFProDisplayNormalFont(13.0)
     }
     
     fileprivate func setUpDeleteButtonAppearance() {

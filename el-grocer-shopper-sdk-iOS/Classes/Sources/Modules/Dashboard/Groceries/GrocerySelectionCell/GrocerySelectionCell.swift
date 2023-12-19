@@ -56,7 +56,7 @@ class GrocerySelectionCell : UITableViewCell {
     
     fileprivate func setUpGroceryAddressAppearance() {
         
-        self.groceryAddress.font = UIFont.bookFont(9.0)
+        self.groceryAddress.font = UIFont.SFProDisplayNormalFont(9.0)
         self.groceryAddress.textColor = UIColor.white
     }
     
@@ -67,7 +67,7 @@ class GrocerySelectionCell : UITableViewCell {
     
     fileprivate func setUpItemsCountAppearance() {
         
-        self.groceryItemsCount.font = UIFont.bookFont(11.0)
+        self.groceryItemsCount.font = UIFont.SFProDisplayNormalFont(11.0)
         self.groceryItemsCount.textColor = UIColor.white
     }
     

@@ -95,11 +95,6 @@ extension UIFont {
         return UIFont.getFont(name: "Gotham-Bold", size: size)!
     }
     
-    class func bookFont(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "Gotham-Book", size: size)!
-    }
-    
     class func lightFont(_ size:CGFloat) -> UIFont {
         
         return UIFont.getFont(name: "Gotham-Light", size: size)!
@@ -330,7 +325,6 @@ extension UIFont {
         "Gotham-Black.otf",
         "Gotham-Bold.otf",
         "Gotham-Book-Italic.otf",
-        "Gotham-Book.otf",
         "Gotham-Light-Italic.otf",
         "Gotham-Light.otf",
         "Gotham-Medium.otf",

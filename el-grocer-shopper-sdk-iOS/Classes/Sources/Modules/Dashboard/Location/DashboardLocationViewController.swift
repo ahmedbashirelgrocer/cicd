@@ -509,7 +509,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     func setUpSearchTextFieldAppearance(){
         
         self.searchTextField.placeholder = localizedString("dashboard_location_search_placeholder", comment: "")
-        self.searchTextField.font = UIFont.bookFont(13.0)
+        self.searchTextField.font = UIFont.SFProDisplayNormalFont(13.0)
         self.searchTextField.textColor = UIColor.darkGrayTextColor()
         self.searchTextField.backgroundColor = UIColor.lightGrayBGColor()
         
@@ -576,7 +576,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         self.currentLabel.sizeToFit()
         
         self.currentLocLabel.textColor = UIColor.darkGrayTextColor()
-        self.currentLocLabel.font = UIFont.bookFont(13.0)
+        self.currentLocLabel.font = UIFont.SFProDisplayNormalFont(13.0)
         self.currentLocLabel.text = localizedString("finding_address_title", comment: "")
         self.currentLocLabel.numberOfLines = 0
         self.currentLocLabel.sizeToFit()
@@ -673,7 +673,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         tapGesture.numberOfTapsRequired = 1
         self.noCoverageView.addGestureRecognizer(tapGesture)
         
-        self.noCoverageTitleLabel.font = UIFont.bookFont(12.0)
+        self.noCoverageTitleLabel.font = UIFont.SFProDisplayNormalFont(12.0)
         self.noCoverageTitleLabel.textColor = UIColor.black
        
         let paragraphStyle = NSMutableParagraphStyle()
@@ -696,7 +696,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         setEmailDoneButtonEnabled(false)
         
         self.emailTextField.placeholder = localizedString("enter_email_placeholder_text", comment: "")
-        self.emailTextField.font = UIFont.bookFont(13.0)
+        self.emailTextField.font = UIFont.SFProDisplayNormalFont(13.0)
         self.emailTextField.textColor = UIColor.darkGrayTextColor()
         if UserDefaults.isUserLoggedIn(){
             let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)

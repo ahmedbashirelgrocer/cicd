@@ -58,7 +58,7 @@ class NoNetworkConnectionViewController : UIViewController , NavigationBarProtoc
     fileprivate func setUpDescriptionLabelAppearance() {
         
         self.descriptionLabel.textColor = UIColor.emptyViewTextColor()
-        self.descriptionLabel.font = UIFont.bookFont(17.0)
+        self.descriptionLabel.font = UIFont.SFProDisplayNormalFont(17.0)
         self.descriptionLabel.text = localizedString("no_network_screen_description", comment: "")
     }
     

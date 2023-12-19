@@ -52,13 +52,13 @@ open class OrderTrackingView: UIView {
     
     fileprivate func setUpOrderNumberAppearance() {
         
-        self.orderNumberLbl.font = UIFont.bookFont(9.0)
+        self.orderNumberLbl.font = UIFont.SFProDisplayNormalFont(9.0)
         self.orderNumberLbl.textColor = UIColor.lightTextGrayColor()
     }
     
     fileprivate func setUpOrderTimeAppearance() {
         
-        self.orderTimeLbl.font = UIFont.bookFont(9.0)
+        self.orderTimeLbl.font = UIFont.SFProDisplayNormalFont(9.0)
         self.orderTimeLbl.textColor = UIColor.lightTextGrayColor()
     }
     

@@ -32,7 +32,7 @@ class GroceryReviewRatingCell : UITableViewCell {
     fileprivate func setUpCriteriaNameLabelAppearance() {
         
         self.criteriaName.textColor = UIColor.black
-        self.criteriaName.font = UIFont.bookFont(13.0)
+        self.criteriaName.font = UIFont.SFProDisplayNormalFont(13.0)
     }
     
     fileprivate func setUpRatingView() {

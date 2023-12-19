@@ -188,7 +188,7 @@ class OrderPaymentSelectionViewController : UIViewController,UITableViewDelegate
         self.paymentMethodLabel.textColor = UIColor(red:(57.0/255.0), green:(57.0/255.0), blue:(57.0/255.0), alpha: 1.0)
         self.paymentMethodLabel.text = localizedString("payment_method_title", comment: "")
         
-     //   self.payLabel.font = UIFont.bookFont(12.0)
+     //   self.payLabel.font = UIFont.SFProDisplayNormalFont(12.0)
       //  self.payLabel.textColor = UIColor(red:(143.0/255.0), green:(143.0/255.0), blue:(143.0/255.0), alpha: 1.0)
       //  self.payLabel.text = localizedString("paying_with_title", comment: "")
     }
@@ -226,7 +226,7 @@ class OrderPaymentSelectionViewController : UIViewController,UITableViewDelegate
             headerLabel.textAlignment = NSTextAlignment.left
             headerLabel.backgroundColor = UIColor.white
             
-            let dict1 = [NSAttributedString.Key.foregroundColor: UIColor.darkGrayTextColor(),NSAttributedString.Key.font:UIFont.bookFont(10.0)]
+            let dict1 = [NSAttributedString.Key.foregroundColor: UIColor.darkGrayTextColor(),NSAttributedString.Key.font:UIFont.SFProDisplayNormalFont(10.0)]
             
             let dict2 = [NSAttributedString.Key.foregroundColor: UIColor.secondaryBlackColor(),NSAttributedString.Key.font:UIFont.SFProDisplaySemiBoldFont(12.0)]
             

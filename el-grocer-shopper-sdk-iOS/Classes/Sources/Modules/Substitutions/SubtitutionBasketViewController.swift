@@ -160,7 +160,7 @@ class SubtitutionBasketViewController: UIViewController,UITableViewDataSource, U
         self.substitutionSummaryTitle.textColor = UIColor.black
         self.substitutionSummaryTitle.text = localizedString("choose_substitutions_title_new", comment: "")
         
-        self.substitutionMessage.font = UIFont.bookFont(11.0)
+        self.substitutionMessage.font = UIFont.SFProDisplayNormalFont(11.0)
         self.substitutionMessage.textColor = UIColor.black
         self.substitutionMessage.text = localizedString("products_out_of_stock_message_new", comment: "")
     }

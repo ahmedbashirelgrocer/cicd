@@ -29,12 +29,12 @@ class LocationSearchCell: UITableViewCell {
     fileprivate func setUpLocationLabelsAppearance() {
         
         self.locationTitle.textColor = UIColor.black
-        self.locationTitle.font = UIFont.bookFont(12.0)
+        self.locationTitle.font = UIFont.SFProDisplayNormalFont(12.0)
         self.locationTitle.sizeToFit()
         self.locationTitle.numberOfLines = 1
         
         self.locationSubTitle.textColor = UIColor.lightTextGrayColor()
-        self.locationSubTitle.font = UIFont.bookFont(11.0)
+        self.locationSubTitle.font = UIFont.SFProDisplayNormalFont(11.0)
         self.locationSubTitle.sizeToFit()
         self.locationSubTitle.numberOfLines = 1
         

@@ -45,7 +45,7 @@ extension Form where Self: RegistrationViewController {
     func styleRegistrationTextFields() {
 //        self.styleInputTextFields { (inputFields) in
 //            inputFields.layer.cornerRadius = 5
-//            inputFields.font = UIFont.bookFont(14.0)
+//            inputFields.font = UIFont.SFProDisplayNormalFont(14.0)
 //            inputFields.textColor = UIColor.blackColor()
 //        }
     }

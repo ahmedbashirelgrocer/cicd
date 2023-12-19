@@ -26,13 +26,13 @@ class UserAccountCell : UITableViewCell, UITextFieldDelegate {
         super.awakeFromNib()
         
         self.fieldLabel.textColor = ApplicationTheme.currentTheme.labelSecondaryBaseColor
-        self.fieldLabel.font = UIFont.bookFont(13.0)
+        self.fieldLabel.font = UIFont.SFProDisplayNormalFont(13.0)
         
         self.fieldValueTextField.textColor = UIColor.black
-        self.fieldValueTextField.font = UIFont.bookFont(13.0)
+        self.fieldValueTextField.font = UIFont.SFProDisplayNormalFont(13.0)
         
         self.valueLabel.textColor = UIColor.black
-        self.valueLabel.font = UIFont.bookFont(13.0)
+        self.valueLabel.font = UIFont.SFProDisplayNormalFont(13.0)
     }
     
     func configure(_ placeholder:String, profile:UserProfile, invoiceAddress:DeliveryAddress, type:UserAccountEditingOptions) {

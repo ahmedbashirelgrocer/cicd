@@ -54,7 +54,7 @@ class DeliveryView: UIView {
     
     fileprivate func setUpLabelAppearance(){
         
-        self.titleLabel.font = UIFont.bookFont(14.0)
+        self.titleLabel.font = UIFont.SFProDisplayNormalFont(14.0)
         self.titleLabel.textColor = UIColor.black
         self.titleLabel.text = localizedString("delivery_view_help_us", comment: "")
         self.titleLabel.sizeToFit()

@@ -32,7 +32,7 @@ class EmptyView : UIView {
     fileprivate func setUpDescriptionLabelAppearance() {
         
         self.descriptionLabel.textColor = UIColor.emptyViewTextColor()
-        self.descriptionLabel.font = UIFont.bookFont(17.0)
+        self.descriptionLabel.font = UIFont.SFProDisplayNormalFont(17.0)
     }
     
     // MARK: Instance

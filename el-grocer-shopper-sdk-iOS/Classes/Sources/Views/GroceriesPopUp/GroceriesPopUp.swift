@@ -101,7 +101,7 @@ class GroceriesPopUp: UIView,UITextFieldDelegate {
         self.lblLocationTitle.text = localizedString("start_delivering_here", comment: "")
         self.lblEmailTitle.text = localizedString("start_delivering_here", comment: "")
         
-      //  self.lblDetailLocation.font = UIFont.bookFont(12.0)
+      //  self.lblDetailLocation.font = UIFont.SFProDisplayNormalFont(12.0)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = NSTextAlignment.center
        // paragraphStyle.lineSpacing = 5.0
@@ -111,7 +111,7 @@ class GroceriesPopUp: UIView,UITextFieldDelegate {
         lblDetailLocationStr.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, lblDetailLocationStr.length))
         self.lblDetailLocation.attributedText = lblDetailLocationStr
         
-      //  self.lblDetailEmail.font = UIFont.bookFont(11.0)
+      //  self.lblDetailEmail.font = UIFont.SFProDisplayNormalFont(11.0)
         
         let lblDetailEmailStr = NSMutableAttributedString(string: localizedString("stores_notify_text", comment: ""))
         lblDetailEmailStr.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, lblDetailEmailStr.length))
