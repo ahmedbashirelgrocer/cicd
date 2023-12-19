@@ -901,13 +901,13 @@
     </scenes>
     <designables>
         <designable name="Ber-pQ-Pz0">
-            <size key="intrinsicContentSize" width="43" height="34"/>
+            <size key="intrinsicContentSize" width="43" height="33"/>
         </designable>
         <designable name="C5s-9Q-zLB">
-            <size key="intrinsicContentSize" width="36" height="33"/>
+            <size key="intrinsicContentSize" width="36" height="32"/>
         </designable>
         <designable name="tlZ-Hl-ouE">
-            <size key="intrinsicContentSize" width="38" height="33"/>
+            <size key="intrinsicContentSize" width="39" height="32"/>
         </designable>
     </designables>
     <resources>

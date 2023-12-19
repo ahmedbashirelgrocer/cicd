@@ -26,7 +26,7 @@
 	<key>Navigation Bar</key>
 	<dict>
 		<key>Font name</key>
-		<string>SF-Pro-Display-Regular</string>
+		<string>SFProDisplay-Regular</string>
 		<key>Font size</key>
 		<string>16</string>
 		<key>Title color</key>

@@ -85,26 +85,6 @@ extension UIFont {
         return UIFont.getFont(name: "SFUIDisplay-Semibold", size: size)!
     }
     
-    class func blackFont(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "Gotham-Black", size: size)!
-    }
-    
-    class func ultraFont(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "Gotham-Ultra", size: size)!
-    }
-    
-    class func lightItalicFont(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "Gotham-XLightItalic", size: size)!
-    }
-    
-    class func bookItalicFont(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "Gotham-BookItalic", size: size)!
-    }
-    
     
     //MARK: Open Sans Fonts
     
@@ -302,10 +282,6 @@ extension UIFont {
         "MarkaziText-Medium.ttf",
         "MarkaziText-Regular.ttf",
         "MarkaziText-SemiBold.ttf",
-        "Gotham-Black.otf",
-        "Gotham-Book-Italic.otf",
-        "Gotham-Light-Italic.otf",
-        "Gotham-Ultra.otf",
         "OpenSans-Bold.ttf",
         "OpenSans-BoldItalic.ttf",
         "OpenSans-ExtraBold.ttf",

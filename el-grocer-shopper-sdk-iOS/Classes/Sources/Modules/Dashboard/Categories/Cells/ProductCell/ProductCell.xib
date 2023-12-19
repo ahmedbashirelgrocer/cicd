@@ -594,7 +594,7 @@
     </objects>
     <designables>
         <designable name="dvg-Wg-s4O">
-            <size key="intrinsicContentSize" width="57" height="13.333333333333334"/>
+            <size key="intrinsicContentSize" width="57" height="13"/>
         </designable>
     </designables>
     <resources>
