@@ -38,7 +38,7 @@ class DeliveryCell: UITableViewCell {
     // MARK: Appearance
     fileprivate func setUpLabelAppearance(){
                 
-        self.titleLabel.font = UIFont.bookFont(12.0)
+        self.titleLabel.font = UIFont.SFProDisplayNormalFont(12.0)
         self.titleLabel.textColor = UIColor.darkGrayTextColor()
         self.titleLabel.sizeToFit()
         self.titleLabel.numberOfLines = 0

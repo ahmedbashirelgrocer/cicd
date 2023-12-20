@@ -26,13 +26,13 @@ class EmptyView : UIView {
     fileprivate func setUpTitleLabelAppearance() {
         
         self.titleLabel.textColor = UIColor.emptyViewTextColor()
-        self.titleLabel.font = UIFont.boldFont(20.0)
+        self.titleLabel.font = UIFont.SFProDisplayBoldFont(20.0)
     }
     
     fileprivate func setUpDescriptionLabelAppearance() {
         
         self.descriptionLabel.textColor = UIColor.emptyViewTextColor()
-        self.descriptionLabel.font = UIFont.bookFont(17.0)
+        self.descriptionLabel.font = UIFont.SFProDisplayNormalFont(17.0)
     }
     
     // MARK: Instance

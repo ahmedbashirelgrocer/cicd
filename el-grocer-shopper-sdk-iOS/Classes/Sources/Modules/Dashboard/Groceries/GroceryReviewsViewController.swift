@@ -172,7 +172,7 @@ class GroceryReviewsViewController : UIViewController, UITableViewDataSource, UI
         let ratingDescription_2 = localizedString("grocery_review_description_label_2", comment: "")
 
         let attributedRatingDescription = NSMutableAttributedString(string: "\(ratingDescription_1)\(ratingDescription_2)")
-        attributedRatingDescription.addAttribute(NSAttributedString.Key.font, value: UIFont.bookFont(13.0), range: NSMakeRange(0, ratingDescription_1.count))
+        attributedRatingDescription.addAttribute(NSAttributedString.Key.font, value: UIFont.SFProDisplayNormalFont(13.0), range: NSMakeRange(0, ratingDescription_1.count))
         attributedRatingDescription.addAttribute(NSAttributedString.Key.font, value: UIFont.SFProDisplaySemiBoldFont(13.0), range: NSMakeRange(ratingDescription_1.count, ratingDescription_2.count))
 
         self.ratingDescriptionLabel.attributedText = attributedRatingDescription

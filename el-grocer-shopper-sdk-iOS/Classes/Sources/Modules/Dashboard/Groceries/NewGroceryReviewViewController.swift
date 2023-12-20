@@ -171,7 +171,7 @@ class NewGroceryReviewViewController : UIViewController, UITableViewDataSource, 
     func setUpGroceryNameLabelAppearance() {
         
         self.groceryNameLabel.textColor = UIColor.black
-        self.groceryNameLabel.font = UIFont.bookFont(14.0)
+        self.groceryNameLabel.font = UIFont.SFProDisplayNormalFont(14.0)
         self.groceryNameLabel.layer.cornerRadius = 4.0
         self.groceryNameLabel.layer.borderColor = UIColor.borderGrayColor().cgColor
         self.groceryNameLabel.layer.borderWidth = 1
@@ -182,19 +182,19 @@ class NewGroceryReviewViewController : UIViewController, UITableViewDataSource, 
     func setCommentTextFieldAppearance() {
         
         self.commentTextField.placeholder = localizedString("grocery_review_comments_placeholder", comment: "")
-        self.commentTextField.font = UIFont.bookFont(14.0)
+        self.commentTextField.font = UIFont.SFProDisplayNormalFont(14.0)
         self.commentTextField.layer.cornerRadius = 10.0
         self.commentTextField.layer.borderColor = UIColor.borderGrayColor().cgColor
         self.commentTextField.layer.borderWidth = 1
         
-        self.commentTextView.font = UIFont.bookFont(14.0)
+        self.commentTextView.font = UIFont.SFProDisplayNormalFont(14.0)
     }
     
     func setSendReviewButtonAppearance() {
         
         self.sendReviewButton.setTitle(localizedString("grocery_review_send_review_button", comment: ""), for: UIControl.State())
         self.sendReviewButton.setTitleColor(UIColor.white, for: UIControl.State())
-        self.sendReviewButton.titleLabel?.font = UIFont.bookFont(19.0)
+        self.sendReviewButton.titleLabel?.font = UIFont.SFProDisplayNormalFont(19.0)
         self.sendReviewButton.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         self.sendReviewButton.layer.cornerRadius = 6
     }

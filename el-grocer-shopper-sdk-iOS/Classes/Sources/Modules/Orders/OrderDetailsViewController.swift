@@ -1259,25 +1259,25 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
 //        self.groceryName.font = UIFont.mediumFont(19.0)
 //
 //        self.groceryAddress.textColor = UIColor.black
-//        self.groceryAddress.font = UIFont.bookFont(14.0)
+//        self.groceryAddress.font = UIFont.SFProDisplayNormalFont(14.0)
     }
     
     func setUpOrderNumberAndDateAppearance() {
         
 //        self.orderNUmber.textColor = UIColor.black
-//        self.orderNUmber.font = UIFont.bookFont(11.0)
+//        self.orderNUmber.font = UIFont.SFProDisplayNormalFont(11.0)
 //
 //        self.orderDate.textColor = UIColor.black
-//        self.orderDate.font = UIFont.bookFont(11.0)
+//        self.orderDate.font = UIFont.SFProDisplayNormalFont(11.0)
     }
     
     func setUpDeliverySlotLabelAndDateAppearance() {
         
 //        self.deliverySlotTitle.textColor = UIColor.black
-//        self.deliverySlotTitle.font = UIFont.bookFont(11.0)
+//        self.deliverySlotTitle.font = UIFont.SFProDisplayNormalFont(11.0)
 //
 //        self.deliverySlotDate.textColor = UIColor.black
-//        self.deliverySlotDate.font = UIFont.bookFont(11.0)
+//        self.deliverySlotDate.font = UIFont.SFProDisplayNormalFont(11.0)
 //
 //        let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
 //        if currentLang == "ar" {
@@ -1307,9 +1307,9 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
 //        self.itemNameLabel.textColor = UIColor.black
 //        self.itemQuantityLabel.textColor = UIColor.black
 //        self.itemCurrencyLabel.textColor = UIColor.black
-//        self.itemNameLabel.font = UIFont.bookFont(11.0)
-//        self.itemQuantityLabel.font = UIFont.bookFont(11.0)
-//        self.itemCurrencyLabel.font = UIFont.bookFont(11.0)
+//        self.itemNameLabel.font = UIFont.SFProDisplayNormalFont(11.0)
+//        self.itemQuantityLabel.font = UIFont.SFProDisplayNormalFont(11.0)
+//        self.itemCurrencyLabel.font = UIFont.SFProDisplayNormalFont(11.0)
 //
 //        self.itemNameLabel.text = localizedString("shopping_basket_item_label", comment: "")
 //        self.itemQuantityLabel.text = localizedString("shopping_basket_quantity_label", comment: "")
@@ -1382,7 +1382,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
 //
 //        self.orderConfirmationButton.setTitle(localizedString("order_history_order_confirmation_button", comment: ""), for: UIControl.State())
 //        self.orderConfirmationButton.setTitleColor(UIColor.redTextColor(), for: UIControl.State())
-//        self.orderConfirmationButton.titleLabel?.font = UIFont.lightFont(14.0)
+//        self.orderConfirmationButton.titleLabel?.font = UIFont.SFProDisplayLightFont(14.0)
 //        self.orderConfirmationButton.layer.borderWidth = 1
 //        self.orderConfirmationButton.layer.borderColor = UIColor.redTextColor().cgColor
 //
@@ -1409,7 +1409,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         self.reorderButton.setH4SemiBoldWhiteStyle()
         
 //        self.changeOrderButton.setTitle(localizedString("order_history_change_order_button", comment: ""), for: UIControl.State())
-//        self.changeOrderButton.titleLabel?.font = UIFont.bookFont(15.0)
+//        self.changeOrderButton.titleLabel?.font = UIFont.SFProDisplayNormalFont(15.0)
         
         let currentLang = LanguageManager.sharedInstance.getSelectedLocale()
         if currentLang == "ar" {

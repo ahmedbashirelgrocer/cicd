@@ -57,14 +57,14 @@ class CongratulationsViewController: UIViewController {
     
     fileprivate func setCongratulationsLabelAppearance() {
         
-        self.congratulationsLabel.font = UIFont.bookFont(24.0)
+        self.congratulationsLabel.font = UIFont.SFProDisplayNormalFont(24.0)
         self.congratulationsLabel.textColor = UIColor.black
         self.congratulationsLabel.text = localizedString("congratiolations", comment: "")
     }
     
     fileprivate func setFreeGroceryDescriptionLabelAppearance() {
         
-        self.referralDescription.font = UIFont.bookFont(12.0)
+        self.referralDescription.font = UIFont.SFProDisplayNormalFont(12.0)
         self.referralDescription.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
        // self.referralDescription.text = localizedString("congratiolation_referral_description", comment: "")
         self.referralDescription.text = (userInfo["aps"] as? NSDictionary)?["alert"] as? String
@@ -72,14 +72,14 @@ class CongratulationsViewController: UIViewController {
     
     fileprivate func setMoreSharingLabelAppearance() {
         
-        self.moreSharingLabel.font = UIFont.boldFont(12.0)
+        self.moreSharingLabel.font = UIFont.SFProDisplayBoldFont(12.0)
         self.moreSharingLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.moreSharingLabel.text = localizedString("congratiolation_keep_sharing_text", comment: "")
     }
     
     fileprivate func setInvitationLinkLabelAppearance() {
         
-        self.invitationLink.font = UIFont.bookFont(12.0)
+        self.invitationLink.font = UIFont.SFProDisplayNormalFont(12.0)
         self.invitationLink.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.invitationLink.text = localizedString("invitation_code", comment: "")
     }
@@ -97,7 +97,7 @@ class CongratulationsViewController: UIViewController {
         self.invitationCode.text = userProfile?.referralCode
         
         self.copyButton.titleLabel?.textColor = ApplicationTheme.currentTheme.buttonTextWithClearBGColor
-        self.copyButton.titleLabel?.font = UIFont.boldFont(12.0)
+        self.copyButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(12.0)
     }
     
     fileprivate func setSendInvitationButtonAppearance() {

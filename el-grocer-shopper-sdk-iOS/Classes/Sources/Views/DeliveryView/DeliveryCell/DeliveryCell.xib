@@ -1,31 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Gotham-Book.otf">
-            <string>Gotham-Book</string>
+        <array key="SF-Pro-Display-Regular.otf">
+            <string>SFProDisplay-Regular</string>
         </array>
     </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DeliveryCell" rowHeight="40" id="KGk-i7-Jjw" customClass="DeliveryCell" customModule="ElGrocerShopper" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="DeliveryCell" rowHeight="40" id="KGk-i7-Jjw" customClass="DeliveryCell" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <frame key="frameInset" width="320" height="39"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order delivered on time?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2h1-y5-dhO">
-                        <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="12"/>
+                        <rect key="frame" x="10" y="0.0" width="228" height="40"/>
+                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="12"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TnA-oE-26a">
+                        <rect key="frame" x="248" y="10" width="26" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="LIs-7a-dMq"/>
                             <constraint firstAttribute="width" constant="26" id="slN-28-Rrx"/>
@@ -37,6 +40,7 @@
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gPl-QI-0bA">
+                        <rect key="frame" x="289" y="10" width="26" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="26" id="2ym-bg-XVK"/>
                             <constraint firstAttribute="height" constant="20" id="cQq-Tb-Pab"/>
@@ -65,10 +69,11 @@
                 <outlet property="tickButton" destination="TnA-oE-26a" id="xFm-uQ-N6x"/>
                 <outlet property="titleLabel" destination="2h1-y5-dhO" id="X3C-CA-rUM"/>
             </connections>
+            <point key="canvasLocation" x="40" y="20"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="cross" width="26" height="20"/>
+        <image name="cross" width="24" height="24"/>
         <image name="cross-selected" width="14" height="15"/>
         <image name="tick" width="26" height="20"/>
         <image name="tick-selected" width="40" height="30"/>

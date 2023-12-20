@@ -51,14 +51,14 @@ class NoNetworkConnectionViewController : UIViewController , NavigationBarProtoc
     fileprivate func setUpTitleLabelAppearance() {
         
         self.titleLabel.textColor = UIColor.emptyViewTextColor()
-        self.titleLabel.font = UIFont.boldFont(20.0)
+        self.titleLabel.font = UIFont.SFProDisplayBoldFont(20.0)
         self.titleLabel.text = localizedString("no_network_screen_title", comment: "")
     }
     
     fileprivate func setUpDescriptionLabelAppearance() {
         
         self.descriptionLabel.textColor = UIColor.emptyViewTextColor()
-        self.descriptionLabel.font = UIFont.bookFont(17.0)
+        self.descriptionLabel.font = UIFont.SFProDisplayNormalFont(17.0)
         self.descriptionLabel.text = localizedString("no_network_screen_description", comment: "")
     }
     

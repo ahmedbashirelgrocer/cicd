@@ -33,10 +33,10 @@ class WalletHistoryCell: UITableViewCell {
         self.purchaseTitle.font = UIFont.SFProDisplaySemiBoldFont(13.0)
         self.purchaseTitle.textColor = UIColor.black
         
-        self.purchaseDate.font = UIFont.lightFont(11.0)
+        self.purchaseDate.font = UIFont.SFProDisplayLightFont(11.0)
         self.purchaseDate.textColor = UIColor.lightTextGrayColor()
         
-        self.purchaseAmount.font = UIFont.lightFont(11.0)
+        self.purchaseAmount.font = UIFont.SFProDisplayLightFont(11.0)
         self.purchaseAmount.textColor = UIColor.darkGrayTextColor()
     }
     

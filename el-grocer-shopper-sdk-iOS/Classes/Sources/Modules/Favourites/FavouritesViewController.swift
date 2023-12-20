@@ -178,8 +178,8 @@ class FavouritesViewController : BasketBasicViewController, UICollectionViewData
         self.groceriesButton.setTitle(localizedString("favourites_groceries_tab", comment: ""), for: UIControl.State())
         self.productsButton.setTitle(localizedString("favourites_products_tab", comment: ""), for: UIControl.State())
 
-        self.groceriesButton.titleLabel?.font = UIFont.bookFont(16.0)
-        self.productsButton.titleLabel?.font = UIFont.bookFont(16.0)
+        self.groceriesButton.titleLabel?.font = UIFont.SFProDisplayNormalFont(16.0)
+        self.productsButton.titleLabel?.font = UIFont.SFProDisplayNormalFont(16.0)
     }
     
     func setButtonAsActiveTab(_ button:UIButton) {

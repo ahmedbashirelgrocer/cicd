@@ -87,7 +87,7 @@ class GroceriesEmptyView: UIView {
 
         self.titleLabel.font = UIFont.SFProDisplaySemiBoldFont(15)
         self.titleLabel.textColor = UIColor.redInfoColor()
-        self.subtitleLabel.font = UIFont.lightFont(13)
+        self.subtitleLabel.font = UIFont.SFProDisplayLightFont(13)
         self.subtitleLabel.textColor = UIColor.black
         self.subtitleLabel.text = localizedString("no_groceries_subtitle_label_title", comment: "")
         

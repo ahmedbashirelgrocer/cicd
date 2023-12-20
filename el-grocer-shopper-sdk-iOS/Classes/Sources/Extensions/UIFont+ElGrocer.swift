@@ -85,51 +85,6 @@ extension UIFont {
         return UIFont.getFont(name: "SFUIDisplay-Semibold", size: size)!
     }
     
-    class func blackFont(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "Gotham-Black", size: size)!
-    }
-    
-    class func boldFont(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "Gotham-Bold", size: size)!
-    }
-    
-    class func bookFont(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "Gotham-Book", size: size)!
-    }
-    
-    class func lightFont(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "Gotham-Light", size: size)!
-    }
-    
-    class func mediumFont(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "Gotham-Medium", size: size)!
-    }
-    
-    class func thinFont(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "Gotham-Thin", size: size)!
-    }
-    
-    class func ultraFont(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "Gotham-Ultra", size: size)!
-    }
-    
-    class func lightItalicFont(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "Gotham-XLightItalic", size: size)!
-    }
-    
-    class func bookItalicFont(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "Gotham-BookItalic", size: size)!
-    }
-    
     
     //MARK: Open Sans Fonts
     
@@ -298,13 +253,6 @@ extension UIFont {
         
         return UIFont.getFont(name: "SanFranciscoText-SemiboldItalic", size: size)!
     }
-    
-    // MARK: Avenir Next Condensed Fonts
-    
-    class func AvenirNextCondensedRegular(_ size:CGFloat) -> UIFont {
-        
-        return UIFont.getFont(name: "AvenirNextCondensed-Regular", size: size)!
-    }
 }
 extension UIFont {
     func withWeight(_ weight: UIFont.Weight) -> UIFont {
@@ -334,15 +282,6 @@ extension UIFont {
         "MarkaziText-Medium.ttf",
         "MarkaziText-Regular.ttf",
         "MarkaziText-SemiBold.ttf",
-        "Gotham-Black.otf",
-        "Gotham-Bold.otf",
-        "Gotham-Book-Italic.otf",
-        "Gotham-Book.otf",
-        "Gotham-Light-Italic.otf",
-        "Gotham-Light.otf",
-        "Gotham-Medium.otf",
-        "Gotham-Thin.otf",
-        "Gotham-Ultra.otf",
         "OpenSans-Bold.ttf",
         "OpenSans-BoldItalic.ttf",
         "OpenSans-ExtraBold.ttf",

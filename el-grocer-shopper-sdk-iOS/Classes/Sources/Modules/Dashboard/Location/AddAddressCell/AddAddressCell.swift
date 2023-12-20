@@ -25,7 +25,7 @@ class AddAddressCell: UITableViewCell {
     func configureCell() {
 
         self.locationTitle.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
-        self.locationTitle.font = UIFont.bookFont(15.0)
+        self.locationTitle.font = UIFont.SFProDisplayNormalFont(15.0)
         self.locationTitle.sizeToFit()
         self.locationTitle.numberOfLines = 1
         

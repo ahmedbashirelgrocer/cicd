@@ -37,7 +37,7 @@ class GroceryReviewCell : UITableViewCell {
     fileprivate func setUpReviewTextAppearance() {
         
         self.reviewText.textColor = UIColor.black
-        self.reviewText.font = UIFont.bookFont(11.0)
+        self.reviewText.font = UIFont.SFProDisplayNormalFont(11.0)
     }
     
     fileprivate func setUpRatingView() {

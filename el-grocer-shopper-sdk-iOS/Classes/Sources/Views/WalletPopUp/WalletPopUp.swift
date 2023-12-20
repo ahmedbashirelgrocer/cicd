@@ -124,20 +124,20 @@ class WalletPopUp: UIView,UITextFieldDelegate {
     
     fileprivate func setUpLabelsAppearance(){
         
-        self.balanceAmountLabel.font = UIFont.bookFont(17.0)
+        self.balanceAmountLabel.font = UIFont.SFProDisplayNormalFont(17.0)
         self.balanceAmountLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.balanceAmountLabel.text = localizedString("wallet_balance", comment: "")
         
         self.totalAmountLabel.font = UIFont.SFProDisplaySemiBoldFont(18.0)
         self.totalAmountLabel.textColor = UIColor.black
         
-        self.billLabel.font = UIFont.bookFont(11.0)
+        self.billLabel.font = UIFont.SFProDisplayNormalFont(11.0)
         self.billLabel.textColor = UIColor.lightTextGrayColor()
     }
     
     fileprivate func setUpWalletTextFieldAppearance(){
         
-        self.walletTextField.font = UIFont.bookFont(13.0)
+        self.walletTextField.font = UIFont.SFProDisplayNormalFont(13.0)
         self.walletTextField.textColor = UIColor.lightTextGrayColor()
         self.walletTextField.placeholder = localizedString("amount_pay_from_wallet", comment: "")
     }
@@ -198,9 +198,9 @@ class WalletPopUp: UIView,UITextFieldDelegate {
         }
         
         if payAmount!.isEmpty{
-            self.walletTextField.font = UIFont.bookFont(13.0)
+            self.walletTextField.font = UIFont.SFProDisplayNormalFont(13.0)
         }else{
-           self.walletTextField.font = UIFont.bookFont(20.0)
+           self.walletTextField.font = UIFont.SFProDisplayNormalFont(20.0)
         }
         
         

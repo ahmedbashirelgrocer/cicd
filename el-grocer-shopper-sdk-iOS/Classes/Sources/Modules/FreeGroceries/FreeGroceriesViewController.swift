@@ -73,14 +73,14 @@ class FreeGroceriesViewController: UIViewController {
     // MARK: Appearance
     fileprivate func setFreeGroceryTitleLabelAppearance() {
         
-        self.freeGroceryTitle.font = UIFont.boldFont(15.0)
+        self.freeGroceryTitle.font = UIFont.SFProDisplayBoldFont(15.0)
         self.freeGroceryTitle.textColor = UIColor.black
         self.freeGroceryTitle.text = localizedString("earn_free_credits", comment: "")
     }
     
     fileprivate func setFreeGroceryDescriptionLabelAppearance() {
         
-        self.freeGroceryDescription.font = UIFont.bookFont(12.0)
+        self.freeGroceryDescription.font = UIFont.SFProDisplayNormalFont(12.0)
         self.freeGroceryDescription.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         
         let paragraphStyle = NSMutableParagraphStyle()
@@ -92,7 +92,7 @@ class FreeGroceriesViewController: UIViewController {
     
     fileprivate func setInvitationLinkLabelAppearance() {
         
-        self.invitationLink.font = UIFont.bookFont(12.0)
+        self.invitationLink.font = UIFont.SFProDisplayNormalFont(12.0)
         self.invitationLink.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         self.invitationLink.text = localizedString("free_groceries_invitation_link", comment: "")
     }
@@ -115,10 +115,10 @@ class FreeGroceriesViewController: UIViewController {
         let titleStr = NSMutableAttributedString(string: text)
         titleStr.addAttribute(NSAttributedString.Key.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, text.count))
         self.inviteButton.setAttributedTitle(titleStr, for: UIControl.State())
-        self.inviteButton.titleLabel?.font = UIFont.boldFont(12.0)
+        self.inviteButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(12.0)
         
         self.copyButton.titleLabel?.textColor = ApplicationTheme.currentTheme.buttonWithBorderTextColor
-        self.copyButton.titleLabel?.font = UIFont.boldFont(12.0)
+        self.copyButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(12.0)
         self.copyButton.setTitle(localizedString("copy", comment: ""), for: UIControl.State())
     }
     
