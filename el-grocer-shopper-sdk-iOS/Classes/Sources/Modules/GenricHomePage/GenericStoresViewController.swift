@@ -1441,9 +1441,9 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                         MixpanelEventLogger.trackHomeBannerClick(id: banner.dbId.stringValue, title: banner.title, tier: "2")
                     }else if banner.campaignType.intValue == BannerCampaignType.priority.rawValue {
                         banner.changeStoreForBanners(currentActive: nil, retailers: self.homeDataHandler.groceryA ?? [])
-                        if let retailerId = banner.retailerIds?[0],let groceryDict = self.homeDataHandler.genericAllStoreDictionary?["\(retailerId)"] as? [String: Any] {
-                            MixpanelEventLogger.trackHomeFeaturedStoreBannerClick(storeId: "\(retailerId)", storeName: groceryDict["name"] as? String ?? "")
-                        }
+//                        if let retailerId = banner.retailerIds?[0],let groceryDict = self.homeDataHandler.genericAllStoreDictionary?["\(retailerId)"] as? [String: Any] {
+//                            MixpanelEventLogger.trackHomeFeaturedStoreBannerClick(storeId: "\(retailerId)", storeName: groceryDict["name"] as? String ?? "")
+//                        }
                     }
                 }
             }
