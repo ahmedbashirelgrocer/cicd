@@ -17,15 +17,90 @@ public class FlavorAgent {
         ElgrocerPreloadManager.shared.loadInitialDataWithOutHomeCalls(launchOptions) {
             if let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
                 _ = FlavorsClient.init(address: address, launchOptions.language, loadCompletion: { isLoaded, grocery in
-                    ElGrocer.startEngineForFlavourStore(with: grocery, isLoaded: isLoaded, completion: nil)
-                    completion?(isLoaded)
+                    let deepLinkPayload = launchOptions.deepLinkPayload ?? ""
+                    let pushPayload = launchOptions.pushNotificationPayload?["elgrocerMap"]?.description.isEmpty ?? false
+                    
+                    if grocery != nil || deepLinkPayload != "" || pushPayload != false {
+                        ElGrocer.startEngineForFlavourStore(with: grocery, isLoaded: isLoaded, completion: nil)
+                        completion?(isLoaded)
+                        return
+                    }
+                    
+                    if HomePageData.shared.groceryA?.isEmpty ?? true {
+                        HomePageData.shared.fetchHomeData(Platform.isDebugBuild) {
+                            if HomePageData.shared.groceryA?.isEmpty == false {
+                                navigateToGroceryAndMore()
+                                completion?(true)
+                            } else {
+                                ElGrocer.startEngineForFlavourStore(with: grocery, isLoaded: isLoaded, completion: nil)
+                                completion?(isLoaded)
+                            }
+                        }
+                    } else {
+                        navigateToGroceryAndMore()
+                        completion?(true)
+                    }
                 })
             } else {
                 _ = FlavorsClient.init(launchOptions: launchOptions, loadCompletion: { isLoaded, grocery in
                     guard let isLoaded = isLoaded else { return }
-                    ElGrocer.startEngineForFlavourStore(with: grocery, isLoaded: isLoaded, completion: nil)
-                    completion?(isLoaded)
+                    
+                    let deepLinkPayload = launchOptions.deepLinkPayload ?? ""
+                    let pushPayload = launchOptions.pushNotificationPayload?["elgrocerMap"]?.description.isEmpty ?? false
+                    
+                    if grocery != nil || deepLinkPayload != "" || pushPayload != false {
+                        ElGrocer.startEngineForFlavourStore(with: grocery, isLoaded: isLoaded, completion: nil)
+                        completion?(isLoaded)
+                        return
+                    }
+                    
+                    if HomePageData.shared.groceryA?.isEmpty ?? true {
+                        HomePageData.shared.fetchHomeData(Platform.isDebugBuild) {
+                            if HomePageData.shared.groceryA?.isEmpty == false {
+                                navigateToGroceryAndMore()
+                                completion?(true)
+                            } else {
+                                ElGrocer.startEngineForFlavourStore(with: grocery, isLoaded: isLoaded, completion: nil)
+                                completion?(isLoaded)
+                            }
+                        }
+                    } else {
+                        navigateToGroceryAndMore()
+                        completion?(true)
+                    }
                 })
+            }
+        }
+        
+        func navigateToGroceryAndMore() {
+            var updatedLaunchOptions = launchOptions
+            updatedLaunchOptions.marketType = .marketPlace
+            SDKManager.shared.launchOptions = updatedLaunchOptions
+            
+            let manager = SDKLoginManager(launchOptions: updatedLaunchOptions)
+            getSponsoredProductsAndBannersSlots { _ in }
+            SDKManager.shared.startBasicThirdPartyInit()
+            SDKManager.shared.setupLanguage()
+            LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: SDKManager.shared.launchOptions?.language ?? "Base", SDKManagers: SDKManager.shared)
+            manager.setHomeView()
+            SDKManager.shared.launchCompletion?()
+        }
+        
+        func getSponsoredProductsAndBannersSlots(completion: @escaping (Bool) -> Void) {
+            // This method is called only for fetching Ad Slots of market place
+            
+            var marketType = 2
+            ElGrocerApi.sharedInstance.getSponsoredProductsAndBannersSlots(formerketType: marketType) { result in
+                switch result {
+                    
+                case .success(let adSlots):
+                    ElGrocerUtility.sharedInstance._adSlots[marketType] = adSlots
+                    completion(true)
+                    
+                case .failure(let error):
+                    elDebugPrint("Error in fetching sponsored product and banners slots >> \(error.localizedMessage)")
+                    completion(false)
+                }
             }
         }
     }
