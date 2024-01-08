@@ -144,7 +144,7 @@ class SplashAnimationViewController: UIViewController {
                         self?.activityIndicator.startAnimating()
                         
                         DispatchQueue.main.asyncAfter(deadline: .now()) { [weak self] in
-                            self?.logoAnimator.image = UIImage(name: "ElgrocerLogoAnimation-121")
+                            self?.logoAnimator.image = UIImage(name: "ElgrocerLogoAnimation-87")
                         }
                     }
                 }
