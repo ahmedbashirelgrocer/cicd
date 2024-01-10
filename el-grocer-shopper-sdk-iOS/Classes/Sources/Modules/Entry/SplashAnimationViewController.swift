@@ -42,7 +42,9 @@ class SplashAnimationViewController: UIViewController {
     var locationFetching: Bool = false
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        
+        self.view.backgroundColor = sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor :ApplicationTheme.currentTheme.navigationBarWhiteColor
+        
         HomePageData.shared.loadingCompletionSplash = { [weak self] in
             if self?.isAnimationCompleted == true {
                 if AppSetting.currentSetting.isSmileApp() {
