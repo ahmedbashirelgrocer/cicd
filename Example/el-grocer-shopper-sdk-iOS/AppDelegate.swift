@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  el-grocer-shopper-sdk-iOS
 //  for xcode 15 support from 1.8.8
-
+// from branch origin/ReleaseManagement/Development commit : SDK version '1.9.37' Commit: e245d92fe0bfff221c585b3aa71a9fe29e0cba58
 
 /*
  
