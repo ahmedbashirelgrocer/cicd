@@ -360,7 +360,46 @@ public extension ApplicationTheme {
 }
 
 
+public protocol BaseTheme {
 
+    // controller BackGround Colors
+    var themeBaseControllerBGWhiteColor: UIColor { get }
+    var themeBaseControllerBGGrayColor: UIColor { get }
+    
+    // Views BackGround Colors
+    var viewPrimaryBGColor: UIColor { get }
+    var viewSecondaryDarkBGColor: UIColor { get }
+    var viewWhiteBGColor: UIColor { get }
+    var viewSmilePurpleBGColor: UIColor { get }
+    var viewPromotionRedColor: UIColor { get }
+    var viewOOSItemRedColor: UIColor { get }
+    var viewAlertLightYellowColor: UIColor { get }
+    var viewLimmitedStockSecondaryDarkBGColor: UIColor { get }
+    
+    // label Colors
+    
+    // text field colors
+    
+    // search bar colors
+    
+    // Buttons BG Colors
+    
+    // Buttons border Colors
+    
+    // views Border Colors
+    
+    // category pills Colors
+    
+    // page controls Colors
+    
+    // table View Colors
+    
+    // Current orders Base Banner
+    
+    // image colors
+    
+    
+}
 
 
 
