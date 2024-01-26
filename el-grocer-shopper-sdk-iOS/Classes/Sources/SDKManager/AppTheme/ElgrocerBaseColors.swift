@@ -33,6 +33,7 @@ public class ElgrocerBaseColors: UIColor {
     static var elgrocerSmilePurpleSecondarySelectionColor: UIColor = #colorLiteral(red: 0.6235294118, green: 0.4941176471, blue: 0.7137254902, alpha: 1)
     static var elgrocerSmilePurpleSecondaryNoSelectionColor: UIColor = #colorLiteral(red: 0.831372549, green: 0.7725490196, blue: 0.8705882353, alpha: 1)
     static var elgrocerLightGreenBgColor: UIColor = #colorLiteral(red: 0.7647058824, green: 0.937254902, blue: 0.8549019608, alpha: 1)
+    static var elgrocerPrimaryBlackColour: UIColor = #colorLiteral(red: 0.1490196078, green: 0.1490196078, blue: 0.1490196078, alpha: 1)
     
     
     

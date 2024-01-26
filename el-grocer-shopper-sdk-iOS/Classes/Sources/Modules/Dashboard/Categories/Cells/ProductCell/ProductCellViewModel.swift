@@ -251,7 +251,7 @@ private extension ProductCellViewModel {
         
         plusButtonIconNameSubject.onNext("add_product_cell")
         minusButtonIconNameSubject.onNext("remove_product_cell")
-        cartButtonTintColorSubject.onNext(ApplicationTheme.currentTheme.themeBasePrimaryColor)
+        cartButtonTintColorSubject.onNext(ApplicationTheme.currentTheme.themeBasePrimaryBlackColor)
         addToCartButtonTypeSubject.onNext(false)
         quantitySubject.onNext("0")
     }

@@ -54,10 +54,12 @@ public protocol Theme {
     var emptyViewTextColor: UIColor { get }
     
     //MARK: PrimaryTheme for activity indicators and things
+    var themeBasePrimaryBlackColor: UIColor { get }
     var themeBasePrimaryColor: UIColor { get }
     var themeBaseSecondaryDarkColor: UIColor { get }
     //MARK: Buttons
     var buttonEnableBGColor: UIColor { get }
+    var buttonthemeBasePrimaryBlackColor: UIColor { get }
     var buttonEnableSecondaryDarkBGColor: UIColor { get }
     var buttonDisableBGColor: UIColor { get }
     var buttonTextWithBackgroundColor: UIColor { get }
@@ -168,10 +170,12 @@ struct ElgrocerTheme: Theme {
     var currentLocationBgColor: UIColor = ElgrocerBaseColors.elgrocerLightGreenBgColor
     
     //MARK: PrimaryTheme for activity indicators and things
+    var themeBasePrimaryBlackColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
     var themeBasePrimaryColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
     var themeBaseSecondaryDarkColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
     //MARK: Buttons
     var buttonEnableBGColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
+    var buttonthemeBasePrimaryBlackColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
     var buttonEnableSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
     var buttonDisableBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreyColor
     var buttonTextWithBackgroundColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
@@ -281,10 +285,12 @@ struct SmileSDKTheme: Theme {
 //    { #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1) }
     
     //MARK: PrimaryTheme for activity indicators and things
+    var themeBasePrimaryBlackColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
     var themeBasePrimaryColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
     var themeBaseSecondaryDarkColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
     //MARK: Buttons
     var buttonEnableBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
+    var buttonthemeBasePrimaryBlackColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
     var buttonEnableSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
     var buttonDisableBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreyColor
     var buttonTextWithBackgroundColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
