@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -35,6 +35,13 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DoD-4S-af0" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                        <rect key="frame" x="242" y="7.6666666666666679" width="75" height="30.000000000000004"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="5KO-4M-Qlf"/>
+                                        </constraints>
+                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6d-sV-IxY" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                         <rect key="frame" x="247" y="10.666666666666664" width="49" height="24"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -60,20 +67,23 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="16" id="ie4-xb-qWn"/>
                                             <constraint firstAttribute="width" secondItem="Kdc-VT-DDZ" secondAttribute="height" multiplier="1:1" id="vSs-QE-Uwc"/>
+                                            <constraint firstAttribute="width" secondItem="Kdc-VT-DDZ" secondAttribute="height" multiplier="1:1" id="zb7-Vo-P3g"/>
                                         </constraints>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="20c-5R-myQ" firstAttribute="leading" secondItem="uAW-Hq-YSf" secondAttribute="leading" constant="16" id="0I6-Vv-HCE"/>
+                                    <constraint firstItem="DoD-4S-af0" firstAttribute="trailing" secondItem="Kdc-VT-DDZ" secondAttribute="trailing" constant="5" id="HRO-wN-tjb"/>
+                                    <constraint firstItem="DoD-4S-af0" firstAttribute="leading" secondItem="V6d-sV-IxY" secondAttribute="leading" constant="-5" id="KvR-Fx-Giv"/>
                                     <constraint firstItem="V6d-sV-IxY" firstAttribute="centerY" secondItem="20c-5R-myQ" secondAttribute="centerY" id="NQ2-vq-Ppv"/>
+                                    <constraint firstItem="DoD-4S-af0" firstAttribute="centerY" secondItem="V6d-sV-IxY" secondAttribute="centerY" id="Nw0-9o-Bku"/>
                                     <constraint firstItem="Kdc-VT-DDZ" firstAttribute="centerY" secondItem="V6d-sV-IxY" secondAttribute="centerY" id="Y5W-fW-9LH"/>
                                     <constraint firstItem="Kdc-VT-DDZ" firstAttribute="centerY" secondItem="20c-5R-myQ" secondAttribute="centerY" id="bsk-sw-Ya7"/>
                                     <constraint firstAttribute="height" priority="999" constant="45" id="dAT-5h-mKS"/>
                                     <constraint firstItem="20c-5R-myQ" firstAttribute="centerY" secondItem="uAW-Hq-YSf" secondAttribute="centerY" id="ddn-29-CBe"/>
                                     <constraint firstAttribute="trailing" secondItem="Kdc-VT-DDZ" secondAttribute="trailing" constant="8" id="m9z-6a-Pdf"/>
                                     <constraint firstItem="Kdc-VT-DDZ" firstAttribute="leading" secondItem="V6d-sV-IxY" secondAttribute="trailing" id="pX5-uJ-KcG"/>
-                                    <constraint firstItem="Kdc-VT-DDZ" firstAttribute="width" secondItem="Kdc-VT-DDZ" secondAttribute="height" multiplier="1:1" id="zb7-Vo-P3g"/>
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="SUj-yY-hTI">
@@ -121,6 +131,7 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="btnViewAll" destination="V6d-sV-IxY" id="SVr-DS-1CL"/>
+                <outlet property="btnViewAllBGView" destination="DoD-4S-af0" id="46u-dk-jA5"/>
                 <outlet property="cellHeightConstraint" destination="Qdt-OO-cPc" id="N1I-vP-3sE"/>
                 <outlet property="collectionView" destination="SUj-yY-hTI" id="uFt-Jv-1sB"/>
                 <outlet property="contentBGView" destination="H2p-sc-9uM" id="3aj-9Q-YnQ"/>
