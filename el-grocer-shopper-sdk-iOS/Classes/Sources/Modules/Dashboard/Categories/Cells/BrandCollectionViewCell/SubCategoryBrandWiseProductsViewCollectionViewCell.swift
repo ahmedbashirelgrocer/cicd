@@ -32,16 +32,25 @@ class SubCategoryBrandWiseProductsViewCollectionViewCell: UICollectionViewCell {
             }
         }
     }
+    
+    
+    @IBOutlet var btnViewAllBGView: AWView! {
+        didSet {
+            btnViewAllBGView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner], radius: 14.5)
+            btnViewAllBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
+        }
+    }
+    
     @IBOutlet weak var rightArrowImageView: UIImageView! {
         didSet {
-            rightArrowImageView.image = UIImage(name: sdkManager.isShopperApp ? "arrowRight" : "SettingArrowForward")
+            rightArrowImageView.image = UIImage(name: "arrowForwardSmiles")
         }
     }
     @IBOutlet var btnViewAll: AWButton! {
         didSet{
             btnViewAll.setTitle(localizedString("view_more_title", comment: ""), for: .normal)
             btnViewAll.titleLabel?.font = UIFont.SFProDisplayBoldFont(14)
-            btnViewAll.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
+            btnViewAll.setTitleColor(ApplicationTheme.currentTheme.buttonthemeBaseBlackPrimaryForeGroundColor, for: UIControl.State())
             btnViewAll.setBackgroundColorForAllState(.clear)
         }
     }
