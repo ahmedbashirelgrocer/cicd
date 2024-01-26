@@ -157,7 +157,8 @@ class SDKManager: NSObject, SDKManagerType  {
                 }
             
         } else {
-            let alertMessage = errorCode == 4237 ? errorMessage : localizedString("error_500", comment: "")
+            
+            let alertMessage = errorMessage.isEmpty ? localizedString("error_500", comment: "") : errorMessage
             ElGrocerAlertView.createAlert(
                 alertMessage,
                 description: nil,
@@ -560,7 +561,7 @@ class SDKManager: NSObject, SDKManagerType  {
                     //manager.setHomeView()
                 } else {
                     ElGrocerUtility.sharedInstance.delay(0.01) {
-                        let alertMessage = errorCode == 4237 ? errorMessage : localizedString("error_500", comment: "")
+                        let alertMessage = errorMessage.isEmpty ? localizedString("error_500", comment: "") : errorMessage
                         
                         let alert = ElGrocerAlertView.createAlert(alertMessage, description: nil, positiveButton: positiveButton, negativeButton: nil) { index in
                                Thread.OnMainThread {

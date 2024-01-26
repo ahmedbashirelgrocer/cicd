@@ -147,9 +147,19 @@ class MarketingCustomLandingPageViewController: UIViewController {
             .bind(to: self.tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
-        tableView.rx.modelSelected(DynamicComponentContainerCellViewModel.self)
-            .bind(to: self.viewModel.inputs.cellSelectedObserver)
-            .disposed(by: disposeBag)
+        // tableView.rx.modelSelected(DynamicComponentContainerCellViewModel.self)
+        // Doing this way bellow because HomeCellViewModelType can't be casted as DynamicComponentContainerCellViewModel but sending selection event that is causing crashes.
+        let cellSelected = tableView.rx.itemSelected
+            .compactMap{ [weak self] index in self?.tableView.cellForRow(at:index) }
+            .share()
+        Observable.merge(
+            cellSelected
+                .compactMap{ ($0 as? RxBannersTableViewCell)?.viewModel },
+            cellSelected
+                .compactMap{ ($0 as? RxCollectionViewOnlyTableViewCell)?.viewModel }
+        )
+        .bind(to: self.viewModel.inputs.cellSelectedObserver)
+        .disposed(by: disposeBag)
         
         viewModel.outputs.tableViewBackGround
                    .observeOn(MainScheduler.instance)
