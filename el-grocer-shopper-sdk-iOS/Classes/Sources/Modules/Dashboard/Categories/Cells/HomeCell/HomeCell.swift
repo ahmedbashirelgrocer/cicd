@@ -101,6 +101,9 @@ private extension HomeCell {
         viewModel.outputs.viewAllHidden
             .bind(to: viewMoreButton.rx.isHidden)
             .disposed(by: disposeBag)
+        viewModel.outputs.viewAllHidden
+            .bind(to: viewMoreButtonBGView.rx.isHidden)
+            .disposed(by: disposeBag)
         
         self.setStateWithOutImageView()
         
@@ -126,15 +129,24 @@ class HomeCell: RxUITableViewCell {
     @IBOutlet weak var rightArrowImageView: UIImageView! {
         didSet{
             if SDKManager.shared.isSmileSDK  {
-                rightArrowImageView.image = UIImage(name: "SettingArrowForward")
+                rightArrowImageView.image = UIImage(name: "arrowForwardSmiles")
             }
         }
     }
+    
+    @IBOutlet var viewMoreButtonBGView: AWView! {
+        didSet {
+            viewMoreButtonBGView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner], radius: 14.5)
+            viewMoreButtonBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
+        }
+    }
+    
+    
     // @IBOutlet weak var arrowImgView: UIImageView!
     @IBOutlet weak var viewMoreButton: UIButton! {
         didSet {
         
-            viewMoreButton.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
+            viewMoreButton.setTitleColor(ApplicationTheme.currentTheme.buttonthemeBaseBlackPrimaryForeGroundColor, for: UIControl.State())
             viewMoreButton.setBackgroundColorForAllState(.clear)
             viewMoreButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(14)
             
@@ -271,6 +283,7 @@ class HomeCell: RxUITableViewCell {
         
         self.homeFeed = nil
         self.viewMoreButton.isHidden = true
+        self.viewMoreButtonBGView.isHidden = true
         rightArrowImageView.isHidden = true
        // self.arrowImgView.isHidden = true
        
@@ -305,7 +318,9 @@ class HomeCell: RxUITableViewCell {
                  self.topDistanceOfTitle.constant = 9
                  self.viewMoreButton.setTitle(localizedString("view_more_title", comment: ""), for: UIControl.State())
                  self.viewMoreButton.isHidden = false
-                rightArrowImageView.isHidden = false
+                self.viewMoreButtonBGView.isHidden = false
+                self.rightArrowImageView.isHidden = false
+                self.rightArrowImageView.changePngColorTo(color: ApplicationTheme.currentTheme.navigationBarWhiteColor)
                  self.isNeedToShowRecipe = isNeedToShowRecipe
                 self.stackViewDeliverySlot.isHidden = true
                 self.viewBG.backgroundColor = .clear
@@ -315,7 +330,9 @@ class HomeCell: RxUITableViewCell {
                 self.titleViewHeight.constant = 50
                 self.topDistanceOfTitle.constant = 16
                 self.viewMoreButton.isHidden = true
+                self.viewMoreButtonBGView.isHidden = true
                 self.rightArrowImageView.isHidden = false
+                self.rightArrowImageView.changePngColorTo(color: ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor)
                 self.isNeedToShowRecipe = isNeedToShowRecipe
                 self.stackViewDeliverySlot.isHidden = false
                 self.viewBG.backgroundColor = .white
@@ -330,7 +347,9 @@ class HomeCell: RxUITableViewCell {
                 
                 self.viewMoreButton.setTitle( (homeFeedObj.type == HomeType.universalSearchProducts ) ? localizedString("lbl_goToStore", comment: "").uppercased() : localizedString("view_more_title", comment: ""), for: UIControl.State())
                 self.viewMoreButton.isHidden = false
-                rightArrowImageView.isHidden = false
+                self.viewMoreButtonBGView.isHidden = false
+                self.rightArrowImageView.isHidden = false
+                self.rightArrowImageView.changePngColorTo(color: ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor)
                 self.stackViewDeliverySlot.isHidden = true
                 self.viewBG.backgroundColor = .clear
                 homeFeedObj.products.sort { (productOne, productTwo) -> Bool in

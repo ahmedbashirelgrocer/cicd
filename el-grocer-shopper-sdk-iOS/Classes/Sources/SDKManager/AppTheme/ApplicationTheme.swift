@@ -60,6 +60,7 @@ public protocol Theme {
     //MARK: Buttons
     var buttonEnableBGColor: UIColor { get }
     var buttonthemeBasePrimaryBlackColor: UIColor { get }
+    var buttonthemeBaseBlackPrimaryForeGroundColor: UIColor { get }
     var buttonEnableSecondaryDarkBGColor: UIColor { get }
     var buttonDisableBGColor: UIColor { get }
     var buttonTextWithBackgroundColor: UIColor { get }
@@ -177,6 +178,7 @@ struct ElgrocerTheme: Theme {
     //MARK: Buttons
     var buttonEnableBGColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
     var buttonthemeBasePrimaryBlackColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
+    var buttonthemeBaseBlackPrimaryForeGroundColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var buttonEnableSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
     var buttonDisableBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreyColor
     var buttonTextWithBackgroundColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
@@ -293,6 +295,7 @@ struct SmileSDKTheme: Theme {
     //MARK: Buttons
     var buttonEnableBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
     var buttonthemeBasePrimaryBlackColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
+    var buttonthemeBaseBlackPrimaryForeGroundColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var buttonEnableSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
     var buttonDisableBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreyColor
     var buttonTextWithBackgroundColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
