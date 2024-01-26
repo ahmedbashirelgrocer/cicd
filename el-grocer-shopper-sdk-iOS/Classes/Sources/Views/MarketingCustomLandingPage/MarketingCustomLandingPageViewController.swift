@@ -125,19 +125,16 @@ class MarketingCustomLandingPageViewController: UIViewController {
             cell.bind(to: self.tableViewScrollSubject)
             //if let cell = cell as? HomeCell { cell.productsCollectionView.contentOffset = self.cachedPosition[indexPath] ?? .zero }
             if let homeCell = cell as? HomeCell {
-                        // Check if the indexPath is within bounds
-                        if dataSource[indexPath.section].items.indices.contains(indexPath.row) {
-                            let item = dataSource[indexPath.section].items[indexPath.row]
-
-                            // Assuming `item` is the ViewModel for the cell
-                            if let cachedOffset = self.cachedPosition[indexPath] {
-                                homeCell.productsCollectionView.contentOffset = cachedOffset
-                            } else {
-                                homeCell.productsCollectionView.contentOffset = .zero
-                            }
-                        }
+                // Check if the indexPath is within bounds
+                if dataSource[indexPath.section].items.indices.contains(indexPath.row) {
+                    // Assuming `item` is the ViewModel for the cell
+                    if let cachedOffset = self.cachedPosition[indexPath] {
+                        homeCell.productsCollectionView.contentOffset = cachedOffset
+                    }else {
+                        homeCell.productsCollectionView.contentOffset = .zero
                     }
-            
+                }
+            }
             return cell
         },titleForHeaderInSection: { dataSource, sectionIndex in
             return dataSource[sectionIndex].header

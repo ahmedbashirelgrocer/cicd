@@ -79,6 +79,11 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
             let tableviewVmsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
             var basketUpdatedSubject = PublishSubject<Void>()
     
+    private enum DynamicQueryParam: String {
+        case storeId = "$storeId"
+        case currentTime = "$currentTime"
+    }
+    
     init(storeId: String, marketingId: String,addressId: String,_ apiClient: ElGrocerApi? = ElGrocerApi.sharedInstance ,_ analyticsEngine: AnalyticsEngineType = SegmentAnalyticsEngine.instance) {
         
         self.storeId = storeId
@@ -345,7 +350,18 @@ extension MarketingCustomLandingPageViewModel {
     }
     
     private func updateQuery(_ query : String?) -> String {
-        if let newQuery = query, newQuery.count > 0 {
+        if var newQuery = query, newQuery.count > 0 {
+            
+            if newQuery.contains(DynamicQueryParam.storeId.rawValue) {
+                newQuery = newQuery.replacingOccurrences(of: "$storeId", with: "\(self.storeId)")
+            }
+            if newQuery.contains(DynamicQueryParam.currentTime.rawValue) {
+                let currentTime = Int64(Date().timeIntervalSince1970 * 1000)
+                newQuery = newQuery.replacingOccurrences(of: "$currentTime", with: "\(currentTime)")
+            }
+            if newQuery.contains("promotional_shops.retailer_id") {
+                newQuery = "promotional_shops.available_quantity != 0 AND " + newQuery
+            }
             return "shops.retailer_id:\(self.storeId) AND " + newQuery
         }
         return query ?? ""
