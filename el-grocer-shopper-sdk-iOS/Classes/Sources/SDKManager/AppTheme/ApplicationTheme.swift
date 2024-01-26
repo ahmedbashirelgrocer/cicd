@@ -87,6 +87,7 @@ public protocol Theme {
     var textFieldTextColor: UIColor { get }
     //MARK: Views
     var viewPrimaryBGColor: UIColor { get }
+    var viewthemePrimaryBlackBGColor: UIColor { get }
     var viewSecondaryDarkBGColor: UIColor { get }
     var viewWhiteBGColor: UIColor { get }
     var viewSmilePurpleBGColor: UIColor { get }
@@ -203,6 +204,7 @@ struct ElgrocerTheme: Theme {
     var textFieldTextColor: UIColor = ElgrocerBaseColors.elgrocerTextBlackColour
     //MARK: Views
     var viewPrimaryBGColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
+    var viewthemePrimaryBlackBGColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
     var viewSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
     var viewWhiteBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var viewSmilePurpleBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
@@ -318,6 +320,7 @@ struct SmileSDKTheme: Theme {
     var textFieldTextColor: UIColor = ElgrocerBaseColors.elgrocerTextBlackColour
     //MARK: Views
     var viewPrimaryBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
+    var viewthemePrimaryBlackBGColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
     var viewSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
     var viewWhiteBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var viewSmilePurpleBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour

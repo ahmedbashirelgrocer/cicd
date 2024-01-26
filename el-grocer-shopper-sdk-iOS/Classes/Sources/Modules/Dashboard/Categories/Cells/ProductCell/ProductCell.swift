@@ -152,7 +152,7 @@ class ProductCell : RxUICollectionViewCell {
     @IBOutlet var imgRepalce: UIImageView!
     @IBOutlet var promotionBGView: UIView!{
         didSet{
-            promotionBGView.backgroundColor = .promotionRedColor()
+            promotionBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
         }
     }
     @IBOutlet var lblStrikePrice: UILabel!{
