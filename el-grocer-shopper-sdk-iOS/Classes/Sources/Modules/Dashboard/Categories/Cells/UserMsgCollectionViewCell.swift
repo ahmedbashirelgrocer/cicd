@@ -15,7 +15,7 @@ class UserMsgCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        self.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
     }
     
     func configureMessage (_ msg : String) {

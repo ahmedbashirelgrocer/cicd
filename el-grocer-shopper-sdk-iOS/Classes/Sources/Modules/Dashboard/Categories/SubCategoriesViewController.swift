@@ -24,7 +24,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     @IBOutlet weak var collectionView: UICollectionView!{
         didSet{
             collectionView.bounces = false
-            collectionView.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+            collectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }
     }
     private lazy var locationHeader : ElgrocerlocationView = {
