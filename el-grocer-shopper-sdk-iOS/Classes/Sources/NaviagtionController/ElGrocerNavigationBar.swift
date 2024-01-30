@@ -185,7 +185,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     //MARK: Appearance
     
     func setGreenBackground() {
-        let color = sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : ApplicationTheme.currentTheme.themeBasePrimaryColor
+        let color = ApplicationTheme.currentTheme.navigationBarWhiteColor//sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.backgroundColor = color
         self.barTintColor = color
         self.isTranslucent = false
@@ -233,14 +233,14 @@ class ElGrocerNavigationBar : UINavigationBar {
     
     func setlightBackground() {
         
-        self.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
-        self.barTintColor = ApplicationTheme.currentTheme.navigationBarColor
+        self.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
+        self.barTintColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
         self.isTranslucent = false
         
         if #available(iOS 13.0, *) {
             let barAppearance = UINavigationBarAppearance()
             barAppearance.configureWithDefaultBackground()
-            barAppearance.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            barAppearance.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
             barAppearance.shadowColor = .clear
             barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
             barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
@@ -256,14 +256,14 @@ class ElGrocerNavigationBar : UINavigationBar {
     
     func setlightBackgroundWithPurpleTitle() {
         
-        self.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
-        self.barTintColor = ApplicationTheme.currentTheme.navigationBarColor
+        self.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
+        self.barTintColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
         self.isTranslucent = false
         
         if #available(iOS 13.0, *) {
             let barAppearance = UINavigationBarAppearance()
             barAppearance.configureWithDefaultBackground()
-            barAppearance.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            barAppearance.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
             barAppearance.shadowColor = .clear
             barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.themeBasePrimaryColor]
             barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.themeBasePrimaryColor]

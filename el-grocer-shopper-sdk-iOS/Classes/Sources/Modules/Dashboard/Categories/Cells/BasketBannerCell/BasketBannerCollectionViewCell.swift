@@ -24,7 +24,7 @@ class BasketBannerCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
 //        let basketBannerCellNib = UINib(nibName: "BasketBannerCell", bundle: Bundle(for: MainCategoriesViewController.self))
 //        self.bannerTableView.register(basketBannerCellNib, forCellReuseIdentifier: kBasketBannerCellIdentifier)
         

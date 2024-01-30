@@ -142,7 +142,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         } else {
             self.view.backgroundColor = sdkManager.isGrocerySingleStore ? .clear : #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) // UIColor.productBGColor()
         }
-        self.collectionView.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) //UIColor.productBGColor()
+        self.collectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         
         NotificationCenter.default.addObserver(self,selector: #selector(BrandDetailsViewController.refreshProductsView), name: NSNotification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
         self.navigationItem.hidesBackButton = true
