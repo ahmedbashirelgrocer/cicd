@@ -215,7 +215,7 @@ struct ElgrocerTheme: Theme {
     var viewAlertLightYellowColor: UIColor = ElgrocerBaseColors.elgrocerAlertYellowColour
     var viewLimmitedStockSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
     //MARK: Category Pills
-    var pillSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
+    var pillSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
     var pillUnSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var pillSelectedTextColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var pillUnSelectedTextColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
@@ -332,7 +332,7 @@ struct SmileSDKTheme: Theme {
     var viewAlertLightYellowColor: UIColor = ElgrocerBaseColors.elgrocerAlertYellowColour
     var viewLimmitedStockSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerLimitedStockDarkGreenColour
     //MARK: Category Pills
-    var pillSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
+    var pillSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
     var pillUnSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var pillSelectedTextColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var pillUnSelectedTextColor: UIColor = ElgrocerBaseColors.elgrocerTextBlackColour

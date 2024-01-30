@@ -568,7 +568,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.tableViewCategories.bounces = false
         self.tableViewCategories.separatorStyle = UITableViewCell.SeparatorStyle.none
         self.tableViewCategories.keyboardDismissMode = .onDrag
-        self.tableViewCategories.backgroundColor = ApplicationTheme.currentTheme.tableViewBGGreyColor
+        self.tableViewCategories.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         self.tableViewCategories.rowHeight = UITableView.automaticDimension
         self.tableViewCategories.estimatedRowHeight = 500
         
@@ -1645,7 +1645,7 @@ private extension MainCategoriesViewController {
         self.tableViewCategories.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
         
         if ABTestManager.shared.storeConfigs.showProductsSection == false {
-            self.tableViewCategories.backgroundColor = .white
+            self.tableViewCategories.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }
         
         self.dataSource = RxTableViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in

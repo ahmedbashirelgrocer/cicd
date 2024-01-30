@@ -36,7 +36,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DoD-4S-af0" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="242" y="7.6666666666666679" width="75" height="30.000000000000004"/>
+                                        <rect key="frame" x="237" y="7.6666666666666679" width="80" height="30.000000000000004"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="5KO-4M-Qlf"/>
@@ -75,7 +75,7 @@
                                 <constraints>
                                     <constraint firstItem="20c-5R-myQ" firstAttribute="leading" secondItem="uAW-Hq-YSf" secondAttribute="leading" constant="16" id="0I6-Vv-HCE"/>
                                     <constraint firstItem="DoD-4S-af0" firstAttribute="trailing" secondItem="Kdc-VT-DDZ" secondAttribute="trailing" constant="5" id="HRO-wN-tjb"/>
-                                    <constraint firstItem="DoD-4S-af0" firstAttribute="leading" secondItem="V6d-sV-IxY" secondAttribute="leading" constant="-5" id="KvR-Fx-Giv"/>
+                                    <constraint firstItem="DoD-4S-af0" firstAttribute="leading" secondItem="V6d-sV-IxY" secondAttribute="leading" constant="-10" id="KvR-Fx-Giv"/>
                                     <constraint firstItem="V6d-sV-IxY" firstAttribute="centerY" secondItem="20c-5R-myQ" secondAttribute="centerY" id="NQ2-vq-Ppv"/>
                                     <constraint firstItem="DoD-4S-af0" firstAttribute="centerY" secondItem="V6d-sV-IxY" secondAttribute="centerY" id="Nw0-9o-Bku"/>
                                     <constraint firstItem="Kdc-VT-DDZ" firstAttribute="centerY" secondItem="V6d-sV-IxY" secondAttribute="centerY" id="Y5W-fW-9LH"/>
