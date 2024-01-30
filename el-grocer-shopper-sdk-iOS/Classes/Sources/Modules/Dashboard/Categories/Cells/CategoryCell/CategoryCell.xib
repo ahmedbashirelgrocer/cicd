@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -33,6 +34,13 @@
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3OD-tv-fTD" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                <rect key="frame" x="270" y="1" width="96" height="30"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="R0I-nt-vMG"/>
+                                </constraints>
+                            </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowRight" translatesAutoresizingMaskIntoConstraints="NO" id="MYE-86-OcA">
                                 <rect key="frame" x="345" y="8" width="16" height="16"/>
                                 <constraints>
@@ -64,11 +72,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="YTK-0W-qDz" firstAttribute="centerY" secondItem="cO8-iA-pp3" secondAttribute="centerY" id="1mJ-r1-dv5"/>
+                            <constraint firstItem="3OD-tv-fTD" firstAttribute="centerY" secondItem="YTK-0W-qDz" secondAttribute="centerY" id="24d-8P-Snp"/>
                             <constraint firstItem="YTK-0W-qDz" firstAttribute="leading" secondItem="kD6-ke-Yaa" secondAttribute="trailing" constant="20" id="4Ze-t8-2Aj"/>
                             <constraint firstItem="kD6-ke-Yaa" firstAttribute="leading" secondItem="cO8-iA-pp3" secondAttribute="leading" constant="16" id="8Rg-54-YPD"/>
                             <constraint firstItem="kD6-ke-Yaa" firstAttribute="centerY" secondItem="cO8-iA-pp3" secondAttribute="centerY" id="8t1-ls-b8f"/>
+                            <constraint firstItem="3OD-tv-fTD" firstAttribute="trailing" secondItem="MYE-86-OcA" secondAttribute="trailing" constant="5" id="Ib5-Dp-Lcx"/>
                             <constraint firstAttribute="trailing" secondItem="MYE-86-OcA" secondAttribute="trailing" constant="14" id="TPm-hR-bao"/>
                             <constraint firstAttribute="height" constant="32" id="dE6-z9-To3"/>
+                            <constraint firstItem="3OD-tv-fTD" firstAttribute="leading" secondItem="YTK-0W-qDz" secondAttribute="leading" constant="-5" id="ejb-tT-SbW"/>
                             <constraint firstItem="MYE-86-OcA" firstAttribute="leading" secondItem="YTK-0W-qDz" secondAttribute="trailing" id="ptF-G6-f3b"/>
                             <constraint firstItem="MYE-86-OcA" firstAttribute="centerY" secondItem="cO8-iA-pp3" secondAttribute="centerY" id="q8W-gy-E3l"/>
                         </constraints>
@@ -166,6 +177,7 @@
             </constraints>
             <connections>
                 <outlet property="btnViewAll" destination="YTK-0W-qDz" id="8Jh-wq-bGk"/>
+                <outlet property="btnViewAllBGView" destination="3OD-tv-fTD" id="z8d-1O-Yld"/>
                 <outlet property="imgCategory" destination="AW1-SJ-lhW" id="hcy-vN-YjJ"/>
                 <outlet property="lblSubtitle" destination="akw-Vb-xP6" id="yQ1-up-tfT"/>
                 <outlet property="lblTitle" destination="kD6-ke-Yaa" id="XkK-qn-nq1"/>
@@ -178,10 +190,13 @@
     </objects>
     <designables>
         <designable name="YTK-0W-qDz">
-            <size key="intrinsicContentSize" width="51" height="29"/>
+            <size key="intrinsicContentSize" width="49" height="29"/>
         </designable>
     </designables>
     <resources>
         <image name="arrowRight" width="25" height="24"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>
