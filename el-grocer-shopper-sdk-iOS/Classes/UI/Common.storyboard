@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -153,13 +153,13 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I agree to the payment terms &amp; conditions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eig-VG-pFy">
-                                        <rect key="frame" x="48" y="22.666666666666629" width="262" height="17"/>
+                                        <rect key="frame" x="48" y="22.666666666666629" width="264" height="17"/>
                                         <fontDescription key="fontDescription" name="SFUIDisplay-Semibold" family="SF UI Display" pointSize="14"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zQc-Ya-q11">
-                                        <rect key="frame" x="48" y="16" width="262" height="30"/>
+                                        <rect key="frame" x="48" y="16" width="264" height="30"/>
                                         <connections>
                                             <action selector="termAndCondition:" destination="aDN-D7-ZCG" eventType="touchUpInside" id="jeC-TO-aJI"/>
                                         </connections>
@@ -202,7 +202,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add new card" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v2R-08-FwN">
-                                        <rect key="frame" x="16" y="22" width="106" height="20"/>
+                                        <rect key="frame" x="16.000000000000007" y="22" width="102.66666666666669" height="20"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="17"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -574,7 +574,7 @@ with our partner to add for your next shopping experience.</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="ahj-sv-hQA" firstAttribute="centerY" secondItem="tcF-Ex-BqD" secondAttribute="centerY" id="06W-AP-1kB"/>
                                     <constraint firstItem="tcF-Ex-BqD" firstAttribute="centerY" secondItem="G5o-ke-eaf" secondAttribute="centerY" id="0vC-0i-4q8"/>
@@ -584,7 +584,7 @@ with our partner to add for your next shopping experience.</string>
                                     <constraint firstAttribute="trailing" secondItem="ahj-sv-hQA" secondAttribute="trailing" constant="16" id="oo4-e7-anY"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AWb-Pk-Dt3">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AWb-Pk-Dt3">
                                 <rect key="frame" x="0.0" y="93" width="390" height="85"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ggw-7t-uZJ" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
@@ -639,13 +639,13 @@ with our partner to add for your next shopping experience.</string>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fLM-xr-ZB5">
                                                 <rect key="frame" x="0.0" y="9" width="32" height="14"/>
-                                                <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="12"/>
                                                 <color key="textColor" red="0.49803921579999999" green="0.34117650989999998" blue="0.61176472900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="32" id="9C0-6g-IEK"/>
                                             <constraint firstItem="fLM-xr-ZB5" firstAttribute="leading" secondItem="de0-d9-89N" secondAttribute="leading" id="I2w-wD-Gjd"/>
@@ -671,13 +671,13 @@ with our partner to add for your next shopping experience.</string>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4lD-1w-nwi">
                                                 <rect key="frame" x="0.0" y="9" width="32" height="14"/>
-                                                <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="12"/>
                                                 <color key="textColor" red="0.49803921579999999" green="0.34117650989999998" blue="0.61176472900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="32" id="1mb-6B-owz"/>
                                             <constraint firstAttribute="height" constant="32" id="5n3-AV-c1T"/>
@@ -701,7 +701,7 @@ with our partner to add for your next shopping experience.</string>
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="ggw-7t-uZJ" firstAttribute="leading" secondItem="AWb-Pk-Dt3" secondAttribute="leading" constant="17" id="49Y-zq-XkX"/>
                                     <constraint firstItem="i8C-TQ-CWP" firstAttribute="centerX" secondItem="dqz-e9-CBG" secondAttribute="centerX" id="5dc-Ed-kWY"/>
@@ -1920,7 +1920,7 @@ with our partner to add for your next shopping experience.</string>
     </scenes>
     <designables>
         <designable name="Ym0-Yd-3OT">
-            <size key="intrinsicContentSize" width="172" height="30"/>
+            <size key="intrinsicContentSize" width="170" height="30"/>
         </designable>
     </designables>
     <resources>

@@ -45,7 +45,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     var commingFromVc : UIViewController?
     @IBOutlet var searchViewHeader: UIView! {
         didSet {
-            searchViewHeader.backgroundColor = .textfieldBackgroundColor()
+            searchViewHeader.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
         }
     }
     lazy var locationHeader : ElgrocerlocationView = {
@@ -160,7 +160,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         }
    
       //  self.collectionView.backgroundColor = UIColor.white // removed while merging
-        self.collectionView.backgroundColor = UIColor.textfieldBackgroundColor()
+        self.collectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
 
         
         self.setTableViewAppearence()
@@ -258,7 +258,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.navigationItem.hidesBackButton = true
         searchBgView.backgroundColor =  ApplicationTheme.currentTheme.navigationBarColor
         // self.extendedLayoutIncludesOpaqueBars = true
-        self.view.backgroundColor = .tableViewBackgroundColor()
+        self.view.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
     }
     override func viewDidAppear(_ animated: Bool) {
         
@@ -564,7 +564,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.singleLine
         self.tableView.separatorColor = UIColor.borderGrayColor()
         self.tableView.separatorInset = UIEdgeInsets.zero
-        self.tableView.backgroundColor = UIColor.textfieldBackgroundColor()
+        self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         self.tableView.tableFooterView = UIView()
     }
     
