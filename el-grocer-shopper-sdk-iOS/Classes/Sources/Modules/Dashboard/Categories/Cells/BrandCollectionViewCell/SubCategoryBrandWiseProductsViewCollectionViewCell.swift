@@ -11,7 +11,7 @@ let KSubCategoryBrandWiseProductsViewCollectionViewCellIdentifier = "SubCategory
 class SubCategoryBrandWiseProductsViewCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var collectionView: UICollectionView!{
         didSet{
-            collectionView.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+            collectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             collectionView.showsHorizontalScrollIndicator = false
             collectionView.showsVerticalScrollIndicator = false
         }

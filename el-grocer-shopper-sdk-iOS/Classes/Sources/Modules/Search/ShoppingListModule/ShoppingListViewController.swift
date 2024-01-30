@@ -34,7 +34,7 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
         didSet{
             shoppingListTableView.bounces = false
             //shoppingListTableView.roundWithShadow(corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner], radius: 24, withShadow: false)
-            shoppingListTableView.backgroundColor = .textfieldBackgroundColor()
+            shoppingListTableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             shoppingListTableView.clipsToBounds = true
         }
     }
@@ -391,7 +391,7 @@ class ShoppingListViewController: BasketBasicViewController , UIGestureRecognize
     func registerCells() {
         let shoppingListCell = UINib(nibName: kShoppingListCellIdentifier, bundle: Bundle.resource)
         self.shoppingListTableView.register(shoppingListCell, forCellReuseIdentifier: kShoppingListCellIdentifier )
-        self.shoppingListTableView.backgroundColor = UIColor.textfieldBackgroundColor()
+        self.shoppingListTableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         
         let spaceTableViewCell = UINib(nibName: "ProgressCompleteionTableViewCell", bundle: Bundle.resource)
         self.shoppingListTableView.register(spaceTableViewCell, forCellReuseIdentifier: "ProgressCompleteionTableViewCell")
