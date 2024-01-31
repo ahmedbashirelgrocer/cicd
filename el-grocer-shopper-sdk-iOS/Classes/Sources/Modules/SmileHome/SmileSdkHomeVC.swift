@@ -50,8 +50,8 @@ class SmileSdkHomeVC: BasketBasicViewController {
     lazy private (set) var tableViewHeader : SegmentHeader = {
         let header = (Bundle.resource.loadNibNamed("SegmentHeader", owner: self, options: nil)![0] as? SegmentHeader)!
         header.segmentView.commonInit()
-        header.segmentView.backgroundColor = .textfieldBackgroundColor()
-        header.backgroundColor = .textfieldBackgroundColor()
+        header.segmentView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        header.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         header.segmentView.segmentDelegate = self
         return header
     }()
@@ -234,7 +234,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             self.searchBarHeader.setNeedsLayout()
             self.searchBarHeader.layoutIfNeeded()
             self.tableView.tableHeaderView = self.searchBarHeader
-            self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBackgroundColor
+            self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             self.searchBarHeader.setLocationText(self.locationHeader.lblAddress.text ?? "")
             self.tableView.layoutTableHeaderView()
             self.tableView.reloadData()

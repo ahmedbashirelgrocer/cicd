@@ -13,7 +13,9 @@ class HyperMarketGroceryTableCell: UITableViewCell {
 
     @IBOutlet var cellBGView: UIView!{
         didSet{
-            cellBGView.backgroundColor = .navigationBarWhiteColor()
+            cellBGView.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
+            cellBGView.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
+            cellBGView.layer.borderWidth = 1.0
             cellBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner], radius: 4, withShadow: false)
         }
     }
@@ -53,7 +55,7 @@ class HyperMarketGroceryTableCell: UITableViewCell {
     }
     
     func setUpInitialAppearence(){
-        self.backgroundColor = .tableViewBackgroundColor()
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         self.selectionStyle = .none
     }
     
