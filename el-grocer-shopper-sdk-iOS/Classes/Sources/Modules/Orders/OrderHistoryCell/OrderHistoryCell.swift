@@ -9,7 +9,7 @@
 import UIKit
 
 let kOrderHistoryCellIdentifier = "OrderHistoryCell"
-let kOrderHistoryCellHeight: CGFloat = 335 + 35
+let kOrderHistoryCellHeight: CGFloat = 360 + 35
 
 class OrderHistoryCell: UITableViewCell {
     
@@ -66,6 +66,13 @@ class OrderHistoryCell: UITableViewCell {
     @IBOutlet weak var orderStatusIcon: UIImageView!
     
     @IBOutlet weak var productCollectionView: UICollectionView!
+    @IBOutlet var viewOrderLabelBGView: AWView! {
+        didSet {
+            viewOrderLabelBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
+            viewOrderLabelBGView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: 15)
+            
+        }
+    }
     @IBOutlet weak var viewOrderLabel: UILabel!
     @IBOutlet weak var nextArrow: UIImageView!
     
@@ -204,10 +211,11 @@ class OrderHistoryCell: UITableViewCell {
     private func setUpViewOrderLabelAppearance() {
         
         self.viewOrderLabel.setBody3BoldUpperButtonLabelStyle() 
+        self.viewOrderLabel.textColor = ApplicationTheme.currentTheme.buttonthemeBaseBlackPrimaryForeGroundColor
         let image = ElGrocerUtility.sharedInstance.getImageWithName("arrowForward")
         self.nextArrow.image = image
         self.nextArrow.image = self.nextArrow.image!.withRenderingMode(.alwaysTemplate)
-        self.nextArrow.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        self.nextArrow.tintColor = ApplicationTheme.currentTheme.buttonthemeBaseBlackPrimaryForeGroundColor
     }
     
     // MARK: Data
