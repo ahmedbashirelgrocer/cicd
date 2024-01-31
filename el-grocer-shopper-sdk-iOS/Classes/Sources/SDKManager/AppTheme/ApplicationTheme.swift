@@ -102,6 +102,7 @@ public protocol Theme {
     var pillSelectedTextColor: UIColor { get }
     var pillUnSelectedTextColor: UIColor { get }
     //MARK: tableView
+    //used for view controller background colors also
     var tableViewBGGreyColor: UIColor { get }
     var tableViewBGWhiteColor: UIColor { get }
     //MARK: page Control
