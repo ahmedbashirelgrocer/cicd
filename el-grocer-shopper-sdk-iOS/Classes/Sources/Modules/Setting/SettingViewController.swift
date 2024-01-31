@@ -57,8 +57,8 @@ class SettingViewController: UIViewController {
         self.tableView.register(SignOutCellNib, forCellReuseIdentifier: kSignOutCellIdentifier)
         
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
-        self.tableView.separatorColor =  AppSetting.theme.separatorColor
-        self.tableView.backgroundColor = AppSetting.theme.tableViewBackgroundColor
+        self.tableView.separatorColor =  AppSetting.theme.tableViewBGWhiteColor
+        self.tableView.backgroundColor = AppSetting.theme.tableViewBGWhiteColor
     }
     
     private func navigationCustimzation() {
@@ -117,7 +117,7 @@ extension SettingViewController : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.width, height: 30))
-        headerView.backgroundColor = .tableViewBackgroundColor()
+        headerView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         let label = UILabel(frame: CGRect(x: 16, y: 0, width: tableView.frame.width - 30, height: 30))
         label.text = dataSource.sectionModels[section].header
         label.setH4SemiBoldStyle()

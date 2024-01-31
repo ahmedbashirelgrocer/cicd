@@ -17,7 +17,7 @@ class UserInfoCell: RxUITableViewCell {
     
     @IBOutlet var greenBGView: AWView!{
         didSet{
-            greenBGView.backgroundColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
+            greenBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
             greenBGView.cornarRadius = 8
         }
     }
@@ -39,7 +39,7 @@ class UserInfoCell: RxUITableViewCell {
     @IBOutlet var btnEditProfile: AWButton!{
         didSet{
             btnEditProfile.setTitle(localizedString("btn_txt_edit", comment: ""), for: .normal)
-            btnEditProfile.setTitleColor(ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor, for: UIControl.State())
+            btnEditProfile.setTitleColor(ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor, for: UIControl.State())
         }
     }
     

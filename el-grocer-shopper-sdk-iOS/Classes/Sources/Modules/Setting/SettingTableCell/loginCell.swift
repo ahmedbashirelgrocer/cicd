@@ -24,21 +24,21 @@ class loginCell: RxUITableViewCell {
     @IBOutlet var grennBGView: AWView!{
         didSet{
             grennBGView.cornarRadius = 8
-            grennBGView.backgroundColor = ApplicationTheme.currentTheme.viewSecondaryDarkBGColor
+            grennBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
         }
     }
     @IBOutlet var signUpButton: AWButton!{
         didSet{
             signUpButton.setSubHead1SemiBoldGreenStyle()
             signUpButton.setTitle(localizedString("Sign_up", comment: ""), for: .normal)
-            signUpButton.setTitleColor(ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor, for: UIControl.State())
+            signUpButton.setTitleColor(ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor, for: UIControl.State())
         }
     }
     @IBOutlet var signInButton: AWButton!{
         didSet{
             signInButton.setSubHead1SemiBoldGreenStyle()
             signInButton.setTitle(localizedString("area_selection_login_button_title", comment: ""), for: .normal)
-            signInButton.setTitleColor(ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor, for: UIControl.State())
+            signInButton.setTitleColor(ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor, for: UIControl.State())
         }
     }
     @IBOutlet var lblHello: UILabel!{

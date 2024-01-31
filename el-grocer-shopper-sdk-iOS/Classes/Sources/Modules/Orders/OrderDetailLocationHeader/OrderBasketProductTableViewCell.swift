@@ -19,7 +19,7 @@ class OrderBasketProductTableViewCell: UITableViewCell {
     @IBOutlet var productQuantity: UILabel! {
         didSet {
             productQuantity.setTextStyleWhite()
-            productQuantity.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+            productQuantity.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
             productQuantity.layer.cornerRadius = 12
             productQuantity.textAlignment = .center
             productQuantity.clipsToBounds = true
@@ -36,7 +36,7 @@ class OrderBasketProductTableViewCell: UITableViewCell {
     @IBOutlet var percentageViewDistaceFromStrikeLbl: NSLayoutConstraint!
     @IBOutlet var percentOffBGView: UIView!{
         didSet{
-            percentOffBGView.backgroundColor = .promotionRedColor()
+            percentOffBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
             percentOffBGView.layer.cornerRadius = 8
             percentOffBGView.clipsToBounds = true
         }
