@@ -125,8 +125,9 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         } else {
             self.dataSource?.getDefaultSearchData()
         }
-        self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
-        self.viewMainBG.layer.cornerRadius = 24.0
+        self.view.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.viewMainBG.layer.cornerRadius = 0
+        self.viewMainBG.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         
         // Show default data papular stores and search history
         if self.searchFor == .isForStoreSearch {
@@ -787,7 +788,7 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
         
         if obj.modelType == .separator {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SeparatorTableViewCell", for: indexPath) as! SeparatorTableViewCell
-            cell.configure(backgroundColor: .tableViewBackgroundColor())
+            cell.configure(backgroundColor: ApplicationTheme.currentTheme.tableViewBGWhiteColor)
             
             return cell
         }

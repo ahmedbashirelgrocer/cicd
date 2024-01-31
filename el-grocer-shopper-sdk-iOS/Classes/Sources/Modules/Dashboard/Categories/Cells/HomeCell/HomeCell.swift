@@ -338,7 +338,7 @@ class HomeCell: RxUITableViewCell {
                 self.viewBG.backgroundColor = .white
                 self.viewStore.isHidden = false
                 
-                self.viewSeparator.backgroundColor = .tableViewBackgroundColor()
+                self.viewSeparator.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
                 self.viewSeparatorHeightConstraint.constant = 8
             } else{
                 self.topDistanceOfTitle.constant = 0
@@ -356,7 +356,7 @@ class HomeCell: RxUITableViewCell {
                     return productOne.isAvailable > productTwo.isAvailable
                 }
                 self.viewStore.isHidden = true
-                self.viewSeparator.backgroundColor = .navigationBarWhiteColor()
+                self.viewSeparator.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
                 self.viewSeparatorHeightConstraint.constant = 16
             }
             

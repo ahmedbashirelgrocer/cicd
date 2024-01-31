@@ -18,7 +18,7 @@ class GenericHyperMarketHeader: UIView {
 
     @IBOutlet var cellBGView: UIView!{
         didSet{
-            cellBGView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            cellBGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }
     }
     @IBOutlet var bestForView: UIView!{
@@ -51,8 +51,7 @@ class GenericHyperMarketHeader: UIView {
     }
     @IBOutlet var searchBarSuperBGView: UIView!{
         didSet{
-            searchBarSuperBGView.backgroundColor = .navigationBarWhiteColor()
-            searchBarSuperBGView.roundWithShadow(corners: [.layerMaxXMinYCorner , .layerMinXMinYCorner], radius: 24, withShadow: false)
+            searchBarSuperBGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }
     }
     @IBOutlet var searchBGView: UIView!{
