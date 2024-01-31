@@ -35,9 +35,10 @@ class FAQSearchView: UIView {
     }
     
     func setUpSearchViewAppearance() {
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         searchTextField.setPlaceHolder(text: localizedString("FAQ_search_placeholder", comment: ""))
         searchFieldContainerView.layer.borderWidth = 1
-        searchFieldContainerView.layer.borderColor = UIColor.clear.cgColor
+        searchFieldContainerView.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
     }
 }
 

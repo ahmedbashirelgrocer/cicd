@@ -26,8 +26,9 @@ class FaqCell: UITableViewCell {
     // MARK: Appearance
     
     fileprivate func setupAccessoryView() {
-        let rightArrowIcon = sdkManager.isShopperApp ? UIImage(name: "arrowRight") :  UIImage(name: "SettingArrowForward")
+        let rightArrowIcon = UIImage(name: "SettingArrowForward")
         let iconView = UIImageView(image: rightArrowIcon)
+        iconView.changePngColorTo(color: ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor)
         iconView.contentMode = .scaleAspectFit
         iconView.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         self.accessoryView = iconView
