@@ -21,7 +21,7 @@ class StoreList: CustomCollectionView {
     }
     
     func setUpInitialApearance() {
-        self.backgroundColor = .textfieldBackgroundColor()
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         
     }
     

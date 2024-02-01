@@ -623,7 +623,7 @@ with our partner to add for your next shopping experience.</string>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create your shopping list" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Or-Nu-WAb">
-                                        <rect key="frame" x="40.666666666666657" y="71" width="124" height="14"/>
+                                        <rect key="frame" x="40.666666666666657" y="71" width="124.00000000000003" height="14"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="12"/>
                                         <color key="textColor" red="0.49803921579999999" green="0.34117650989999998" blue="0.61176472900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
@@ -1490,7 +1490,7 @@ with our partner to add for your next shopping experience.</string>
                                     </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uAr-TG-CUc">
                                         <rect key="frame" x="0.0" y="86.333333333333314" width="390" height="651.66666666666674"/>
-                                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="sectionIndexBackgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="sectionIndexTrackingBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1569,6 +1569,8 @@ with our partner to add for your next shopping experience.</string>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="bGView" destination="Lk7-u6-SeE" id="zHg-gm-tbl"/>
+                        <outlet property="bottomBGView" destination="W2C-76-P1C" id="f88-71-aWH"/>
                         <outlet property="bottomShimmer" destination="Kwt-xG-6z9" id="uMy-B1-I3W"/>
                         <outlet property="bottomShimmerContentView" destination="EKW-f3-5jA" id="5pT-ld-cVJ"/>
                         <outlet property="lblError" destination="KRC-r5-efU" id="63f-gs-sbd"/>

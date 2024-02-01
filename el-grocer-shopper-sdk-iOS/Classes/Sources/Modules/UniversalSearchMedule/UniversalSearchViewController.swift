@@ -108,7 +108,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         didSet {
             segmenntCollectionView.commonInit()
             segmenntCollectionView.segmentDelegate = self
-            segmenntCollectionView.backgroundColor = .tableViewBackgroundColor()
+            segmenntCollectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }
     }
   
@@ -268,8 +268,8 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         self.txtSearch.clearButton?.setImage(UIImage(name: "sCross"), for: .normal)
         self.txtSearch.textColor = UIColor.newBlackColor()
         self.txtSearch.clipsToBounds = false
-        self.tableView.backgroundColor = .white
-        self.collectionView.backgroundColor = .tableViewBackgroundColor()
+        self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.collectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
 //        self.storeNameViewHeight.constant = 0
         self.setCollectionViewBottomConstraint()
     }
