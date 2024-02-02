@@ -236,10 +236,10 @@
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <subviews>
                                                                     <visualEffectView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T6g-Wn-96n">
-                                                                        <rect key="frame" x="-2" y="-3" width="185" height="68"/>
+                                                                        <rect key="frame" x="-2" y="-3" width="185.5" height="68"/>
                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="0DX-rL-rLs">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="185" height="68"/>
+                                                                            <rect key="frame" x="0.0" y="0.0" width="185.5" height="68"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                         </view>
                                                                         <vibrancyEffect>
@@ -2022,13 +2022,20 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                                                         <color key="textColor" red="0.0" green="0.2784313725" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </label>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DE9-gn-Kun" userLabel="orderDetail">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DE9-gn-Kun" userLabel="orderDetail" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                         <rect key="frame" x="16" y="196" width="358" height="180"/>
                                                         <subviews>
                                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hu6-cM-H60" userLabel="storeView" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                                 <rect key="frame" x="0.0" y="0.0" width="358" height="56"/>
                                                                 <subviews>
-                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowForward" translatesAutoresizingMaskIntoConstraints="NO" id="FvU-rl-H3R">
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mCQ-QM-oDd" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                                                        <rect key="frame" x="239.66666666666666" y="9" width="110.33333333333334" height="30"/>
+                                                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                                        <constraints>
+                                                                            <constraint firstAttribute="height" constant="30" id="NzL-GM-QjF"/>
+                                                                        </constraints>
+                                                                    </view>
+                                                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowForwardSmiles" translatesAutoresizingMaskIntoConstraints="NO" id="FvU-rl-H3R">
                                                                         <rect key="frame" x="326" y="16" width="16" height="16"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="16" id="gTJ-0M-2aF"/>
@@ -2084,7 +2091,10 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                                                                     <constraint firstItem="ZZi-lm-3Zl" firstAttribute="top" secondItem="Hu6-cM-H60" secondAttribute="top" constant="16" id="hrK-YE-GcC"/>
                                                                     <constraint firstItem="FvU-rl-H3R" firstAttribute="top" secondItem="Hu6-cM-H60" secondAttribute="top" constant="16" id="ism-8x-C91"/>
                                                                     <constraint firstAttribute="height" constant="56" id="qdS-9T-ldo"/>
+                                                                    <constraint firstItem="mCQ-QM-oDd" firstAttribute="leading" secondItem="ZZi-lm-3Zl" secondAttribute="leading" constant="-8" id="tDU-LO-It0"/>
                                                                     <constraint firstItem="WRn-NI-VVO" firstAttribute="top" secondItem="UEC-at-o2e" secondAttribute="bottom" id="tdG-bO-ZQW"/>
+                                                                    <constraint firstItem="mCQ-QM-oDd" firstAttribute="trailing" secondItem="FvU-rl-H3R" secondAttribute="trailing" constant="8" id="xVq-2l-khn"/>
+                                                                    <constraint firstItem="mCQ-QM-oDd" firstAttribute="centerY" secondItem="FvU-rl-H3R" secondAttribute="centerY" id="zv7-Mp-06z"/>
                                                                 </constraints>
                                                                 <userDefinedRuntimeAttributes>
                                                                     <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
@@ -2173,7 +2183,7 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                                                             <constraint firstItem="G60-7h-zRq" firstAttribute="top" secondItem="Hu6-cM-H60" secondAttribute="bottom" constant="8" id="pHM-cY-1qx"/>
                                                         </constraints>
                                                     </view>
-                                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hFs-ZX-Ae5" userLabel="statusView">
+                                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hFs-ZX-Ae5" userLabel="statusView" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                         <rect key="frame" x="16" y="392" width="358" height="180"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Estimated delivery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eaC-PV-oFy">
@@ -2239,7 +2249,7 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                                                             <constraint firstItem="tCi-CE-V0E" firstAttribute="top" secondItem="Xaj-oK-ynN" secondAttribute="bottom" constant="8" id="vp0-Wh-Mij"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NCI-W8-1cd" userLabel="PicketView">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NCI-W8-1cd" userLabel="PicketView" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                                         <rect key="frame" x="16" y="588" width="358" height="74"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="riderOrPicker" translatesAutoresizingMaskIntoConstraints="NO" id="llY-ZD-EgT">
@@ -2451,6 +2461,7 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                     <connections>
+                        <outlet property="addressDeatilsBGView" destination="ygs-fb-F1N" id="j4m-bo-A5t"/>
                         <outlet property="addressDetailTopWithOrderDetailBottomConstraint" destination="fX3-uK-p9A" id="71x-g7-pJU"/>
                         <outlet property="addressDetailTopWithOrderStatusBottomConstraint" destination="ur4-6y-jxx" id="r0W-c1-ogp"/>
                         <outlet property="addressPin" destination="o8V-Sd-jI9" id="fBL-EL-0zb"/>
@@ -2460,10 +2471,12 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                         <outlet property="btnContinueShoppinglable" destination="kBR-oU-vPW" id="r9p-XZ-xtJ"/>
                         <outlet property="btnOnMyWay" destination="NsZ-ZL-Y67" id="lJA-JF-xKj"/>
                         <outlet property="btnOrderDetail" destination="ha6-ub-082" id="WGg-it-L5V"/>
+                        <outlet property="btnOrderDetailsBGView" destination="mCQ-QM-oDd" id="53F-NP-xBE"/>
                         <outlet property="btnOrderStatusUserAction" destination="EkA-fC-02b" id="Fqc-ze-28c"/>
                         <outlet property="cncCheckOutView" destination="iXY-lV-eqH" id="0wz-RI-TMY"/>
                         <outlet property="deliveryCheckOutView" destination="59c-GW-eF6" id="81M-Ds-PJF"/>
                         <outlet property="editOrderStatus" destination="9TD-Cz-aeW" id="eBX-Yq-iaJ"/>
+                        <outlet property="freshFruitsAlertBGView" destination="PAn-eP-oyr" id="oru-OZ-02c"/>
                         <outlet property="groceryImage" destination="55s-rh-5zi" id="qQ2-ue-wi2"/>
                         <outlet property="imgViewRetailer" destination="OCI-eQ-OED" id="TVh-Hl-mmi"/>
                         <outlet property="lblAddressNote" destination="HOy-TX-MAi" id="xf5-8L-LKN"/>
@@ -2489,6 +2502,8 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                         <outlet property="noteOrderLable" destination="Gny-jO-fB2" id="eju-5b-Da6"/>
                         <outlet property="orderDetailHeightContstraint" destination="9Kn-Dl-eqo" id="iRs-E8-orU"/>
                         <outlet property="orderDetailTopContraint" destination="sER-hT-Tka" id="XiK-Ib-DpP"/>
+                        <outlet property="orderDetailsAlertMsgBGView" destination="G60-7h-zRq" id="YKT-ZJ-RZC"/>
+                        <outlet property="orderDetailsBGView" destination="DE9-gn-Kun" id="A8X-g1-oSA"/>
                         <outlet property="orderNumberLabel" destination="Wfd-Rq-pJV" id="V9o-bN-5Nj"/>
                         <outlet property="orderProgressView" destination="tCi-CE-V0E" id="q8X-DV-Wms"/>
                         <outlet property="orderStatus" destination="gcb-lJ-nGK" id="ByL-O4-THr"/>
@@ -2497,6 +2512,7 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                         <outlet property="pickerChatImageView" destination="EOy-B5-hS7" id="1fK-HZ-ElW"/>
                         <outlet property="pickerDetailView" destination="NCI-W8-1cd" id="TPC-xZ-jmz"/>
                         <outlet property="pickerImage" destination="llY-ZD-EgT" id="ipc-M2-FFw"/>
+                        <outlet property="scrollBGView" destination="Rge-CE-JE3" id="UPN-Bz-vm9"/>
                         <outlet property="scrollContentSize" destination="isl-5m-bOR" id="BKd-tq-7u5"/>
                         <outlet property="scrollView" destination="jfn-Hk-Yug" id="Dkj-Qx-8ad"/>
                         <outlet property="statusView" destination="hFs-ZX-Ae5" id="CS6-dz-0tQ"/>
@@ -3073,6 +3089,7 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
         <image name="OrderConfirmationNewCheck" width="24.333333969116211" height="24"/>
         <image name="ThankYouOrder" width="207" height="185"/>
         <image name="arrowForward" width="7.6666665077209473" height="12.666666984558105"/>
+        <image name="arrowForwardSmiles" width="23.666666030883789" height="24"/>
         <image name="button_overlay" width="1" height="1"/>
         <image name="button_right_arrow" width="12.5" height="12"/>
         <image name="chat_Purple" width="24.333333969116211" height="24"/>

@@ -22,11 +22,28 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     private var analyticsEventLogger: AnalyticsEngineType!
     private var disposeBag = DisposeBag()
     
-    @IBOutlet weak var bgView: UIView!
+    @IBOutlet weak var bgView: UIView! {
+        didSet {
+            bgView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        }
+    }
     @IBOutlet weak var scrollView: UIScrollView!
 
+    @IBOutlet var scrollBGView: UIView! {
+        didSet {
+            scrollBGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        }
+    }
     @IBOutlet weak var scrollContentSize: NSLayoutConstraint!
     @IBOutlet var lottieAnimation: UIView!
+    @IBOutlet var orderDetailsBGView: AWView! {
+        didSet {
+            orderDetailsBGView.cornarRadius = 8
+            orderDetailsBGView.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
+            orderDetailsBGView.borderColor =  ApplicationTheme.currentTheme.borderGrayColor
+            orderDetailsBGView.borderWidth = 1.0
+        }
+    }
     @IBOutlet weak var lblNewOrderSuccessMsg: UILabel! {
         didSet {
             lblNewOrderSuccessMsg.setH4SemiBoldStyle()
@@ -34,22 +51,50 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             lblNewOrderSuccessMsg.textColor = ApplicationTheme.currentTheme.labelSecondaryBaseColor
         }
     }
+    @IBOutlet var btnOrderDetailsBGView: AWView! {
+        didSet {
+            btnOrderDetailsBGView.cornarRadius = 15
+            btnOrderDetailsBGView.backgroundColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
+        }
+    }
     @IBOutlet weak var groceryImage: UIImageView!
     @IBOutlet weak var lblGroceryName: UILabel!
+    @IBOutlet var orderDetailsAlertMsgBGView: AWView! {
+        didSet {
+            orderDetailsAlertMsgBGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+            orderDetailsAlertMsgBGView.borderColor = ApplicationTheme.currentTheme.borderGrayColor
+            orderDetailsAlertMsgBGView.borderWidth = 1.0
+        }
+    }
+    @IBOutlet var freshFruitsAlertBGView: AWView!{
+        didSet {
+            freshFruitsAlertBGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+            freshFruitsAlertBGView.borderColor = ApplicationTheme.currentTheme.borderGrayColor
+            freshFruitsAlertBGView.borderWidth = 1.0
+        }
+    }
     @IBOutlet weak var lblOrderNumber: UILabel!
     @IBOutlet weak var lblOrderDetail: UILabel! {
         didSet {
             lblOrderDetail.text =  localizedString("lbl_Order_Details", comment: "")
-            lblOrderDetail.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+            lblOrderDetail.textColor = ApplicationTheme.currentTheme.buttonthemeBaseBlackPrimaryForeGroundColor
         }
     }
     @IBOutlet weak var lblOrderDetailArrow: UIImageView! {
         didSet {
-            if sdkManager.isShopperApp {lblOrderDetailArrow.image = UIImage(name: "arrowRight") }
+            lblOrderDetailArrow.image = UIImage(name: "arrowForwardSmiles")
         }
     }
     @IBOutlet weak var lblOrderDetailNote: UILabel!
     @IBOutlet weak var lblFreshItemNote: UILabel!
+    @IBOutlet weak var addressDeatilsBGView: AWView! {
+        didSet {
+            addressDeatilsBGView.cornarRadius = 8
+            addressDeatilsBGView.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
+            addressDeatilsBGView.borderColor =  ApplicationTheme.currentTheme.borderGrayColor
+            addressDeatilsBGView.borderWidth = 1.0
+        }
+    }
     @IBOutlet weak var lblAddressNote: UILabel!
     @IBOutlet weak var addressPin: UIImageView! {
         didSet {
@@ -62,7 +107,14 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         }
     }
     // status view
-    @IBOutlet weak var statusView: UIView!
+    @IBOutlet weak var statusView: AWView! {
+        didSet {
+            statusView.cornarRadius = 8
+            statusView.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
+            statusView.borderColor =  ApplicationTheme.currentTheme.borderGrayColor
+            statusView.borderWidth = 1.0
+        }
+    }
     @IBOutlet weak var lblEstimatedDelivery: UILabel! {
         didSet {
             lblEstimatedDelivery.text = localizedString("title_estimated_delivery", comment: "")
@@ -78,7 +130,14 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     }
     
     // PickerDetailView
-    @IBOutlet weak var pickerDetailView: UIView!
+    @IBOutlet weak var pickerDetailView: AWView! {
+        didSet {
+            pickerDetailView.cornarRadius = 8
+            pickerDetailView.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
+            pickerDetailView.borderColor =  ApplicationTheme.currentTheme.borderGrayColor
+            pickerDetailView.borderWidth = 1.0
+        }
+    }
     @IBOutlet weak var pickerImage: UIImageView!
     @IBOutlet weak var lblPickerDetail: UILabel!
     @IBOutlet weak var pickerChatImageView: UIImageView!{
