@@ -287,23 +287,23 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                                 productCell.productContainer.layer.borderWidth = 2
                                 productCell.productBGShadowView.layer.masksToBounds = true
                             }else{
-                                productCell.productContainer.layer.borderColor = UIColor.clear.cgColor
-                                productCell.productContainer.layer.borderWidth = 0
+                                productCell.productContainer.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
+                                productCell.productContainer.layer.borderWidth = 1
                                 productCell.productBGShadowView.layer.masksToBounds = false
                             }
                         }else{
-                            productCell.productContainer.layer.borderColor = UIColor.clear.cgColor
-                            productCell.productContainer.layer.borderWidth = 0
+                            productCell.productContainer.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
+                            productCell.productContainer.layer.borderWidth = 1
                             productCell.productBGShadowView.layer.masksToBounds = false
                         }
                     }else{
-                        productCell.productContainer.layer.borderColor = UIColor.clear.cgColor
-                        productCell.productContainer.layer.borderWidth = 0
+                        productCell.productContainer.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
+                        productCell.productContainer.layer.borderWidth = 1
                         productCell.productBGShadowView.layer.masksToBounds = false
                     }
                 }else{
-                    productCell.productContainer.layer.borderColor = UIColor.clear.cgColor
-                    productCell.productContainer.layer.borderWidth = 0
+                    productCell.productContainer.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
+                    productCell.productContainer.layer.borderWidth = 1
                     productCell.productBGShadowView.layer.masksToBounds = false
                 }
                
@@ -369,8 +369,8 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                                 
                          
                             }else {
-                                productCell.productContainer.layer.borderColor = UIColor.clear.cgColor
-                                productCell.productContainer.layer.borderWidth = 0
+                                productCell.productContainer.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
+                                productCell.productContainer.layer.borderWidth = 1
                                 productCell.productBGShadowView.layer.masksToBounds = false
                                 productCell.addToCartButton.text = "＋"
                             }
@@ -418,8 +418,8 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                     
                             productCell.imageCrossState.image = UIImage(name: "Product Plus")
                             productCell.imageCrossState.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
-                            productCell.productContainer.layer.borderColor = UIColor.clear.cgColor
-                            productCell.productContainer.layer.borderWidth = 0
+                            productCell.productContainer.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
+                            productCell.productContainer.layer.borderWidth = 1
                             productCell.productBGShadowView.layer.masksToBounds = false
                         }
                         

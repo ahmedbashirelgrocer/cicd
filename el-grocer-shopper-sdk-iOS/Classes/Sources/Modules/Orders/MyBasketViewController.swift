@@ -2295,7 +2295,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             let product = self.notAvailableProductsList[(indexPath as NSIndexPath).row]
             
             let cell = tableView.dequeueReusableCell(withIdentifier: KMyBasketReplaceProductIdentifier, for: indexPath) as! MyBasketReplaceProductTableViewCell
-            cell.bottomLine.backgroundColor = UIColor.textfieldBackgroundColor()
+            cell.bottomLine.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             cell.customCollectionView.moreCellType = .ShowSubstitute
             cell.lblProductName.text = "" +  "\(product.name ?? "")"
             if product.descr != nil && product.descr?.isEmpty == false  {
