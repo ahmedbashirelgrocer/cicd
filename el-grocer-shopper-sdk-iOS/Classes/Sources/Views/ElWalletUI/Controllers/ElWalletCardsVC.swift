@@ -304,6 +304,6 @@ extension ElWalletCardsVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-            cell.backgroundColor = UIColor.tableViewBackgroundColor() // Your color here!
+        cell.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor // Your color here!
     }
 }
