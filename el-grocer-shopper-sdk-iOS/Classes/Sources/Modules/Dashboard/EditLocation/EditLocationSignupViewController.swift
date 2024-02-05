@@ -533,6 +533,7 @@ fileprivate extension EditLocationSignupViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44.0;
         tableView.allowsSelection = false
+        tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         
         let tableConfigData: [
             (imageName: String?,
