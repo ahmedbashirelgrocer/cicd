@@ -10,12 +10,21 @@ import UIKit
 
 class elWalletSectionHeaderView: UITableViewHeaderFooterView {
 
-    @IBOutlet weak var containerView: UIView!{
+    @IBOutlet weak var containerView: AWView!{
         didSet {
             containerView.roundWithShadow(corners: [ .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 8, withShadow: false)
+            containerView.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
+//            containerView.borderColor = ApplicationTheme.currentTheme.borderGrayColor
+//            containerView.borderWidth = 1.0
         }
     }
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet var moveToDetailsButtonBGView: AWView! {
+        didSet {
+            moveToDetailsButtonBGView.cornarRadius = 15
+            moveToDetailsButtonBGView.backgroundColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
+        }
+    }
     @IBOutlet weak var moveToDetailsButton: UIButton!
     var moveNext: (()->Void)?
     
@@ -32,6 +41,7 @@ class elWalletSectionHeaderView: UITableViewHeaderFooterView {
     private func setUpInitialAppearance() {
         titleLabel.setBody3SemiBoldDarkStyle()
         moveToDetailsButton.setBody2BoldGreenStyle()
+        moveToDetailsButton.setTitleColor(ApplicationTheme.currentTheme.buttonthemeBaseBlackPrimaryForeGroundColor, for: UIControl.State())
     }
     
     /*

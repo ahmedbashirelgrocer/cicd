@@ -11,9 +11,10 @@ import SDWebImage
 class VouchersCell: UITableViewCell {
 
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var innerContainerView: UIView!{
+    @IBOutlet weak var innerContainerView: AWView!{
         didSet {
-            innerContainerView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: 8, withShadow: false)
+            innerContainerView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+            
         }
     }
     @IBOutlet weak var logoImageView: UIImageView!

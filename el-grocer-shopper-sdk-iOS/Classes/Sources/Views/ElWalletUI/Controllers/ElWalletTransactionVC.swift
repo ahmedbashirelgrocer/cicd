@@ -221,11 +221,13 @@ extension ElWalletTransactionVC: UITableViewDataSource, UITableViewDelegate {
             let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "elWalletSectionHeaderView") as! elWalletSectionHeaderView
             headerView.configureHeaderView(title: allMOonthTransections[section].sectionDate, buttonName: "")
             headerView.moveToDetailsButton.isHidden = true
+            headerView.moveToDetailsButtonBGView.isHidden = true
             return headerView
         }else{
             let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "elWalletSectionHeaderView") as! elWalletSectionHeaderView
             headerView.configureHeaderView(title: localizedString("txt_title_transaction_history", comment: ""), buttonName: "")
             headerView.moveToDetailsButton.isHidden = true
+            headerView.moveToDetailsButtonBGView.isHidden = true
             return headerView
         }
         

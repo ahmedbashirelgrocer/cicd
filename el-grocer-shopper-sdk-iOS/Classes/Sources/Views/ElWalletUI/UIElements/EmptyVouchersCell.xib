@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EmptyVouchersCell" rowHeight="118" id="KGk-i7-Jjw" customClass="EmptyVouchersCell" customModule="ElGrocerShopper" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EmptyVouchersCell" rowHeight="118" id="KGk-i7-Jjw" customClass="EmptyVouchersCell" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="118"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -21,18 +21,18 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mi7-6g-PNC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="118"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3rH-Sk-2Rw">
-                                <rect key="frame" x="16" y="0.0" width="288" height="118"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3rH-Sk-2Rw" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="118"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wallet_voucher_logo" translatesAutoresizingMaskIntoConstraints="NO" id="H0A-rU-qvc">
-                                        <rect key="frame" x="120" y="16" width="48" height="48"/>
+                                        <rect key="frame" x="136" y="16" width="48" height="48"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="7sM-mk-rmH"/>
                                             <constraint firstAttribute="width" constant="48" id="IYV-aq-9Ds"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your active vouchers will be displayed here." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BP6-tY-gky">
-                                        <rect key="frame" x="8" y="72" width="272" height="22"/>
+                                        <rect key="frame" x="8" y="72" width="304" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="22" id="Im7-XD-DzH"/>
                                         </constraints>
@@ -55,9 +55,9 @@
                         <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="3rH-Sk-2Rw" secondAttribute="bottom" id="EgR-fL-PDD"/>
-                            <constraint firstAttribute="trailing" secondItem="3rH-Sk-2Rw" secondAttribute="trailing" constant="16" id="FQ0-rq-5SZ"/>
+                            <constraint firstAttribute="trailing" secondItem="3rH-Sk-2Rw" secondAttribute="trailing" id="FQ0-rq-5SZ"/>
                             <constraint firstItem="3rH-Sk-2Rw" firstAttribute="top" secondItem="Mi7-6g-PNC" secondAttribute="top" id="IFk-ob-9oI"/>
-                            <constraint firstItem="3rH-Sk-2Rw" firstAttribute="leading" secondItem="Mi7-6g-PNC" secondAttribute="leading" constant="16" id="Yr9-Ew-Idg"/>
+                            <constraint firstItem="3rH-Sk-2Rw" firstAttribute="leading" secondItem="Mi7-6g-PNC" secondAttribute="leading" id="Yr9-Ew-Idg"/>
                         </constraints>
                     </view>
                 </subviews>

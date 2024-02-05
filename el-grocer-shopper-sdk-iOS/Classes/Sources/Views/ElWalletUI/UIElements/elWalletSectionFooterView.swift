@@ -11,9 +11,12 @@ import UIKit
 class elWalletSectionFooterView: UITableViewHeaderFooterView {
 
     
-    @IBOutlet weak var containerView: UIView!{
+    @IBOutlet weak var containerView: AWView!{
         didSet {
             containerView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMinXMaxYCorner], radius: 8, withShadow: false)
+            containerView.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
+//            containerView.borderColor = ApplicationTheme.currentTheme.borderGrayColor
+//            containerView.borderWidth = 1.0
         }
     }
     static let reuseId: String = "elWalletSectionFooterView"

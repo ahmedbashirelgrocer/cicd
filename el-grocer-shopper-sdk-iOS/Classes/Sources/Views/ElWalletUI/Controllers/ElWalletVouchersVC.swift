@@ -15,6 +15,13 @@ class ElWalletVouchersVC: UIViewController, NavigationBarProtocol {
             lblDoYouHaveVoucher.text = localizedString("txt_do_you_have_voucher", comment: "")
         }
     }
+    @IBOutlet var txtVoucherCodeBGView: AWView! {
+        didSet {
+            txtVoucherCodeBGView.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
+            txtVoucherCodeBGView.borderColor = ApplicationTheme.currentTheme.borderGrayColor
+            txtVoucherCodeBGView.borderWidth = 1.0
+        }
+    }
     @IBOutlet var txtVoucherCode: UITextField! {
         didSet {
             txtVoucherCode.setPlaceHolder(text: localizedString("txt_voucher_code", comment: ""))
@@ -217,6 +224,7 @@ extension ElWalletVouchersVC: UITableViewDataSource, UITableViewDelegate {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "elWalletSectionHeaderView") as! elWalletSectionHeaderView
         headerView.configureHeaderView(title: localizedString("txt_active_vouchers", comment: ""), buttonName: "")
         headerView.moveToDetailsButton.isHidden = true
+        headerView.moveToDetailsButtonBGView.isHidden = true
         return headerView
     }
     
