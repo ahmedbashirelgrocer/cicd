@@ -58,7 +58,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = AppSetting.theme.navigationBarColor;
+        view.backgroundColor = AppSetting.theme.tableViewBGWhiteColor;
         addLocationHeader(); registerCells(); bindViews()
         
     }
@@ -95,7 +95,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
         tableView.estimatedRowHeight = 400
         tableView.sectionFooterHeight = 0.01
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.backgroundColor = AppSetting.theme.tableViewBGGreyColor
+        tableView.backgroundColor = AppSetting.theme.tableViewBGWhiteColor
        
         tableView.rx.didScroll
                     .subscribe(onNext: { [weak self] in

@@ -57,7 +57,7 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     
     @IBOutlet weak var tableView: UITableView!{
         didSet {
-            tableView.backgroundColor = .textfieldBackgroundColor()
+            tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }
     }
     
@@ -135,16 +135,6 @@ class SubstitutionsProductViewController : UIViewController, UITableViewDataSour
     @IBOutlet var savedAmountBGView: UIView!{
         didSet{
             savedAmountBGView.backgroundColor = .promotionRedColor()
-                //            savedAmountBGView.clipsToBounds = true
-                //            savedAmountBGView.layer.cornerRadius = 8
-                //            if ElGrocerUtility.sharedInstance.isArabicSelected(){
-                //                //savedAmountBGView.roundCorners(corners: [.topLeft , .bottomRight , .bottomLeft , .topRight], radius: 8)
-                //                savedAmountBGView.layer.maskedCorners = [.layerMinXMinYCorner , .layerMaxXMaxYCorner ]
-                //            }else{
-                //                //savedAmountBGView.roundCorners(corners: [.topRight , .bottomLeft], radius: 8)
-                //                savedAmountBGView.layer.maskedCorners = [.layerMaxXMinYCorner , .layerMinXMaxYCorner]
-                //            }
-                //           // savedAmountBGView.isHidden = true
         }
     }
     @IBOutlet var lblSavedAmount: UILabel!{
