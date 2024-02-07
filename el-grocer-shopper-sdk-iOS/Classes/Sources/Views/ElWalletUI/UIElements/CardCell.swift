@@ -34,6 +34,7 @@ class CardCell: UITableViewCell {
     }
     
     private func setUpInitialAppearance() {
+        self.containerView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         nameLabel.setH4RegDarkStyle()
         cardNumLabel.setH4RegDarkStyle()
     }

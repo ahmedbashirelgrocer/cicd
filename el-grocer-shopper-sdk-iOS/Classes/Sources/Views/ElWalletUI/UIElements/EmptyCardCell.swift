@@ -40,6 +40,7 @@ class EmptyCardCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.containerView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
     }
 
     @IBAction func addNewTapped(_ sender: UIButton) {

@@ -21,10 +21,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="128"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G6T-cW-gx6" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="128"/>
+                                <rect key="frame" x="16" y="0.0" width="288" height="128"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EZb-BX-pEx">
-                                        <rect key="frame" x="0.0" y="126" width="320" height="1"/>
+                                        <rect key="frame" x="0.0" y="126" width="288" height="1"/>
                                         <color key="backgroundColor" red="0.89411764705882346" green="0.89411764705882346" blue="0.89411764705882346" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="H0i-Td-4kb"/>
@@ -40,7 +40,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0.00 AED" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5TU-U8-6nY">
-                                        <rect key="frame" x="259.5" y="41" width="60.5" height="17"/>
+                                        <rect key="frame" x="227.5" y="41" width="60.5" height="17"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -95,9 +95,9 @@
                         </subviews>
                         <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="G6T-cW-gx6" secondAttribute="trailing" id="D55-dI-d2f"/>
+                            <constraint firstAttribute="trailing" secondItem="G6T-cW-gx6" secondAttribute="trailing" constant="16" id="D55-dI-d2f"/>
                             <constraint firstAttribute="bottom" secondItem="G6T-cW-gx6" secondAttribute="bottom" id="NJX-Cc-e6a"/>
-                            <constraint firstItem="G6T-cW-gx6" firstAttribute="leading" secondItem="wJI-wH-Ami" secondAttribute="leading" id="Qxa-Gv-hWW"/>
+                            <constraint firstItem="G6T-cW-gx6" firstAttribute="leading" secondItem="wJI-wH-Ami" secondAttribute="leading" constant="16" id="Qxa-Gv-hWW"/>
                             <constraint firstItem="G6T-cW-gx6" firstAttribute="top" secondItem="wJI-wH-Ami" secondAttribute="top" id="edr-Hf-EaQ"/>
                         </constraints>
                     </view>

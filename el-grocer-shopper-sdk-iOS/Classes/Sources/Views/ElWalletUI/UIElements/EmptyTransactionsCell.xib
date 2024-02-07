@@ -22,17 +22,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="118"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BOs-Bp-7Tm" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="118"/>
+                                <rect key="frame" x="16" y="0.0" width="288" height="118"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wallet_transaction_logo" translatesAutoresizingMaskIntoConstraints="NO" id="PwR-w9-se8">
-                                        <rect key="frame" x="136" y="16" width="48" height="48"/>
+                                        <rect key="frame" x="120" y="16" width="48" height="48"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="48" id="lXv-Kn-bcP"/>
                                             <constraint firstAttribute="width" constant="48" id="mHu-AI-AfG"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your transaction will be displayed here" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DUR-Q0-kmV">
-                                        <rect key="frame" x="8" y="72" width="304" height="22"/>
+                                        <rect key="frame" x="8" y="72" width="272" height="22"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" constant="22" id="ONO-t6-zp2"/>
                                         </constraints>
@@ -54,8 +54,8 @@
                         </subviews>
                         <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="BOs-Bp-7Tm" firstAttribute="leading" secondItem="vWj-2O-mkk" secondAttribute="leading" id="BPX-DH-4kC"/>
-                            <constraint firstAttribute="trailing" secondItem="BOs-Bp-7Tm" secondAttribute="trailing" id="EFZ-la-fbI"/>
+                            <constraint firstItem="BOs-Bp-7Tm" firstAttribute="leading" secondItem="vWj-2O-mkk" secondAttribute="leading" constant="16" id="BPX-DH-4kC"/>
+                            <constraint firstAttribute="trailing" secondItem="BOs-Bp-7Tm" secondAttribute="trailing" constant="16" id="EFZ-la-fbI"/>
                             <constraint firstAttribute="bottom" secondItem="BOs-Bp-7Tm" secondAttribute="bottom" id="Iz5-1w-GG5"/>
                             <constraint firstItem="BOs-Bp-7Tm" firstAttribute="top" secondItem="vWj-2O-mkk" secondAttribute="top" id="Vba-Wa-vPJ"/>
                         </constraints>

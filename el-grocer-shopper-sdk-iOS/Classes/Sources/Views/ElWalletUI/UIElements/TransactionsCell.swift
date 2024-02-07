@@ -38,6 +38,7 @@ class TransactionsCell: UITableViewCell {
     }
     
     private func setUpInitialAppearance() {
+        self.containerView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         nameLabel.setBody3SemiBoldDarkStyle()
         valueLabel.setBody3RegDarkStyle()
         dateLabel.setBody3RegDarkStyle()

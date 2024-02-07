@@ -47,8 +47,8 @@
                                     <action selector="addFundsButtonTapped:" destination="c0x-Jd-Kul" eventType="touchUpInside" id="1eu-l5-Mgh"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gTH-nX-ZqH">
-                                <rect key="frame" x="16" y="85" width="343" height="558"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gTH-nX-ZqH">
+                                <rect key="frame" x="0.0" y="85" width="375" height="558"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="c0x-Jd-Kul" id="00k-wU-dTc"/>
@@ -69,8 +69,8 @@
                             <constraint firstItem="BOe-aH-xLK" firstAttribute="leading" secondItem="jct-LD-cJu" secondAttribute="trailing" constant="4" id="ciA-QZ-f6V"/>
                             <constraint firstItem="jct-LD-cJu" firstAttribute="centerY" secondItem="BOe-aH-xLK" secondAttribute="centerY" id="dLd-9U-KXe"/>
                             <constraint firstAttribute="trailing" secondItem="BOe-aH-xLK" secondAttribute="trailing" constant="16" id="nPp-Od-WBM"/>
-                            <constraint firstAttribute="trailing" secondItem="gTH-nX-ZqH" secondAttribute="trailing" constant="16" id="uYI-Sn-Bvp"/>
-                            <constraint firstItem="gTH-nX-ZqH" firstAttribute="leading" secondItem="Iec-cQ-Y6B" secondAttribute="leading" constant="16" id="wW6-eD-Fzp"/>
+                            <constraint firstAttribute="trailing" secondItem="gTH-nX-ZqH" secondAttribute="trailing" id="uYI-Sn-Bvp"/>
+                            <constraint firstItem="gTH-nX-ZqH" firstAttribute="leading" secondItem="Iec-cQ-Y6B" secondAttribute="leading" id="wW6-eD-Fzp"/>
                             <constraint firstItem="BOe-aH-xLK" firstAttribute="top" secondItem="XeW-wA-y0I" secondAttribute="bottom" constant="24" id="xM2-j8-iWV"/>
                         </constraints>
                     </view>

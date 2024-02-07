@@ -94,7 +94,7 @@ class VouchersCell: UITableViewCell {
     func setUpInitialAppearance() {
 
         self.innerContainerView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner], radius: 8, withShadow: false)
-        
+        self.containerView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         voucherGroceryNameLabel.setBody3SemiBoldDarkStyle()
         voucherNameLabel.setBody3RegDarkStyle()
         viewDetailButton.setCaption1BoldGreenStyle()
