@@ -158,8 +158,8 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         self.billStackView.addArrangedSubview(self.superFreeDeliveryView)
         self.setFreeDeliveryFeeViewConstraints()
         self.billStackView.addArrangedSubview(self.shoppingBagsView)
-        self.billStackView.addArrangedSubview(self.promoDiscountView)
         self.billStackView.addArrangedSubview(self.grandToatalView)
+        self.billStackView.addArrangedSubview(self.promoDiscountView)
         self.billStackView.addArrangedSubview(self.burnElwalletPointsView)
         self.billStackView.addArrangedSubview(self.burnSmilePointsView)
         self.billStackView.addArrangedSubview(self.priceVarianceView)
@@ -252,14 +252,6 @@ class orderBillDetailsTableViewCell: UITableViewCell {
             self.shoppingBagsView.isHidden = true
         }
         
-        if promoTionDiscount > 0 {
-            self.billStackView.addArrangedSubview(self.promoDiscountView)
-            self.promoDiscountView.isHidden = false
-            self.promoDiscountView.configure(title: localizedString("promotion_discount_aed", comment: ""), amount: promoTionDiscount, isNegative: true)
-        }else {
-            self.promoDiscountView.isHidden = true
-        }
-        
         // check if shopping bags are available then show shopping bags
 //        let bagsQuantity = 6
 //        if bagsQuantity != 0 {
@@ -269,6 +261,14 @@ class orderBillDetailsTableViewCell: UITableViewCell {
 //        }
         self.billStackView.addArrangedSubview(self.grandToatalView)
         self.grandToatalView.configure(title: localizedString("grand_total", comment: ""), amount: grandTotal)
+        
+        if promoTionDiscount > 0 {
+            self.billStackView.addArrangedSubview(self.promoDiscountView)
+            self.promoDiscountView.isHidden = false
+            self.promoDiscountView.configure(title: localizedString("discount_text", comment: ""), amount: promoTionDiscount, isNegative: true)
+        }else {
+            self.promoDiscountView.isHidden = true
+        }
         
         if elwalletBurn > 0 {
             self.billStackView.addArrangedSubview(self.burnElwalletPointsView)

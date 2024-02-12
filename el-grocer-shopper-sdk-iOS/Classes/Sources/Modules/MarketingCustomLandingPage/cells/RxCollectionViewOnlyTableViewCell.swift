@@ -42,7 +42,7 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
         }
     }
 
-    private var viewModel: RxCollectionViewOnlyTableViewCellViewModel!
+    var viewModel: RxCollectionViewOnlyTableViewCellViewModel!
     @IBOutlet weak var cellHeight: NSLayoutConstraint!
     
     //MARK: OutPut

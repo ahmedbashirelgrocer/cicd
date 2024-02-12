@@ -13,11 +13,7 @@ import NBBottomSheet
 import SwiftMessages
 import Adyen
 import CoreLocation
-
-
-// Problem Statements:
-// - Fetch Delivery Slots from API
-// - if selected slot id is not nil [in checkout model] then filter delivery slots to get the selected slot
+import STPopup
 
 class SecondCheckoutVC: UIViewController {
 
@@ -25,21 +21,21 @@ class SecondCheckoutVC: UIViewController {
     @IBOutlet var checkoutStackView: UIStackView!
     @IBOutlet var checkoutDeliverySlotView: CheckoutDeliverySlotView!
     @IBOutlet var checkoutDeliveryAddressView: CheckoutDeliveryAddressView!
-    @IBOutlet var additionalInstructionsView: AdditionalInstructionsView!
+    @IBOutlet var additionalInstructionsView: DeliveryInstructionsView!
     @IBOutlet var paymentMethodView: PaymentMethodView!
     @IBOutlet var promocodeView: PromocodeView!
     @IBOutlet weak var checkoutButtonView: CheckoutButtonView!
-    @IBOutlet var viewCollector: CollectorsView!
-    @IBOutlet var viewCollectorCar: CollectorsCarView!
-    @IBOutlet var viewWarning: WarningView!
     @IBOutlet var pinView: MapPinView! {
         didSet{
             pinView.delegate = self
         }
     }
-    @IBOutlet var tabbyView: TabbyView!
+    @IBOutlet var smilesPointsView: CheckoutSmilesPointsView!
+    @IBOutlet var elWalletView: CheckoutElWalletView!
+    @IBOutlet var warningView: WarningView!
+    
     private var billView = BillView()
-    private lazy var secondaryPaymentView: SecondaryPaymentView = SecondaryPaymentView()
+
     private lazy var mapDelegate: LocationMapDelegation = {
         let delegate = LocationMapDelegation.init(self, type: .basket)
         return delegate
@@ -51,12 +47,6 @@ class SecondCheckoutVC: UIViewController {
     var activeAddressObj : DeliveryAddress?
     var selectedPaymentOption: PaymentOption?
     var selectedSlot: DeliverySlot?
-    var selectedCardID: String?
-    var selectedCollector : collector?
-    var selectedCar : Car?
-    var pickUpLocation : PickUpLocation?
-    var selectedReason: Int?
-    var additionalText: String?
     var orderID: String?
     var grocery: Grocery? = ElGrocerUtility.sharedInstance.activeGrocery
     var shopingItems: [ShoppingBasketItem]?
@@ -72,10 +62,6 @@ class SecondCheckoutVC: UIViewController {
         super.viewDidLoad()
 
         IQKeyboardManager.shared.enable = true
-        // show hide click and collect views based on delivery mode.
-        self.viewWarning.isHidden = ElGrocerUtility.sharedInstance.isDeliveryMode
-        self.viewCollector.isHidden = ElGrocerUtility.sharedInstance.isDeliveryMode
-        self.viewCollectorCar.isHidden = ElGrocerUtility.sharedInstance.isDeliveryMode
         
         // adding subviews
         self.addSubViews()
@@ -83,41 +69,47 @@ class SecondCheckoutVC: UIViewController {
         // setting delegates of subviews
         self.paymentMethodView.delegate = self
         self.promocodeView.delegate = self
-        self.viewCollector.delegate = self
-        self.viewCollectorCar.delegate = self
         self.additionalInstructionsView.delegate = self
-        self.secondaryPaymentView.delegate = self
-        self.tabbyView.delegate = self
+        self.smilesPointsView.delegate = self
+        self.elWalletView.delegate = self
         
-        // Hides tabby view by default
-        self.tabbyView.isHidden = true
-        
-        self.checkoutDeliverySlotView.changeSlot = { [weak self] (slot) in
+        self.checkoutDeliverySlotView.slotSelectionHandler = { [weak self] (slot) in
             guard let self = self, let slot = slot else {return}
-            self.viewModel.setSelectedSlotId(slot.dbID.intValue)
+            
+            self.viewModel.setSelectedSlotId(slot.id)
             self.viewModel.setDeliverySlot(slot)
             self.viewModel.updateSlotToBackEnd()
-            self.checkoutDeliverySlotView.configure(slots: self.viewModel.deliverySlots, selectedSlotId: self.viewModel.getCurrentDeliverySlotId())
         }
+        
         // subscribe the delivery slots subject
         viewModel.backSubject
             .subscribe(onNext: { [weak self] _ in self?.backButtonClickedHandler() })
             .disposed(by: disposeBag)
         viewModel.deliverySlotsSubject.subscribe(onNext: { [weak self] deliverySlots in
             guard let self = self else { return }
-            self.checkoutDeliverySlotView.configure(slots: deliverySlots, selectedSlotId: self.viewModel.getCurrentDeliverySlotId())
+            
+//            self.checkoutDeliverySlotView.configure(selectedDeliverySlot: self.viewModel.getCurrentDeliverySlotId(), deliverySlots: deliverySlots)
         }).disposed(by: disposeBag)
         
         if let _ = self.viewModel.getOrderId() {
-            self.additionalInstructionsView.tfAdditionalNote.text = self.viewModel.getEditOrderInitialDetail()?.orderNote ?? ""
+            let deliveryInstructions = self.viewModel.getEditOrderInitialDetail()?.orderNote
+            self.additionalInstructionsView.configure(instructions: deliveryInstructions)
         }else {
-            self.additionalInstructionsView.tfAdditionalNote.text = UserDefaults.getAdditionalInstructionsNote() ?? ""
+            let deliveryInstructions = UserDefaults.getAdditionalInstructionsNote()
+            self.additionalInstructionsView.configure(instructions: deliveryInstructions)
         }
         
         self.checkoutButtonView.checkOutClicked = { [weak self] in
             guard let self = self else { return }
-            guard self.viewModel.getGrocery()?.deliveryZoneId != nil, self.viewModel.getSelectedPaymentOption() != PaymentOption.none, self.viewModel.getCurrentDeliverySlotId() != nil, let grocery = self.viewModel.getGrocery() else {
+            
+            guard self.viewModel.getGrocery()?.deliveryZoneId != nil, self.viewModel.getSelectedPaymentOption() != PaymentOption.none, let grocery = self.viewModel.getGrocery() else {
                 return
+            }
+            
+            // check delivery slot and show popup
+            if self.viewModel.getCurrentDeliverySlotId() == nil {
+                showMessage("Please choose a slot to schedule this order.")
+                return 
             }
             
             let _ = SpinnerView.showSpinnerViewInView(self.view)
@@ -144,66 +136,67 @@ class SecondCheckoutVC: UIViewController {
             }
             
             self.orderPlacement.orderPlaced = { [weak self] order, error, apiResponse in
-                 
+                guard let self = self else { return }
+                
                 SpinnerView.hideSpinnerView()
                 if error != nil {
-                    MixpanelEventLogger.trackCheckoutOrderError(error: error?.localizedMessage ?? "", value: String(self?.viewModel.basketDataValue?.finalAmount ?? 0.00))
+                    MixpanelEventLogger.trackCheckoutOrderError(error: error?.localizedMessage ?? "", value: String(self.viewModel.basketDataValue?.finalAmount ?? 0.00))
                     return
                 }
             
                 guard order != nil else { return }
                 
                 func logPurchaseEvents() {
-                    self?.viewModel.setRecipeCartAnalyticsAndRemoveRecipe()
+                    self.viewModel.setRecipeCartAnalyticsAndRemoveRecipe()
                     ElGrocerUtility.sharedInstance.delay(0.5) { 
                         
                         ElGrocerEventsLogger.sharedInstance.recordPurchaseAnalytics(
-                            finalOrderItems:self?.viewModel.getShoppingItems() ?? []
-                            , finalProducts:self?.viewModel.getFinalisedProducts() ?? []
+                            finalOrderItems:self.viewModel.getShoppingItems() ?? []
+                            , finalProducts:self.viewModel.getFinalisedProducts() ?? []
                             , finalOrder: order!
                             , availableProductsPrices:[:]
-                            , priceSum : self?.viewModel.basketDataValue?.finalAmount! ?? 0.0
-                            , discountedPrice : self?.viewModel.basketDataValue?.productsSaving! ?? 0.0
-                            , grocery : self?.viewModel.getGrocery() 
-                            , deliveryAddress : self?.viewModel.getDeliveryAddressObj()
-                            , carouselproductsArray : self?.viewModel.getCarouselProductsArray() ?? []
-                            , promoCode : self?.viewModel.basketDataValue?.promoCode?.code ?? ""
-                            , serviceFee : self?.viewModel.basketDataValue?.serviceFee ?? 0.0
-                            , payment : self?.viewModel.getSelectedPaymentOption() ?? PaymentOption.none
-                            , discount: self?.viewModel.basketDataValue?.totalDiscount ?? 0.0
-                            , IsSmiles: self?.viewModel.getIsSmileTrue() ?? false
-                            , smilePoints: Int(self?.viewModel.basketDataValue?.smilesPoints ?? 0)
-                            , pointsEarned:Int(self?.viewModel.basketDataValue?.smilesEarn ?? 0)
-                            , pointsBurned:Int(self?.viewModel.basketDataValue?.smilesRedeem ?? 0),
-                            self?.viewModel.getIsWalletTrue() ?? false,
-                            self?.viewModel.basketDataValue?.elWalletRedeem ?? 0.0
+                            , priceSum : self.viewModel.basketDataValue?.finalAmount! ?? 0.0
+                            , discountedPrice : self.viewModel.basketDataValue?.productsSaving! ?? 0.0
+                            , grocery : self.viewModel.getGrocery()
+                            , deliveryAddress : self.viewModel.getDeliveryAddressObj()
+                            , carouselproductsArray : self.viewModel.getCarouselProductsArray() ?? []
+                            , promoCode : self.viewModel.basketDataValue?.promoCode?.code ?? ""
+                            , serviceFee : self.viewModel.basketDataValue?.serviceFee ?? 0.0
+                            , payment : self.viewModel.getSelectedPaymentOption() ?? PaymentOption.none
+                            , discount: self.viewModel.basketDataValue?.totalDiscount ?? 0.0
+                            , IsSmiles: self.viewModel.getSelectedSmilesPoints() > 0
+                            , smilePoints: Int(self.viewModel.basketDataValue?.smilesPoints ?? 0)
+                            , pointsEarned:Int(self.viewModel.basketDataValue?.smilesEarn ?? 0)
+                            , pointsBurned:Int(self.viewModel.basketDataValue?.smilesRedeem ?? 0),
+                            self.self.viewModel.getSelectedElwalletCredit() > 0,
+                            self.viewModel.basketDataValue?.elWalletRedeem ?? 0.0
                         )
                     }
                 }
                 
-                if self?.viewModel.getSelectedPaymentOption() == .creditCard, let card = self?.viewModel.getCreditCard()?.adyenPaymentMethod {
+                if self.viewModel.getSelectedPaymentOption() == .creditCard, let card = self.viewModel.getCreditCard()?.adyenPaymentMethod {
                     // Credit card flow
-                    if self?.orderPlacement.isForNewOrder == false, let oldOrderCard = self?.viewModel.getEditOrderInitialDetail()?.cardID,oldOrderCard.elementsEqual(card.identifier){
+                    if self.orderPlacement.isForNewOrder == false, let oldOrderCard = self.viewModel.getEditOrderInitialDetail()?.cardID,oldOrderCard.elementsEqual(card.identifier){
                         // Edit order flow when payment method is not changed
-                        self?.showConfirmationView(order!)
+                        self.showConfirmationView(order!)
                         logPurchaseEvents()
                         // Logging segment event for for edit order completed or order purchased
-                        self?.logOrderEditedOrCompletedEvent(order: order)
+                        self.logOrderEditedOrCompletedEvent(order: order)
                         return
                     }else {
                         // Due to: new order flow
-                        //  self?.paymentWithCard(card, order: order!, amount: self?.viewModel.basketDataValue?.finalAmount ?? 0.00)
-                        self?.processPaymentResponse(apiResponse, order: order!)
+                        //  self.paymentWithCard(card, order: order!, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
+                        self.processPaymentResponse(apiResponse, order: order!)
                     }
-                }else if self?.viewModel.getSelectedPaymentOption() == .applePay {
+                }else if self.viewModel.getSelectedPaymentOption() == .applePay {
                     // Apple pay flow
-                    // self?.payWithApplePay(selctedApplePayMethod: card, order: order!, amount: self?.viewModel.basketDataValue?.finalAmount ?? 0.00)
-                    self?.processPaymentResponse(apiResponse, order: order!)
+                    // self.payWithApplePay(selctedApplePayMethod: card, order: order!, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
+                    self.processPaymentResponse(apiResponse, order: order!)
                 } else {
-                    self?.showConfirmationView(order!)
+                    self.showConfirmationView(order!)
                     
                     // Logging segment event for for edit order completed or order purchased
-                    self?.logOrderEditedOrCompletedEvent(order: order)
+                    self.logOrderEditedOrCompletedEvent(order: order)
                 }
                 
                 logPurchaseEvents()
@@ -235,6 +228,9 @@ class SecondCheckoutVC: UIViewController {
         })
         .disposed(by: disposeBag)
      
+        
+        self.setDeliveryAddress()
+        
         // Logging segment screen event and checkout started
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .checkoutScreen))
         SegmentAnalyticsEngine.instance.logEvent(event: CheckoutStartedEvent())
@@ -244,11 +240,6 @@ class SecondCheckoutVC: UIViewController {
         super.viewWillAppear(animated)
 
         self.setupNavigationBar()
-        self.setDeliveryAddress()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
     }
 
     func setDeliveryAddress() {
@@ -260,47 +251,36 @@ class SecondCheckoutVC: UIViewController {
     
     func updateViewAccordingToData(data: BasketDataClass) {
         
-        
         Thread.OnMainThread {
-        // configure bill view
             self.billView.configure(productTotal: data.productsTotal ?? 0.00, serviceFee: data.serviceFee ?? 0.00, total: data.totalValue ?? 0.00, productSaving: data.totalDiscount ?? 0.00, finalTotal: data.finalAmount ?? 0.00, elWalletRedemed: data.elWalletRedeem ?? 0.00, smilesRedemed: data.smilesRedeem ?? 0.00, promocode: data.promoCode, quantity: data.quantity ?? 0, smilesSubscriber: data.smilesSubscriber ?? false, tabbyRedeem: data.tabbyRedeem)
 
-            self.checkoutDeliverySlotView.configure(slots: self.viewModel.deliverySlots, selectedSlotId: self.viewModel.getCurrentDeliverySlotId())
+            self.checkoutDeliverySlotView.configure(selectedDeliverySlot: data.selectedDeliverySlot, deliverySlots: self.viewModel.deliverySlots)
         
-        self.checkoutDeliveryAddressView.configure(address: self.viewModel.getDeliveryAddress())
+            self.checkoutDeliveryAddressView.configure(address: self.viewModel.getDeliveryAddress())
 
-//        self.promocodeView.isHidden = data.promoCodes ?? false
-        self.promocodeView.configure(promocode: data.promoCode?.code ?? "")
+            self.promocodeView.configure(promocode: data.promoCode?.code ?? "", promoCodeValue: data.promoCode?.value, primaryPaymentMethodId: data.primaryPaymentTypeID)
         
         
-        self.paymentMethodView.configure(paymentTypes: data.paymentTypes ?? [], selectedPaymentId: self.viewModel.getSelectedPaymentMethodId(),creditCard: self.viewModel.getCreditCard())
-        
-        let secondaryPaymentTypes = self.viewModel.getShouldShowSecondaryPayments(paymentMethods: data.paymentTypes ?? [])
-        if secondaryPaymentTypes == .none {
-            self.secondaryPaymentView.isHidden = true
-        }else {
-
-            self.secondaryPaymentView.configure(smilesBalance: data.smilesBalance ?? 0.00, elWalletBalance: data.elWalletBalance ?? 0.00, smilesRedeem: data.smilesRedeem ?? 0.00, elWalletRedeem: data.elWalletRedeem ?? 0.00, smilesPoint: data.smilesPoints ?? 0, paymentTypes: secondaryPaymentTypes, selectedPrimaryMethod: self.viewModel.getSelectedPaymentOption())
-        }
-        let paymentOption = self.viewModel.createPaymentOptionFromString(paymentTypeId: data.primaryPaymentTypeID ?? 0)
-        
-            self.checkoutButtonView.configure(paymentOption: paymentOption, points: self.viewModel.getBurnPointsFromAed(), amount: data.finalAmount ?? 0.00, aedSaved: data.productsSaving ?? 0.00, earnSmilePoints: data.smilesEarn ?? 0, promoCode: data.promoCode, isSmileOn: self.viewModel.getIsSmileTrue() )
-        }
-        
-        
-        if sdkManager.isShopperApp {
-            let isTabbyAvailable = data.paymentTypes?.contains(where: { type in type.id == PaymentOption.tabby.rawValue }) ?? true
-            self.tabbyView.isHidden = !isTabbyAvailable
+            self.paymentMethodView.configure(paymentTypes: data.paymentTypes ?? [], selectedPaymentId: self.viewModel.getSelectedPaymentMethodId(),creditCard: self.viewModel.getCreditCard())
             
-            if let tabbyRedeem = data.tabbyRedeem, tabbyRedeem > 0 {
-                self.tabbyView.enableTabbyPayment(status: true)
-            } else {
-                self.tabbyView.enableTabbyPayment(status: false)
-                
-                if let message = data.tabbyThresholdMessage, message.isNotEmpty {
-                    ElGrocerUtility.sharedInstance.showTopMessageView(message, image: nil, -1, false, backButtonClicked: { sender, index, inUndo in
-                    }, buttonIcon: UIImage(named: "crossWhite"))
-                }
+            // Configuration of elWallet and Smiles Points view
+            let (hidesSmilesPoints, hidesElWallet) = self.viewModel.hidesSecondaryPaymentsViews(paymentMethods: data.paymentTypes ?? [])
+            
+            self.smilesPointsView.isHidden = hidesSmilesPoints
+            self.elWalletView.isHidden = hidesElWallet
+            
+            self.smilesPointsView.configure(smilesPointsRedeemed: data.smilesRedeem ?? 0.0, isEnabled: false, smilesBurntRatio: data.smilesBurnRatio, primaryPaymentMethodId: data.primaryPaymentTypeID)
+            self.elWalletView.configure(redeemAmount: data.elWalletRedeem ?? 0.00, primaryPaymentMethodId: data.primaryPaymentTypeID)
+            
+            // Primary Payment method configuration
+            let paymentOption = self.viewModel.createPaymentOptionFromString(paymentTypeId: data.primaryPaymentTypeID ?? 0)
+            let isSmilesApplied = (data.smilesRedeem ?? 0) > 0
+            // Checkout button configuration
+            self.checkoutButtonView.configure(paymentOption: paymentOption, points: self.viewModel.getBurnPointsFromAed(), amount: data.finalAmount ?? 0.00, aedSaved: data.productsSaving ?? 0.00, earnSmilePoints: data.smilesEarn ?? 0, promoCode: data.promoCode, isSmileOn: isSmilesApplied)
+            
+            // Showing tabby limit reach message
+            if let message = data.tabbyThresholdMessage, message.isNotEmpty {
+                self.showMessage(message)
             }
         }
     }
@@ -452,19 +432,15 @@ class SecondCheckoutVC: UIViewController {
 private extension SecondCheckoutVC {
     func addSubViews() {
         
-        checkoutStackView.addArrangedSubview(checkoutDeliverySlotView)
         checkoutStackView.addArrangedSubview(pinView)
-        checkoutStackView.addArrangedSubview(viewWarning)
-       // checkoutStackView.addArrangedSubview(checkoutDeliveryAddressView)
+        checkoutStackView.addArrangedSubview(checkoutDeliverySlotView)
         checkoutStackView.addArrangedSubview(additionalInstructionsView)
-        checkoutStackView.addArrangedSubview(viewCollectorCar)
-        checkoutStackView.addArrangedSubview(viewCollector)
-        checkoutStackView.addArrangedSubview(viewCollector)
         checkoutStackView.addArrangedSubview(paymentMethodView)
         checkoutStackView.addArrangedSubview(promocodeView)
-        checkoutStackView.addArrangedSubview(tabbyView)
-        checkoutStackView.addArrangedSubview(secondaryPaymentView)
+        checkoutStackView.addArrangedSubview(smilesPointsView)
+        checkoutStackView.addArrangedSubview(elWalletView)
         checkoutStackView.addArrangedSubview(billView)
+        checkoutStackView.addArrangedSubview(warningView)
         
     }
     
@@ -495,17 +471,17 @@ private extension SecondCheckoutVC {
                 products: self.viewModel.getFinalisedProducts() ?? [],
                 grocery: self.grocery, totalValue: self.viewModel.basketDataValue?.totalValue ?? 0.0,
                 order: order,
-                isWalletEnabled: viewModel.isElWalletEnabled(),
-                isSmilesEnabled: viewModel.isSmilesEnabled(),
+                isWalletEnabled: viewModel.getSelectedElwalletCredit() > 0,
+                isSmilesEnabled: viewModel.getSelectedSmilesPoints() > 0,
                 isPromoCodeApplied: viewModel.isPromoApplied(),
                 smilesPointsEarned: viewModel.basketDataValue?.smilesEarn ?? 0,
                 smilesPointsBurnt: viewModel.basketDataValue?.smilesRedeem ?? 0,
                 realizationId: viewModel.basketDataValue?.promoCode?.promotionCodeRealizationID,
-                isTabbyEnabled: viewModel.getTabbyEnabled(),
+                isTabbyEnabled: false,
                 amoutPaidWithTabby: viewModel.basketDataValue?.tabbyRedeem ?? 0.0
             )
-            SegmentAnalyticsEngine.instance.logEvent(event: orderCompletedEvent)
             
+            SegmentAnalyticsEngine.instance.logEvent(event: orderCompletedEvent)
             logPurchaseEventOnTopSort(orderID: order?.dbID.stringValue ?? UUID().uuidString)
         }
         
@@ -552,21 +528,37 @@ extension SecondCheckoutVC: NavigationBarProtocol {
     
 }
 
-extension SecondCheckoutVC: AdditionalInstructionsViewDelegate {
-    func textViewTextChangeDone(text: String) {
-        self.viewModel.setAdditionalInstructions(text: text)
-        UserDefaults.setAdditionalInstructionsNote(text)
-        MixpanelEventLogger.trackCheckoutInstructionAdded(instruction: text)
+extension SecondCheckoutVC: DeliveryInstructionsViewDelegate {
+    func deliveryInstructionsView(_didTap view: DeliveryInstructionsView) {
+        let instructions = UserDefaults.getAdditionalInstructionsNote()
+        let instructionVC = InstructionsViewController()
+
+        instructionVC.doneButtonTapHandler = { [weak self] instructions in
+            view.configure(instructions: instructions)
+            self?.viewModel.setAdditionalInstructions(text: instructions ?? "")
+        }
+
+        let popupController = STPopupController(rootViewController: instructionVC)
+        MixpanelEventLogger.trackCheckoutDeliverySlotClicked()
+        popupController.navigationBarHidden = true
+
+        popupController.style = .bottomSheet
+
+        popupController.backgroundView?.alpha = 1
+        popupController.containerView.layer.cornerRadius = 16
+        popupController.navigationBarHidden = true
+        popupController.present(in: self)
     }
 }
 
 // MARK: - Payment method selection delegate
 extension SecondCheckoutVC: PaymentMethodViewDelegate {
     func tap(on view: PaymentMethodView, paymentTypes: [PaymentType]) {
-
-        let vm = PaymentSelectionViewModel(elGrocerAPI: ElGrocerApi.sharedInstance, adyenApiManager: AdyenApiManager(), grocery: self.grocery, selectedPaymentOption: self.viewModel.getSelectedPaymentOption(),cardId: self.viewModel.getCreditCard()?.cardID, paymentTypes: paymentTypes)
+        let viewContorller = self.makePaymentMethodsViewController(paymentTypes: paymentTypes)
         
-        let viewController = PaymentMethodSelectionViewController.create(viewModel: vm) { option, applePay, creditCard in
+        viewContorller.selectionClosure = { [weak self] option, applePay, creditCard in
+            guard let self = self else { return }
+            
             if let option = option, let groceryId = self.viewModel.getGroceryId() {
                 UserDefaults.setPaymentMethod(option.rawValue, forStoreId: groceryId)
                 UserDefaults.setCardID(cardID: creditCard?.cardID ?? "", userID: self.viewModel.getUserId()?.stringValue ?? "")
@@ -575,69 +567,45 @@ extension SecondCheckoutVC: PaymentMethodViewDelegate {
                 self.viewModel.setSelectedPaymentOption(id: Int(option.rawValue))
                 self.viewModel.updatePaymentMethod(option)
                 MixpanelEventLogger.trackCheckoutPaymentMethodSelected(paymentMethodId: "\(option.rawValue)",cardId: creditCard?.cardID ?? "-1", retaiilerId: self.secondCheckOutDataHandler?.activeGrocery?.dbID ?? "")
-                
+
                 // Logging segment event for payment method changed
                 SegmentAnalyticsEngine.instance.logEvent(event: PaymentMethodChangedEvent(paymentMethodId: Int(option.rawValue), paymentMethodName: option.paymentMethodName))
             }
         }
-        MixpanelEventLogger.trackCheckoutPrimaryPaymentMethodClicked()
-        let configuration = NBBottomSheetConfiguration(sheetSize: .fixed(self.view.frame.height * 0.6))
-        let bottomSheetController = NBBottomSheetController(configuration: configuration)
         
-        bottomSheetController.present(viewController, on: self)
+        let popupController = STPopupController(rootViewController: viewContorller)
+        popupController.navigationBarHidden = true
+        popupController.style = .bottomSheet
+        popupController.backgroundView?.alpha = 1
+        popupController.containerView.layer.cornerRadius = 16
+        popupController.navigationBarHidden = true
+        popupController.present(in: self)
     }
-}
-
-// MARK: - Collector's View Delegates
-extension SecondCheckoutVC: CollectorsViewDelegate {
-    func tap(view: CollectorsView) {
-        var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(CGFloat(400)))
-        configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
-        let bottomSheetController = NBBottomSheetController(configuration: configuration)
-        let controler = OrderCollectorDetailsVC(nibName: "OrderCollectorDetailsVC", bundle: nil)
-        controler.dataHandlerView = self //.currentTopVc as? UIViewController
-        controler.collectorSelected = { (collector) in
-            if let collector = collector {
-                view.configure(collector: collector)
-            }
-        }
+    
+    private func makePaymentMethodsViewController(paymentTypes: [PaymentType]) -> PaymentMethodSelectionViewController {
+        let viewModel = PaymentSelectionViewModel(
+            grocery: self.grocery,
+            selectedPaymentOption: self.viewModel.getSelectedPaymentOption(),
+            cardId: self.viewModel.getCreditCard()?.cardID,
+            paymentTypes: paymentTypes,
+            tabbyAuthURL: self.viewModel.getTabbyAuthenticationURL()
+        )
         
-        bottomSheetController.present(controler, on: self)
-    }
-}
-
-// MARK: - Collector's Car View Delegates
-extension SecondCheckoutVC: CollectorsCarViewDelegate {
-    func tap(view: CollectorsCarView) {
-        var configuration = NBBottomSheetConfiguration(animationDuration: 0.4, sheetSize: .fixed(CGFloat(400)))
-        configuration.backgroundViewColor = UIColor.newBlackColor().withAlphaComponent(0.56)
-        let bottomSheetController = NBBottomSheetController(configuration: configuration)
-        let controller = OrderCollectorDetailsVC(nibName: "OrderCollectorDetailsVC", bundle: nil)
-        controller.detailsType = .car
-        controller.dataHandlerView = self
+        let viewContorller = PaymentMethodSelectionViewController(viewModel: viewModel)
         
-        controller.carSelected = { [weak self] (car) in
-            guard let car = car else { return }
-            view.configure(car: car)
-        }
-        controller.carDeleted = { (carId) in
-           // guard let self = self,  let carId = carId else { return }
-        }
-        
-        bottomSheetController.present(controller, on: self)
+        return viewContorller
     }
 }
 
 extension SecondCheckoutVC: PromocodeDelegate {
     func tap(promocode: String?) {
-        if self.viewModel.getSelectedPaymentOption() == PaymentOption.none {
-            let errorMsg = localizedString("secondary_payment_promocode_error", comment: "")
-            ElGrocerUtility.sharedInstance.showTopMessageView(errorMsg, image: nil, -1, false, backButtonClicked: { sender, index, inUndo in
-            }, buttonIcon: UIImage(name: "crossWhite"))
+        let selectedPrimaryPM = PaymentOption(rawValue: UInt32(viewModel.basketDataValue?.primaryPaymentTypeID ?? 0)) ?? .none
+        
+        if selectedPrimaryPM == .none {
+            self.showMessage(localizedString("secondary_payment_promocode_error", comment: ""))
             return
         }
 
-        MixpanelEventLogger.trackCheckoutPromocodeClicked()
         let vc = ElGrocerViewControllers.getApplyPromoVC()
         
         vc.previousGrocery = self.viewModel.getGrocery()
@@ -676,50 +644,13 @@ extension SecondCheckoutVC: PromocodeDelegate {
     }
 }
 
-extension SecondCheckoutVC: SecondaryPaymentViewDelegate {
-    func switchStateChange(type: SourceType, switchState: Bool) {
-        if self.viewModel.getSelectedPaymentOption() == .none && switchState == false {
-            let errorMsg = localizedString("secondary_payment_error_message", comment: "")
-            ElGrocerUtility.sharedInstance.showTopMessageView(errorMsg, image: nil, -1, false, backButtonClicked: { sender, index, inUndo in
-            }, buttonIcon: UIImage(name: "crossWhite"))
-            return
-        }
-        
-        switch type {
-        case .elWallet:
-            //  print("elwallet switch changed to >> \(switchState)")
-            self.viewModel.setIsWalletTrue(isWalletTrue: switchState)
-            self.viewModel.updateSecondaryPaymentMethods()
-            if switchState {
-                MixpanelEventLogger.trackCheckoutElwalletSwitchOn(balance: String(self.viewModel.basketDataValue?.elWalletBalance ?? 0.00))
-            }else {
-                MixpanelEventLogger.trackCheckoutElwalletSwitchOff(balance: String(self.viewModel.basketDataValue?.elWalletBalance ?? 0.00))
-            }
-            
-            // Logging segment event for el-wallet toggle enabled
-            SegmentAnalyticsEngine.instance.logEvent(event: ElWalletToggleEnabledEvent(isEnabled: switchState))
-            break
-            
-        case .smile:
-            // print("smiles switch changed to >> \(switchState)")
-            self.viewModel.setIsSmileTrue(isSmileTrue: switchState)
-            self.viewModel.updateSecondaryPaymentMethods()
-            if switchState {
-                MixpanelEventLogger.trackCheckoutSmilesSwitchOn(balance: String(self.viewModel.basketDataValue?.smilesBalance ?? 0.00))
-            }else {
-                MixpanelEventLogger.trackCheckoutSmilesSwitchOff(balance: String(self.viewModel.basketDataValue?.smilesBalance ?? 0.00))
-            }
-            
-            // Logging segment event for smiles points enabled
-            SegmentAnalyticsEngine.instance.logEvent(event: SmilesPointEnabledEvent(isEnabled: switchState))
-            break
-        }
-        
-    }
-}
 extension SecondCheckoutVC : MapPinViewDelegate, LocationMapViewControllerDelegate {
     
     func changeButtonClickedWith(_ currentDetails: UserMapPinAdress?) -> Void {
+        EGAddressSelectionBottomSheetViewController.showInBottomSheet(self.viewModel.getGrocery(), mapDelegate: self.mapDelegate, presentIn: self)
+    }
+    
+    func tap(_ currentDetails: UserMapPinAdress) {
         EGAddressSelectionBottomSheetViewController.showInBottomSheet(self.viewModel.getGrocery(), mapDelegate: self.mapDelegate, presentIn: self)
     }
     
@@ -749,59 +680,106 @@ extension SecondCheckoutVC : MapPinViewDelegate, LocationMapViewControllerDelega
     
 }
 
-extension SecondCheckoutVC: TabbyViewDelegate {
-    func helpTap() {
-        let termsAndContitionsVC = ElGrocerViewControllers.getTabbyTermsAndConditionsViewController()
-        self.navigationController?.present(termsAndContitionsVC, animated: true)
-    }
-    
-    func switchStateChanged(_ tabbyView: TabbyView, _ state: Bool) {
-        if let tabbyRedirectionUrl = self.viewModel.tabbyWebUrl, tabbyRedirectionUrl.isNotEmpty {
-            if state {
-                let vc = ElGrocerViewControllers.getTabbyWebViewController()
-                vc.tabbyRedirectionUrl = self.viewModel.tabbyWebUrl
-                
-                vc.tabbyRegistrationHandler = { [weak self] registrationStatus in
-                    guard let self = self else { return }
-                    
-                    self.viewModel.setTabbyEnabled(enabled: registrationStatus == .success)
-                    self.viewModel.updateSecondaryPaymentMethods()
-                    
-                    if registrationStatus == .success && self.viewModel.getSelectedPaymentOption() == .none {
-                        self.selectCashAsPrimaryMethod()
-                    }
-                }
-                
-                let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-                navigationController.hideSeparationLine()
-                navigationController.viewControllers = [vc]
-                navigationController.modalPresentationStyle = .fullScreen
-                self.navigationController?.present(navigationController, animated: true, completion: nil)
-            } else {
-                self.viewModel.setTabbyEnabled(enabled: false)
-                self.viewModel.updateSecondaryPaymentMethods()
-            }
-        } else {
-            self.viewModel.setTabbyEnabled(enabled: state)
-            self.viewModel.updateSecondaryPaymentMethods()
-            
-            if state && self.viewModel.getSelectedPaymentOption() == .none {
-                selectCashAsPrimaryMethod()
-            }
-        }
-    }
-    
-    // Auto select cash as a primary payment method
-    private func selectCashAsPrimaryMethod() {
-        guard let groceryId = self.viewModel.getGroceryId(), let userId = self.viewModel.getUserId()?.stringValue else { return }
+// MARK: - Smiles points view Tap Handler
+extension SecondCheckoutVC: CheckoutSmilesPointsViewDelegate {
+    func smilesPointsView(_didTap view: CheckoutSmilesPointsView) {
+        let availablePoints = Double(viewModel.basketDataValue?.smilesPoints ?? 0)
+        let selectedPrimaryPM = PaymentOption(rawValue: UInt32(viewModel.basketDataValue?.primaryPaymentTypeID ?? 0)) ?? .none
         
-        ElGrocerUtility.sharedInstance.delay(0.5) {
-            UserDefaults.setPaymentMethod(PaymentOption.cash.rawValue, forStoreId:groceryId)
-            UserDefaults.setCardID(cardID: "", userID: userId)
-            self.viewModel.updateCreditCard(nil)
-            self.viewModel.updateApplePay(nil)
-            self.viewModel.setSelectedPaymentOption(id: Int(PaymentOption.cash.rawValue))
-            self.viewModel.updatePaymentMethod(PaymentOption.cash)
+        if selectedPrimaryPM == .none {
+            showMessage(localizedString("primary_payment_required_error_msg", comment: ""))
+            return
         }
+
+        if availablePoints <= 1 {
+            showMessage(localizedString("smiles_points_insufficient_balance_error_msg", comment: ""))
+            return
+        }
+        
+        self.showSmilesPointsBottomSheet()
+    }
+    
+    private func showSmilesPointsBottomSheet() {
+        let smilesPointsVC = makeSmilesBottomSheetController()
+
+        smilesPointsVC.confirmButtonTapHandler = { [weak self] smilesPoints in
+            guard let self = self else { return }
+            
+            self.viewModel.setSelectedSmilePoints(selectedSmilePoints: smilesPoints)
+            self.viewModel.updateSecondaryPaymentMethods()
+        }
+
+        let popupController = STPopupController(rootViewController: smilesPointsVC)
+        popupController.navigationBarHidden = true
+        popupController.style = .bottomSheet
+
+        popupController.backgroundView?.alpha = 1
+        popupController.containerView.layer.cornerRadius = 16
+        popupController.navigationBarHidden = true
+        popupController.present(in: self)
+    }
+    
+    // Common Method
+    private func showMessage(_ message: String) {
+        ElGrocerUtility.sharedInstance.showTopMessageView(message, image: nil, -1, false, backButtonClicked: { sender, index, inUndo in
+        }, buttonIcon: UIImage(name: "crossWhite"))
+    }
+    
+    private func makeSmilesBottomSheetController() -> SmilesPointsViewController {
+        let availablePoints = viewModel.basketDataValue?.smilesPoints ?? 0
+        let pointsRedeemed = viewModel.basketDataValue?.smilesRedeem ?? 0.0
+        let amountToPay = viewModel.basketDataValue?.finalAmount ?? 0.0
+        let smilesBurntRatio = viewModel.basketDataValue?.smilesBurnRatio
+        
+        let viewModel = SmilesPointsViewModel(availablePoints: availablePoints, smilesRedeem: pointsRedeemed, amountToPay: amountToPay, smilesBurntRatio: smilesBurntRatio)
+        return SmilesPointsViewController(viewModel: viewModel)
+    }
+}
+
+// MARK: - elWallet view Tap Handler
+extension SecondCheckoutVC: CheckoutElWalletViewDelegate {
+    func elWalletView(_didTap view: CheckoutElWalletView) {
+        let availableBalance = Double(viewModel.basketDataValue?.elWalletBalance ?? 0)
+        let selectedPrimaryPM = PaymentOption(rawValue: UInt32(viewModel.basketDataValue?.primaryPaymentTypeID ?? 0)) ?? .none
+        
+        if selectedPrimaryPM == .none {
+            showMessage(localizedString("primary_payment_required_error_msg", comment: ""))
+            return
+        }
+
+        if availableBalance <= 1 {
+            showMessage(localizedString("el_wallet_insufficient_balance_error_msg", comment: ""))
+            return
+        }
+        
+        self.showElWalletBottomSheet()
+    }
+    
+    private func showElWalletBottomSheet() {
+        let elWalletVC = self.makeElWalletBottomSheetController()
+        
+        elWalletVC.confirmButtonTapHandler = { [weak self] redeem in
+            guard let self = self else { return }
+            
+            self.viewModel.setSelectedElwaletPoints(selectedElWalletPoints: redeem)
+            self.viewModel.updateSecondaryPaymentMethods()
+        }
+
+        let popupController = STPopupController(rootViewController: elWalletVC)
+        popupController.navigationBarHidden = true
+        popupController.style = .bottomSheet
+        popupController.backgroundView?.alpha = 1
+        popupController.containerView.layer.cornerRadius = 16
+        popupController.navigationBarHidden = true
+        popupController.present(in: self)
+    }
+    
+    private func makeElWalletBottomSheetController() -> ElwalletViewController {
+        let availableBalance = viewModel.basketDataValue?.elWalletBalance ?? 0.0
+        let redeemAmount = viewModel.basketDataValue?.elWalletRedeem ?? 0.0
+        let amountToPay = viewModel.basketDataValue?.finalAmount ?? 0.0
+        
+        let viewModel = ElWalletViewModel(availableAmount: availableBalance, redeemedAmount: redeemAmount, amountToPay: amountToPay)
+        return ElwalletViewController(viewModel: viewModel)
     }
 }

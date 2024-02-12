@@ -76,7 +76,7 @@ public struct SDKLoginManager {
                     }
                     
                 } else {
-                    let errorMessage = (error?.code == 4237 ? error?.message : nil) ?? localizedString("login_error_alert", comment: "")
+                    let errorMessage = error?.message ?? ""
                     completionHandler(false, errorMessage, error?.code ?? 0)
                 }
             }

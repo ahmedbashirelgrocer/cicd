@@ -195,7 +195,7 @@ class NoStoreView: UIView {
         self.lblTopMsg.text = localizedString("No_Selected_Store_Cart", comment: "")
         self.btnNoData.isHidden = false
         self.state = .defaultAction
-        self.imgNoData.image = UIImage(name: "NoSelectedStoreCart")
+        self.imgNoData.image = sdkManager.isSmileSDK ? UIImage(name: "NoSelectedStoreCart") : UIImage(name: "empty-cart-white-bg")
         self.lblExtraDetail.text = localizedString("No_Item_Cart", comment: "")
         self.btnNoData.setTitle(localizedString("lbl_Contnue_shopping", comment: ""), for: .normal)
         self.backgroundColor = .colorWithHexString(hexString: "ffffff")

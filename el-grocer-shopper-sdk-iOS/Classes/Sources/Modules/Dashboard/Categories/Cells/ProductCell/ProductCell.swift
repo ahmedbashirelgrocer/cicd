@@ -681,7 +681,7 @@ class ProductCell : RxUICollectionViewCell {
         if self.product.isPg18.boolValue && !UserDefaults.isUserOver18() {
             
             if let SDKManager = UIApplication.shared.delegate {
-                let alertView = TobbacoPopup.showNotificationPopup(topView: (SDKManager.window ?? UIApplication.topViewController()?.view)!, msg: ElGrocerUtility.sharedInstance.appConfigData.pg_18_msg , buttonOneText: localizedString("over_18", comment: "") , buttonTwoText: localizedString("less_over_18", comment: ""))
+                let alertView = TobbacoPopup.showNotificationPopup(topView: (sdkManager.window ?? UIApplication.topViewController()?.view)!, msg: ElGrocerUtility.sharedInstance.appConfigData.pg_18_msg , buttonOneText: localizedString("over_18", comment: "") , buttonTwoText: localizedString("less_over_18", comment: ""))
                 
                 alertView.TobbacobuttonClickCallback = { [weak self] (buttonIndex) in
                     guard self == self  else {

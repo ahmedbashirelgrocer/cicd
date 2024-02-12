@@ -143,8 +143,8 @@ enum SourceType {
     
     var errorMsg: String {
         switch self {
-          case .elWallet( _, _):  return localizedString("secondry_payment_error_msg_elwallet", comment: "")
-          case .smile( _, _):    return localizedString("secondry_payment_error_msg_smiles", comment: "")
+          case .elWallet( _, _):  return localizedString("el_wallet_insufficient_balance_error_msg", comment: "")
+          case .smile( _, _):    return localizedString("smiles_points_insufficient_balance_error_msg", comment: "")
         }
       }
 }

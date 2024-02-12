@@ -20,8 +20,12 @@ struct UserMapPinAdress {
 
 protocol MapPinViewDelegate: AnyObject {
     func changeButtonClickedWith(_ currentDetails: UserMapPinAdress?) -> Void
+    func tap(_ currentDetails: UserMapPinAdress) -> Void
 }
 
+extension MapPinViewDelegate {
+    func tap(_ currentDetails: UserMapPinAdress) -> Void { }
+}
 
 
 class MapPinView: UIView {
@@ -36,11 +40,21 @@ class MapPinView: UIView {
             addressChangeButton.setTitle(localizedString("Change", comment: ""), for: UIControl.State())
         }
     }
+    @IBOutlet weak var viewBG: AWView!
     
     weak var delegate: MapPinViewDelegate?
     
     weak var mapImage : UIImage? = nil
          var currentDetails: UserMapPinAdress? = nil
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        if let viewBG = viewBG {
+            viewBG.isUserInteractionEnabled = true
+            viewBG.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapHandler)))
+        }
+    }
 
     func configureWith(detail : UserMapPinAdress) {
         
@@ -105,7 +119,9 @@ class MapPinView: UIView {
         self.delegate?.changeButtonClickedWith(self.currentDetails)
     }
     
-
+    @objc func tapHandler(_ sender: UITapGestureRecognizer) {
+        self.delegate?.changeButtonClickedWith(self.currentDetails)
+    }
 }
 
 

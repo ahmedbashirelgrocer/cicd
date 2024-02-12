@@ -129,8 +129,8 @@ enum ElGrocerApiEndpoint : String {
     case ChangePassword = "v1/shoppers/update_password"
     case PlaceOrder = "v3/orders/generate"
     case createOrder = "v4/orders/generate"
-    case generateOrder = "v5/orders/generate"
-    //case UpdateOrder = "v3/orders/generate"
+    case generateOrder = "v5/orders/post" // Used for checkout of new order
+    case updateOrder = "v5/orders/update" // Used for checkout of edit order
     case OrderList = "v3/orders"
     case newOrderList = "v3/orders/history" // https://elgrocerdxb.atlassian.net/browse/EG-584
     case ChangeOrderStatus = "v2/orders/edit"
@@ -194,8 +194,8 @@ enum ElGrocerApiEndpoint : String {
     case getIfOOSReasons = "v1/orders/substitution/preferences"
     case payWithApplePay = "online_payments/applepay_authorization_call"
     
-    case getSecondCheckoutDetails = "v3/baskets/payment_details" // used for basket checkout info
-    case getSecondCheckoutDetailsForEditOrder = "v3/baskets/order_basket"
+    case getSecondCheckoutDetails = "v4/baskets/payment_details" // used for basket checkout info
+    case getSecondCheckoutDetailsForEditOrder = "v4/baskets/order_basket"
     case setCartBalanceAccountCache = "v2/baskets/accounts_balance"
     
     case getSubstitutionBasketDetails = "v2/baskets/substitution"
@@ -4591,7 +4591,7 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
           
           setAccessToken()
           //FireBaseEventsLogger.trackCustomEvent(eventType: "Confirm Button click - Order Call Parms", action: "parameters", parameters)
-          NetworkCall.put(ElGrocerApiEndpoint.generateOrder.rawValue  + "?market_type_id=\(sdkManager.isGrocerySingleStore ? "1":"0")", parameters: parameters, success: { (operation  , response: Any) -> Void in
+          NetworkCall.put(ElGrocerApiEndpoint.updateOrder.rawValue  + "?market_type_id=\(sdkManager.isGrocerySingleStore ? "1":"0")", parameters: parameters, success: { (operation  , response: Any) -> Void in
               
               guard let response = response as? NSDictionary else {
                   completionHandler(Either.failure(ElGrocerError.genericError()))

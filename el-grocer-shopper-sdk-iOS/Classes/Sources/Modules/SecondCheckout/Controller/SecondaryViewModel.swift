@@ -27,19 +27,16 @@ class SecondaryViewModel {
     private var deliveryAddress: String? = nil // private, use get method getDeliveryAddress
     private var deliveryAddressObj: DeliveryAddress? = nil
     private var selectedSlotId: Int? = nil
-    private var selectedSlot: DeliverySlot? = nil
+    private var selectedSlot: DeliverySlotDTO? = nil
     private var promoRealizationId: String? = nil
     private var promoAmount: Double? = nil
     private var orderId: String? = nil
-    private var isSmileTrue: Bool = false
-    private var isWalletTrue: Bool = false
     private var isPromoCodeTrue: Bool = false
     private var shopingItems: [ShoppingBasketItem]? = []
     private var finalisedProductA: [Product]? = []
     private var carouselProductsArray : [Product]? = []
     private var selectedPreferenceId : Int? = nil
     private var additionalInstructions: String?
-    private var tabbyEnabled: Bool = false
     private var isNeedToFetchAdyenCreditCards: Bool = true
     
     var basketDataValue: BasketDataClass? = nil
@@ -49,49 +46,29 @@ class SecondaryViewModel {
     private var order: Order?
     private var userid: NSNumber?
     private var editOrderPrimarySelectedMethod: Int?
-    var tabbyWebUrl: String?
+    private var tabbyWebUrl: String?
+    private var selectedSmilePoints: Double = 0.0
+    private var selectedElwaletPoints: Double = 0.00
     
     
     private var defaultApiData: [String : Any] = [:] // will provide default data with grocery delivery address and slot if provide in init method
     
-    init(address: DeliveryAddress, grocery: Grocery, slotId: Int?, orderId: String? = nil, shopingItems: [ShoppingBasketItem]? = [], finalisedProducts: [Product]? = [], selectedPreferenceId: Int?, deliverySlot: DeliverySlot?) {
+    init(address: DeliveryAddress, grocery: Grocery, slotId: Int?, orderId: String? = nil, shopingItems: [ShoppingBasketItem]? = [], finalisedProducts: [Product]? = [], selectedPreferenceId: Int?, deliverySlot: DeliverySlot?, deliverySlots: [DeliverySlotDTO] = []) {
       
         self.grocery = grocery
         self.address = address
-        self.selectedSlotId = slotId
         self.shopingItems = shopingItems
         self.finalisedProductA = finalisedProducts
         self.orderId = orderId
         self.selectedPreferenceId = selectedPreferenceId
         self.setDeliveryAddress(address)
-        self.setDeliverySlot(deliverySlot)
+        self.deliverySlots = deliverySlots
         self.setDefaultApiData()
         
-        self.fetchDeliverySlots {
-            // Auto Selection of delivery slot
-            if self.deliverySlots.isNotEmpty {
-                let selectedSlot: DeliverySlotDTO? = self.deliverySlots.filter { $0.id ==  slotId }.first
-                
-                if  selectedSlot != nil {
-                    self.setSelectedSlotId(slotId)
-                    
-                    if let grocery = self.grocery, let slot = selectedSlot {
-                        let slotDB = DeliverySlot.getDeliverySlot(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: grocery.dbID, slotId: String(slot.id))
-                        self.setDeliverySlot(slotDB)
-                    }
-                    
-                } else {
-                    let selectedSlot = self.deliverySlots.first
-                    self.setSelectedSlotId(selectedSlot?.id)
-
-                    if let grocery = self.grocery, let slot = selectedSlot {
-                        let slotDB = DeliverySlot.getDeliverySlot(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: grocery.dbID, slotId: String(slot.usid ?? 0))
-                        self.setDeliverySlot(slotDB)
-                    }
-                }
-                
-                self.updateSlotToBackEnd()
-            }
+        self.fetchDeliverySlots { [weak self] in
+            guard let self = self else { return }
+            
+            
         }
         
     }
@@ -156,7 +133,6 @@ class SecondaryViewModel {
         netWork.createSecondCheckoutCartDetailsEditOrder(parameters: parameter) { result in
             switch result {
                 case .success(let response):
-                //  print(response)
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
                         let checkoutData = try JSONDecoder().decode(BasketDataResponse.self, from: jsonData)
@@ -195,7 +171,7 @@ class SecondaryViewModel {
         netWork.createSecondCheckoutCartDetails(parameters: parameter) { result in
             switch result {
                 case .success(let response):
-                //  print(response)
+                  print("API Response >>> \(response)")
                     do {
                         let jsonData = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
                         let checkoutData = try JSONDecoder().decode(BasketDataResponse.self, from: jsonData)
@@ -206,6 +182,7 @@ class SecondaryViewModel {
                         self.basketDataValue = checkoutData.data
                         self.basketData.onNext(checkoutData.data)
                         self.updateViewModelDataAccordingToBasket(data: checkoutData.data)
+                        self.apiCall.onNext(false)
                         
                         if self.isNeedToFetchAdyenCreditCards {
                             self.getCreditCardsFromAdyen { self.apiCall.onNext(false) }
@@ -251,51 +228,6 @@ class SecondaryViewModel {
 extension SecondaryViewModel {
     
     func getOrderPlaceApiParams() -> [String: Any] {
-        
-        /*
-         
-         {
-         "delivery_fee":0.0,
-         "usid":20223795237,
-         "food_subscription_status":false,
-         "same_card":false,
-         "shopper_note":"",
-         "payment_type_id":2,
-         "substitution_preference_key":5,
-         "products":[
-         {
-         "product_id":8911,
-         "amount":1
-         },
-         {
-         "product_id":9177,
-         "amount":1
-         },
-         {
-         "product_id":9278,
-         "amount":1
-         }
-         ],
-         "retailer_id":16,
-         "retailer_service_id":1,
-         "rider_fee":0.0,
-         "service_fee":6.0,
-         "shopper_address_id":96081,
-         "realization_present":false,
-         "vat":5,
-         "secondary_payments":[
-         {
-         "payment_type_id":4,
-         "amount": 34
-         }
-         ]
-         }
-         2:33
-
-         
-         
-         
-         */
       
         var finalParams: [String: Any] = [:]
         
@@ -313,27 +245,15 @@ extension SecondaryViewModel {
         
         // Float(self.basketDataValue?.smilesRedeem ?? "0.00") ?? 0.00]
         var secondaryPayments: [String : Any] = [:]
-        if self.isSmileTrue && ((self.basketDataValue?.paymentTypes?.first(where: { type in
-            type.id == PaymentOption.smilePoints.rawValue
-        })) != nil)  {
-            secondaryPayments["smiles"] = true
-        }else {
-            secondaryPayments["smiles"] = false
-        }
-        if self.isWalletTrue && ((self.basketDataValue?.paymentTypes?.first(where: { type in
-            type.id == PaymentOption.voucher.rawValue
-        })) != nil) {
-            secondaryPayments["el_wallet"] = true
-        }else {
-            secondaryPayments["el_wallet"] = false
-        }
+        
+        secondaryPayments["smiles"] = self.selectedSmilePoints
+        secondaryPayments["el_wallet"] = self.selectedElwaletPoints
+        
         if let _ = self.promoRealizationId {
             secondaryPayments["promo_code"] = true
         }else {
             secondaryPayments["promo_code"] = false
         }
-        
-        secondaryPayments["tabby"] = self.tabbyEnabled
         
         if let additionalInstruction  = self.additionalInstructions {
             finalParams["shopper_note"] = additionalInstruction
@@ -361,10 +281,12 @@ extension SecondaryViewModel {
         finalParams["products"] = products
         finalParams["retailer_delivery_zone_id"] = self.getGrocery()?.deliveryZoneId
         finalParams["payment_type_id"] = primaryPaymentTypeId
-        finalParams["selected_delivery_slot"] = String(describing: self.selectedSlotId)
+        if let deliverySlotID = self.selectedSlotId {
+            finalParams["selected_delivery_slot"] = String(describing: deliverySlotID)
+        }
         if let slot = self.getDeliverySlot() {
-            if slot.isInstant != nil && !(slot.isInstant.boolValue) {
-                finalParams["usid"] = slot.getdbID()
+            if slot.isInstant == false {
+                finalParams["usid"] = slot.usid
             }
         }
         finalParams["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(self.getGroceryId())
@@ -428,17 +350,8 @@ extension SecondaryViewModel {
             self.basketData.onNext(self.basketDataValue)
         }
         
-        if let elwalletRedeem = data.elWalletRedeem , elwalletRedeem > 0 {
-            self.isWalletTrue = true
-        }else {
-            self.isWalletTrue = false
-        }
-        
-        if let smileRedeem = data.smilesRedeem, smileRedeem > 0 {
-            self.isSmileTrue = true
-        }else {
-            self.isSmileTrue = false
-        }
+        self.selectedSmilePoints = data.smilesRedeem ?? 0.0
+        self.selectedElwaletPoints = data.elWalletRedeem ?? 0.0
         
         if let promo = data.promoCode, (promo.value ?? 0) > 0 {
             self.isPromoCodeTrue = true
@@ -448,10 +361,13 @@ extension SecondaryViewModel {
             self.isPromoCodeTrue = false
         }
         
-        if let tabbyRedeem = data.tabbyRedeem, tabbyRedeem > 0 {
-            self.tabbyEnabled = true
+        if let selectedDeliverySlot = self.deliverySlots.first(where: { $0.id == data.selectedDeliverySlot || $0.usid == data.selectedDeliverySlot }) {
+            self.setDeliverySlot(selectedDeliverySlot)
+            self.setSelectedSlotId(selectedDeliverySlot.id)
         } else {
-            self.tabbyEnabled = false
+            let selectedSlot = self.deliverySlots.first
+            self.setDeliverySlot(selectedSlot)
+            self.setSelectedSlotId(selectedSlot?.id)
         }
 
         self.tabbyWebUrl = data.tabbyWebUrl
@@ -488,13 +404,22 @@ extension SecondaryViewModel {
     func getUserId()-> NSNumber? {
         return self.userid
     }
-    func setIsSmileTrue(isSmileTrue: Bool) {
-        self.isSmileTrue = isSmileTrue
+
+    func setSelectedSmilePoints(selectedSmilePoints: Int) {
+        self.selectedSmilePoints = ElGrocerUtility.sharedInstance.calculateAEDsForSmilesPoints(selectedSmilePoints, smilesBurntRatio: self.basketDataValue?.smilesBurnRatio)
     }
-    func setIsWalletTrue(isWalletTrue: Bool) {
-        self.isWalletTrue = isWalletTrue
-        
+    func setSelectedElwaletPoints(selectedElWalletPoints: Double) {
+        self.selectedElwaletPoints = selectedElWalletPoints
     }
+    
+    func getSelectedSmilesPoints() -> Double {
+        return self.selectedSmilePoints
+    }
+    
+    func getSelectedElwalletCredit() -> Double {
+        return self.selectedElwaletPoints
+    }
+    
     func setGroceryAndAddressAndRefreshData(_ grocery: Grocery?, deliveryAddress: DeliveryAddress)  {
          self.grocery = grocery
         self.address = deliveryAddress
@@ -507,18 +432,9 @@ extension SecondaryViewModel {
                 if slots.count > 0 {
                     let slot = slots[0]
                     self?.selectedSlotId = slot.dbID.intValue
-                    self?.setDeliverySlot(slot)
                 }
                 self?.updateSlotToBackEnd()
         }
-    }
-    
-    func isElWalletEnabled() -> Bool {
-        return isWalletTrue
-    }
-    
-    func isSmilesEnabled() -> Bool {
-        return isSmileTrue
     }
     
     func isPromoApplied() -> Bool {
@@ -539,17 +455,6 @@ extension SecondaryViewModel {
         return self.additionalInstructions ?? ""
     }
     
-    func setTabbyEnabled(enabled: Bool) {
-        self.tabbyEnabled = enabled
-        
-        // Logging segment event Tabby Enabled
-        SegmentAnalyticsEngine.instance.logEvent(event: TabbyEnabledEvent(isEnabled: enabled))
-    }
-    
-    func getTabbyEnabled() -> Bool {
-        return self.tabbyEnabled
-    }
-    
     func updateCreditCard(_ selectedCreditCard : CreditCard?) {
         self.selectedCreditCard  = selectedCreditCard
     }
@@ -560,12 +465,7 @@ extension SecondaryViewModel {
     func getAddress() -> DeliveryAddress? {
         return self.address
     }
-    func getIsSmileTrue()-> Bool {
-        return self.isSmileTrue
-    }
-    func getIsWalletTrue()-> Bool {
-        return self.isWalletTrue
-    }
+
     func getGrocery() -> Grocery? {
         return self.grocery
     }
@@ -607,11 +507,6 @@ extension SecondaryViewModel {
             }else if self.getEditOrderSelectedPaymentMethodId() != nil {
                 self.defaultApiData["primary_payment_type_id"] = self.getEditOrderSelectedPaymentMethodId()
             }
-//            var secondaryPayments: [String: Any] = [:]
-//            secondaryPayments["smiles"] = self.isSmileTrue
-//            secondaryPayments["el_wallet"] = self.isWalletTrue
-//            secondaryPayments["promo_code"] = self.isPromoCodeTrue
-//            self.defaultApiData["secondary_payments"] = secondaryPayments
         }else {
             if self.getSelectedPaymentMethodId() != nil {
                 self.defaultApiData["primary_payment_type_id"] = self.getSelectedPaymentMethodId()
@@ -670,6 +565,10 @@ extension SecondaryViewModel {
         return typeId
     }
     
+    func getTabbyAuthenticationURL() -> String? {
+        return self.tabbyWebUrl
+    }
+    
 }
 
     //MARK: Support function for update Basket Data Backend
@@ -690,10 +589,7 @@ extension SecondaryViewModel {
     
     private func createParamsUpdatePaymentType(_ paymentId : UInt32) -> [String: Any] {
         
-        var parameters: [String: Any] = [:]//[
-//            //"promo_code": "REESE",
-//            "primary_payment_type_id": paymentId
-//        ]
+        var parameters: [String: Any] = [:]
         parameters.update(other: self.setDefaultApiData())
         return parameters
     }
@@ -712,38 +608,22 @@ extension SecondaryViewModel {
             parameters["realization_id"] = id
         }
         var secondaryPayments: [String: Any] = [:]
-        secondaryPayments["smiles"] = self.isSmileTrue
-        secondaryPayments["el_wallet"] = self.isWalletTrue
+        secondaryPayments["smiles"] = self.selectedSmilePoints
+        secondaryPayments["el_wallet"] = self.selectedElwaletPoints
         secondaryPayments["promo_code"] = self.isPromoCodeTrue
-        secondaryPayments["tabby"] = self.tabbyEnabled
         
         parameters["secondary_payments"] = secondaryPayments
         parameters.update(other: self.setDefaultApiData())
         return parameters
     }
     
-    func getShouldShowSecondaryPayments(paymentMethods: [PaymentType]) -> SecondaryPaymentViewType{
+    func hidesSecondaryPaymentsViews(paymentMethods: [PaymentType]) -> (smilesPoint: Bool, elWallet: Bool) {
         
-        var isSmile = false
-        var isWallet = false
-        for payment in paymentMethods {
-            if (payment.name ?? "").elementsEqual("smiles_points") {
-                isSmile = true
-            }else if (payment.name ?? "").elementsEqual("el_wallet") {
-                isWallet = true
-            }
-        }
-        if isSmile && isWallet {
-            return SecondaryPaymentViewType.both
-        }else if isSmile {
-            return SecondaryPaymentViewType.smiles
-        }else if isWallet {
-            return SecondaryPaymentViewType.elWallet
-        }else {
-            return SecondaryPaymentViewType.none
-        }
+        let isSmilesApplicable = paymentMethods.first(where: { $0.name == "smiles_points" })
+        let elWalletApplicable = paymentMethods.first(where: { $0.name == "el_wallet" })
+        
+        return (isSmilesApplicable == nil, elWalletApplicable == nil)
     }
-
 }
 
 
@@ -772,17 +652,10 @@ extension SecondaryViewModel {
                 let paymentTypeId = payment["payment_type_id"] as? Int
                 
                 if (paymentTypeId ?? 0) == 4 {
-                    if amount > 0 {
-                        self.setIsSmileTrue(isSmileTrue: true)
-                    }else {
-                        self.setIsSmileTrue(isSmileTrue: false)
-                    }
+                    self.selectedSmilePoints = amount.doubleValue
+                    
                 }else if (paymentTypeId ?? 0) == 5 {
-                    if amount > 0 {
-                        self.setIsWalletTrue(isWalletTrue: true)
-                    }else {
-                        self.setIsWalletTrue(isWalletTrue: false)
-                    }
+                    self.selectedElwaletPoints = amount.doubleValue
                     
                 }else if (paymentTypeId ?? 0) == 6 {
                     if amount > 0 {
@@ -796,21 +669,16 @@ extension SecondaryViewModel {
             }
         }
     }
-    // slots
     
-//    func setCurrentDeliverySlot(_ slotId : NSNumber) {
-//        self.selectedSlotId = slotId
-//    }
-//
     func getCurrentDeliverySlotId() -> Int? {
         return self.selectedSlotId
     }
     
-    func setDeliverySlot(_ slot : DeliverySlot?) {
+    func setDeliverySlot(_ slot : DeliverySlotDTO?) {
         self.selectedSlot = slot
     }
     
-    func getDeliverySlot() -> DeliverySlot? {
+    func getDeliverySlot() -> DeliverySlotDTO? {
         return self.selectedSlot
     }
     

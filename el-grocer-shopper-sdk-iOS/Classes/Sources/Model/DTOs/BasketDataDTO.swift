@@ -43,6 +43,7 @@ struct BasketDataClass: Codable {
     var tabbyWebUrl: String?
     var tabbyRedeem: Double?
     var tabbyThresholdMessage: String?
+    var smilesBurnRatio: Double?
     
     enum CodingKeys: String, CodingKey {
         case finalAmount = "final_amount"
@@ -72,6 +73,7 @@ struct BasketDataClass: Codable {
         case tabbyWebUrl = "tabby_web_url"
         case tabbyRedeem = "tabby_redeem"
         case tabbyThresholdMessage = "tabby_threshold_message"
+        case smilesBurnRatio = "smiles_burn_ratio"
         
     }
     
@@ -108,6 +110,7 @@ struct BasketDataClass: Codable {
         tabbyWebUrl = (try? values.decode(String.self, forKey: .tabbyWebUrl))
         tabbyRedeem = (try? values.decode(Double.self, forKey: .tabbyRedeem))
         tabbyThresholdMessage = (try? values.decode(String.self, forKey: .tabbyThresholdMessage))
+        smilesBurnRatio = (try? values.decode(Double.self, forKey: .smilesBurnRatio))
 
     }
 }
@@ -126,6 +129,10 @@ struct DeliverySlotDTO: Codable {
         return self.startTime?.toDate()?.date.isTomorrow ?? false
     }
     
+    var isInstant: Bool {
+        return id == 0
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id
         case timeMilli = "time_milli"
@@ -140,11 +147,16 @@ struct DeliverySlotDTO: Codable {
     }
 }
 
+enum AccountType: String, Codable {
+    case primary = "primary"
+    case secondary = "secondary"
+}
+
     // MARK: - PaymentType
 struct PaymentType: Codable {
     let id: Int
     let name: String?
-    let accountType: String?
+    let accountType: AccountType?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -178,7 +190,10 @@ struct PaymentType: Codable {
             return localizedString("pay_via_CreditCard", comment: "")
         }else if self.id == PaymentOption.applePay.rawValue {
             return localizedString("pay_via_Apple_pay", comment: "")
-        }else {
+        }else if self.id == PaymentOption.tabby.rawValue {
+            return localizedString("tabby_view_title_text", comment: "")
+        }
+        else {
             return self.name ?? ""
         }
     }

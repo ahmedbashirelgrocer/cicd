@@ -18,7 +18,7 @@
 		<key>segmentSDKWriteKey</key>
 		<string>twDPG5a7cEYzQFkJ0P6WRT5kZiY6ut5b</string>
 		<key>backendUrl</key>
-		<string>https://el-grocer-admin.herokuapp.com/api/</string>
+		<string>https://api.elgrocer.com/api/</string>
 	</dict>
 	<key>StagingProduction</key>
 	<dict>

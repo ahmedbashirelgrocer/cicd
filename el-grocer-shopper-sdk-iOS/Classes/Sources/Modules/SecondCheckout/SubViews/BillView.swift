@@ -247,8 +247,8 @@ class BillView: UIView {
         
         viewBG.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16).isActive = true
         viewBG.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16).isActive = true
-        viewBG.topAnchor.constraint(equalTo: self.topAnchor, constant: 8 ).isActive = true
-        viewBG.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8).isActive = true
+        viewBG.topAnchor.constraint(equalTo: self.topAnchor, constant: 16).isActive = true
+        viewBG.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         
         stackView.leadingAnchor.constraint(equalTo: viewBG.leadingAnchor).isActive = true
         stackView.trailingAnchor.constraint(equalTo: viewBG.trailingAnchor).isActive = true

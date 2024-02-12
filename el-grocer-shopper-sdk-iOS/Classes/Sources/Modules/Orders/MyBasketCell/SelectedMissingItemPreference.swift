@@ -25,6 +25,7 @@ class SelectedMissingItemPreference: UITableViewCell {
         super.awakeFromNib()
         
         lblTitle.setBodyBoldDarkStyle()
+        lblTitle.text = localizedString("text_what_to_do_if_items_missing", comment: "")
         lblSelectedOption.setCaptionOneRegDarkStyle()
         
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
