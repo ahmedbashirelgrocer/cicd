@@ -38,6 +38,7 @@ class UserInfoCell: RxUITableViewCell {
     }
     @IBOutlet var btnEditProfile: AWButton!{
         didSet{
+            btnEditProfile.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17)
             btnEditProfile.setTitle(localizedString("btn_txt_edit", comment: ""), for: .normal)
             btnEditProfile.setTitleColor(ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor, for: UIControl.State())
         }
