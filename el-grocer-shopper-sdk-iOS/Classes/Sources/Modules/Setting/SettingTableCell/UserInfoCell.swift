@@ -9,7 +9,7 @@
 import UIKit
 
 let kUserInfoCellIdentifier = "UserInfoTableCell"
-let kUserInfoCellHeight: CGFloat = 200//100 //200 including padding
+let kUserInfoCellHeight: CGFloat = 230//100 //200 including padding
 
 class UserInfoCell: RxUITableViewCell {
     

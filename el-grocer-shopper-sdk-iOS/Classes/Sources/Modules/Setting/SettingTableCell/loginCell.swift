@@ -8,7 +8,7 @@
 
 import UIKit
 
-let KloginCellHeight : CGFloat = 140 //including 20 for padding
+let KloginCellHeight : CGFloat = 170 //including 20 for padding
 let KloginCellIdentifier = "loginCell"
 
 class loginCell: RxUITableViewCell {
