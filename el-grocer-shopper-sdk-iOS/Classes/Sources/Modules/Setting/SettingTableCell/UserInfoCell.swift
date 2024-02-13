@@ -55,10 +55,22 @@ class UserInfoCell: RxUITableViewCell {
        
     }
     
+    @discardableResult func formatPhoneNumber(_ phoneNumber: String) -> String {
+        
+        let textField = FPNCustomTextField()
+        textField.text = phoneNumber
+        textField.set(phoneNumber: phoneNumber)
+        if let formatedPhoneNum = textField.getFormattedPhoneNumber(format: .International) {
+            return formatedPhoneNum
+        }else {
+            return phoneNumber
+        }
+    }
+    
     // MARK: Data
     private func configureCellWithTitle(_ name: String? = "", withPhoneNumber phone:String? = "", andWithEmail email:String? = "") {
         self.nameLabel.text = name
-        self.phoneLabel.text = phone
+        self.phoneLabel.text = self.formatPhoneNumber(phone ?? "")
         self.emailLabel.text = email
     }
     
