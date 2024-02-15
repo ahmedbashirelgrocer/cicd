@@ -122,19 +122,16 @@ class MarketingCustomLandingPageViewController: UIViewController {
             cell.bind(to: self.tableViewScrollSubject)
             //if let cell = cell as? HomeCell { cell.productsCollectionView.contentOffset = self.cachedPosition[indexPath] ?? .zero }
             if let homeCell = cell as? HomeCell {
-                        // Check if the indexPath is within bounds
-                        if dataSource[indexPath.section].items.indices.contains(indexPath.row) {
-                            let item = dataSource[indexPath.section].items[indexPath.row]
-
-                            // Assuming `item` is the ViewModel for the cell
-                            if let cachedOffset = self.cachedPosition[indexPath] {
-                                homeCell.productsCollectionView.contentOffset = cachedOffset
-                            } else {
-                                homeCell.productsCollectionView.contentOffset = .zero
-                            }
-                        }
+                // Check if the indexPath is within bounds
+                if dataSource[indexPath.section].items.indices.contains(indexPath.row) {
+                    // Assuming `item` is the ViewModel for the cell
+                    if let cachedOffset = self.cachedPosition[indexPath] {
+                        homeCell.productsCollectionView.contentOffset = cachedOffset
+                    }else {
+                        homeCell.productsCollectionView.contentOffset = .zero
                     }
-            
+                }
+            }
             return cell
         },titleForHeaderInSection: { dataSource, sectionIndex in
             return dataSource[sectionIndex].header
@@ -144,9 +141,19 @@ class MarketingCustomLandingPageViewController: UIViewController {
             .bind(to: self.tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
-        tableView.rx.modelSelected(DynamicComponentContainerCellViewModel.self)
-            .bind(to: self.viewModel.inputs.cellSelectedObserver)
-            .disposed(by: disposeBag)
+        // tableView.rx.modelSelected(DynamicComponentContainerCellViewModel.self)
+        // Doing this way bellow because HomeCellViewModelType can't be casted as DynamicComponentContainerCellViewModel but sending selection event that is causing crashes.
+        let cellSelected = tableView.rx.itemSelected
+            .compactMap{ [weak self] index in self?.tableView.cellForRow(at:index) }
+            .share()
+        Observable.merge(
+            cellSelected
+                .compactMap{ ($0 as? RxBannersTableViewCell)?.viewModel },
+            cellSelected
+                .compactMap{ ($0 as? RxCollectionViewOnlyTableViewCell)?.viewModel }
+        )
+        .bind(to: self.viewModel.inputs.cellSelectedObserver)
+        .disposed(by: disposeBag)
         
         viewModel.outputs.tableViewBackGround
                    .observeOn(MainScheduler.instance)

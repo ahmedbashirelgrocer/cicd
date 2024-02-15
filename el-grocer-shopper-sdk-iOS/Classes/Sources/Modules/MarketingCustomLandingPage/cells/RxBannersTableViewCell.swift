@@ -20,7 +20,7 @@ class RxBannersTableViewCell: RxUITableViewCell {
             bannerViewHeightConstraint?.isActive = true
         }
     }
-    private var viewModel:RxBannersViewModel!
+    var viewModel:RxBannersViewModel!
     
 
     override func awakeFromNib() {

@@ -117,7 +117,10 @@ class PreLoadData {
                     completion?(true)
                 }
             } else {
-                if self.retryAttemp < 4, errorCode != 4237 {
+                if self.retryAttemp < 4,
+                    errorCode != 4237, /*Suspended*/
+                    errorCode != 4252, /*Blacklisted*/
+                    errorCode != 4249 /*Suspended*/ {
                     self.configLoginFailureCase(coompletion: completion)
                 } else {
                     self.retryAttemp = 0
