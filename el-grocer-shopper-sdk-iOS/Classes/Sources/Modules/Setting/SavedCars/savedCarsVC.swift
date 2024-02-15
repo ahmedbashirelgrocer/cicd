@@ -257,6 +257,7 @@ extension savedCarsVC{
     //MARK: Delete Card
     
     func deleteCardAt( _ index : Int) {
+        if index >= creditCardA.count { return }
         
         let card = self.creditCardA[index]
         
