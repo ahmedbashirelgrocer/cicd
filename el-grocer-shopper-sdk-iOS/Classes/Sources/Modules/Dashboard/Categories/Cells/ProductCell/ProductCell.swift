@@ -255,6 +255,9 @@ class ProductCell : RxUICollectionViewCell {
             let showQty = (newValue == false) && (count > 0)
             if showQty { self.addToCartButton.setTitle("\(count)", for: .normal) }
             else { self.addToCartButton.setTitle("＋", for: .normal) }
+            if newValue {
+                self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)".changeToArabic()
+            }
             self.addToCartButton.isHidden = (newValue && count > 0)
             self.buttonsView.isHidden = !(newValue && count > 0)
         }
@@ -621,12 +624,11 @@ class ProductCell : RxUICollectionViewCell {
         //     return
         // }
         
-        isProductSelected = true
         
         func addCartAction() {
             self.delegate?.productCellOnProductQuickAddButtonClick(self, product: self.product)
             self.cellAddToCartEvents()
-            
+            isProductSelected = true
         }
         
         func animationWorkToAdd () {
@@ -634,6 +636,7 @@ class ProductCell : RxUICollectionViewCell {
             if let item = ShoppingBasketItem.checkIfProductIsInBasket(self.product, grocery: self.productGrocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
                 
                 guard item.count.intValue == 0 else {
+                    isProductSelected = true
                     return
                 }
                 
@@ -738,7 +741,6 @@ class ProductCell : RxUICollectionViewCell {
                     
                     self.quantityLabel.text = "0"
                     self.addToCartButton.isHidden = false
-                    self.isProductSelected = false
                     
                     self.buttonsView.isHidden = true
                     self.bringSubviewToFront(self.addToCartButton)
@@ -748,6 +750,7 @@ class ProductCell : RxUICollectionViewCell {
 //                        self.layoutIfNeeded()
 //                        self.setNeedsLayout()
                         callDelegateAndAnalytics()
+                        self.isProductSelected = false
                         
                     }
 //                    self.bottomPossition.constant = CGFloat(self.topAddButtonminY)
