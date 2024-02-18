@@ -14,6 +14,9 @@ class VouchersCell: UITableViewCell {
     @IBOutlet weak var innerContainerView: AWView!{
         didSet {
             innerContainerView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+            innerContainerView.cornarRadius = 8
+            innerContainerView.borderColor = ApplicationTheme.currentTheme.borderGrayColor
+            innerContainerView.borderWidth = 1
             
         }
     }
