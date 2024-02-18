@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -140,6 +140,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="activeCartCellBGView" destination="GXq-YM-yU8" id="FK7-OT-cdS"/>
                 <outlet property="buttonNext" destination="Wqz-sj-Hyj" id="kHG-bt-xca"/>
                 <outlet property="collectionView" destination="kHf-nQ-tGp" id="Fma-UX-VJn"/>
                 <outlet property="ivDeliveryTypeIcon" destination="uDt-Bg-crn" id="XJT-qU-OSy"/>
@@ -153,7 +154,7 @@
     </objects>
     <resources>
         <image name="ClockIcon" width="24" height="24"/>
-        <image name="arrowForward" width="24.333333969116211" height="24"/>
+        <image name="arrowForward" width="7.6666665077209473" height="12.666666984558105"/>
         <image name="store-icon-test" width="56" height="56"/>
     </resources>
 </document>
