@@ -287,16 +287,6 @@ extension ElWalletCardsVC: UITableViewDataSource, UITableViewDelegate {
         return 66
     }
     
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "elWalletSectionFooterView") as! elWalletSectionFooterView
-        //footerView.footerLabel.text = "TableView Footer \(section)"
-        return footerView
-    }
-
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 10
-    }
-    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             self.deleteCardAt(indexPath.row)

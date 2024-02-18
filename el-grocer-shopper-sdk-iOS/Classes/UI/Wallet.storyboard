@@ -98,7 +98,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="CbS-ja-uE8">
-                                <rect key="frame" x="16" y="144" width="343" height="503"/>
+                                <rect key="frame" x="0.0" y="144" width="375" height="503"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="EJg-aN-LbB" id="V9h-WY-MXA"/>
@@ -159,13 +159,13 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="CbS-ja-uE8" firstAttribute="top" secondItem="xdg-jD-m4J" secondAttribute="bottom" constant="16" id="4cX-4h-5ny"/>
-                            <constraint firstAttribute="trailing" secondItem="CbS-ja-uE8" secondAttribute="trailing" constant="16" id="6nB-SN-ewp"/>
+                            <constraint firstAttribute="trailing" secondItem="CbS-ja-uE8" secondAttribute="trailing" id="6nB-SN-ewp"/>
                             <constraint firstAttribute="trailing" secondItem="xdg-jD-m4J" secondAttribute="trailing" constant="16" id="Ghl-83-ABl"/>
                             <constraint firstAttribute="trailing" secondItem="3vm-GN-3vu" secondAttribute="trailing" constant="16" id="K5z-Da-jQx"/>
                             <constraint firstItem="3vm-GN-3vu" firstAttribute="top" secondItem="DXQ-yL-w99" secondAttribute="bottom" constant="16" id="RRa-MP-ioB"/>
                             <constraint firstItem="xdg-jD-m4J" firstAttribute="leading" secondItem="uCZ-0J-jNd" secondAttribute="leading" constant="16" id="TJ2-SI-KdB"/>
                             <constraint firstItem="xdg-jD-m4J" firstAttribute="top" secondItem="3vm-GN-3vu" secondAttribute="bottom" constant="16" id="Uio-Qw-VyI"/>
-                            <constraint firstItem="CbS-ja-uE8" firstAttribute="leading" secondItem="uCZ-0J-jNd" secondAttribute="leading" constant="16" id="X2e-wd-JiU"/>
+                            <constraint firstItem="CbS-ja-uE8" firstAttribute="leading" secondItem="uCZ-0J-jNd" secondAttribute="leading" id="X2e-wd-JiU"/>
                             <constraint firstItem="OOa-PV-vZj" firstAttribute="top" secondItem="CbS-ja-uE8" secondAttribute="bottom" constant="20" id="uJp-YJ-SX2"/>
                             <constraint firstItem="3vm-GN-3vu" firstAttribute="leading" secondItem="uCZ-0J-jNd" secondAttribute="leading" constant="16" id="yVJ-KV-KIW"/>
                         </constraints>
@@ -267,7 +267,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bCW-GU-vCs">
-                                <rect key="frame" x="16" y="40" width="343" height="534"/>
+                                <rect key="frame" x="0.0" y="40" width="375" height="534"/>
                                 <connections>
                                     <outlet property="dataSource" destination="wqk-NJ-5Rh" id="QLd-tk-qcX"/>
                                     <outlet property="delegate" destination="wqk-NJ-5Rh" id="8Le-06-Acu"/>
@@ -325,8 +325,8 @@
                             <constraint firstItem="18L-wZ-IR8" firstAttribute="top" secondItem="k1V-OE-5RO" secondAttribute="bottom" id="dGd-3e-lRe"/>
                             <constraint firstAttribute="trailing" secondItem="k1V-OE-5RO" secondAttribute="trailing" id="gz4-em-tUn"/>
                             <constraint firstItem="bCW-GU-vCs" firstAttribute="top" secondItem="Gc7-iw-dKI" secondAttribute="bottom" constant="20" id="pDY-mh-sWE"/>
-                            <constraint firstAttribute="trailing" secondItem="bCW-GU-vCs" secondAttribute="trailing" constant="16" id="wzv-7b-NEn"/>
-                            <constraint firstItem="bCW-GU-vCs" firstAttribute="leading" secondItem="977-w3-ker" secondAttribute="leading" constant="16" id="ye7-kU-5cP"/>
+                            <constraint firstAttribute="trailing" secondItem="bCW-GU-vCs" secondAttribute="trailing" id="wzv-7b-NEn"/>
+                            <constraint firstItem="bCW-GU-vCs" firstAttribute="leading" secondItem="977-w3-ker" secondAttribute="leading" id="ye7-kU-5cP"/>
                         </constraints>
                     </view>
                     <connections>
@@ -454,7 +454,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="tNY-iH-MSH">
-                                <rect key="frame" x="16" y="98" width="343" height="529"/>
+                                <rect key="frame" x="0.0" y="98" width="375" height="529"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="LEm-d1-qu8" id="Jhp-UG-etl"/>
@@ -477,10 +477,10 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="yOS-dC-D43" secondAttribute="trailing" constant="16" id="3sS-hu-yhy"/>
-                            <constraint firstItem="tNY-iH-MSH" firstAttribute="leading" secondItem="DVG-KT-LMu" secondAttribute="leading" constant="16" id="AQb-zf-0bd"/>
+                            <constraint firstItem="tNY-iH-MSH" firstAttribute="leading" secondItem="DVG-KT-LMu" secondAttribute="leading" id="AQb-zf-0bd"/>
                             <constraint firstItem="fp8-C5-xpw" firstAttribute="top" secondItem="tNY-iH-MSH" secondAttribute="bottom" constant="40" id="CMH-ed-IRJ"/>
                             <constraint firstAttribute="trailing" secondItem="k0Z-co-rwJ" secondAttribute="trailing" constant="16" id="IJr-6y-5DJ"/>
-                            <constraint firstAttribute="trailing" secondItem="tNY-iH-MSH" secondAttribute="trailing" constant="16" id="QyU-qt-Uq2"/>
+                            <constraint firstAttribute="trailing" secondItem="tNY-iH-MSH" secondAttribute="trailing" id="QyU-qt-Uq2"/>
                             <constraint firstItem="k0Z-co-rwJ" firstAttribute="top" secondItem="rrw-1o-cgW" secondAttribute="bottom" constant="16" id="XBc-YL-mJs"/>
                             <constraint firstItem="yOS-dC-D43" firstAttribute="top" secondItem="k0Z-co-rwJ" secondAttribute="bottom" constant="4" id="YIV-qP-SNZ"/>
                             <constraint firstItem="yOS-dC-D43" firstAttribute="leading" secondItem="DVG-KT-LMu" secondAttribute="leading" constant="16" id="deL-By-Vno"/>

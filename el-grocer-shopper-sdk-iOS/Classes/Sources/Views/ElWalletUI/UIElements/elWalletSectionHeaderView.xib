@@ -24,34 +24,36 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gBb-ys-6ue" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                            <rect key="frame" x="295" y="10" width="81" height="30"/>
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gBb-ys-6ue" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                            <rect key="frame" x="305" y="10" width="77" height="30"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p21-9h-if3">
+                                    <rect key="frame" x="8" y="0.0" width="61" height="30"/>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
+                                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="View All"/>
+                                    <connections>
+                                        <action selector="moveToDetailsTapped:" destination="-1" eventType="touchUpInside" id="X1D-dJ-UIK"/>
+                                    </connections>
+                                </button>
+                            </subviews>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
+                                <constraint firstAttribute="trailing" secondItem="p21-9h-if3" secondAttribute="trailing" constant="8" id="34F-y4-e4l"/>
+                                <constraint firstAttribute="bottom" secondItem="p21-9h-if3" secondAttribute="bottom" id="5Gg-90-BKn"/>
+                                <constraint firstItem="p21-9h-if3" firstAttribute="leading" secondItem="gBb-ys-6ue" secondAttribute="leading" constant="8" id="ohp-GM-zYg"/>
                                 <constraint firstAttribute="height" constant="30" id="uem-HN-Y5a"/>
+                                <constraint firstItem="p21-9h-if3" firstAttribute="top" secondItem="gBb-ys-6ue" secondAttribute="top" id="w7s-Kn-oyU"/>
                             </constraints>
                         </view>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p21-9h-if3">
-                            <rect key="frame" x="305" y="9" width="61" height="32"/>
-                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
-                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                            <state key="normal" title="View All"/>
-                            <connections>
-                                <action selector="moveToDetailsTapped:" destination="-1" eventType="touchUpInside" id="X1D-dJ-UIK"/>
-                            </connections>
-                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="50" id="1s6-ll-JPO"/>
                         <constraint firstItem="xvh-Gb-wTX" firstAttribute="leading" secondItem="DuD-lI-M8K" secondAttribute="leading" id="4xd-h5-4SM"/>
-                        <constraint firstItem="gBb-ys-6ue" firstAttribute="centerY" secondItem="p21-9h-if3" secondAttribute="centerY" id="Iko-d1-WHD"/>
-                        <constraint firstAttribute="trailing" secondItem="p21-9h-if3" secondAttribute="trailing" constant="16" id="p6F-GU-Pb7"/>
+                        <constraint firstAttribute="trailing" secondItem="gBb-ys-6ue" secondAttribute="trailing" id="FQc-jo-0O3"/>
                         <constraint firstItem="xvh-Gb-wTX" firstAttribute="centerY" secondItem="DuD-lI-M8K" secondAttribute="centerY" id="qXI-dS-h4o"/>
-                        <constraint firstItem="p21-9h-if3" firstAttribute="centerY" secondItem="DuD-lI-M8K" secondAttribute="centerY" id="tsi-1d-dGA"/>
-                        <constraint firstItem="gBb-ys-6ue" firstAttribute="trailing" secondItem="p21-9h-if3" secondAttribute="trailing" constant="10" id="udS-Fp-VdH"/>
-                        <constraint firstItem="gBb-ys-6ue" firstAttribute="leading" secondItem="p21-9h-if3" secondAttribute="leading" constant="-10" id="ye2-re-v08"/>
                     </constraints>
                 </view>
             </subviews>

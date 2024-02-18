@@ -236,16 +236,7 @@ extension ElWalletTransactionVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "elWalletSectionFooterView") as! elWalletSectionFooterView
-        //footerView.footerLabel.text = "TableView Footer \(section)"
-        return footerView
-    }
 
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 10
-    }
     
     /*
      func tableView(_ tableView: UITableView,
