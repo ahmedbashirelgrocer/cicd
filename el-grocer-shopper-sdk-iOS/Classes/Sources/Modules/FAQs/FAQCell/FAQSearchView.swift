@@ -58,7 +58,7 @@ extension FAQSearchView: UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        self.searchFieldContainerView.layer.borderColor = UIColor.clear.cgColor
+        self.searchFieldContainerView.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
