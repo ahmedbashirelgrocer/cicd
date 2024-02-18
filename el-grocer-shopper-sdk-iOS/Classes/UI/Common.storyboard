@@ -623,7 +623,7 @@ with our partner to add for your next shopping experience.</string>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Create your shopping list" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Or-Nu-WAb">
-                                        <rect key="frame" x="40.666666666666657" y="71" width="124.00000000000003" height="14"/>
+                                        <rect key="frame" x="40.666666666666657" y="71" width="124" height="14"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="12"/>
                                         <color key="textColor" red="0.49803921579999999" green="0.34117650989999998" blue="0.61176472900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <nil key="highlightedColor"/>
@@ -1926,7 +1926,7 @@ with our partner to add for your next shopping experience.</string>
         </designable>
     </designables>
     <resources>
-        <image name="BackButtonIconGrey" width="24" height="24"/>
+        <image name="BackButtonIconGrey" width="16" height="16"/>
         <image name="CheckboxUnfilled" width="24" height="24"/>
         <image name="Home_ImgView_Car_Time" width="16" height="16"/>
         <image name="Home_ImgView_Min_Order" width="24" height="24"/>
@@ -1943,7 +1943,7 @@ with our partner to add for your next shopping experience.</string>
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

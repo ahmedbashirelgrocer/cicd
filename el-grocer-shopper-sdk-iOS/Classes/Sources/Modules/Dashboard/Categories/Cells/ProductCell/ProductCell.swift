@@ -1078,11 +1078,11 @@ class ProductCell : RxUICollectionViewCell {
                 ? "\(item.count.intValue)".changeToArabic()
                 : "\(item.count.intValue)"
           
-            self.plusButton.setImage(UIImage(name: "add_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            self.plusButton.setImage(UIImage(name: "add_product_cell"), for: .normal)
             if item.count == 1 {
-                self.minusButton.setImage(UIImage(name: "delete_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
+                self.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
             }else{
-                self.minusButton.setImage(UIImage(name: "remove_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
+                self.minusButton.setImage(UIImage(name: "remove_product_cell"), for: .normal)
             }
  
         }
