@@ -2057,7 +2057,7 @@ Add delivery details";
 //MARK: store header
 "btn_shopping_list_title" = "Add Shopping List";
 "btn_help" = "Help";
-"search_placeholder_store_header" = "Search Products...";
+"search_placeholder_store_header" = "Search products...";
 
 "title_view_all_cat" = "View All Categories";
 "title_proactive" = "Proactive Chat";
