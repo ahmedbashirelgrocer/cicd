@@ -36,14 +36,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DoD-4S-af0" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="237" y="7.6666666666666679" width="80" height="30.000000000000004"/>
+                                        <rect key="frame" x="224" y="7.6666666666666679" width="80" height="30.000000000000004"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="5KO-4M-Qlf"/>
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V6d-sV-IxY" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="247" y="10.666666666666664" width="49" height="24"/>
+                                        <rect key="frame" x="234" y="10.666666666666664" width="49" height="24"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="24" id="Uoc-rb-cKS"/>
@@ -63,7 +63,7 @@
                                         </connections>
                                     </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowRight" translatesAutoresizingMaskIntoConstraints="NO" id="Kdc-VT-DDZ">
-                                        <rect key="frame" x="296" y="14.666666666666664" width="16" height="16"/>
+                                        <rect key="frame" x="283" y="14.666666666666664" width="16" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="16" id="ie4-xb-qWn"/>
                                             <constraint firstAttribute="width" secondItem="Kdc-VT-DDZ" secondAttribute="height" multiplier="1:1" id="vSs-QE-Uwc"/>
@@ -82,7 +82,7 @@
                                     <constraint firstItem="Kdc-VT-DDZ" firstAttribute="centerY" secondItem="20c-5R-myQ" secondAttribute="centerY" id="bsk-sw-Ya7"/>
                                     <constraint firstAttribute="height" priority="999" constant="45" id="dAT-5h-mKS"/>
                                     <constraint firstItem="20c-5R-myQ" firstAttribute="centerY" secondItem="uAW-Hq-YSf" secondAttribute="centerY" id="ddn-29-CBe"/>
-                                    <constraint firstAttribute="trailing" secondItem="Kdc-VT-DDZ" secondAttribute="trailing" constant="8" id="m9z-6a-Pdf"/>
+                                    <constraint firstAttribute="trailing" secondItem="Kdc-VT-DDZ" secondAttribute="trailing" constant="21" id="m9z-6a-Pdf"/>
                                     <constraint firstItem="Kdc-VT-DDZ" firstAttribute="leading" secondItem="V6d-sV-IxY" secondAttribute="trailing" id="pX5-uJ-KcG"/>
                                 </constraints>
                             </view>
