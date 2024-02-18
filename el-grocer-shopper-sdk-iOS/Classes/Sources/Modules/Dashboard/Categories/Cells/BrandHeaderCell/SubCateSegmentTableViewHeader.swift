@@ -18,7 +18,11 @@ class SubCateSegmentTableViewHeader: UIView {
 
     @IBOutlet var lblTitleBGView: UIView!
     @IBOutlet var MsgLableHeight: NSLayoutConstraint!
-    @IBOutlet var lblCategoryName: UILabel!
+    @IBOutlet var lblCategoryName: UILabel! {
+        didSet {
+            lblCategoryName.setH4SemiBoldStyle()
+        }
+    }
     @IBOutlet var lblSubCategorySuperBGView: UIView!
     @IBOutlet var lblSubCategoryMsgBGView: AWView!
     @IBOutlet var lblSubCategoryMsg: UILabel!
