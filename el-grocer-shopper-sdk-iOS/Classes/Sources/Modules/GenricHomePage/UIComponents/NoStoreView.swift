@@ -49,7 +49,7 @@ class NoStoreView: UIView {
     
     func setUpApearence() {
         
-        self.lblTopMsg.setH3SemiBoldDarkStyle()
+        self.lblTopMsg.setBody2SemiboldDarkStyle()
         self.lblExtraDetail.setBody3RegSecondaryDarkStyle()
         self.btnNoData.setH4SemiBoldWhiteStyle()
         self.btnNoData.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
