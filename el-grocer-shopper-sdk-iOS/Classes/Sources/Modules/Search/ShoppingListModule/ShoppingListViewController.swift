@@ -690,6 +690,7 @@ extension ShoppingListViewController : UITableViewDelegate , UITableViewDataSour
         }
         listCell.ViewNoProduct.isHidden  =  listCell.NoItemFoundLable.isHidden
         listCell.viewMoreButton.isHidden = !listCell.NoItemFoundLable.isHidden
+        listCell.viewAllBGView.isHidden = !listCell.NoItemFoundLable.isHidden
         listCell.changeSearchResult = {[weak self] (newText , clouserIndex) in
             guard let self = self else { return }
             guard (newText?.count)! > 0 else { return }
