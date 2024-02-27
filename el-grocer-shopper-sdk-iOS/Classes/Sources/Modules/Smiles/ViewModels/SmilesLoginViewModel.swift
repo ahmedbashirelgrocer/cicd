@@ -24,13 +24,12 @@ public class SmilesLoginViewModel {
     
     var userLoggedinSuccessfull: (()->Void)?
     var showAlertClosure: ((_ errString:String)->Void)?
-    var isBlockOtp: ((_ isBlocked:Bool)->Void)?
     
-    var isTimerRunning: AppBinder<Bool> = AppBinder(false)
+    var isTimerRunning: AppBinder<Bool> = AppBinder(true)
     var timeLeft: AppBinder<Int> = AppBinder(0)
     private var retryTime: Int = 0
     private var retryCounts: Int = 0
-    private var countDownTimer: Timer?
+    var countDownTimer: Timer?
 
     init() {}
     
@@ -86,13 +85,6 @@ public class SmilesLoginViewModel {
                     elDebugPrint(response)
                 completion(nil, "")
                 case .failure(let error):
-                    if let blockClosuer = self?.isBlockOtp {
-                        if error.code == SmilesNetworkManager.sharedInstance().blockedErrorCode {
-                            self?.countDownTimer?.invalidate()
-                            self?.isTimerRunning.value = false
-                            blockClosuer(true)
-                        }
-                    }
                 completion(error.code, error.localizedMessage)
             }
         }
