@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  el-grocer-shopper-sdk-iOS
 //  for xcode 15 support from 1.8.8
-// from branch origin/Customer_V_Value/EEN_9059/master commit : initial commit
+// from branch Customer_V_Value/EEN_9059/master+Checkout3.0 commit : updated no data view constraints and view https://elgrocerdxb.atlassian.net/browse/EEN-9283 (done)
 
 /*
  
