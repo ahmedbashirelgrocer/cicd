@@ -30,6 +30,7 @@ class MissingItemsPreferenceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        lblTitle.text = localizedString("text_what_to_do_if_items_missing", comment: "")
         // Table View setup
         tableView.delegate = self
         tableView.dataSource = self

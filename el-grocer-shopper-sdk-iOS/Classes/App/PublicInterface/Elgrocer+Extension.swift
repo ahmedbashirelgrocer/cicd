@@ -77,6 +77,8 @@ public extension ElGrocer {
             sdkManager = SDKManagerShopper.shared
         }
         
+//        sdkManager.launchOptions = launchOptions
+        
         SDKManager.shared.startBasicThirdPartyInit()
         ElGrocer.trackSDKLaunch(launchOptions)
         SDKManager.shared.launchOptionsLocation = launchOptions.convertOptionsToCLlocation()
@@ -114,6 +116,8 @@ public extension ElGrocer {
         if launchOptions.isSmileSDK == true { sdkManager = SDKManager.shared  } else {
             sdkManager = SDKManagerShopper.shared
         }
+        
+//        sdkManager.launchOptions = launchOptions
         
         if !(sdkManager.launchOptions?.language?.isEmptyStr ?? true) && sdkManager.launchOptions?.language != launchOptions.language {
             // language change

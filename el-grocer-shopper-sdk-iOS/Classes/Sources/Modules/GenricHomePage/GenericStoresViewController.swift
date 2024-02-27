@@ -370,6 +370,8 @@ class GenericStoresViewController: BasketBasicViewController {
     
     private func getSmileUserInfo() {
         SmilesManager.getCachedSmileUser { [weak self] (smileUser) in
+            UserDefaults.setSmilesUserLoggedIn(status: smileUser != nil)
+            
             if let user = smileUser {
                 if let points = user.availablePoints {
                     self?.searchBarHeader.setSmilesPoints(points)

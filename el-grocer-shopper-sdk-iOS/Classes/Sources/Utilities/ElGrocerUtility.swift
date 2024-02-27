@@ -1629,9 +1629,30 @@ class ElGrocerUtility {
         return list
       }
     
+    func calculateAEDsForSmilesPoints(_ points: Int, smilesBurntRatio: Double?) -> Double {
+        var ratio = 0.0
+        
+        if let smilesBurntRatio = smilesBurntRatio, smilesBurntRatio > 0 {
+            ratio = smilesBurntRatio
+        } else {
+            ratio = ElGrocerUtility.sharedInstance.appConfigData.smilesData.burning
+        }
+        
+        let aeds = ratio * Double(points)
+        return (aeds * 100).rounded() / 100
+    }
    
-    
-    
+    func calculateSmilePointsForAEDs(_ amount: Double, smilesBurntRatio: Double?) -> Int {
+        var ratio = 0.0
+        
+        if let smilesBurntRatio = smilesBurntRatio, smilesBurntRatio > 0 {
+            ratio = smilesBurntRatio
+        } else {
+            ratio = ElGrocerUtility.sharedInstance.appConfigData.smilesData.burning
+        }
+
+        return Int(round(amount / ratio))
+    }
 }
 
 

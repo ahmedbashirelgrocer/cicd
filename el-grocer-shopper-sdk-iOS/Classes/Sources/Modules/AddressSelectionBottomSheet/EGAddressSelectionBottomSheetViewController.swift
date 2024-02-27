@@ -57,8 +57,19 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
             var addressList = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
             addressList = addressList.sorted(by: { $0.isActive > $1.isActive })
             mapDelegate?.updateAddressList(addressList)
-            var height : CGFloat = CGFloat((addressList.count * 80) + 140)
-            if height >= ScreenSize.SCREEN_HEIGHT {
+            
+            var height = 80 + 16 + 24 + localizedString("eg_choose_delivery_location", comment: "Choose delivery location").heightOfString(withConstrainedWidth: ScreenSize.SCREEN_WIDTH - 32, font:  UIFont.SFProDisplaySemiBoldFont(14))
+            addressList.forEach { address in
+                let nickNameHeight = address.nickName?.heightOfString(withConstrainedWidth: ScreenSize.SCREEN_WIDTH - 64, font: UIFont.SFProDisplaySemiBoldFont(14)) ?? 0.0
+                let addressDetailsHeight = ElGrocerUtility.sharedInstance.getFormattedAddress(address).heightOfString(withConstrainedWidth: ScreenSize.SCREEN_WIDTH - 64, font: UIFont.SFProDisplayNormalFont(17))
+                let defaultAddressTagHeight = address.isActive.boolValue ? localizedString("eg_current_location", comment: "").heightOfString(usingFont: UIFont.SFProDisplaySemiBoldFont(11)) : 0
+                let paddings = 24.0
+                
+                let cellHeight = nickNameHeight + addressDetailsHeight + defaultAddressTagHeight + paddings
+                height += cellHeight
+            }
+            
+            if height >= (ScreenSize.SCREEN_HEIGHT - 80) {
                 height = ScreenSize.SCREEN_HEIGHT * 0.7
             }
             let addressView = EGAddressSelectionBottomSheetViewController.init(nibName: "EGAddressSelectionBottomSheetViewController", bundle: .resource)

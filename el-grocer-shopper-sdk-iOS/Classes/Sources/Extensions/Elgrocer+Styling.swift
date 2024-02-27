@@ -227,6 +227,10 @@ extension UILabel {
         self.font = UIFont.SFProDisplaySemiBoldFont(17)
         self.textColor = UIColor.newBlackColor()
     }
+    func setH4SemiBoldSmilesStyle(){
+        self.font = UIFont.SFProDisplaySemiBoldFont(17)
+        self.textColor = UIColor.smileBaseColor()
+    }
     func setH4SemiBoldWhiteStyle(){
         self.font = UIFont.SFProDisplayBoldFont(17)
         self.textColor = UIColor.navigationBarWhiteColor()
@@ -252,6 +256,14 @@ extension UILabel {
     func setCaptionOneRegDarkStyle() {
         self.font = UIFont.SFProDisplayNormalFont(12)
         self.textColor = UIColor.newBlackColor()
+    }
+    func setCaptionOneRegSmilesStyle() {
+        self.font = UIFont.SFProDisplayNormalFont(12)
+        self.textColor = UIColor.smileBaseColor()
+    }
+    func setCaptionOneSemiBoldSmilesStyle() {
+        self.font = UIFont.SFProDisplaySemiBoldFont(12)
+        self.textColor = UIColor.smileBaseColor()
     }
     func setCaptionOneRegWhiteStyle() {
         self.font = UIFont.SFProDisplayNormalFont(12)
@@ -384,6 +396,11 @@ extension UILabel {
     func setBody1RegDarkStyle() {
         self.font = UIFont.SFProDisplayNormalFont(17)
         self.textColor = UIColor.newBlackColor()
+    }
+    
+    func setBody1RegPlaceholderStyle() {
+        self.font = UIFont.SFProDisplayNormalFont(17)
+        self.textColor = UIColor.textFieldPlaceHolderColor()
     }
     
     func setH3SemiBoldStyle(){

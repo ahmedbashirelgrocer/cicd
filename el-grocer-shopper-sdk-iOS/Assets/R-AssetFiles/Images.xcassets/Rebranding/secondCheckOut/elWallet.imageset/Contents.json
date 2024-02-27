@@ -1,19 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "elWallet.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "elWallet@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "elWallet@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "elWallet.pdf",
+      "idiom" : "universal"
     }
   ],
   "info" : {
