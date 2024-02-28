@@ -685,6 +685,10 @@ extension ElGrocerViewControllers {
         return smileHomeVc
     }
     
+    class func getOneClickReOrderBottomSheet() -> OneClickReOrderBottomSheet {
+        return OneClickReOrderBottomSheet(nibName: "OneClickReOrderBottomSheet", bundle: .resource)
+    }
+    
     
 }
 
