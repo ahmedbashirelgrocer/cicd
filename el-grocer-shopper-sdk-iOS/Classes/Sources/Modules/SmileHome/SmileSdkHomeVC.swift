@@ -763,7 +763,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 && self.availableStoreTypeA.count > 0 {
-            return 100 + 32 //cellheight + top bottom 
+            return 100 + 32 //cellheight + top bottom
         }
         return 0.01
     }
@@ -1176,7 +1176,12 @@ extension SmileSdkHomeVC {
         
         switch section {
         case 0: //0-2: Banner, Banner Label
-            return 1 + (configs.isHomeTier1 ? 1 : 0)
+            if self.tableViewHeader2.selectedItemIndex == 0 {
+                return 0
+            }else {
+                return 1 + (configs.isHomeTier1 ? 1 : 0)
+            }
+            
         case 1: //1-3: Grocery cell 1, 2, 3
             if configs.availableStoresStyle == .list {
                 return min(separatorCount + 1, self.sortedGroceryArray.count)
@@ -1184,7 +1189,11 @@ extension SmileSdkHomeVC {
                 return 1
             }
         case 2: //2-1: Banner
-            return (configs.isHomeTier2 ? 1 : 0)
+            if self.tableViewHeader2.selectedItemIndex == 0 {
+                return 0
+            }else {
+                return (configs.isHomeTier2 ? 1 : 0)
+            }
         case 3: //1-(n-3): Grocery cell 1, 2, 3 . . .
             if configs.availableStoresStyle == .list {
                 return max(self.sortedGroceryArray.count - separatorCount - 1, 0)
@@ -1201,15 +1210,22 @@ extension SmileSdkHomeVC {
         // New
         switch indexPath {
         case .init(row: 0, section: 0):
-            if ABTestManager.shared.configs.isHomeTier1 {
-                return self.makeLocationOneBannerCell(indexPath)
+            if tableViewHeader2.selectedItemIndex == 0 {
+                return UITableViewCell()
+            }else {
+                if ABTestManager.shared.configs.isHomeTier1 {
+                    return self.makeLocationOneBannerCell(indexPath)
+                }
+                return self.makeLabelCell(indexPath)
             }
-            return self.makeLabelCell(indexPath)
         case .init(row: 1, section: 0):
             return self.makeLabelCell(indexPath)
         case .init(row: 0, section: 2):
-            return makeLocationTwoBannerCell(indexPath)
-            
+            if tableViewHeader2.selectedItemIndex == 0 {
+                return UITableViewCell()
+            }else {
+                return makeLocationTwoBannerCell(indexPath)
+            }
         default:
             if indexPath.section == 1 {
                 if ABTestManager.shared.configs.availableStoresStyle == .grid {
@@ -1256,14 +1272,24 @@ extension SmileSdkHomeVC {
         
         switch indexPath {
         case .init(row: 0, section: 0):
-            if configs.isHomeTier1 {
-                return (HomePageData.shared.locationOneBanners?.count ?? 0) > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
+            if tableViewHeader2.selectedItemIndex == 0 {
+                return minCellHeight
+            }else {
+                if configs.isHomeTier1 {
+                    return (HomePageData.shared.locationOneBanners?.count ?? 0) > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
+                }
+                return 45
             }
-            return 45
+            
         case .init(row: 1, section: 0):
             return 45
         case .init(row: 0, section: 2):
-            return ((HomePageData.shared.locationTwoBanners?.count ?? 0) > 0  &&  self.sortedGroceryArray.count > separatorCount ) ?  ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
+            if tableViewHeader2.selectedItemIndex == 0 {
+                return minCellHeight
+            }else {
+                return ((HomePageData.shared.locationTwoBanners?.count ?? 0) > 0  &&  self.sortedGroceryArray.count > separatorCount ) ?  ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
+            }
+            
         default:
             return tableView.rowHeight // UITableView.automaticDimension
         }
