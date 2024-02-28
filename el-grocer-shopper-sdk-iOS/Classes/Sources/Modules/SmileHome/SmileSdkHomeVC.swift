@@ -684,10 +684,12 @@ class SmileSdkHomeVC: BasketBasicViewController {
         
     }
     
-    func showBottomSheeetForOneClickReOrder() {
+    func showBottomSheeetForOneClickReOrder(grocery: Grocery) {
         let vc = ElGrocerViewControllers.getOneClickReOrderBottomSheet()
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .overCurrentContext
+        
+        vc.grocery = grocery
         self.present(vc, animated: true)
     }
     
@@ -1382,7 +1384,7 @@ extension SmileSdkHomeVC {
                 self?.goToGrocery(grocery, nil)
             }else {
                 //show bottom sheet for one click reOrder
-                self?.showBottomSheeetForOneClickReOrder()
+                self?.showBottomSheeetForOneClickReOrder(grocery: grocery)
             }
             
         }

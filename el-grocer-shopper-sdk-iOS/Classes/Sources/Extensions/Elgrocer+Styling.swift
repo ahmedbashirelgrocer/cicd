@@ -409,7 +409,7 @@ extension UILabel {
     }
     
     func setH3SemiBoldStyle(){
-        self.font = UIFont.SFProDisplayBoldFont(16)
+        self.font = UIFont.SFProDisplaySemiBoldFont(16)
         self.textColor = UIColor.newBlackColor()
     }
     
