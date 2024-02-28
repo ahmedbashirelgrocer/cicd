@@ -45,6 +45,11 @@ extension UILabel {
         self.textColor = UIColor.navigationBarWhiteColor()
     }
     
+    func setNeighbourHoodGroceryPercentageStyle(){
+        self.font = UIFont.SFProDisplaySemiBoldFont(10)
+        self.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
+    }
+    
     func setApplePayWhiteStyle(){
         self.font = UIFont.SFProDisplaySemiBoldFont(19)
         self.textColor = UIColor.navigationBarWhiteColor()
@@ -463,6 +468,11 @@ extension UILabel {
     func setH4SemiBoldGreenStyle(){
         self.font = UIFont.SFProDisplayBoldFont(17)
         self.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+    }
+    
+    func setHeadLine5MediumDarkStyle() {
+        self.font = UIFont.SFProDisplaySemiBoldFont(18)
+        self.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
     }
     
 }

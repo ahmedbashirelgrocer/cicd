@@ -193,6 +193,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
         let centerLabelTableViewCell = UINib(nibName: KCenterLabelTableViewCellIdentifier, bundle: Bundle.resource)
         self.tableView.register(centerLabelTableViewCell, forCellReuseIdentifier: KCenterLabelTableViewCellIdentifier)
         
+        let NeighbourHoodFavouriteTableViewCell = UINib(nibName: "NeighbourHoodFavouriteTableViewCell", bundle: Bundle.resource)
+        self.tableView.register(NeighbourHoodFavouriteTableViewCell, forCellReuseIdentifier: "NeighbourHoodFavouriteTableViewCell")
+        
         let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: Bundle.resource)
         self.currentOrderCollectionView.register(CurrentOrderCollectionCell, forCellWithReuseIdentifier: "CurrentOrderCollectionCell")
         
@@ -1177,7 +1180,7 @@ extension SmileSdkHomeVC {
         switch section {
         case 0: //0-2: Banner, Banner Label
             if self.tableViewHeader2.selectedItemIndex == 0 {
-                return 0
+                return 3
             }else {
                 return 1 + (configs.isHomeTier1 ? 1 : 0)
             }
@@ -1211,7 +1214,7 @@ extension SmileSdkHomeVC {
         switch indexPath {
         case .init(row: 0, section: 0):
             if tableViewHeader2.selectedItemIndex == 0 {
-                return UITableViewCell()
+                return makeNeighbourHoodFavouriteTableViewCell(indexPath: indexPath)
             }else {
                 if ABTestManager.shared.configs.isHomeTier1 {
                     return self.makeLocationOneBannerCell(indexPath)
@@ -1219,6 +1222,11 @@ extension SmileSdkHomeVC {
                 return self.makeLabelCell(indexPath)
             }
         case .init(row: 1, section: 0):
+            if tableViewHeader2.selectedItemIndex == 0 {
+                return makeNeighbourHoodFavouriteTableViewCell(indexPath: indexPath)
+            }
+            return self.makeLabelCell(indexPath)
+        case .init(row: 2, section: 0):
             return self.makeLabelCell(indexPath)
         case .init(row: 0, section: 2):
             if tableViewHeader2.selectedItemIndex == 0 {
@@ -1273,15 +1281,19 @@ extension SmileSdkHomeVC {
         switch indexPath {
         case .init(row: 0, section: 0):
             if tableViewHeader2.selectedItemIndex == 0 {
-                return minCellHeight
+                return 140
             }else {
                 if configs.isHomeTier1 {
                     return (HomePageData.shared.locationOneBanners?.count ?? 0) > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
                 }
                 return 45
             }
-            
         case .init(row: 1, section: 0):
+            if tableViewHeader2.selectedItemIndex == 0 {
+                return 150
+            }
+            return 45
+        case .init(row: 2, section: 0):
             return 45
         case .init(row: 0, section: 2):
             if tableViewHeader2.selectedItemIndex == 0 {
@@ -1347,6 +1359,18 @@ extension SmileSdkHomeVC {
     func makeAvailableStoreCellListStyle(indexPath: IndexPath, grocery: Grocery) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell") as! HyperMarketGroceryTableCell
         cell.configureCell(grocery: grocery)
+        return cell
+    }
+    
+    func makeNeighbourHoodFavouriteTableViewCell(indexPath: IndexPath)-> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "NeighbourHoodFavouriteTableViewCell", for: indexPath) as! NeighbourHoodFavouriteTableViewCell
+        
+        if indexPath.row == 0 {
+            cell.configureCell(groceryA: self.groceryArray, isForFavourite: true)
+        }else if indexPath.row == 1 {
+            cell.configureCell(groceryA: self.groceryArray, isForFavourite: false)
+        }
+        
         return cell
     }
 }
