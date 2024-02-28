@@ -272,19 +272,13 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.availableStoreTypeA = filterStoreTypeData.sorted { $0.priority < $1.priority }
         
         if self.availableStoreTypeA.count > 0 {
-            if ABTestManager.shared.configs.storeTypeStyle == .text {
-                let segmentArray = ([ self.homeDataHandler.storeTypeA?.first(where: { $0.storeTypeid == 0 }) ].compactMap { $0 } + self.availableStoreTypeA).compactMap { $0.name }
-                tableViewHeader.segmentView.refreshWith(dataA: segmentArray)
-            } else {
-                let data = ([ self.homeDataHandler.storeTypeA?.first(where: { $0.storeTypeid == 0 }) ].compactMap { $0 } + self.availableStoreTypeA).compactMap { type in
-                    let url = type.imageUrl ?? ""
-                    let colour = UIColor.colorWithHexString(hexString: type.backGroundColor)
-                    let text = type.name ?? ""
-                    return (url, colour, text)
-                }
-                tableViewHeader2.refreshWith(data)
+            let data = ([ self.homeDataHandler.storeTypeA?.first(where: { $0.storeTypeid == 0 }) ].compactMap { $0 } + self.availableStoreTypeA).compactMap { type in
+                let url = type.imageUrl ?? ""
+                let colour = UIColor.colorWithHexString(hexString: type.backGroundColor)
+                let text = type.name ?? ""
+                return (url, colour, text)
             }
-            
+            tableViewHeader2.refreshWith(data)
         }
        
         self.filteredGroceryArray = self.groceryArray
@@ -769,11 +763,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 && self.availableStoreTypeA.count > 0 {
-            if ABTestManager.shared.configs.storeTypeStyle == .text {
-                return 55
-            } else {
-                return 88 + 42 + 32
-            }
+            return 100 + 32 //cellheight + top bottom 
         }
         return 0.01
     }
@@ -785,11 +775,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 && self.availableStoreTypeA.count > 0 {
-            if ABTestManager.shared.configs.storeTypeStyle == .text {
-                return tableViewHeader
-            } else {
-                return tableViewHeader2
-            }
+            return tableViewHeader2
         }
         return nil
     }

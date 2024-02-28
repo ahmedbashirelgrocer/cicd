@@ -59,11 +59,11 @@ class ILSegmentView: UICollectionView {
             self.collectionViewLayout = {
                 let layout = UICollectionViewFlowLayout()
                 layout.scrollDirection = scrollDirection
-                layout.itemSize = CGSize(width: 88, height: 88 + 42 )
-                layout.minimumInteritemSpacing = 16
-                layout.minimumLineSpacing = 16
+                layout.itemSize = CGSize(width: 88, height: 100 )
+                layout.minimumInteritemSpacing = 0
+                layout.minimumLineSpacing = 0
                 let edgeInset:CGFloat =  16
-                layout.sectionInset = UIEdgeInsets(top: edgeInset / 2, left: edgeInset, bottom: 0, right: edgeInset)
+                layout.sectionInset = UIEdgeInsets(top: edgeInset , left: edgeInset, bottom: 0, right: edgeInset)
                 return layout
             }()
         }
@@ -118,23 +118,24 @@ extension ILSegmentView: UICollectionViewDataSource, UICollectionViewDelegate {
             let dataItem = self.segmentData[indexPath.row]
             cell.configure(imageURL: dataItem.imageURL,
                            bgColor: dataItem.bgColor,
-                           text: dataItem.text)
+                           text: dataItem.text, isSelected: indexPath.row == selectedItemIndex)
             return cell
         } else {
             let cell = self.dequeueReusableCell(withReuseIdentifier: kCategoriesSegmentedImageViewCell, for: indexPath) as! AWCategoriesSegmentedImageViewCell
             
             let category = self.categories[indexPath.row]
-            cell.configure(imageURL: category.coloredImageUrl ?? "", text: category.name ?? "")
+            cell.configure(imageURL: category.coloredImageUrl ?? "", text: category.name ?? "", isSelected: indexPath.row == selectedItemIndex)
             
             return cell
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.selectedItemIndex = indexPath.row
         collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
         self.onTapCompletion?(indexPath.row)
         self.onTapCompletionWithCategory?(self.categories[indexPath.row])
-        return false
+        collectionView.reloadData()
     }
     
 }
