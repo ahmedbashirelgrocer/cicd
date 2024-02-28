@@ -9,6 +9,7 @@
 import UIKit
 import NBBottomSheet
 import Storyly
+import SDWebImage
 
 
 class RecipeDetailVC: BasketBasicViewController {
@@ -253,6 +254,7 @@ class RecipeDetailVC: BasketBasicViewController {
         var someSet = Set<String>()
         someSet.insert(recipe?.recipeStorylySlug ?? "")
         
+        /*
         let segment = StorylySegmentation.init(segments: someSet)
         let story = StorylyInit.init(storylyId: ElGrocerUtility.sharedInstance.appConfigData.storlyInstanceId , segmentation: segment)
         storylyView.translatesAutoresizingMaskIntoConstraints = false
@@ -264,7 +266,7 @@ class RecipeDetailVC: BasketBasicViewController {
         storylyView.storyItemIconBorderColor = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
         storylyView.storyGroupIconBorderColorNotSeen = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
         storylyView.storyGroupPinIconColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
-        
+        */
         
         
     }

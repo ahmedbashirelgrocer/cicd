@@ -32,7 +32,7 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
     
     private func prepairMetaData(products: [Product], grocery: Grocery?, order: Order?, isWalletEnabled: Bool, isSmilesEnabled: Bool, isPromoCodeApplied: Bool, smilesPointsEarned: Int, smilesPointsBurnt: Double, realizationId: Int?, elWalletRedeem: Double, grandTotal: Double) -> [String: Any] {
         var metaData: [String: Any] = [
-            EventParameterKeys.totalOrderAmount : order?.finalBillAmount?.stringValue,
+            EventParameterKeys.totalOrderAmount : order?.finalBillAmount?.stringValue ?? "",
             EventParameterKeys.grandTotal       : String(grandTotal),
             EventParameterKeys.paymentMethodId  : order?.payementType?.stringValue ?? "",
             EventParameterKeys.paymentMethodName: PaymentOption(rawValue: UInt32(order?.payementType?.int32Value ?? 0))?.paymentMethodName ?? "",

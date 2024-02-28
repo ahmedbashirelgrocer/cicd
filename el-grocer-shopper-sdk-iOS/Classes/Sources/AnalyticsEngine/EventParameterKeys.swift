@@ -104,4 +104,5 @@ enum EventParameterKeys {
     
     static let elWalletRedeem       = "elWalletRedeem"
     static let smilesRedeem         = "smilesRedeem"
+    static let id                   = "id"
 }

@@ -33,6 +33,7 @@ class StorlyTableViewCell: UITableViewCell {
             return
         }
         guard self.storylyView != nil else {return}
+        /*
         storylyView.storyItemIconBorderColor = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
         storylyView.storyGroupIconBorderColorNotSeen = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
         storylyView.storyGroupPinIconColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
@@ -41,10 +42,11 @@ class StorlyTableViewCell: UITableViewCell {
         let segment =  StorylySegmentation.init(segments: someSet)
         let story = StorylyInit.init(storylyId: ElGrocerUtility.sharedInstance.appConfigData.storlyInstanceId , segmentation: segment, customParameter: UserDefaults.getLogInUserID())
         storylyView.languageCode = ElGrocerUtility.sharedInstance.isArabicSelected() ? "AR" : "EN"
+         */
         storylyView.translatesAutoresizingMaskIntoConstraints = false
         storylyView.delegate = self.topVc
         storylyView.rootViewController = self.topVc
-        storylyView.storylyInit = story
+        //storylyView.storylyInit = story
        
     }
     

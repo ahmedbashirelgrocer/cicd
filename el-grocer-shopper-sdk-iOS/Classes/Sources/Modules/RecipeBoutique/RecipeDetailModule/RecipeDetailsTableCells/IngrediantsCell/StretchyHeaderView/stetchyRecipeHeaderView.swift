@@ -112,7 +112,7 @@ extension stetchyRecipeHeaderView : UICollectionViewDelegate ,  UICollectionView
                     cell.btnPlay.isHidden = true
                     return
                 }
-                self?.storylyView?.openStory(storyGroupId: self?.storyGroup?.id ?? 0)
+                self?.storylyView?.openStory(storyGroupId: self?.storyGroup?.uniqueId ?? "0")
             }
             
         }

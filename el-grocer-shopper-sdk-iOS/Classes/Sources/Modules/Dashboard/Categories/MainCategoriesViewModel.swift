@@ -104,7 +104,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var apiCallingStatus: [IndexPath: Bool] = [:]
     
     private var showProductsSection = ABTestManager.shared.storeConfigs.showProductsSection
-
+    
     // MARK: initlizations
     init(apiClient: ElGrocerApi = ElGrocerApi.sharedInstance, recipeAPIClient: ELGrocerRecipeMeduleAPI = ELGrocerRecipeMeduleAPI(), grocery: Grocery?, deliveryAddress: DeliveryAddress?) {
         self.apiClient = apiClient
@@ -319,9 +319,13 @@ private extension MainCategoriesViewModel {
             
             switch result {
             case .success(let response):
-                let banners = response.map { $0.toBannerDTO() }
-                if banners.isNotEmpty {
+                var banners = response.map { $0.toBannerDTO() }
+                //if banners.isNotEmpty {
                     if location == .store_tier_1.getType() {
+                        if(ElGrocerUtility.sharedInstance.showStorelyBanner){
+                            let bannerStorely = BannerDTO(id: 0, name: "Storyly Banner", priority: Int.max, campaignType: .storely, imageURL: nil, bannerImageURL: nil, url: nil, categories: nil, subcategories: nil, brands: nil, retailerIDS: nil, locations: [28, 19, 3], storeTypes: nil, retailerGroups: nil, customScreenId: nil, isStoryly: true)
+                            banners.append(bannerStorely)
+                        }
                         let bannerCellVM = GenericBannersCellViewModel(banners: banners)
                         bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
                         self.location1BannerVMs.append(bannerCellVM)
@@ -330,8 +334,7 @@ private extension MainCategoriesViewModel {
                         bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
                         self.location2BannerVMs.append(bannerCellVM)
                     }
-                }
-                
+                //}
             case .failure(let _):
                 break
             }

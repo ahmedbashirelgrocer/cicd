@@ -11,6 +11,7 @@ import Storyly
 import FirebaseCore
 class StorylyAds  {
     
+    var initialLoad = true
     var storylyView = StorylyView()
     var storyGroupList : [StoryGroup] = []
     var actionClicked: ((_ url : String?)->Void)? = nil
@@ -31,18 +32,22 @@ class StorylyAds  {
             let parentId = "p_" + grocery.parentID.stringValue
             someSet.insert(parentId)
         }
-        let segment =  StorylySegmentation.init(segments: someSet)
-        let story = StorylyInit(storylyId: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NfaWQiOjE1MzcsImFwcF9pZCI6MTE1MywiaW5zX2lkIjoxMTc2fQ.k3DE2c0a38t0x8Droq5htoc-O7qbOZbrCojY_fIes5Y" , segmentation: segment)
         
+        
+        let story = StorylyInit(storylyId: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NfaWQiOjE1MzcsImFwcF9pZCI6MTE1MywiaW5zX2lkIjoxMTc2fQ.k3DE2c0a38t0x8Droq5htoc-O7qbOZbrCojY_fIes5Y")
         storylyView.translatesAutoresizingMaskIntoConstraints = false
-        storylyView.languageCode = ElGrocerUtility.sharedInstance.isArabicSelected() ? "AR" : "EN"
         storylyView.storylyInit = story
         rootController.view.addSubview(storylyView)
         storylyView.delegate = self
         storylyView.rootViewController = rootController
-        storylyView.storyItemIconBorderColor = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
-        storylyView.storyGroupIconBorderColorNotSeen = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
-        storylyView.storyGroupPinIconColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        StorylyConfig.Builder().setLocale(locale: ElGrocerUtility.sharedInstance.isArabicSelected() ? "AR" : "EN")
+        StorylyStoryStyling.Builder().setHeaderIconBorderColor(colors: [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor])
+        StorylyStoryGroupStyling.Builder().setIconBorderColorNotSeen(colors: [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor])
+        StorylyStoryGroupStyling.Builder().setPinIconColor(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
+        StorylyConfig.Builder().setTestMode(isTest: Platform.isDebugBuild)
+        StorylyConfig.Builder().setLabels(labels: someSet)
+        StorylyConfig.Builder().setStoryStyling(styling: StorylyStoryStyling.Builder().build())
+        StorylyConfig.Builder().setStoryGroupStyling(styling: StorylyStoryGroupStyling.Builder().build())
     }
 }
     
@@ -51,12 +56,19 @@ extension StorylyAds : StorylyDelegate {
     func storylyLoaded(_ storylyView: StorylyView, storyGroupList: [StoryGroup], dataSource: StorylyDataSource) {
         elDebugPrint("load")
        elDebugPrint(self.storyGroupList.count)
+        if initialLoad {
+            initialLoad = false
+            storylyView.isHidden = false
+        }
         self.storylyView = storylyView
         self.storyGroupList = storyGroupList
         
     }
     func storylyLoadFailed(_ storylyView: StorylyView, errorMessage: String) {
         elDebugPrint("failde")
+        if !initialLoad {
+            self.storylyView.isHidden = true
+        }
     }
     
     func storylyEvent(_ storylyView: StorylyView, event: StorylyEvent, storyGroup: StoryGroup?, story: Story?, storyComponent: StoryComponent?) {
@@ -64,33 +76,19 @@ extension StorylyAds : StorylyDelegate {
     }
     
     func storylyActionClicked(_ storylyView: StorylyView, rootViewController: UIViewController, story: Story) {
-        
-        storylyView.dismiss(animated: true) {
+        storylyView.dismissExternalActionView()
+        MixpanelEventLogger.trackDealsOffersButton(dealId: "\(story.uniqueId)")
+        if let actionUrlString = story.media.actionUrl, let url = URL(string: actionUrlString) {
+            if let clouser = self.actionClicked {clouser(actionUrlString)}
             
-        
-            MixpanelEventLogger.trackDealsOffersButton(dealId: "\(story.id)")
-            if let actionUrlString = story.media.actionUrl, let url = URL(string: actionUrlString) {
-                
+            if !sdkManager.application(UIApplication.shared, open: url, sourceApplication: "Storyly", annotation: "") {
                 if let clouser = self.actionClicked {clouser(actionUrlString)}
-                /*
-                if !sdkManager.application(UIApplication.shared, open: url, sourceApplication: "Storyly", annotation: "") {
-                    if let clouser = self.actionClicked {clouser(actionUrlString)}
-                }else {
-                    if let clouser = self.actionClicked {clouser("")}
-                }*/
-                
-                
-                /*if let dynamicLink = DynamicLinks.dynamicLinks().dynamicLink(fromCustomSchemeURL: url){
-                    if let urlString = dynamicLink.url?.absoluteString {
-                        if let clouser = self.actionClicked {clouser(urlString)}
-                    }
-                } else {
-                    if let clouser = self.actionClicked {clouser(actionUrlString)}
-                }*/
             }else {
-                if let clouser = self.actionClicked {clouser(story.media.actionUrl ?? "")}
+                if let clouser = self.actionClicked {clouser("")}
             }
             
+        }else {
+            if let clouser = self.actionClicked {clouser(story.media.actionUrl ?? "")}
         }
     }
   

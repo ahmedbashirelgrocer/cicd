@@ -27,6 +27,7 @@ protocol MarketingCustomLandingPageViewModelOutput {
     var loading: Observable<Bool> { get }
     var showEmptyView: Observable<Void> { get }
     var error: Observable<ElGrocerError> { get }
+    var recipeHederHeight: Observable<CGFloat> { get }
 }
 
 protocol MarketingCustomLandingPageViewModelType: MarketingCustomLandingPageViewModelInput, MarketingCustomLandingPageViewModelOutput {
@@ -57,8 +58,10 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     var filterArrayData: Observable<[Filter]> { filterArrayDataSubject.asObservable() }
     var selectedgrocery: Observable<Grocery?> { grocerySubject.asObservable() }
     var refreshBasketSubject = BehaviorSubject<Void>(value: ())
+    var recipeHederHeight: Observable<CGFloat> { recipeHederHeightSubject.asObservable() }
     
     // MARK: Subjects
+    var recipeHederHeightSubject: BehaviorSubject<CGFloat> = .init(value: 0)
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private let errorSubject = PublishSubject<ElGrocerError>()
     private let showEmptyViewSubject = PublishSubject<Void>()
@@ -76,8 +79,8 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     private var apiClient: ElGrocerApi?
     private var grocery: Grocery?
     private let isArabic : Bool = ElGrocerUtility.sharedInstance.isArabicSelected()
-            let tableviewVmsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
-            var basketUpdatedSubject = PublishSubject<Void>()
+    let tableviewVmsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
+    var basketUpdatedSubject = PublishSubject<Void>()
     
     private enum DynamicQueryParam: String {
         case storeId = "$storeId"
@@ -246,6 +249,12 @@ extension MarketingCustomLandingPageViewModel {
                 }
             case .backgroundBannerImage:
                   break
+            case .headerSection:
+                let cellVM = createHeadingCellViewModel(for: componentSection)
+                viewModel.append(SectionHeaderModel(model: sectionIndex, header: "", items: [cellVM]))
+            case .recipePreparations:
+                let cellVM = createRecipePreprationsCellViewModel(for: componentSection)
+                viewModel.append(SectionHeaderModel(model: sectionIndex, header: "", items: cellVM))
             }
         }
         
@@ -270,6 +279,26 @@ extension MarketingCustomLandingPageViewModel {
         return cellVM
     }
 
+    private func createHeadingCellViewModel(for component: CampaignSection) -> RXHeadingTableViewCellViewModel {
+
+        let viewModel = RXHeadingTableViewCellViewModel(title: ((self.isArabic ? component.titleAr : component.title) ?? "" ))
+        
+        return viewModel
+
+    }
+    
+    private func createRecipePreprationsCellViewModel(for component: CampaignSection) -> [RXRecipePreprationTableViewCellViewModel] {
+        var viewModelArray = [RXRecipePreprationTableViewCellViewModel]()
+        if let stepsArray = component.details?.enumerated() {
+            for (index, value) in stepsArray {
+                print("Index: \(index), Value: \(value)")
+                let viewModel = RXRecipePreprationTableViewCellViewModel(stepNum: "\(index + 1).", stepDetails: value )
+                viewModelArray.append(viewModel)
+            }
+        }
+        return viewModelArray
+    }
+    
     private func createHomeCellViewModel(for component: CampaignSection) -> HomeCellViewModel {
         let homeCellVM = HomeCellViewModel(
             forDynamicPage: ElGrocerApi.sharedInstance,
@@ -305,6 +334,14 @@ extension MarketingCustomLandingPageViewModel {
             grocery: self.grocery,
             component: component
         )
+        
+        collectionViewCellVM.outputs.productCount
+            .do(onNext: { value in
+                print(value)
+            })
+            .map { $0 > 0 ? 30 : 0.1 } // headerHeight
+            .bind(to: recipeHederHeightSubject)
+            .disposed(by: disposeBag)
         
         collectionViewCellVM.basketUpdated.subscribe { _ in
             self.basketUpdatedSubject.onNext(())

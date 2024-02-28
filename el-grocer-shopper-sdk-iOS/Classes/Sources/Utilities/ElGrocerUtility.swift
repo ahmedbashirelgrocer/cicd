@@ -26,8 +26,6 @@ private let SharedInstance = ElGrocerUtility()
 let productPlaceholderPhoto = UIImage(name: "product_placeholder")!
 
 
-
-
 class ElGrocerUtility {
     
     // use in network class
@@ -169,6 +167,8 @@ class ElGrocerUtility {
     
     
     var slotViewControllerList : Set = Set<UIViewController>()
+    
+    var showStorelyBanner = false
 
     class var sharedInstance : ElGrocerUtility {
         return SharedInstance

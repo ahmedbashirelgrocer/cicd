@@ -58,6 +58,7 @@ private extension HomeCell {
         
         // Table View datasource binging
         viewModel.outputs.productCollectionCellViewModels
+            .delay(.milliseconds(1), scheduler: MainScheduler.instance)
             .bind(to: self.productsCollectionView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         

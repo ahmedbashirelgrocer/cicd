@@ -186,7 +186,7 @@ enum ElGrocerApiEndpoint : String {
     
     // banner new api
     case campaignAPi = "v2/campaigns"
-    case customCampaignAPi = "v1/custom_campaigns"
+    case customCampaignAPi = "v2/custom_campaigns"
     //sab
     //case campaignProductsApi = "v1/campaigns/products"
     case campaignProductsApi = "v1/campaigns/products/list"

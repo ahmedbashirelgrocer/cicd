@@ -38,6 +38,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
     }()
     private var cachedPosition = Dictionary<IndexPath,CGPoint>()
          var superSectionHeader: SubCateSegmentTableViewHeader!
+    var recipeHederHeight: CGFloat = 0.1
     
     // MARK: - Properties
     private var dataSource: RxTableViewSectionedReloadDataSource<SectionHeaderModel<Int,String, ReusableTableViewCellViewModelType>>!
@@ -58,7 +59,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = AppSetting.theme.navigationBarColor;
+        view.backgroundColor = AppSetting.theme.tableViewBGWhiteColor;
         addLocationHeader(); registerCells(); bindViews()
         
     }
@@ -89,13 +90,15 @@ class MarketingCustomLandingPageViewController: UIViewController {
         tableView.register(UINib(nibName: RxBannersTableViewCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: RxBannersTableViewCell.defaultIdentifier)
         tableView.register(UINib(nibName: RxCollectionViewOnlyTableViewCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: RxCollectionViewOnlyTableViewCell.defaultIdentifier)
         tableView.register(UINib(nibName: "HomeCell", bundle: .resource), forCellReuseIdentifier: kHomeCellIdentifier)
+        tableView.register(UINib(nibName: "RXRecipePreprationTableViewCell", bundle: .resource), forCellReuseIdentifier: "RXRecipePreprationTableViewCell")
+        tableView.register(UINib(nibName: "RXHeadingTableViewCell", bundle: .resource), forCellReuseIdentifier: "RXHeadingTableViewCell")
         tableView.separatorColor = .clear
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         tableView.bounces = true
         tableView.estimatedRowHeight = 400
         tableView.sectionFooterHeight = 0.01
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.backgroundColor = AppSetting.theme.tableViewBGGreyColor
+        tableView.backgroundColor = AppSetting.theme.tableViewBGWhiteColor
        
         tableView.rx.didScroll
                     .subscribe(onNext: { [weak self] in
@@ -109,6 +112,16 @@ class MarketingCustomLandingPageViewController: UIViewController {
     
    
     private func bindViews() {
+        
+        viewModel.outputs.recipeHederHeight
+            .subscribe (onNext: { [weak self] heightValue in
+                self?.recipeHederHeight = heightValue
+                self?.tableView.reloadDataOnMain()
+//                if self?.tableView.numberOfSections ?? 0 > 0 {
+//                    self?.tableView.reloadSections([self?.recipeeSection ?? 0], with: .automatic)
+//                }
+            })
+            .disposed(by: disposeBag)
         
         self.superSectionHeader   = (Bundle.resource.loadNibNamed("SubCateSegmentTableViewHeader", owner: self, options: nil)![0] as? SubCateSegmentTableViewHeader)!
         self.superSectionHeader.frame = CGRect.init(origin: .zero, size: CGSize.init(width: ScreenSize.SCREEN_WIDTH , height: KSubCateSegmentTableViewHeaderWithOutMessageHeight))
@@ -268,7 +281,7 @@ extension MarketingCustomLandingPageViewController: UITableViewDelegate {
         var isSubcategorySection : Bool = false
         do {
             let lastValue = try self.viewModel.tableviewVmsSubject.value()
-            if  section < lastValue.count { isSubcategorySection = lastValue[section].items.count > 1 }
+            if  section < lastValue.count { isSubcategorySection = (lastValue[section].items.count > 1 ) && !(lastValue[section].items is [RXRecipePreprationTableViewCellViewModel]) }
         } catch {  print("Error: \(error.localizedDescription)")  }
         
         let isTextAvailable = dataSource.sectionModels[section].header.count > 0 && dataSource.sectionModels[section].items.count > 0
@@ -295,7 +308,7 @@ extension MarketingCustomLandingPageViewController: UITableViewDelegate {
         var isSubcategorySection : Bool = false
         do {
             let lastValue = try self.viewModel.tableviewVmsSubject.value()
-            if  section < lastValue.count { isSubcategorySection = lastValue[section].items.count > 1 }
+            if  section < lastValue.count { isSubcategorySection = (lastValue[section].items.count > 1 ) && !(lastValue[section].items is [RXRecipePreprationTableViewCellViewModel])}
             
         } catch {  print("Error: \(error.localizedDescription)")  }
         
@@ -303,7 +316,12 @@ extension MarketingCustomLandingPageViewController: UITableViewDelegate {
         if isSubcategorySection{
             return KSubCateSegmentTableViewHeaderWithOutMessageHeight
         }
-        return isTextAvailable ? 30.0 : 1.0
+        
+        if let vm = dataSource.sectionModels[section].items as? [RxCollectionViewOnlyTableViewCellViewModel] {
+            return recipeHederHeight
+        }else {
+            return isTextAvailable ? 30.0 : 1.0
+        }
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let view = UIView()

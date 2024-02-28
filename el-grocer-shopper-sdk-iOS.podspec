@@ -138,8 +138,8 @@ Pod::Spec.new do |s|
   # pod 'MaterialShowcase'
   #s.dependency 'AppsFlyerFramework'
   s.dependency 'SwiftDate', '~> 6.3.1'
-  
-  s.dependency 'Storyly', '~> 1.19.3'
+  s.dependency 'Storyly'
+  #s.dependency 'Storyly', '~> 1.19.3'
   s.dependency 'CHDropDownTextField', '~> 1.0.0'
   s.dependency 'FXPageControl', '~> 1.5'
   s.dependency 'RxSwift', '~>5.1.1'

@@ -42,6 +42,7 @@ extension GenericStoresViewController : HomePageDataLoadingComplete {
             
         }else if type == .HomePageLocationOneBanners {
             if self.homeDataHandler.locationOneBanners?.count == 0 {
+                print("no banners found")
                 FireBaseEventsLogger.trackNoBanners()
             }
             return
@@ -816,7 +817,8 @@ extension GenericStoresViewController {
                     bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: self.homeDataHandler.groceryA ?? [])
                 })
                 break
-                
+            case .storely:
+                break
             }
             
         }).disposed(by: disposeBag)
@@ -1376,7 +1378,7 @@ extension GenericStoresViewController : UITableViewDelegate , UITableViewDataSou
                     FireBaseEventsLogger.trackHomeTileClicked(tileId: "", tileName: "storylydeals", tileType: "Store Type", nextScreen: nil)
                     MixpanelEventLogger.trackHomeShoppingCategory(categoryName: "storylydeals", categoryId: "-1")
                     for group in self.storlyAds?.storyGroupList ?? [] {
-                        _ = self.storlyAds?.storylyView.openStory(storyGroupId: group.id)
+                        _ = self.storlyAds?.storylyView.openStory(storyGroupId: group.uniqueId)
                     }
                     
                     // Segment event Home Tile Clicked event
