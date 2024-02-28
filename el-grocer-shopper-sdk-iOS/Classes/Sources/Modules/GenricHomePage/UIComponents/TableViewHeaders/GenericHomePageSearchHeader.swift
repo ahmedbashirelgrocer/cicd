@@ -49,9 +49,7 @@ class GenericHomePageSearchHeader: UIView {
     }
     @IBOutlet var searchBarBGView: UIView!{
         didSet{
-            searchBarBGView.backgroundColor = .navigationBarWhiteColor()
-            searchBarBGView.layer.borderWidth = 1.0
-            searchBarBGView.layer.borderColor = UIColor.newBorderGreyColor().cgColor
+            searchBarBGView.backgroundColor = ApplicationTheme.currentTheme.searchBarBGBlue50Color
             searchBarBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 22, withShadow: false)
         }
     }

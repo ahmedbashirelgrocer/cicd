@@ -120,6 +120,8 @@ public protocol Theme {
     
     //MARK: StorePage
     var StorePageCategoryViewBgColor: UIColor { get }
+    //MARK: Home Page
+    var searchBarBGBlue50Color: UIColor { get }
     
     
 }
@@ -238,6 +240,8 @@ struct ElgrocerTheme: Theme {
     
     //MARK: StorePage
     var StorePageCategoryViewBgColor: UIColor { ElgrocerBaseColors.elgrocerWhiteColour }
+    //MARK: Home Page
+    var searchBarBGBlue50Color: UIColor {ElgrocerBaseColors.elgrocerBGBlue50Color}
 }
 
 struct SmileSDKTheme: Theme {
@@ -352,6 +356,9 @@ struct SmileSDKTheme: Theme {
     var currentOrdersCollectionCellBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleSecondaryColor
     var currentOrdersPageControlActiveColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleSecondarySelectionColor
     var currentOrdersPageControlInActiveColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleSecondaryNoSelectionColor
+    
+    //MARK: Home Page
+    var searchBarBGBlue50Color: UIColor = ElgrocerBaseColors.elgrocerBGBlue50Color
     
    
 }
