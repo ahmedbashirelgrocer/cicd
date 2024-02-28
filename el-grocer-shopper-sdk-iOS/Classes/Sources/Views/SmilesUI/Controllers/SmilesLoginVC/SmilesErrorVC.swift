@@ -21,7 +21,7 @@ class SmilesErrorVC: UIViewController {
     
     lazy var backgroundGradientLayer: CAGradientLayer = {
         let gradient = CAGradientLayer()
-        gradient.colors = [#colorLiteral(red: 0.875736475, green: 0.2409847379, blue: 0.1460545063, alpha: 1).cgColor, #colorLiteral(red: 0.5716853142, green: 0.3168505132, blue: 0.5579631925, alpha: 1).cgColor]
+        gradient.colors = [#colorLiteral(red: 0.5254901961, green: 0.2666666667, blue: 0.6117647059, alpha: 1).cgColor, #colorLiteral(red: 0.3019607843, green: 0.3254901961, blue: 0.662745098, alpha: 1).cgColor]
         gradient.startPoint = CGPoint(x: 0, y: 0)
         gradient.endPoint = CGPoint(x: 1, y: 1)
         return gradient
@@ -41,7 +41,7 @@ class SmilesErrorVC: UIViewController {
         label.numberOfLines = 0
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 22, weight: .medium)
+        label.setH3BoldWhiteStyle()
         label.text = localizedString("Oops! Something went wrong on our side 🤔", comment: "")
         label.textColor = #colorLiteral(red: 0.9607843757, green: 0.9607843757, blue: 0.9607843757, alpha: 1)
         return label
@@ -52,9 +52,8 @@ class SmilesErrorVC: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.setBody2RegDarkStyle()
         label.textColor = #colorLiteral(red: 0.9607843757, green: 0.9607843757, blue: 0.9607843757, alpha: 1)
-        label.text = localizedString("We are fixing the problem.\nPlease, try again soon.", comment: "")
         return label
     }()
     
@@ -62,17 +61,19 @@ class SmilesErrorVC: UIViewController {
         let button = UIButton()
         button.setTitle(localizedString("lbl_retry", comment: ""), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
+        button.setBody3BoldGreenStyle()
         let textColor: UIColor = #colorLiteral(red: 0.9559774995, green: 0.9609488845, blue: 0.9608611465, alpha: 1)
         button.setTitleColor(textColor, for: .normal)
         button.layer.cornerRadius = 25
-        button.layer.borderWidth = 1
+        button.layer.borderWidth = 2
         button.layer.borderColor = textColor.cgColor
         return button
     }()
     
     private lazy var spacers: [UIView] = [makeSpacer(), makeSpacer(), makeSpacer(), makeSpacer()]
     private var disposeBag = DisposeBag()
+    
+    var errorMessage: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +93,7 @@ class SmilesErrorVC: UIViewController {
     }
     
     func setupViews() {
+        self.detailsLabel.text = self.errorMessage
         view.backgroundColor = .white
         view.layer.insertSublayer(backgroundGradientLayer, at: 0)
         for i in 0..<spacers.count {
@@ -173,7 +175,7 @@ class SmilesErrorVC: UIViewController {
     func setupBindings() {
         self.btnBack.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                self?.navigationController?.popViewController(animated: true)
+                self?.navigationController?.dismiss(animated: true)
             })
             .disposed(by: disposeBag)
         

@@ -14,6 +14,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
     private lazy var emptyView : NoStoreView = {
         let emptyView = NoStoreView.loadFromNib()
         emptyView?.delegate = self; emptyView?.configureNoDefaultSelectedStoreCart()
+        emptyView?.btnBottomConstraint.constant = 131
         return emptyView!
     }()
     
@@ -48,6 +49,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
         var viewModel: MarketingCustomLandingPageViewModel!
     private let disposeBag = DisposeBag()
     
+    var paddingOffset: CGFloat = 0
     var effectiveOffset: CGFloat = 0
     var offset: CGFloat = 0 {
         didSet {
@@ -72,10 +74,6 @@ class MarketingCustomLandingPageViewController: UIViewController {
         self.viewModel.viewDidAppearCalled() // we need to call this method to sync active grocery in utilty
     }
     
-    @objc func backButtonPressed() {
-        self.backButtonClick()
-    }
-    
     private func adjustViewRefresh() {
         if let commingContrller = UIApplication.topViewController() {
             if commingContrller is GroceryLoaderViewController || String(describing: commingContrller.classForCoder) == "STPopupContainerViewController" {
@@ -94,12 +92,11 @@ class MarketingCustomLandingPageViewController: UIViewController {
         tableView.register(UINib(nibName: "RXHeadingTableViewCell", bundle: .resource), forCellReuseIdentifier: "RXHeadingTableViewCell")
         tableView.separatorColor = .clear
         tableView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
-        tableView.bounces = true
+        tableView.bounces = !sdkManager.isShopperApp
         tableView.estimatedRowHeight = 400
         tableView.sectionFooterHeight = 0.01
         tableView.rowHeight = UITableView.automaticDimension
         tableView.backgroundColor = AppSetting.theme.tableViewBGWhiteColor
-       
         tableView.rx.didScroll
                     .subscribe(onNext: { [weak self] in
                         // Notify the subject with both content offset and did scroll event
@@ -202,6 +199,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
             self.locationHeaderFlavor.isHidden = true
             self.locationHeader.isHidden = true
             self.locationHeaderShopper.isHidden = true
+            view.backgroundColor = AppSetting.theme.tableViewBGGreyColor
         }).disposed(by: disposeBag)
         
         
@@ -248,6 +246,9 @@ extension MarketingCustomLandingPageViewController {
         let imageHeight = UIScreen.main.bounds.width * 0.80
         tableView.contentInset = UIEdgeInsets(top: imageHeight, left: 0, bottom: 0, right: 0)
         tableView.contentOffset = CGPoint(x: 0, y: -imageHeight)
+        paddingOffset = -imageHeight
+        if sdkManager.isShopperApp { shopperLocationHeaderReset() }
+
     }
     
     ///To adjust the bottom constraint for basketIconOverlay appear/disappear

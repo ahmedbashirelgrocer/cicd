@@ -30,7 +30,7 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
     
     lazy var backgroundGradientLayer: CAGradientLayer = {
         let gradient = CAGradientLayer()
-        gradient.colors = [#colorLiteral(red: 0.875736475, green: 0.2409847379, blue: 0.1460545063, alpha: 1).cgColor, #colorLiteral(red: 0.5716853142, green: 0.3168505132, blue: 0.5579631925, alpha: 1).cgColor]
+        gradient.colors = [#colorLiteral(red: 0.5254901961, green: 0.2666666667, blue: 0.6117647059, alpha: 1).cgColor, #colorLiteral(red: 0.3019607843, green: 0.3254901961, blue: 0.662745098, alpha: 1).cgColor]
         gradient.startPoint = CGPoint(x: 0, y: 0)
         gradient.endPoint = CGPoint(x: 1, y: 1)
         return gradient
@@ -90,7 +90,7 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
         label.textAlignment = .center
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.setBody2RegSecondaryBlackStyle()
         label.textColor = #colorLiteral(red: 0.9607843757, green: 0.9607843757, blue: 0.9607843757, alpha: 1)
         return label
     }()
@@ -98,7 +98,7 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
     private lazy var resendOtpButton: UIButton = {
         let titleResend: NSAttributedString = {
             var attributes: [NSAttributedString.Key : Any] = [:]
-            attributes[.font] = UIFont.systemFont(ofSize: 16, weight: .semibold)
+            attributes[.font] = UIFont.SFProDisplayNormalFont(16)
             attributes[.foregroundColor] = #colorLiteral(red: 0.9559774995, green: 0.9609488845, blue: 0.9608611465, alpha: 1)
             attributes[.underlineStyle] = 1
             let string = localizedString("resend_otp", comment: "")
@@ -116,11 +116,11 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
         let title = localizedString("lbl_ReturnHome", comment: "")
         button.setTitle(title, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
+        button.setBody3BoldGreenStyle()
         let textColor: UIColor = #colorLiteral(red: 0.9559774995, green: 0.9609488845, blue: 0.9608611465, alpha: 1)
         button.setTitleColor(textColor, for: .normal)
         button.layer.cornerRadius = 25
-        button.layer.borderWidth = 1
+        button.layer.borderWidth = 2
         button.layer.borderColor = textColor.cgColor
         button.isHidden = true
         button.addTarget(self, action: #selector(backButtonClickedHandler), for: .touchUpInside)
@@ -130,6 +130,10 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
     private lazy var spacers: [UIView] = [makeSpacer(), makeSpacer(), makeSpacer(), makeSpacer()]
     private var disposeBag = DisposeBag()
     
+    private var isResendButtonHidden = false
+    private let ACCOUNT_BLOCKED_ERROR_CODE = 4203
+    private let OTP_ATTEMP_ERROR_CODE = 4201
+    private let SMILES_DOWN_ERROR_CODE = 4261
     private let viewModel = SmilesLoginViewModel()
     
     override func viewDidLoad() {
@@ -139,7 +143,6 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
         setInitialAppearence()
         bindData()
         generateSmilesOtp()
-        viewModel.startTimer()
         IQKeyboardManager.shared.enable = true
     }
     
@@ -223,13 +226,13 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
         ])
         
         NSLayoutConstraint.activate([
-            resendOTPLabel.topAnchor.constraint(equalTo: errorLabel.bottomAnchor),
+            resendOTPLabel.topAnchor.constraint(equalTo: errorLabel.bottomAnchor, constant: 16),
             resendOTPLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
             resendOTPLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
         ])
         
         NSLayoutConstraint.activate([
-            resendOtpButton.topAnchor.constraint(equalTo: resendOTPLabel.bottomAnchor),
+            resendOtpButton.topAnchor.constraint(equalTo: errorLabel.bottomAnchor, constant: 16),
             resendOtpButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
             resendOtpButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
         ])
@@ -277,17 +280,16 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
     
     func generateSmilesOtp() {
         let _ = SpinnerView.showSpinnerViewInView(self.view)
-        viewModel.generateSmilesOtp() { code, message in
-            if code != nil {
-                switch code {
-                case 4073:
-                    self.errorLabel.text = message
-                    self.btnBottom.isHidden = false
-                default:
-                    self.navigationController?.pushViewController(SmilesErrorVC(), animated: true)
-                }
-            }
+        viewModel.generateSmilesOtp() { [weak self] code, message in
+            guard let self = self else { return }
             SpinnerView.hideSpinnerView()
+            
+            if code != nil {
+                self.handlerError(code: code, message: message)
+                return
+            }
+            
+            self.viewModel.startTimer()
         }
     }
     
@@ -307,14 +309,19 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
         }
         
         viewModel.timeLeft.bind { [weak self] timeleft in
+            guard let self = self else { return }
             
-            let resendTxt = localizedString("resend_otp_in", comment: "") + "\(timeleft)" + localizedString("sec", comment: "")
-            self?.resendOTPLabel.text = timeleft <= 0 ? "" : resendTxt
+            let formattedTimeLeft = self.getFormattedTimeLeft(seconds: timeleft)
+            
+            let resendTxt = localizedString("resend_otp_in", comment: "") + " \(formattedTimeLeft)"
+            self.resendOTPLabel.text = timeleft <= 0 ? "" : resendTxt
         }
         
         viewModel.isTimerRunning.bind { [weak self] isRunning in
-            self?.resendOTPLabel.isHidden = !isRunning
-            self?.resendOtpButton.isHidden = isRunning
+            guard let self = self else { return }
+            
+            self.resendOTPLabel.isHidden = !isRunning
+            self.resendOtpButton.isHidden = isRunning || self.isResendButtonHidden
         }
         
         viewModel.showAlertClosure = { errMessage in
@@ -322,11 +329,6 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
                                            description: errMessage ,
                                            positiveButton: "OK",
                                            negativeButton: nil, buttonClickCallback: nil).show()
-        }
-        
-        viewModel.isBlockOtp = { [weak self] isBlocked in
-            self?.resendOtpButton.isHidden = isBlocked
-            self?.resendOTPLabel.text = ""
         }
         
         pinField.rx.text
@@ -346,10 +348,9 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
         self.setupNavigationAppearence()
         let text = localizedString("smile_otp_instructions", comment: "")
         if let userProfile = UserProfile.getOptionalUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-            
-            self.detailsLabel.text =  String.localizedStringWithFormat(text, (userProfile.phone ?? "+971*********"))
+            self.detailsLabel.text = String(format: text, "\(userProfile.phone ?? "+971*********")")
         }else {
-            self.detailsLabel.text =  String.localizedStringWithFormat(text, "+971*********")
+            self.detailsLabel.text = String(format: text, "+971*********")
         }
         self.title = localizedString("txt_smile_point", comment: "")
         self.titleLabel.text = localizedString("smile_login", comment: "")
@@ -405,7 +406,6 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
         pinField.isUserInteractionEnabled = true
         errorLabel.text = ""
         generateSmilesOtp()
-        viewModel.startTimer()
     }
     
     @IBAction func nextBtnTapped(_ sender: AWButton) {
@@ -430,16 +430,12 @@ class SmilesLoginVC: UIViewController, NavigationBarProtocol {
         //self.navigationController?.present(navigationController, animated: true, completion: { });
         self.navigationController?.pushViewController(smileVC, animated: true)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    func getFormattedTimeLeft(seconds: Int) -> String {
+        let minutes = seconds / 60
+        let remainingSeconds = String(format: "%02d", seconds % 60)
+        return "\(minutes):\(remainingSeconds)"
     }
-    */
-
 }
 
 extension SmilesLoginVC { //: KAPinFieldDelegate {
@@ -458,30 +454,14 @@ extension SmilesLoginVC { //: KAPinFieldDelegate {
         let _ = SpinnerView.showSpinnerViewInView(self.view)
         self.viewModel.smilesLoginWithOtp(code: code) { isSuccess, errMessage, errCode in
             SpinnerView.hideSpinnerView()
-            // self.pinField.isUserInteractionEnabled = false
             if isSuccess {
-                // self.nextButton.isUserInteractionEnabled = true
-                // self.resendOtpButton.isHidden = true
-//                self.pinField.animateSuccess(with: "👍") {
-                    if self.moveBackAfterlogin {
-                        self.backButtonClick()
-                    }
-//                }
+                if self.moveBackAfterlogin {
+                    self.backButtonClick()
+                }
             } else {
-                // self.pinField.isUserInteractionEnabled = true
-                // self.resendOtpButton.isHidden = false
                 
                 self.pinField.isError = true
-                switch errCode {
-                case 4096, 4092:
-                    self.errorLabel.text = errMessage
-                case 4073:
-                    self.btnBottom.isHidden = false
-                    self.errorLabel.text = errMessage
-                    self.pinField.isUserInteractionEnabled = false
-                default:
-                    self.navigationController?.pushViewController(SmilesErrorVC(), animated: true)
-                }
+                self.handlerError(code: errCode, message: errMessage)
             }
         }
     }
@@ -499,5 +479,33 @@ extension SmilesLoginVC { //: KAPinFieldDelegate {
         return finalString
     }
     
+    private func handlerError(code: Int?, message: String?) {
+        switch code {
+            
+        case ACCOUNT_BLOCKED_ERROR_CODE:
+            self.btnBottom.isHidden = false
+            self.errorLabel.text = message
+            self.pinField.isUserInteractionEnabled = false
+            self.isResendButtonHidden = true
+            
+            self.viewModel.isTimerRunning.value = false
+            self.viewModel.timeLeft.value = 0
+            self.viewModel.countDownTimer?.invalidate()
+            
+        case OTP_ATTEMP_ERROR_CODE:
+            self.errorLabel.text = message
+            
+        case SMILES_DOWN_ERROR_CODE:
+            let smilesErrorVC = SmilesErrorVC()
+            smilesErrorVC.errorMessage = message
+            
+            self.navigationController?.pushViewController(smilesErrorVC, animated: true)
+            
+        default:
+            ElGrocerUtility.sharedInstance.showTopMessageView(message ?? "", image: nil, -1, false, backButtonClicked: { _, _, _ in
+                //
+            })
+        }
+    }
+    
 }
-// testing something...

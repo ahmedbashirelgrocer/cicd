@@ -307,7 +307,7 @@ private extension MainCategoriesViewModel {
         self.bannersDispatchGroup.enter()
         // self.dispatchGroup.enter()
         
-        let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map{ "\($0)" } ?? []
+        let storeTypes = self.grocery?.getStoreTypes()?.map{ "\($0)" } ?? []
         
         self.apiClient.getBanners(for: location,
                                   retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)],
@@ -320,12 +320,14 @@ private extension MainCategoriesViewModel {
             switch result {
             case .success(let response):
                 var banners = response.map { $0.toBannerDTO() }
-                //if banners.isNotEmpty {
-                    if location == .store_tier_1.getType() {
-                        if(ElGrocerUtility.sharedInstance.showStorelyBanner){
-                            let bannerStorely = BannerDTO(id: 0, name: "Storyly Banner", priority: Int.max, campaignType: .storely, imageURL: nil, bannerImageURL: nil, url: nil, categories: nil, subcategories: nil, brands: nil, retailerIDS: nil, locations: [28, 19, 3], storeTypes: nil, retailerGroups: nil, customScreenId: nil, isStoryly: true)
-                            banners.append(bannerStorely)
-                        }
+                
+//                if (ElGrocerUtility.sharedInstance.showStorelyBanner) && location == .store_tier_1.getType() {
+//                    let bannerStorely = BannerDTO(id: 0, name: "Storyly Banner", priority: -1, campaignType: .storely, imageURL: nil, bannerImageURL: nil, url: nil, categories: nil, subcategories: nil, brands: nil, retailerIDS: nil, locations: [28, 19, 3], storeTypes: nil, retailerGroups: nil, customScreenId: nil, isStoryly: true)
+//                    banners.append(bannerStorely)
+//                }
+                
+                if banners.isNotEmpty {
+                if location == .store_tier_1.getType()  {
                         let bannerCellVM = GenericBannersCellViewModel(banners: banners)
                         bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
                         self.location1BannerVMs.append(bannerCellVM)
@@ -334,7 +336,10 @@ private extension MainCategoriesViewModel {
                         bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
                         self.location2BannerVMs.append(bannerCellVM)
                     }
-                //}
+               }
+                
+                
+                
             case .failure(let _):
                 break
             }

@@ -70,6 +70,7 @@ extension MarketingCustomLandingPageViewController: NavigationBarProtocol {
             locationHeaderShopper.rightAnchor.constraint(equalTo: view.rightAnchor),
             locationHeaderShopper.bottomAnchor.constraint(equalTo: tableView.topAnchor)
         ])
+        
     }
     
      func adjustHeaderDisplay() {
@@ -166,13 +167,15 @@ extension MarketingCustomLandingPageViewController: NavigationBarProtocol {
     }
     
     
-    func backButtonClickedHandler() {
-        self.dismiss(animated: true)
+    @objc func backButtonPressed() {
+        backButtonClickedHandler()
     }
     
     
-    
-    
+    func backButtonClickedHandler() {
+        self.dismiss(animated: true)
+    }
+     
 }
 
 extension MarketingCustomLandingPageViewController: UIScrollViewDelegate {
@@ -226,9 +229,18 @@ extension MarketingCustomLandingPageViewController: UIScrollViewDelegate {
    
     }
     
+    
+    func shopperLocationHeaderReset() {
+        offset = 0
+        let value = min(effectiveOffset, 0)
+        self.locationHeaderShopper.searchViewTopAnchor.constant = 62 - value
+        self.locationHeaderShopper.searchViewLeftAnchor.constant = 16 + ((value / 60) * 30)
+        self.locationHeaderShopper.groceryBGView.alpha = max(0, 1 - (value / 60))
+    }
+    
     func scrollViewDidScrollForShopper(forShopper scrollView: UIScrollView) {
-        offset = scrollView.contentOffset.y
-        let value = min(effectiveOffset, scrollView.contentOffset.y)
+        offset = scrollView.contentOffset.y - paddingOffset
+        let value = min(effectiveOffset, scrollView.contentOffset.y - paddingOffset)
         
         self.locationHeaderShopper.searchViewTopAnchor.constant = 62 - value
         self.locationHeaderShopper.searchViewLeftAnchor.constant = 16 + ((value / 60) * 30)

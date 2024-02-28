@@ -10,7 +10,6 @@
 "smiles_pts" = "%@ pts";
 "earn_rewards_now" = "Earn Smiles Points!";
 "Oops! Something went wrong on our side 🤔" = "Oops! Something went wrong on our side 🤔";
-"We are fixing the problem.\nPlease, try again soon." = "We are fixing the problem.\nPlease, try again soon.";
 
 // New
 "Shopping_list_Titile" = "Shopping list";
@@ -2154,11 +2153,11 @@ Oreo";
 "txt_earn" = "Earn";
 "txt_benifits" = "Benefits";
 "Your_balance" = "Your balance";
-"smile_login" = "Login";
-"smile_otp_instructions" = "Enter 5-digit verification code sent to registered elGrocer mobile number";
+"smile_login" = "Log in to your Smiles account";
+"smile_otp_instructions" = "Please enter verification code sent to your mobile number %@";
 "pay_via_smiles_points" = "Smiles Points";
-"resend_otp_in" = "Resend otp in ";
-"resend_otp" = "Resend otp";
+"resend_otp_in" = "Resend code in ";
+"resend_otp" = "Resend code";
 "sec" = " sec";
 "smile_login_permission_text" = "Can we share your phone number with Smiles? This allows us to find and connect with your existing Smiles account.";
 "Yes" = "Yes";

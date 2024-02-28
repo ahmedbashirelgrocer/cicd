@@ -361,6 +361,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+       
         self.setNavigationApearance()
         self.adjustHeaderDisplay()
         if UIApplication.topViewController() is GroceryLoaderViewController {
@@ -376,6 +377,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             screen.metaData = [EventParameterKeys.storeName : self.grocery?.name ?? "", EventParameterKeys.storeId : self.grocery?.dbID ?? ""]
             SegmentAnalyticsEngine.instance.logEvent(event: screen)
             self.isSegmentEventLogged = true
+            
         }
         
         self.initViewModel()
@@ -385,6 +387,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                 self?.callForLatestDeliverySlotsWithGroceryLoader(grocery: grocery, true)
             }
         }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -399,7 +402,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             }
             //SpinnerView.hideSpinnerView()
         }
-        self.configureStorely(openStories: false)
+        
         self.setNavigationApearance(true)
         self.adjustHeaderDisplay()
         if !Grocery.isSameGrocery(self.grocery, rhs: ElGrocerUtility.sharedInstance.activeGrocery) {
@@ -409,6 +412,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                 self.callForLatestDeliverySlotsWithGroceryLoader(grocery: grocery)
             }
             self.setTableViewHeader(self.grocery )
+           // self.configureStorely(openStories: false)
         } else {
             
             if !self.isComingFromGroceryLoaderVc {
@@ -1634,6 +1638,11 @@ private extension MainCategoriesViewController {
     
     func initViewModel() {
         
+        defer {
+            //MARK: Blocking UI - Need to update this
+          //  self.configureStorely(openStories: false)
+        }
+        
         guard self.viewModel == nil else {
             if self.viewModel.outputs.dataValidationForLoadedGroceryNeedsToUpdate(self.grocery) {
                 self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress())
@@ -1646,6 +1655,7 @@ private extension MainCategoriesViewController {
         }
         
         self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress())
+        
     }
     
    
@@ -1908,6 +1918,7 @@ private extension MainCategoriesViewController {
 extension MainCategoriesViewController : StorylyDelegate {
     
     func configureStorely(openStories: Bool){
+    
         self.openStoriesFlag = openStories
         var someSet = Set<String>()
         someSet.insert(ElGrocerUtility.sharedInstance.cleanGroceryID(grocery?.dbID))
@@ -1949,9 +1960,8 @@ extension MainCategoriesViewController : StorylyDelegate {
         elDebugPrint("load")
         self.storylyView = storylyView
         self.storyGroupList = storyGroupList
-        ElGrocerUtility.sharedInstance.showStorelyBanner = false
+        ElGrocerUtility.sharedInstance.showStorelyBanner = self.storyGroupList.count > 0
         for group in self.storyGroupList {
-            ElGrocerUtility.sharedInstance.showStorelyBanner = true
             if(self.openStoriesFlag){
                 _ = self.storylyView.openStory(storyGroupId: group.uniqueId)
             }
