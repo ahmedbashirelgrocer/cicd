@@ -43,6 +43,10 @@ class NeighbourHoodFavouriteGroceryCollectionCell: UICollectionViewCell {
         }else {
             self.percentageBGView.visibility = .goneY
         }
+        if let imgUrl = URL(string: grocery.smallImageUrl ?? "") {
+            imgGrocery.sd_setImage(with: imgUrl)
+        }
+        
     }
     
 
