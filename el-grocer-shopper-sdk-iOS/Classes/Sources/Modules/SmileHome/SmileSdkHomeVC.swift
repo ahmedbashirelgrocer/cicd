@@ -1371,6 +1371,15 @@ extension SmileSdkHomeVC {
             cell.configureCell(groceryA: self.groceryArray, isForFavourite: false)
         }
         
+        cell.groceryTapped = { [weak self] isForFavourite, grocery in
+            if isForFavourite {
+                self?.goToGrocery(grocery, nil)
+            }else {
+                //show bottom sheet for one click reOrder
+            }
+            
+        }
+        
         return cell
     }
 }

@@ -18,6 +18,8 @@ class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
     }
     @IBOutlet var collectionView: UICollectionView!
     
+    typealias tapped = (_ isForFavourite: Bool, _ grocery: Grocery)-> Void
+    var groceryTapped: tapped?
     var isForFavourite: Bool = false
     var groceryA: [Grocery] = []
     
@@ -97,6 +99,11 @@ extension NeighbourHoodFavouriteTableViewCell: UICollectionViewDelegate, UIColle
         cell.configureCell(grocery: self.groceryA[indexPath.row], isForFavourite: self.isForFavourite)
         
         return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let groceryTapped = self.groceryTapped {
+            groceryTapped(isForFavourite, groceryA[indexPath.row])
+        }
     }
 }
 extension NeighbourHoodFavouriteTableViewCell: UICollectionViewDelegateFlowLayout {
