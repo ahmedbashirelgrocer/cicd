@@ -28,6 +28,7 @@ protocol MainCategoriesViewModelOutput {
     var chefTap: Observable<CHEF?> { get }
     var viewAllRecipesTap: Observable<Void> { get }
     var categories: [CategoryDTO] { get }
+    var startStorylyFetch: Observable<Bool> { get }
     
     func dataValidationForLoadedGroceryNeedsToUpdate(_ newGrocery: Grocery?) -> Bool
 }
@@ -62,6 +63,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     var showEmptyView: Observable<Void> { showEmptyViewSubject.asObservable() }
     var chefTap: Observable<CHEF?> { chefTapSubject.asObservable() }
     var viewAllRecipesTap: Observable<Void> { viewAllRecipesTapSubject.asObservable() }
+    var startStorylyFetch: Observable<Bool> { self.storylyFetchSubject.asObservable() }
     
     // MARK: subjects
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
@@ -77,6 +79,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var showEmptyViewSubject = PublishSubject<Void>()
     private var chefTapSubject = PublishSubject<CHEF?>()
     private var viewAllRecipesTapSubject = PublishSubject<Void>()
+    private var storylyFetchSubject = BehaviorSubject<Bool>(value: false)
     
     // MARK: properties
     private var apiClient: ElGrocerApi
@@ -104,6 +107,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var apiCallingStatus: [IndexPath: Bool] = [:]
     
     private var showProductsSection = ABTestManager.shared.storeConfigs.showProductsSection
+   
     
     // MARK: initlizations
     init(apiClient: ElGrocerApi = ElGrocerApi.sharedInstance, recipeAPIClient: ELGrocerRecipeMeduleAPI = ELGrocerRecipeMeduleAPI(), grocery: Grocery?, deliveryAddress: DeliveryAddress?) {
@@ -112,8 +116,9 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         self.grocery = grocery
         self.deliveryAddress = deliveryAddress
         self.isCategoriesApiCompleted = false
-        
+     
         self.fetchGroceryDeliverySlots()
+        self.storylyFetchSubject.onNext(true)
         self.fetchBanners(for: .store_tier_1.getType())
         self.fetchBanners(for: .store_tier_2.getType())
         
@@ -319,12 +324,13 @@ private extension MainCategoriesViewModel {
             
             switch result {
             case .success(let response):
+                
                 var banners = response.map { $0.toBannerDTO() }
                 
-//                if (ElGrocerUtility.sharedInstance.showStorelyBanner) && location == .store_tier_1.getType() {
-//                    let bannerStorely = BannerDTO(id: 0, name: "Storyly Banner", priority: -1, campaignType: .storely, imageURL: nil, bannerImageURL: nil, url: nil, categories: nil, subcategories: nil, brands: nil, retailerIDS: nil, locations: [28, 19, 3], storeTypes: nil, retailerGroups: nil, customScreenId: nil, isStoryly: true)
-//                    banners.append(bannerStorely)
-//                }
+                if (ElGrocerUtility.sharedInstance.showStorelyBanner) && location == .store_tier_1.getType() {
+                    let bannerStorely = BannerDTO(id: 0, name: "Storyly Banner", priority: -1, campaignType: .storely, imageURL: nil, bannerImageURL: nil, url: nil, categories: nil, subcategories: nil, brands: nil, retailerIDS: nil, locations: [28, 19, 3], storeTypes: nil, retailerGroups: nil, customScreenId: nil, isStoryly: true)
+                    banners.append(bannerStorely)
+                }
                 
                 if banners.isNotEmpty {
                 if location == .store_tier_1.getType()  {

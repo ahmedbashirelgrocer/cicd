@@ -91,7 +91,7 @@ extension MainCategoriesViewController : StoreFeedsDelegate {
 }
 
 class MainCategoriesViewController: BasketBasicViewController, UITableViewDelegate, NoStoreViewDelegate  {
-    var storlyAds : StorylyAds?
+    //var storlyAds : StorylyAds?
     var initialLoad = true
     var storylyView = StorylyView()
     var storyGroupList : [StoryGroup] = []
@@ -412,7 +412,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                 self.callForLatestDeliverySlotsWithGroceryLoader(grocery: grocery)
             }
             self.setTableViewHeader(self.grocery )
-           // self.configureStorely(openStories: false)
+         
         } else {
             
             if !self.isComingFromGroceryLoaderVc {
@@ -1802,6 +1802,14 @@ private extension MainCategoriesViewController {
             : self.porgressHud?.removeFromSuperview()
         }).disposed(by: disposeBag)
         
+        
+        self.viewModel.outputs.startStorylyFetch.subscribe(onNext: { [weak self] startStorlyFetching in
+            guard let self = self else { return }
+            if startStorlyFetching {
+                self.configureStorely(openStories: false)
+            }
+        }).disposed(by: disposeBag)
+        
         self.viewModel.outputs.chefTap.subscribe(onNext: { [weak self] selectedChef in
             self?.gotoFilterController(chef: selectedChef, category: nil)
         }).disposed(by: disposeBag)
@@ -1918,10 +1926,16 @@ private extension MainCategoriesViewController {
 extension MainCategoriesViewController : StorylyDelegate {
     
     func configureStorely(openStories: Bool){
+        
+        ElGrocerUtility.sharedInstance.showStorelyBanner = false
     
+        guard let grocery = grocery else {
+            return
+        }
+        
         self.openStoriesFlag = openStories
         var someSet = Set<String>()
-        someSet.insert(ElGrocerUtility.sharedInstance.cleanGroceryID(grocery?.dbID))
+        someSet.insert(ElGrocerUtility.sharedInstance.cleanGroceryID(grocery.dbID))
         someSet.insert("quiz_offers")
         self.storelyCustomView.storylyInit = StorylyInit(
                     storylyId: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NfaWQiOjE1MzcsImFwcF9pZCI6MTE1MywiaW5zX2lkIjoxMTc2fQ.k3DE2c0a38t0x8Droq5htoc-O7qbOZbrCojY_fIes5Y",
@@ -1948,22 +1962,22 @@ extension MainCategoriesViewController : StorylyDelegate {
                         )
                         .setLabels(labels: someSet)
                         .setTestMode(isTest: Platform.isDebugBuild)
-                                      .setLocale(locale: ElGrocerUtility.sharedInstance.isArabicSelected() ? "AR" : "EN")
+                        .setLocale(locale: ElGrocerUtility.sharedInstance.isArabicSelected() ? "AR" : "EN")
                         .build()
                 )
-        storelyCustomView.translatesAutoresizingMaskIntoConstraints = false
-        storelyCustomView.delegate = self
+        //storelyCustomView.translatesAutoresizingMaskIntoConstraints = false
+        storelyCustomView.delegate =   self
         storelyCustomView.rootViewController = self
+        
     }
     
     func storylyLoaded(_ storylyView: StorylyView, storyGroupList: [StoryGroup], dataSource: StorylyDataSource) {
-        elDebugPrint("load")
-        self.storylyView = storylyView
-        self.storyGroupList = storyGroupList
-        ElGrocerUtility.sharedInstance.showStorelyBanner = self.storyGroupList.count > 0
-        for group in self.storyGroupList {
+        
+        guard dataSource != StorylyDataSource.Local  else { return }
+        ElGrocerUtility.sharedInstance.showStorelyBanner = storyGroupList.count > 0
+        for group in storyGroupList {
             if(self.openStoriesFlag){
-                _ = self.storylyView.openStory(storyGroupId: group.uniqueId)
+                _ = storylyView.openStory(storyGroupId: group.uniqueId)
             }
         }
     }
