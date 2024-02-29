@@ -54,15 +54,44 @@ class OneClickReOrderBottomSheet: UIViewController {
         }
     }
     
+    private var dispatchGroup = DispatchGroup()
     var grocery: Grocery?
+    var productsArray: [Product] = []
+    var selectedProduct:Product!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setUpCollectionView()
+        registerCells()
         setGroceryData()
+        callFetchProductApi()
     }
-
+    
+    func setUpCollectionView() {
+        
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        
+        self.collectionView.showsVerticalScrollIndicator = false
+        self.collectionView.showsHorizontalScrollIndicator = false
+        
+//        self.collectionView.collectionViewLayout = {
+//            let layout = UICollectionViewFlowLayout()
+//            layout.scrollDirection = .horizontal
+//            layout.itemSize = CGSize(width: 142, height: 238)
+//            layout.minimumInteritemSpacing = 16
+//            layout.minimumLineSpacing = 16
+//            let edgeInset:CGFloat =  16
+//            layout.sectionInset = UIEdgeInsets(top: 0, left: edgeInset, bottom: 0, right: edgeInset)
+//            return layout
+//        }()
+    }
+    func registerCells() {
+        let ProductCell = UINib(nibName: "ProductCell", bundle: Bundle.resource)
+        self.collectionView.register(ProductCell, forCellWithReuseIdentifier: "ProductCell")
+    }
     @IBAction func btnCrossHandler(_ sender: Any) {
         self.dismiss(animated: true)
     }
@@ -81,6 +110,14 @@ class OneClickReOrderBottomSheet: UIViewController {
         
     }
     
+    func callFetchProductApi() {
+        
+        if let jsonSlot = grocery?.initialDeliverySlotData, let dict = grocery?.convertToDictionary(text: jsonSlot) {
+            let timeMili = dict["time_milli"] as? Int ?? 0
+            self.fetchPreviousPurchasedProducts(deliveryTime: timeMili)
+        }
+        
+    }
     
     /*
     // MARK: - Navigation
@@ -92,4 +129,150 @@ class OneClickReOrderBottomSheet: UIViewController {
     }
     */
 
+}
+extension OneClickReOrderBottomSheet {
+    
+    func fetchPreviousPurchasedProducts(deliveryTime: Int) {
+        // As for varient other than baseline we are not showing
+        if !UserDefaults.isUserLoggedIn() {
+            return
+        }
+    
+        let parameters = NSMutableDictionary()
+        parameters["limit"] = 40
+        parameters["offset"] = 0
+        parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)
+        parameters["shopper_id"] = UserDefaults.getLogInUserID()
+        parameters["delivery_time"] =  deliveryTime as AnyObject
+        
+        self.dispatchGroup.enter()
+        ElGrocerApi.sharedInstance.getTopSellingProductsOfGrocery(parameters , false) { [weak self] (result) in
+            guard let self = self else { return }
+            
+            self.dispatchGroup.leave()
+            
+            switch result {
+            case .success(let response):
+                let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
+                
+//                let productDTOs = products.products.map { ProductDTO(product: $0)
+//                }
+                if products.products.count > 0 {
+                    self.productsArray = products.products
+                }
+                
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+                
+            case .failure(let error):
+                error.showErrorAlert()
+            }
+        }
+    }
+    
+}
+
+extension OneClickReOrderBottomSheet: ProductCellProtocol{
+    func productCellOnFavouriteClick(_ productCell: ProductCell, product: Product) {
+       elDebugPrint(product)
+    }
+    
+    func productCellOnProductQuickAddButtonClick(_ productCell: ProductCell , product: Product) {
+       elDebugPrint(product)
+        if self.grocery != nil {
+            var productQuantity = 1
+            
+                // If the product already is in the basket, just increment its quantity by 1
+            if let product = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                productQuantity += product.count.intValue
+            }
+            
+            self.selectedProduct = product
+            self.updateProductQuantity(productQuantity)
+        }
+        
+    }
+    
+    func productCellOnProductQuickRemoveButtonClick(_ productCell: ProductCell, product: Product) {
+       elDebugPrint(product)
+        var productQuantity = 0
+        
+            // If the product already is in the basket, just increment its quantity by 1
+        if let product = ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            productQuantity = product.count.intValue - 1
+        }
+        
+        if productQuantity < 0 {return}
+        
+        self.selectedProduct = product
+        self.updateProductQuantity(productQuantity)
+    }
+    
+    func chooseReplacementWithProduct(_ product: Product) {
+       elDebugPrint(product)
+    }
+    
+    func updateProductQuantity(_ quantity: Int) {
+        
+        if quantity == 0 {
+            
+                //remove product from basket
+            ShoppingBasketItem.removeProductFromBasket(self.selectedProduct, grocery: self.grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            
+        } else {
+            
+                //Add or update item in basket
+            ShoppingBasketItem.addOrUpdateProductInBasket(self.selectedProduct, grocery: self.grocery, brandName: nil, quantity: quantity, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        }
+        
+        DatabaseHelper.sharedInstance.saveDatabase()
+        UIView.performWithoutAnimation {
+            self.collectionView.reloadData()
+        }
+        
+//        self.basketIconOverlay?.grocery = self.grocery
+//        self.refreshBasketIconStatus()
+    }
+    
+    
+    
+}
+
+extension OneClickReOrderBottomSheet: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return productsArray.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductCell", for: indexPath) as! ProductCell
+        
+        cell.configureWithProduct(productsArray[indexPath.row], grocery: self.grocery, cellIndex: indexPath)
+        cell.delegate = self
+        
+        return cell
+    }
+    
+}
+extension OneClickReOrderBottomSheet: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        
+        var cellSpacing:  CGFloat = -20.0
+        var numberOfCell: CGFloat = 2.13
+        if self.view.frame.size.width == 320 {
+            cellSpacing = 3.0
+            numberOfCell = 1.965
+        }
+        let cellSize = CGSize(width: ((collectionView.frame.size.width - 32) - cellSpacing * 2 ) / numberOfCell , height: kProductCellHeight)
+        return cellSize
+        
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0, left: 6 , bottom: 0 , right: 6)
+    }
 }
