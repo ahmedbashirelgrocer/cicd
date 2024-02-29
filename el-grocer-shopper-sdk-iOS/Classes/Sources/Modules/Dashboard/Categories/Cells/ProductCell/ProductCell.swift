@@ -121,14 +121,14 @@ class ProductCell : RxUICollectionViewCell {
     
     @IBOutlet weak var plusButton: UIButton! { didSet{
         plusButton.clipsToBounds = true
-        plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        plusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
         plusButton.setBackgroundColor(.white, forState: .normal)
         plusButton.backgroundColor = .white
     } }
     @IBOutlet weak var minusButton: UIButton! { didSet {
         minusButton.setImage(nil, for: .normal)
         minusButton.clipsToBounds = true
-        minusButton.imageView?.tintColor = UIColor.darkGrayTextColor()
+        minusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.darkGrayTextColor)
         minusButton.setBackgroundColor(.white, forState: .normal)
     } }
     @IBOutlet weak var quantityLabel: UILabel! { didSet {
@@ -957,7 +957,7 @@ class ProductCell : RxUICollectionViewCell {
                             }
                             showOverLimitMsg()
                         }
-                        self.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+                        self.plusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
                         self.plusButton.isEnabled = true
                         self.promotionBGView.isHidden = true
                         addCartAction()
@@ -1079,10 +1079,13 @@ class ProductCell : RxUICollectionViewCell {
                 : "\(item.count.intValue)"
           
             self.plusButton.setImage(UIImage(name: "add_product_cell"), for: .normal)
+            self.plusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
             if item.count == 1 {
-                self.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
+                self.minusButton.setImage(UIImage(name: "MyBasketDelete"), for: .normal)
+                self.minusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.darkGrayTextColor)
             }else{
-                self.minusButton.setImage(UIImage(name: "remove_product_cell"), for: .normal)
+                self.minusButton.setImage(UIImage(name: "MYBasketRemove"), for: .normal)
+                self.minusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.darkGrayTextColor)
             }
  
         }

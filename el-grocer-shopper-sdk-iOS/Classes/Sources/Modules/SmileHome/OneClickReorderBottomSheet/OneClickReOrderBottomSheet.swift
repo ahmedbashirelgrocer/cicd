@@ -76,29 +76,21 @@ class OneClickReOrderBottomSheet: UIViewController {
         
         self.collectionView.showsVerticalScrollIndicator = false
         self.collectionView.showsHorizontalScrollIndicator = false
-        
-//        self.collectionView.collectionViewLayout = {
-//            let layout = UICollectionViewFlowLayout()
-//            layout.scrollDirection = .horizontal
-//            layout.itemSize = CGSize(width: 142, height: 238)
-//            layout.minimumInteritemSpacing = 16
-//            layout.minimumLineSpacing = 16
-//            let edgeInset:CGFloat =  16
-//            layout.sectionInset = UIEdgeInsets(top: 0, left: edgeInset, bottom: 0, right: edgeInset)
-//            return layout
-//        }()
+
     }
+    
     func registerCells() {
         let ProductCell = UINib(nibName: "ProductCell", bundle: Bundle.resource)
         self.collectionView.register(ProductCell, forCellWithReuseIdentifier: "ProductCell")
     }
+    
     @IBAction func btnCrossHandler(_ sender: Any) {
         self.dismiss(animated: true)
     }
     
     @IBAction func btnCheckoutHandler(_ sender: Any) {
+        
     }
-    
     
     func setGroceryData() {
         let name = self.grocery?.name ?? ""
@@ -116,7 +108,6 @@ class OneClickReOrderBottomSheet: UIViewController {
             let timeMili = dict["time_milli"] as? Int ?? 0
             self.fetchPreviousPurchasedProducts(deliveryTime: timeMili)
         }
-        
     }
     
     /*
@@ -155,8 +146,6 @@ extension OneClickReOrderBottomSheet {
             case .success(let response):
                 let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
                 
-//                let productDTOs = products.products.map { ProductDTO(product: $0)
-//                }
                 if products.products.count > 0 {
                     self.productsArray = products.products
                 }
