@@ -690,6 +690,12 @@ class SmileSdkHomeVC: BasketBasicViewController {
         vc.modalPresentationStyle = .overCurrentContext
         
         vc.grocery = grocery
+        vc.checkoutTapped = { [weak self] in
+            vc.dismiss(animated: true)
+            self?.tabBarController?.selectedIndex = 4
+        }
+        
+        
         self.present(vc, animated: true)
     }
     

@@ -54,6 +54,8 @@ class OneClickReOrderBottomSheet: UIViewController {
         }
     }
     
+    typealias tapped = ()-> Void
+    var checkoutTapped: tapped?
     private var dispatchGroup = DispatchGroup()
     var grocery: Grocery?
     var productsArray: [Product] = []
@@ -89,7 +91,11 @@ class OneClickReOrderBottomSheet: UIViewController {
     }
     
     @IBAction func btnCheckoutHandler(_ sender: Any) {
-        
+        if self.checkoutBGView.backgroundColor != ApplicationTheme.currentTheme.disableButtonColor {
+            if let checkoutTapped = checkoutTapped {
+                checkoutTapped()
+            }
+        }
     }
     
     func setGroceryData() {
