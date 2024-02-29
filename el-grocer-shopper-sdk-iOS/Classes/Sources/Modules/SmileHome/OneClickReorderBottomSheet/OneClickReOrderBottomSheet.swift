@@ -93,6 +93,7 @@ class OneClickReOrderBottomSheet: UIViewController {
     }
     
     func setGroceryData() {
+        ElGrocerUtility.sharedInstance.activeGrocery = self.grocery
         let name = self.grocery?.name ?? ""
         self.lblStoreName.text = name
         
@@ -152,6 +153,7 @@ extension OneClickReOrderBottomSheet {
                 
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
+                    self.updatePrice()
                 }
                 
             case .failure(let error):
@@ -218,12 +220,63 @@ extension OneClickReOrderBottomSheet: ProductCellProtocol{
         DatabaseHelper.sharedInstance.saveDatabase()
         UIView.performWithoutAnimation {
             self.collectionView.reloadData()
+            self.basketIconOverlay?.grocery = self.grocery
+            updatePrice()
         }
-        
-//        self.basketIconOverlay?.grocery = self.grocery
-//        self.refreshBasketIconStatus()
     }
     
+    func updatePrice() {
+        
+        var basketItemCount: Int = 0
+        var priceSum: Double = 0.0
+        
+        for product in self.productsArray {
+            
+            if let item = shoppingItemForProduct(product) {
+                basketItemCount = basketItemCount + item.count.intValue
+                
+                let singlePrice = self.getProductPrice(product: product)
+                let multiplePrice: Double  = singlePrice.doubleValue * item.count.doubleValue
+                
+                priceSum = (priceSum + multiplePrice)
+            }
+        }
+        
+        self.lblItemNum.text = String(basketItemCount)
+        self.lblPrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: priceSum)
+        
+        self.checkMinBasketValue(priceSum: priceSum)
+        
+    }
+    
+    func getProductPrice(product: Product)-> NSNumber {
+        
+        var price: NSNumber = NSNumber(0.0)
+        
+        if product.promotion?.boolValue ?? false {
+            price = product.promoPrice ?? NSNumber(0.0)
+        }else {
+            price = product.price
+        }
+        
+        return price
+        
+    }
+    
+    fileprivate func shoppingItemForProduct(_ product:Product) -> ShoppingBasketItem? {
+        
+        return ShoppingBasketItem.checkIfProductIsInBasket(product, grocery: grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+    }
+    
+    func checkMinBasketValue(priceSum: Double) {
+        let minValue = self.grocery?.minBasketValue ?? 0.0
+        
+        if priceSum < minValue {
+            self.checkoutBGView.backgroundColor = ApplicationTheme.currentTheme.disableButtonColor
+        }else {
+            self.checkoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+        }
+    }
     
     
 }
