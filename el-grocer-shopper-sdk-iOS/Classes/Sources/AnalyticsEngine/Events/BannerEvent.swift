@@ -55,7 +55,7 @@ struct StoryClickedEvent: AnalyticsEventDataType {
         self.metaData = [
             EventParameterKeys.id         : id,
             EventParameterKeys.name       : name,
-            EventParameterKeys.deepLink   : deepLink
+            EventParameterKeys.deeplink   : deepLink
         ]
     }
 }
