@@ -1990,7 +1990,7 @@ extension MainCategoriesViewController : StorylyDelegate {
     
     func storylyActionClicked(_ storylyView: StorylyView, rootViewController: UIViewController, story: Story) {
         if let actionUrlString = story.media.actionUrl, let url = URL(string: actionUrlString) {
-            self.storylyView.closeStory(animated: true)
+            storylyView.closeStory(animated: true)
             ElGrocerDynamicLink.handleDeepLink(url)
             
             // Logging segment event StoryClickedEvent
