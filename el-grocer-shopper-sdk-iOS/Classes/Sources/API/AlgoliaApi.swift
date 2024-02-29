@@ -114,12 +114,11 @@ class AlgoliaApi {
         if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             token = userProfile.dbID.stringValue
         }
-        Insights.register(appId:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_INSIGHT_LIVE , userToken: UserToken(rawValue: token))
+        Insights.register(appId:  algoliaApplicationID , apiKey: ALGOLIA_API_KEY_INSIGHT_LIVE , userToken: UserToken(rawValue: token),generateTimestamps: false)
         if ElGrocerApi.sharedInstance.baseApiPath == "https://el-grocer-staging-dev.herokuapp.com/api/" {
             Insights.register(appId:  algoliaApplicationIDStaging , apiKey: ALGOLIA_API_KEY_SEARCH_STAGING, userToken:  UserToken(rawValue: token))
         }
         Insights.shared?.isLoggingEnabled =  Platform.isDebugBuild ? true : false
-        
         Insights.flushDelay = 10.0
     }
     
