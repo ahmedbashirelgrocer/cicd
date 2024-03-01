@@ -12,6 +12,7 @@ import RxDataSources
 protocol MainCategoriesViewModelInput {
     var scrollObserver: AnyObserver<IndexPath> { get }
     var refreshProductCellObserver: AnyObserver<Void> { get }
+    var storiesLoadedObserver: AnyObserver<Void> { get }
 }
 
 protocol MainCategoriesViewModelOutput {
@@ -28,7 +29,7 @@ protocol MainCategoriesViewModelOutput {
     var chefTap: Observable<CHEF?> { get }
     var viewAllRecipesTap: Observable<Void> { get }
     var categories: [CategoryDTO] { get }
-    var startStorylyFetch: Observable<Bool> { get }
+    var startStorylyFetch: Observable<Grocery?> { get }
     
     func dataValidationForLoadedGroceryNeedsToUpdate(_ newGrocery: Grocery?) -> Bool
 }
@@ -50,6 +51,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     // MARK: Inputs
     var scrollObserver: AnyObserver<IndexPath> { self.scrollSubject.asObserver() }
     var refreshProductCellObserver: AnyObserver<Void> { refreshProductCellSubject.asObserver() }
+    var storiesLoadedObserver: AnyObserver<Void> {  storiesLoadedSubject.asObserver() }
     
     // MARK: outputs
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { self.cellViewModelsSubject.asObservable() }
@@ -63,7 +65,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     var showEmptyView: Observable<Void> { showEmptyViewSubject.asObservable() }
     var chefTap: Observable<CHEF?> { chefTapSubject.asObservable() }
     var viewAllRecipesTap: Observable<Void> { viewAllRecipesTapSubject.asObservable() }
-    var startStorylyFetch: Observable<Bool> { self.storylyFetchSubject.asObservable() }
+    var startStorylyFetch: Observable<Grocery?> { self.storylyFetchSubject.asObservable() }
     
     // MARK: subjects
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
@@ -79,7 +81,8 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var showEmptyViewSubject = PublishSubject<Void>()
     private var chefTapSubject = PublishSubject<CHEF?>()
     private var viewAllRecipesTapSubject = PublishSubject<Void>()
-    private var storylyFetchSubject = BehaviorSubject<Bool>(value: false)
+    private var storylyFetchSubject = BehaviorSubject<Grocery?>(value: nil)
+    private var storiesLoadedSubject = PublishSubject<Void>()
     
     // MARK: properties
     private var apiClient: ElGrocerApi
@@ -118,7 +121,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         self.isCategoriesApiCompleted = false
      
         self.fetchGroceryDeliverySlots()
-        self.storylyFetchSubject.onNext(true)
+        self.storylyFetchSubject.onNext(grocery)
         self.fetchBanners(for: .store_tier_1.getType())
         self.fetchBanners(for: .store_tier_2.getType())
         
@@ -127,6 +130,20 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
             guard let self = self else { return }
             elDebugPrint("bannersLoaded")
         }
+        
+        Observable
+            .combineLatest(storiesLoadedSubject, cellViewModelsSubject.map{ _ in ()})
+            .map { _ in () }
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                
+                let bannerStorely = BannerDTO(id: 0, name: "Storyly Banner", priority: -1, campaignType: .storely, imageURL: nil, bannerImageURL: nil, url: nil, categories: nil, subcategories: nil, brands: nil, retailerIDS: nil, locations: [28, 19, 3], storeTypes: nil, retailerGroups: nil, customScreenId: nil, isStoryly: true)
+    
+                if let bannerCellVM = (self.location1BannerVMs.first as? any GenericBannersCellViewModelType) {
+                    bannerCellVM.addBanner(banner: bannerStorely)
+                }
+            }).disposed(by: disposeBag)
+        
         dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
             
@@ -327,10 +344,10 @@ private extension MainCategoriesViewModel {
                 
                 var banners = response.map { $0.toBannerDTO() }
                 
-                if (ElGrocerUtility.sharedInstance.showStorelyBanner) && location == .store_tier_1.getType() {
-                    let bannerStorely = BannerDTO(id: 0, name: "Storyly Banner", priority: -1, campaignType: .storely, imageURL: nil, bannerImageURL: nil, url: nil, categories: nil, subcategories: nil, brands: nil, retailerIDS: nil, locations: [28, 19, 3], storeTypes: nil, retailerGroups: nil, customScreenId: nil, isStoryly: true)
-                    banners.append(bannerStorely)
-                }
+//                if (ElGrocerUtility.sharedInstance.showStorelyBanner) && location == .store_tier_1.getType() {
+//                    let bannerStorely = BannerDTO(id: 0, name: "Storyly Banner", priority: -1, campaignType: .storely, imageURL: nil, bannerImageURL: nil, url: nil, categories: nil, subcategories: nil, brands: nil, retailerIDS: nil, locations: [28, 19, 3], storeTypes: nil, retailerGroups: nil, customScreenId: nil, isStoryly: true)
+//                    banners.append(bannerStorely)
+//                }
                 
                 if banners.isNotEmpty {
                 if location == .store_tier_1.getType()  {
