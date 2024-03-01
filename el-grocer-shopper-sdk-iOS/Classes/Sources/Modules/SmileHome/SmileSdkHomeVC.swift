@@ -1419,9 +1419,16 @@ extension SmileSdkHomeVC {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "NeighbourHoodFavouriteTableViewCell", for: indexPath) as! NeighbourHoodFavouriteTableViewCell
         
         if indexPath.row == 0 {
-            cell.configureCell(groceryA: self.neighbourHoodFavGroceryArray, isForFavourite: true)
+            if self.neighbourHoodSection == 1 {
+                cell.configureCell(groceryA: self.neighbourHoodFavGroceryArray, isForFavourite: true)
+            }else {
+                cell.configureCell(groceryA: self.groceryArray, isForFavourite: false)
+            }
+            
         }else if indexPath.row == 1 {
-            cell.configureCell(groceryA: self.groceryArray, isForFavourite: false)
+            if self.oneClickReOrderSection == 1 {
+                cell.configureCell(groceryA: self.neighbourHoodFavGroceryArray, isForFavourite: true)
+            }
         }
         
         cell.groceryTapped = { [weak self] isForFavourite, grocery in
