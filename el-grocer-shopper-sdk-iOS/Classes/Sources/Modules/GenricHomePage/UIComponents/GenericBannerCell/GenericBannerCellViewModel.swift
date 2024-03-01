@@ -56,9 +56,11 @@ class GenericBannersCellViewModel: GenericBannersCellViewModelType, ReusableTabl
     }
     
     func addBanner(banner: BannerDTO) {
-        self.bannersArr.append(banner)
-        
-        self.bannersSubject.onNext(bannersArr)
-        self.bannersCountSubject.onNext(bannersArr.count)
+        if self.bannersArr.contains(where: { $0.isStoryly ?? false }) == false {
+            self.bannersArr.append(banner)
+            
+            self.bannersSubject.onNext(bannersArr)
+            self.bannersCountSubject.onNext(bannersArr.count)
+        }
     }
 }

@@ -83,6 +83,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var viewAllRecipesTapSubject = PublishSubject<Void>()
     private var storylyFetchSubject = BehaviorSubject<Grocery?>(value: nil)
     private var storiesLoadedSubject = PublishSubject<Void>()
+    private var location1BannersFetchSubject = PublishSubject<Void>()
     
     // MARK: properties
     private var apiClient: ElGrocerApi
@@ -109,6 +110,8 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var disposeBag = DisposeBag()
     private var apiCallingStatus: [IndexPath: Bool] = [:]
     
+    private var isStorylyBannerAdded = false
+    
     private var showProductsSection = ABTestManager.shared.storeConfigs.showProductsSection
    
     
@@ -132,15 +135,23 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         }
         
         Observable
-            .combineLatest(storiesLoadedSubject, cellViewModelsSubject.map{ _ in ()})
+            .combineLatest(storiesLoadedSubject, location1BannersFetchSubject)
             .map { _ in () }
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 
                 let bannerStorely = BannerDTO(id: 0, name: "Storyly Banner", priority: -1, campaignType: .storely, imageURL: nil, bannerImageURL: nil, url: nil, categories: nil, subcategories: nil, brands: nil, retailerIDS: nil, locations: [28, 19, 3], storeTypes: nil, retailerGroups: nil, customScreenId: nil, isStoryly: true)
-    
-                if let bannerCellVM = (self.location1BannerVMs.first as? any GenericBannersCellViewModelType) {
-                    bannerCellVM.addBanner(banner: bannerStorely)
+
+                if self.isStorylyBannerAdded == false {
+                    if let bannerCellVM = (self.location1BannerVMs.first as? any GenericBannersCellViewModelType) {
+                        bannerCellVM.addBanner(banner: bannerStorely)
+                    } else {
+                        let bannerCellVM = GenericBannersCellViewModel(banners: [bannerStorely])
+                        bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
+                        self.viewModels.insert(SectionModel(model: 0, items: [bannerCellVM]), at: 0)
+                    }
+                    
+                    self.isStorylyBannerAdded = true
                 }
             }).disposed(by: disposeBag)
         
@@ -344,13 +355,8 @@ private extension MainCategoriesViewModel {
                 
                 var banners = response.map { $0.toBannerDTO() }
                 
-//                if (ElGrocerUtility.sharedInstance.showStorelyBanner) && location == .store_tier_1.getType() {
-//                    let bannerStorely = BannerDTO(id: 0, name: "Storyly Banner", priority: -1, campaignType: .storely, imageURL: nil, bannerImageURL: nil, url: nil, categories: nil, subcategories: nil, brands: nil, retailerIDS: nil, locations: [28, 19, 3], storeTypes: nil, retailerGroups: nil, customScreenId: nil, isStoryly: true)
-//                    banners.append(bannerStorely)
-//                }
-                
                 if banners.isNotEmpty {
-                if location == .store_tier_1.getType()  {
+                    if location == .store_tier_1.getType()  {
                         let bannerCellVM = GenericBannersCellViewModel(banners: banners)
                         bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
                         self.location1BannerVMs.append(bannerCellVM)
@@ -359,11 +365,11 @@ private extension MainCategoriesViewModel {
                         bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
                         self.location2BannerVMs.append(bannerCellVM)
                     }
-               }
+                }
                 
+                if location == .store_tier_1.getType() { self.location1BannersFetchSubject.onNext(()) }
                 
-                
-            case .failure(let _):
+            case .failure(_):
                 break
             }
         }
