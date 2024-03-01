@@ -91,7 +91,8 @@ extension MainCategoriesViewController : StoreFeedsDelegate {
 }
 
 class MainCategoriesViewController: BasketBasicViewController, UITableViewDelegate, NoStoreViewDelegate  {
-    var storlyAds : StorylyAds?
+    //var storlyAds : StorylyAds?
+    var storlyAds : StorylyAds = StorylyAds()
     var initialLoad = true
     var storylyView = StorylyView()
     var storyGroupList : [StoryGroup] = []
@@ -412,7 +413,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                 self.callForLatestDeliverySlotsWithGroceryLoader(grocery: grocery)
             }
             self.setTableViewHeader(self.grocery )
-           // self.configureStorely(openStories: false)
+         
         } else {
             
             if !self.isComingFromGroceryLoaderVc {
@@ -1802,6 +1803,18 @@ private extension MainCategoriesViewController {
             : self.porgressHud?.removeFromSuperview()
         }).disposed(by: disposeBag)
         
+        /// Storyly banner
+        //self.storlyAds = StorylyAds()
+        self.viewModel.outputs.startStorylyFetch.subscribe(onNext: { [weak self] grocery in
+            guard let self = self, let grocery = grocery else { return }
+            
+            self.storlyAds.configureStorelyForSDK(self, grocery: grocery)
+        }).disposed(by: disposeBag)
+        
+        storlyAds.storiesdataLoaded = { [weak self] groups in
+            self?.viewModel.inputs.storiesLoadedObserver.onNext(())
+        }
+        
         self.viewModel.outputs.chefTap.subscribe(onNext: { [weak self] selectedChef in
             self?.gotoFilterController(chef: selectedChef, category: nil)
         }).disposed(by: disposeBag)
@@ -1899,7 +1912,12 @@ private extension MainCategoriesViewController {
             MixpanelEventLogger.trackStoreBannerClick(id: bannerCampaign.dbId.stringValue, title: bannerCampaign.title, tier: "1")
             break
         case .storely:
-            self.configureStorely(openStories: true)
+            if((self.storlyAds.storyGroupList.count) > 0){
+                for group in self.storlyAds.storyGroupList {
+                    _ = self.storlyAds.storylyView.openStory(storyGroupId: group.uniqueId)
+                }
+            }
+            //self.configureStorely(openStories: true)
             break
         }
     }
@@ -1915,79 +1933,6 @@ private extension MainCategoriesViewController {
         
     }
 }
-extension MainCategoriesViewController : StorylyDelegate {
-    
-    func configureStorely(openStories: Bool){
-    
-        self.openStoriesFlag = openStories
-        var someSet = Set<String>()
-        someSet.insert(ElGrocerUtility.sharedInstance.cleanGroceryID(grocery?.dbID))
-        someSet.insert("quiz_offers")
-        self.storelyCustomView.storylyInit = StorylyInit(
-                    storylyId: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NfaWQiOjE1MzcsImFwcF9pZCI6MTE1MywiaW5zX2lkIjoxMTc2fQ.k3DE2c0a38t0x8Droq5htoc-O7qbOZbrCojY_fIes5Y",
-                    config: StorylyConfig.Builder()
-                       .setBarStyling(
-                            styling: StorylyBarStyling.Builder()
-                                .setHorizontalPaddingBetweenItems(padding: 15)
-                                .build()
-                       )
-                       .setStoryGroupStyling(
-                           styling: StorylyStoryGroupStyling.Builder()
-                               .setIconBorderColorNotSeen(colors: [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor])
-                               .setPinIconColor(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
-                               .setSize(size: .Custom)
-                               .setIconHeight(height: 160)
-                               .setIconWidth(width: 160)
-                               .setIconCornerRadius(radius: 12)
-                               .build()
-                        )
-                        .setStoryStyling(
-                            styling: StorylyStoryStyling.Builder()
-                                .setHeaderIconBorderColor(colors: [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor])
-                                .build()
-                        )
-                        .setLabels(labels: someSet)
-                        .setTestMode(isTest: Platform.isDebugBuild)
-                                      .setLocale(locale: ElGrocerUtility.sharedInstance.isArabicSelected() ? "AR" : "EN")
-                        .build()
-                )
-        storelyCustomView.translatesAutoresizingMaskIntoConstraints = false
-        storelyCustomView.delegate = self
-        storelyCustomView.rootViewController = self
-    }
-    
-    func storylyLoaded(_ storylyView: StorylyView, storyGroupList: [StoryGroup], dataSource: StorylyDataSource) {
-        elDebugPrint("load")
-        self.storylyView = storylyView
-        self.storyGroupList = storyGroupList
-        ElGrocerUtility.sharedInstance.showStorelyBanner = self.storyGroupList.count > 0
-        for group in self.storyGroupList {
-            if(self.openStoriesFlag){
-                _ = self.storylyView.openStory(storyGroupId: group.uniqueId)
-            }
-        }
-    }
-    func storylyLoadFailed(_ storylyView: StorylyView, errorMessage: String) {
-        elDebugPrint("failde")
-        if !initialLoad {
-            self.storelyCustomView.isHidden = true
-        }
-    }
-    
-    func storylyActionClicked(_ storylyView: StorylyView, rootViewController: UIViewController, story: Story) {
-        if let actionUrlString = story.media.actionUrl, let url = URL(string: actionUrlString) {
-            self.storylyView.closeStory(animated: true)
-            ElGrocerDynamicLink.handleDeepLink(url)
-            
-            // Logging segment event StoryClickedEvent
-            let storyClickedEvent = StoryClickedEvent(id: story.uniqueId, name: story.title, deepLink: actionUrlString)
-            SegmentAnalyticsEngine.instance.logEvent(event: storyClickedEvent)
-        }
-    }
-  
-}
-
-
 extension MainCategoriesViewController: HomeCellDelegate {
     
     func productCellOnProductQuickAddButtonClick(_ selectedProduct:Product, homeObj: Home, collectionVeiw:UICollectionView){
