@@ -28,6 +28,7 @@ enum loadingType {
     case HomePageLocationTwoBanners
     case AllChefForDeliveryStores
     case FeatureRecipesOfAllDeliveryStore
+    case oneClickReOrderListArray
 }
 
 extension HomePageData : HomePageDataLoadingComplete {
@@ -84,6 +85,7 @@ class HomePageData  {
     var storyTypeBaseDataDict : [Int64 : [Grocery]] = [:]
     
     lazy var storeTypeA : [StoreType]? = nil
+    lazy var oneClickReorderGroceryIdArray : [String]? = nil
     lazy var retailerTypeA : [RetailerType]? = nil
     lazy var groceryA : [Grocery]? = nil {
         didSet {
@@ -522,6 +524,11 @@ extension HomePageData : StoresDataHandlerDelegate {
         })
         self.setCategoryServiceA(self.storeTypeA ?? [])
         self.delegate?.loadingDataComplete(type: .CategoryList)
+    }
+    func oneClickReOrderGroceryIdArray(dataArray : [String]) -> Void  {
+        self.oneClickReorderGroceryIdArray = dataArray
+        
+        self.delegate?.loadingDataComplete(type: .oneClickReOrderListArray)
     }
     func allRetailerData(groceryA : [Grocery]) -> Void {
        

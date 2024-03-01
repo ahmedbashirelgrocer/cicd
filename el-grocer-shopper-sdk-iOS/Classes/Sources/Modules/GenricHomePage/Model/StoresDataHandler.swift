@@ -167,6 +167,7 @@ protocol StoresDataHandlerDelegate : class {
     func storeRetailerTypeData(retailerTypeA : [RetailerType]) -> Void
     func storeCategoryData(storeTypeA : [StoreType]) -> Void
     func allRetailerData(groceryA : [Grocery]) -> Void
+    func oneClickRetailerData(groceryA : [String]) -> Void
     func genericBannersList(list : [BannerCampaign]) -> Void
     func getGreatDealsBannersList(list: [BannerCampaign])
     func refreshMessageView(msg: String) -> Void
@@ -179,6 +180,7 @@ extension StoresDataHandlerDelegate {
     func storeRetailerTypeData(retailerTypeA : [RetailerType]) -> Void {}
     func storeCategoryData(storeTypeA : [StoreType]) -> Void  {}
     func allRetailerData(groceryA : [Grocery]) -> Void {}
+    func oneClickRetailerData(groceryA : [String]) -> Void {}
     func genericBannersList(list : [BannerCampaign]) -> Void {}
     func getGreatDealsBannersList(list: [BannerCampaign]) {}
     func refreshMessageView(msg: String) -> Void {}
@@ -220,6 +222,10 @@ class StoresDataHandler {
                     if let _ = dataDict["retailers"] as? [NSDictionary] {
                         let responseData = Grocery.insertOrReplaceGroceriesFromDictionary(data, context: DatabaseHelper.sharedInstance.mainManagedObjectContext , false)
                         self.delegate?.allRetailerData(groceryA: responseData)
+                    }
+                    
+                    if let oneClickReOrder = dataDict["one_click_store"] as? [String] {
+                        self.delegate?.oneClickRetailerData(groceryA: oneClickReOrder)
                     }
 
                 }else{

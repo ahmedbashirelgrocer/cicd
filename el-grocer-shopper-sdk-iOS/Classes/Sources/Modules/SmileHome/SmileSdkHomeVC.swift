@@ -65,7 +65,18 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
         // MARK: - Properties
     var groceryArray: [Grocery] = []
-    
+    var neighbourHoodFavGroceryArray: [Grocery] = []
+    var oneClickReOrderGroceryIDArray: [String] = [] {
+        didSet {
+            oneClickReOrderGroceryArray = sortedGroceryArray.filter {
+                let cleanID = $0.getCleanGroceryID()
+                return oneClickReOrderGroceryIDArray.contains(cleanID)
+            }
+            
+            tableView.reloadDataOnMain()
+        }
+    }
+    var oneClickReOrderGroceryArray: [Grocery] = []
     var sortedGroceryArray: [Grocery] = []
     var filteredGroceryArray: [Grocery] = [] {
         didSet {
@@ -76,9 +87,16 @@ class SmileSdkHomeVC: BasketBasicViewController {
                 .filter{ $0.featured != 1 }
                 .sorted(by: { ($0.priority ?? 0) < ($1.priority ?? 0) })
             
+            neighbourHoodFavGroceryArray = sortedGroceryArray.filter {
+                $0.isFavourite.boolValue == true
+            }
+            elDebugPrint(neighbourHoodFavGroceryArray.count)
+            
             tableView.reloadDataOnMain()
         }
     }
+    var neighbourHoodSection: Int = 0
+    var oneClickReOrderSection: Int = 0
     
     var availableStoreTypeA: [StoreType] = []
     var featureGroceryBanner : [BannerCampaign] = []
@@ -694,8 +712,6 @@ class SmileSdkHomeVC: BasketBasicViewController {
             vc.dismiss(animated: true)
             self?.tabBarController?.selectedIndex = 4
         }
-        
-        
         self.present(vc, animated: true)
     }
     
@@ -964,6 +980,10 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
             if self.homeDataHandler.locationTwoBanners?.count == 0 {
                 FireBaseEventsLogger.trackNoDeals()
             }
+        }else if type == .oneClickReOrderListArray {
+            if self.homeDataHandler.oneClickReorderGroceryIdArray?.count ?? 0 > 0 {
+                self.oneClickReOrderGroceryIDArray = self.homeDataHandler.oneClickReorderGroceryIdArray!
+            }
         }
         Thread.OnMainThread {
             if self.homeDataHandler.groceryA?.count ?? 0 > 0 {
@@ -1194,7 +1214,13 @@ extension SmileSdkHomeVC {
         switch section {
         case 0: //0-2: Banner, Banner Label
             if self.tableViewHeader2.selectedItemIndex == 0 {
-                return 3
+                if self.neighbourHoodFavGroceryArray.count > 0 {
+                    neighbourHoodSection = 1
+                }
+                if self.oneClickReOrderGroceryArray.count > 0 {
+                    oneClickReOrderSection = 1
+                }
+                return 1 + neighbourHoodSection + oneClickReOrderSection
             }else {
                 return 1 + (configs.isHomeTier1 ? 1 : 0)
             }
@@ -1228,7 +1254,13 @@ extension SmileSdkHomeVC {
         switch indexPath {
         case .init(row: 0, section: 0):
             if tableViewHeader2.selectedItemIndex == 0 {
-                return makeNeighbourHoodFavouriteTableViewCell(indexPath: indexPath)
+                if neighbourHoodSection == 1 {
+                    return makeNeighbourHoodFavouriteTableViewCell(indexPath: indexPath)
+                }else if oneClickReOrderSection == 1 {
+                    return makeNeighbourHoodFavouriteTableViewCell(indexPath: indexPath)
+                }else {
+                    return self.makeLabelCell(indexPath)
+                }
             }else {
                 if ABTestManager.shared.configs.isHomeTier1 {
                     return self.makeLocationOneBannerCell(indexPath)
@@ -1236,7 +1268,7 @@ extension SmileSdkHomeVC {
                 return self.makeLabelCell(indexPath)
             }
         case .init(row: 1, section: 0):
-            if tableViewHeader2.selectedItemIndex == 0 {
+            if tableViewHeader2.selectedItemIndex == 0 && self.oneClickReOrderSection == 1  {
                 return makeNeighbourHoodFavouriteTableViewCell(indexPath: indexPath)
             }
             return self.makeLabelCell(indexPath)
@@ -1295,7 +1327,14 @@ extension SmileSdkHomeVC {
         switch indexPath {
         case .init(row: 0, section: 0):
             if tableViewHeader2.selectedItemIndex == 0 {
-                return 140
+                if neighbourHoodSection == 1 {
+                    return 140
+                }else if oneClickReOrderSection == 1 {
+                    return 140
+                }else {
+                    return 45
+                }
+                
             }else {
                 if configs.isHomeTier1 {
                     return (HomePageData.shared.locationOneBanners?.count ?? 0) > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
@@ -1303,7 +1342,7 @@ extension SmileSdkHomeVC {
                 return 45
             }
         case .init(row: 1, section: 0):
-            if tableViewHeader2.selectedItemIndex == 0 {
+            if tableViewHeader2.selectedItemIndex == 0 && oneClickReOrderSection == 1 {
                 return 150
             }
             return 45
@@ -1380,7 +1419,7 @@ extension SmileSdkHomeVC {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "NeighbourHoodFavouriteTableViewCell", for: indexPath) as! NeighbourHoodFavouriteTableViewCell
         
         if indexPath.row == 0 {
-            cell.configureCell(groceryA: self.groceryArray, isForFavourite: true)
+            cell.configureCell(groceryA: self.neighbourHoodFavGroceryArray, isForFavourite: true)
         }else if indexPath.row == 1 {
             cell.configureCell(groceryA: self.groceryArray, isForFavourite: false)
         }
