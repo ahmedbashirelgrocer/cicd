@@ -353,7 +353,7 @@ private extension MainCategoriesViewModel {
             switch result {
             case .success(let response):
                 
-                var banners = response.map { $0.toBannerDTO() }
+                let banners = response.map { $0.toBannerDTO() }
                 
                 if banners.isNotEmpty {
                     if location == .store_tier_1.getType()  {
