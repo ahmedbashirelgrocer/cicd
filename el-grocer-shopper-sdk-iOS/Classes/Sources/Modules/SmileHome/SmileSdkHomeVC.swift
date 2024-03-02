@@ -112,7 +112,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
     @IBOutlet var currentOrderCollectionView: UICollectionView!
     @IBOutlet var currentOrderCollectionViewHeightConstraint: NSLayoutConstraint!
     
-   
+    @IBOutlet var btnMulticart: UIButton!
+    
+    @IBOutlet var btnMulticartBottomConstraint: NSLayoutConstraint!
     
         // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -231,6 +233,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.basketIconOverlay?.shouldShow = false
     }
     
+    @IBAction func btnMultiCartHandler(_ sender: Any) {
+        cartButtonTap()
+    }
     private func showDataLoaderIfRequiredForHomeHandler() {
         if self.homeDataHandler.isDataLoading {
             let _ = SpinnerView.showSpinnerViewInView(self.view)
@@ -996,7 +1001,14 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
     }
     
     func basketStatusChange(status: Bool) {
+        
         (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState(status)
+        if status {
+            self.btnMulticart.setImage(UIImage(name: "Cart-Active-Smile"), for: UIControl.State())
+        }else {
+            self.btnMulticart.setImage(UIImage(name: "Cart-InActive-Smile"), for: UIControl.State())
+        }
+        
     }
 }
 
