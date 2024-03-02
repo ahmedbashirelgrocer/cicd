@@ -148,8 +148,10 @@ class GenericStoreMeduleAPI : ElGrocerApi {
         
         let url =  sdkManager.isShopperApp ? ElGrocerApiEndpoint.egGenericRetailersList.rawValue : ElGrocerApiEndpoint.genericRetailersList.rawValue
         
-        NetworkCall.get( url , parameters:  [    "limit" : "10000" , "offset" : "0" , "latitude" : latitude , "longitude" : longitude  , "all_type" : true ], progress: { (progress) in
-            elDebugPrint("Calling \(progress)")
+        let userId = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext).dbID.stringValue
+        
+        NetworkCall.get( url , parameters:  [    "limit" : "10000" , "offset" : "0" , "latitude" : latitude , "longitude" : longitude  , "all_type" : true, "shopper_id": userId ], progress: { (progress) in
+            elDebugPrint("Calli  ng \(progress)")
         }, success: success, failure: failure)
     }
     //store_type_ids=2,3&retailer_group_ids

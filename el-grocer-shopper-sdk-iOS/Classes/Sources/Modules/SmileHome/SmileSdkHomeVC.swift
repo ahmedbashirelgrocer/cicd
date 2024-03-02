@@ -1380,7 +1380,28 @@ extension SmileSdkHomeVC {
         let cell : CenterLabelTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KCenterLabelTableViewCellIdentifier, for: indexPath) as! CenterLabelTableViewCell
         let localizeString = localizedString("lbl_AvailableStores_Smiles_Home", comment: "")
         let availableStores = String(format: localizeString, "\(self.sortedGroceryArray.count)")
-        cell.configureLabelWithOutCenteralAllignment(availableStores)
+        cell.configureLabelWithOutCenteralAllignment(availableStores, isViewAllButtonHidden: false)
+        
+        cell.viewAllTapped = {[weak self] in
+            guard let self = self else {return}
+            
+            let vc = ElGrocerViewControllers.getHomeViewAllRetailersVC()
+            vc.groceryArray = self.groceryArray
+            vc.filteredGroceryArray = self.filteredGroceryArray
+            vc.sortedGroceryArray = self.sortedGroceryArray
+            vc.selectStoreType = self.selectStoreType
+            var storeTypearray = self.availableStoreTypeA
+            storeTypearray.removeFirst()
+            vc.availableStoreTypeA = storeTypearray
+            
+            let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+            navigationController.hideSeparationLine()
+            navigationController.viewControllers = [vc]
+            vc.modalPresentationStyle = .fullScreen
+            navigationController.modalPresentationStyle = .fullScreen
+            self.navigationController?.present(navigationController, animated: true, completion: {  })
+        }
+        
         return cell
     }
     
