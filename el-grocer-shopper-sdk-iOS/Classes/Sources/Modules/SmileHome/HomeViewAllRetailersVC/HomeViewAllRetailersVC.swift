@@ -50,6 +50,7 @@ class HomeViewAllRetailersVC: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.navigationCustimzation()
         registerTableViewCells()
         setHeader()
         setSegmentView()
@@ -60,12 +61,28 @@ class HomeViewAllRetailersVC: UIViewController {
         
         
     }
+    
+    private func navigationCustimzation() {
+        (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
+        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+        (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
+        (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+        (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
+        (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+        self.title = localizedString("All available stores", comment: "")
+        //(self.navigationController as? ElGrocerNavigationController)?.navigationBar.topItem?.title = localizedString("Profile_Title", comment: "")
+        self.view.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.hidesBottomBarWhenPushed = true
+        self.navigationItem.hidesBackButton = true
+        
+    }
 
 
     func registerTableViewCells() {
         
         self.storeTableView.dataSource = self
         self.storeTableView.delegate = self
+        self.storeTableView.separatorStyle = .none
         
         let HyperMarketGroceryTableCell = UINib(nibName: "HyperMarketGroceryTableCell" , bundle: Bundle.resource)
         self.storeTableView.register(HyperMarketGroceryTableCell, forCellReuseIdentifier: "HyperMarketGroceryTableCell" )
@@ -191,4 +208,15 @@ extension HomeViewAllRetailersVC: AWSegmentViewProtocol {
     }
     
     
+}
+extension HomeViewAllRetailersVC: NavigationBarProtocol {
+    
+    func backButtonClickedHandler() {
+        self.backButtonClick()
+    }
+    
+    override func backButtonClick() {
+//        (self.navigationController as? ElGrocerNavigationController)?.navigationBar.topItem?.title = ""
+        self.navigationController?.dismiss(animated: true)
+    }
 }
