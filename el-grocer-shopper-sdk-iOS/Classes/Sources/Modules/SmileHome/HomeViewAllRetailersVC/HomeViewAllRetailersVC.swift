@@ -19,10 +19,14 @@ class HomeViewAllRetailersVC: UIViewController {
         return view
     }()
     
+    typealias tapped = (_ grocery: Grocery)-> Void
+    var groceryTapped: tapped?
+    
     var lastSelectType : StoreType? = nil
     var selectStoreType : StoreType? = nil
     
     var availableStoreTypeA: [StoreType] = []
+    
     
     var groceryArray: [Grocery] = []
     var sortedGroceryArray: [Grocery] = []
@@ -125,6 +129,13 @@ extension HomeViewAllRetailersVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         return makeAvailableStoreCellListStyle(indexPath: indexPath, grocery: sortedGroceryArray[indexPath.row])
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if let groceryTapped = self.groceryTapped {
+            groceryTapped(sortedGroceryArray[indexPath.row])
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

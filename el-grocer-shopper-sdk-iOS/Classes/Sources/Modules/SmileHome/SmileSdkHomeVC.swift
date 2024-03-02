@@ -1391,8 +1391,14 @@ extension SmileSdkHomeVC {
             vc.sortedGroceryArray = self.sortedGroceryArray
             vc.selectStoreType = self.selectStoreType
             var storeTypearray = self.availableStoreTypeA
-            storeTypearray.removeFirst()
             vc.availableStoreTypeA = storeTypearray
+            
+            vc.groceryTapped = {[weak self] grocery in
+                guard let self = self else {return}
+                vc.dismiss(animated: true)
+                self.goToGrocery(grocery, nil)
+            }
+            
             
             let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
             navigationController.hideSeparationLine()
