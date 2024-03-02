@@ -59,7 +59,7 @@ class HyperMarketGroceryTableCell: UITableViewCell {
         self.selectionStyle = .none
     }
     
-    func configureCell(grocery: Grocery){
+    func configureCell(grocery: Grocery, isFeatured: Bool){
         if grocery.smallImageUrl != nil{
             AssignImage(imageUrl: grocery.smallImageUrl!)
         }
@@ -67,6 +67,14 @@ class HyperMarketGroceryTableCell: UITableViewCell {
         self.newBGView.isHidden = true
 //        self.setDeliveryDate(grocery.genericSlot ?? "")
         self.getDeliverySlotString(grocery: grocery)
+        
+        if isFeatured {
+            self.cellBGView.backgroundColor = ApplicationTheme.currentTheme.viewFeaturedStoreBGView
+            self.cellBGView.layer.borderWidth = 0.0
+        }else {
+            self.cellBGView.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
+            self.cellBGView.layer.borderWidth = 1.0
+        }
     }
     
     func AssignImage(imageUrl: String){

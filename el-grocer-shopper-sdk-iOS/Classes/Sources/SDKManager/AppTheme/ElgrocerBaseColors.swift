@@ -36,6 +36,7 @@ public class ElgrocerBaseColors: UIColor {
     static var elgrocerPrimaryBlackColour: UIColor = #colorLiteral(red: 0.1490196078, green: 0.1490196078, blue: 0.1490196078, alpha: 1)
     // theme change colors
     static var elgrocerBGBlue50Color: UIColor = #colorLiteral(red: 0.9254901961, green: 0.9294117647, blue: 0.9568627451, alpha: 1)
+    static var elgrocerFeaturedStoreBGCOlor: UIColor = #colorLiteral(red: 0.8862745098, green: 0.9490196078, blue: 0.9529411765, alpha: 1)
     
     
     

@@ -293,7 +293,7 @@ extension HyperMarketViewController: UITableViewDelegate, UITableViewDataSource 
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell", for: indexPath) as! HyperMarketGroceryTableCell
         if filterGroceryA.count > 0 {
-            cell.configureCell(grocery: filterGroceryA[indexPath.row])
+            cell.configureCell(grocery: filterGroceryA[indexPath.row], isFeatured: false)
         }
         return cell
     }

@@ -66,11 +66,12 @@ class SmileSdkHomeVC: BasketBasicViewController {
         // MARK: - Properties
     var groceryArray: [Grocery] = []
     var neighbourHoodFavGroceryArray: [Grocery] = []
-    var oneClickReOrderGroceryIDArray: [String] = [] {
+    var oneClickReOrderGroceryIDArray: [Int] = [] {
         didSet {
             oneClickReOrderGroceryArray = sortedGroceryArray.filter {
                 let cleanID = $0.getCleanGroceryID()
-                return oneClickReOrderGroceryIDArray.contains(cleanID)
+                let idToCheck = Int(cleanID) ?? 0
+                return oneClickReOrderGroceryIDArray.contains(idToCheck)
             }
             
             tableView.reloadDataOnMain()
@@ -1254,7 +1255,7 @@ extension SmileSdkHomeVC {
         switch indexPath {
         case .init(row: 0, section: 0):
             if tableViewHeader2.selectedItemIndex == 0 {
-                if neighbourHoodSection == 1 {
+                if neighbourHoodSection == 1 && indexPath.row == 0{
                     return makeNeighbourHoodFavouriteTableViewCell(indexPath: indexPath)
                 }else if oneClickReOrderSection == 1 {
                     return makeNeighbourHoodFavouriteTableViewCell(indexPath: indexPath)
@@ -1438,7 +1439,12 @@ extension SmileSdkHomeVC {
     
     func makeAvailableStoreCellListStyle(indexPath: IndexPath, grocery: Grocery) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell") as! HyperMarketGroceryTableCell
-        cell.configureCell(grocery: grocery)
+        if (grocery.featured?.boolValue ?? false) && (grocery.getCleanGroceryID() == sortedGroceryArray.first?.getCleanGroceryID()) {
+            cell.configureCell(grocery: grocery, isFeatured: true)
+        }else {
+            cell.configureCell(grocery: grocery, isFeatured: false)
+        }
+        
         return cell
     }
     
@@ -1449,12 +1455,12 @@ extension SmileSdkHomeVC {
             if self.neighbourHoodSection == 1 {
                 cell.configureCell(groceryA: self.neighbourHoodFavGroceryArray, isForFavourite: true)
             }else {
-                cell.configureCell(groceryA: self.groceryArray, isForFavourite: false)
+                cell.configureCell(groceryA: self.oneClickReOrderGroceryArray, isForFavourite: false)
             }
             
         }else if indexPath.row == 1 {
             if self.oneClickReOrderSection == 1 {
-                cell.configureCell(groceryA: self.neighbourHoodFavGroceryArray, isForFavourite: true)
+                cell.configureCell(groceryA: self.oneClickReOrderGroceryArray, isForFavourite: false)
             }
         }
         

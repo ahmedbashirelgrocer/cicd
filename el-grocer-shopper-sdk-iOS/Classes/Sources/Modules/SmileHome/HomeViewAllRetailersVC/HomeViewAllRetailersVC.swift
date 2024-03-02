@@ -99,7 +99,11 @@ class HomeViewAllRetailersVC: UIViewController {
 
     func makeAvailableStoreCellListStyle(indexPath: IndexPath, grocery: Grocery) -> UITableViewCell {
         let cell = self.storeTableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell") as! HyperMarketGroceryTableCell
-        cell.configureCell(grocery: grocery)
+        if (grocery.featured?.boolValue ?? false) && (indexPath.row == 0) {
+            cell.configureCell(grocery: grocery, isFeatured: true)
+        }else {
+            cell.configureCell(grocery: grocery, isFeatured: false)
+        }
         return cell
     }
     

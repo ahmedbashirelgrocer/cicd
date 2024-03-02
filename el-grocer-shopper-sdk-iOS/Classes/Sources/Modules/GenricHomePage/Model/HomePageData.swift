@@ -85,7 +85,7 @@ class HomePageData  {
     var storyTypeBaseDataDict : [Int64 : [Grocery]] = [:]
     
     lazy var storeTypeA : [StoreType]? = nil
-    lazy var oneClickReorderGroceryIdArray : [String]? = nil
+    lazy var oneClickReorderGroceryIdArray : [Int]? = nil
     lazy var retailerTypeA : [RetailerType]? = nil
     lazy var groceryA : [Grocery]? = nil {
         didSet {
@@ -525,11 +525,6 @@ extension HomePageData : StoresDataHandlerDelegate {
         self.setCategoryServiceA(self.storeTypeA ?? [])
         self.delegate?.loadingDataComplete(type: .CategoryList)
     }
-    func oneClickReOrderGroceryIdArray(dataArray : [String]) -> Void  {
-        self.oneClickReorderGroceryIdArray = dataArray
-        
-        self.delegate?.loadingDataComplete(type: .oneClickReOrderListArray)
-    }
     func allRetailerData(groceryA : [Grocery]) -> Void {
        
         let queue = DispatchQueue(label: "self.groceryA-thread-safe-obj", attributes: .concurrent)
@@ -552,6 +547,13 @@ extension HomePageData : StoresDataHandlerDelegate {
         SegmentAnalyticsEngine.instance.logEvent(event: StoresInRangeEvent(retailers: groceryA))
         
     }
+    
+    func oneClickRetailerData(groceryA : [Int]) {
+        
+        self.oneClickReorderGroceryIdArray = groceryA
+        self.delegate?.loadingDataComplete(type: .oneClickReOrderListArray)
+    }
+    
     func genericBannersList(list : [BannerCampaign]) -> Void {
         self.locationOneBanners = list
         self.locationOneBanners?.sort { (banner1, banner2) -> Bool in

@@ -444,7 +444,7 @@ extension SpecialtyStoresGroceryViewController: UITableViewDelegate, UITableView
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell", for: indexPath) as! HyperMarketGroceryTableCell
             if filteredGroceryArray.count > 0 {
-                cell.configureCell(grocery: filteredGroceryArray[indexPath.row])
+                cell.configureCell(grocery: filteredGroceryArray[indexPath.row], isFeatured: false)
             }
             return cell
             
