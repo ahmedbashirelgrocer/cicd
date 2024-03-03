@@ -9,6 +9,11 @@ import UIKit
 
 class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var topSeparatorForStoreCategoriesHeader: UIView! {
+        didSet {
+            topSeparatorForStoreCategoriesHeader.backgroundColor = ApplicationTheme.currentTheme.separatorColor
+        }
+    }
     @IBOutlet var lblHeadingTopConstraint: NSLayoutConstraint!
     @IBOutlet var lblHeading: UILabel! {
         didSet {
@@ -28,6 +33,7 @@ class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
         // Initialization code
         setUpCollectionView()
         registerCells()
+        setSeparatorHidden(isHidden: true)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -63,12 +69,12 @@ class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
     
     func setupUI (isForFavourite: Bool) {
         if isForFavourite {
-            self.lblHeadingTopConstraint.constant = 0
+            self.lblHeadingTopConstraint.constant = 16
             self.lblHeading.text = localizedString("Neighborhood Favorites", comment: "")
             self.contentView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             self.collectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }else {
-            self.lblHeadingTopConstraint.constant = 0
+            self.lblHeadingTopConstraint.constant = 16
             self.lblHeading.text = localizedString("One-click reorder", comment: "")
             self.contentView.backgroundColor = ApplicationTheme.currentTheme.searchBarBGBlue50Color
             self.collectionView.backgroundColor = ApplicationTheme.currentTheme.searchBarBGBlue50Color
@@ -82,6 +88,10 @@ class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
         self.setupUI(isForFavourite: isForFavourite)
         self.collectionView.reloadData()
         
+    }
+    
+    func setSeparatorHidden(isHidden: Bool) {
+        self.topSeparatorForStoreCategoriesHeader.isHidden = isHidden
     }
     
     

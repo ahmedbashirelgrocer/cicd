@@ -29,6 +29,7 @@ class AWSegementImageViewcell: UICollectionViewCell {
         super.awakeFromNib()
         
         self.label.setCaptionOneBoldDarkStyle()
+        self.label.numberOfLines = 1
         self.label.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
         self.backgroundColor = .clear

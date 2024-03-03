@@ -9,6 +9,13 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+enum viewBorder: String {
+    case Left = "borderLeft"
+    case Right = "borderRight"
+    case Top = "borderTop"
+    case Bottom = "borderBottom"
+}
+
 class ILSegmentView: UICollectionView {
     // Fix Me: Need to make this view dependent on generic type instead of category or touple array
     var categories: [CategoryDTO] = []
@@ -59,11 +66,11 @@ class ILSegmentView: UICollectionView {
             self.collectionViewLayout = {
                 let layout = UICollectionViewFlowLayout()
                 layout.scrollDirection = scrollDirection
-                layout.itemSize = CGSize(width: 88, height: 100 )
+                layout.itemSize = CGSize(width: 88, height: 88 )
                 layout.minimumInteritemSpacing = 0
                 layout.minimumLineSpacing = 0
                 let edgeInset:CGFloat =  16
-                layout.sectionInset = UIEdgeInsets(top: edgeInset , left: edgeInset, bottom: 0, right: edgeInset)
+                layout.sectionInset = UIEdgeInsets(top: 0 , left: edgeInset, bottom: 0, right: edgeInset)
                 return layout
             }()
         }
@@ -81,7 +88,39 @@ class ILSegmentView: UICollectionView {
         
         self.delegate = self
         self.dataSource = self
+        
+//        self.addBottomBorder()
+        addBorder(vBorder: .Bottom, color: .red, width: 5)
     }
+    
+    func addBorder(vBorder: viewBorder, color: UIColor, width: CGFloat) {
+            let border = CALayer()
+            border.backgroundColor = color.cgColor
+            border.name = vBorder.rawValue
+            switch vBorder {
+                case .Left:
+                    border.frame = CGRectMake(0, 0, width, self.frame.size.height)
+                case .Right:
+                    border.frame = CGRectMake(self.frame.size.width - width, 0, width, self.frame.size.height)
+                case .Top:
+                    border.frame = CGRectMake(0, 0, self.frame.size.width, width)
+                case .Bottom:
+                    border.frame = CGRectMake(0, self.frame.size.height - width, self.frame.size.width, width)
+            }
+            self.layer.addSublayer(border)
+        }
+
+        func removeBorder(border: viewBorder) {
+            var layerForRemove: CALayer?
+            for layer in self.layer.sublayers! {
+                if layer.name == border.rawValue {
+                    layerForRemove = layer
+                }
+            }
+            if let layer = layerForRemove {
+                layer.removeFromSuperlayer()
+            }
+        }
     
     func refreshWith(_ data : [(imageURL: String, bgColor: UIColor, text: String)]) {
         self.segmentData = data

@@ -802,7 +802,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 && self.availableStoreTypeA.count > 0 {
-            return 100 + 32 //cellheight + top bottom
+            return 88//100 + 32 //cellheight + top bottom
         }
         return 0.01
     }
@@ -814,6 +814,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 && self.availableStoreTypeA.count > 0 {
+            tableViewHeader2.addBorder(vBorder: .Bottom, color: ApplicationTheme.currentTheme.separatorColor, width: 1)
             return tableViewHeader2
         }
         return nil
@@ -1341,9 +1342,9 @@ extension SmileSdkHomeVC {
         case .init(row: 0, section: 0):
             if tableViewHeader2.selectedItemIndex == 0 {
                 if neighbourHoodSection == 1 {
-                    return 140
+                    return 156
                 }else if oneClickReOrderSection == 1 {
-                    return 140
+                    return 156
                 }else {
                     return 45
                 }
@@ -1356,7 +1357,7 @@ extension SmileSdkHomeVC {
             }
         case .init(row: 1, section: 0):
             if tableViewHeader2.selectedItemIndex == 0 && oneClickReOrderSection == 1 {
-                return 150
+                return 156
             }
             return 45
         case .init(row: 2, section: 0):

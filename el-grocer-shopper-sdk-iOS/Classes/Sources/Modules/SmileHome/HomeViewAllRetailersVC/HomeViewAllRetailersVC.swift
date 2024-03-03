@@ -168,7 +168,7 @@ extension HomeViewAllRetailersVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 && self.availableStoreTypeA.count > 0 {
-            return 100 + 32 //cellheight + top bottom
+            return 88 //cellheight + top bottom
         }
         return 0.01
     }

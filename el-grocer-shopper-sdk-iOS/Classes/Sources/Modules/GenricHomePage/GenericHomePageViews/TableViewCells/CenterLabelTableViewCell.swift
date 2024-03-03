@@ -12,7 +12,7 @@ class CenterLabelTableViewCell: UITableViewCell {
 
     @IBOutlet var viewAllBGView: AWView! {
         didSet {
-            viewAllBGView.cornarRadius = 15
+            viewAllBGView.cornarRadius = 12.5
             viewAllBGView.backgroundColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
         }
     }
