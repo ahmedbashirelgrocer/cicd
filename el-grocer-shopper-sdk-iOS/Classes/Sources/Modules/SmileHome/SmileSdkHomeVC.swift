@@ -170,7 +170,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     private func navigationBarCustomization() {
         
         if let controller = self.navigationController as? ElGrocerNavigationController {
-            controller.setLogoHidden(false)
+            controller.setLogoHidden(true)
             controller.setGreenBackgroundColor()
             controller.setLocationHidden(true)
             controller.setSearchBarDelegate(self)
@@ -178,9 +178,10 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.setChatButtonHidden(true)
             controller.setNavBarHidden(false)
             controller.setChatIconColor(.navigationBarWhiteColor())
-            controller.setSideMenuButtonHidden(false)
+            controller.setSideMenuButtonHidden(true)
             controller.setCartButtonHidden(false)
             controller.setBackButtonHidden(false)
+            controller.setLeftTitle("Good Morning 👋", false)
             controller.actiondelegate = self
             controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
             controller.buttonActionsDelegate = self
@@ -791,10 +792,7 @@ extension SmileSdkHomeVC: ButtonActionDelegate {
     }
     
     func cartButtonTap() {
-        self.navigateToMultiCart()
-        
-        // Logging segment event for multicart clicked
-        SegmentAnalyticsEngine.instance.logEvent(event: MultiCartsClickedEvent())
+        profileButtonTap()
     }
 }
 

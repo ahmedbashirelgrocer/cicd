@@ -12,7 +12,7 @@ class NavigationBarLocationView: UIView {
 
     @IBOutlet var imgLocationPin: UIImageView!{
         didSet{
-            imgLocationPin.tintColor = sdkManager.isSmileSDK ? .newBlackColor() : .newBlackColor()
+            imgLocationPin.tintColor = sdkManager.isSmileSDK ? .black : .black
             imgLocationPin.image = UIImage(name: "homeHeadeerLocationPin")?.withRenderingMode(.alwaysTemplate)
         }
     }
@@ -20,13 +20,13 @@ class NavigationBarLocationView: UIView {
         didSet{
             imgArrowDown.backgroundColor = ApplicationTheme.currentTheme.separatorColor
             imgArrowDown.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: (imgArrowDown.bounds.height / 2))
-            imgArrowDown.tintColor = sdkManager.isSmileSDK ? .newBlackColor() : .newBlackColor()
+            imgArrowDown.tintColor = sdkManager.isSmileSDK ? .black : .black
             imgArrowDown.image = UIImage(name: "yellowArrowDown")?.withRenderingMode(.alwaysTemplate)
         }
     }
     @IBOutlet var lblLocation: UILabel!{
         didSet{
-            lblLocation.setBody3BoldUpperWhiteStyle()
+            lblLocation.setBody3RegDarkStyle()
             if !sdkManager.isShopperApp { lblLocation.textColor = ApplicationTheme.currentTheme.newBlackColor }
             lblLocation.text = "... "
             lblLocation.textAlignment = .natural

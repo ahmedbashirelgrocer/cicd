@@ -22,6 +22,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     //var chatButton:UIButton!
     var chatButton:NavigationBarChatButton!
     var profileButton:UIButton!
+    var leftTitle: UILabel!
     var cartButton:UIButton!
     var locationClick: (()->Void)?
     // MARK: Init
@@ -39,6 +40,7 @@ class ElGrocerNavigationBar : UINavigationBar {
         setChatButtonHidden(true)
         setLocationHidden(true)
         self.addProfileButton()
+        self.addLeftTitleLabel()
         self.addSideMenuButton()
         self.addCartButton()
         NotificationCenter.default.addObserver(self, selector: #selector(ElGrocerNavigationBar.chatStateChange(notification:)), name: KChatNotifcation, object: nil)
@@ -58,6 +60,7 @@ class ElGrocerNavigationBar : UINavigationBar {
         setLocationHidden(true)
         self.addSearchBar()
         self.addProfileButton()
+        self.addLeftTitleLabel()
         self.addCartButton()
     }
     
@@ -81,6 +84,7 @@ class ElGrocerNavigationBar : UINavigationBar {
            updateSearchBarLayout()
            updateLocationViewLayout()
            updateProfileButtonLayout()
+        updateLeftTitleLayout()
            updateCartButtonLayout()
         self.setLogoInCenter()
     }
@@ -150,6 +154,21 @@ class ElGrocerNavigationBar : UINavigationBar {
                 profileButton.frame = CGRect(x: x, y: (frame.size.height * 0.5) - 17, width: profileButtonWidth, height: profileButtonWidth)
                 profileButton.transform = CGAffineTransform(scaleX: -1, y: 1)
                 profileButton.semanticContentAttribute = .forceLeftToRight
+            }
+        }
+    }
+    
+    func updateLeftTitleLayout() {
+        let leftTitleWidth: CGFloat = 200
+
+        if backButton?.isHidden == false, let leftTitle = leftTitle {
+            leftTitle.frame = CGRect(x: 32 + (backButton.frame.size.width + 2), y: (frame.size.height * 0.5) - 13, width: leftTitleWidth, height: 24)
+
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                let x = frame.size.width - 16 - 34 - (backButton.frame.size.width + 2)
+                leftTitle.frame = CGRect(x: x, y: (frame.size.height * 0.5) - 17, width: leftTitleWidth, height: 24)
+                leftTitle.transform = CGAffineTransform(scaleX: -1, y: 1)
+                leftTitle.semanticContentAttribute = .forceLeftToRight
             }
         }
     }
@@ -472,6 +491,14 @@ class ElGrocerNavigationBar : UINavigationBar {
         }
     }
     
+    func setLeftTitleHidden(_ hidden:Bool, title: String) {
+        
+        if let leftTitle = self.leftTitle {
+            leftTitle.isHidden = hidden
+            leftTitle.text = title
+        }
+    }
+    
     func setSideMenuButtonHidden(_ hidden:Bool) {
         
         if let profileBtn = self.profileButton {
@@ -625,6 +652,16 @@ class ElGrocerNavigationBar : UINavigationBar {
         setProfileButtonHidden(true)
     }
     
+    fileprivate func addLeftTitleLabel() {
+        let label = UILabel()
+        label.text = "Good Morning 👋"
+        label.setH3SemiBoldStyle()
+        label.textColor = ApplicationTheme.currentTheme.themeBasePrimaryBlackColor
+        self.leftTitle  = label
+        self.addSubview(self.leftTitle)
+        setLeftTitleHidden(true, title: "Good Morning 👋")
+    }
+    
     fileprivate func addSideMenuButton() {
         let image = UIImage(name: "menu")?.withRenderingMode(.alwaysTemplate)
         self.profileButton  = UIButton(type: .custom)
@@ -635,13 +672,9 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     
     fileprivate func addCartButton() {
-        let imageNormal = sdkManager.isSmileSDK ? UIImage(name: "Cart-InActive-Smile") : UIImage(name: "Cart-Inactive-icon")
-        let imageSelected = sdkManager.isSmileSDK ? UIImage(name: "Cart-Active-Smile") : UIImage(name: "Cart-Active-icon")
-        
-        
+        let imageNormal = UIImage(name: "menu")
         self.cartButton = UIButton(type: .custom)
         self.cartButton.setImage(imageNormal, for: .normal)
-        self.cartButton.setImage(imageSelected, for: .selected)
         self.addSubview(self.cartButton)
         setCartButtonHidden(true)
     }

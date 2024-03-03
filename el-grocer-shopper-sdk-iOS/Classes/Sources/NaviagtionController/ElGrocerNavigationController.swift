@@ -87,6 +87,7 @@ class ElGrocerNavigationController : UINavigationController {
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         let isHidden = self.viewControllers.count > 0
         (self.navigationBar as? ElGrocerNavigationBar)?.profileButton.isHidden = isHidden
+        (self.navigationBar as? ElGrocerNavigationBar)?.leftTitle.isHidden = isHidden
         (self.navigationBar as? ElGrocerNavigationBar)?.cartButton.isHidden = isHidden
         super.pushViewController(viewController, animated: animated)
     }
@@ -204,6 +205,10 @@ class ElGrocerNavigationController : UINavigationController {
     func setProfileButtonHidden(_ hidden:Bool) {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setProfileButtonHidden(hidden)
+    }
+    func setLeftTitle(_ title: String, _ hidden:Bool) {
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
+        (self.navigationBar as! ElGrocerNavigationBar).setLeftTitleHidden(hidden, title: title)
     }
     
     func setSideMenuButtonHidden(_ hidden:Bool) {
