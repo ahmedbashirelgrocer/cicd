@@ -54,6 +54,7 @@ class HomeViewAllRetailersVC: UIViewController {
         registerTableViewCells()
         setHeader()
         setSegmentView()
+        subCategorySelectedWithSelectedIndex(0)
     }
     
     func setHeader() {
@@ -139,6 +140,7 @@ class HomeViewAllRetailersVC: UIViewController {
             }
             categoryHeader.refreshWith(data)
         }
+        self.storeTableView.reloadDataOnMain()
     }
     
 }
@@ -161,6 +163,7 @@ extension HomeViewAllRetailersVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 && self.availableStoreTypeA.count > 0 {
+            categoryHeader.addBorder(vBorder: .Bottom, color: ApplicationTheme.currentTheme.separatorColor, width: 1)
             return categoryHeader
         }
         return nil
@@ -208,7 +211,7 @@ extension HomeViewAllRetailersVC: AWSegmentViewProtocol {
         SegmentAnalyticsEngine.instance.logEvent(event: storeCategorySwitchedEvent)
         
         self.lastSelectType = selectedType
-        
+        self.storeTableView.reloadDataOnMain()
     }
     
     
