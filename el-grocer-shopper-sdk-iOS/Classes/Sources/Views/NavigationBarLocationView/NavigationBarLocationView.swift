@@ -12,13 +12,15 @@ class NavigationBarLocationView: UIView {
 
     @IBOutlet var imgLocationPin: UIImageView!{
         didSet{
-            imgLocationPin.tintColor = sdkManager.isSmileSDK ? .newBlackColor() : .white
-            imgLocationPin.image = UIImage(name: "yellowLocationPin")?.withRenderingMode(.alwaysTemplate)
+            imgLocationPin.tintColor = sdkManager.isSmileSDK ? .newBlackColor() : .newBlackColor()
+            imgLocationPin.image = UIImage(name: "homeHeadeerLocationPin")?.withRenderingMode(.alwaysTemplate)
         }
     }
     @IBOutlet var imgArrowDown: UIImageView!{
         didSet{
-            imgArrowDown.tintColor = sdkManager.isSmileSDK ? .newBlackColor() : .white
+            imgArrowDown.backgroundColor = ApplicationTheme.currentTheme.separatorColor
+            imgArrowDown.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: (imgArrowDown.bounds.height / 2))
+            imgArrowDown.tintColor = sdkManager.isSmileSDK ? .newBlackColor() : .newBlackColor()
             imgArrowDown.image = UIImage(name: "yellowArrowDown")?.withRenderingMode(.alwaysTemplate)
         }
     }
