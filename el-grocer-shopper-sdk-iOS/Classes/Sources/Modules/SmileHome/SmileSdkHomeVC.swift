@@ -114,7 +114,11 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     @IBOutlet var btnMulticart: UIButton!
     
-    @IBOutlet var btnMulticartBottomConstraint: NSLayoutConstraint!
+    @IBOutlet var btnMulticartBottomConstraint: NSLayoutConstraint! {
+        didSet {
+            btnMulticartBottomConstraint.constant = 25
+        }
+    }
     
         // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -371,8 +375,10 @@ class SmileSdkHomeVC: BasketBasicViewController {
                                 self.view.setNeedsLayout()
                                 if self.openOrders.count > 0 {
                                     self.currentOrderCollectionViewHeightConstraint.constant = KCurrentOrderCollectionViewHeight
+                                    self.btnMulticartBottomConstraint.constant = 85
                                 }else{
                                     self.currentOrderCollectionViewHeightConstraint.constant = 0
+                                    self.btnMulticartBottomConstraint.constant = 25
                                 }
                                 self.currentOrderCollectionView.reloadDataOnMainThread()
                                 
