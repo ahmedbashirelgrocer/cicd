@@ -24,6 +24,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     var profileButton:UIButton!
     var leftTitle: UILabel!
     var cartButton:UIButton!
+    var rightMenuButton:UIButton!
     var locationClick: (()->Void)?
     // MARK: Init
     
@@ -43,6 +44,7 @@ class ElGrocerNavigationBar : UINavigationBar {
         self.addLeftTitleLabel()
         self.addSideMenuButton()
         self.addCartButton()
+        self.addRightMenuButton()
         NotificationCenter.default.addObserver(self, selector: #selector(ElGrocerNavigationBar.chatStateChange(notification:)), name: KChatNotifcation, object: nil)
     }
     
@@ -62,6 +64,7 @@ class ElGrocerNavigationBar : UINavigationBar {
         self.addProfileButton()
         self.addLeftTitleLabel()
         self.addCartButton()
+        self.addRightMenuButton()
     }
     
     @objc func chatStateChange(notification: NSNotification) {
@@ -86,6 +89,7 @@ class ElGrocerNavigationBar : UINavigationBar {
            updateProfileButtonLayout()
         updateLeftTitleLayout()
            updateCartButtonLayout()
+        updateRightMenuButtonLayout()
         self.setLogoInCenter()
     }
     
@@ -181,6 +185,17 @@ class ElGrocerNavigationBar : UINavigationBar {
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             cartButton.frame.origin.x = 6
             cartButton.semanticContentAttribute = .forceRightToLeft
+        }
+    }
+    
+    func updateRightMenuButtonLayout() {
+        let ButtonSize: CGFloat = 24.0
+
+        rightMenuButton.frame = CGRect(x: frame.size.width - 16 - ButtonSize, y: (frame.size.height * 0.5) - (ButtonSize * 0.5), width: ButtonSize, height: ButtonSize)
+
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            rightMenuButton.frame.origin.x = 6
+            rightMenuButton.semanticContentAttribute = .forceRightToLeft
         }
     }
     
@@ -477,6 +492,13 @@ class ElGrocerNavigationBar : UINavigationBar {
         }
     }
     
+    func setRightMenuButtonHidden(_ hidden:Bool) {
+        
+        if let rightMenuButton = self.rightMenuButton {
+            rightMenuButton.isHidden = hidden
+        }
+    }
+    
     func setCartButtonActive(_ isActive:Bool) {
         
         if let cartButn = self.cartButton {
@@ -672,11 +694,21 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     
     fileprivate func addCartButton() {
-        let imageNormal = UIImage(name: "menu")
+        let imageNormal = sdkManager.isSmileSDK ? UIImage(name: "Cart-InActive-Smile") : UIImage(name: "Cart-Inactive-icon")
+        let imageSelected = sdkManager.isSmileSDK ? UIImage(name: "Cart-Active-Smile") : UIImage(name: "Cart-Active-icon")
         self.cartButton = UIButton(type: .custom)
         self.cartButton.setImage(imageNormal, for: .normal)
+        self.cartButton.setImage(imageSelected, for: .selected)
         self.addSubview(self.cartButton)
         setCartButtonHidden(true)
+    }
+    
+    fileprivate func addRightMenuButton() {
+        let imageNormal = UIImage(name: "menu")
+        self.rightMenuButton = UIButton(type: .custom)
+        self.rightMenuButton.setImage(imageNormal, for: .normal)
+        self.addSubview(self.rightMenuButton)
+        setRightMenuButtonHidden(true)
     }
     
     

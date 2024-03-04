@@ -183,7 +183,8 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.setNavBarHidden(false)
             controller.setChatIconColor(.navigationBarWhiteColor())
             controller.setSideMenuButtonHidden(true)
-            controller.setCartButtonHidden(false)
+            controller.setCartButtonHidden(true)
+            controller.setRightMenuButtonHidden(false)
             controller.setBackButtonHidden(false)
             controller.setLeftTitle(getNavigationTitleAccordingToTime(), false)
             controller.actiondelegate = self

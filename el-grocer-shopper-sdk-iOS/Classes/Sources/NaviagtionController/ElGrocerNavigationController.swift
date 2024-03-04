@@ -73,7 +73,7 @@ class ElGrocerNavigationController : UINavigationController {
         
         (self.navigationBar as? ElGrocerNavigationBar)?.backButton.addTarget(self, action: #selector(backButtonClick), for: UIControl.Event.touchUpInside)
         (self.navigationBar as? ElGrocerNavigationBar)?.cartButton.addTarget(self, action: #selector(cartButtonClick), for: UIControl.Event.touchUpInside)
-    
+        (self.navigationBar as? ElGrocerNavigationBar)?.rightMenuButton.addTarget(self, action: #selector(profileButtonClick), for: UIControl.Event.touchUpInside)
         (self.navigationBar as? ElGrocerNavigationBar)?.profileButton.addTarget(self, action: #selector(profileButtonClick), for: UIControl.Event.touchUpInside)
        
     }
@@ -89,6 +89,7 @@ class ElGrocerNavigationController : UINavigationController {
         (self.navigationBar as? ElGrocerNavigationBar)?.profileButton.isHidden = isHidden
         (self.navigationBar as? ElGrocerNavigationBar)?.leftTitle.isHidden = isHidden
         (self.navigationBar as? ElGrocerNavigationBar)?.cartButton.isHidden = isHidden
+        (self.navigationBar as? ElGrocerNavigationBar)?.rightMenuButton.isHidden = isHidden
         super.pushViewController(viewController, animated: animated)
     }
 
@@ -216,7 +217,10 @@ class ElGrocerNavigationController : UINavigationController {
         (self.navigationBar as! ElGrocerNavigationBar).setSideMenuButtonHidden(hidden)
     }
     // sideMenu
-    
+    func setRightMenuButtonHidden(_ hidden:Bool) {
+        guard self.navigationBar is ElGrocerNavigationBar else {return}
+        (self.navigationBar as! ElGrocerNavigationBar).setRightMenuButtonHidden(hidden)
+    }
     func setCartButtonHidden(_ hidden:Bool) {
         guard self.navigationBar is ElGrocerNavigationBar else {return}
         (self.navigationBar as! ElGrocerNavigationBar).setCartButtonHidden(hidden)
