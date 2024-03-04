@@ -181,13 +181,27 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.setSideMenuButtonHidden(true)
             controller.setCartButtonHidden(false)
             controller.setBackButtonHidden(false)
-            controller.setLeftTitle("Good Morning 👋", false)
+            controller.setLeftTitle(getNavigationTitleAccordingToTime(), false)
             controller.actiondelegate = self
             controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
             controller.buttonActionsDelegate = self
             (controller.navigationBar as? ElGrocerNavigationBar)?.changeBackButtonImagetoPurple() // to get purple backimage
             controller.refreshLogoView()
             controller.navigationBar.topItem?.title = ""
+        }
+        
+    }
+    
+    func getNavigationTitleAccordingToTime()-> String {
+        let date = Date()
+        let hrs = date.dateComponents.hour ?? 0
+        
+        if hrs >= 5 && hrs < 12 {
+            return localizedString("Good Morning 👋", comment: "")
+        }else if hrs >= 12 && hrs < 17 {
+            return localizedString("Good Afternoon 👋", comment: "")
+        }else {
+            return localizedString("Good Evening 👋", comment: "")
         }
         
     }
