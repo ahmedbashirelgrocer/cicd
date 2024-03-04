@@ -43,13 +43,13 @@ class OneClickReOrderBottomSheet: UIViewController {
     @IBOutlet var imgArrowForward: UIImageView!
     @IBOutlet var lblCheckout: UILabel! {
         didSet {
-            lblCheckout.text = localizedString("CHECKOUT", comment: "")
+            lblCheckout.text = localizedString("CART", comment: "")
             lblCheckout.setBody3BoldUpperWhiteStyle()
         }
     }
     @IBOutlet var lblPrice: UILabel! {
         didSet {
-            lblPrice.text = localizedString("AED 777.99", comment: "")
+            lblPrice.text = localizedString("AED 0.00", comment: "")
             lblPrice.setBody3BoldUpperWhiteStyle()
         }
     }

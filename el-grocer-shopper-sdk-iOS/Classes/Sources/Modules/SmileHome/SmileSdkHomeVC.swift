@@ -112,7 +112,11 @@ class SmileSdkHomeVC: BasketBasicViewController {
     @IBOutlet var currentOrderCollectionView: UICollectionView!
     @IBOutlet var currentOrderCollectionViewHeightConstraint: NSLayoutConstraint!
     
-    @IBOutlet var btnMulticart: UIButton!
+    @IBOutlet var btnMulticart: UIButton! {
+        didSet {
+            btnMulticart.setImage(UIImage(name: "Cart-InActive-Smile"), for: UIControl.State())
+        }
+    }
     
     @IBOutlet var btnMulticartBottomConstraint: NSLayoutConstraint! {
         didSet {
