@@ -38,7 +38,8 @@ class NeighbourHoodFavouriteGroceryCollectionCell: UICollectionViewCell {
     
     func configureCell(grocery: Grocery, isForFavourite: Bool) {
         
-        if isForFavourite {
+        self.lblPercentage.text = grocery.salesTagLine ?? ""
+        if isForFavourite , grocery.salesTagLine != nil, grocery.salesTagLine != "" {
             self.percentageBGView.visibility = .visible
         }else {
             self.percentageBGView.visibility = .gone

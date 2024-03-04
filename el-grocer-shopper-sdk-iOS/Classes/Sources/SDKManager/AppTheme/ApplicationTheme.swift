@@ -96,6 +96,7 @@ public protocol Theme {
     var viewOOSItemRedColor: UIColor { get }
     var viewAlertLightYellowColor: UIColor { get }
     var viewLimmitedStockSecondaryDarkBGColor: UIColor { get }
+    var viewStoreCardNewTagBGView: UIColor { get }
     var viewFeaturedStoreBGView: UIColor { get }
     //MARK: Category Pills
     var pillSelectedBGColor: UIColor { get }
@@ -219,6 +220,7 @@ struct ElgrocerTheme: Theme {
     var viewAlertLightYellowColor: UIColor = ElgrocerBaseColors.elgrocerAlertYellowColour
     var viewLimmitedStockSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
     var viewFeaturedStoreBGView: UIColor = ElgrocerBaseColors.elgrocerFeaturedStoreBGCOlor
+    var viewStoreCardNewTagBGView: UIColor = ElgrocerBaseColors.elgrocerSmileDarkBlue600BGColor
     //MARK: Category Pills
     var pillSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
     var pillUnSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
@@ -339,6 +341,7 @@ struct SmileSDKTheme: Theme {
     var viewAlertLightYellowColor: UIColor = ElgrocerBaseColors.elgrocerAlertYellowColour
     var viewLimmitedStockSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerLimitedStockDarkGreenColour
     var viewFeaturedStoreBGView: UIColor = ElgrocerBaseColors.elgrocerFeaturedStoreBGCOlor
+    var viewStoreCardNewTagBGView: UIColor = ElgrocerBaseColors.elgrocerSmileDarkBlue600BGColor
     //MARK: Category Pills
     var pillSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
     var pillUnSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour

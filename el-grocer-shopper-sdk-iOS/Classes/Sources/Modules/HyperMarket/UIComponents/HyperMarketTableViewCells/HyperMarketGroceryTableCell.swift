@@ -27,6 +27,7 @@ class HyperMarketGroceryTableCell: UITableViewCell {
     }
     @IBOutlet var lblGroceryName: UILabel!{
         didSet{
+            lblGroceryName.numberOfLines = 1
             lblGroceryName.setBody2SemiboldGeoceryDarkGreenStyle()
         }
     }
@@ -37,13 +38,13 @@ class HyperMarketGroceryTableCell: UITableViewCell {
     }
     @IBOutlet var newBGView: UIView!{
         didSet{
-            newBGView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
-            newBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner], radius: 8, withShadow: false)
+            newBGView.backgroundColor = ApplicationTheme.currentTheme.viewStoreCardNewTagBGView
+            newBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner], radius: 8, withShadow: false)
         }
     }
     @IBOutlet var lblNew: UILabel!{
         didSet{
-            lblNew.setCaptionOneBoldWhiteStyle()
+            lblNew.setCaptionTwoBoldWhiteStyle()
         }
     }
     
@@ -64,7 +65,7 @@ class HyperMarketGroceryTableCell: UITableViewCell {
             AssignImage(imageUrl: grocery.smallImageUrl!)
         }
         self.lblGroceryName.text = grocery.name
-        self.newBGView.isHidden = true
+        self.newBGView.isHidden = grocery.isNewRetailer?.boolValue ?? false
 //        self.setDeliveryDate(grocery.genericSlot ?? "")
         self.getDeliverySlotString(grocery: grocery)
         

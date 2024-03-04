@@ -46,7 +46,7 @@ extension UILabel {
     }
     
     func setNeighbourHoodGroceryPercentageStyle(){
-        self.font = UIFont.SFProDisplaySemiBoldFont(10)
+        self.font = UIFont.SFProDisplayBoldFont(10)
         self.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
     }
     
@@ -343,6 +343,10 @@ extension UILabel {
     func setCaptionTwoSemiboldWhiteStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(11)
         self.textColor = UIColor.navigationBarWhiteColor()
+    }
+    func setCaptionTwoBoldWhiteStyle() {
+        self.font = UIFont.SFProDisplayBoldFont(11)
+        self.textColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
     }
     func setCaptionTwoSemiboldYellowStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(11)
