@@ -65,7 +65,7 @@ class HyperMarketGroceryTableCell: UITableViewCell {
             AssignImage(imageUrl: grocery.smallImageUrl!)
         }
         self.lblGroceryName.text = grocery.name
-        self.newBGView.isHidden = grocery.isNewRetailer?.boolValue ?? false
+        self.newBGView.isHidden = !(grocery.isNewRetailer?.boolValue ?? false)
 //        self.setDeliveryDate(grocery.genericSlot ?? "")
         self.getDeliverySlotString(grocery: grocery)
         
@@ -102,10 +102,10 @@ class HyperMarketGroceryTableCell: UITableViewCell {
         }
     }
     func getDeliverySlotString(grocery: Grocery) {
-        
+        let scheduledEmoji = "🚛 "
         if  (grocery.isOpen.boolValue && (grocery.isInstant() || grocery.isInstantSchedule())) {
             let attrs2 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Semibold", size: 11) , NSAttributedString.Key.foregroundColor : self.lblSlot.textColor]
-            let instantSlotString = "⚡️" + localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "")
+            let instantSlotString = "🛵 " + localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "")
             let attributedString2 = NSMutableAttributedString(string: instantSlotString, attributes:attrs2 as [NSAttributedString.Key : Any])
             self.lblSlot.attributedText = attributedString2
             hideSlotImage(isHidden: true)
@@ -113,16 +113,17 @@ class HyperMarketGroceryTableCell: UITableViewCell {
             if let dict = grocery.convertToDictionary(text: jsonSlot) {
                 
                 let slotString = DeliverySlotManager.getStoreGenericSlotFormatterTimeStringWithDictionary(dict, isDeliveryMode: grocery.isDelivery.boolValue)
-                setDeliveryDate(slotString)
-                hideSlotImage(isHidden: false)
+                
+                setDeliveryDate(scheduledEmoji + slotString)
+                hideSlotImage(isHidden: true)
                 
             }else {
-                setDeliveryDate(grocery.genericSlot ?? "")
-                hideSlotImage(isHidden: false)
+                setDeliveryDate(scheduledEmoji + (grocery.genericSlot ?? ""))
+                hideSlotImage(isHidden: true)
             }
         }else {
-            setDeliveryDate(grocery.genericSlot ?? "")
-            hideSlotImage(isHidden: false)
+            setDeliveryDate(scheduledEmoji + (grocery.genericSlot ?? ""))
+            hideSlotImage(isHidden: true)
         }
         
     }

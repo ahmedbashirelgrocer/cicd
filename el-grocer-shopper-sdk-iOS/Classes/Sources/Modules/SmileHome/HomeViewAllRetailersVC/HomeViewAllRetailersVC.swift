@@ -54,13 +54,22 @@ class HomeViewAllRetailersVC: UIViewController {
         registerTableViewCells()
         setHeader()
         setSegmentView()
-        subCategorySelectedWithSelectedIndex(0)
+        fetchPreviousSelectedIndexForHomePage()
     }
     
     func setHeader() {
         categoryHeader.onTap { [weak self] index in self?.subCategorySelectedWithSelectedIndex(index) }
-        
-        
+    }
+    
+    func fetchPreviousSelectedIndexForHomePage() {
+        if self.selectStoreType != nil && self.availableStoreTypeA.count > 0 {
+            
+            let selectedIndex = availableStoreTypeA.firstIndex { StoreType in
+                StoreType.storeTypeid == selectStoreType?.storeTypeid
+            }
+            subCategorySelectedWithSelectedIndex(selectedIndex ?? 0)
+            
+        }
     }
     
     private func navigationCustimzation() {

@@ -326,7 +326,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.filteredGroceryArray = self.groceryArray
         // self.tableView.reloadDataOnMain()
         
-        if  self.selectStoreType != nil {
+        if  self.selectStoreType != nil , self.tableViewHeader.segmentView.subCategories.count > 0{
             if let indexOfType = self.availableStoreTypeA.firstIndex(where: { type in
                 type.storeTypeid == self.selectStoreType?.storeTypeid
             }){
@@ -1416,7 +1416,9 @@ extension SmileSdkHomeVC {
             vc.filteredGroceryArray = self.filteredGroceryArray
             vc.sortedGroceryArray = self.sortedGroceryArray
             vc.selectStoreType = self.selectStoreType
+            vc.lastSelectType = self.lastSelectType
             var storeTypearray = self.availableStoreTypeA
+            storeTypearray.remove(at: 0)
             vc.availableStoreTypeA = storeTypearray
             
             vc.groceryTapped = {[weak self] grocery in
