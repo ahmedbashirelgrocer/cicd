@@ -1114,6 +1114,10 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         let storeCategorySwitchedEvent = StoreCategorySwitchedEvent(currentStoreCategoryType: lastSelectType, nextStoreCategoryType: selectedType)
         SegmentAnalyticsEngine.instance.logEvent(event: storeCategorySwitchedEvent)
         
+        let storeCategoryClickedEvent = StoreCategoryClickedEvent(storeType: availableStoreTypeA[selectedSegmentIndex], screenName: ScreenName.homeScreen.rawValue)
+        
+        SegmentAnalyticsEngine.instance.logEvent(event: storeCategoryClickedEvent)
+        
         self.lastSelectType = selectedType
         
     }
@@ -1342,7 +1346,7 @@ extension SmileSdkHomeVC {
             self.goToGrocery(self.sortedGroceryArray[indexPath.row], nil)
             
             // Logging segment event for store clicked
-            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPath.row], source: .smilesHomeScreen))
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPath.row], source: ScreenName.homeScreen.rawValue, section: StoreComponentMarketingEnablers.All_Available_Stores))
 
             // Fix: 55
         }
@@ -1353,7 +1357,7 @@ extension SmileSdkHomeVC {
                 self.goToGrocery(self.sortedGroceryArray[indexPathRow], nil)
                 
                 // Logging segment event for store clicked
-                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPathRow], source: .smilesHomeScreen))
+                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPathRow], source: ScreenName.homeScreen.rawValue, section: StoreComponentMarketingEnablers.All_Available_Stores))
             }
         }
     }
@@ -1457,7 +1461,7 @@ extension SmileSdkHomeVC {
             .configure(groceries: groceries)
             .onTap { [weak self] grocery in
                 self?.goToGrocery(grocery, nil)
-                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: .smilesHomeScreen))
+                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: ScreenName.homeScreen.rawValue, section: StoreComponentMarketingEnablers.All_Available_Stores))
             }
     }
     

@@ -105,5 +105,7 @@ enum EventParameterKeys {
     static let campaignId       = "campaignId"
     static let storeId       = "storeId"
     static let storeName       = "storeName"
+    
+    static let marketingEnablers = "marketingEnabler"
 
 }

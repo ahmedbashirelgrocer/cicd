@@ -1371,7 +1371,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
                 if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
                     let storeClickedEvent = StoreClickedEvent(
                         grocery: grocery,
-                        source: self.searchString.isEmpty ? .popularStore : .relatedStore
+                        source: self.searchString.isEmpty ? StoreClickedEventSource.popularStore.rawValue : StoreClickedEventSource.relatedStore.rawValue, section: StoreComponentMarketingEnablers.none
                     )
                     
                     SegmentAnalyticsEngine.instance.logEvent(event: storeClickedEvent)

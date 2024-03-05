@@ -167,6 +167,8 @@ extension HomeViewAllRetailersVC: UITableViewDelegate, UITableViewDataSource {
         
         if let groceryTapped = self.groceryTapped {
             groceryTapped(sortedGroceryArray[indexPath.row])
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.sortedGroceryArray[indexPath.row], source: ScreenName.allStoreListScreen.rawValue, section: StoreComponentMarketingEnablers.All_Available_Stores))
+
         }
     }
     
@@ -218,6 +220,10 @@ extension HomeViewAllRetailersVC: AWSegmentViewProtocol {
         // Logging segment for store category switch
         let storeCategorySwitchedEvent = StoreCategorySwitchedEvent(currentStoreCategoryType: lastSelectType, nextStoreCategoryType: selectedType)
         SegmentAnalyticsEngine.instance.logEvent(event: storeCategorySwitchedEvent)
+        
+        let storeCategoryClickedEvent = StoreCategoryClickedEvent(storeType: availableStoreTypeA[selectedSegmentIndex], screenName: ScreenName.allStoreListScreen.rawValue)
+        
+        SegmentAnalyticsEngine.instance.logEvent(event: storeCategoryClickedEvent)
         
         self.lastSelectType = selectedType
         self.storeTableView.reloadDataOnMain()

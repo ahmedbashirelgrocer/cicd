@@ -31,11 +31,20 @@ enum StoreClickedEventSource: String {
     case elgrocerApp = "Elgrocer Store Selection"
 }
 
+enum StoreComponentMarketingEnablers: String {
+    case Neighbourhood_Stores = "Neighborhood Favorites"
+    case One_Click_Re_Order = "One Click Re-Order"
+    case All_Available_Stores = "All Available Stores"
+    case none = "None"
+}
+
 struct StoreClickedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(grocery: Grocery, source: StoreClickedEventSource?) {
+    
+    
+    init(grocery: Grocery, source: String?, section: StoreComponentMarketingEnablers) {
         self.eventType = .track(eventName: AnalyticsEventName.storeClicked)
         self.metaData = [
             EventParameterKeys.retailerID       : grocery.dbID,
@@ -44,8 +53,9 @@ struct StoreClickedEvent: AnalyticsEventDataType {
             EventParameterKeys.parentId         : grocery.parentID.stringValue,
             EventParameterKeys.typesStoreID     : grocery.retailerType.stringValue,
             EventParameterKeys.address          : grocery.address ?? "",
+            EventParameterKeys.marketingEnablers  : section.rawValue
         ]
-        if source != nil {self.metaData?[EventParameterKeys.source] = source?.rawValue}
+        if source != nil {self.metaData?[EventParameterKeys.source] = source}
     }
 }
 
@@ -133,11 +143,12 @@ struct StoreCategoryClickedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(storeType: StoreType) {
+    init(storeType: StoreType, screenName: String) {
         self.eventType = .track(eventName: AnalyticsEventName.storeCategoryClicked)
         self.metaData = [
             EventParameterKeys.categoryID: String(storeType.storeTypeid),
             EventParameterKeys.categoryName: storeType.name,
+            EventParameterKeys.source: screenName
         ]
     }
 }

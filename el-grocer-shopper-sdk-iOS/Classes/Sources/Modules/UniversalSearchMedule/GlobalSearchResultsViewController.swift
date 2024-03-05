@@ -495,7 +495,7 @@ extension GlobalSearchResultsViewController : HomeCellDelegate  {
             ElGrocerUtility.sharedInstance.searchString = self.keyWord
             
             // Logging segment event for store clicked
-            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: .searchResultScreen))
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: StoreClickedEventSource.searchResultScreen.rawValue, section: StoreComponentMarketingEnablers.none))
             
             if isNeedToDismiss {
                 self.navigationController?.dismiss(animated: false, completion: {
