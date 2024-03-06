@@ -68,11 +68,15 @@ class SmileSdkHomeVC: BasketBasicViewController {
     var neighbourHoodFavGroceryArray: [Grocery] = []
     var oneClickReOrderGroceryIDArray: [Int] = [] {
         didSet {
-            oneClickReOrderGroceryArray = sortedGroceryArray.filter {
-                let cleanID = $0.getCleanGroceryID()
-                let idToCheck = Int(cleanID) ?? 0
-                return oneClickReOrderGroceryIDArray.contains(idToCheck)
+            var array = [Grocery]()
+            for id in oneClickReOrderGroceryIDArray {
+                if let item = sortedGroceryArray.first(where: { Grocery in
+                    Grocery.getCleanGroceryID() == String(id)
+                }) {
+                    array.append(item)
+                }
             }
+            oneClickReOrderGroceryArray = array
             
             tableView.reloadDataOnMain()
         }
