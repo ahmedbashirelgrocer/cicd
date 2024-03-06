@@ -128,6 +128,7 @@ class ElgrocerStoreHeader:  UIView  {
             UIApplication.topViewController()?.dismiss(animated: true)
         case .dismisSDK:
             SDKManager.shared.rootContext?.dismiss(animated: true)
+            SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedEvent())
         case .popVc:
             UIApplication.topViewController()?.navigationController?.popViewController(animated: true)
         }

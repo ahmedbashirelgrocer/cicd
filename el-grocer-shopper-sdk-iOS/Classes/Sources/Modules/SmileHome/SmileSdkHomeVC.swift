@@ -625,7 +625,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
     override func backButtonClickedHandler() {
         
         super.backButtonClickedHandler()
-
+        
+        SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedEvent())
+        
         NotificationCenter.default.removeObserver(SDKManager.shared, name: NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
         
         if let rootContext = SDKManager.shared.rootContext {
@@ -1449,6 +1451,8 @@ extension SmileSdkHomeVC {
             vc.modalPresentationStyle = .fullScreen
             navigationController.modalPresentationStyle = .fullScreen
             self.navigationController?.present(navigationController, animated: true, completion: {  })
+            
+            SegmentAnalyticsEngine.instance.logEvent(event: HomeViewAllClickedEvent())
         }
         
         return cell
