@@ -819,7 +819,7 @@ extension SmileSdkHomeVC: ButtonActionDelegate {
     }
     
     func cartButtonTap() {
-        profileButtonTap()
+        navigateToMultiCart()
     }
 }
 
