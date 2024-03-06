@@ -43,13 +43,13 @@ class OneClickReOrderBottomSheet: UIViewController {
     @IBOutlet var imgArrowForward: UIImageView!
     @IBOutlet var lblCheckout: UILabel! {
         didSet {
-            lblCheckout.text = localizedString("CART", comment: "")
+            lblCheckout.text = localizedString("btn_cart_all_cap", comment: "")
             lblCheckout.setBody3BoldUpperWhiteStyle()
         }
     }
     @IBOutlet var lblPrice: UILabel! {
         didSet {
-            lblPrice.text = localizedString("AED 0.00", comment: "")
+            lblPrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: 0.00)
             lblPrice.setBody3BoldUpperWhiteStyle()
         }
     }
@@ -114,6 +114,9 @@ class OneClickReOrderBottomSheet: UIViewController {
         if let jsonSlot = grocery?.initialDeliverySlotData, let dict = grocery?.convertToDictionary(text: jsonSlot) {
             let timeMili = dict["time_milli"] as? Int ?? 0
             self.fetchPreviousPurchasedProducts(deliveryTime: timeMili)
+        }else {
+            let timeMili = Date().getUTCDate().millisecondsSince1970
+            self.fetchPreviousPurchasedProducts(deliveryTime: Int(timeMili))
         }
     }
     
@@ -136,6 +139,8 @@ extension OneClickReOrderBottomSheet {
             return
         }
     
+        SpinnerView.showSpinnerViewInView(self.view)
+        
         let parameters = NSMutableDictionary()
         parameters["limit"] = 40
         parameters["offset"] = 0
@@ -148,7 +153,7 @@ extension OneClickReOrderBottomSheet {
             guard let self = self else { return }
             
             self.dispatchGroup.leave()
-            
+            SpinnerView.hideSpinnerView()
             switch result {
             case .success(let response):
                 let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)

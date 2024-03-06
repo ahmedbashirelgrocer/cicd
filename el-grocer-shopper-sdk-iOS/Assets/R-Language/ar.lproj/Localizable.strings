@@ -2430,3 +2430,7 @@
 // MARK: custom landing page
 "eg_No_Campgin_Found" = "عفوا.. يؤسفنا ذلك لكن يبدو أن هذه الصفحة غير موجودة.
 اذهب إلى صفحتنا الرئيسية لمواصلة التصفح.";
+
+//MARK: Homepage 2.0
+
+"btn_cart_all_cap" = "قوستلا ةلس";

@@ -2372,3 +2372,8 @@ Oreo";
 
 // MARK: custom landing page
 "eg_No_Campgin_Found" = "Ooops.. this is awkward. Looks like that page doesn’t exist";
+
+//MARK: Homepage 2.0
+
+"btn_cart_all_cap" = "CART";
+
