@@ -2074,7 +2074,7 @@ Oreo";
 //MARK: C&C
 "lbl_collectionNear" = "Where would you like to collect groceries?";
 //MARK: home search header
-"search_placeholder_home" = "Search products, stores...";
+"search_placeholder_home" = "Search products & stores";
 //MARK: HyperMarketHeader
 "search_placeholder_hypermarket" = "Search items or stores...";
 "search_placeholder_view_allstore_categories" = "Search items or stores...";
