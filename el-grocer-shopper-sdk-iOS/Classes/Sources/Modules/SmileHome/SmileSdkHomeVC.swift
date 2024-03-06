@@ -1513,9 +1513,11 @@ extension SmileSdkHomeVC {
         cell.groceryTapped = { [weak self] isForFavourite, grocery in
             if isForFavourite {
                 self?.goToGrocery(grocery, nil)
+                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: ScreenName.homeScreen.rawValue, section: .Neighbourhood_Stores))
             }else {
                 //show bottom sheet for one click reOrder
                 self?.showBottomSheeetForOneClickReOrder(grocery: grocery)
+                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: ScreenName.homeScreen.rawValue, section: .One_Click_Re_Order))
             }
             
         }
