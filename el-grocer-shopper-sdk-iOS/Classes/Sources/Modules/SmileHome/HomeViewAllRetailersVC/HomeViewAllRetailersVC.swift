@@ -54,6 +54,7 @@ class HomeViewAllRetailersVC: UIViewController {
         registerTableViewCells()
         setHeader()
         setSegmentView()
+        subCategorySelectedWithSelectedIndex(0)
         fetchPreviousSelectedIndexForHomePage()
     }
     
@@ -192,14 +193,8 @@ extension HomeViewAllRetailersVC: AWSegmentViewProtocol {
     
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex:Int) {
         
-        guard selectedSegmentIndex > 0 else {
-            self.filteredGroceryArray = self.groceryArray
-            self.storeTableView.reloadDataOnMain()
-            return
-        }
         
-        
-        let finalIndex = selectedSegmentIndex - 1
+        let finalIndex = selectedSegmentIndex
         guard finalIndex < self.availableStoreTypeA.count else {return}
         
         let selectedType = self.availableStoreTypeA[finalIndex]

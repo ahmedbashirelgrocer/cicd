@@ -133,6 +133,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         super.viewDidLoad()
         self.registerCellsAndSetDelegates()
         self.setSegmentView()
+        subCategorySelectedWithSelectedIndex(0)
         setupClearNavBar()
         if sdkManager.launchOptions?.marketType == .marketPlace {
             SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
@@ -1007,6 +1008,7 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
             self.setUserProfileData()
             self.setDefaultGrocery()
             self.setSegmentView()
+            subCategorySelectedWithSelectedIndex(0)
             
         } else if type == .HomePageLocationOneBanners {
             if self.homeDataHandler.locationOneBanners?.count == 0 {
@@ -1091,14 +1093,14 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
     
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex:Int) {
         
-        guard selectedSegmentIndex > 0 else {
-            self.filteredGroceryArray = self.groceryArray
-            self.tableView.reloadDataOnMain()
-            return
-        }
+//        guard selectedSegmentIndex > 0 else {
+//            self.filteredGroceryArray = self.groceryArray
+//            self.tableView.reloadDataOnMain()
+//            return
+//        }
         
         
-        let finalIndex = selectedSegmentIndex - 1
+        let finalIndex = selectedSegmentIndex// - 1
         guard finalIndex < self.availableStoreTypeA.count else {return}
         
         let selectedType = self.availableStoreTypeA[finalIndex]
@@ -1233,6 +1235,7 @@ extension SmileSdkHomeVC {
         self.setUserProfileData()
         self.setDefaultGrocery()
         self.setSegmentView()
+        subCategorySelectedWithSelectedIndex(0)
             
         if self.homeDataHandler.locationOneBanners?.count == 0 {
             FireBaseEventsLogger.trackNoBanners()
