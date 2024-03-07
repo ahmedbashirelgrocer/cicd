@@ -89,11 +89,10 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blackArrowDown" translatesAutoresizingMaskIntoConstraints="NO" id="GMN-8X-Dco">
-                                            <rect key="frame" x="99.5" y="2" width="16" height="16"/>
+                                            <rect key="frame" x="99.5" y="4" width="12" height="12"/>
                                             <color key="tintColor" red="0.90196073060000004" green="0.8392156959" blue="0.31372550129999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="16" id="wP1-NE-ujq"/>
-                                                <constraint firstAttribute="width" constant="16" id="xYI-JV-RaI"/>
+                                                <constraint firstAttribute="width" secondItem="GMN-8X-Dco" secondAttribute="height" multiplier="1:1" id="ZHl-mN-EER"/>
                                             </constraints>
                                         </imageView>
                                     </subviews>
@@ -103,6 +102,8 @@
                                         <constraint firstItem="ZX6-sE-EOS" firstAttribute="centerY" secondItem="ip8-60-Bjk" secondAttribute="centerY" id="8nS-0r-aq2"/>
                                         <constraint firstItem="ZX6-sE-EOS" firstAttribute="leading" secondItem="ppb-xP-Idw" secondAttribute="trailing" constant="5" id="BRm-pK-k7F"/>
                                         <constraint firstItem="ppb-xP-Idw" firstAttribute="top" secondItem="ip8-60-Bjk" secondAttribute="top" id="GeY-zp-KMK"/>
+                                        <constraint firstItem="GMN-8X-Dco" firstAttribute="top" secondItem="ip8-60-Bjk" secondAttribute="top" constant="4" id="JA0-il-wBi"/>
+                                        <constraint firstAttribute="bottom" secondItem="GMN-8X-Dco" secondAttribute="bottom" constant="4" id="OH8-7V-toy"/>
                                         <constraint firstItem="GMN-8X-Dco" firstAttribute="leading" secondItem="ZX6-sE-EOS" secondAttribute="trailing" constant="4" id="gfE-CD-yDv"/>
                                         <constraint firstAttribute="bottom" secondItem="ZX6-sE-EOS" secondAttribute="bottom" id="lgZ-s8-hwy"/>
                                         <constraint firstItem="ppb-xP-Idw" firstAttribute="leading" secondItem="ip8-60-Bjk" secondAttribute="leading" id="oui-cm-YYz"/>
@@ -141,7 +142,6 @@
                                         <constraint firstItem="GXy-Cr-2hH" firstAttribute="leading" secondItem="M7j-Is-c6Y" secondAttribute="leading" constant="6" id="BxN-JZ-dyY"/>
                                         <constraint firstItem="Zpy-5b-pos" firstAttribute="centerY" secondItem="M7j-Is-c6Y" secondAttribute="centerY" id="Du8-zp-h2z"/>
                                         <constraint firstItem="Zpy-5b-pos" firstAttribute="leading" secondItem="GXy-Cr-2hH" secondAttribute="trailing" constant="2" id="RgO-8t-jh7"/>
-                                        <constraint firstAttribute="height" constant="16" id="Sqh-ek-qi1"/>
                                         <constraint firstAttribute="trailing" secondItem="Zpy-5b-pos" secondAttribute="trailing" constant="10" id="a6Z-6o-qCh"/>
                                         <constraint firstItem="GXy-Cr-2hH" firstAttribute="centerY" secondItem="M7j-Is-c6Y" secondAttribute="centerY" id="dw9-Wi-j0X"/>
                                     </constraints>
@@ -156,6 +156,8 @@
                             <constraints>
                                 <constraint firstItem="ip8-60-Bjk" firstAttribute="leading" secondItem="Ckn-aP-YAg" secondAttribute="leading" id="1Cz-hh-PD8"/>
                                 <constraint firstAttribute="trailing" secondItem="M7j-Is-c6Y" secondAttribute="trailing" id="6bL-c1-D9N"/>
+                                <constraint firstItem="M7j-Is-c6Y" firstAttribute="top" secondItem="Ckn-aP-YAg" secondAttribute="top" constant="2" id="DG5-IA-Dta"/>
+                                <constraint firstAttribute="bottom" secondItem="M7j-Is-c6Y" secondAttribute="bottom" constant="2" id="T9c-bp-uso"/>
                                 <constraint firstItem="ip8-60-Bjk" firstAttribute="centerY" secondItem="Ckn-aP-YAg" secondAttribute="centerY" id="VZg-Kn-wj1"/>
                                 <constraint firstItem="ip8-60-Bjk" firstAttribute="top" secondItem="Ckn-aP-YAg" secondAttribute="top" id="f2D-tN-fdb"/>
                                 <constraint firstItem="M7j-Is-c6Y" firstAttribute="centerY" secondItem="Ckn-aP-YAg" secondAttribute="centerY" id="iKS-aW-6w7"/>

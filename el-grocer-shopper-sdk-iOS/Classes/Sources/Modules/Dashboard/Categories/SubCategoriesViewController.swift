@@ -17,7 +17,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     private let collectionPageIdentifier = "ProductListCellIdentifer"
     @IBOutlet weak var customSafeArea: UIView! {
         didSet {
-            customSafeArea.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            customSafeArea.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
         }
     }
     
@@ -137,7 +137,7 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         
         
         if sdkManager.isSmileSDK {
-            self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
         }
         
         let isSingleStore = SDKManager.shared.launchOptions?.marketType == .grocerySingleStore

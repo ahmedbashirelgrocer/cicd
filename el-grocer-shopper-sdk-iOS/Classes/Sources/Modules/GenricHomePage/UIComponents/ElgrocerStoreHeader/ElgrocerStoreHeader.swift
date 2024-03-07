@@ -19,7 +19,7 @@ enum ElgrocerStoreHeaderDismissType {
 class ElgrocerStoreHeader:  UIView  {
     
     let headerMaxHeight: CGFloat = 125
-    let headerMinHeight: CGFloat = 94
+    let headerMinHeight: CGFloat = 125
     
     private var dimisType: ElgrocerStoreHeaderDismissType = .dismisSDK
     

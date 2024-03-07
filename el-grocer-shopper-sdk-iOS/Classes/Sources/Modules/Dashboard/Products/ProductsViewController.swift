@@ -37,7 +37,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
     @IBOutlet weak var segmentedViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var safeAreaBGView: UIView! {
         didSet {
-            safeAreaBGView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            safeAreaBGView.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
         }
     }
     
@@ -113,7 +113,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         NotificationCenter.default.addObserver(self,selector: #selector(ProductsViewController.refreshProductsView), name: NSNotification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
         
         
-        if sdkManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
+        if sdkManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor }
         self.navigationItem.hidesBackButton = true
         self.registerCellsForCollection()
         self.basketIconOverlay?.grocery = self.grocery
