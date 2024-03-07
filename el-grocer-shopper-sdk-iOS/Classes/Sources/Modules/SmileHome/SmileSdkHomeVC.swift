@@ -1429,7 +1429,7 @@ extension SmileSdkHomeVC {
     func makeLabelCell(_ indexPath: IndexPath) -> UITableViewCell {
         let cell : CenterLabelTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KCenterLabelTableViewCellIdentifier, for: indexPath) as! CenterLabelTableViewCell
         let localizeString = localizedString("lbl_AvailableStores_Smiles_Home", comment: "")
-        let availableStores = String(format: localizeString, "\(self.sortedGroceryArray.count)")
+        let availableStores = String(format: localizeString, "\(self.sortedGroceryArray.count)".convertEngNumToPersianNum())
         cell.configureLabelWithOutCenteralAllignment(availableStores, isViewAllButtonHidden: false)
         
         cell.viewAllTapped = {[weak self] in

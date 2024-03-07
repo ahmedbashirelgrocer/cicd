@@ -70,12 +70,12 @@ class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
     func setupUI (isForFavourite: Bool) {
         if isForFavourite {
             self.lblHeadingTopConstraint.constant = 16
-            self.lblHeading.text = localizedString("Neighborhood Favorites", comment: "")
+            self.lblHeading.text = localizedString("lbl_title_neighborhood_fav", comment: "")
             self.contentView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             self.collectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }else {
             self.lblHeadingTopConstraint.constant = 16
-            self.lblHeading.text = localizedString("One-click reorder", comment: "")
+            self.lblHeading.text = localizedString("lbl_title_one_click_reorder", comment: "")
             self.contentView.backgroundColor = ApplicationTheme.currentTheme.searchBarBGBlue50Color
             self.collectionView.backgroundColor = ApplicationTheme.currentTheme.searchBarBGBlue50Color
         }
