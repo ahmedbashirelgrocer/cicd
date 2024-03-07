@@ -26,3 +26,13 @@ struct SDKExitedEvent: AnalyticsEventDataType {
         self.metaData = [:]
     }
 }
+
+struct OneClickReOrderCloseEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.oneClickReorderCloseClicked)
+        self.metaData = [:]
+    }
+}

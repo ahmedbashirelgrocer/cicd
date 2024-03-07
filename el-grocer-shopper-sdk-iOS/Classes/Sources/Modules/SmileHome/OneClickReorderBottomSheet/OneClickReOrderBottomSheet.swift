@@ -75,6 +75,7 @@ class OneClickReOrderBottomSheet: UIViewController {
         registerCells()
         setGroceryData()
         callFetchProductApi()
+        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .oneClickBottomSheet))
     }
     
     func setUpCollectionView() {
@@ -93,6 +94,7 @@ class OneClickReOrderBottomSheet: UIViewController {
     }
     
     @IBAction func btnCrossHandler(_ sender: Any) {
+        SegmentAnalyticsEngine.instance.logEvent(event: OneClickReOrderCloseEvent())
         self.dismiss(animated: true)
     }
     
@@ -100,6 +102,8 @@ class OneClickReOrderBottomSheet: UIViewController {
         if self.checkoutBGView.backgroundColor != ApplicationTheme.currentTheme.disableButtonColor {
             if let checkoutTapped = checkoutTapped {
                 checkoutTapped()
+                
+                SegmentAnalyticsEngine.instance.logEvent(event: CartClickedEvent(grocery: grocery))
             }
         }
     }
@@ -196,6 +200,17 @@ extension OneClickReOrderBottomSheet: ProductCellProtocol{
                 productQuantity += product.count.intValue
             }
             
+            let isNewCart = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+            if isNewCart {
+                let cartCreatedEvent = CartCreatedEvent(grocery: self.grocery)
+                SegmentAnalyticsEngine.instance.logEvent(event: cartCreatedEvent)
+                let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: product, actionType: .added, quantity: productQuantity)
+                SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+            } else {
+                let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: product, actionType: .added, quantity: productQuantity)
+                SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+            }
+            
             self.selectedProduct = product
             self.updateProductQuantity(productQuantity)
         }
@@ -212,6 +227,15 @@ extension OneClickReOrderBottomSheet: ProductCellProtocol{
         }
         
         if productQuantity < 0 {return}
+        
+        let cartDeleted = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext).count == 0
+        if cartDeleted {
+            let cartDeletedEvent = CartDeletedEvent(grocery: self.grocery)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartDeletedEvent)
+        } else {
+            let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .removed, quantity: productQuantity)
+            SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
+        }
         
         self.selectedProduct = product
         self.updateProductQuantity(productQuantity)
