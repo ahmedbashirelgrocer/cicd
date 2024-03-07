@@ -2126,7 +2126,7 @@
 //MARK: C&C
 "lbl_collectionNear" = "أين تريد أن تتسلم البقالة؟";
 //MARK: home search header
-"search_placeholder_home" = "البحث عن المنتجات و المتاجر...";
+"search_placeholder_home" = "ابحث عن المنتجات و المتاجر...";
 //MARK: HyperMarketHeader
 "search_placeholder_hypermarket" = "أبحث عن المنتجات والمتاجر ...";
 "search_placeholder_view_allstore_categories" = "أبحث عن المنتجات...";
