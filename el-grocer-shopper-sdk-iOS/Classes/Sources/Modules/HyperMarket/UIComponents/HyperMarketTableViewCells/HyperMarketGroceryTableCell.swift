@@ -14,7 +14,7 @@ class HyperMarketGroceryTableCell: UITableViewCell {
     @IBOutlet var cellBGView: UIView!{
         didSet{
             cellBGView.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
-            cellBGView.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
+            cellBGView.layer.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor.cgColor
             cellBGView.layer.borderWidth = 1.0
             cellBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner], radius: 4, withShadow: false)
         }

@@ -44,8 +44,6 @@ public protocol Theme {
     var separatorColor: UIColor { get }
     var newGreyColor: UIColor { get }
     var selectionTabDark: UIColor { get }
-    var darkBorderGrayColor: UIColor { get }
-    var borderGrayColor: UIColor { get }
     var redInfoColor: UIColor { get }
     var lightGrayBGColor: UIColor { get }
     var darkGrayTextColor: UIColor { get }
@@ -125,6 +123,10 @@ public protocol Theme {
     //MARK: Home Page
     var searchBarBGBlue50Color: UIColor { get }
     
+    //MARK: Borders
+    var darkBorderGrayColor: UIColor { get }
+    var borderGrayColor: UIColor { get }
+    var borderLightGrayColor: UIColor { get }
     
 }
 
@@ -165,8 +167,6 @@ struct ElgrocerTheme: Theme {
     var separatorColor: UIColor { #colorLiteral(red: 0.8941176471, green: 0.8941176471, blue: 0.8941176471, alpha: 1) }
     var newGreyColor: UIColor { #colorLiteral(red: 0.5647058824, green: 0.5647058824, blue: 0.5647058824, alpha: 1) }
     var selectionTabDark: UIColor { #colorLiteral(red: 0.3490196078, green: 0.3490196078, blue: 0.3490196078, alpha: 1) }
-    var darkBorderGrayColor: UIColor { #colorLiteral(red: 0.8470588235, green: 0.8470588235, blue: 0.8470588235, alpha: 1) }
-    var borderGrayColor: UIColor { #colorLiteral(red: 0.9019607843, green: 0.9019607843, blue: 0.9019607843, alpha: 1) }
     var redInfoColor: UIColor { #colorLiteral(red: 0.5960784314, green: 0.04705882353, blue: 0, alpha: 1) }
     var lightGrayBGColor: UIColor { #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) }
     var darkGrayTextColor: UIColor { #colorLiteral(red: 0.5568627451, green: 0.5568627451, blue: 0.5568627451, alpha: 1) }
@@ -246,6 +246,11 @@ struct ElgrocerTheme: Theme {
     var StorePageCategoryViewBgColor: UIColor { ElgrocerBaseColors.elgrocerWhiteColour }
     //MARK: Home Page
     var searchBarBGBlue50Color: UIColor {ElgrocerBaseColors.elgrocerBGBlue50Color}
+    
+    //MARK: Borders
+    var darkBorderGrayColor: UIColor { #colorLiteral(red: 0.8470588235, green: 0.8470588235, blue: 0.8470588235, alpha: 1) }
+    var borderGrayColor: UIColor { #colorLiteral(red: 0.9019607843, green: 0.9019607843, blue: 0.9019607843, alpha: 1) }
+    var borderLightGrayColor: UIColor { #colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1) }
 }
 
 struct SmileSDKTheme: Theme {
@@ -285,8 +290,6 @@ struct SmileSDKTheme: Theme {
     var separatorColor: UIColor { #colorLiteral(red: 0.8941176471, green: 0.8941176471, blue: 0.8941176471, alpha: 1) }
     var newGreyColor: UIColor { #colorLiteral(red: 0.5647058824, green: 0.5647058824, blue: 0.5647058824, alpha: 1) }
     var selectionTabDark: UIColor { #colorLiteral(red: 0.3490196078, green: 0.3490196078, blue: 0.3490196078, alpha: 1) }
-    var darkBorderGrayColor: UIColor { #colorLiteral(red: 0.8470588235, green: 0.8470588235, blue: 0.8470588235, alpha: 1) }
-    var borderGrayColor: UIColor { #colorLiteral(red: 0.9019607843, green: 0.9019607843, blue: 0.9019607843, alpha: 1) }
     var redInfoColor: UIColor { #colorLiteral(red: 0.5960784314, green: 0.04705882353, blue: 0, alpha: 1) }
     var lightGrayBGColor: UIColor { #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) }
     var darkGrayTextColor: UIColor { #colorLiteral(red: 0.5568627451, green: 0.5568627451, blue: 0.5568627451, alpha: 1) }
@@ -366,6 +369,10 @@ struct SmileSDKTheme: Theme {
     //MARK: Home Page
     var searchBarBGBlue50Color: UIColor = ElgrocerBaseColors.elgrocerBGBlue50Color
     
+    //MARK: Borders
+    var darkBorderGrayColor: UIColor { #colorLiteral(red: 0.8470588235, green: 0.8470588235, blue: 0.8470588235, alpha: 1) }
+    var borderGrayColor: UIColor { #colorLiteral(red: 0.9019607843, green: 0.9019607843, blue: 0.9019607843, alpha: 1) }
+    var borderLightGrayColor: UIColor { #colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1) }
    
 }
 

@@ -13,7 +13,7 @@ class NeighbourHoodFavouriteGroceryCollectionCell: UICollectionViewCell {
         didSet {
             bGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             bGView.borderWidth = 1.0
-            bGView.borderColor = ApplicationTheme.currentTheme.borderGrayColor
+            bGView.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor
             bGView.cornarRadius = 8
         }
     }
