@@ -96,7 +96,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     @IBOutlet weak var safeAreaBgView: UIView! {
         didSet {
-            safeAreaBgView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            safeAreaBgView.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
         }
     }
     override func backButtonClickedHandler(){

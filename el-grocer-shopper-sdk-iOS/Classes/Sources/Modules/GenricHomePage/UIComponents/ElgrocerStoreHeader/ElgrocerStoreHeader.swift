@@ -44,13 +44,19 @@ class ElgrocerStoreHeader:  UIView  {
     
     
     @IBOutlet var bGView: UIView! { didSet {
-        bGView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
-      //  bGView.layer.insertSublayer(setupGradient(height: bGView.frame.size.height, topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor), at: 0)
+        bGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
     }}
     
     @IBOutlet var groceryBGView: UIView!
     
-    @IBOutlet weak var arrowDown: UIImageView!
+    @IBOutlet weak var arrowDown: UIImageView! {
+        didSet{
+            arrowDown.backgroundColor = ApplicationTheme.currentTheme.separatorColor
+            arrowDown.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: (arrowDown.bounds.height / 2))
+            arrowDown.tintColor = sdkManager.isSmileSDK ? .black : .black
+            arrowDown.image = UIImage(name: "yellowArrowDown")?.withRenderingMode(.alwaysTemplate)
+        }
+    }
     
     @IBOutlet weak var btnMenu: UIButton! { didSet {
         let menuIcon = UIImage(named: "menu")?.withRenderingMode(.alwaysTemplate)
@@ -79,10 +85,12 @@ class ElgrocerStoreHeader:  UIView  {
         }
     }
     
-    @IBOutlet weak var iconLocation: UIImageView! { didSet {
-        iconLocation.image = iconLocation.image?.withRenderingMode(.alwaysTemplate)
-        iconLocation.tintColor = ApplicationTheme.currentTheme.newBlackColor
-    } }
+    @IBOutlet weak var iconLocation: UIImageView! {
+        didSet{
+            iconLocation.tintColor = sdkManager.isSmileSDK ? .black : .black
+            iconLocation.image = UIImage(name: "homeHeadeerLocationPin")?.withRenderingMode(.alwaysTemplate)
+        }
+    }
     
     
     @IBOutlet weak var lblLocation: UILabel! {
