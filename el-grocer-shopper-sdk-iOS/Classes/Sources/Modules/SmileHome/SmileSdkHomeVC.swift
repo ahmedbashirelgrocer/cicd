@@ -1492,7 +1492,9 @@ extension SmileSdkHomeVC {
     
     func makeAvailableStoreCellListStyle(indexPath: IndexPath, grocery: Grocery) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell") as! HyperMarketGroceryTableCell
-        if (grocery.featured?.boolValue ?? false) && (grocery.getCleanGroceryID() == sortedGroceryArray.first?.getCleanGroceryID()) {
+        
+        if (grocery.featured?.boolValue ?? false) && ((grocery.parentID.intValue == 1020) || (grocery.parentID.intValue == 16)) {
+            // only smile market will be highlighted no any other featured store
             cell.configureCell(grocery: grocery, isFeatured: true)
         }else {
             cell.configureCell(grocery: grocery, isFeatured: false)
