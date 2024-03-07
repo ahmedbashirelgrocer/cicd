@@ -28,6 +28,7 @@ class NavigationBarLocationView: UIView {
         didSet{
             lblLocation.setBody3RegDarkStyle()
             if !sdkManager.isShopperApp { lblLocation.textColor = ApplicationTheme.currentTheme.newBlackColor }
+            lblLocation.textColor = ApplicationTheme.currentTheme.themeBasePrimaryBlackColor
             lblLocation.text = "... "
             lblLocation.textAlignment = .natural
         }
