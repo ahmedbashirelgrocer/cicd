@@ -45,6 +45,7 @@ class HyperMarketGroceryTableCell: UITableViewCell {
     @IBOutlet var lblNew: UILabel!{
         didSet{
             lblNew.setCaptionTwoBoldWhiteStyle()
+            lblNew.text = localizedString("lbl_new_tag", comment: "")
         }
     }
     
