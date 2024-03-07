@@ -15,6 +15,8 @@ class BillView: UIView {
         view.backgroundColor = .white
         view.cornarRadius = 8.0
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor
+        view.borderWidth = 1
         
         return view
     }()

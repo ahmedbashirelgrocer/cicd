@@ -16,7 +16,12 @@ protocol DeliveryInstructionsViewDelegate: AnyObject {
 class DeliveryInstructionsView: UIView {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblValue: UILabel!
-    @IBOutlet weak var viewBG: AWView!
+    @IBOutlet weak var viewBG: AWView!{
+        didSet {
+            viewBG.borderWidth = 1
+            viewBG.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor
+        }
+    }
     @IBOutlet weak var ivArrowForward: UIImageView!
     
     var delegate: DeliveryInstructionsViewDelegate?

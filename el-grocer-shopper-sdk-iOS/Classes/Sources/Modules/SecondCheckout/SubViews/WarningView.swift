@@ -14,8 +14,16 @@ class WarningView: UIView {
             lblWarningMsg.setCaptionOneRegDarkStyle()
         }
     }
+    @IBOutlet weak var viewBG: AWView! {
+        didSet {
+            viewBG.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor
+            viewBG.borderWidth = 1
+        }
+    }
     
     override func awakeFromNib() {
         lblWarningMsg.text = localizedString("checkout_all_fee_message_will_be_in_receipt_msg", comment: "")
+        
+        
     }
 }

@@ -13,7 +13,12 @@ protocol PromocodeDelegate: AnyObject {
 }
 
 class PromocodeView: UIView {
-    @IBOutlet weak var viewBG: AWView!
+    @IBOutlet weak var viewBG: AWView! {
+        didSet {
+            viewBG.borderWidth = 1
+            viewBG.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor
+        }
+    }
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblPromocode: UILabel! {
         didSet {

@@ -13,7 +13,12 @@ protocol PaymentMethodViewDelegate: AnyObject {
 }
 
 class PaymentMethodView: UIView {
-    @IBOutlet weak var viewBG: AWView!
+    @IBOutlet weak var viewBG: AWView! {
+        didSet {
+            viewBG.borderWidth = 1
+            viewBG.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor
+        }
+    }
     @IBOutlet weak var imagePaymentType: UIImageView!
     @IBOutlet weak var lblPaymentMethod: UILabel!
     @IBOutlet weak var arrowForward: UIImageView!

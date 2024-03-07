@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -246,6 +246,7 @@
                                             <constraint firstItem="Q9D-94-Yf3" firstAttribute="top" secondItem="Qdg-tc-gjZ" secondAttribute="top" id="dU6-WA-dOi"/>
                                             <constraint firstAttribute="trailing" secondItem="M6F-hh-rMY" secondAttribute="trailing" constant="4" id="diT-C0-GVR"/>
                                             <constraint firstItem="KB5-l3-2Ox" firstAttribute="top" secondItem="Qdg-tc-gjZ" secondAttribute="bottom" id="ef0-ma-XC7"/>
+                                            <constraint firstItem="GYh-ft-YYH" firstAttribute="centerY" secondItem="nwD-Ll-j5e" secondAttribute="centerY" id="eyx-xH-yR3"/>
                                             <constraint firstItem="sS9-lb-egt" firstAttribute="top" secondItem="KB5-l3-2Ox" secondAttribute="bottom" constant="4" id="fw0-oK-8Og"/>
                                             <constraint firstItem="Q9D-94-Yf3" firstAttribute="leading" secondItem="Qdg-tc-gjZ" secondAttribute="leading" id="h2o-6c-Qka"/>
                                             <constraint firstItem="Qdg-tc-gjZ" firstAttribute="leading" secondItem="nwD-Ll-j5e" secondAttribute="leading" constant="16" id="jB8-FO-PbN"/>
@@ -619,7 +620,6 @@
                                     <constraint firstItem="ktr-WD-vft" firstAttribute="top" secondItem="Zld-fx-20E" secondAttribute="top" id="ZjX-Rt-ObO"/>
                                     <constraint firstItem="BTm-BJ-vQC" firstAttribute="centerY" secondItem="sOM-c0-4xQ" secondAttribute="centerY" id="bEv-oh-M2f"/>
                                     <constraint firstItem="9td-Rq-jIs" firstAttribute="top" secondItem="PL5-XA-f91" secondAttribute="bottom" id="dUC-ub-cVj"/>
-                                    <constraint firstItem="GYh-ft-YYH" firstAttribute="centerY" secondItem="nwD-Ll-j5e" secondAttribute="centerY" id="eyx-xH-yR3"/>
                                     <constraint firstItem="PL5-XA-f91" firstAttribute="top" secondItem="sOM-c0-4xQ" secondAttribute="bottom" priority="850" constant="16" id="oev-CF-3GK"/>
                                     <constraint firstItem="PL5-XA-f91" firstAttribute="bottom" secondItem="nwD-Ll-j5e" secondAttribute="top" id="olb-JS-LYm"/>
                                     <constraint firstAttribute="trailing" secondItem="sOM-c0-4xQ" secondAttribute="trailing" constant="16" id="u6v-p3-hh0"/>
@@ -722,7 +722,7 @@
                                         </constraints>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" name="colorBG"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="1Jd-HK-V58" firstAttribute="bottom" secondItem="FvG-rh-q8u" secondAttribute="bottom" id="3De-u6-bH4"/>
                                     <constraint firstItem="1Jd-HK-V58" firstAttribute="leading" secondItem="FvG-rh-q8u" secondAttribute="leading" id="Dyp-lR-GNa"/>
@@ -903,7 +903,7 @@
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="uVF-cS-SyZ"/>
-                        <color key="backgroundColor" name="colorBG"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="pzE-QO-jOM" firstAttribute="top" secondItem="FvG-rh-q8u" secondAttribute="bottom" id="9qd-l4-yHP"/>
                             <constraint firstItem="FvG-rh-q8u" firstAttribute="top" secondItem="uVF-cS-SyZ" secondAttribute="top" id="BxT-F7-S1P"/>
@@ -1962,6 +1962,7 @@
                     </constraints>
                     <connections>
                         <outlet property="lblWarningMsg" destination="Fr2-Mn-dnJ" id="ETj-Z9-1Da"/>
+                        <outlet property="viewBG" destination="eLq-ja-2K4" id="TlC-bJ-POj"/>
                     </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PZ9-bz-Hgh" customClass="MapPinView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
@@ -2208,16 +2209,16 @@
             <color red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="labelColor">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGray4Color">
-            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
