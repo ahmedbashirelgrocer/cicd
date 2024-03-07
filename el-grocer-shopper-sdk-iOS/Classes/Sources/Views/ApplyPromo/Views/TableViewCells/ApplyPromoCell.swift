@@ -70,8 +70,9 @@ class ApplyPromoCell: UITableViewCell {
     }
     @IBOutlet var lblVoucherCode: UILabel! {
         didSet {
-            lblVoucherCode.setCaptionOneBoldUperCaseDarkGreenStyle()
+            lblVoucherCode.setCaptionOneBoldDarkStyle()
             lblVoucherCode.textAlignment = .center
+            
         }
     }
     @IBOutlet var btnRedeem: AWButton! {
@@ -224,6 +225,6 @@ class ApplyPromoCell: UITableViewCell {
     
     func setBorderForPromo() {
         
-        voucherCodeBGView.addDashedBorderAroundView(color: ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor)
+        voucherCodeBGView.addDashedBorderAroundView(color: ApplicationTheme.currentTheme.newBlackColor)
     }
 }
