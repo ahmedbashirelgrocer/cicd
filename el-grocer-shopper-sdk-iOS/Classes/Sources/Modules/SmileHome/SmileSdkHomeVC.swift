@@ -211,11 +211,11 @@ class SmileSdkHomeVC: BasketBasicViewController {
         let hrs = date.dateComponents.hour ?? 0
         
         if hrs >= 5 && hrs < 12 {
-            return localizedString("Good Morning 👋", comment: "")
+            return localizedString("lbl_greeting_good_morning", comment: "")
         }else if hrs >= 12 && hrs < 17 {
-            return localizedString("Good Afternoon 👋", comment: "")
+            return localizedString("lbl_greeting_good_afternoon", comment: "")
         }else {
-            return localizedString("Good Evening 👋", comment: "")
+            return localizedString("lbl_greeting_good_evening", comment: "")
         }
         
     }
