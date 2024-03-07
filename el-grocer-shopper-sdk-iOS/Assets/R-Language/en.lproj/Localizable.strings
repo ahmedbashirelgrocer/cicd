@@ -2378,4 +2378,6 @@ Oreo";
 "btn_cart_all_cap" = "CART";
 "lbl_new_tag" = "New";
 "all_available_store_vc_title" = "All available stores";
+"lbl_title_neighborhood_fav" = "Neighborhood Favorites";
+"lbl_title_one_click_reorder" = "One-click reorder";
 

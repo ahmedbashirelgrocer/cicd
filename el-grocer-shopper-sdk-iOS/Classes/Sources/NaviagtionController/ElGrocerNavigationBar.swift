@@ -169,7 +169,7 @@ class ElGrocerNavigationBar : UINavigationBar {
             leftTitle.frame = CGRect(x: 32 + (backButton.frame.size.width + 2), y: (frame.size.height * 0.5) - 13, width: leftTitleWidth, height: 24)
 
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                let x = frame.size.width - 16 - 34 - (backButton.frame.size.width + 2)
+                let x = frame.size.width - 34 - (backButton.frame.size.width + 2) - leftTitleWidth
                 leftTitle.frame = CGRect(x: x, y: (frame.size.height * 0.5) - 17, width: leftTitleWidth, height: 24)
                 leftTitle.transform = CGAffineTransform(scaleX: -1, y: 1)
                 leftTitle.semanticContentAttribute = .forceLeftToRight
@@ -194,7 +194,7 @@ class ElGrocerNavigationBar : UINavigationBar {
         rightMenuButton.frame = CGRect(x: frame.size.width - 16 - ButtonSize, y: (frame.size.height * 0.5) - (ButtonSize * 0.5), width: ButtonSize, height: ButtonSize)
 
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
-            rightMenuButton.frame.origin.x = 6
+            rightMenuButton.frame.origin.x = 16
             rightMenuButton.semanticContentAttribute = .forceRightToLeft
         }
     }

@@ -30,19 +30,19 @@
                             <rect key="frame" x="115" y="173.33333333333334" width="160" height="160.00000000000003"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="elGrocer is currently not delivering \ngroceries in this area" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eGb-5z-ald">
-                            <rect key="frame" x="16" y="349.33333333333331" width="358" height="48"/>
+                            <rect key="frame" x="16" y="349.33333333333331" width="358" height="46.666666666666686"/>
                             <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a different location" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V2W-Gw-O2U">
-                            <rect key="frame" x="16" y="413.33333333333331" width="358" height="17"/>
+                            <rect key="frame" x="16" y="412" width="358" height="16.333333333333314"/>
                             <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
                             <color key="textColor" red="0.34901960780000002" green="0.34901960780000002" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cV9-ok-kAH" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                            <rect key="frame" x="16" y="480.33333333333331" width="358" height="55.999999999999943"/>
+                            <rect key="frame" x="16" y="478.33333333333331" width="358" height="55.999999999999943"/>
                             <color key="backgroundColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="56" id="wtb-QK-VKE"/>
@@ -100,7 +100,7 @@
     </objects>
     <designables>
         <designable name="cV9-ok-kAH">
-            <size key="intrinsicContentSize" width="201" height="33"/>
+            <size key="intrinsicContentSize" width="205" height="32"/>
         </designable>
     </designables>
     <resources>

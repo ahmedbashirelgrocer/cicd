@@ -40,7 +40,13 @@ class OneClickReOrderBottomSheet: UIViewController {
             lblItemNum.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }
     }
-    @IBOutlet var imgArrowForward: UIImageView!
+    @IBOutlet var imgArrowForward: UIImageView! {
+        didSet {
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                imgArrowForward.transform = CGAffineTransform(scaleX: -1, y: 1)
+            }
+        }
+    }
     @IBOutlet var lblCheckout: UILabel! {
         didSet {
             lblCheckout.text = localizedString("btn_cart_all_cap", comment: "")

@@ -2436,3 +2436,5 @@
 "btn_cart_all_cap" = "سلة اﻟﺘﺴﻮق";
 "lbl_new_tag" = "جديد";
 "all_available_store_vc_title" = "المتاجر المتاحة";
+"lbl_title_neighborhood_fav" = "المتاجر المفضلة حولك";
+"lbl_title_one_click_reorder" = "اشترِ مرة أخرى بنقرة واحدة";

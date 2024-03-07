@@ -23,7 +23,13 @@ class CenterLabelTableViewCell: UITableViewCell {
             lblViewAllButton.textColor = ApplicationTheme.currentTheme.buttonthemeBaseBlackPrimaryForeGroundColor
         }
     }
-    @IBOutlet var imgArrowForward: UIImageView!
+    @IBOutlet var imgArrowForward: UIImageView! {
+        didSet {
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                imgArrowForward.transform = CGAffineTransform(scaleX: -1, y: 1)
+            }
+        }
+    }
     @IBOutlet var lblLabel: UILabel!  {
         didSet {
             lblLabel.setH4SemiBoldDarkGreenStyle()
