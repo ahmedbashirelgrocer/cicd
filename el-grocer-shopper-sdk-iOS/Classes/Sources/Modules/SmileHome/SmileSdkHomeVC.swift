@@ -328,7 +328,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.availableStoreTypeA = filterStoreTypeData.sorted { $0.priority < $1.priority }
         
         if self.availableStoreTypeA.count > 0 {
-            let data = ([ self.homeDataHandler.storeTypeA?.first(where: { $0.storeTypeid == 0 }) ].compactMap { $0 } + self.availableStoreTypeA).compactMap { type in
+            let data = ([ self.homeDataHandler.storeTypeA?.first(where: { $0.storeTypeid == 0 || $0.storeTypeid == 21 }) ].compactMap { $0 } + self.availableStoreTypeA).compactMap { type in
                 let url = type.imageUrl ?? ""
                 let colour = UIColor.colorWithHexString(hexString: type.backGroundColor)
                 let text = type.name ?? ""
@@ -1093,14 +1093,14 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
     
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex:Int) {
         
-//        guard selectedSegmentIndex > 0 else {
-//            self.filteredGroceryArray = self.groceryArray
-//            self.tableView.reloadDataOnMain()
-//            return
-//        }
+        guard selectedSegmentIndex > 0 else {
+            self.filteredGroceryArray = self.groceryArray
+            self.tableView.reloadDataOnMain()
+            return
+        }
         
         
-        let finalIndex = selectedSegmentIndex// - 1
+        let finalIndex = selectedSegmentIndex - 1
         guard finalIndex < self.availableStoreTypeA.count else {return}
         
         let selectedType = self.availableStoreTypeA[finalIndex]
@@ -1122,7 +1122,7 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         let storeCategorySwitchedEvent = StoreCategorySwitchedEvent(currentStoreCategoryType: lastSelectType, nextStoreCategoryType: selectedType)
         SegmentAnalyticsEngine.instance.logEvent(event: storeCategorySwitchedEvent)
         
-        let storeCategoryClickedEvent = StoreCategoryClickedEvent(storeType: availableStoreTypeA[selectedSegmentIndex], screenName: ScreenName.homeScreen.rawValue)
+        let storeCategoryClickedEvent = StoreCategoryClickedEvent(storeType: availableStoreTypeA[finalIndex], screenName: ScreenName.homeScreen.rawValue)
         
         SegmentAnalyticsEngine.instance.logEvent(event: storeCategoryClickedEvent)
         
@@ -1442,7 +1442,6 @@ extension SmileSdkHomeVC {
             vc.selectStoreType = self.selectStoreType
             vc.lastSelectType = self.lastSelectType
             var storeTypearray = self.availableStoreTypeA
-            storeTypearray.remove(at: 0)
             vc.availableStoreTypeA = storeTypearray
             
             vc.groceryTapped = {[weak self] grocery in

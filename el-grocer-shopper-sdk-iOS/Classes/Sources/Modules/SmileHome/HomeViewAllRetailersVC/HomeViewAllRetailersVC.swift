@@ -82,7 +82,6 @@ class HomeViewAllRetailersVC: UIViewController {
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setLeftTitle("All available stores", false)
         self.title = localizedString("", comment: "")
-        //(self.navigationController as? ElGrocerNavigationController)?.navigationBar.topItem?.title = localizedString("Profile_Title", comment: "")
         self.view.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         self.hidesBottomBarWhenPushed = true
         self.navigationItem.hidesBackButton = true
