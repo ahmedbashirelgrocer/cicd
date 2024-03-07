@@ -422,4 +422,11 @@ class BillEntryView: UIView {
             self.lblAmount.text = initialString + finalString
         }
     }
+    
+    func configureSavedAmountTag(amount: String) {
+        self.lblTitle.text = ""
+        self.lblAmount.text = CurrencyManager.getCurrentCurrency() + " " + amount + " " + localizedString("txt_Saved", comment: "")
+        self.lblAmount.font = UIFont.SFProDisplayBoldFont(14)
+        self.lblAmount.backgroundColor = UIColor.blue
+    }
 }

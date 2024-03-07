@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import SDWebImage
 let kOrderHistoryCellIdentifier = "OrderHistoryCell"
 let kOrderHistoryCellHeight: CGFloat = 360 + 35
 
@@ -110,7 +110,10 @@ class OrderHistoryCell: UITableViewCell {
             self.lblTrackyourOrder.text = localizedString("lbl_Track_your_order", comment: "")
         }
     }
-   
+    @IBOutlet weak var lblStoreName: UILabel!
+    @IBOutlet weak var storeImageView: UIImageView!
+    
+    
     @IBAction func trackYourOrderAction(_ sender: Any) {
         if let trackingUrl = self.currentOrder?.trackingUrl {
             let statusId = self.currentOrder?.getOrderDynamicStatus().getStatusKeyLogic().status_id.stringValue ?? "-1000"
@@ -236,6 +239,12 @@ class OrderHistoryCell: UITableViewCell {
         //MARK: time is handled in orderNumberLabel
         self.orderNumberLabel.text = order.getSlotFormattedString()
         
+        self.lblStoreName.text = order.grocery.name ?? ""
+        if order.grocery.smallImageUrl != nil && order.grocery.smallImageUrl?.range(of: "http") != nil {
+            self.setGroceryImage(order.grocery.smallImageUrl!)
+        }else{
+            self.storeImageView.image = productPlaceholderPhoto
+        }
         self.lblDeliverySlot.text = localizedString("order_lbl_numner", comment: "") + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: order.dbID.stringValue)
         
         let string = NSMutableAttributedString(string: self.lblDeliverySlot.text ?? "")
@@ -347,6 +356,8 @@ class OrderHistoryCell: UITableViewCell {
             self.btnChoose.setTitle(localizedString("lbl_Payment_Confirmation", comment: ""), for: .normal)
         }else if order.status.intValue == OrderStatus.inSubtitution.rawValue {
             self.btnChoose.setTitle(localizedString("choose_substitutions_title", comment: ""), for: .normal)
+        }else if order.status.intValue == OrderStatus.delivered.rawValue {
+            self.btnChoose.setTitle(localizedString("lbl_repeat_order", comment: ""), for: .normal)
         }else {
             self.btnChoose.setTitle(localizedString("order_confirmation_Edit_order_button", comment: ""), for: .normal)
         }
@@ -537,4 +548,24 @@ extension NSMutableAttributedString{
         }
     }
     
+}
+extension OrderHistoryCell{
+    func setGroceryImage(_ urlString : String) {
+       
+       self.storeImageView.sd_setImage(with: URL(string: urlString ), placeholderImage: productPlaceholderPhoto, options: SDWebImageOptions(rawValue: 0), completed: {[weak self] (image, error, cacheType, imageURL) in
+           guard let self = self else {
+               return
+           }
+           if cacheType == SDImageCacheType.none {
+               
+               UIView.transition(with: self.storeImageView, duration: 0.33, options: UIView.AnimationOptions.transitionCrossDissolve, animations: {[weak self] () -> Void in
+                   guard let self = self else {
+                       return
+                   }
+                   self.storeImageView.image = image
+                   }, completion: nil)
+               
+           }
+       })
+   }
 }

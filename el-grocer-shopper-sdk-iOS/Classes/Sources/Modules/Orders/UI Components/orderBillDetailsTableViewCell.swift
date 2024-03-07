@@ -21,6 +21,7 @@ class orderBillDetailsTableViewCell: UITableViewCell {
     private var burnSmilePointsView = BillEntryView(isGreen: true)
     private var burnElwalletPointsView = BillEntryView(isGreen: true)
     private var finalBillAmountView = BillEntryView(isGreen: true)
+    private var savedTagView = BillEntryView(isGreen: false)
     private var viewTabbyAmount = BillEntryView(isGreen: true)
     private lazy var dividerView: UIView = {
         let view = UIView()
@@ -123,6 +124,9 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         self.finalBillAmountView.trailingAnchor.constraint(equalTo: self.billStackView.trailingAnchor, constant: 0).isActive = true
         self.finalBillAmountView.leadingAnchor.constraint(equalTo: self.billStackView.leadingAnchor, constant: 0).isActive = true
         
+        self.savedTagView.trailingAnchor.constraint(equalTo: self.billStackView.trailingAnchor, constant: 0).isActive = true
+        self.savedTagView.leadingAnchor.constraint(equalTo: self.billStackView.leadingAnchor, constant: 0).isActive = true
+        
         dividerView.heightAnchor.constraint(equalToConstant: 1).isActive = true
         self.dividerView.leadingAnchor.constraint(equalTo: self.billStackView.leadingAnchor, constant: 8).isActive = true
         self.dividerView.trailingAnchor.constraint(equalTo: self.billStackView.trailingAnchor, constant: -8).isActive = true
@@ -166,6 +170,7 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         self.billStackView.addArrangedSubview(self.viewTabbyAmount)
         self.billStackView.addArrangedSubview(self.dividerView)
         self.billStackView.addArrangedSubview(self.finalBillAmountView)
+        self.billStackView.addArrangedSubview(self.savedTagView)
     }
     
     func configureBillDetails(order: Order, orderController: OrderDetailsViewController) {
@@ -222,7 +227,7 @@ class orderBillDetailsTableViewCell: UITableViewCell {
 //        }
         smileEarn = order.smileEarn?.intValue ?? 0
         priceSum = order.finalBillAmount?.doubleValue ?? 0.00 //grandTotal - discount - burnSmilePoints - burnElwalletPoints
-        
+        print("total discount value for saved tag:" + String(order.totalDiscount ?? 0.0))
         setBillDetails(totalPriceWithVat: totalWithVat, serviceFee: serviceFee, promoTionDiscount: discount, smileEarn: smileEarn, grandTotal: grandTotal, priceVariance: priceVariance, smileBurn: burnSmilePoints, elwalletBurn: burnElwalletPoints, finalBillAmount: priceSum, quantity: summaryCount, smilesSubscriber: order.foodSubscriptionStatus?.boolValue ?? false, tabbyAmount: tabbyAmount)
     }
     
@@ -305,6 +310,16 @@ class orderBillDetailsTableViewCell: UITableViewCell {
         self.billStackView.addArrangedSubview(self.finalBillAmountView)
         self.finalBillAmountView.configure(title: localizedString("amount_to_pay", comment: ""), amount: finalBillAmount)
         self.finalBillAmountView.setFinalBillAmountFont()
+        if(order != nil){
+            if let discount = order?.totalDiscount{
+                if(discount > 0.0){
+                    self.billStackView.addArrangedSubview(self.savedTagView)
+                    self.savedTagView.configureSavedAmountTag(amount: String(order!.totalDiscount ?? 0.0))
+                }else{
+                    self.savedTagView.isHidden = true
+                }
+            }
+        }
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

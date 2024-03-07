@@ -177,6 +177,8 @@ class CandCHistoryCell: UITableViewCell {
             self.btnEditOrder.setTitle(localizedString("lbl_Payment_Confirmation", comment: ""), for: .normal)
         }else if order.status.intValue == OrderStatus.inSubtitution.rawValue {
             self.btnEditOrder.setTitle(localizedString("choose_substitutions_title", comment: ""), for: .normal)
+        }else if order.status.intValue == OrderStatus.delivered.rawValue {
+            self.btnEditOrder.setTitle(localizedString("lbl_repeat_order", comment: ""), for: .normal)
         }else {
             self.btnEditOrder.setTitle(localizedString("order_confirmation_Edit_order_button", comment: ""), for: .normal)
         }

@@ -250,6 +250,9 @@ extension Order {
         if let productTotal = orderDict["products_total"] as? Double {
             order.produuctsTotal = productTotal
         }
+        if let discountTotal = orderDict["total_discount"] as? Double {
+            order.totalDiscount = discountTotal
+        }
         if let total_value = orderDict["total"] as? Double {
             order.totalValue = total_value
         }

@@ -33,6 +33,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
     var isFirstTime : Bool = true
     
     var orderType : OrderType = .delivery
+    var repeatOrderDelegate: RepeatOrderProtocol?
     
     // MARK: Life cycle
     
@@ -253,13 +254,13 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
         let selectedOrder =   self.filterOrders[(indexPath as NSIndexPath).row]
         if selectedOrder.isCandCOrder(){
             
-            if (selectedOrder.status.intValue == OrderStatus.inSubtitution.rawValue) || (selectedOrder.status.intValue == OrderStatus.pending.rawValue) {
+            if (selectedOrder.status.intValue == OrderStatus.inSubtitution.rawValue) || (selectedOrder.status.intValue == OrderStatus.pending.rawValue) || (selectedOrder.status.intValue == OrderStatus.delivered.rawValue) {
                 return CandCHistoryCellHeight + 63 //for button
             }
              return CandCHistoryCellHeight // without button
         }
         
-        if (selectedOrder.status.intValue == OrderStatus.inSubtitution.rawValue) || (selectedOrder.status.intValue == OrderStatus.pending.rawValue) {
+        if (selectedOrder.status.intValue == OrderStatus.inSubtitution.rawValue) || (selectedOrder.status.intValue == OrderStatus.pending.rawValue) || (selectedOrder.status.intValue == OrderStatus.delivered.rawValue) {
            return kOrderHistoryCellHeight + 68 //for button
         }
         
@@ -371,10 +372,10 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
             if self.selectedOrder.status.intValue == OrderStatus.inSubtitution.rawValue {
                 
                 let substitutionsProductsVC = ElGrocerViewControllers.substitutionsProductsViewController()
-//                let orderId = String(describing: self.selectedOrder.dbID)
-//                substitutionsProductsVC.orderId = orderId
-//                ElGrocerUtility.sharedInstance.isNavigationForSubstitution = true
-//                self.navigationController?.pushViewController(substitutionsProductsVC, animated: true)
+                //                let orderId = String(describing: self.selectedOrder.dbID)
+                //                substitutionsProductsVC.orderId = orderId
+                //                ElGrocerUtility.sharedInstance.isNavigationForSubstitution = true
+                //                self.navigationController?.pushViewController(substitutionsProductsVC, animated: true)
                 let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: nil)
                 navController.viewControllers = [substitutionsProductsVC]
                 let orderId = String(describing: self.selectedOrder.dbID)
@@ -383,10 +384,10 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                 ElGrocerUtility.sharedInstance.isNavigationForSubstitution = true
                 navController.modalPresentationStyle = .fullScreen
                 DispatchQueue.main.async { [weak self] in
-                  guard let self = self else {return}
-                  self.present(navController, animated: true, completion: nil)
+                    guard let self = self else {return}
+                    self.present(navController, animated: true, completion: nil)
                 }
-
+                
                 
             }else if self.selectedOrder.status.intValue == OrderStatus.pending.rawValue {
                 
@@ -395,7 +396,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                     let defaultAddressId = currentAddress?.dbID
                     
                     let orderAddressId = DeliveryAddress.getAddressIdForDeliveryAddress(self.selectedOrder.deliveryAddress)
-                   elDebugPrint("Order Address ID:%@",orderAddressId)
+                    elDebugPrint("Order Address ID:%@",orderAddressId)
                     
                     guard defaultAddressId == orderAddressId else {
                         ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
@@ -403,7 +404,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                     }
                     
                 }
-               
+                
                 let SDKManager: SDKManagerType! = sdkManager
                 let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
                     
@@ -418,7 +419,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                     let currentAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()
                     let defaultAddressId = currentAddress?.dbID
                     let orderAddressId = DeliveryAddress.getAddressIdForDeliveryAddress(self.selectedOrder.deliveryAddress)
-                   elDebugPrint("Order Address ID:%@",orderAddressId)
+                    elDebugPrint("Order Address ID:%@",orderAddressId)
                     guard defaultAddressId == orderAddressId else {
                         ElGrocerAlertView.createAlert(localizedString("basket_active_from_other_grocery_title", comment: ""),description: localizedString("edit_Order_change_location_message", comment: ""),positiveButton: localizedString("ok_button_title", comment: ""),negativeButton: nil, buttonClickCallback: nil).show()
                         return
@@ -426,6 +427,10 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                 }
                 self.editOrderSuccess(self.selectedOrder)
                 
+            }else if self.selectedOrder.status.intValue == OrderStatus.delivered.rawValue{
+                print("repeat orders pressed")
+                self.performSegue(withIdentifier: "OrderToOrderDetails", sender: self)
+                self.repeatOrderDelegate?.callRepeatOrder()
             }else{
                 self.performSegue(withIdentifier: "OrderToOrderDetails", sender: self)
             }
@@ -796,6 +801,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
             let controller = segue.destination as! OrderDetailsViewController
             controller.order = self.selectedOrder
             controller.isCommingFromOrderConfirmationScreen = false
+            self.repeatOrderDelegate = controller
         }
     }
 }
