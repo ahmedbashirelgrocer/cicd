@@ -55,7 +55,7 @@ class GenericHomePageSearchHeader: UIView {
     }
     @IBOutlet var imgSearch: UIImageView!{
         didSet{
-            imgSearch.image = UIImage(name: "search-SearchBar")
+            imgSearch.image = UIImage(name: "HomeSearchHeaderBlack")
         }
     }
     @IBOutlet var txtSearch: UITextField!{

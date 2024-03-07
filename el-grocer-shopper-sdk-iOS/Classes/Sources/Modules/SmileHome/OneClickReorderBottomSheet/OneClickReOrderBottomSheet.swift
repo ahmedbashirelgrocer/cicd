@@ -288,7 +288,7 @@ extension OneClickReOrderBottomSheet: ProductCellProtocol{
     func checkMinBasketValue(priceSum: Double) {
         let minValue = self.grocery?.minBasketValue ?? 0.0
         
-        if priceSum < minValue {
+        if priceSum < minValue || priceSum == 0.00 {
             self.checkoutBGView.backgroundColor = ApplicationTheme.currentTheme.disableButtonColor
         }else {
             self.checkoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor

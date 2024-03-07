@@ -70,7 +70,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         didSet {
             var array = [Grocery]()
             for id in oneClickReOrderGroceryIDArray {
-                if let item = sortedGroceryArray.first(where: { Grocery in
+                if let item = groceryArray.first(where: { Grocery in
                     Grocery.getCleanGroceryID() == String(id)
                 }) {
                     array.append(item)
