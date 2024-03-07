@@ -9,11 +9,7 @@ import UIKit
 
 class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var topSeparatorForStoreCategoriesHeader: UIView! {
-        didSet {
-            topSeparatorForStoreCategoriesHeader.backgroundColor = ApplicationTheme.currentTheme.separatorColor
-        }
-    }
+    @IBOutlet weak var bGView: UIView!
     @IBOutlet var lblHeadingTopConstraint: NSLayoutConstraint!
     @IBOutlet var lblHeading: UILabel! {
         didSet {
@@ -33,7 +29,6 @@ class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
         // Initialization code
         setUpCollectionView()
         registerCells()
-        setSeparatorHidden(isHidden: true)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -71,12 +66,14 @@ class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
         if isForFavourite {
             self.lblHeadingTopConstraint.constant = 16
             self.lblHeading.text = localizedString("lbl_title_neighborhood_fav", comment: "")
+            self.bGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             self.contentView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             self.collectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }else {
             self.lblHeadingTopConstraint.constant = 16
             self.lblHeading.text = localizedString("lbl_title_one_click_reorder", comment: "")
-            self.contentView.backgroundColor = ApplicationTheme.currentTheme.searchBarBGBlue50Color
+            self.bGView.backgroundColor = ApplicationTheme.currentTheme.searchBarBGBlue50Color
+            self.contentView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             self.collectionView.backgroundColor = ApplicationTheme.currentTheme.searchBarBGBlue50Color
         }
     }
@@ -89,13 +86,6 @@ class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
         self.collectionView.reloadData()
         
     }
-    
-    func setSeparatorHidden(isHidden: Bool) {
-        self.topSeparatorForStoreCategoriesHeader.isHidden = isHidden
-    }
-    
-    
-    
 }
 
 extension NeighbourHoodFavouriteTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {

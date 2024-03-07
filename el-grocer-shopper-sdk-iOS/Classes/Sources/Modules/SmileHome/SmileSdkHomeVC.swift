@@ -1318,7 +1318,7 @@ extension SmileSdkHomeVC {
                 return self.makeLabelCell(indexPath)
             }
         case .init(row: 1, section: 0):
-            if tableViewHeader2.selectedItemIndex == 0 && self.oneClickReOrderSection == 1  {
+            if tableViewHeader2.selectedItemIndex == 0 && self.oneClickReOrderSection == 1 && self.neighbourHoodSection == 1 {
                 return makeNeighbourHoodFavouriteTableViewCell(indexPath: indexPath)
             }
             return self.makeLabelCell(indexPath)
@@ -1378,9 +1378,9 @@ extension SmileSdkHomeVC {
         case .init(row: 0, section: 0):
             if tableViewHeader2.selectedItemIndex == 0 {
                 if neighbourHoodSection == 1 {
-                    return 156
+                    return 166
                 }else if oneClickReOrderSection == 1 {
-                    return 156
+                    return 166
                 }else {
                     return 45
                 }
@@ -1392,8 +1392,8 @@ extension SmileSdkHomeVC {
                 return 45
             }
         case .init(row: 1, section: 0):
-            if tableViewHeader2.selectedItemIndex == 0 && oneClickReOrderSection == 1 {
-                return 156
+            if tableViewHeader2.selectedItemIndex == 0 && oneClickReOrderSection == 1 && neighbourHoodSection == 1 {
+                return 166
             }
             return 45
         case .init(row: 2, section: 0):
