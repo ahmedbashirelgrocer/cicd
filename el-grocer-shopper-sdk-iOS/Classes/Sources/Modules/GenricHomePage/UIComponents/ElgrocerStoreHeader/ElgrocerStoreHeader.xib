@@ -83,16 +83,17 @@
                                             <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="Dubai, JLT " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZX6-sE-EOS">
-                                            <rect key="frame" x="24" y="0.0" width="66.5" height="20"/>
+                                            <rect key="frame" x="29" y="0.0" width="66.5" height="20"/>
                                             <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
                                             <color key="textColor" red="0.90196073060000004" green="0.8392156959" blue="0.31372550129999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blackArrowDown" translatesAutoresizingMaskIntoConstraints="NO" id="GMN-8X-Dco">
-                                            <rect key="frame" x="94.5" y="2" width="12" height="16"/>
+                                            <rect key="frame" x="99.5" y="2" width="16" height="16"/>
                                             <color key="tintColor" red="0.90196073060000004" green="0.8392156959" blue="0.31372550129999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="12" id="xYI-JV-RaI"/>
+                                                <constraint firstAttribute="height" constant="16" id="wP1-NE-ujq"/>
+                                                <constraint firstAttribute="width" constant="16" id="xYI-JV-RaI"/>
                                             </constraints>
                                         </imageView>
                                     </subviews>
@@ -100,7 +101,7 @@
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="ppb-xP-Idw" secondAttribute="bottom" id="0iF-eu-Gfx"/>
                                         <constraint firstItem="ZX6-sE-EOS" firstAttribute="centerY" secondItem="ip8-60-Bjk" secondAttribute="centerY" id="8nS-0r-aq2"/>
-                                        <constraint firstItem="ZX6-sE-EOS" firstAttribute="leading" secondItem="ppb-xP-Idw" secondAttribute="trailing" id="BRm-pK-k7F"/>
+                                        <constraint firstItem="ZX6-sE-EOS" firstAttribute="leading" secondItem="ppb-xP-Idw" secondAttribute="trailing" constant="5" id="BRm-pK-k7F"/>
                                         <constraint firstItem="ppb-xP-Idw" firstAttribute="top" secondItem="ip8-60-Bjk" secondAttribute="top" id="GeY-zp-KMK"/>
                                         <constraint firstItem="GMN-8X-Dco" firstAttribute="leading" secondItem="ZX6-sE-EOS" secondAttribute="trailing" constant="4" id="gfE-CD-yDv"/>
                                         <constraint firstAttribute="bottom" secondItem="ZX6-sE-EOS" secondAttribute="bottom" id="lgZ-s8-hwy"/>
@@ -118,17 +119,17 @@
                                     </connections>
                                 </view>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="252" verticalCompressionResistancePriority="752" translatesAutoresizingMaskIntoConstraints="NO" id="M7j-Is-c6Y" userLabel="slots" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                    <rect key="frame" x="257" y="0.0" width="106" height="20"/>
+                                    <rect key="frame" x="257" y="2" width="106" height="16"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SingleStore_delivery" translatesAutoresizingMaskIntoConstraints="NO" id="GXy-Cr-2hH">
-                                            <rect key="frame" x="6" y="4" width="12" height="12"/>
+                                            <rect key="frame" x="6" y="2" width="12" height="12"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="12" id="SSn-1t-sna"/>
                                                 <constraint firstAttribute="height" constant="12" id="fEf-1D-wu6"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="752" text="Tod 2pm-3pm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zpy-5b-pos">
-                                            <rect key="frame" x="20" y="3" width="76" height="14"/>
+                                            <rect key="frame" x="20" y="1" width="76" height="14"/>
                                             <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="12"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -140,6 +141,7 @@
                                         <constraint firstItem="GXy-Cr-2hH" firstAttribute="leading" secondItem="M7j-Is-c6Y" secondAttribute="leading" constant="6" id="BxN-JZ-dyY"/>
                                         <constraint firstItem="Zpy-5b-pos" firstAttribute="centerY" secondItem="M7j-Is-c6Y" secondAttribute="centerY" id="Du8-zp-h2z"/>
                                         <constraint firstItem="Zpy-5b-pos" firstAttribute="leading" secondItem="GXy-Cr-2hH" secondAttribute="trailing" constant="2" id="RgO-8t-jh7"/>
+                                        <constraint firstAttribute="height" constant="16" id="Sqh-ek-qi1"/>
                                         <constraint firstAttribute="trailing" secondItem="Zpy-5b-pos" secondAttribute="trailing" constant="10" id="a6Z-6o-qCh"/>
                                         <constraint firstItem="GXy-Cr-2hH" firstAttribute="centerY" secondItem="M7j-Is-c6Y" secondAttribute="centerY" id="dw9-Wi-j0X"/>
                                     </constraints>
@@ -156,11 +158,10 @@
                                 <constraint firstAttribute="trailing" secondItem="M7j-Is-c6Y" secondAttribute="trailing" id="6bL-c1-D9N"/>
                                 <constraint firstItem="ip8-60-Bjk" firstAttribute="centerY" secondItem="Ckn-aP-YAg" secondAttribute="centerY" id="VZg-Kn-wj1"/>
                                 <constraint firstItem="ip8-60-Bjk" firstAttribute="top" secondItem="Ckn-aP-YAg" secondAttribute="top" id="f2D-tN-fdb"/>
+                                <constraint firstItem="M7j-Is-c6Y" firstAttribute="centerY" secondItem="Ckn-aP-YAg" secondAttribute="centerY" id="iKS-aW-6w7"/>
                                 <constraint firstItem="M7j-Is-c6Y" firstAttribute="leading" secondItem="ip8-60-Bjk" secondAttribute="trailing" constant="10" id="m2v-06-GYQ"/>
                                 <constraint firstAttribute="bottom" secondItem="ip8-60-Bjk" secondAttribute="bottom" id="njI-lQ-IBS"/>
-                                <constraint firstAttribute="height" priority="999" constant="16" id="rDS-Wx-S2E"/>
-                                <constraint firstAttribute="bottom" secondItem="M7j-Is-c6Y" secondAttribute="bottom" id="uvQ-nY-smD"/>
-                                <constraint firstItem="M7j-Is-c6Y" firstAttribute="top" secondItem="Ckn-aP-YAg" secondAttribute="top" id="ygc-EZ-CVb"/>
+                                <constraint firstAttribute="height" priority="999" constant="25" id="rDS-Wx-S2E"/>
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" translatesAutoresizingMaskIntoConstraints="NO" id="gzu-G6-0uQ">

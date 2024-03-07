@@ -18,7 +18,7 @@ enum ElgrocerStoreHeaderDismissType {
 
 class ElgrocerStoreHeader:  UIView  {
     
-    let headerMaxHeight: CGFloat = 110
+    let headerMaxHeight: CGFloat = 125
     let headerMinHeight: CGFloat = 94
     
     private var dimisType: ElgrocerStoreHeaderDismissType = .dismisSDK
@@ -52,7 +52,7 @@ class ElgrocerStoreHeader:  UIView  {
     @IBOutlet weak var arrowDown: UIImageView! {
         didSet{
             arrowDown.backgroundColor = ApplicationTheme.currentTheme.separatorColor
-            arrowDown.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: (arrowDown.bounds.height / 2))
+            arrowDown.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: (8))
             arrowDown.tintColor = sdkManager.isSmileSDK ? .black : .black
             arrowDown.image = UIImage(name: "yellowArrowDown")?.withRenderingMode(.alwaysTemplate)
         }
@@ -89,6 +89,9 @@ class ElgrocerStoreHeader:  UIView  {
         didSet{
             iconLocation.tintColor = sdkManager.isSmileSDK ? .black : .black
             iconLocation.image = UIImage(name: "homeHeadeerLocationPin")?.withRenderingMode(.alwaysTemplate)
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                iconLocation.transform = CGAffineTransform(scaleX: -1, y: 1)
+            }
         }
     }
     
