@@ -10,10 +10,16 @@ import UIKit
 import SDWebImage
 class ApplyPromoCell: UITableViewCell {
     
-    @IBOutlet var superBGView: UIView!
+    @IBOutlet var superBGView: UIView! {
+        didSet {
+            superBGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        }
+    }
     @IBOutlet var backGroundView: UIView! {
         didSet {
             backGroundView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: 8)
+            backGroundView.layer.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor.cgColor
+            backGroundView.layer.borderWidth = 1.0
         }
     }
     @IBOutlet var imgVoucher: UIImageView! {
@@ -113,7 +119,7 @@ class ApplyPromoCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
             // Initialization code
-        self.contentView.backgroundColor = .tableViewBackgroundColor()
+        self.contentView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
     }
     
     override func didMoveToSuperview() {

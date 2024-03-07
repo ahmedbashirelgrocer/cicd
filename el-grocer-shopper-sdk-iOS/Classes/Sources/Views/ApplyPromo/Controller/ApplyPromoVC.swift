@@ -65,7 +65,7 @@ class ApplyPromoVC: UIViewController {
     @IBOutlet var btnClose: UIButton!
     @IBOutlet var tblView: UITableView! {
         didSet {
-            tblView.backgroundColor = .tableViewBackgroundColor()
+            tblView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             tblView.contentInsetAdjustmentBehavior = .never
         }
     }
