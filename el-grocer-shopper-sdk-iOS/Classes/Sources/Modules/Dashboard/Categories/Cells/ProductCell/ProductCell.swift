@@ -760,7 +760,7 @@ class ProductCell : RxUICollectionViewCell {
                 }else if count == 1 {
                     
                     self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
-                    self.minusButton.setImage(UIImage(name: "delete_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
+                    self.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
                     
                     if self.product.promotion?.boolValue == true {
                         //self.limitedStockBGView.isHidden = false
@@ -926,7 +926,7 @@ class ProductCell : RxUICollectionViewCell {
                     
                     self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
                     if count == 2 {
-                        self.minusButton.setImage(UIImage(name: "remove_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
+                        self.minusButton.setImage(UIImage(name: "remove_product_cell"), for: .normal)
                     }
                     
                     if self.product.promotion?.boolValue == true {
@@ -1081,7 +1081,7 @@ class ProductCell : RxUICollectionViewCell {
                 ? "\(item.count.intValue)".changeToArabic()
                 : "\(item.count.intValue)"
           
-            self.plusButton.setImage(UIImage(name: "add_product_cell"), for: .normal)
+            self.plusButton.setImage(UIImage(name: SDKManager.shared.isSmileSDK ? "add_product_cell_smiles" : "add_product_cell_shopper"), for: .normal)
             self.plusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
             if item.count == 1 {
                 self.minusButton.setImage(UIImage(name: "MyBasketDelete"), for: .normal)
@@ -1387,12 +1387,12 @@ private extension ProductCell {
             .disposed(by: disposeBag)
         
         viewModel.outputs.plusButtonIconName
-            .map { UIImage(name: $0, in: .resource)?.withRenderingMode(.alwaysTemplate) }
+            .map { UIImage(name: $0, in: .resource) }
             .bind(to: self.plusButton.rx.image(for: .normal))
             .disposed(by: disposeBag)
         
         viewModel.outputs.minusButtonIconName
-            .map { UIImage(name: $0, in: .resource)?.withRenderingMode(.alwaysTemplate) }
+            .map { UIImage(name: $0, in: .resource) }
             .bind(to: self.minusButton.rx.image(for: .normal))
             .disposed(by: disposeBag)
         
