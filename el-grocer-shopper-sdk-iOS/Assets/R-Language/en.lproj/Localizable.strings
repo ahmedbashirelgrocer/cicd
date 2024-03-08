@@ -2312,7 +2312,7 @@ Oreo";
 "search_manually_text" = "Search your location manually";
 
 // Smiles SDK Home
-"lbl_AvailableStores_Smiles_Home" = "All Available stores (%@)";
+"lbl_AvailableStores_Smiles_Home" = "All available stores (%@)";
 
 // CategoryDTO
 "search_by_shopping_list_text" = "Create Shopping List";
