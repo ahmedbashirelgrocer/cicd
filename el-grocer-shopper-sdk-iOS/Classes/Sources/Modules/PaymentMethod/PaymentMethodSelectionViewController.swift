@@ -145,10 +145,17 @@ fileprivate extension PaymentMethodSelectionViewController {
         case .addNewCard:
             AdyenManager.sharedInstance.performZeroTokenization(controller: self)
             
-            AdyenManager.sharedInstance.isNewCardAdded = { [weak self] (isFailed: Bool, _, _) in
-                if isFailed == false {
-                    self?.viewModel.inputs.fetchPaymentMethodsObserver.onNext(())
+            AdyenManager.sharedInstance.isNewCardAdded = { [weak self] (isFailed: Bool, response: NSDictionary, _ adyenObj: AdyenManagerObj) in
+                if isFailed {
+                    if let resultCode = response["resultCode"] as? String {
+                        let message = response["refusalReason"] as? String ?? resultCode
+                        AdyenManager.showErrorAlert(descr: message)
+                    }
+                    
+                    return
                 }
+                
+                self?.viewModel.inputs.fetchPaymentMethodsObserver.onNext(())
             }
         }
     }

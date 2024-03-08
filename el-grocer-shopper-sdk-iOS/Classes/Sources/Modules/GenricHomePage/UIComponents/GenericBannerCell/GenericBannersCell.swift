@@ -92,9 +92,7 @@ class GenericBannersCell: RxUITableViewCell {
         let viewModel = viewModel as! GenericBannersCellViewModelType
         
         self.viewModel = viewModel
-        
         viewModel.outputs.banners.bind(to: self.bannerList.rx.banners).disposed(by: disposeBag)
-        
         viewModel.outputs.banners.subscribe(onNext: { [weak self] banners in
             
             self?.banners = banners.map({ banner -> BannerCampaign in
@@ -124,7 +122,7 @@ class GenericBannersCell: RxUITableViewCell {
             guard let self = self else { return }
             
             self.setViewForMultiBanner(isMultiBanner: bannersCount > 1)
-            self.pageControl.numberOfPages = bannersCount
+            self.pageControl.numberOfPages = bannersCount 
             
             // setting height of cell
             self.cellHeight.constant = bannersCount > 0 ? (ScreenSize.SCREEN_WIDTH / 2) + 20 : 0
@@ -211,7 +209,6 @@ class GenericBannersCell: RxUITableViewCell {
         self.bannerList.configureData(bannersList)
         
         self.banners = bannersList
-        
         self.pageControl.numberOfPages = bannersList.count
         self.setViewForMultiBanner(isMultiBanner: bannersList.count > 1)
         if let timer = self.scrollTimer {
@@ -220,6 +217,7 @@ class GenericBannersCell: RxUITableViewCell {
         }
         self.scrollTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(moveToNext), userInfo: nil, repeats: true)
     }
+    
     
     @objc
     func callCollectionViewNext() {

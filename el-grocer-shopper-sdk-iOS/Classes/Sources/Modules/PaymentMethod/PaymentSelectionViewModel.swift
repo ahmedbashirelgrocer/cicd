@@ -102,7 +102,7 @@ class PaymentSelectionViewModel: PaymentSelectionViewModelType, PaymentSelection
             .combineLatest(paymentOptions, viewModelsSubject)
             .map { ($0.0, $1) }
             .map { options, viewModels in
-                if let tabbyOption = options.first(where: { $0 == .tabby}), sdkManager.isShopperApp {
+                if let tabbyOption = options.first(where: { $0 == .tabby }) {
                     return CGFloat((viewModels.count * 48) + 50 + 24)
                 }
                 
@@ -161,7 +161,7 @@ class PaymentSelectionViewModel: PaymentSelectionViewModelType, PaymentSelection
         
         cellViewModels.append(
             contentsOf: options
-                .filter {$0 == .tabby && sdkManager.isShopperApp}
+                .filter {$0 == .tabby}
                 .map { _ in PaymentMethodCellViewModel(authenticationUrl: tabbyAuthUrl, self.selectedPaymentOption == .tabby) }
         )
         

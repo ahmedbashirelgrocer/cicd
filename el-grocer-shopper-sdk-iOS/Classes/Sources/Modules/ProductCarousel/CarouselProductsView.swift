@@ -223,7 +223,7 @@ extension CarouselProductsView :  ProductCellProtocol {
             self.addNewProduct!(productCell, product , self.carouselproducts.count - 1)
         }
        // self.carouselproducts.remove(at: productCell.tag)
-        self.reloadData()
+//        self.reloadData()
     }
     
 }

@@ -460,7 +460,6 @@ private extension SecondCheckoutVC {
     }
     
     func logOrderEditedOrCompletedEvent(order: Order?) {
-        self.viewModel.basketDataValue
         if (self.viewModel.getOrderId() != nil) {
             // Edit Completed Event
             SegmentAnalyticsEngine.instance.logEvent(event: EditOrderCompletedEvent(order: order, grocery: self.grocery))
@@ -469,7 +468,7 @@ private extension SecondCheckoutVC {
         } else {
             let orderCompletedEvent = OrderPurchaseEvent(
                 products: self.viewModel.getFinalisedProducts() ?? [],
-                grocery: self.grocery, totalValue: self.viewModel.basketDataValue?.totalValue ?? 0.0,
+                grocery: self.grocery,
                 order: order,
                 isWalletEnabled: viewModel.getSelectedElwalletCredit() > 0,
                 isSmilesEnabled: viewModel.getSelectedSmilesPoints() > 0,
@@ -478,7 +477,9 @@ private extension SecondCheckoutVC {
                 smilesPointsBurnt: viewModel.basketDataValue?.smilesRedeem ?? 0,
                 realizationId: viewModel.basketDataValue?.promoCode?.promotionCodeRealizationID,
                 isTabbyEnabled: false,
-                amoutPaidWithTabby: viewModel.basketDataValue?.tabbyRedeem ?? 0.0
+                amoutPaidWithTabby: viewModel.basketDataValue?.tabbyRedeem ?? 0.0,
+                elWalletRedeem: viewModel.basketDataValue?.elWalletRedeem ?? 0,
+                grandTotal: viewModel.basketDataValue?.totalValue ?? 0
             )
             
             SegmentAnalyticsEngine.instance.logEvent(event: orderCompletedEvent)
@@ -731,6 +732,60 @@ extension SecondCheckoutVC: CheckoutSmilesPointsViewDelegate {
         let amountToPay = viewModel.basketDataValue?.finalAmount ?? 0.0
         let smilesBurntRatio = viewModel.basketDataValue?.smilesBurnRatio
         
+        
+        if selectedPrimaryPM == .none {
+            showMessage(localizedString("primary_payment_required_error_msg", comment: ""))
+            return
+        }
+        
+        if UserDefaults.isSmilesUserLoggedIn() == false && sdkManager.isShopperApp {
+            showMessage(localizedString("smiles_points_user_not_logged_in_error_msg", comment: ""))
+            return
+        }
+
+        if availablePoints <= 1 {
+            showMessage(localizedString("smiles_points_insufficient_balance_error_msg", comment: ""))
+            return
+        }
+        
+        self.showSmilesPointsBottomSheet()
+    }
+    
+    private func showSmilesPointsBottomSheet() {
+        let smilesPointsVC = makeSmilesBottomSheetController()
+
+        smilesPointsVC.confirmButtonTapHandler = { [weak self] smilesPoints in
+            guard let self = self else { return }
+            
+            self.viewModel.setSelectedSmilePoints(selectedSmilePoints: smilesPoints)
+            self.viewModel.updateSecondaryPaymentMethods()
+            
+            let smilesPointEnabled = SmilesPointEnabledEvent(isEnabled: smilesPoints != 0, redeemPoints: smilesPoints)
+            SegmentAnalyticsEngine.instance.logEvent(event: smilesPointEnabled)
+        }
+
+        let popupController = STPopupController(rootViewController: smilesPointsVC)
+        popupController.navigationBarHidden = true
+        popupController.style = .bottomSheet
+
+        popupController.backgroundView?.alpha = 1
+        popupController.containerView.layer.cornerRadius = 16
+        popupController.navigationBarHidden = true
+        popupController.present(in: self)
+    }
+    
+    // Common Method
+    private func showMessage(_ message: String) {
+        ElGrocerUtility.sharedInstance.showTopMessageView(message, image: nil, -1, false, backButtonClicked: { sender, index, inUndo in
+        }, buttonIcon: UIImage(name: "crossWhite"))
+    }
+    
+    private func makeSmilesBottomSheetController() -> SmilesPointsViewController {
+        let availablePoints = viewModel.basketDataValue?.smilesPoints ?? 0
+        let pointsRedeemed = viewModel.basketDataValue?.smilesRedeem ?? 0.0
+        let amountToPay = viewModel.basketDataValue?.finalAmount ?? 0.0
+        let smilesBurntRatio = viewModel.basketDataValue?.smilesBurnRatio
+        
         let viewModel = SmilesPointsViewModel(availablePoints: availablePoints, smilesRedeem: pointsRedeemed, amountToPay: amountToPay, smilesBurntRatio: smilesBurntRatio)
         return SmilesPointsViewController(viewModel: viewModel)
     }
@@ -763,6 +818,9 @@ extension SecondCheckoutVC: CheckoutElWalletViewDelegate {
             
             self.viewModel.setSelectedElwaletPoints(selectedElWalletPoints: redeem)
             self.viewModel.updateSecondaryPaymentMethods()
+            
+            let elWalletToggleEnabled = ElWalletToggleEnabledEvent(isEnabled: redeem != 0, redeemAmount: redeem)
+            SegmentAnalyticsEngine.instance.logEvent(event: elWalletToggleEnabled)
         }
 
         let popupController = STPopupController(rootViewController: elWalletVC)

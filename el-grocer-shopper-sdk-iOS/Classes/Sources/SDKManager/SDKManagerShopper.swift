@@ -832,7 +832,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType {
                     
                     //check if no network controller is shown
                     if topController is NoNetworkConnectionViewController {
-                        self.window?.rootViewController?.dismiss(animated: false, completion:nil)
+                        topController.dismiss(animated: false)
                     }
                     
                 } else {
@@ -846,7 +846,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType {
                         navController.modalPresentationStyle = .fullScreen
                         DispatchQueue.main.async { [weak self] in
                             guard let self = self else { return }
-                            self.window?.rootViewController?.present(navController, animated: false, completion: nil)
+                            topController.present(navController, animated: false)
                         }
                         
                     }

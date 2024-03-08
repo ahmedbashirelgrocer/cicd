@@ -14,6 +14,9 @@ enum SectionName: String, Codable {
     case productsOnly = "products_only"
     case categorySection = "category_section"
     case subcategorySection = "subcategory_section"
+    case headerSection = "heading_section"
+    // for recipe custom compaign
+    case recipePreparations = "preparations"
 }
 
 struct CampaignSection: Codable {
@@ -27,13 +30,14 @@ struct CampaignSection: Codable {
     var image: String?
     let backgroundColor: String?
     let filters: [Filter]?
+    let details: [String]?
     
     //extra need to remove
 //    let background_banner_image: String?
 //    let banner_image:String?
     
     enum CodingKeys: String, CodingKey {
-            case id, title, titleAr = "title_ar", sectionName = "section_name", priority, query, image, backgroundColor = "background_color", filters  //, background_banner_image, banner_image
+            case id, title, titleAr = "title_ar", sectionName = "section_name", priority, query, image, backgroundColor = "background_color", filters, details  //, background_banner_image, banner_image
     }
     init(from decoder: Decoder) throws {
         
@@ -47,6 +51,7 @@ struct CampaignSection: Codable {
         backgroundColor = try container.decode(String?.self, forKey: .backgroundColor)
         filters = try container.decode([Filter]?.self, forKey: .filters)
         image = try container.decode(String?.self, forKey: .image)
+        details = try container.decode([String]?.self, forKey: .details)
 //        background_banner_image = try container.decode(String?.self, forKey: .background_banner_image)
 //        banner_image = try container.decode(String?.self, forKey: .banner_image)
     

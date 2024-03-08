@@ -257,6 +257,7 @@ extension savedCarsVC{
     //MARK: Delete Card
     
     func deleteCardAt( _ index : Int) {
+        if index >= creditCardA.count { return }
         
         let card = self.creditCardA[index]
         
@@ -356,8 +357,8 @@ extension savedCarsVC {
             if error {
                //  print("error in authorization")
                 if let resultCode = response["resultCode"] as? String {
-                   //  print(resultCode)
-                    AdyenManager.showErrorAlert(descr: resultCode)
+                    let message = response["refusalReason"] as? String ?? resultCode
+                    AdyenManager.showErrorAlert(descr: message)
                 }
             }else{
                 self.getAdyenPaymentMethods()

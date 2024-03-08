@@ -45,3 +45,17 @@ struct BannerViewedEvent: AnalyticsEventDataType {
         ]
     }
 }
+
+struct StoryClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(id: String, name: String, deepLink: String) {
+        self.eventType = .track(eventName: AnalyticsEventName.storylyClicked)
+        self.metaData = [
+            EventParameterKeys.id         : id,
+            EventParameterKeys.name       : name,
+            EventParameterKeys.deeplink   : deepLink
+        ]
+    }
+}

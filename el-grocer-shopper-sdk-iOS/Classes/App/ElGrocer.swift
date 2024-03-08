@@ -154,6 +154,7 @@ public struct LaunchOptions {
     var accountNumber: String?
     public var latitude: Double?
     public var longitude: Double?
+    var addressID: String?
     var address: String?
     var loyaltyID: String?
     var email: String?
@@ -212,7 +213,7 @@ public struct LaunchOptions {
         }
     }
     
-
+    @available(*, deprecated)
     public init(
         accountNumber: String?,
         latitude: Double?,
@@ -259,6 +260,42 @@ public struct LaunchOptions {
            self.theme = ApplicationTheme.elGrocerShopperTheme()
         }
     }
+    
+    public init(
+        accountNumber: String?,
+        latitude: Double?,
+        longitude: Double?,
+        addressID: String?,
+        address: String?,
+        loyaltyID: String?,
+        email: String? = nil,
+        pushNotificationPayload: [String: AnyHashable]? = nil,
+        deepLinkPayload: String? = nil,
+        language: String? = nil,
+        marketype: MarketType = .marketPlace,
+        environmentType : EnvironmentType = .live,
+        theme: Theme = ApplicationTheme.smilesSdkTheme(), navigationType : ElgrocerSDKNavigationType = ElgrocerSDKNavigationType.Default) {
+        
+        self.accountNumber = accountNumber
+        self.latitude = latitude
+        self.longitude = longitude
+        self.addressID = addressID
+        self.address = address
+        self.loyaltyID = loyaltyID
+        self.email = email
+        self.pushNotificationPayload = pushNotificationPayload
+        self.deepLinkPayload = deepLinkPayload
+        self.language = language
+        self.marketType = marketype
+        self.navigationType = navigationType
+        self.environmentType =  environmentType
+        self.isLoggingEnabled = environmentType == .staging
+        self.theme = theme
+        if (pushNotificationPayload?.count ?? 0) > 0 {
+            self.isFromPush = true
+        }
+    }
+    
     // only for elgrocer Shopper Use.
     public init(
         _ marketType : MarketType = .shopper,

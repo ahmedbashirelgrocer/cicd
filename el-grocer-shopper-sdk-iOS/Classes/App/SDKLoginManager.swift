@@ -209,7 +209,10 @@ extension SDKLoginManager {
                     return
                 }
             }
-            SDKManager.shared.rootContext?.present(nav, animated: true, completion: nil)
+            
+            if !nav.isBeingPresented {
+                SDKManager.shared.rootContext?.present(nav, animated: true, completion: nil)
+            }
         }
         
     }

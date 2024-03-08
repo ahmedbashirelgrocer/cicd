@@ -10,7 +10,6 @@
 "smiles_pts" = "%@ pts";
 "earn_rewards_now" = "Earn Smiles Points!";
 "Oops! Something went wrong on our side 🤔" = "Oops! Something went wrong on our side 🤔";
-"We are fixing the problem.\nPlease, try again soon." = "We are fixing the problem.\nPlease, try again soon.";
 
 // New
 "Shopping_list_Titile" = "Shopping list";
@@ -2154,11 +2153,11 @@ Oreo";
 "txt_earn" = "Earn";
 "txt_benifits" = "Benefits";
 "Your_balance" = "Your balance";
-"smile_login" = "Login";
-"smile_otp_instructions" = "Enter 5-digit verification code sent to registered elGrocer mobile number";
+"smile_login" = "Log in to your Smiles account";
+"smile_otp_instructions" = "Please enter verification code sent to your mobile number %@";
 "pay_via_smiles_points" = "Smiles Points";
-"resend_otp_in" = "Resend otp in ";
-"resend_otp" = "Resend otp";
+"resend_otp_in" = "Resend code in ";
+"resend_otp" = "Resend code";
 "sec" = " sec";
 "smile_login_permission_text" = "Can we share your phone number with Smiles? This allows us to find and connect with your existing Smiles account.";
 "Yes" = "Yes";
@@ -2351,12 +2350,14 @@ Oreo";
 "remaining_amount_text" = "Remaining amount";
 "redeem_funds_text" = "Redeem funds:";
 "el_wallet_entered_amount_more_than_available_error" = "Please enter an amount equal to or lower than the elWallet Balance.";
+"el_wallet_entered_amount_more_than_available_error" = "Please enter an amount equal to or lower than the elWallet Funds.";
 "el_wallet_entered_amount_more_than_bill_error" = "Please enter an amount equal to or lower than the total bill";
 
 "primary_payment_required_error_msg" = "Please specify a payment method in order to handle substitutions or weight variance";
 "primary_payment_tabby_not_support_secondary_error_msg" = "Using Promocodes, Smiles Points and elWallet is not available with tabby as a payment method. Choose a different payment method.";
 "tabby_payment_warning_msg" = "*In case of a price difference in a final bill - cash on delivery for the difference amount will be charged.";
 "checkout_all_fee_message_will_be_in_receipt_msg" = "Weighted items may create slight final price variations. Weight based variations will be applied and displayed in the final bill.";
+"smiles_points_user_not_logged_in_error_msg" = "You’re not logged in! Please log in to redeem your Smiles points.";
 
 // View Titles
 "text_delivery_time" = "Delivery Time";

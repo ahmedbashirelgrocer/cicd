@@ -202,15 +202,18 @@ class AdyenManager {
            // let error = ElGrocerError.genericError()
            // error.showErrorAlert()
             SpinnerView.hideSpinnerView()
-            let cancelButtonTitle = localizedString("ok_button_title", comment: "")
-            let message = localizedString("error_NoCard_ApplePay", comment: "")
-            let errorAlert = ElGrocerAlertView.createAlert(localizedString("sorry_title", comment: ""), description:message ,positiveButton:localizedString("title_SetUp_with_apple_pay", comment: "") ,negativeButton:cancelButtonTitle,buttonClickCallback: { buttonIndex in
-                if buttonIndex == 0 {
-                let passLibrary = PKPassLibrary()
-                passLibrary.openPaymentSetup()
-                }
-            } )
-            errorAlert.show()
+            let passLibrary = PKPassLibrary()
+            passLibrary.openPaymentSetup()
+            
+//            let cancelButtonTitle = localizedString("ok_button_title", comment: "")
+//            let message = localizedString("error_NoCard_ApplePay", comment: "")
+//            let errorAlert = ElGrocerAlertView.createAlert(localizedString("sorry_title", comment: ""), description:message ,positiveButton:localizedString("title_SetUp_with_apple_pay", comment: "") ,negativeButton:cancelButtonTitle,buttonClickCallback: { buttonIndex in
+//                if buttonIndex == 0 {
+//                let passLibrary = PKPassLibrary()
+//                passLibrary.openPaymentSetup()
+//                }
+//            } )
+//            errorAlert.show()
         }
         
         
@@ -315,7 +318,7 @@ class AdyenManager {
                     self.cardComponent?.viewController.dismiss(animated: true, completion: nil)
                     if adyenObjData.isZeroAuth {
                         if let closure = self.isNewCardAdded {
-                            closure(false,response!, adyenObjData)
+                            closure(refusalReason.count == 0 ? false : true, response!, adyenObjData)
                         }
                     }else {
                         if let closure = self.isPaymentMade  {

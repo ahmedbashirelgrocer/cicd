@@ -77,7 +77,7 @@ class GenricBannerList : CustomCollectionView {
         
         
     }
-    
+
 }
 
 // MARK: Rx Extension for binding Banner View with BannerDTOs
@@ -85,7 +85,6 @@ extension Reactive where Base: GenricBannerList {
     var banners: Binder<[BannerDTO]> {
         return Binder(self.base) { bannerListView, banners in
             bannerListView.collectionData = banners
-            
             UIView.performWithoutAnimation {
                 bannerListView.layoutIfNeeded()
                 bannerListView.collectionView?.reloadData()
@@ -138,7 +137,11 @@ extension GenricBannerList : UICollectionViewDelegate , UICollectionViewDataSour
                     cell.bannerImage.transform = CGAffineTransform(scaleX: -1, y: 1)
                     cell.bannerImage.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
                 }
-                cell.setImage(banner.imageURL)
+                if(banner.isStoryly ?? false){
+                    cell.setStorelyBannerImage()
+                }else{
+                    cell.setImage(banner.imageURL)
+                }
             }
         }
         return cell

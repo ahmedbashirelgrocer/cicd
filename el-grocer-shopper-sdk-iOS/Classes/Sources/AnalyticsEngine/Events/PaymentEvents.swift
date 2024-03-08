@@ -24,10 +24,11 @@ struct SmilesPointEnabledEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(isEnabled: Bool) {
+    init(isEnabled: Bool, redeemPoints: Int) {
         self.eventType = .track(eventName: AnalyticsEventName.smilesPointsEnabled)
         self.metaData = [
-            EventParameterKeys.isEnabled: isEnabled
+            EventParameterKeys.isEnabled: isEnabled,
+            EventParameterKeys.smilesRedeem: String(redeemPoints)
         ]
     }
 }
@@ -36,10 +37,11 @@ struct ElWalletToggleEnabledEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(isEnabled: Bool) {
+    init(isEnabled: Bool, redeemAmount: Double) {
         self.eventType = .track(eventName: AnalyticsEventName.elWalletToggleEnabled)
         self.metaData = [
-            EventParameterKeys.isEnabled: isEnabled
+            EventParameterKeys.isEnabled: isEnabled,
+            EventParameterKeys.elWalletRedeem: String(redeemAmount)
         ]
     }
 }

@@ -361,6 +361,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
             case .priority:
                 bannerCampaign.changeStoreForBanners(currentActive: nil, retailers: sdkManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery!] : (HomePageData.shared.groceryA ?? [ElGrocerUtility.sharedInstance.activeGrocery!]))
                 break
+            case .storely:
+                break
             }
             
            

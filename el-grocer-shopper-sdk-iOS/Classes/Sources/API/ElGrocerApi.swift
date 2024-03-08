@@ -14,8 +14,8 @@ import JavaScriptCore
 import AlgoliaSearchClient
 
 
-private let SharedInstance = ElGrocerApi()
-private let NonBaseURLSharedInstance = ElgrocerAPINonBase()
+//private let SharedInstance = ElGrocerApi()
+//private let NonBaseURLSharedInstance = ElgrocerAPINonBase()
 
 
  enum SearchBannerType : Int {
@@ -186,7 +186,7 @@ enum ElGrocerApiEndpoint : String {
     
     // banner new api
     case campaignAPi = "v2/campaigns"
-    case customCampaignAPi = "v1/custom_campaigns"
+    case customCampaignAPi = "v2/custom_campaigns"
     //sab
     //case campaignProductsApi = "v1/campaigns/products"
     case campaignProductsApi = "v1/campaigns/products/list"
@@ -211,9 +211,7 @@ enum ElGrocerApiEndpoint : String {
     
      var requestManager : AFHTTPSessionManagerCustom!
     
-    class var sharedInstance : ElgrocerAPINonBase {
-        return NonBaseURLSharedInstance
-    }
+    static var sharedInstance = ElgrocerAPINonBase()
     
     init() {
         
@@ -417,12 +415,8 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
  //  private var productsSearchOperation:URLSessionDataTask?
  //  private var basketFetchOperation:URLSessionDataTask?
   
-  class var sharedInstance : ElGrocerApi {
-  return SharedInstance
-  }
+  static var sharedInstance = ElGrocerApi()
     
-  
-  
   init() {
     self.refreshManager()
   }

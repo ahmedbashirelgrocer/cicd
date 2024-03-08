@@ -14,6 +14,7 @@ enum BannerCampaignType : Int, Codable {
     case web = 3
     case priority = 4
     case customBanners = 50
+    case storely = 51
 }
 
 enum BannerLocation : Int, Decodable {

@@ -82,7 +82,6 @@ enum EventParameterKeys {
     static let latitude             = "latitude"
     static let longitude            = "longitude"
     static let loyaltyId            = "loyaltyId"
-    static let deepLink             = "deepLink"
     static let pushNotifcation      = "pushNotification"
     
     static let attemptCount         = "attemptCount"
@@ -107,5 +106,8 @@ enum EventParameterKeys {
     static let storeName       = "storeName"
     
     static let marketingEnablers = "marketingEnabler"
-
+    
+    static let elWalletRedeem       = "elWalletRedeem"
+    static let smilesRedeem         = "smilesRedeem"
+    static let id                   = "id"
 }

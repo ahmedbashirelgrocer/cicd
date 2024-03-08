@@ -294,7 +294,7 @@ private extension RxCollectionViewOnlyTableViewCellViewModel {
             parameters["category_id"] = category.id
             parameters["delivery_time"] =  deliveryTime
             parameters["shopper_id"] = UserDefaults.getLogInUserID()
-            
+            print(self.category?.algoliaQuery)
             if let config = ElGrocerUtility.sharedInstance.appConfigData, config.fetchCatalogFromAlgolia == false, category.algoliaQuery == nil {
                 ProductBrowser.shared.getTopSellingProductsOfGrocery(parameters, true) { result in
                     switch result {
@@ -310,11 +310,11 @@ private extension RxCollectionViewOnlyTableViewCellViewModel {
             }
             
             let storeId = ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)
-            self.limit = self.category?.algoliaQuery != nil ? 20 : self.limit
+            self.limit = (self.category?.algoliaQuery != nil || self.category?.algoliaQuery != "") ? 20 : self.limit
             
             let pageNumber = self.offset / self.limit
             // ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsStorePage ?? 20
-            guard self.category?.algoliaQuery == nil else {
+            guard (self.category?.algoliaQuery == nil || self.category?.algoliaQuery == "") else {
                 if let query = self.category?.algoliaQuery {
                    // guard self.offset < 21 else { return }
                     ProductBrowser.shared.searchWithQuery(query:query, pageNumber: pageNumber, self.limit) { [weak self] content, error in

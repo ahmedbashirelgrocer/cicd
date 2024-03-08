@@ -82,6 +82,7 @@ enum AnalyticsEventName {
     // MARK: Banner
     static let bannerClicked            = "Banner Clicked"
     static let bannerViewed             = "Banner Viewed"
+    static let storylyClicked           = "Storyly Clicked"
     
     // MARK: SDK
     static let sdkLaunched            = "SDK Launched"
