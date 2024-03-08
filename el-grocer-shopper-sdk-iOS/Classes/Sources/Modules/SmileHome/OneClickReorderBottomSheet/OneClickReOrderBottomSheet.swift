@@ -282,8 +282,12 @@ extension OneClickReOrderBottomSheet: ProductCellProtocol{
                 priceSum = (priceSum + multiplePrice)
             }
         }
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            self.lblItemNum.text = String(basketItemCount).changeToArabic()
+        }else {
+            self.lblItemNum.text = String(basketItemCount)
+        }
         
-        self.lblItemNum.text = String(basketItemCount)
         self.lblPrice.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: priceSum)
         
         self.checkMinBasketValue(priceSum: priceSum)
