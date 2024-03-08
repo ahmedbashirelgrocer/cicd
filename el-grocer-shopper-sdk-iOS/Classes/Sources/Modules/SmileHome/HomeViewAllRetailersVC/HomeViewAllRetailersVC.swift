@@ -80,7 +80,7 @@ class HomeViewAllRetailersVC: UIViewController {
         (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
         (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
-        (self.navigationController as? ElGrocerNavigationController)?.setLeftTitle("All available stores", false)
+        (self.navigationController as? ElGrocerNavigationController)?.setLeftTitle("all_available_store_vc_title", false)
         self.title = localizedString("", comment: "")
         self.view.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         self.hidesBottomBarWhenPushed = true
