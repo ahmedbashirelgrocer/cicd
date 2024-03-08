@@ -25,11 +25,11 @@ class ILSegmentView: UICollectionView {
     var onTapCompletion: ((Int) -> Void)?
     var selectedItemIndex: Int = 0 {
         didSet {
-            let scrollPosition: UICollectionView.ScrollPosition = self.scrollDirection == .horizontal
-                ? .centeredHorizontally
-                : .centeredVertically
-            
-            self.selectItem(at: IndexPath(row: selectedItemIndex, section: 0), animated: true, scrollPosition: scrollPosition)
+//            let scrollPosition: UICollectionView.ScrollPosition = self.scrollDirection == .horizontal
+//                ? .centeredHorizontally
+//                : .centeredVertically
+//            
+//            self.selectItem(at: IndexPath(row: selectedItemIndex, section: 0), animated: true, scrollPosition: scrollPosition)
         }
     }
     var scrollDirection: UICollectionView.ScrollDirection = .horizontal
@@ -179,7 +179,8 @@ extension ILSegmentView: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.selectedItemIndex = indexPath.row
-        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+        // collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
+//        self.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
         self.onTapCompletion?(indexPath.row)
         self.onTapCompletionWithCategory?(self.categories[indexPath.row])
         collectionView.reloadData()
