@@ -374,7 +374,7 @@ extension MarketingCustomLandingPageViewModel {
                 name: self.isArabic ? filterObj.nameAR : filterObj.name,
                 algoliaQuery: updateQuery(filterObj.query),
                 nameAr: filterObj.nameAR,
-                bgColor: filterObj.backgroundColor == nil ? "#f5f5f5" : filterObj.backgroundColor
+                bgColor: filterObj.backgroundColor == nil ? "#FFFFFF" : filterObj.backgroundColor
             ),
             grocery: self.grocery
         )

@@ -103,7 +103,8 @@ class HomeCellViewModel: ReusableTableViewCellViewModelType, HomeCellViewModelTy
         
         self.fetchProductsSubject.onNext(())
         self.viewAllSubject.onNext(())
-        self.bgColorSubject.onNext(UIColor.colorWithHexString(hexString: self.category?.bgColor ?? ""))
+        let color = UIColor.colorWithHexString(hexString: self.category?.bgColor ?? "")
+        self.bgColorSubject.onNext(color)
         self.viewAllHiddenSubject.onNext(true)
        
     }
