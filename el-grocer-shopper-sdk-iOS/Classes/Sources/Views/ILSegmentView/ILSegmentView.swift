@@ -94,21 +94,29 @@ class ILSegmentView: UICollectionView {
     }
     
     func addBorder(vBorder: viewBorder, color: UIColor, width: CGFloat) {
-            let border = CALayer()
-            border.backgroundColor = color.cgColor
-            border.name = vBorder.rawValue
-            switch vBorder {
-                case .Left:
-                    border.frame = CGRectMake(0, 0, width, self.frame.size.height)
-                case .Right:
-                    border.frame = CGRectMake(self.frame.size.width - width, 0, width, self.frame.size.height)
-                case .Top:
-                    border.frame = CGRectMake(0, 0, self.frame.size.width, width)
-                case .Bottom:
-                    border.frame = CGRectMake(0, self.frame.size.height - width, self.frame.size.width, width)
-            }
-            self.layer.addSublayer(border)
+        let border = CALayer()
+        border.backgroundColor = color.cgColor
+        border.name = vBorder.rawValue
+        
+        
+        
+        let bGView = UIView()
+        bGView.backgroundColor = .clear
+        self.backgroundView = bGView
+        
+        switch vBorder {
+            case .Left:
+                border.frame = CGRectMake(0, 0, width, self.frame.size.height)
+            case .Right:
+                border.frame = CGRectMake(self.frame.size.width - width, 0, width, self.frame.size.height)
+            case .Top:
+                border.frame = CGRectMake(0, 0, self.frame.size.width, width)
+            case .Bottom:
+                border.frame = CGRectMake(0, self.frame.size.height - width, self.frame.size.width, width)
         }
+        
+        self.backgroundView?.layer.addSublayer(border)
+    }
 
         func removeBorder(border: viewBorder) {
             var layerForRemove: CALayer?
