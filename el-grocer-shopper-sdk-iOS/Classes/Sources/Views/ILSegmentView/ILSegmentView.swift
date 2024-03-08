@@ -135,6 +135,9 @@ class ILSegmentView: UICollectionView {
         self.reloadData()
         
         self.selectedItemIndex = 0
+        if segmentData.count > 0 {
+            self.scrollToItem(at: IndexPath(item: 0, section: 0), at: .centeredHorizontally, animated: true)
+        }
     }
     
     func refreshWith(_ categories : [CategoryDTO]) {
