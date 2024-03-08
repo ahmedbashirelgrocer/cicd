@@ -303,7 +303,7 @@ class orderBillDetailsTableViewCell: UITableViewCell {
             if let discount = order?.totalDiscount{
                 if(discount > 0.0){
                     self.billStackView.addArrangedSubview(self.savedTagView)
-                    self.savedTagView.configureSavedAmountTag(amount: String(order!.totalDiscount ?? 0.0))
+                    self.savedTagView.configureSavedAmountTag(amount: order?.totalDiscount ?? 0.0)
                 }else{
                     self.savedTagView.isHidden = true
                 }

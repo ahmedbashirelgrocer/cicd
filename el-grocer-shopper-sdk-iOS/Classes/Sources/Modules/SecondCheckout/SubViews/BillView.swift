@@ -425,14 +425,15 @@ class BillEntryView: UIView {
         }
     }
     
-    func configureSavedAmountTag(amount: String) {
+    func configureSavedAmountTag(amount: Double) {
         self.lblTitle.text = ""
-        self.lblAmount.textAlignment = .center
-        self.lblAmount.text = "     \(CurrencyManager.getCurrentCurrency())\(" ")\(amount)\(" ")\(localizedString("txt_Saved", comment: ""))   "
+        self.lblAmount.textAlignment = .left
+        let amountString = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: amount)
+        self.lblAmount.text = "   " + amountString + " " +  localizedString("txt_Saved", comment: "") + "   "
         self.lblAmount.font = UIFont.SFProDisplayBoldFont(14)
-        self.lblAmount.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryBlackColor
         self.lblAmount.textColor = ApplicationTheme.currentTheme.promotionYellowColor
-        self.lblAmount.layer.cornerRadius = 12
+        self.lblAmount.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryBlackColor
+        self.lblAmount.layer.cornerRadius = 8//self.lblAmount.layer.bounds.height / 2
         self.lblAmount.layer.masksToBounds = true
     }
 }
