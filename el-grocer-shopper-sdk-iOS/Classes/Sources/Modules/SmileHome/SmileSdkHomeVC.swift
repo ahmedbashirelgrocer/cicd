@@ -1266,12 +1266,8 @@ extension SmileSdkHomeVC {
         switch section {
         case 0: //0-2: Banner, Banner Label
             if self.tableViewHeader2.selectedItemIndex == 0 {
-                if self.neighbourHoodFavGroceryArray.count > 0 {
-                    neighbourHoodSection = 1
-                }
-                if self.oneClickReOrderGroceryArray.count > 0 {
-                    oneClickReOrderSection = 1
-                }
+                neighbourHoodSection = self.neighbourHoodFavGroceryArray.count > 0 ? 1 : 0
+                oneClickReOrderSection = self.oneClickReOrderGroceryArray.count > 0 ? 1 : 0
                 return 1 + neighbourHoodSection + oneClickReOrderSection
             }else {
                 return 1 + (configs.isHomeTier1 ? 1 : 0)
