@@ -14,6 +14,9 @@ class NavigationBarLocationView: UIView {
         didSet{
             imgLocationPin.tintColor = sdkManager.isSmileSDK ? .black : .black
             imgLocationPin.image = UIImage(name: "homeHeadeerLocationPin")?.withRenderingMode(.alwaysTemplate)
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                imgLocationPin.transform = CGAffineTransform(scaleX: -1, y: 1)
+            }
         }
     }
     @IBOutlet var imgArrowDown: UIImageView!{
