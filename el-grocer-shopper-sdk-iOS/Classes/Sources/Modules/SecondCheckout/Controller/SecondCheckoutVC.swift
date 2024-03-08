@@ -57,7 +57,7 @@ class SecondCheckoutVC: UIViewController {
     
     var secondCheckOutDataHandler : MyBasket?
     
-    var userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)    
+    var userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -109,7 +109,7 @@ class SecondCheckoutVC: UIViewController {
             // check delivery slot and show popup
             if self.viewModel.getCurrentDeliverySlotId() == nil {
                 showMessage("Please choose a slot to schedule this order.")
-                return 
+                return
             }
             
             let _ = SpinnerView.showSpinnerViewInView(self.view)
@@ -148,7 +148,7 @@ class SecondCheckoutVC: UIViewController {
                 
                 func logPurchaseEvents() {
                     self.viewModel.setRecipeCartAnalyticsAndRemoveRecipe()
-                    ElGrocerUtility.sharedInstance.delay(0.5) { 
+                    ElGrocerUtility.sharedInstance.delay(0.5) {
                         
                         ElGrocerEventsLogger.sharedInstance.recordPurchaseAnalytics(
                             finalOrderItems:self.viewModel.getShoppingItems() ?? []
@@ -476,8 +476,6 @@ private extension SecondCheckoutVC {
                 smilesPointsEarned: viewModel.basketDataValue?.smilesEarn ?? 0,
                 smilesPointsBurnt: viewModel.basketDataValue?.smilesRedeem ?? 0,
                 realizationId: viewModel.basketDataValue?.promoCode?.promotionCodeRealizationID,
-                isTabbyEnabled: false,
-                amoutPaidWithTabby: viewModel.basketDataValue?.tabbyRedeem ?? 0.0,
                 elWalletRedeem: viewModel.basketDataValue?.elWalletRedeem ?? 0,
                 grandTotal: viewModel.basketDataValue?.totalValue ?? 0
             )
@@ -686,52 +684,6 @@ extension SecondCheckoutVC: CheckoutSmilesPointsViewDelegate {
     func smilesPointsView(_didTap view: CheckoutSmilesPointsView) {
         let availablePoints = Double(viewModel.basketDataValue?.smilesPoints ?? 0)
         let selectedPrimaryPM = PaymentOption(rawValue: UInt32(viewModel.basketDataValue?.primaryPaymentTypeID ?? 0)) ?? .none
-        
-        if selectedPrimaryPM == .none {
-            showMessage(localizedString("primary_payment_required_error_msg", comment: ""))
-            return
-        }
-
-        if availablePoints <= 1 {
-            showMessage(localizedString("smiles_points_insufficient_balance_error_msg", comment: ""))
-            return
-        }
-        
-        self.showSmilesPointsBottomSheet()
-    }
-    
-    private func showSmilesPointsBottomSheet() {
-        let smilesPointsVC = makeSmilesBottomSheetController()
-
-        smilesPointsVC.confirmButtonTapHandler = { [weak self] smilesPoints in
-            guard let self = self else { return }
-            
-            self.viewModel.setSelectedSmilePoints(selectedSmilePoints: smilesPoints)
-            self.viewModel.updateSecondaryPaymentMethods()
-        }
-
-        let popupController = STPopupController(rootViewController: smilesPointsVC)
-        popupController.navigationBarHidden = true
-        popupController.style = .bottomSheet
-
-        popupController.backgroundView?.alpha = 1
-        popupController.containerView.layer.cornerRadius = 16
-        popupController.navigationBarHidden = true
-        popupController.present(in: self)
-    }
-    
-    // Common Method
-    private func showMessage(_ message: String) {
-        ElGrocerUtility.sharedInstance.showTopMessageView(message, image: nil, -1, false, backButtonClicked: { sender, index, inUndo in
-        }, buttonIcon: UIImage(name: "crossWhite"))
-    }
-    
-    private func makeSmilesBottomSheetController() -> SmilesPointsViewController {
-        let availablePoints = viewModel.basketDataValue?.smilesPoints ?? 0
-        let pointsRedeemed = viewModel.basketDataValue?.smilesRedeem ?? 0.0
-        let amountToPay = viewModel.basketDataValue?.finalAmount ?? 0.0
-        let smilesBurntRatio = viewModel.basketDataValue?.smilesBurnRatio
-        
         
         if selectedPrimaryPM == .none {
             showMessage(localizedString("primary_payment_required_error_msg", comment: ""))
