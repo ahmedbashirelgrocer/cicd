@@ -167,11 +167,11 @@ class ElgrocerStoreHeader:  UIView  {
         
         switch self.dimisType {
         case .dismisVC:
-            self.btnMenu.isHidden = true
+            self.btnMenu.visibility = .goneX
         case .dismisSDK:
-            self.btnMenu.isHidden = false
+            self.btnMenu.visibility = .visible
         case .popVc:
-            self.btnMenu.isHidden = true
+            self.btnMenu.visibility = .goneX
         }
     }
     
