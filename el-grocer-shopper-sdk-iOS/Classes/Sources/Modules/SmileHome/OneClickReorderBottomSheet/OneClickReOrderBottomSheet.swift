@@ -233,7 +233,7 @@ extension OneClickReOrderBottomSheet: ProductCellProtocol{
             let cartDeletedEvent = CartDeletedEvent(grocery: self.grocery)
             SegmentAnalyticsEngine.instance.logEvent(event: cartDeletedEvent)
         } else {
-            let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: selectedProduct, actionType: .removed, quantity: productQuantity)
+            let cartUpdatedEvent = CartUpdatedEvent(grocery: self.grocery, product: product, actionType: .removed, quantity: productQuantity)
             SegmentAnalyticsEngine.instance.logEvent(event: cartUpdatedEvent)
         }
         
