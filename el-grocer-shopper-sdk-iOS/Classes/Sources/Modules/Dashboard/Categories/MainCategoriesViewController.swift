@@ -1749,7 +1749,7 @@ private extension MainCategoriesViewController {
                 productsVC.grocery = self.grocery
                 self.navigationController?.pushViewController(productsVC, animated: true)
             } else if category.customPage != nil, let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                let customVm = MarketingCustomLandingPageViewModel.init(storeId: self.grocery?.dbID ?? "", marketingId: String(category.customPage ?? 0), addressId: currentAddress.dbID)
+                let customVm = MarketingCustomLandingPageViewModel.init(storeId: self.grocery?.dbID ?? "", marketingId: String(category.customPage ?? 0), addressId: currentAddress.dbID, grocery: self.grocery)
                 let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
                 self.present(landingVC, animated: true)
             } else {

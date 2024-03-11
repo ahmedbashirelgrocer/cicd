@@ -87,13 +87,17 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
         case currentTime = "$currentTime"
     }
     
-    init(storeId: String, marketingId: String,addressId: String,_ apiClient: ElGrocerApi? = ElGrocerApi.sharedInstance ,_ analyticsEngine: AnalyticsEngineType = SegmentAnalyticsEngine.instance) {
+    init(storeId: String, marketingId: String,addressId: String,_ apiClient: ElGrocerApi? = ElGrocerApi.sharedInstance ,_ analyticsEngine: AnalyticsEngineType = SegmentAnalyticsEngine.instance, grocery: Grocery? = nil) {
         
         self.storeId = storeId
         self.marketingId = marketingId
         self.apiClient = apiClient
         self.analyticsEngine = analyticsEngine
-        self.grocery = HomePageData.shared.groceryA?.first(where: { $0.dbID == self.storeId })
+        if grocery != nil {
+            self.grocery = grocery
+        }else {
+            self.grocery = HomePageData.shared.groceryA?.first(where: { $0.dbID == self.storeId })
+        }
         self.fetchViews()
         self.bindComponents()
         self.appUtiltyDependencyMangement(addressId)
