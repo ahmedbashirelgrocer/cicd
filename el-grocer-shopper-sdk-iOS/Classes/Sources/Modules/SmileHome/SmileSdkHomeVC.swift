@@ -746,6 +746,19 @@ class SmileSdkHomeVC: BasketBasicViewController {
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .overCurrentContext
         
+        if (grocery.isOpen.boolValue && Int(grocery.deliveryTypeId!) != 1) || (grocery.isSchedule.boolValue && Int(grocery.deliveryTypeId!) != 0){
+            let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            if currentAddress != nil  {
+                UserDefaults.setGroceryId(grocery.dbID , WithLocationId: (currentAddress?.dbID)!)
+            }
+        }
+        
+        ElGrocerUtility.sharedInstance.activeGrocery = grocery
+        if ElGrocerUtility.sharedInstance.groceries.count == 0 {
+            ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
+        }
+        
+        
         vc.grocery = grocery
         vc.checkoutTapped = { [weak self] in
             vc.dismiss(animated: true)

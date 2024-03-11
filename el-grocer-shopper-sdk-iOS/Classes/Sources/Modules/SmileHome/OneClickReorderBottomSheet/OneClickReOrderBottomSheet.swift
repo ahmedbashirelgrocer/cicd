@@ -75,7 +75,15 @@ class OneClickReOrderBottomSheet: UIViewController {
         registerCells()
         setGroceryData()
         callFetchProductApi()
+        getBasketFromServerWithGrocery(self.grocery)
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .oneClickBottomSheet))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        ElGrocerUtility.sharedInstance.activeGrocery = self.grocery
+        updatePrice()
     }
     
     func setUpCollectionView() {
@@ -271,7 +279,10 @@ extension OneClickReOrderBottomSheet: ProductCellProtocol{
         var basketItemCount: Int = 0
         var priceSum: Double = 0.0
         
-        for product in self.productsArray {
+        let products = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        
+        
+        for product in products {
             
             if let item = shoppingItemForProduct(product) {
                 basketItemCount = basketItemCount + item.count.intValue
@@ -361,5 +372,89 @@ extension OneClickReOrderBottomSheet: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 6 , bottom: 0 , right: 6)
+    }
+}
+
+extension OneClickReOrderBottomSheet {
+    
+    // MARK: Get Basket Data
+    func getBasketFromServerWithGrocery(_ grocery:Grocery?){
+        
+        let spinnerView = SpinnerView.showSpinnerViewInView(self.view)
+        ElGrocerApi.sharedInstance.fetchBasketFromServerWithGrocery(grocery) { (result) in
+            
+            spinnerView?.removeFromSuperview()
+            switch result {
+                case .success(let responseDict):
+                   print("Fetch Basket Response:%@",responseDict)
+                    self.saveResponseData(responseDict, andWithGrocery: grocery)
+                    
+                    SegmentAnalyticsEngine.instance.logEvent(event: CartViewdEvent(grocery: self.grocery))
+                case .failure(let error):
+                   elDebugPrint("Fetch Basket Error:%@",error.localizedMessage)
+                    spinnerView?.removeFromSuperview()
+            }
+        }
+    }
+        // MARK: Basket Data
+    func saveResponseData(_ responseObject:NSDictionary, andWithGrocery grocery:Grocery?) {
+        
+            //guard let dataDict = responseObject["data"] as? NSDictionary else {return}
+        guard let shopperCartProducts = responseObject["data"] as? [NSDictionary] else {return}
+        
+        var isPromoChanged = false
+        
+        Thread.OnMainThread {
+            let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+            context.performAndWait {
+                ShoppingBasketItem.clearActiveGroceryShoppingBasket(context)
+            }
+            
+            for responseDict in shopperCartProducts {
+                
+                
+                if let productDict =  responseDict["product"] as? NSDictionary {
+                    
+                    let quantity = responseDict["quantity"] as! Int
+                    let updatedAt = responseDict["updated_at"] as? String ?? ""
+                    let createdAt = responseDict["created_at"] as? String ?? ""
+                    
+                    let updatedDate : Date? = updatedAt.isEmpty ? nil : updatedAt.convertStringToCurrentTimeZoneDate()
+                    let createdDate : Date? = createdAt.isEmpty ? nil : createdAt.convertStringToCurrentTimeZoneDate()
+                    
+                    let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+                    let product = Product.createProductFromDictionary(productDict, context: context ,  createdDate ,  updatedDate )
+                    
+                        //insert brand
+                    if let brandDict = productDict["brand"] as? NSDictionary {
+                        
+                        let brandId = brandDict["id"] as! Int
+                        let brandName = brandDict["name"] as? String
+                        let brandImage = brandDict["image_url"] as? String
+                        let brandSlugName = brandDict["slug"] as? String
+                        
+                        
+                        let brand = DatabaseHelper.sharedInstance.insertOrReplaceObjectForEntityForName(BrandEntity, entityDbId: brandId as AnyObject, keyId: "dbID", context: context) as! Brand
+                        brand.name = brandName
+                        brand.nameEn = brandSlugName
+                        brand.imageUrl = brandImage
+                        product.brandId = brand.dbID
+                        
+                    }
+                    
+                    DatabaseHelper.sharedInstance.saveDatabase()
+                    ShoppingBasketItem.addOrUpdateProductInBasket(product, grocery: grocery, brandName: nil, quantity: quantity, context: context, orderID: nil, nil, false)
+                    
+                }
+                
+            }
+            
+            ElGrocerUtility.sharedInstance.delay(0.2) {
+                
+                self.collectionView.reloadData()
+                self.updatePrice()
+            
+            }
+        }
     }
 }
