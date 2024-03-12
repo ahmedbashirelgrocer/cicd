@@ -1,4 +1,4 @@
-# el-grocer-shopper-sdk-iOS
+# ElgrocerShopperSDK-SPM
 
 ## Example
 
@@ -25,11 +25,13 @@ To start ios sdk, start engine with following code
 
 ## Installation
 
-el-grocer-shopper-sdk-iOS is available through [CocoaPods](https://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+ElgrocerShopperSDK-SPM is available through [SPM](https://www.swift.org/package-manager/). Once you have your Swift package set up, adding ElgrocerShopperSDK-SPM
+as a dependency is as easy as adding it to the dependencies value of your Package.swift or the Package list in Xcode.
 
 ```ruby
-pod ‘el-grocer-shopper-sdk-iOS’,   :git => ‘https://token@github.com/elgrocer/el-grocer-shopper-sdk-iOS.git’, :tag => 1.0.0
+    dependencies: [
+        .package(url: "https://<TOKEN>@github.com/elgrocer/SDKGrocerySPM", .upToNextMajor(from: "0.0.1"))
+    ]
 ```
 
 ```ruby
@@ -39,9 +41,9 @@ Token = Token needs to update with provided token. (i.e register users token on 
 
 ## Author
 
-elgrocer, abubaker@elgrocer.com
+elgrocer, abubaker@elgrocer.com, rashidkhan@elgrocer.com
 
 ## License
 
-el-grocer-shopper-sdk-iOS is available under the MIT license. See the LICENSE file for more info.
+ElgrocerShopperSDK-SPM linked with consent with Elgrocer / Smiles useage permission. 
 

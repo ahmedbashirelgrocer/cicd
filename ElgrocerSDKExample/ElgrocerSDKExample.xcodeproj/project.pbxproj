@@ -1,0 +1,485 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0808F4C12B5EEFBF0012D7A7 /* SwiftSpinner in Frameworks */ = {isa = PBXBuildFile; productRef = 0808F4C02B5EEFBF0012D7A7 /* SwiftSpinner */; };
+		087679FF2B5EE98D0045C2AD /* IntegratedSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087679FE2B5EE98D0045C2AD /* IntegratedSearchViewController.swift */; };
+		08767A012B5EE99C0045C2AD /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08767A002B5EE99C0045C2AD /* SearchCell.swift */; };
+		08767A032B5EE9C40045C2AD /* PreLoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08767A022B5EE9C40045C2AD /* PreLoadViewController.swift */; };
+		08767A052B5EE9D20045C2AD /* PresentedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08767A042B5EE9D20045C2AD /* PresentedViewController.swift */; };
+		08767A072B5EE9DA0045C2AD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 08767A062B5EE9DA0045C2AD /* GoogleService-Info.plist */; };
+		08767A092B5EE9ED0045C2AD /* ElGrocerShopperAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08767A082B5EE9ED0045C2AD /* ElGrocerShopperAppViewController.swift */; };
+		08767A0C2B5EEBC60045C2AD /* ElgrocerShopperSDK-SPM in Frameworks */ = {isa = PBXBuildFile; productRef = 08767A0B2B5EEBC60045C2AD /* ElgrocerShopperSDK-SPM */; };
+		088CE0DE2B5ED5E500AD90E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088CE0DD2B5ED5E500AD90E0 /* AppDelegate.swift */; };
+		088CE0E22B5ED5E500AD90E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088CE0E12B5ED5E500AD90E0 /* ViewController.swift */; };
+		088CE0E52B5ED5E500AD90E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 088CE0E32B5ED5E500AD90E0 /* Main.storyboard */; };
+		088CE0E72B5ED5E600AD90E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 088CE0E62B5ED5E600AD90E0 /* Assets.xcassets */; };
+		088CE0EA2B5ED5E600AD90E0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 088CE0E82B5ED5E600AD90E0 /* LaunchScreen.storyboard */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		087679FE2B5EE98D0045C2AD /* IntegratedSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntegratedSearchViewController.swift; sourceTree = "<group>"; };
+		08767A002B5EE99C0045C2AD /* SearchCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
+		08767A022B5EE9C40045C2AD /* PreLoadViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreLoadViewController.swift; sourceTree = "<group>"; };
+		08767A042B5EE9D20045C2AD /* PresentedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentedViewController.swift; sourceTree = "<group>"; };
+		08767A062B5EE9DA0045C2AD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		08767A082B5EE9ED0045C2AD /* ElGrocerShopperAppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElGrocerShopperAppViewController.swift; sourceTree = "<group>"; };
+		088CE0DA2B5ED5E500AD90E0 /* ElgrocerSDKExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ElgrocerSDKExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		088CE0DD2B5ED5E500AD90E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		088CE0E12B5ED5E500AD90E0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		088CE0E42B5ED5E500AD90E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		088CE0E62B5ED5E600AD90E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		088CE0E92B5ED5E600AD90E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		088CE0EB2B5ED5E600AD90E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		088CE0F22B5ED60F00AD90E0 /* el-grocer-sdk-spm */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "el-grocer-sdk-spm"; path = ..; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		088CE0D72B5ED5E500AD90E0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0808F4C12B5EEFBF0012D7A7 /* SwiftSpinner in Frameworks */,
+				08767A0C2B5EEBC60045C2AD /* ElgrocerShopperSDK-SPM in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		087679FD2B5EE9590045C2AD /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				08767A022B5EE9C40045C2AD /* PreLoadViewController.swift */,
+				08767A002B5EE99C0045C2AD /* SearchCell.swift */,
+				087679FE2B5EE98D0045C2AD /* IntegratedSearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		08767A0A2B5EEBC60045C2AD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		088CE0D12B5ED5E500AD90E0 = {
+			isa = PBXGroup;
+			children = (
+				088CE0F12B5ED60F00AD90E0 /* Packages */,
+				088CE0DC2B5ED5E500AD90E0 /* ElgrocerSDKExample */,
+				088CE0DB2B5ED5E500AD90E0 /* Products */,
+				08767A0A2B5EEBC60045C2AD /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		088CE0DB2B5ED5E500AD90E0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				088CE0DA2B5ED5E500AD90E0 /* ElgrocerSDKExample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		088CE0DC2B5ED5E500AD90E0 /* ElgrocerSDKExample */ = {
+			isa = PBXGroup;
+			children = (
+				087679FD2B5EE9590045C2AD /* Search */,
+				088CE0DD2B5ED5E500AD90E0 /* AppDelegate.swift */,
+				088CE0E12B5ED5E500AD90E0 /* ViewController.swift */,
+				08767A042B5EE9D20045C2AD /* PresentedViewController.swift */,
+				08767A082B5EE9ED0045C2AD /* ElGrocerShopperAppViewController.swift */,
+				08767A062B5EE9DA0045C2AD /* GoogleService-Info.plist */,
+				088CE0E32B5ED5E500AD90E0 /* Main.storyboard */,
+				088CE0E62B5ED5E600AD90E0 /* Assets.xcassets */,
+				088CE0E82B5ED5E600AD90E0 /* LaunchScreen.storyboard */,
+				088CE0EB2B5ED5E600AD90E0 /* Info.plist */,
+			);
+			path = ElgrocerSDKExample;
+			sourceTree = "<group>";
+		};
+		088CE0F12B5ED60F00AD90E0 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				088CE0F22B5ED60F00AD90E0 /* el-grocer-sdk-spm */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		088CE0D92B5ED5E500AD90E0 /* ElgrocerSDKExample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 088CE0EE2B5ED5E600AD90E0 /* Build configuration list for PBXNativeTarget "ElgrocerSDKExample" */;
+			buildPhases = (
+				088CE0D62B5ED5E500AD90E0 /* Sources */,
+				088CE0D72B5ED5E500AD90E0 /* Frameworks */,
+				088CE0D82B5ED5E500AD90E0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ElgrocerSDKExample;
+			packageProductDependencies = (
+				08767A0B2B5EEBC60045C2AD /* ElgrocerShopperSDK-SPM */,
+				0808F4C02B5EEFBF0012D7A7 /* SwiftSpinner */,
+			);
+			productName = ElgrocerSDKExample;
+			productReference = 088CE0DA2B5ED5E500AD90E0 /* ElgrocerSDKExample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		088CE0D22B5ED5E500AD90E0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					088CE0D92B5ED5E500AD90E0 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
+				};
+			};
+			buildConfigurationList = 088CE0D52B5ED5E500AD90E0 /* Build configuration list for PBXProject "ElgrocerSDKExample" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 088CE0D12B5ED5E500AD90E0;
+			packageReferences = (
+				0808F4BF2B5EEFBF0012D7A7 /* XCRemoteSwiftPackageReference "SwiftSpinner" */,
+			);
+			productRefGroup = 088CE0DB2B5ED5E500AD90E0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				088CE0D92B5ED5E500AD90E0 /* ElgrocerSDKExample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		088CE0D82B5ED5E500AD90E0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				088CE0EA2B5ED5E600AD90E0 /* LaunchScreen.storyboard in Resources */,
+				08767A072B5EE9DA0045C2AD /* GoogleService-Info.plist in Resources */,
+				088CE0E72B5ED5E600AD90E0 /* Assets.xcassets in Resources */,
+				088CE0E52B5ED5E500AD90E0 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		088CE0D62B5ED5E500AD90E0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				088CE0E22B5ED5E500AD90E0 /* ViewController.swift in Sources */,
+				08767A092B5EE9ED0045C2AD /* ElGrocerShopperAppViewController.swift in Sources */,
+				08767A012B5EE99C0045C2AD /* SearchCell.swift in Sources */,
+				087679FF2B5EE98D0045C2AD /* IntegratedSearchViewController.swift in Sources */,
+				088CE0DE2B5ED5E500AD90E0 /* AppDelegate.swift in Sources */,
+				08767A032B5EE9C40045C2AD /* PreLoadViewController.swift in Sources */,
+				08767A052B5EE9D20045C2AD /* PresentedViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		088CE0E32B5ED5E500AD90E0 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				088CE0E42B5ED5E500AD90E0 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		088CE0E82B5ED5E600AD90E0 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				088CE0E92B5ED5E600AD90E0 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		088CE0EC2B5ED5E600AD90E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				EXCLUDED_ARCHS = arm64;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		088CE0ED2B5ED5E600AD90E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				EXCLUDED_ARCHS = arm64;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		088CE0EF2B5ED5E600AD90E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N883C2D2B2;
+				EXCLUDED_ARCHS = "i386 arm64";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ElgrocerSDKExample/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Smiles;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We would like to access connected bluetooth devices when available.";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "We would like to access your blue tooth of the device to check status";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "“We want to show you right products on right time”";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need to access your camera to take a picture/record a video to share";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"This is required to show you supermarkets and products around you\"";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "\"This is required to show you supermarkets and products around you\"";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"This is required to show you supermarkets and products around you\"";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We would like to access device microphone to record audio.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "“We want to allow you to upload photos via messenger”";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "elGrocer would like access for better personalized app & shopping experience";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = elgrocer.com.ElGrocerShopper.SDK;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		088CE0F02B5ED5E600AD90E0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = N883C2D2B2;
+				EXCLUDED_ARCHS = "i386 arm64";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ElgrocerSDKExample/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Smiles;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We would like to access connected bluetooth devices when available.";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "We would like to access your blue tooth of the device to check status";
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "“We want to show you right products on right time”";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We need to access your camera to take a picture/record a video to share";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "\"This is required to show you supermarkets and products around you\"";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "\"This is required to show you supermarkets and products around you\"";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"This is required to show you supermarkets and products around you\"";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We would like to access device microphone to record audio.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "“We want to allow you to upload photos via messenger”";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "elGrocer would like access for better personalized app & shopping experience";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortrait";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = elgrocer.com.ElGrocerShopper.SDK;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		088CE0D52B5ED5E500AD90E0 /* Build configuration list for PBXProject "ElgrocerSDKExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				088CE0EC2B5ED5E600AD90E0 /* Debug */,
+				088CE0ED2B5ED5E600AD90E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		088CE0EE2B5ED5E600AD90E0 /* Build configuration list for PBXNativeTarget "ElgrocerSDKExample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				088CE0EF2B5ED5E600AD90E0 /* Debug */,
+				088CE0F02B5ED5E600AD90E0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0808F4BF2B5EEFBF0012D7A7 /* XCRemoteSwiftPackageReference "SwiftSpinner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/icanzilb/SwiftSpinner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0808F4C02B5EEFBF0012D7A7 /* SwiftSpinner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0808F4BF2B5EEFBF0012D7A7 /* XCRemoteSwiftPackageReference "SwiftSpinner" */;
+			productName = SwiftSpinner;
+		};
+		08767A0B2B5EEBC60045C2AD /* ElgrocerShopperSDK-SPM */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "ElgrocerShopperSDK-SPM";
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 088CE0D22B5ED5E500AD90E0 /* Project object */;
+}
