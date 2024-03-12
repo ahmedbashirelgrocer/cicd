@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StoresCategoriesCollectionViewCell" id="gTV-IL-0wX" customClass="StoresCategoriesCollectionViewCell" customModule="ElgrocerShopperSDK_SPM">
+            <rect key="frame" x="0.0" y="0.0" width="75" height="108"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="75" height="108"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KrL-Dv-tV1" customClass="AWView" customModule="ElgrocerShopperSDK_SPM">
+                        <rect key="frame" x="5.5" y="5" width="64" height="64"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="enQ-w7-Cyh" customClass="AWImageView" customModule="ElgrocerShopperSDK_SPM">
+                                <rect key="frame" x="10" y="10" width="44" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="ARY-qF-lF8"/>
+                                    <constraint firstAttribute="height" constant="44" id="NGG-7e-mQQ"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <accessibility key="accessibilityConfiguration" hint="HomePage data" identifier="HomeCategoryList" label="categoryList">
+                            <bool key="isElement" value="YES"/>
+                        </accessibility>
+                        <constraints>
+                            <constraint firstItem="enQ-w7-Cyh" firstAttribute="centerX" secondItem="KrL-Dv-tV1" secondAttribute="centerX" id="Dd0-wR-Mjt"/>
+                            <constraint firstAttribute="width" constant="64" id="Ecb-IA-u1I"/>
+                            <constraint firstItem="enQ-w7-Cyh" firstAttribute="centerY" secondItem="KrL-Dv-tV1" secondAttribute="centerY" id="Miz-gQ-hhR"/>
+                            <constraint firstAttribute="height" constant="64" id="qJ2-oT-QjM"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                <real key="value" value="32"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                <size key="value" width="0.0" height="1"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                <real key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                <real key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="supermarket" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AI1-jE-IN1">
+                        <rect key="frame" x="3" y="81" width="69" height="13.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.47999999999999998" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="AI1-jE-IN1" secondAttribute="trailing" constant="3" id="INL-NX-gSv"/>
+                <constraint firstItem="KrL-Dv-tV1" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="RVk-JT-lfF"/>
+                <constraint firstItem="AI1-jE-IN1" firstAttribute="top" secondItem="KrL-Dv-tV1" secondAttribute="bottom" constant="12" id="XUm-Hd-PSy"/>
+                <constraint firstItem="AI1-jE-IN1" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="kQv-Om-Wkc"/>
+                <constraint firstItem="AI1-jE-IN1" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="3" id="wCS-Iz-Cyf"/>
+                <constraint firstItem="KrL-Dv-tV1" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="zwD-Mk-qaG"/>
+            </constraints>
+            <size key="customSize" width="79" height="169"/>
+            <connections>
+                <outlet property="bgView" destination="KrL-Dv-tV1" id="Qqz-1k-y0V"/>
+                <outlet property="centerImage" destination="enQ-w7-Cyh" id="d5e-Nd-ObG"/>
+                <outlet property="imageViewHeight" destination="NGG-7e-mQQ" id="iY6-GZ-k5F"/>
+                <outlet property="imageViewWidth" destination="ARY-qF-lF8" id="RUh-nJ-EqF"/>
+                <outlet property="lblCategoryName" destination="AI1-jE-IN1" id="0eg-1p-Zrx"/>
+                <outlet property="viewBGHeightConstraint" destination="qJ2-oT-QjM" id="rAk-Ha-8p3"/>
+                <outlet property="viewBGWidthConstraint" destination="Ecb-IA-u1I" id="9HQ-c0-6vz"/>
+            </connections>
+            <point key="canvasLocation" x="10.869565217391305" y="122.54464285714285"/>
+        </collectionViewCell>
+    </objects>
+</document>

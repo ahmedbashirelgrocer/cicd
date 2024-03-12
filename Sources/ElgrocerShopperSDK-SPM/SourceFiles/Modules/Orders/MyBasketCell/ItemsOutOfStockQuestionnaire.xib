@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ItemsOutOfStockQuestionnaire" rowHeight="335" id="m7R-ea-KsX" customClass="ItemsOutOfStockQuestionnaire" customModule="ElgrocerShopperSDK_SPM">
+            <rect key="frame" x="0.0" y="0.0" width="376" height="335"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="m7R-ea-KsX" id="Bvz-Ob-2U1">
+                <rect key="frame" x="0.0" y="0.0" width="376" height="335"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="62p-ZP-BbR">
+                        <rect key="frame" x="178" y="16" width="20" height="20"/>
+                    </activityIndicatorView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="34f-8n-Ljv">
+                        <rect key="frame" x="15" y="10" width="274" height="41"/>
+                        <string key="text">If items are out of stock
+stock</string>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" semanticContentAttribute="forceRightToLeft" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WFr-aZ-ggk">
+                        <rect key="frame" x="294" y="10" width="70" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="JFT-CF-VbR"/>
+                        </constraints>
+                        <state key="normal" title="Edit " image="arrowDown16">
+                            <color key="titleColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                        <connections>
+                            <action selector="btnEditPressed:" destination="m7R-ea-KsX" eventType="touchUpInside" id="Rvl-yf-E0F"/>
+                        </connections>
+                    </button>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8lq-tf-fJN">
+                        <rect key="frame" x="0.0" y="71" width="376" height="264"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </tableView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="8lq-tf-fJN" secondAttribute="bottom" id="3Ds-di-Hrs"/>
+                    <constraint firstItem="8lq-tf-fJN" firstAttribute="leading" secondItem="Bvz-Ob-2U1" secondAttribute="leading" id="4Eb-Eb-qPX"/>
+                    <constraint firstItem="34f-8n-Ljv" firstAttribute="leading" secondItem="Bvz-Ob-2U1" secondAttribute="leading" constant="15" id="EhH-Xb-pXD"/>
+                    <constraint firstItem="34f-8n-Ljv" firstAttribute="top" secondItem="Bvz-Ob-2U1" secondAttribute="top" constant="10" id="OOE-iE-Zry"/>
+                    <constraint firstItem="WFr-aZ-ggk" firstAttribute="leading" secondItem="34f-8n-Ljv" secondAttribute="trailing" constant="5" id="TQX-Kr-qXW"/>
+                    <constraint firstAttribute="trailing" secondItem="8lq-tf-fJN" secondAttribute="trailing" id="V6d-VH-ESO"/>
+                    <constraint firstItem="WFr-aZ-ggk" firstAttribute="top" secondItem="34f-8n-Ljv" secondAttribute="top" id="aWp-pc-gYW"/>
+                    <constraint firstAttribute="trailing" secondItem="WFr-aZ-ggk" secondAttribute="trailing" constant="12" id="aws-5M-9GW"/>
+                    <constraint firstItem="62p-ZP-BbR" firstAttribute="centerX" secondItem="Bvz-Ob-2U1" secondAttribute="centerX" id="bqh-AL-K9X"/>
+                    <constraint firstItem="62p-ZP-BbR" firstAttribute="top" secondItem="Bvz-Ob-2U1" secondAttribute="top" constant="16" id="gd8-IQ-hVb"/>
+                    <constraint firstItem="8lq-tf-fJN" firstAttribute="top" secondItem="34f-8n-Ljv" secondAttribute="bottom" constant="20" id="niC-gi-Gzd"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="activityIndicator" destination="62p-ZP-BbR" id="1R3-a5-Chm"/>
+                <outlet property="backgroundView" destination="Bvz-Ob-2U1" id="Z9i-T1-q6O"/>
+                <outlet property="btnEdit" destination="WFr-aZ-ggk" id="r7J-fY-nJu"/>
+                <outlet property="lblIfItemsOutOfStock" destination="34f-8n-Ljv" id="PkU-Q0-9ga"/>
+                <outlet property="optionsTableView" destination="8lq-tf-fJN" id="GSj-YY-FNL"/>
+            </connections>
+            <point key="canvasLocation" x="-73.913043478260875" y="96.09375"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="arrowDown16" width="16" height="16"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

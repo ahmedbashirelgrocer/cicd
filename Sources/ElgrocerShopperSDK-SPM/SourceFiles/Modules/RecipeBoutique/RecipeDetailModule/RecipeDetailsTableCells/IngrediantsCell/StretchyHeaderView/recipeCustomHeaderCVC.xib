@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina3_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="recipeCustomHeaderCVC" customModule="ElgrocerShopperSDK_SPM"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="" id="Szk-z3-kMN" customClass="recipeCustomHeaderCVC" customModule="ElgrocerShopperSDK_SPM">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="240"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="xA1-2O-JWP">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="240"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Lg-8J-Yk1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="240"/>
+                    </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nzu-BY-3in">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="240"/>
+                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    </view>
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nKx-Gk-fPp">
+                        <rect key="frame" x="143.5" y="76" width="88" height="88"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="88" id="HF8-zg-lrH"/>
+                            <constraint firstAttribute="width" constant="88" id="Zp2-0V-a9s"/>
+                        </constraints>
+                        <state key="normal" title="Button" image="recipePlay"/>
+                        <connections>
+                            <action selector="playHandler:" destination="Szk-z3-kMN" eventType="touchUpInside" id="gUL-Z3-fhR"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="8Lg-8J-Yk1" firstAttribute="width" secondItem="xA1-2O-JWP" secondAttribute="width" id="7il-TU-KBl"/>
+                    <constraint firstItem="nzu-BY-3in" firstAttribute="top" secondItem="xA1-2O-JWP" secondAttribute="top" id="GxG-5R-SP5"/>
+                    <constraint firstItem="8Lg-8J-Yk1" firstAttribute="centerX" secondItem="xA1-2O-JWP" secondAttribute="centerX" id="Q1a-lE-8eU"/>
+                    <constraint firstItem="8Lg-8J-Yk1" firstAttribute="height" secondItem="xA1-2O-JWP" secondAttribute="height" id="Q7K-Rp-VNd"/>
+                    <constraint firstItem="nKx-Gk-fPp" firstAttribute="centerX" secondItem="xA1-2O-JWP" secondAttribute="centerX" id="X8U-Rh-4vW"/>
+                    <constraint firstItem="nzu-BY-3in" firstAttribute="leading" secondItem="xA1-2O-JWP" secondAttribute="leading" id="fO1-9I-Xlk"/>
+                    <constraint firstItem="nKx-Gk-fPp" firstAttribute="centerY" secondItem="xA1-2O-JWP" secondAttribute="centerY" id="jYP-eV-xfe"/>
+                    <constraint firstItem="8Lg-8J-Yk1" firstAttribute="centerY" secondItem="xA1-2O-JWP" secondAttribute="centerY" id="t7s-NB-Lx7"/>
+                    <constraint firstAttribute="trailing" secondItem="nzu-BY-3in" secondAttribute="trailing" id="uo3-Gz-Rz0"/>
+                    <constraint firstAttribute="bottom" secondItem="nzu-BY-3in" secondAttribute="bottom" id="zNF-kn-jrZ"/>
+                </constraints>
+            </collectionViewCellContentView>
+            <size key="customSize" width="306" height="240"/>
+            <connections>
+                <outlet property="btnPlay" destination="nKx-Gk-fPp" id="lnP-65-wXp"/>
+                <outlet property="gradientView" destination="nzu-BY-3in" id="gZv-YU-fiC"/>
+                <outlet property="imageView" destination="8Lg-8J-Yk1" id="50E-Mm-G9l"/>
+            </connections>
+            <point key="canvasLocation" x="375" y="93"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="recipePlay" width="88" height="88"/>
+    </resources>
+</document>

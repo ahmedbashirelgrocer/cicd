@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Bold.otf">
+            <string>SFProDisplay-Bold</string>
+        </array>
+        <array key="SF-Pro-Display-Regular.otf">
+            <string>SFProDisplay-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="198" id="oJq-pK-S5F" customClass="recipeDetailCell" customModule="ElgrocerShopperSDK_SPM">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="277"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oJq-pK-S5F" id="38A-BI-qoi">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="277"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="product_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="IUt-Fd-kih">
+                        <rect key="frame" x="16" y="12" width="56" height="56"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="56" id="18b-Gh-D1c"/>
+                            <constraint firstAttribute="width" constant="56" id="R1x-be-LUK"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Middle Eastern Chicken kababs" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c3z-Ac-l75">
+                        <rect key="frame" x="80" y="12" width="279" height="48"/>
+                        <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="20"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qyu-ch-STd">
+                        <rect key="frame" x="80" y="60" width="279" height="67"/>
+                        <string key="text">Try this Authentic Shish Tawook recipe - a popular Lebanese grilled chicken skewers recipe. It's tender juicy chicken marinated in yogurt, lemon and garlic.</string>
+                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="klk-3M-NHB">
+                        <rect key="frame" x="16" y="143" width="343" height="1"/>
+                        <color key="backgroundColor" red="0.89411764705882346" green="0.89411764705882346" blue="0.89411764705882346" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="SE3-ug-UXJ"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Main course, keto, high in protein" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tbf-gP-kwU">
+                        <rect key="frame" x="16" y="160" width="343" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="8kG-fo-1zs"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="12"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="recipeIngrediants" translatesAutoresizingMaskIntoConstraints="NO" id="Ojm-Rq-Y6F">
+                        <rect key="frame" x="169.5" y="191" width="36" height="36"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="36" id="2ZT-6g-Pae"/>
+                            <constraint firstAttribute="height" constant="36" id="zhM-eV-7GK"/>
+                        </constraints>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="recipeServings" translatesAutoresizingMaskIntoConstraints="NO" id="kg2-6r-O04">
+                        <rect key="frame" x="275.5" y="191" width="36" height="36"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="36" id="GWu-OM-ixp"/>
+                            <constraint firstAttribute="width" constant="36" id="ldR-E2-sbq"/>
+                        </constraints>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="recipeTimeToPrepare" translatesAutoresizingMaskIntoConstraints="NO" id="oT1-C7-rce">
+                        <rect key="frame" x="63.5" y="191" width="36" height="36"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="36" id="YpK-Xl-qxu"/>
+                            <constraint firstAttribute="width" constant="36" id="eOx-26-sSY"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 ingredients" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a6C-lz-nMY">
+                        <rect key="frame" x="149.5" y="229" width="76.5" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="17" id="CKP-5e-8Vz"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 ingredients" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LPY-hl-gNk">
+                        <rect key="frame" x="42" y="229" width="79.5" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="17" id="4Qa-6b-Gry"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="5 ingredients" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xHh-U6-XdZ">
+                        <rect key="frame" x="254" y="229" width="79.5" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="17" id="Kla-3S-84b"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mun-Ua-e04">
+                        <rect key="frame" x="16" y="262" width="343" height="1"/>
+                        <color key="backgroundColor" red="0.89411764709999997" green="0.89411764709999997" blue="0.89411764709999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="f0r-gb-kFh"/>
+                        </constraints>
+                    </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TEC-mN-1jy">
+                        <rect key="frame" x="20" y="12" width="335" height="119"/>
+                        <connections>
+                            <action selector="chefClicked:" destination="oJq-pK-S5F" eventType="touchUpInside" id="FWa-dK-BPS"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="kg2-6r-O04" firstAttribute="centerY" secondItem="Ojm-Rq-Y6F" secondAttribute="centerY" id="0w7-je-udi"/>
+                    <constraint firstItem="c3z-Ac-l75" firstAttribute="leading" secondItem="IUt-Fd-kih" secondAttribute="trailing" constant="8" id="1Lw-gQ-qtQ"/>
+                    <constraint firstItem="klk-3M-NHB" firstAttribute="top" secondItem="TEC-mN-1jy" secondAttribute="bottom" constant="12" id="1WA-aq-QMM"/>
+                    <constraint firstItem="tbf-gP-kwU" firstAttribute="leading" secondItem="38A-BI-qoi" secondAttribute="leading" constant="16" id="2Ug-zR-6dW"/>
+                    <constraint firstItem="LPY-hl-gNk" firstAttribute="top" secondItem="oT1-C7-rce" secondAttribute="bottom" constant="2" id="2yM-KF-07R"/>
+                    <constraint firstItem="Qyu-ch-STd" firstAttribute="centerX" secondItem="c3z-Ac-l75" secondAttribute="centerX" id="7Rq-uo-BEe"/>
+                    <constraint firstItem="LPY-hl-gNk" firstAttribute="centerX" secondItem="oT1-C7-rce" secondAttribute="centerX" id="ARZ-Yj-fAI"/>
+                    <constraint firstItem="Ojm-Rq-Y6F" firstAttribute="top" secondItem="tbf-gP-kwU" secondAttribute="bottom" constant="16" id="Dtn-O3-oPE"/>
+                    <constraint firstAttribute="trailing" secondItem="tbf-gP-kwU" secondAttribute="trailing" constant="16" id="Ftg-Lq-waS"/>
+                    <constraint firstItem="c3z-Ac-l75" firstAttribute="top" secondItem="38A-BI-qoi" secondAttribute="top" constant="12" id="HLi-db-WVN"/>
+                    <constraint firstItem="xHh-U6-XdZ" firstAttribute="centerY" secondItem="a6C-lz-nMY" secondAttribute="centerY" id="Hk0-hE-jxA"/>
+                    <constraint firstAttribute="trailing" secondItem="klk-3M-NHB" secondAttribute="trailing" constant="16" id="J08-Zc-pUn"/>
+                    <constraint firstItem="klk-3M-NHB" firstAttribute="leading" secondItem="38A-BI-qoi" secondAttribute="leading" constant="16" id="QSe-ce-uDw"/>
+                    <constraint firstItem="Qyu-ch-STd" firstAttribute="width" secondItem="c3z-Ac-l75" secondAttribute="width" id="TD6-ty-4eD"/>
+                    <constraint firstItem="IUt-Fd-kih" firstAttribute="leading" secondItem="38A-BI-qoi" secondAttribute="leading" constant="16" id="TZd-Br-lIC"/>
+                    <constraint firstItem="a6C-lz-nMY" firstAttribute="top" secondItem="Ojm-Rq-Y6F" secondAttribute="bottom" constant="2" id="VIL-95-8Kk"/>
+                    <constraint firstItem="kg2-6r-O04" firstAttribute="leading" secondItem="Ojm-Rq-Y6F" secondAttribute="trailing" constant="70" id="Wd1-Df-xUo"/>
+                    <constraint firstItem="IUt-Fd-kih" firstAttribute="top" secondItem="c3z-Ac-l75" secondAttribute="top" id="YOO-FN-Vb7"/>
+                    <constraint firstAttribute="trailing" secondItem="TEC-mN-1jy" secondAttribute="trailing" constant="20" symbolic="YES" id="YpW-fZ-vnw"/>
+                    <constraint firstItem="oT1-C7-rce" firstAttribute="centerY" secondItem="Ojm-Rq-Y6F" secondAttribute="centerY" id="a1L-bK-Rsc"/>
+                    <constraint firstItem="TEC-mN-1jy" firstAttribute="leading" secondItem="38A-BI-qoi" secondAttribute="leading" constant="20" symbolic="YES" id="cad-zh-Wx9"/>
+                    <constraint firstItem="LPY-hl-gNk" firstAttribute="centerY" secondItem="a6C-lz-nMY" secondAttribute="centerY" id="dIJ-Ec-dSL"/>
+                    <constraint firstItem="xHh-U6-XdZ" firstAttribute="centerX" secondItem="kg2-6r-O04" secondAttribute="centerX" id="dw4-Fh-UDI"/>
+                    <constraint firstItem="Qyu-ch-STd" firstAttribute="top" secondItem="c3z-Ac-l75" secondAttribute="bottom" id="fIM-r2-nzd"/>
+                    <constraint firstItem="klk-3M-NHB" firstAttribute="top" secondItem="Qyu-ch-STd" secondAttribute="bottom" constant="16" id="gcU-UA-8vr"/>
+                    <constraint firstItem="Mun-Ua-e04" firstAttribute="leading" secondItem="38A-BI-qoi" secondAttribute="leading" constant="16" id="mhh-Tz-x5i"/>
+                    <constraint firstAttribute="trailing" secondItem="c3z-Ac-l75" secondAttribute="trailing" constant="16" id="nI6-TC-M1H"/>
+                    <constraint firstItem="a6C-lz-nMY" firstAttribute="centerX" secondItem="Ojm-Rq-Y6F" secondAttribute="centerX" id="oqU-ZX-dos"/>
+                    <constraint firstItem="Ojm-Rq-Y6F" firstAttribute="leading" secondItem="oT1-C7-rce" secondAttribute="trailing" constant="70" id="rKd-qj-qsi"/>
+                    <constraint firstItem="TEC-mN-1jy" firstAttribute="top" secondItem="38A-BI-qoi" secondAttribute="top" constant="12" id="rb5-X6-KMg"/>
+                    <constraint firstAttribute="trailing" secondItem="Mun-Ua-e04" secondAttribute="trailing" constant="16" id="s1I-ny-8lU"/>
+                    <constraint firstItem="tbf-gP-kwU" firstAttribute="top" secondItem="klk-3M-NHB" secondAttribute="bottom" constant="16" id="t6m-Oe-L2f"/>
+                    <constraint firstItem="Mun-Ua-e04" firstAttribute="top" secondItem="a6C-lz-nMY" secondAttribute="bottom" constant="16" id="xMY-cG-Oyo"/>
+                    <constraint firstItem="Ojm-Rq-Y6F" firstAttribute="centerX" secondItem="38A-BI-qoi" secondAttribute="centerX" id="ysm-15-4c2"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="chefImageView" destination="IUt-Fd-kih" id="Sk5-eu-vRH"/>
+                <outlet property="lblCategory" destination="tbf-gP-kwU" id="zlk-yS-hro"/>
+                <outlet property="lblIngrediantsCount" destination="a6C-lz-nMY" id="exd-l5-GnH"/>
+                <outlet property="lblRecipeDiscription" destination="Qyu-ch-STd" id="Giy-kV-ps9"/>
+                <outlet property="lblRecipeName" destination="c3z-Ac-l75" id="yyo-9M-Rql"/>
+                <outlet property="lblServingCount" destination="xHh-U6-XdZ" id="EWn-MD-7q8"/>
+                <outlet property="lblTimeToPrepare" destination="LPY-hl-gNk" id="QMe-Bq-UrK"/>
+            </connections>
+            <point key="canvasLocation" x="-192.0289855072464" y="27.790178571428569"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="product_placeholder" width="140" height="140"/>
+        <image name="recipeIngrediants" width="36" height="36"/>
+        <image name="recipeServings" width="36" height="36"/>
+        <image name="recipeTimeToPrepare" width="36" height="36"/>
+    </resources>
+</document>

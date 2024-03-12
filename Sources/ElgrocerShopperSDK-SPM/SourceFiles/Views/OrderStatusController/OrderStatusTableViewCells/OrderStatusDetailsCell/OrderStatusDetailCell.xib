@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="89" id="Gey-RB-yQq" customClass="OrderStatusDetailCell" customModule="ElgrocerShopperSDK_SPM">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="89"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Gey-RB-yQq" id="uK4-SN-l7L">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="89"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NId-re-iVK">
+                        <rect key="frame" x="16" y="16" width="36" height="36"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="36" id="3Ld-9s-KCY"/>
+                            <constraint firstAttribute="width" constant="36" id="rwp-mr-g5w"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nfV-D3-vYE">
+                        <rect key="frame" x="60" y="16" width="202" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fx9-iI-eD3">
+                        <rect key="frame" x="60" y="41.5" width="202" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uOw-QF-ogw" customClass="AWView" customModule="ElgrocerShopperSDK_SPM">
+                        <rect key="frame" x="266" y="32.5" width="132" height="24"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9HY-df-AcJ" customClass="AWButton" customModule="ElgrocerShopperSDK_SPM">
+                                <rect key="frame" x="0.0" y="0.0" width="132" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="132" id="iTW-of-5cj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
+                                <state key="normal" title="CHAT WITH PICKER"/>
+                                <connections>
+                                    <action selector="chatWithPicker:" destination="Gey-RB-yQq" eventType="touchUpInside" id="M7r-Nk-JHP"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="9HY-df-AcJ" firstAttribute="leading" secondItem="uOw-QF-ogw" secondAttribute="leading" id="MsA-18-emq"/>
+                            <constraint firstAttribute="height" constant="24" id="NT4-DF-pIZ"/>
+                            <constraint firstAttribute="bottom" secondItem="9HY-df-AcJ" secondAttribute="bottom" id="adR-XR-e6e"/>
+                            <constraint firstAttribute="trailing" secondItem="9HY-df-AcJ" secondAttribute="trailing" id="cbu-D4-7ky"/>
+                            <constraint firstItem="9HY-df-AcJ" firstAttribute="top" secondItem="uOw-QF-ogw" secondAttribute="top" id="qRl-Ib-2Gq"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AjO-Y9-Gm9" customClass="AWView" customModule="ElgrocerShopperSDK_SPM">
+                        <rect key="frame" x="282" y="40" width="116" height="24"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OrderDetails" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yug-4U-Zbp">
+                                <rect key="frame" x="0.0" y="0.0" width="96" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowForward" translatesAutoresizingMaskIntoConstraints="NO" id="2Uv-IG-GMH">
+                                <rect key="frame" x="96" y="2" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="1Eu-Kw-K7t"/>
+                                    <constraint firstAttribute="width" constant="20" id="9gS-rE-oba"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u1r-jN-403">
+                                <rect key="frame" x="10" y="0.0" width="86" height="24"/>
+                                <connections>
+                                    <action selector="btnOrderDetailAction:" destination="Gey-RB-yQq" eventType="touchUpInside" id="5VU-sL-jmW"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="u1r-jN-403" secondAttribute="bottom" id="3va-GY-3Sl"/>
+                            <constraint firstItem="yug-4U-Zbp" firstAttribute="top" secondItem="AjO-Y9-Gm9" secondAttribute="top" id="6KV-op-aTv"/>
+                            <constraint firstAttribute="height" constant="24" id="JF5-rf-VnG"/>
+                            <constraint firstItem="2Uv-IG-GMH" firstAttribute="leading" secondItem="u1r-jN-403" secondAttribute="trailing" id="LKm-gE-U74"/>
+                            <constraint firstItem="yug-4U-Zbp" firstAttribute="leading" secondItem="AjO-Y9-Gm9" secondAttribute="leading" id="NtB-fK-QdI"/>
+                            <constraint firstItem="u1r-jN-403" firstAttribute="leading" secondItem="AjO-Y9-Gm9" secondAttribute="leading" constant="10" id="TA5-rB-iw6"/>
+                            <constraint firstItem="u1r-jN-403" firstAttribute="top" secondItem="AjO-Y9-Gm9" secondAttribute="top" id="aqb-ND-vak"/>
+                            <constraint firstItem="2Uv-IG-GMH" firstAttribute="centerY" secondItem="yug-4U-Zbp" secondAttribute="centerY" id="bDF-va-Te9"/>
+                            <constraint firstItem="yug-4U-Zbp" firstAttribute="trailing" secondItem="2Uv-IG-GMH" secondAttribute="leading" id="eQz-3W-3in"/>
+                            <constraint firstAttribute="trailing" secondItem="2Uv-IG-GMH" secondAttribute="trailing" id="gT3-0m-Wjo"/>
+                            <constraint firstAttribute="bottom" secondItem="yug-4U-Zbp" secondAttribute="bottom" id="gfL-c1-ZRQ"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BZI-KX-Ezi">
+                        <rect key="frame" x="16" y="78" width="382" height="1"/>
+                        <color key="backgroundColor" red="0.89411764709999997" green="0.89411764709999997" blue="0.89411764709999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="3rn-Z5-o23"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="nfV-D3-vYE" firstAttribute="top" secondItem="NId-re-iVK" secondAttribute="top" id="7Mj-EQ-zKy"/>
+                    <constraint firstItem="BZI-KX-Ezi" firstAttribute="leading" secondItem="uK4-SN-l7L" secondAttribute="leading" constant="16" id="8YR-Uo-w4z"/>
+                    <constraint firstItem="Fx9-iI-eD3" firstAttribute="leading" secondItem="nfV-D3-vYE" secondAttribute="leading" id="AVL-ra-m3i"/>
+                    <constraint firstItem="Fx9-iI-eD3" firstAttribute="trailing" secondItem="uOw-QF-ogw" secondAttribute="leading" constant="-4" id="B74-46-0Up"/>
+                    <constraint firstAttribute="trailing" secondItem="BZI-KX-Ezi" secondAttribute="trailing" constant="16" id="LOD-J0-t3N"/>
+                    <constraint firstItem="BZI-KX-Ezi" firstAttribute="top" secondItem="Fx9-iI-eD3" secondAttribute="bottom" constant="16" id="Mws-gT-El7"/>
+                    <constraint firstItem="Fx9-iI-eD3" firstAttribute="top" secondItem="nfV-D3-vYE" secondAttribute="bottom" constant="5" id="PGH-Tl-JNH"/>
+                    <constraint firstItem="AjO-Y9-Gm9" firstAttribute="centerY" secondItem="Fx9-iI-eD3" secondAttribute="centerY" id="XpO-Tr-ZuP"/>
+                    <constraint firstItem="uOw-QF-ogw" firstAttribute="centerY" secondItem="uK4-SN-l7L" secondAttribute="centerY" id="goU-we-IdC"/>
+                    <constraint firstItem="NId-re-iVK" firstAttribute="top" secondItem="uK4-SN-l7L" secondAttribute="top" constant="16" id="h0i-pK-3mc"/>
+                    <constraint firstAttribute="trailing" secondItem="uOw-QF-ogw" secondAttribute="trailing" constant="16" id="hF1-yH-syW"/>
+                    <constraint firstItem="nfV-D3-vYE" firstAttribute="leading" secondItem="NId-re-iVK" secondAttribute="trailing" constant="8" id="iA8-UF-axe"/>
+                    <constraint firstItem="nfV-D3-vYE" firstAttribute="trailing" secondItem="uOw-QF-ogw" secondAttribute="leading" constant="-4" id="oG9-x7-Iwd"/>
+                    <constraint firstItem="NId-re-iVK" firstAttribute="leading" secondItem="uK4-SN-l7L" secondAttribute="leading" constant="16" id="wA6-ag-jan"/>
+                    <constraint firstAttribute="trailing" secondItem="AjO-Y9-Gm9" secondAttribute="trailing" constant="16" id="wfm-nM-bb8"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="btnChatWithPicker" destination="9HY-df-AcJ" id="l0L-WZ-stM"/>
+                <outlet property="btnOrderDetails" destination="u1r-jN-403" id="vPf-Wj-NIp"/>
+                <outlet property="chatWithPickerBGView" destination="uOw-QF-ogw" id="4E5-tu-Aeg"/>
+                <outlet property="imgOrderDetailsForward" destination="2Uv-IG-GMH" id="MaA-Kt-vMd"/>
+                <outlet property="lblDetails" destination="Fx9-iI-eD3" id="Isv-sk-DLI"/>
+                <outlet property="lblHeading" destination="nfV-D3-vYE" id="aaB-KK-fUI"/>
+                <outlet property="lblOrderDetails" destination="yug-4U-Zbp" id="Tm4-zT-Zp7"/>
+                <outlet property="orderDetailsBGView" destination="AjO-Y9-Gm9" id="k5d-Iq-hiP"/>
+                <outlet property="statusImageView" destination="NId-re-iVK" id="pnL-Mw-iL5"/>
+            </connections>
+            <point key="canvasLocation" x="-117.39130434782609" y="116.85267857142857"/>
+        </tableViewCell>
+    </objects>
+    <designables>
+        <designable name="9HY-df-AcJ">
+            <size key="intrinsicContentSize" width="113" height="27"/>
+        </designable>
+    </designables>
+    <resources>
+        <image name="arrowForward" width="8" height="13"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" indentationWidth="10" rowHeight="110" id="1M0-pw-RmJ" customClass="BannerCell" customModule="ElgrocerShopperSDK_SPM">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="110"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1M0-pw-RmJ" id="SGy-Ba-isj">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="110"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tCg-4b-54l" userLabel="containerView">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="110"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="E4p-Ks-qeR">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="110"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="aiB-mY-ku4">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <connections>
+                                    <outlet property="dataSource" destination="1M0-pw-RmJ" id="7VE-mf-hiZ"/>
+                                    <outlet property="delegate" destination="1M0-pw-RmJ" id="4s7-Dv-Wee"/>
+                                </connections>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.25882352939999997" green="0.61568627450000002" blue="0.22352941179999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="E4p-Ks-qeR" secondAttribute="trailing" id="0C1-mo-WO7"/>
+                            <constraint firstAttribute="bottom" secondItem="E4p-Ks-qeR" secondAttribute="bottom" id="IHB-jJ-U7W"/>
+                            <constraint firstItem="E4p-Ks-qeR" firstAttribute="leading" secondItem="tCg-4b-54l" secondAttribute="leading" id="Uyg-bl-boc"/>
+                            <constraint firstItem="E4p-Ks-qeR" firstAttribute="top" secondItem="tCg-4b-54l" secondAttribute="top" id="e06-nA-15v"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="tCg-4b-54l" firstAttribute="leading" secondItem="SGy-Ba-isj" secondAttribute="leading" id="7U2-48-j2c"/>
+                    <constraint firstItem="tCg-4b-54l" firstAttribute="top" secondItem="SGy-Ba-isj" secondAttribute="top" id="Dmp-XP-mwP"/>
+                    <constraint firstItem="tCg-4b-54l" firstAttribute="centerY" secondItem="SGy-Ba-isj" secondAttribute="centerY" id="IHE-Fj-UjG"/>
+                    <constraint firstAttribute="trailing" secondItem="tCg-4b-54l" secondAttribute="trailing" id="UYb-D2-PVX"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="bannerCollectionView" destination="E4p-Ks-qeR" id="Ic5-UA-mXY"/>
+                <outlet property="containerView" destination="tCg-4b-54l" id="i7U-4b-hYW"/>
+                <outlet property="containerViewLeadingToSuperView" destination="7U2-48-j2c" id="beC-ev-fUM"/>
+                <outlet property="containerViewTrallingToSuperView" destination="UYb-D2-PVX" id="jUq-rp-ldl"/>
+            </connections>
+            <point key="canvasLocation" x="332.80000000000001" y="5.3973013493253381"/>
+        </tableViewCell>
+    </objects>
+</document>

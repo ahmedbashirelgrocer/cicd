@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="245" id="Ggb-zR-wKY" customClass="orderBillDetailsTableViewCell" customModule="ElgrocerShopperSDK_SPM">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="245"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ggb-zR-wKY" id="K5b-B0-hJH">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="245"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tz2-tX-pLP" customClass="AWView" customModule="ElgrocerShopperSDK_SPM">
+                        <rect key="frame" x="20" y="11" width="374" height="223"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="aMR-LO-Tu3">
+                                <rect key="frame" x="0.0" y="0.0" width="374" height="223"/>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="aMR-LO-Tu3" firstAttribute="leading" secondItem="Tz2-tX-pLP" secondAttribute="leading" id="Px3-IK-yIR"/>
+                            <constraint firstAttribute="bottom" secondItem="aMR-LO-Tu3" secondAttribute="bottom" id="Sbi-Sx-yfy"/>
+                            <constraint firstAttribute="trailing" secondItem="aMR-LO-Tu3" secondAttribute="trailing" id="nbd-Co-1qL"/>
+                            <constraint firstItem="aMR-LO-Tu3" firstAttribute="top" secondItem="Tz2-tX-pLP" secondAttribute="top" id="vX0-zs-GLj"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Tz2-tX-pLP" firstAttribute="top" secondItem="K5b-B0-hJH" secondAttribute="topMargin" id="83b-xm-Xrl"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="Tz2-tX-pLP" secondAttribute="bottom" id="b2b-sW-cm6"/>
+                    <constraint firstItem="Tz2-tX-pLP" firstAttribute="leading" secondItem="K5b-B0-hJH" secondAttribute="leadingMargin" id="cha-4K-iCe"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Tz2-tX-pLP" secondAttribute="trailing" id="fXC-EL-zwX"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="billStackView" destination="aMR-LO-Tu3" id="4An-JA-q64"/>
+                <outlet property="stackBGView" destination="Tz2-tX-pLP" id="x2B-ak-jGF"/>
+            </connections>
+            <point key="canvasLocation" x="24.637681159420293" y="136.94196428571428"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

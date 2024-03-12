@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Bold.otf">
+            <string>SFProDisplay-Bold</string>
+        </array>
+        <array key="SF-Pro-Display-Regular.otf">
+            <string>SFProDisplay-Regular</string>
+        </array>
+        <array key="SF-Pro-Display-Semibold.otf">
+            <string>SFProDisplay-Semibold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="LocationPersonalInfoTableViewCell" rowHeight="213" id="KGk-i7-Jjw" customClass="LocationPersonalInfoTableViewCell" customModule="ElgrocerShopperSDK_SPM">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="409"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="409"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose the nickname for your location" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A3C-dW-doB">
+                        <rect key="frame" x="16" y="16" width="288" height="19.5"/>
+                        <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="16"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Personal information" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Nk-hE-juf">
+                        <rect key="frame" x="16" y="113.5" width="288" height="24"/>
+                        <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="20"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qdP-h0-e4t">
+                        <rect key="frame" x="0.0" y="45.5" width="320" height="52"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="1Nx-QW-VOA" customClass="AWSegmentView" customModule="ElgrocerShopperSDK_SPM">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="52"/>
+                                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3Pn-oS-4KO">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="52" id="1Su-To-uXy"/>
+                            <constraint firstItem="1Nx-QW-VOA" firstAttribute="top" secondItem="qdP-h0-e4t" secondAttribute="top" id="AnD-Xs-C78"/>
+                            <constraint firstAttribute="trailing" secondItem="1Nx-QW-VOA" secondAttribute="trailing" id="INn-tl-2sO"/>
+                            <constraint firstAttribute="bottom" secondItem="1Nx-QW-VOA" secondAttribute="bottom" id="JGs-hL-muo"/>
+                            <constraint firstItem="1Nx-QW-VOA" firstAttribute="leading" secondItem="qdP-h0-e4t" secondAttribute="leading" id="Tc0-1Z-yw9"/>
+                        </constraints>
+                    </view>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vQE-Ck-nV4" customClass="AWView" customModule="ElgrocerShopperSDK_SPM">
+                        <rect key="frame" x="16" y="153.5" width="288" height="56"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="     Name*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HO6-BC-0Vm" customClass="ElgrocerTextField" customModule="ElgrocerShopperSDK_SPM">
+                                <rect key="frame" x="0.0" y="0.0" width="288" height="56"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" keyboardType="namePhonePad"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="HO6-BC-0Vm" firstAttribute="top" secondItem="vQE-Ck-nV4" secondAttribute="top" id="53i-bn-mwk"/>
+                            <constraint firstAttribute="height" constant="56" id="DBc-gr-S00"/>
+                            <constraint firstAttribute="trailing" secondItem="HO6-BC-0Vm" secondAttribute="trailing" id="w6N-r7-yea"/>
+                            <constraint firstAttribute="bottom" secondItem="HO6-BC-0Vm" secondAttribute="bottom" id="wGP-7C-dsf"/>
+                            <constraint firstItem="HO6-BC-0Vm" firstAttribute="leading" secondItem="vQE-Ck-nV4" secondAttribute="leading" id="xx5-LR-NrX"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bLR-wh-Rzm" customClass="AWView" customModule="ElgrocerShopperSDK_SPM">
+                        <rect key="frame" x="16" y="225.5" width="288" height="56"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="     Mobile number*" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4ZV-9h-ewi" customClass="ElgrocerTextField" customModule="ElgrocerShopperSDK_SPM">
+                                <rect key="frame" x="0.0" y="0.0" width="288" height="56"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" red="0.22352941179999999" green="0.22352941179999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="4ZV-9h-ewi" firstAttribute="leading" secondItem="bLR-wh-Rzm" secondAttribute="leading" id="0eY-7M-sMV"/>
+                            <constraint firstAttribute="height" constant="56" id="IkY-XM-51v"/>
+                            <constraint firstItem="4ZV-9h-ewi" firstAttribute="top" secondItem="bLR-wh-Rzm" secondAttribute="top" id="WES-Dm-cRx"/>
+                            <constraint firstAttribute="trailing" secondItem="4ZV-9h-ewi" secondAttribute="trailing" id="Zhn-JU-GWT"/>
+                            <constraint firstAttribute="bottom" secondItem="4ZV-9h-ewi" secondAttribute="bottom" id="iPh-dF-kVl"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bjx-wL-rbU" customClass="AWButton" customModule="ElgrocerShopperSDK_SPM">
+                        <rect key="frame" x="16" y="305.5" width="288" height="56"/>
+                        <color key="backgroundColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="56" id="KsA-Y6-oQY"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="17"/>
+                        <state key="normal" title="Next">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                        <state key="highlighted" backgroundImage="button_overlay"/>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                <real key="value" value="28"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                <size key="value" width="0.0" height="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="titleShadowColor">
+                                <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="size" keyPath="titleLabelShadowOffset">
+                                <size key="value" width="0.0" height="2"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="titleShadowOpacity">
+                                <real key="value" value="0.5"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="titleShadowRadius">
+                                <real key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="nextAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="8Qa-D3-4ip"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                <constraints>
+                    <constraint firstItem="vQE-Ck-nV4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="4hq-ma-b2o"/>
+                    <constraint firstItem="bjx-wL-rbU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="6B1-S7-fFd"/>
+                    <constraint firstItem="bLR-wh-Rzm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="D2F-CV-Io3"/>
+                    <constraint firstAttribute="trailing" secondItem="bjx-wL-rbU" secondAttribute="trailing" constant="16" id="Gvu-oU-YjF"/>
+                    <constraint firstItem="6Nk-hE-juf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="Her-Z5-kur"/>
+                    <constraint firstItem="bLR-wh-Rzm" firstAttribute="top" secondItem="vQE-Ck-nV4" secondAttribute="bottom" constant="16" id="PSA-2H-mVi"/>
+                    <constraint firstAttribute="trailing" secondItem="vQE-Ck-nV4" secondAttribute="trailing" constant="16" id="Rya-FF-ciy"/>
+                    <constraint firstItem="bjx-wL-rbU" firstAttribute="top" secondItem="bLR-wh-Rzm" secondAttribute="bottom" constant="24" id="Sb7-WG-UCq"/>
+                    <constraint firstItem="6Nk-hE-juf" firstAttribute="top" secondItem="qdP-h0-e4t" secondAttribute="bottom" constant="16" id="Um8-Nq-Hu0"/>
+                    <constraint firstAttribute="trailing" secondItem="6Nk-hE-juf" secondAttribute="trailing" constant="16" id="Ztk-1a-sph"/>
+                    <constraint firstItem="qdP-h0-e4t" firstAttribute="top" secondItem="A3C-dW-doB" secondAttribute="bottom" constant="10" id="bp8-zj-vIh"/>
+                    <constraint firstItem="qdP-h0-e4t" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="jpf-US-mpg"/>
+                    <constraint firstAttribute="trailing" secondItem="qdP-h0-e4t" secondAttribute="trailing" id="kk8-Jy-ona"/>
+                    <constraint firstItem="vQE-Ck-nV4" firstAttribute="top" secondItem="6Nk-hE-juf" secondAttribute="bottom" constant="16" id="osP-Wz-uZk"/>
+                    <constraint firstAttribute="trailing" secondItem="A3C-dW-doB" secondAttribute="trailing" constant="16" id="pSC-Hs-1i3"/>
+                    <constraint firstItem="A3C-dW-doB" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="sLN-az-hCQ"/>
+                    <constraint firstAttribute="trailing" secondItem="bLR-wh-Rzm" secondAttribute="trailing" constant="16" id="ydC-mL-6xp"/>
+                    <constraint firstItem="A3C-dW-doB" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="ygM-Tr-gIG"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="btnDone" destination="bjx-wL-rbU" id="bRj-Ld-X4i"/>
+                <outlet property="lblChoseLocation" destination="A3C-dW-doB" id="xFn-pC-lXA"/>
+                <outlet property="lblPersonalInfo" destination="6Nk-hE-juf" id="CfN-NL-MMO"/>
+                <outlet property="segmenntCollectionView" destination="1Nx-QW-VOA" id="NJq-qx-kt1"/>
+                <outlet property="txtMobileNumber" destination="4ZV-9h-ewi" id="NBq-yq-5az"/>
+                <outlet property="txtShopperName" destination="HO6-BC-0Vm" id="PHt-54-0DU"/>
+                <outlet property="viewName" destination="vQE-Ck-nV4" id="Seh-Vz-zyj"/>
+                <outlet property="viewPhoneNumber" destination="bLR-wh-Rzm" id="DSj-9c-XpD"/>
+            </connections>
+            <point key="canvasLocation" x="136.875" y="210.7394366197183"/>
+        </tableViewCell>
+    </objects>
+    <designables>
+        <designable name="bjx-wL-rbU">
+            <size key="intrinsicContentSize" width="36" height="33"/>
+        </designable>
+    </designables>
+    <resources>
+        <image name="button_overlay" width="1" height="1"/>
+    </resources>
+</document>

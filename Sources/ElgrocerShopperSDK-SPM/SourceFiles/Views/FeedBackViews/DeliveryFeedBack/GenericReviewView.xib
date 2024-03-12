@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Regular.otf">
+            <string>SFProDisplay-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GenericReviewView" customModule="ElgrocerShopperSDK_SPM"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="GenericReviewView" customModule="ElgrocerShopperSDK_SPM">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="272"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="03N-72-TqO">
+                    <rect key="frame" x="16" y="16" width="288" height="240"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U9L-ND-V9d">
+                            <rect key="frame" x="0.0" y="0.0" width="288" height="16"/>
+                            <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7D0-o0-dEU" customClass="AWButton" customModule="ElgrocerShopperSDK_SPM">
+                            <rect key="frame" x="0.0" y="32" width="288" height="40"/>
+                            <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="F79-Ty-lZr"/>
+                            </constraints>
+                            <state key="normal" title="Button">
+                                <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                    <real key="value" value="22"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aba-co-Zk0" customClass="AWButton" customModule="ElgrocerShopperSDK_SPM">
+                            <rect key="frame" x="0.0" y="88" width="288" height="40"/>
+                            <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="bOk-34-xUk"/>
+                            </constraints>
+                            <state key="normal" title="Button">
+                                <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                    <real key="value" value="22"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s7e-ow-1PN" customClass="AWButton" customModule="ElgrocerShopperSDK_SPM">
+                            <rect key="frame" x="0.0" y="144" width="288" height="40"/>
+                            <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="Azi-JS-TQe"/>
+                            </constraints>
+                            <state key="normal" title="Button">
+                                <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                    <real key="value" value="22"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bwG-Aa-QeY" customClass="AWButton" customModule="ElgrocerShopperSDK_SPM">
+                            <rect key="frame" x="0.0" y="200" width="288" height="40"/>
+                            <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="40" id="YIS-yz-til"/>
+                            </constraints>
+                            <state key="normal" title="Button">
+                                <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                    <real key="value" value="22"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="s7e-ow-1PN" firstAttribute="leading" secondItem="03N-72-TqO" secondAttribute="leading" id="23r-6h-4CP"/>
+                        <constraint firstItem="bwG-Aa-QeY" firstAttribute="top" secondItem="s7e-ow-1PN" secondAttribute="bottom" constant="16" id="2tC-yV-RMI"/>
+                        <constraint firstItem="7D0-o0-dEU" firstAttribute="leading" secondItem="03N-72-TqO" secondAttribute="leading" id="40P-ic-HQX"/>
+                        <constraint firstItem="U9L-ND-V9d" firstAttribute="leading" secondItem="03N-72-TqO" secondAttribute="leading" id="Jew-g0-f2u"/>
+                        <constraint firstItem="s7e-ow-1PN" firstAttribute="top" secondItem="aba-co-Zk0" secondAttribute="bottom" constant="16" id="MTK-Jd-Boq"/>
+                        <constraint firstItem="7D0-o0-dEU" firstAttribute="top" secondItem="U9L-ND-V9d" secondAttribute="bottom" constant="16" id="MwV-1g-VV8"/>
+                        <constraint firstAttribute="trailing" secondItem="aba-co-Zk0" secondAttribute="trailing" id="NY2-Qd-hz6"/>
+                        <constraint firstAttribute="trailing" secondItem="7D0-o0-dEU" secondAttribute="trailing" id="Skr-CP-c4w"/>
+                        <constraint firstAttribute="bottom" secondItem="bwG-Aa-QeY" secondAttribute="bottom" id="TC6-Qc-Qq9"/>
+                        <constraint firstItem="U9L-ND-V9d" firstAttribute="top" secondItem="03N-72-TqO" secondAttribute="top" id="WnY-zg-W00"/>
+                        <constraint firstAttribute="trailing" secondItem="U9L-ND-V9d" secondAttribute="trailing" id="ZHz-TO-iQb"/>
+                        <constraint firstAttribute="trailing" secondItem="s7e-ow-1PN" secondAttribute="trailing" id="bvr-52-xoa"/>
+                        <constraint firstItem="aba-co-Zk0" firstAttribute="top" secondItem="7D0-o0-dEU" secondAttribute="bottom" constant="16" id="d9c-rA-ISU"/>
+                        <constraint firstAttribute="trailing" secondItem="bwG-Aa-QeY" secondAttribute="trailing" id="f1C-41-R9p"/>
+                        <constraint firstItem="aba-co-Zk0" firstAttribute="leading" secondItem="03N-72-TqO" secondAttribute="leading" id="i50-qJ-BF7"/>
+                        <constraint firstItem="bwG-Aa-QeY" firstAttribute="leading" secondItem="03N-72-TqO" secondAttribute="leading" id="mTq-Ur-mpw"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="03N-72-TqO" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="S2q-iF-xTF"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="03N-72-TqO" secondAttribute="bottom" constant="16" id="WMJ-qp-sWA"/>
+                <constraint firstItem="03N-72-TqO" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="16" id="YNU-yZ-QlJ"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="03N-72-TqO" secondAttribute="trailing" constant="16" id="e8O-wO-XoP"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="bottomConstraintBtn4" destination="2tC-yV-RMI" id="FZ3-N9-aXf"/>
+                <outlet property="btnOption1" destination="7D0-o0-dEU" id="YQa-8U-1me"/>
+                <outlet property="btnOption2" destination="aba-co-Zk0" id="qvf-FQ-uUs"/>
+                <outlet property="btnOption3" destination="s7e-ow-1PN" id="Znz-tb-L8N"/>
+                <outlet property="btnOption4" destination="bwG-Aa-QeY" id="9HI-LD-gHw"/>
+                <outlet property="lblHeading" destination="U9L-ND-V9d" id="FE1-ek-BUB"/>
+            </connections>
+            <point key="canvasLocation" x="-198.75" y="44.366197183098592"/>
+        </view>
+    </objects>
+    <designables>
+        <designable name="7D0-o0-dEU">
+            <size key="intrinsicContentSize" width="46" height="30"/>
+        </designable>
+        <designable name="aba-co-Zk0">
+            <size key="intrinsicContentSize" width="46" height="30"/>
+        </designable>
+        <designable name="bwG-Aa-QeY">
+            <size key="intrinsicContentSize" width="46" height="30"/>
+        </designable>
+        <designable name="s7e-ow-1PN">
+            <size key="intrinsicContentSize" width="46" height="30"/>
+        </designable>
+    </designables>
+</document>

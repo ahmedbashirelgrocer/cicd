@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Semibold.otf">
+            <string>SFProDisplay-Semibold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="GenricRecipeCollectionViewCell" id="gTV-IL-0wX" customClass="GenricRecipeCollectionViewCell" customModule="ElgrocerShopperSDK_SPM">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="379"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="379"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V93-7q-wCD" customClass="AWView" customModule="ElgrocerShopperSDK_SPM">
+                        <rect key="frame" x="5" y="5" width="365" height="369"/>
+                        <subviews>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qrZ-lE-T9w" customClass="AWView" customModule="ElgrocerShopperSDK_SPM">
+                                <rect key="frame" x="0.0" y="0.0" width="366" height="370"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recipe name and description " textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="211-RE-I3G">
+                                        <rect key="frame" x="8" y="366" width="350" height="4"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
+                                        <color key="textColor" red="0.0" green="0.27843137254901962" blue="0.21176470588235294" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="product_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="c1S-9J-ksI">
+                                        <rect key="frame" x="0.0" y="0.0" width="366" height="366"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="c1S-9J-ksI" secondAttribute="height" multiplier="1:1" id="fjk-Ys-8cE"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="8"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </imageView>
+                                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8d8-T5-MHz" customClass="ElGrocerGradientView" customModule="ElgrocerShopperSDK_SPM">
+                                        <rect key="frame" x="0.0" y="0.0" width="366" height="366"/>
+                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Utz-cD-lyH" customClass="AWView" customModule="ElgrocerShopperSDK_SPM">
+                                        <rect key="frame" x="306" y="16" width="44" height="44"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="saveUnfilled" translatesAutoresizingMaskIntoConstraints="NO" id="2Dv-aq-rHV">
+                                                <rect key="frame" x="10" y="10" width="24" height="24"/>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aMM-S0-Bjt">
+                                                <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstItem="aMM-S0-Bjt" firstAttribute="leading" secondItem="Utz-cD-lyH" secondAttribute="leading" id="4xE-PK-Lqz"/>
+                                            <constraint firstAttribute="trailing" secondItem="aMM-S0-Bjt" secondAttribute="trailing" id="TQM-fP-qI9"/>
+                                            <constraint firstItem="aMM-S0-Bjt" firstAttribute="top" secondItem="Utz-cD-lyH" secondAttribute="top" id="W0Y-PL-ozG"/>
+                                            <constraint firstAttribute="bottom" secondItem="aMM-S0-Bjt" secondAttribute="bottom" id="WI7-ug-aUI"/>
+                                            <constraint firstItem="2Dv-aq-rHV" firstAttribute="width" secondItem="Utz-cD-lyH" secondAttribute="height" multiplier="6:11" id="djT-qC-iD2"/>
+                                            <constraint firstItem="2Dv-aq-rHV" firstAttribute="centerX" secondItem="Utz-cD-lyH" secondAttribute="centerX" id="drc-16-CYX"/>
+                                            <constraint firstAttribute="width" constant="44" id="hIg-bB-HfE"/>
+                                            <constraint firstAttribute="height" constant="44" id="l3S-QY-C7N"/>
+                                            <constraint firstItem="2Dv-aq-rHV" firstAttribute="centerY" secondItem="Utz-cD-lyH" secondAttribute="centerY" id="qkT-DF-d18"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                                <real key="value" value="22"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="26W-Rd-OeQ">
+                                        <rect key="frame" x="16" y="266" width="334" height="77"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="NYn-29-OFi" customClass="AWImageView" customModule="ElgrocerShopperSDK_SPM">
+                                                <rect key="frame" x="12" y="13" width="54" height="54"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="54" id="GKD-cc-Aut"/>
+                                                    <constraint firstAttribute="height" constant="54" id="zW2-eA-iRs"/>
+                                                </constraints>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                                        <real key="value" value="27"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="APPETIZER" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eww-lH-MOP">
+                                                <rect key="frame" x="70" y="16" width="248" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Samosa with spinach and Kiri" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ea1-MW-anj">
+                                                <rect key="frame" x="70" y="41.5" width="248" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.80000000000000004" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="77" id="3IP-J4-MuS"/>
+                                            <constraint firstItem="eww-lH-MOP" firstAttribute="leading" secondItem="NYn-29-OFi" secondAttribute="trailing" constant="4" id="7nv-bL-X8a"/>
+                                            <constraint firstItem="NYn-29-OFi" firstAttribute="leading" secondItem="26W-Rd-OeQ" secondAttribute="leading" constant="12" id="EVF-IL-yoZ"/>
+                                            <constraint firstItem="eww-lH-MOP" firstAttribute="top" secondItem="26W-Rd-OeQ" secondAttribute="top" constant="16" id="NNP-F5-sXb"/>
+                                            <constraint firstAttribute="trailing" secondItem="Ea1-MW-anj" secondAttribute="trailing" constant="16" id="PiX-8H-4HW"/>
+                                            <constraint firstAttribute="trailing" secondItem="eww-lH-MOP" secondAttribute="trailing" constant="16" id="PmK-kW-LsC"/>
+                                            <constraint firstAttribute="bottom" secondItem="NYn-29-OFi" secondAttribute="bottom" constant="10" id="cYP-E5-dR8"/>
+                                            <constraint firstItem="Ea1-MW-anj" firstAttribute="top" secondItem="eww-lH-MOP" secondAttribute="bottom" constant="5" id="gbc-TC-evi"/>
+                                            <constraint firstItem="Ea1-MW-anj" firstAttribute="leading" secondItem="eww-lH-MOP" secondAttribute="leading" id="rhM-om-awA"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="8d8-T5-MHz" firstAttribute="centerX" secondItem="c1S-9J-ksI" secondAttribute="centerX" id="7ZP-5W-9mX"/>
+                                    <constraint firstItem="8d8-T5-MHz" firstAttribute="height" secondItem="c1S-9J-ksI" secondAttribute="height" id="7nP-GS-KGR"/>
+                                    <constraint firstItem="211-RE-I3G" firstAttribute="leading" secondItem="qrZ-lE-T9w" secondAttribute="leading" constant="8" id="BOD-Se-BNa"/>
+                                    <constraint firstAttribute="trailing" secondItem="c1S-9J-ksI" secondAttribute="trailing" id="Cf0-Sy-H4Q"/>
+                                    <constraint firstAttribute="trailing" secondItem="211-RE-I3G" secondAttribute="trailing" constant="8" id="IH0-Lp-oak"/>
+                                    <constraint firstItem="211-RE-I3G" firstAttribute="top" secondItem="c1S-9J-ksI" secondAttribute="bottom" id="KXs-cU-k0L"/>
+                                    <constraint firstItem="c1S-9J-ksI" firstAttribute="leading" secondItem="qrZ-lE-T9w" secondAttribute="leading" id="QgB-R5-7OP"/>
+                                    <constraint firstItem="Utz-cD-lyH" firstAttribute="top" secondItem="qrZ-lE-T9w" secondAttribute="top" constant="16" id="R18-Oh-Wto"/>
+                                    <constraint firstAttribute="trailing" secondItem="Utz-cD-lyH" secondAttribute="trailing" constant="16" id="UAU-e9-yjb"/>
+                                    <constraint firstItem="8d8-T5-MHz" firstAttribute="centerY" secondItem="c1S-9J-ksI" secondAttribute="centerY" id="Y5G-9B-RcX"/>
+                                    <constraint firstAttribute="bottom" secondItem="211-RE-I3G" secondAttribute="bottom" id="akX-YJ-dJV"/>
+                                    <constraint firstItem="c1S-9J-ksI" firstAttribute="top" secondItem="qrZ-lE-T9w" secondAttribute="top" id="eoY-o7-j21"/>
+                                    <constraint firstItem="8d8-T5-MHz" firstAttribute="width" secondItem="c1S-9J-ksI" secondAttribute="width" id="gZF-JR-rNc"/>
+                                    <constraint firstAttribute="trailing" secondItem="26W-Rd-OeQ" secondAttribute="trailing" constant="16" id="kbM-VT-fFu"/>
+                                    <constraint firstItem="26W-Rd-OeQ" firstAttribute="bottom" secondItem="c1S-9J-ksI" secondAttribute="bottom" constant="-23" id="sAo-GR-rVD"/>
+                                    <constraint firstItem="26W-Rd-OeQ" firstAttribute="leading" secondItem="qrZ-lE-T9w" secondAttribute="leading" constant="16" id="yVq-VE-hGk"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                        <real key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                        <color key="value" white="0.66666666666666663" alpha="0.47999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                        <size key="value" width="0.0" height="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                        <real key="value" value="0.0"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="qrZ-lE-T9w" firstAttribute="leading" secondItem="V93-7q-wCD" secondAttribute="leading" id="9RX-6h-ItL"/>
+                            <constraint firstItem="qrZ-lE-T9w" firstAttribute="top" secondItem="V93-7q-wCD" secondAttribute="top" id="RCy-sw-aYQ"/>
+                            <constraint firstAttribute="trailing" secondItem="qrZ-lE-T9w" secondAttribute="trailing" constant="-1" id="cUv-ov-DQD"/>
+                            <constraint firstAttribute="bottom" secondItem="qrZ-lE-T9w" secondAttribute="bottom" constant="-1" id="qfc-Au-GUx"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                <color key="value" white="0.66666666666666663" alpha="0.47999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                <size key="value" width="0.0" height="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                <real key="value" value="4"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="V93-7q-wCD" secondAttribute="bottom" constant="5" id="QwI-Lc-B6J"/>
+                <constraint firstItem="V93-7q-wCD" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="Yku-O5-aqr"/>
+                <constraint firstAttribute="trailing" secondItem="V93-7q-wCD" secondAttribute="trailing" constant="5" id="gP2-TT-oe6"/>
+                <constraint firstItem="V93-7q-wCD" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="jXM-Ca-JPg"/>
+            </constraints>
+            <size key="customSize" width="344" height="313"/>
+            <connections>
+                <outlet property="chefImage" destination="NYn-29-OFi" id="pOb-vB-Tf0"/>
+                <outlet property="gradiantView" destination="8d8-T5-MHz" id="ESd-QP-Rag"/>
+                <outlet property="lblRecipeName" destination="Ea1-MW-anj" id="4e9-ZR-7Hr"/>
+                <outlet property="lblRecipeType" destination="eww-lH-MOP" id="d0J-sf-ZPB"/>
+                <outlet property="recipeDescriptionLabel" destination="211-RE-I3G" id="Wc0-WS-s9w"/>
+                <outlet property="recipeDetailBGView" destination="26W-Rd-OeQ" id="U2E-Vo-7sZ"/>
+                <outlet property="recipeImage" destination="c1S-9J-ksI" id="XMc-A4-9ZV"/>
+                <outlet property="saveRecipeBGHeightConstraint" destination="l3S-QY-C7N" id="7LW-Az-4Dw"/>
+                <outlet property="saveRecipeBGTopConstraint" destination="R18-Oh-Wto" id="8Xz-kr-BKa"/>
+                <outlet property="saveRecipeBGView" destination="Utz-cD-lyH" id="9ZC-CP-RVc"/>
+                <outlet property="saveRecipeBGWidthConstraint" destination="hIg-bB-HfE" id="0Lh-Iq-8jQ"/>
+                <outlet property="saveRecipeBGtrailingConstraint" destination="UAU-e9-yjb" id="JQR-JE-waB"/>
+                <outlet property="saveRecipeButton" destination="aMM-S0-Bjt" id="Afa-Ye-4Ny"/>
+                <outlet property="saveRecipeImageView" destination="2Dv-aq-rHV" id="onD-XF-zcE"/>
+            </connections>
+            <point key="canvasLocation" x="123.91304347826087" y="232.70089285714283"/>
+        </collectionViewCell>
+    </objects>
+    <designables>
+        <designable name="NYn-29-OFi">
+            <size key="intrinsicContentSize" width="50" height="50"/>
+        </designable>
+    </designables>
+    <resources>
+        <image name="avatar_placeholder" width="50" height="50"/>
+        <image name="product_placeholder" width="140" height="140"/>
+        <image name="saveUnfilled" width="24" height="24"/>
+    </resources>
+</document>

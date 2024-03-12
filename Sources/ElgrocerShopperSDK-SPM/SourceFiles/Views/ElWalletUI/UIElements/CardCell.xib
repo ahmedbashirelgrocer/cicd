@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="CardCell" rowHeight="69" id="KGk-i7-Jjw" customClass="CardCell" customModule="ElgrocerShopperSDK_SPM">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BPD-ob-rtZ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ex4-i4-pSK">
+                                <rect key="frame" x="16" y="0.0" width="288" height="69"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cardVisa" translatesAutoresizingMaskIntoConstraints="NO" id="Yyx-wU-XXE">
+                                        <rect key="frame" x="0.0" y="1" width="32" height="32"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="32" id="K4t-Wg-eeQ"/>
+                                            <constraint firstAttribute="height" constant="32" id="ZRR-jC-6U4"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VISA" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z5Q-TU-Fvg">
+                                        <rect key="frame" x="40" y="1" width="240" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="22" id="bD7-mK-ify"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="xxxx-1234 | Expires on xx" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QyD-vr-77X">
+                                        <rect key="frame" x="40" y="31" width="240" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="22" id="XzC-ru-YzL"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="Yyx-wU-XXE" firstAttribute="top" secondItem="Ex4-i4-pSK" secondAttribute="top" constant="1" id="2c6-Ph-6cu"/>
+                                    <constraint firstAttribute="trailing" secondItem="z5Q-TU-Fvg" secondAttribute="trailing" constant="8" id="8j8-6l-RK6"/>
+                                    <constraint firstItem="QyD-vr-77X" firstAttribute="top" secondItem="z5Q-TU-Fvg" secondAttribute="bottom" constant="8" id="BdQ-Hi-umU"/>
+                                    <constraint firstItem="Yyx-wU-XXE" firstAttribute="leading" secondItem="Ex4-i4-pSK" secondAttribute="leading" id="E8F-Ar-HAg"/>
+                                    <constraint firstItem="z5Q-TU-Fvg" firstAttribute="leading" secondItem="Yyx-wU-XXE" secondAttribute="trailing" constant="8" symbolic="YES" id="PNc-47-Onf"/>
+                                    <constraint firstItem="QyD-vr-77X" firstAttribute="trailing" secondItem="z5Q-TU-Fvg" secondAttribute="trailing" id="Srg-Bg-uoV"/>
+                                    <constraint firstItem="QyD-vr-77X" firstAttribute="leading" secondItem="z5Q-TU-Fvg" secondAttribute="leading" id="b3d-ZK-vms"/>
+                                    <constraint firstAttribute="bottom" secondItem="QyD-vr-77X" secondAttribute="bottom" constant="16" id="po0-4M-kTH"/>
+                                    <constraint firstItem="z5Q-TU-Fvg" firstAttribute="top" secondItem="Ex4-i4-pSK" secondAttribute="top" constant="1" id="rYw-if-KUF"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="Ex4-i4-pSK" firstAttribute="leading" secondItem="BPD-ob-rtZ" secondAttribute="leading" constant="16" id="3an-Pc-NLm"/>
+                            <constraint firstItem="Ex4-i4-pSK" firstAttribute="top" secondItem="BPD-ob-rtZ" secondAttribute="top" id="3dI-A0-nbn"/>
+                            <constraint firstAttribute="trailing" secondItem="Ex4-i4-pSK" secondAttribute="trailing" constant="16" id="SOw-06-mRj"/>
+                            <constraint firstAttribute="bottom" secondItem="Ex4-i4-pSK" secondAttribute="bottom" id="Whn-cF-3pA"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="BPD-ob-rtZ" secondAttribute="trailing" id="LKj-E8-STC"/>
+                    <constraint firstAttribute="bottom" secondItem="BPD-ob-rtZ" secondAttribute="bottom" id="NPM-Gy-BCS"/>
+                    <constraint firstItem="BPD-ob-rtZ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Qi8-Ue-owz"/>
+                    <constraint firstItem="BPD-ob-rtZ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="hk5-oV-d0j"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="cardNumLabel" destination="QyD-vr-77X" id="OD8-88-hju"/>
+                <outlet property="containerView" destination="BPD-ob-rtZ" id="6mo-Ti-Gyp"/>
+                <outlet property="innerContainerView" destination="Ex4-i4-pSK" id="efd-kD-ln8"/>
+                <outlet property="logoImageView" destination="Yyx-wU-XXE" id="ycj-NV-Hcc"/>
+                <outlet property="nameLabel" destination="z5Q-TU-Fvg" id="52G-cs-Lfz"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="59.933035714285708"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="cardVisa" width="24" height="24"/>
+    </resources>
+</document>

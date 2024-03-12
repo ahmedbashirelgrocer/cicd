@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EmptyCardCell" rowHeight="182" id="KGk-i7-Jjw" customClass="EmptyCardCell" customModule="ElgrocerShopperSDK_SPM">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="182"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="182"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5rL-xW-JbO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="182"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XZB-5h-Q5c">
+                                <rect key="frame" x="16" y="0.0" width="288" height="182"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wallet_card_logo" translatesAutoresizingMaskIntoConstraints="NO" id="cjq-xK-nt2">
+                                        <rect key="frame" x="120" y="16" width="48" height="48"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="48" id="91O-iW-2bt"/>
+                                            <constraint firstAttribute="width" constant="48" id="mFm-uj-eqD"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add a card to enjoy the best grocery shopping experience" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TE8-Tl-BvZ">
+                                        <rect key="frame" x="8" y="72" width="272" height="42"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="42" id="9u4-XP-UQH"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CUS-93-Etk">
+                                        <rect key="frame" x="16" y="130" width="256" height="44"/>
+                                        <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="iay-pX-e4a"/>
+                                        </constraints>
+                                        <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="icPlusWhite" title=" Add new card"/>
+                                        <connections>
+                                            <action selector="addNewTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="cl5-j1-vBy"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstItem="TE8-Tl-BvZ" firstAttribute="top" secondItem="cjq-xK-nt2" secondAttribute="bottom" constant="8" id="5b6-fb-ce6"/>
+                                    <constraint firstItem="TE8-Tl-BvZ" firstAttribute="leading" secondItem="XZB-5h-Q5c" secondAttribute="leading" constant="8" id="73g-1N-Qd6"/>
+                                    <constraint firstItem="CUS-93-Etk" firstAttribute="leading" secondItem="XZB-5h-Q5c" secondAttribute="leading" constant="16" id="LVl-aL-n0f"/>
+                                    <constraint firstAttribute="trailing" secondItem="TE8-Tl-BvZ" secondAttribute="trailing" constant="8" id="guM-ae-H0E"/>
+                                    <constraint firstItem="cjq-xK-nt2" firstAttribute="centerX" secondItem="XZB-5h-Q5c" secondAttribute="centerX" id="nLw-Il-AGP"/>
+                                    <constraint firstItem="cjq-xK-nt2" firstAttribute="top" secondItem="XZB-5h-Q5c" secondAttribute="top" constant="16" id="nyc-V2-yzU"/>
+                                    <constraint firstItem="CUS-93-Etk" firstAttribute="top" secondItem="TE8-Tl-BvZ" secondAttribute="bottom" constant="16" id="tX0-l8-cEg"/>
+                                    <constraint firstAttribute="bottom" secondItem="CUS-93-Etk" secondAttribute="bottom" constant="8" id="uhl-bf-c2C"/>
+                                    <constraint firstAttribute="trailing" secondItem="CUS-93-Etk" secondAttribute="trailing" constant="16" id="zZL-FN-cYO"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="XZB-5h-Q5c" firstAttribute="leading" secondItem="5rL-xW-JbO" secondAttribute="leading" constant="16" id="ACB-P3-JNo"/>
+                            <constraint firstAttribute="trailing" secondItem="XZB-5h-Q5c" secondAttribute="trailing" constant="16" id="Ba0-Si-hB5"/>
+                            <constraint firstItem="XZB-5h-Q5c" firstAttribute="top" secondItem="5rL-xW-JbO" secondAttribute="top" id="JQX-sU-j4U"/>
+                            <constraint firstAttribute="bottom" secondItem="XZB-5h-Q5c" secondAttribute="bottom" id="M4h-vf-s3K"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="5rL-xW-JbO" secondAttribute="bottom" id="Imn-Hb-Gsf"/>
+                    <constraint firstItem="5rL-xW-JbO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="ZSr-2W-XeW"/>
+                    <constraint firstAttribute="trailing" secondItem="5rL-xW-JbO" secondAttribute="trailing" id="lME-og-BmK"/>
+                    <constraint firstItem="5rL-xW-JbO" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="qHs-8e-j69"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="addNewButton" destination="CUS-93-Etk" id="W4n-VH-I7W"/>
+                <outlet property="containerView" destination="5rL-xW-JbO" id="EiI-D9-joP"/>
+                <outlet property="innerContainerView" destination="XZB-5h-Q5c" id="QiP-eC-ht6"/>
+                <outlet property="lblNoCardtext" destination="TE8-Tl-BvZ" id="Lv9-Yx-IUy"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="76.339285714285708"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icPlusWhite" width="16" height="16.5"/>
+        <image name="wallet_card_logo" width="48" height="48"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

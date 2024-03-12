@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Semibold.otf">
+            <string>SFProDisplay-Semibold</string>
+        </array>
+        <array key="SF-UI-Display-Medium.otf">
+            <string>SFUIDisplay-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clipsSubviews="YES" contentMode="scaleToFill" id="iN0-l3-epB" customClass="SubCateSegmentTableViewHeader" customModule="ElgrocerShopperSDK_SPM">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="171"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EXs-9K-ola" userLabel="Search View">
+                    <rect key="frame" x="0.0" y="16" width="375" height="24"/>
+                    <subviews>
+                        <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dqe-dC-Gjh">
+                            <rect key="frame" x="335" y="0.0" width="24" height="24"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="24" id="Jsf-hN-n0n"/>
+                                <constraint firstAttribute="height" constant="24" id="WUg-xf-fhV"/>
+                            </constraints>
+                            <state key="normal" image="grid-icon"/>
+                            <connections>
+                                <action selector="viewLayoutHandler:" destination="iN0-l3-epB" eventType="touchUpInside" id="qhx-cp-CaA"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fruits &amp; Vegetables" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Yc-ta-ZsA">
+                            <rect key="frame" x="16" y="2" width="145.5" height="20.5"/>
+                            <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="17"/>
+                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="24" id="HQz-5G-bhi"/>
+                        <constraint firstItem="8Yc-ta-ZsA" firstAttribute="centerY" secondItem="EXs-9K-ola" secondAttribute="centerY" id="WL8-Ko-JyT"/>
+                        <constraint firstItem="dqe-dC-Gjh" firstAttribute="top" secondItem="EXs-9K-ola" secondAttribute="top" id="jUV-ou-Jcp"/>
+                        <constraint firstItem="8Yc-ta-ZsA" firstAttribute="leading" secondItem="EXs-9K-ola" secondAttribute="leading" constant="16" id="zDo-5T-23c"/>
+                        <constraint firstAttribute="trailing" secondItem="dqe-dC-Gjh" secondAttribute="trailing" constant="16" id="zo8-bW-QfN"/>
+                    </constraints>
+                </view>
+                <view opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.94999998807907104" contentMode="center" translatesAutoresizingMaskIntoConstraints="NO" id="n4c-Mt-CAp">
+                    <rect key="frame" x="0.0" y="56" width="375" height="62"/>
+                    <subviews>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HhB-Xa-Egb" customClass="AWView" customModule="ElgrocerShopperSDK_SPM">
+                            <rect key="frame" x="16" y="0.0" width="343" height="0.0"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fresh fruits &amp; vegetables items price may vary due to exact weights." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ctE-70-rlE">
+                                    <rect key="frame" x="36" y="-14.5" width="295" height="29"/>
+                                    <fontDescription key="fontDescription" name="SFUIDisplay-Medium" family="SF UI Display" pointSize="12"/>
+                                    <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SubCategoryPriceVarienceInfo" translatesAutoresizingMaskIntoConstraints="NO" id="BS9-Sc-YJu">
+                                    <rect key="frame" x="12" y="-14.5" width="16" height="16"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="16" id="1xj-M7-4Ew"/>
+                                        <constraint firstAttribute="height" constant="16" id="VVo-RJ-hOe"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" red="1" green="0.94901960784313721" blue="0.72941176470588232" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstItem="ctE-70-rlE" firstAttribute="centerY" secondItem="HhB-Xa-Egb" secondAttribute="centerY" id="2Wt-6u-yr6"/>
+                                <constraint firstItem="BS9-Sc-YJu" firstAttribute="top" secondItem="ctE-70-rlE" secondAttribute="top" id="5t1-KZ-TG9"/>
+                                <constraint firstItem="ctE-70-rlE" firstAttribute="leading" secondItem="BS9-Sc-YJu" secondAttribute="trailing" constant="8" id="7mI-Mp-0z9"/>
+                                <constraint firstAttribute="height" id="9pQ-il-edv"/>
+                                <constraint firstItem="BS9-Sc-YJu" firstAttribute="leading" secondItem="HhB-Xa-Egb" secondAttribute="leading" constant="12" id="TNT-T0-xyu"/>
+                                <constraint firstAttribute="trailing" secondItem="ctE-70-rlE" secondAttribute="trailing" constant="12" id="zmf-nE-KAo"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                    <real key="value" value="8"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="62" id="J8p-lw-ZsA"/>
+                        <constraint firstItem="HhB-Xa-Egb" firstAttribute="top" secondItem="n4c-Mt-CAp" secondAttribute="top" id="NLc-AF-F5d"/>
+                        <constraint firstAttribute="trailing" secondItem="HhB-Xa-Egb" secondAttribute="trailing" constant="16" id="TUv-jm-kSp"/>
+                        <constraint firstItem="HhB-Xa-Egb" firstAttribute="leading" secondItem="n4c-Mt-CAp" secondAttribute="leading" constant="16" id="p3w-qH-UdR"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Px-2J-9IS" userLabel="Segment View">
+                    <rect key="frame" x="0.0" y="118" width="375" height="44"/>
+                    <subviews>
+                        <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="5zR-SP-lVP" customClass="AWSegmentView" customModule="ElgrocerShopperSDK_SPM">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                            <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="zFN-wP-ZBS">
+                                <size key="itemSize" width="50" height="50"/>
+                                <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                            </collectionViewFlowLayout>
+                        </collectionView>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="5zR-SP-lVP" secondAttribute="trailing" id="3Js-fT-p9v"/>
+                        <constraint firstAttribute="bottom" secondItem="5zR-SP-lVP" secondAttribute="bottom" id="FcQ-eC-IQe"/>
+                        <constraint firstAttribute="height" constant="44" id="NsZ-id-OlF"/>
+                        <constraint firstItem="5zR-SP-lVP" firstAttribute="top" secondItem="9Px-2J-9IS" secondAttribute="top" id="Pb0-pe-dvd"/>
+                        <constraint firstItem="5zR-SP-lVP" firstAttribute="leading" secondItem="9Px-2J-9IS" secondAttribute="leading" id="nav-zh-FBg"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="EXs-9K-ola" secondAttribute="trailing" id="9zG-wp-reL"/>
+                <constraint firstAttribute="trailing" secondItem="9Px-2J-9IS" secondAttribute="trailing" id="Eta-Ne-LDk"/>
+                <constraint firstItem="9Px-2J-9IS" firstAttribute="top" secondItem="n4c-Mt-CAp" secondAttribute="bottom" id="X2v-hK-Azd"/>
+                <constraint firstItem="n4c-Mt-CAp" firstAttribute="top" secondItem="EXs-9K-ola" secondAttribute="bottom" constant="16" id="X7u-C1-gd8"/>
+                <constraint firstItem="EXs-9K-ola" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="h15-08-JFE"/>
+                <constraint firstItem="9Px-2J-9IS" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="isJ-T9-Jai"/>
+                <constraint firstItem="EXs-9K-ola" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="qJy-Uh-WpN"/>
+                <constraint firstItem="n4c-Mt-CAp" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="vol-Eg-AOq"/>
+                <constraint firstAttribute="trailing" secondItem="n4c-Mt-CAp" secondAttribute="trailing" id="xWf-LW-Q64"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="MsgLableHeight" destination="J8p-lw-ZsA" id="FBN-Jb-Y7Z"/>
+                <outlet property="lblCategoryName" destination="8Yc-ta-ZsA" id="cYY-Qi-cNj"/>
+                <outlet property="lblSubCategoryMsg" destination="ctE-70-rlE" id="5ca-fR-b9Y"/>
+                <outlet property="segmenntCollectionView" destination="5zR-SP-lVP" id="Hfl-4q-bEb"/>
+                <outlet property="viewLayoutButton" destination="dqe-dC-Gjh" id="1Fw-Bb-4BH"/>
+            </connections>
+            <point key="canvasLocation" x="132.60869565217394" y="320.08928571428572"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="SubCategoryPriceVarienceInfo" width="16" height="16"/>
+        <image name="grid-icon" width="24" height="24"/>
+    </resources>
+</document>

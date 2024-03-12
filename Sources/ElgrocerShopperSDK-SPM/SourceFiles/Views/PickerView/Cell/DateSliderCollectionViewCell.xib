@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Regular.otf">
+            <string>SFProDisplay-Regular</string>
+        </array>
+        <array key="SF-Pro-Display-Semibold.otf">
+            <string>SFProDisplay-Semibold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="DateSliderCollectionViewCell" customModule="ElgrocerShopperSDK_SPM">
+            <rect key="frame" x="0.0" y="0.0" width="206" height="68"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="206" height="68"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Yw1-5l-xtI" customClass="AWView" customModule="ElgrocerShopperSDK_SPM">
+                        <rect key="frame" x="0.0" y="0.0" width="206" height="68"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="26 Oct" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u0u-nw-RqA">
+                                <rect key="frame" x="4" y="8" width="198" height="24"/>
+                                <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="20"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tomorrow" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y8j-3M-x8X">
+                                <rect key="frame" x="4" y="34" width="198" height="19.333333333333329"/>
+                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="16"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="u0u-nw-RqA" firstAttribute="leading" secondItem="Yw1-5l-xtI" secondAttribute="leading" constant="4" id="27n-1Z-6si"/>
+                            <constraint firstAttribute="trailing" secondItem="u0u-nw-RqA" secondAttribute="trailing" constant="4" id="3Ko-IY-t3m"/>
+                            <constraint firstItem="u0u-nw-RqA" firstAttribute="top" secondItem="Yw1-5l-xtI" secondAttribute="top" constant="8" id="BBs-gD-klb"/>
+                            <constraint firstItem="Y8j-3M-x8X" firstAttribute="top" secondItem="u0u-nw-RqA" secondAttribute="bottom" constant="2" id="LsQ-R9-Qg8"/>
+                            <constraint firstItem="Y8j-3M-x8X" firstAttribute="leading" secondItem="u0u-nw-RqA" secondAttribute="leading" id="UTs-kd-EnL"/>
+                            <constraint firstItem="Y8j-3M-x8X" firstAttribute="trailing" secondItem="u0u-nw-RqA" secondAttribute="trailing" id="xDz-CK-i42"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="Yw1-5l-xtI" secondAttribute="bottom" id="G7u-Xm-dYK"/>
+                <constraint firstItem="Yw1-5l-xtI" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="j6z-4T-AFO"/>
+                <constraint firstAttribute="trailing" secondItem="Yw1-5l-xtI" secondAttribute="trailing" id="mPp-e1-w5D"/>
+                <constraint firstItem="Yw1-5l-xtI" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="obB-B5-JVc"/>
+            </constraints>
+            <size key="customSize" width="206" height="68"/>
+            <connections>
+                <outlet property="lblDate" destination="u0u-nw-RqA" id="boD-PM-Rcw"/>
+                <outlet property="lblDay" destination="Y8j-3M-x8X" id="k2b-fa-Sp4"/>
+                <outlet property="viewBG" destination="Yw1-5l-xtI" id="Yqn-bN-TIP"/>
+            </connections>
+            <point key="canvasLocation" x="138.93129770992365" y="25.35211267605634"/>
+        </collectionViewCell>
+    </objects>
+</document>
