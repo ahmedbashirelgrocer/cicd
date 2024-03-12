@@ -68,7 +68,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     var neighbourHoodFavGroceryArray: [Grocery] = []
     var oneClickReOrderGroceryIDArray: [Int] = [] {
         didSet {
-            var array = [Grocery]()
+            var array: [Grocery] = []
             for id in oneClickReOrderGroceryIDArray {
                 if let item = groceryArray.first(where: { Grocery in
                     Grocery.getCleanGroceryID() == String(id)
@@ -1036,6 +1036,8 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
         }else if type == .oneClickReOrderListArray {
             if self.homeDataHandler.oneClickReorderGroceryIdArray?.count ?? 0 > 0 {
                 self.oneClickReOrderGroceryIDArray = self.homeDataHandler.oneClickReorderGroceryIdArray!
+            }else {
+                self.oneClickReOrderGroceryIDArray = []
             }
         }
         Thread.OnMainThread {

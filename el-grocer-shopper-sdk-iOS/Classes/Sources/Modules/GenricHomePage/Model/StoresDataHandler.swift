@@ -228,6 +228,8 @@ class StoresDataHandler {
                     
                     if let oneClickReOrder = dataDict["one_click_store"] as? [Int] {
                         self.delegate?.oneClickRetailerData(groceryA: oneClickReOrder)
+                    }else {
+                        self.delegate?.oneClickRetailerData(groceryA: [])
                     }
 
                 }else{
