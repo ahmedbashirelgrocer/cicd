@@ -29,7 +29,7 @@
 		08767A042B5EE9D20045C2AD /* PresentedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresentedViewController.swift; sourceTree = "<group>"; };
 		08767A062B5EE9DA0045C2AD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		08767A082B5EE9ED0045C2AD /* ElGrocerShopperAppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ElGrocerShopperAppViewController.swift; sourceTree = "<group>"; };
-		088CE0DA2B5ED5E500AD90E0 /* ElgrocerSDKExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ElgrocerSDKExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		088CE0DA2B5ED5E500AD90E0 /* el-grocer-shopper-sdk-iOS_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "el-grocer-shopper-sdk-iOS_Example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		088CE0DD2B5ED5E500AD90E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		088CE0E12B5ED5E500AD90E0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		088CE0E42B5ED5E500AD90E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -73,7 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				088CE0F12B5ED60F00AD90E0 /* Packages */,
-				088CE0DC2B5ED5E500AD90E0 /* ElgrocerSDKExample */,
+				088CE0DC2B5ED5E500AD90E0 /* el-grocer-shopper-sdk-iOS */,
 				088CE0DB2B5ED5E500AD90E0 /* Products */,
 				08767A0A2B5EEBC60045C2AD /* Frameworks */,
 			);
@@ -82,12 +82,12 @@
 		088CE0DB2B5ED5E500AD90E0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				088CE0DA2B5ED5E500AD90E0 /* ElgrocerSDKExample.app */,
+				088CE0DA2B5ED5E500AD90E0 /* el-grocer-shopper-sdk-iOS_Example.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		088CE0DC2B5ED5E500AD90E0 /* ElgrocerSDKExample */ = {
+		088CE0DC2B5ED5E500AD90E0 /* el-grocer-shopper-sdk-iOS */ = {
 			isa = PBXGroup;
 			children = (
 				087679FD2B5EE9590045C2AD /* Search */,
@@ -101,7 +101,7 @@
 				088CE0E82B5ED5E600AD90E0 /* LaunchScreen.storyboard */,
 				088CE0EB2B5ED5E600AD90E0 /* Info.plist */,
 			);
-			path = ElgrocerSDKExample;
+			path = "el-grocer-shopper-sdk-iOS";
 			sourceTree = "<group>";
 		};
 		088CE0F12B5ED60F00AD90E0 /* Packages */ = {
@@ -115,9 +115,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		088CE0D92B5ED5E500AD90E0 /* ElgrocerSDKExample */ = {
+		088CE0D92B5ED5E500AD90E0 /* el-grocer-shopper-sdk-iOS_Example */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 088CE0EE2B5ED5E600AD90E0 /* Build configuration list for PBXNativeTarget "ElgrocerSDKExample" */;
+			buildConfigurationList = 088CE0EE2B5ED5E600AD90E0 /* Build configuration list for PBXNativeTarget "el-grocer-shopper-sdk-iOS_Example" */;
 			buildPhases = (
 				088CE0D62B5ED5E500AD90E0 /* Sources */,
 				088CE0D72B5ED5E500AD90E0 /* Frameworks */,
@@ -127,13 +127,13 @@
 			);
 			dependencies = (
 			);
-			name = ElgrocerSDKExample;
+			name = "el-grocer-shopper-sdk-iOS_Example";
 			packageProductDependencies = (
 				08767A0B2B5EEBC60045C2AD /* ElgrocerShopperSDK-SPM */,
 				0808F4C02B5EEFBF0012D7A7 /* SwiftSpinner */,
 			);
 			productName = ElgrocerSDKExample;
-			productReference = 088CE0DA2B5ED5E500AD90E0 /* ElgrocerSDKExample.app */;
+			productReference = 088CE0DA2B5ED5E500AD90E0 /* el-grocer-shopper-sdk-iOS_Example.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -151,7 +151,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 088CE0D52B5ED5E500AD90E0 /* Build configuration list for PBXProject "ElgrocerSDKExample" */;
+			buildConfigurationList = 088CE0D52B5ED5E500AD90E0 /* Build configuration list for PBXProject "el-grocer-shopper-sdk-iOS" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -167,7 +167,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				088CE0D92B5ED5E500AD90E0 /* ElgrocerSDKExample */,
+				088CE0D92B5ED5E500AD90E0 /* el-grocer-shopper-sdk-iOS_Example */,
 			);
 		};
 /* End PBXProject section */
@@ -349,7 +349,7 @@
 				DEVELOPMENT_TEAM = N883C2D2B2;
 				EXCLUDED_ARCHS = "i386 arm64";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ElgrocerSDKExample/Info.plist;
+				INFOPLIST_FILE = "el-grocer-shopper-sdk-iOS/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Smiles;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We would like to access connected bluetooth devices when available.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "We would like to access your blue tooth of the device to check status";
@@ -397,7 +397,7 @@
 				DEVELOPMENT_TEAM = N883C2D2B2;
 				EXCLUDED_ARCHS = "i386 arm64";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = ElgrocerSDKExample/Info.plist;
+				INFOPLIST_FILE = "el-grocer-shopper-sdk-iOS/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Smiles;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "We would like to access connected bluetooth devices when available.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "We would like to access your blue tooth of the device to check status";
@@ -438,7 +438,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		088CE0D52B5ED5E500AD90E0 /* Build configuration list for PBXProject "ElgrocerSDKExample" */ = {
+		088CE0D52B5ED5E500AD90E0 /* Build configuration list for PBXProject "el-grocer-shopper-sdk-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				088CE0EC2B5ED5E600AD90E0 /* Debug */,
@@ -447,7 +447,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		088CE0EE2B5ED5E600AD90E0 /* Build configuration list for PBXNativeTarget "ElgrocerSDKExample" */ = {
+		088CE0EE2B5ED5E600AD90E0 /* Build configuration list for PBXNativeTarget "el-grocer-shopper-sdk-iOS_Example" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				088CE0EF2B5ED5E600AD90E0 /* Debug */,
