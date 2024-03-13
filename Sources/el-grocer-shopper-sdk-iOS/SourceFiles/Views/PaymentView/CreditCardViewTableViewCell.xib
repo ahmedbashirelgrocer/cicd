@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="OpenSans-Regular.ttf">
+            <string>OpenSans</string>
+        </array>
+        <array key="SF-Pro-Display-Bold.otf">
+            <string>SFProDisplay-Bold</string>
+        </array>
+        <array key="SF-UI-Display-Regular.otf">
+            <string>SFUIDisplay-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell multipleTouchEnabled="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="59" id="KGk-i7-Jjw" customClass="CreditCardViewTableViewCell" customModule="el_grocer_shopper_sdk_iOS">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ozx-Vk-991" userLabel="cellcardview">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="59"/>
+                        <subviews>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ADO-GG-suu" userLabel="topLine">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
+                                <color key="backgroundColor" red="0.93725490196078431" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="N78-Er-bSR"/>
+                                </constraints>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visa" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VuS-JI-BHT">
+                                <rect key="frame" x="50" y="13" width="220" height="20.5"/>
+                                <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="17"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="49T-35-ayb">
+                                <rect key="frame" x="50" y="133.5" width="0.0" height="0.0"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="1MQ-mM-WKa"/>
+                                    <constraint firstAttribute="width" id="Df3-dK-Chd"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
+                                <color key="textColor" red="0.69019607843137254" green="0.68627450980392157" blue="0.69019607843137254" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="visaL0Go" translatesAutoresizingMaskIntoConstraints="NO" id="1AX-A8-Yjc">
+                                <rect key="frame" x="15" y="11" width="24" height="24"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="7Rg-G0-YVq"/>
+                                    <constraint firstAttribute="width" constant="24" id="QWv-go-raQ"/>
+                                </constraints>
+                            </imageView>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qZj-CY-D7m" userLabel="topLine">
+                                <rect key="frame" x="0.0" y="58" width="320" height="1"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="P8f-eT-6tC"/>
+                                </constraints>
+                            </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="RadioButtonFilled" translatesAutoresizingMaskIntoConstraints="NO" id="W9j-tt-hss">
+                                <rect key="frame" x="285" y="14" width="18" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="18" id="cyX-Su-mYQ"/>
+                                    <constraint firstAttribute="height" constant="18" id="pT4-33-JTh"/>
+                                </constraints>
+                            </imageView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zCQ-46-Kpi">
+                                <rect key="frame" x="165.5" y="11" width="138.5" height="24"/>
+                                <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="17"/>
+                                <state key="normal" title="  Add new card" image="plusLinear">
+                                    <color key="titleColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="rightButtonHandler:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="v6K-ve-AKB"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="W9j-tt-hss" firstAttribute="leading" secondItem="VuS-JI-BHT" secondAttribute="trailing" constant="15" id="0K0-Lo-iiX"/>
+                            <constraint firstItem="qZj-CY-D7m" firstAttribute="leading" secondItem="ozx-Vk-991" secondAttribute="leading" id="4OM-yg-2YH"/>
+                            <constraint firstItem="49T-35-ayb" firstAttribute="leading" secondItem="VuS-JI-BHT" secondAttribute="leading" id="6gP-Hx-e4Z"/>
+                            <constraint firstItem="49T-35-ayb" firstAttribute="top" secondItem="VuS-JI-BHT" secondAttribute="bottom" constant="100" id="9XE-u8-DRf"/>
+                            <constraint firstAttribute="trailing" secondItem="W9j-tt-hss" secondAttribute="trailing" constant="17" id="9r4-N9-Bmm"/>
+                            <constraint firstItem="VuS-JI-BHT" firstAttribute="centerY" secondItem="1AX-A8-Yjc" secondAttribute="centerY" id="Chl-3J-Tna"/>
+                            <constraint firstItem="ADO-GG-suu" firstAttribute="leading" secondItem="ozx-Vk-991" secondAttribute="leading" id="IQ0-sa-tG6"/>
+                            <constraint firstAttribute="bottom" secondItem="qZj-CY-D7m" secondAttribute="bottom" id="M70-nb-1ER"/>
+                            <constraint firstAttribute="trailing" secondItem="ADO-GG-suu" secondAttribute="trailing" id="NVd-BU-Meq"/>
+                            <constraint firstItem="1AX-A8-Yjc" firstAttribute="leading" secondItem="ozx-Vk-991" secondAttribute="leading" constant="15" id="WOc-KY-dAX"/>
+                            <constraint firstItem="VuS-JI-BHT" firstAttribute="leading" secondItem="1AX-A8-Yjc" secondAttribute="trailing" constant="11" id="Wga-5l-hxF"/>
+                            <constraint firstAttribute="trailing" secondItem="zCQ-46-Kpi" secondAttribute="trailing" constant="16" id="aFj-dX-ksr"/>
+                            <constraint firstItem="zCQ-46-Kpi" firstAttribute="centerY" secondItem="VuS-JI-BHT" secondAttribute="centerY" id="c7I-HT-jlM"/>
+                            <constraint firstItem="W9j-tt-hss" firstAttribute="centerY" secondItem="1AX-A8-Yjc" secondAttribute="centerY" id="iGB-OT-ycg"/>
+                            <constraint firstItem="ADO-GG-suu" firstAttribute="top" secondItem="ozx-Vk-991" secondAttribute="top" id="nKN-OI-hN1"/>
+                            <constraint firstItem="1AX-A8-Yjc" firstAttribute="top" secondItem="ADO-GG-suu" secondAttribute="bottom" constant="10" id="rlS-HC-lOW"/>
+                            <constraint firstAttribute="trailing" secondItem="qZj-CY-D7m" secondAttribute="trailing" id="vIx-e7-oaK"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <color key="tintColor" red="0.2901960784" green="0.57647058819999997" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <constraints>
+                    <constraint firstItem="ozx-Vk-991" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="8M4-Ew-uyq"/>
+                    <constraint firstAttribute="trailing" secondItem="ozx-Vk-991" secondAttribute="trailing" id="M7G-LC-M7J"/>
+                    <constraint firstAttribute="bottom" secondItem="ozx-Vk-991" secondAttribute="bottom" id="X9H-6n-KTp"/>
+                    <constraint firstItem="ozx-Vk-991" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="vCk-Sc-7w3"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <connections>
+                <outlet property="btnAddNewCard" destination="zCQ-46-Kpi" id="g8w-Jw-Tbb"/>
+                <outlet property="cardImage" destination="1AX-A8-Yjc" id="1jc-TT-ibj"/>
+                <outlet property="cardView" destination="ozx-Vk-991" id="zkz-DE-QLL"/>
+                <outlet property="lblCardNumber" destination="49T-35-ayb" id="X33-Og-1Gg"/>
+                <outlet property="lblCardType" destination="VuS-JI-BHT" id="dVm-De-9yj"/>
+                <outlet property="radioButton" destination="W9j-tt-hss" id="Wr9-WY-QGD"/>
+            </connections>
+            <point key="canvasLocation" x="86.956521739130437" y="132.92410714285714"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="RadioButtonFilled" width="24" height="24"/>
+        <image name="plusLinear" width="25.5" height="24"/>
+        <image name="visaL0Go" width="45" height="28"/>
+    </resources>
+</document>

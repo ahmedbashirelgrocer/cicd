@@ -10,7 +10,7 @@ import UIKit
 import AVFoundation
 import CoreLocation
 import AppTrackingTransparency
-import ElgrocerShopperSDK_SPM
+import el_grocer_shopper_sdk_iOS
 import RxSwift
 import SwiftSpinner
 

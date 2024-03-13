@@ -36,7 +36,7 @@
 		088CE0E62B5ED5E600AD90E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		088CE0E92B5ED5E600AD90E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		088CE0EB2B5ED5E600AD90E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		088CE0F22B5ED60F00AD90E0 /* el-grocer-sdk-spm */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "el-grocer-sdk-spm"; path = ..; sourceTree = "<group>"; };
+		088CE0F22B5ED60F00AD90E0 /* el-grocer-shopper-sdk-iOS */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "el-grocer-shopper-sdk-iOS"; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +107,7 @@
 		088CE0F12B5ED60F00AD90E0 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				088CE0F22B5ED60F00AD90E0 /* el-grocer-sdk-spm */,
+				088CE0F22B5ED60F00AD90E0 /* el-grocer-shopper-sdk-iOS */,
 			);
 			name = Packages;
 			sourceTree = "<group>";

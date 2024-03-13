@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="StoreOutConverageAreaBottomSheetViewController" customModule="el_grocer_shopper_sdk_iOS">
+            <connections>
+                <outlet property="btnCancel" destination="Yc8-ak-pfK" id="0u3-8q-nEf"/>
+                <outlet property="btnChangelocation" destination="gBr-I5-8I4" id="JS8-Ry-jqq"/>
+                <outlet property="imgPin" destination="dXs-Qb-rFn" id="w70-Ud-PXe"/>
+                <outlet property="lblLocationText" destination="htg-QS-9oh" id="5Ar-KX-8tU"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="333"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LC6-4V-Oad">
+                    <rect key="frame" x="348" y="21" width="24" height="24"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="24" id="B8P-BL-ChH"/>
+                        <constraint firstAttribute="width" constant="24" id="gB3-qy-Zc3"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" image="CrossGreen"/>
+                    <connections>
+                        <action selector="crossAction:" destination="-1" eventType="touchUpInside" id="GAB-5a-zbg"/>
+                    </connections>
+                </button>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="elDeliveryAddressPin" translatesAutoresizingMaskIntoConstraints="NO" id="dXs-Qb-rFn">
+                    <rect key="frame" x="156.66666666666666" y="40" width="80" height="80"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="Htq-24-1Sq"/>
+                        <constraint firstAttribute="width" constant="80" id="bPt-33-4vw"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selected location for that store is outside delivery area range. What would you like to do?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.94999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="htg-QS-9oh">
+                    <rect key="frame" x="16" y="128" width="361" height="40.666666666666657"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gBr-I5-8I4" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS">
+                    <rect key="frame" x="16" y="192.66666666666666" width="361" height="56"/>
+                    <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="56" id="2Jx-ar-LvT"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Change location"/>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                            <real key="value" value="28"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="changeLocationAction:" destination="-1" eventType="touchUpInside" id="Wfw-nV-Rbo"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yc8-ak-pfK">
+                    <rect key="frame" x="16" y="256.66666666666669" width="361" height="35"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="35" id="fhy-iB-mjt"/>
+                    </constraints>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <state key="normal" title="Cancel">
+                        <color key="titleColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="cancelAction:" destination="-1" eventType="touchUpInside" id="aCd-Id-ctJ"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="Yc8-ak-pfK" firstAttribute="top" secondItem="gBr-I5-8I4" secondAttribute="bottom" constant="8" id="1VA-O6-gEm"/>
+                <constraint firstItem="gBr-I5-8I4" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="2Xc-El-mYu"/>
+                <constraint firstItem="dXs-Qb-rFn" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="40" id="47u-ix-feZ"/>
+                <constraint firstItem="htg-QS-9oh" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="9us-Bt-u5r"/>
+                <constraint firstAttribute="trailing" secondItem="Yc8-ak-pfK" secondAttribute="trailing" constant="16" id="E9t-Kf-35h"/>
+                <constraint firstItem="Yc8-ak-pfK" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="HtE-ZO-Acx"/>
+                <constraint firstItem="dXs-Qb-rFn" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="LTQ-lx-5i5"/>
+                <constraint firstAttribute="trailing" secondItem="gBr-I5-8I4" secondAttribute="trailing" constant="16" id="Wef-jY-lAB"/>
+                <constraint firstItem="gBr-I5-8I4" firstAttribute="top" secondItem="htg-QS-9oh" secondAttribute="bottom" constant="24" id="ZlX-em-IgE"/>
+                <constraint firstAttribute="trailing" secondItem="htg-QS-9oh" secondAttribute="trailing" constant="16" id="blj-nc-F7O"/>
+                <constraint firstItem="htg-QS-9oh" firstAttribute="top" secondItem="dXs-Qb-rFn" secondAttribute="bottom" constant="8" id="eH9-qh-Xfw"/>
+                <constraint firstAttribute="trailing" secondItem="LC6-4V-Oad" secondAttribute="trailing" constant="21" id="f8s-eI-bQ0"/>
+                <constraint firstItem="LC6-4V-Oad" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="21" id="oyW-DN-P6i"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-66" y="20"/>
+        </view>
+    </objects>
+    <designables>
+        <designable name="gBr-I5-8I4">
+            <size key="intrinsicContentSize" width="131" height="34"/>
+        </designable>
+    </designables>
+    <resources>
+        <image name="CrossGreen" width="24" height="24.333333969116211"/>
+        <image name="elDeliveryAddressPin" width="80.333335876464844" height="80"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

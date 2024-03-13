@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Regular.otf">
+            <string>SFProDisplay-Regular</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Menu View Controller-->
+        <scene sceneID="ptP-ve-nLZ">
+            <objects>
+                <viewController storyboardIdentifier="MenuViewController" id="cft-nE-KXl" customClass="MenuViewController" customModule="el_grocer_shopper_sdk_iOS" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eeo-c1-BGs"/>
+                        <viewControllerLayoutGuide type="bottom" id="7c4-XY-024"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="lqZ-HZ-YlD">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menu_logo" translatesAutoresizingMaskIntoConstraints="NO" id="5mL-QM-f2J" userLabel="logo">
+                                <rect key="frame" x="65.5" y="56" width="244" height="54"/>
+                                <color key="tintColor" red="0.2901960784" green="0.58039215690000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="5mL-QM-f2J" secondAttribute="height" multiplier="140:31" id="kp0-pw-YBg"/>
+                                </constraints>
+                            </imageView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="MKc-7K-Kdr">
+                                <rect key="frame" x="0.0" y="142" width="375" height="489"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="separatorColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="cft-nE-KXl" id="x61-tm-cdP"/>
+                                    <outlet property="delegate" destination="cft-nE-KXl" id="gUD-tR-ffF"/>
+                                </connections>
+                            </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version: 0.0.21" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Esz-L3-lGZ" userLabel="versionNumber">
+                                <rect key="frame" x="280" y="639" width="80" height="16"/>
+                                <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="13"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Esz-L3-lGZ" secondAttribute="trailing" constant="15" id="3EC-e7-620"/>
+                            <constraint firstItem="5mL-QM-f2J" firstAttribute="width" secondItem="lqZ-HZ-YlD" secondAttribute="width" multiplier="0.65" id="8TE-YB-cYI"/>
+                            <constraint firstItem="MKc-7K-Kdr" firstAttribute="top" secondItem="5mL-QM-f2J" secondAttribute="bottom" constant="32" id="AJA-dO-gBn"/>
+                            <constraint firstAttribute="centerX" secondItem="5mL-QM-f2J" secondAttribute="centerX" id="BNm-FX-7oz"/>
+                            <constraint firstItem="5mL-QM-f2J" firstAttribute="top" secondItem="lqZ-HZ-YlD" secondAttribute="top" constant="56" id="Qc1-43-wei"/>
+                            <constraint firstItem="MKc-7K-Kdr" firstAttribute="leading" secondItem="lqZ-HZ-YlD" secondAttribute="leading" id="YBy-fX-uRb"/>
+                            <constraint firstAttribute="trailing" secondItem="MKc-7K-Kdr" secondAttribute="trailing" id="pdl-ht-EiF"/>
+                            <constraint firstItem="Esz-L3-lGZ" firstAttribute="top" secondItem="MKc-7K-Kdr" secondAttribute="bottom" constant="8" id="rSD-cM-qXa"/>
+                            <constraint firstItem="7c4-XY-024" firstAttribute="top" secondItem="Esz-L3-lGZ" secondAttribute="bottom" constant="12" id="rwz-Ak-950"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="labelAppVersion" destination="Esz-L3-lGZ" id="gxw-UW-QKO"/>
+                        <outlet property="tableView" destination="MKc-7K-Kdr" id="YeK-1Z-1Nx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0OQ-xZ-z3I" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="442" y="380"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="menu_logo" width="98" height="21"/>
+    </resources>
+</document>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Bold.otf">
+            <string>SFProDisplay-Bold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="GenericRecipeTitleTableViewCell" rowHeight="40" id="KGk-i7-Jjw" customClass="GenericRecipeTitleTableViewCell" customModule="el_grocer_shopper_sdk_iOS">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="40"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="recipeTitleImage" translatesAutoresizingMaskIntoConstraints="NO" id="PBl-N2-g6H">
+                        <rect key="frame" x="16" y="0.0" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="7xi-fa-z7f"/>
+                            <constraint firstAttribute="width" constant="40" id="bLJ-6L-nJM"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H28-eA-lAu">
+                        <rect key="frame" x="68" y="9.6666666666666643" width="121" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I56-9D-TOz" userLabel="Viewall" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
+                        <rect key="frame" x="201" y="8" width="103" height="24"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VIEW ALL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R6C-Fv-6JI">
+                                <rect key="frame" x="24.666666666666654" y="4.666666666666667" width="53.666666666666657" height="14.666666666666664"/>
+                                <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="12"/>
+                                <color key="textColor" red="0.019607843137254902" green="0.73725490196078436" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1w9-Nu-BnA">
+                                <rect key="frame" x="0.0" y="0.0" width="103" height="24"/>
+                                <connections>
+                                    <action selector="buttonAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="G9S-iq-6UM"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowRight" translatesAutoresizingMaskIntoConstraints="NO" id="wne-ib-Wcz">
+                                <rect key="frame" x="87" y="4" width="16" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="16" id="PfF-Px-pyg"/>
+                                    <constraint firstAttribute="width" secondItem="wne-ib-Wcz" secondAttribute="height" multiplier="1:1" id="nFf-Yq-djy"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="1w9-Nu-BnA" firstAttribute="leading" secondItem="I56-9D-TOz" secondAttribute="leading" id="LqQ-3m-bgD"/>
+                            <constraint firstItem="wne-ib-Wcz" firstAttribute="centerY" secondItem="I56-9D-TOz" secondAttribute="centerY" id="MdV-Lb-D1o"/>
+                            <constraint firstAttribute="width" constant="103" id="PWT-Y7-TiK"/>
+                            <constraint firstAttribute="trailing" secondItem="wne-ib-Wcz" secondAttribute="trailing" id="R5G-zj-INf"/>
+                            <constraint firstAttribute="height" constant="24" id="Tqm-eO-AxB"/>
+                            <constraint firstItem="1w9-Nu-BnA" firstAttribute="top" secondItem="I56-9D-TOz" secondAttribute="top" id="Weh-ls-JlF"/>
+                            <constraint firstAttribute="trailing" secondItem="1w9-Nu-BnA" secondAttribute="trailing" id="lto-id-pJD"/>
+                            <constraint firstAttribute="bottom" secondItem="1w9-Nu-BnA" secondAttribute="bottom" id="sI8-H3-BRV"/>
+                            <constraint firstItem="R6C-Fv-6JI" firstAttribute="centerX" secondItem="I56-9D-TOz" secondAttribute="centerX" id="tz7-WM-L9d"/>
+                            <constraint firstItem="R6C-Fv-6JI" firstAttribute="centerY" secondItem="I56-9D-TOz" secondAttribute="centerY" id="uQ2-lS-pZQ"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                <real key="value" value="12"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="H28-eA-lAu" firstAttribute="centerY" secondItem="1w9-Nu-BnA" secondAttribute="centerY" id="HV1-fT-fxR"/>
+                    <constraint firstItem="PBl-N2-g6H" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Tfh-6e-fDo"/>
+                    <constraint firstItem="I56-9D-TOz" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Ulh-3L-ajv"/>
+                    <constraint firstItem="H28-eA-lAu" firstAttribute="leading" secondItem="PBl-N2-g6H" secondAttribute="trailing" constant="12" id="eiF-Zj-GzZ"/>
+                    <constraint firstItem="I56-9D-TOz" firstAttribute="leading" secondItem="H28-eA-lAu" secondAttribute="trailing" constant="12" id="fnT-pr-YPa"/>
+                    <constraint firstItem="PBl-N2-g6H" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="iEM-qc-t7n"/>
+                    <constraint firstAttribute="trailing" secondItem="I56-9D-TOz" secondAttribute="trailing" constant="16" id="tE2-Lk-Tnl"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="imgArrow" destination="wne-ib-Wcz" id="qM7-41-4qK"/>
+                <outlet property="lblButtonTitle" destination="R6C-Fv-6JI" id="Bxs-RS-HIf"/>
+                <outlet property="lblTitle" destination="H28-eA-lAu" id="B7x-Mh-QPP"/>
+            </connections>
+            <point key="canvasLocation" x="121.875" y="85"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="arrowRight" width="11.666666984558105" height="19"/>
+        <image name="recipeTitleImage" width="40" height="40"/>
+    </resources>
+</document>

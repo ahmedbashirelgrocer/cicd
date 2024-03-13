@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="NextShowSubstituteCollectionViewCell" id="gTV-IL-0wX" customClass="NextShowSubstituteCollectionViewCell" customModule="el_grocer_shopper_sdk_iOS">
+            <rect key="frame" x="0.0" y="0.0" width="93" height="162"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="93" height="162"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hPc-I8-S7t" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
+                        <rect key="frame" x="5" y="5" width="83" height="152"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f3q-DF-50y">
+                                <rect key="frame" x="5" y="67.5" width="73" height="17.5"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="f3q-DF-50y" firstAttribute="centerY" secondItem="hPc-I8-S7t" secondAttribute="centerY" id="JjS-4t-zcA"/>
+                            <constraint firstItem="f3q-DF-50y" firstAttribute="leading" secondItem="hPc-I8-S7t" secondAttribute="leading" constant="5" id="LlQ-BA-oBS"/>
+                            <constraint firstAttribute="trailing" secondItem="f3q-DF-50y" secondAttribute="trailing" constant="5" id="sQ1-yb-6rW"/>
+                            <constraint firstItem="f3q-DF-50y" firstAttribute="centerX" secondItem="hPc-I8-S7t" secondAttribute="centerX" id="zlF-cL-KBM"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                <real key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="hPc-I8-S7t" secondAttribute="bottom" constant="5" id="AF1-pd-b2T"/>
+                <constraint firstAttribute="trailing" secondItem="hPc-I8-S7t" secondAttribute="trailing" constant="5" id="SLL-W8-5F9"/>
+                <constraint firstItem="hPc-I8-S7t" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="T9I-Gv-hx1"/>
+                <constraint firstItem="hPc-I8-S7t" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="gBl-EH-4ka"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="93" height="162"/>
+            <connections>
+                <outlet property="lblCentralText" destination="f3q-DF-50y" id="K1l-CY-YGh"/>
+            </connections>
+            <point key="canvasLocation" x="172" y="204.19790104947529"/>
+        </collectionViewCell>
+    </objects>
+</document>

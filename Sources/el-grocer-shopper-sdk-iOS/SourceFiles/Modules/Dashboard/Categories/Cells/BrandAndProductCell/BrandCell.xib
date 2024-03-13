@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="BrandCell" id="gTV-IL-0wX" customClass="BrandCell" customModule="el_grocer_shopper_sdk_iOS">
+            <rect key="frame" x="0.0" y="0.0" width="110" height="242"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="110" height="242"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wZs-J5-Z5v" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XoA-Tm-uUQ"/>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="XoA-Tm-uUQ" secondAttribute="bottom" id="9U5-3K-Ttc"/>
+                            <constraint firstAttribute="trailing" secondItem="XoA-Tm-uUQ" secondAttribute="trailing" id="Ytj-bd-CKd"/>
+                            <constraint firstItem="XoA-Tm-uUQ" firstAttribute="leading" secondItem="wZs-J5-Z5v" secondAttribute="leading" id="p5s-eF-QRe"/>
+                            <constraint firstItem="XoA-Tm-uUQ" firstAttribute="top" secondItem="wZs-J5-Z5v" secondAttribute="top" id="tgG-BV-qb4"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                <real key="value" value="5"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="0.0"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                <color key="value" red="0.47450980392156861" green="0.47450980392156861" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                <real key="value" value="2"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                <real key="value" value="0.20000000000000001"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                <size key="value" width="0.0" height="2"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="wZs-J5-Z5v" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="3" id="895-WK-c0h"/>
+                <constraint firstAttribute="bottom" secondItem="wZs-J5-Z5v" secondAttribute="bottom" constant="3" id="JFS-jF-VP4"/>
+                <constraint firstAttribute="trailing" secondItem="wZs-J5-Z5v" secondAttribute="trailing" constant="3" id="gNk-Sq-muo"/>
+                <constraint firstItem="wZs-J5-Z5v" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="3" id="qG0-lp-oWa"/>
+            </constraints>
+            <connections>
+                <outlet property="brandImage" destination="XoA-Tm-uUQ" id="6CY-vl-3Zc"/>
+            </connections>
+            <point key="canvasLocation" x="-149" y="10"/>
+        </collectionViewCell>
+    </objects>
+</document>

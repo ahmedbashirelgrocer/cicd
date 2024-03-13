@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StoreCell" rowHeight="210" id="HVP-fu-huf" customClass="StoreDetailViewCell" customModule="el_grocer_shopper_sdk_iOS">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="130"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="HVP-fu-huf" id="DHQ-Ai-2RS">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="129.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="S8V-z1-v9t">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="130.5"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="130" id="1Rw-3S-wqW"/>
+                        </constraints>
+                        <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="kt4-kh-FZn">
+                            <size key="itemSize" width="375" height="210"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <connections>
+                            <outlet property="dataSource" destination="HVP-fu-huf" id="mCk-rN-aLY"/>
+                            <outlet property="delegate" destination="HVP-fu-huf" id="yZb-nd-llB"/>
+                        </connections>
+                    </collectionView>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="S8V-z1-v9t" firstAttribute="top" secondItem="DHQ-Ai-2RS" secondAttribute="top" id="7wk-BU-Vup"/>
+                    <constraint firstAttribute="bottom" secondItem="S8V-z1-v9t" secondAttribute="bottom" id="nNz-cX-Voa"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="S8V-z1-v9t" firstAttribute="leading" secondItem="HVP-fu-huf" secondAttribute="leading" id="lr1-ug-3Si"/>
+                <constraint firstAttribute="trailing" secondItem="S8V-z1-v9t" secondAttribute="trailing" id="vs6-rM-Sdu"/>
+            </constraints>
+            <connections>
+                <outlet property="collectionViewGroceries" destination="S8V-z1-v9t" id="7SU-m8-9FX"/>
+                <outlet property="collectionViewHeightConstraint" destination="1Rw-3S-wqW" id="KIj-7q-8Pa"/>
+            </connections>
+            <point key="canvasLocation" x="23.5" y="226.5"/>
+        </tableViewCell>
+    </objects>
+</document>

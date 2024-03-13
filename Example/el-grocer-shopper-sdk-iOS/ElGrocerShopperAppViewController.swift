@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import ElgrocerShopperSDK_SPM
+import el_grocer_shopper_sdk_iOS
 
 
 class ElGrocerShopperAppViewController: UIViewController {

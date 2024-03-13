@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Light.otf">
+            <string>SFProDisplay-Light</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Add Note View Controller-->
+        <scene sceneID="GKG-UO-hHH">
+            <objects>
+                <viewController storyboardIdentifier="AddNoteViewController" id="Khe-0J-LOW" customClass="AddNoteViewController" customModule="el_grocer_shopper_sdk_iOS" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gaL-Rf-Prn"/>
+                        <viewControllerLayoutGuide type="bottom" id="pUq-wx-acu"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="m8U-uo-yre">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view alpha="0.25" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yyJ-sf-d6r" userLabel="overlayView">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="HnD-9b-5Kt" appends="YES" id="AWa-WO-YeR"/>
+                                </connections>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V5A-eJ-hPY" userLabel="noteView">
+                                <rect key="frame" x="16" y="80" width="343" height="196"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="T7H-aX-Di5">
+                                        <rect key="frame" x="16" y="37" width="311" height="109"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="Khe-0J-LOW" id="ie7-md-VpE"/>
+                                        </connections>
+                                    </textView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add Note" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m7S-aH-rWB">
+                                        <rect key="frame" x="136.5" y="8" width="70" height="21"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Light" family="SF Pro Display" pointSize="18"/>
+                                        <color key="textColor" red="0.2901960784" green="0.58039215690000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5cN-kc-EDE">
+                                        <rect key="frame" x="24" y="154" width="295" height="34"/>
+                                        <color key="backgroundColor" red="0.2901960784" green="0.58039215690000001" blue="0.30196078430000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="SFProDisplay-Light" family="SF Pro Display" pointSize="18"/>
+                                        <state key="normal" title="Done">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="doneButtonTouched:" destination="Khe-0J-LOW" eventType="touchUpInside" id="35v-vC-Blh"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstItem="T7H-aX-Di5" firstAttribute="top" secondItem="m7S-aH-rWB" secondAttribute="bottom" constant="8" id="41Z-XG-ObH"/>
+                                    <constraint firstAttribute="width" secondItem="V5A-eJ-hPY" secondAttribute="height" multiplier="35:20" id="4se-nQ-WhH"/>
+                                    <constraint firstItem="m7S-aH-rWB" firstAttribute="top" secondItem="V5A-eJ-hPY" secondAttribute="top" constant="8" id="BTD-nh-JS8"/>
+                                    <constraint firstAttribute="bottom" secondItem="5cN-kc-EDE" secondAttribute="bottom" constant="8" id="D4i-9L-jw4"/>
+                                    <constraint firstItem="T7H-aX-Di5" firstAttribute="leading" secondItem="V5A-eJ-hPY" secondAttribute="leading" constant="16" id="Faq-dz-6E4"/>
+                                    <constraint firstItem="5cN-kc-EDE" firstAttribute="top" secondItem="T7H-aX-Di5" secondAttribute="bottom" constant="8" id="PWR-hX-ipu"/>
+                                    <constraint firstItem="5cN-kc-EDE" firstAttribute="leading" secondItem="V5A-eJ-hPY" secondAttribute="leading" constant="24" id="Uf6-2S-Jyk"/>
+                                    <constraint firstAttribute="trailing" secondItem="T7H-aX-Di5" secondAttribute="trailing" constant="16" id="c0r-qG-quR"/>
+                                    <constraint firstItem="T7H-aX-Di5" firstAttribute="top" secondItem="V5A-eJ-hPY" secondAttribute="top" constant="8" id="cFE-Eg-FdO"/>
+                                    <constraint firstItem="5cN-kc-EDE" firstAttribute="centerX" secondItem="V5A-eJ-hPY" secondAttribute="centerX" id="cKa-9w-vTZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="5cN-kc-EDE" secondAttribute="trailing" constant="24" id="dCT-Gd-3ZL"/>
+                                    <constraint firstItem="m7S-aH-rWB" firstAttribute="centerX" secondItem="V5A-eJ-hPY" secondAttribute="centerX" id="ydl-JN-AHg"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="cFE-Eg-FdO"/>
+                                        <exclude reference="cKa-9w-vTZ"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="yyJ-sf-d6r" secondAttribute="trailing" id="8qj-Y1-qXe"/>
+                            <constraint firstItem="yyJ-sf-d6r" firstAttribute="top" secondItem="m8U-uo-yre" secondAttribute="topMargin" id="EWv-yN-pHf"/>
+                            <constraint firstItem="yyJ-sf-d6r" firstAttribute="leading" secondItem="m8U-uo-yre" secondAttribute="leading" id="Et1-pX-hSZ"/>
+                            <constraint firstItem="V5A-eJ-hPY" firstAttribute="leading" secondItem="m8U-uo-yre" secondAttribute="leading" constant="16" id="bXl-l7-lAI"/>
+                            <constraint firstItem="V5A-eJ-hPY" firstAttribute="top" secondItem="gaL-Rf-Prn" secondAttribute="bottom" constant="60" id="eCq-jU-XhM"/>
+                            <constraint firstItem="pUq-wx-acu" firstAttribute="top" secondItem="yyJ-sf-d6r" secondAttribute="bottom" id="nNR-0r-Tbx"/>
+                            <constraint firstAttribute="trailing" secondItem="V5A-eJ-hPY" secondAttribute="trailing" constant="16" id="zCT-6Z-47I"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="addNoteLabel" destination="m7S-aH-rWB" id="1xs-Lu-V9c"/>
+                        <outlet property="doneButton" destination="5cN-kc-EDE" id="RxZ-pz-3Hc"/>
+                        <outlet property="noteTextView" destination="T7H-aX-Di5" id="81I-4K-5nL"/>
+                        <outlet property="noteView" destination="V5A-eJ-hPY" id="RJb-gs-QMP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZCI-Im-kQs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="HnD-9b-5Kt">
+                    <connections>
+                        <action selector="overlayTouched:" destination="Khe-0J-LOW" id="mg9-1u-eW8"/>
+                    </connections>
+                </tapGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="252" y="350"/>
+        </scene>
+    </scenes>
+</document>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Semibold.otf">
+            <string>SFProDisplay-Semibold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CustomSubCategoryInCategoryViewCell" id="gTV-IL-0wX" customClass="CustomSubCategoryInCategoryViewCell" customModule="el_grocer_shopper_sdk_iOS">
+            <rect key="frame" x="0.0" y="0.0" width="104" height="125"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="104" height="125"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="go2-Zl-BPD" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
+                        <rect key="frame" x="5" y="5" width="94" height="115"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RUM-8x-ihk">
+                                <rect key="frame" x="8" y="98" width="78" height="17"/>
+                                <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="15"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="product_placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="qos-qB-26V">
+                                <rect key="frame" x="4" y="4" width="86" height="86"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="qos-qB-26V" secondAttribute="height" multiplier="1:1" id="6Fr-au-Pu4"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                        <integer key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="RUM-8x-ihk" firstAttribute="top" secondItem="qos-qB-26V" secondAttribute="bottom" constant="8" id="46m-yg-tQO"/>
+                            <constraint firstItem="RUM-8x-ihk" firstAttribute="leading" secondItem="go2-Zl-BPD" secondAttribute="leading" constant="8" id="Rnf-bf-ZmK"/>
+                            <constraint firstAttribute="bottom" secondItem="RUM-8x-ihk" secondAttribute="bottom" id="Zh5-UB-Azj"/>
+                            <constraint firstItem="qos-qB-26V" firstAttribute="top" secondItem="go2-Zl-BPD" secondAttribute="top" constant="4" id="aIh-vb-1K9"/>
+                            <constraint firstAttribute="trailing" secondItem="qos-qB-26V" secondAttribute="trailing" constant="4" id="cPh-1R-WAf"/>
+                            <constraint firstAttribute="trailing" secondItem="RUM-8x-ihk" secondAttribute="trailing" constant="8" id="g0N-24-qsX"/>
+                            <constraint firstItem="qos-qB-26V" firstAttribute="leading" secondItem="go2-Zl-BPD" secondAttribute="leading" constant="4" id="gTt-UR-lY6"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                <real key="value" value="8"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="size" keyPath="shadowOffset">
+                                <size key="value" width="0.0" height="1"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                                <real key="value" value="2"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="shadowRadius">
+                                <real key="value" value="3"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                                <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="go2-Zl-BPD" secondAttribute="bottom" constant="5" id="4MV-Xy-8wH"/>
+                <constraint firstItem="go2-Zl-BPD" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="Ozk-b6-s7G"/>
+                <constraint firstAttribute="trailing" secondItem="go2-Zl-BPD" secondAttribute="trailing" constant="5" id="YFl-NS-ac9"/>
+                <constraint firstItem="go2-Zl-BPD" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="qTj-6p-H5n"/>
+            </constraints>
+            <size key="customSize" width="113" height="96"/>
+            <connections>
+                <outlet property="imgSubCategory" destination="qos-qB-26V" id="zzx-iL-7ca"/>
+                <outlet property="lblSubCategoryName" destination="RUM-8x-ihk" id="3Y1-Kz-kdA"/>
+            </connections>
+            <point key="canvasLocation" x="111.59420289855073" y="131.25"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="product_placeholder" width="140" height="140"/>
+    </resources>
+</document>

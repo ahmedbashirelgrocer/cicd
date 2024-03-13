@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="WalletHistoryCell" rowHeight="50" id="KGk-i7-Jjw" customClass="WalletHistoryCell" customModule="el_grocer_shopper_sdk_iOS">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="49.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Purchase Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gOY-nB-BPo">
+                        <rect key="frame" x="20" y="8" width="109" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Purchase Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hYs-fv-gh2">
+                        <rect key="frame" x="20" y="28.5" width="112" height="13"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JlD-Zq-deH">
+                        <rect key="frame" x="258" y="14.5" width="42" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="JlD-Zq-deH" secondAttribute="trailing" constant="20" id="0Hu-Q9-CpD"/>
+                    <constraint firstAttribute="bottom" secondItem="hYs-fv-gh2" secondAttribute="bottom" constant="8" id="Tz6-u1-aD3"/>
+                    <constraint firstItem="JlD-Zq-deH" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="Ugu-Ah-lme"/>
+                    <constraint firstItem="gOY-nB-BPo" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="kmp-NT-siu"/>
+                    <constraint firstItem="hYs-fv-gh2" firstAttribute="top" secondItem="gOY-nB-BPo" secondAttribute="bottom" id="nWj-Gs-ryn"/>
+                    <constraint firstItem="gOY-nB-BPo" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="pAl-eq-YYU"/>
+                    <constraint firstItem="hYs-fv-gh2" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="uYz-Ac-Mel"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="purchaseAmount" destination="JlD-Zq-deH" id="tE1-lQ-nw3"/>
+                <outlet property="purchaseDate" destination="hYs-fv-gh2" id="NqX-t8-8JO"/>
+                <outlet property="purchaseTitle" destination="gOY-nB-BPo" id="FU3-OT-Gzj"/>
+            </connections>
+            <point key="canvasLocation" x="95" y="-44"/>
+        </tableViewCell>
+    </objects>
+</document>
