@@ -442,7 +442,9 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
                 self.lblPaymentMethod.text = localizedString("pay_via_CreditCard", comment: "")
             }else if order.payementType?.intValue == Int(PaymentOption.smilePoints.rawValue){
                 self.lblPaymentMethod.text = localizedString("pay_via_smiles_points", comment: "")
-            }else{
+            }else if order.payementType?.intValue == Int(PaymentOption.tabby.rawValue) {
+                self.lblPaymentMethod.text = localizedString("paid_with_tabby", comment: "")
+            }else {
                 self.lblPaymentMethod.text = ""
             }
         }

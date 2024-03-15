@@ -175,11 +175,10 @@ class SplashAnimationViewController: UIViewController {
         
         let currentDate = Date()
         
-        // start and end date of splash animation with UAE flag
-        let startDate = Calendar.current.date(from: DateComponents(year: 2023, month: 11, day: 20))!
-        let endDate = Calendar.current.date(from: DateComponents(year: 2023, month: 12, day: 15))!
+        // end date of ramadan splash animation
+        let endDate = Calendar.current.date(from: DateComponents(year: 2024, month: 4, day: 10))!
         
-        let shopperLottieFileName = (currentDate <= endDate) && (currentDate >= startDate) ? "splash_animation_shopper_with_uae_flag" : "splash_animation_shopper"
+        let shopperLottieFileName = (currentDate <= endDate) ? "ramadan_splash" : "splash_animation_shopper"
         return shopperLottieFileName
     }
     

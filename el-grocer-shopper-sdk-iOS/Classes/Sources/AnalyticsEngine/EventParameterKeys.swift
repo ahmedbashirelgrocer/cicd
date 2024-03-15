@@ -82,7 +82,6 @@ enum EventParameterKeys {
     static let latitude             = "latitude"
     static let longitude            = "longitude"
     static let loyaltyId            = "loyaltyId"
-    static let deepLink             = "deepLink"
     static let pushNotifcation      = "pushNotification"
     
     static let attemptCount         = "attemptCount"
@@ -98,12 +97,11 @@ enum EventParameterKeys {
     static let authToken            = "authToken"
     static let variant              = "variant"
     static let experimentType       = "experimentType"
-    // Tabby
-    static let amountPaidWithTabby  = "amountPaidWithTabby"
-    static let isTabbyEnabled       = "isTabbyEnabled"
-
-    static let campaignId       = "campaignId"
-    static let storeId       = "storeId"
-    static let storeName       = "storeName"
-
+    static let campaignId           = "campaignId"
+    static let storeId              = "storeId"
+    static let storeName            = "storeName"
+    
+    static let elWalletRedeem       = "elWalletRedeem"
+    static let smilesRedeem         = "smilesRedeem"
+    static let id                   = "id"
 }

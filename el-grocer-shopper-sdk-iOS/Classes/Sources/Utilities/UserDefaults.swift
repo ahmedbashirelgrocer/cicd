@@ -64,6 +64,17 @@ public class UserDefaults {
         Foundation.UserDefaults.standard.synchronize()
     }
     
+    // Keep track of shopper is logged in with smiles or not
+    // On the base of this on Checkout screen we are showing error message when user try to apply smiles point
+    class func setSmilesUserLoggedIn(status: Bool) {
+        Foundation.UserDefaults.standard.set(status, forKey: "SmilesUserLoggedIn")
+        Foundation.UserDefaults.standard.synchronize()
+    }
+    
+    class func isSmilesUserLoggedIn() -> Bool {
+        return Foundation.UserDefaults.standard.bool(forKey: "SmilesUserLoggedIn")
+    }
+    
     // MARK: Promo code value
     
     class func getPromoCodeValue() -> PromotionCode? {

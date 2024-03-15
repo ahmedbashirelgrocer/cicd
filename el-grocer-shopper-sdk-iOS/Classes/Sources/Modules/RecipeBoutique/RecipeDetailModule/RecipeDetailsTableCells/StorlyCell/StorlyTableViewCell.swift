@@ -33,18 +33,39 @@ class StorlyTableViewCell: UITableViewCell {
             return
         }
         guard self.storylyView != nil else {return}
-        storylyView.storyItemIconBorderColor = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
-        storylyView.storyGroupIconBorderColorNotSeen = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
-        storylyView.storyGroupPinIconColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         var someSet = Set<String>()
+        print("chef slug: \(chef?.chefStorlySlug ?? "")")
         someSet.insert(chef?.chefStorlySlug ?? "")
-        let segment =  StorylySegmentation.init(segments: someSet)
-        let story = StorylyInit.init(storylyId: ElGrocerUtility.sharedInstance.appConfigData.storlyInstanceId , segmentation: segment, customParameter: UserDefaults.getLogInUserID())
-        storylyView.languageCode = ElGrocerUtility.sharedInstance.isArabicSelected() ? "AR" : "EN"
+        
+        self.storylyView.storylyInit = StorylyInit(
+            storylyId: ElGrocerUtility.sharedInstance.appConfigData.storlyInstanceId,
+            config: StorylyConfig.Builder()
+                .setBarStyling(
+                    styling: StorylyBarStyling.Builder()
+                        .setHorizontalPaddingBetweenItems(padding: 15)
+                        .build()
+                )
+                .setStoryGroupStyling(
+                    styling: StorylyStoryGroupStyling.Builder()
+                        .setIconBorderColorNotSeen(colors: [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor])
+                        .setPinIconColor(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
+                        .build()
+                )
+                .setStoryStyling(
+                    styling: StorylyStoryStyling.Builder()
+                        .setHeaderIconBorderColor(colors: [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor])
+                        .build()
+                )
+                .setLabels(labels: someSet)
+                .setCustomParameter(parameter: UserDefaults.getLogInUserID())
+                .setTestMode(isTest: Platform.isDebugBuild)
+                .setLocale(locale: ElGrocerUtility.sharedInstance.isArabicSelected() ? "AR" : "EN")
+                .build()
+        )
         storylyView.translatesAutoresizingMaskIntoConstraints = false
         storylyView.delegate = self.topVc
         storylyView.rootViewController = self.topVc
-        storylyView.storylyInit = story
+        //storylyView.storylyInit = story
        
     }
     

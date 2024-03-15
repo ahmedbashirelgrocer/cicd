@@ -10,6 +10,8 @@ import RxSwift
 
 protocol GenericBannersCellViewModelInput {
     var bannerTapObserver: AnyObserver<BannerDTO> { get }
+    
+    func addBanner(banner: BannerDTO)
 }
 
 protocol GenericBannersCellViewModelOutput {
@@ -44,9 +46,21 @@ class GenericBannersCellViewModel: GenericBannersCellViewModelType, ReusableTabl
     private var bannerTapSubject = PublishSubject<BannerDTO>()
     
     var reusableIdentifier: String { GenericBannersCell.defaultIdentifier }
+    private var bannersArr: [BannerDTO] = []
     
     init(banners: [BannerDTO]) {
+        self.bannersArr = banners
+        
         self.bannersSubject.onNext(banners)
         self.bannersCountSubject.onNext(banners.count)
+    }
+    
+    func addBanner(banner: BannerDTO) {
+        if self.bannersArr.contains(where: { $0.isStoryly ?? false }) == false {
+            self.bannersArr.append(banner)
+            
+            self.bannersSubject.onNext(bannersArr)
+            self.bannersCountSubject.onNext(bannersArr.count)
+        }
     }
 }

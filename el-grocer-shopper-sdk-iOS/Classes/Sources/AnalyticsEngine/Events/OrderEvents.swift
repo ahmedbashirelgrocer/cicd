@@ -12,13 +12,12 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
 
-    init(products: [Product], grocery: Grocery?, totalValue : Double ,order: Order?, isWalletEnabled: Bool, isSmilesEnabled: Bool, isPromoCodeApplied: Bool, smilesPointsEarned: Int, smilesPointsBurnt: Double, realizationId: Int?, isTabbyEnabled: Bool, amoutPaidWithTabby: Double) {
+    init(products: [Product], grocery: Grocery?, order: Order?, isWalletEnabled: Bool, isSmilesEnabled: Bool, isPromoCodeApplied: Bool, smilesPointsEarned: Int, smilesPointsBurnt: Double, realizationId: Int?, elWalletRedeem: Double, grandTotal: Double) {
         self.eventType = .track(eventName: AnalyticsEventName.orderPurchased)
         
         self.metaData = prepairMetaData(
             products: products,
             grocery: grocery,
-            totalValue: totalValue,
             order: order,
             isWalletEnabled: isWalletEnabled,
             isSmilesEnabled: isSmilesEnabled,
@@ -26,15 +25,15 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
             smilesPointsEarned: smilesPointsEarned,
             smilesPointsBurnt: smilesPointsBurnt,
             realizationId: realizationId,
-            isTabbyEnabled: isTabbyEnabled,
-            amoutPaidWithTabby: amoutPaidWithTabby
+            elWalletRedeem: elWalletRedeem,
+            grandTotal: grandTotal
         )
     }
     
-    private func prepairMetaData(products: [Product], grocery: Grocery?, totalValue : Double,  order: Order?, isWalletEnabled: Bool, isSmilesEnabled: Bool, isPromoCodeApplied: Bool, smilesPointsEarned: Int, smilesPointsBurnt: Double, realizationId: Int?, isTabbyEnabled: Bool, amoutPaidWithTabby: Double) -> [String: Any] {
+    private func prepairMetaData(products: [Product], grocery: Grocery?, order: Order?, isWalletEnabled: Bool, isSmilesEnabled: Bool, isPromoCodeApplied: Bool, smilesPointsEarned: Int, smilesPointsBurnt: Double, realizationId: Int?, elWalletRedeem: Double, grandTotal: Double) -> [String: Any] {
         var metaData: [String: Any] = [
-            EventParameterKeys.totalOrderAmount : String(order?.totalValue ?? 0.0),
-            EventParameterKeys.grandTotal : String(totalValue),
+            EventParameterKeys.totalOrderAmount : order?.finalBillAmount?.stringValue ?? "",
+            EventParameterKeys.grandTotal       : String(grandTotal),
             EventParameterKeys.paymentMethodId  : order?.payementType?.stringValue ?? "",
             EventParameterKeys.paymentMethodName: PaymentOption(rawValue: UInt32(order?.payementType?.int32Value ?? 0))?.paymentMethodName ?? "",
             EventParameterKeys.typesStoreID     : grocery?.retailerType.stringValue ?? "",
@@ -49,12 +48,8 @@ struct OrderPurchaseEvent: AnalyticsEventDataType {
             EventParameterKeys.smilesPointsBurnt: String(smilesPointsBurnt),
             EventParameterKeys.realizationId    : String(realizationId ?? 0),
             EventParameterKeys.products         : self.getProductDic(products: products, gorcery: grocery),
+            EventParameterKeys.elWalletRedeem: String(elWalletRedeem)
         ]
-        
-        if sdkManager.isShopperApp {
-            metaData[EventParameterKeys.isTabbyEnabled] = isTabbyEnabled
-            metaData[EventParameterKeys.amountPaidWithTabby] = "\(amoutPaidWithTabby)"
-        }
         
         return metaData
     }

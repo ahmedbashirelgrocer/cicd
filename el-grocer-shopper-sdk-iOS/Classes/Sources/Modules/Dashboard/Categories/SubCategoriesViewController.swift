@@ -519,8 +519,6 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        print("collectionviewheight : \(collectionView.frame.size)")
-        
         guard indexPath.section != 0 else {
             
             if indexPath.row == 0 {

@@ -26,8 +26,6 @@ private let SharedInstance = ElGrocerUtility()
 let productPlaceholderPhoto = UIImage(name: "product_placeholder")!
 
 
-
-
 class ElGrocerUtility {
     
     // use in network class
@@ -169,6 +167,8 @@ class ElGrocerUtility {
     
     
     var slotViewControllerList : Set = Set<UIViewController>()
+    
+    var showStorelyBanner = false
 
     class var sharedInstance : ElGrocerUtility {
         return SharedInstance
@@ -1629,9 +1629,30 @@ class ElGrocerUtility {
         return list
       }
     
+    func calculateAEDsForSmilesPoints(_ points: Int, smilesBurntRatio: Double?) -> Double {
+        var ratio = 0.0
+        
+        if let smilesBurntRatio = smilesBurntRatio, smilesBurntRatio > 0 {
+            ratio = smilesBurntRatio
+        } else {
+            ratio = ElGrocerUtility.sharedInstance.appConfigData.smilesData.burning
+        }
+        
+        let aeds = ratio * Double(points)
+        return (aeds * 100).rounded() / 100
+    }
    
-    
-    
+    func calculateSmilePointsForAEDs(_ amount: Double, smilesBurntRatio: Double?) -> Int {
+        var ratio = 0.0
+        
+        if let smilesBurntRatio = smilesBurntRatio, smilesBurntRatio > 0 {
+            ratio = smilesBurntRatio
+        } else {
+            ratio = ElGrocerUtility.sharedInstance.appConfigData.smilesData.burning
+        }
+
+        return Int(round(amount / ratio))
+    }
 }
 
 

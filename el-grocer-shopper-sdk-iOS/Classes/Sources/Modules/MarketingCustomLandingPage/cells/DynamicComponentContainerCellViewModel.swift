@@ -52,9 +52,9 @@ class DynamicComponentContainerCellViewModel: DynamicComponentContainerCellType,
     var productCollectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { self.productCollectionCellViewModelsSubject.asObservable() }
     var productCount: Observable<Int> { productCountSubject.asObservable() }
     // MARK: Subject
-        private let isArabicSubject = BehaviorSubject<Bool>(value: false)
-                let productCollectionCellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
-                var productCountSubject = BehaviorSubject<Int>(value: 1)
+    private let isArabicSubject = BehaviorSubject<Bool>(value: false)
+    let productCollectionCellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
+    var productCountSubject = BehaviorSubject<Int>(value: 1)
     // MARK: Properties
     var component: CampaignSection
     init(component: CampaignSection) {

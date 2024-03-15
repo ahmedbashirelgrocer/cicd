@@ -24,6 +24,7 @@ struct BannerDTO: Codable {
     let retailerGroups: [Int]?
     let customScreenId: Int? 
     var resolvedBidId: String?
+    var isStoryly: Bool?
     
     
     enum CodingKeys: String, CodingKey {

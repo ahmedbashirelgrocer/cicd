@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '100.6573.3010'
+  s.version          = '100.6574.3012'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -138,8 +138,8 @@ Pod::Spec.new do |s|
   # pod 'MaterialShowcase'
   #s.dependency 'AppsFlyerFramework'
   s.dependency 'SwiftDate', '~> 6.3.1'
-  
-  s.dependency 'Storyly', '~> 1.19.3'
+  s.dependency 'Storyly'
+  #s.dependency 'Storyly', '~> 1.19.3'
   s.dependency 'CHDropDownTextField', '~> 1.0.0'
   s.dependency 'FXPageControl', '~> 1.5'
   s.dependency 'RxSwift', '~>5.1.1'
@@ -189,7 +189,7 @@ Pod::Spec.new do |s|
   #s.dependency 'GoogleIDFASupport'
   s.dependency 'GoogleMaps', '~> 4.2.0'
   s.dependency 'GooglePlaces', '~> 4.2.0'
-  s.dependency 'lottie-ios', '~> 4.0.1'
+  s.dependency 'lottie-ios', '~> 3.5.0'
 #s.dependency 'AppsFlyerFramework'
 
   # Segment analytics dependency

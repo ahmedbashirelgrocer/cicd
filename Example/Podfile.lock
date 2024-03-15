@@ -84,7 +84,7 @@ PODS:
     - SendBirdUIKit (= 3.6.2)
     - Shimmer (~> 1.0)
     - SkyFloatingLabelTextField (~> 3.0)
-    - Storyly (~> 1.19.3)
+    - Storyly
     - STPopup (~> 1.8.7)
     - SwiftDate (~> 6.3.1)
     - SwiftMessages (~> 9.0.9)
@@ -325,7 +325,7 @@ PODS:
     - SendbirdChatSDK (>= 4.9.5)
   - Shimmer (1.0.2)
   - SkyFloatingLabelTextField (3.8.0)
-  - Storyly (1.19.4)
+  - Storyly (2.13.0)
   - STPopup (1.8.7)
   - SwiftDate (6.3.1)
   - SwiftMessages (9.0.9):
@@ -483,7 +483,7 @@ SPEC CHECKSUMS:
   SendBirdUIKit: 5aa0e6a246d59499f8f2cf2cf1107d7241891b13
   Shimmer: c5374be1c2b0c9e292fb05b339a513cf291cac86
   SkyFloatingLabelTextField: 5a338412114808e961fe2d14ea2c5452c8b6e4aa
-  Storyly: 548318aac753a7be194d170fb537b3a27068c7b8
+  Storyly: 0be1b0be5c30c8e7c04133b8f419370cc6946df8
   STPopup: a9045557bc48a0df51fbb7bf0544447c5fe84d34
   SwiftDate: 72d28954e8e1c6c1c0f917ccc8005e4f83c7d4b2
   SwiftMessages: 1a23aef303fa7bb26ad802880746cf8358e378fe

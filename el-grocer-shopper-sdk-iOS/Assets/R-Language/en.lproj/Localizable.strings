@@ -2243,23 +2243,17 @@ Oreo";
     //MARK: secondCheckout
 "use_elwallet_text" = "Use elWallet";
 "use_smile_text" = "Use Smiles";
-"pay_using_text" = "PAY USING";
+"payment_text" = "Payment";
 "use_points_text" = "USE POINTS";
-"secondry_payment_error_msg_elwallet" = "To use elWallet your balance has to be more than 1 AED";
 "secondary_payment_promocode_error" = "To apply a promo code please, choose the payment method first.";
 "collector_text" = "Who is collecting the order?";
 "collector_car_text" = "Which car is collecting the order?";
-"click_collect_warning_text" = "Please, make sure you arrive on time. Your order will be held for 15 min max.";
-"click_collect_warning_text_highlighted" = "Your order will be held for 15 min max.";
 "discount_text" = "Discount";
 "elwallet_credit_applied" = "elWallet credit applied";
 "smiles_points_applied" = "Smiles Points applied";
-"txt_applied_promocode" = "(Applied)";
 "amount_to_pay" = "AMOUNT TO PAY";
-"secondry_payment_error_msg_smiles" = "To use smiles your balance has to be more than 1 AED";
 "promo_code_apply_notification" = "You must apply a promo code to get discount";
 "extra_balacnce_details" = "Balance details";
-"secondary_payment_error_message" = "Please specify a payment method in order to handle substitutions or weight variance";
 
 //MARK: substitution
 
@@ -2340,6 +2334,41 @@ Oreo";
 "eg_msg_selected_location_not_covering" = "Selected location for that store is outside delivery area range. What would you like to do?";
 "recipe_title_home" = "👨‍🍳 Recipes";
 
-// custom landing page
+"text_what_to_do_if_items_missing" = "What to do if items are missing?";
 
+// Checkout 3.0
+"smiles_points_redemmed_bottom_sheet_title" = "Redeem Smiles Points";
+"smiles_points_redemmed_bottom_sheet_description" = "If you have sufficient Smiles Points balance, you can use them to pay for your order in full.";
+"smiles_points_insufficient_balance_error_msg" = "To use smiles your balance has to be more than 1 AED";
+"text_redeem_points" = "Redeem Points";
+"text_pts" = "Pts";
+
+"el_wallet_redeemed_bottom_sheet_title" = "Pay with elWallet";
+"el_wallet_redeemed_bottom_sheet_description" = "If you have sufficient elWallet balance, you can use them to pay for your order in full.";
+"el_wallet_insufficient_balance_error_msg" = "To use elWallet your balance has to be more than 1 AED";
+"amount_due_text" = "Amount due";
+"remaining_amount_text" = "Remaining amount";
+"redeem_funds_text" = "Redeem funds:";
+"el_wallet_entered_amount_more_than_available_error" = "Please enter an amount equal to or lower than the elWallet Funds.";
+"el_wallet_entered_amount_more_than_bill_error" = "Please enter an amount equal to or lower than the total bill";
+
+"primary_payment_required_error_msg" = "Please specify a payment method in order to handle substitutions or weight variance";
+"primary_payment_tabby_not_support_secondary_error_msg" = "Using Promocodes, Smiles Points and elWallet is not available with tabby as a payment method. Choose a different payment method.";
+"tabby_payment_warning_msg" = "*In case of a price difference in a final bill - cash on delivery for the difference amount will be charged.";
+"checkout_all_fee_message_will_be_in_receipt_msg" = "Weighted items may create slight final price variations. Weight based variations will be applied and displayed in the final bill.";
+"smiles_points_user_not_logged_in_error_msg" = "You’re not logged in! Please log in to redeem your Smiles points.";
+
+// View Titles
+"text_delivery_time" = "Delivery Time";
+"text_delivery_instructions" = "Delivery Instructions";
+"text_payment" = "Payment";
+"text_promocode_and_vouchers" = "Promocodes and Vouchers";
+
+"text_checkout_smiles_points_title" = "Use Smiles Points";
+"text_checkout_smiles_points_applied_title" = "Smiles Points Used:";
+
+"text_checkout_el_wallet_points_title" = "Use elWallet Credit";
+"text_checkout_el_wallet_points_applied_title" = "elWallet Credit Used:";
+
+// MARK: custom landing page
 "eg_No_Campgin_Found" = "Ooops.. this is awkward. Looks like that page doesn’t exist";

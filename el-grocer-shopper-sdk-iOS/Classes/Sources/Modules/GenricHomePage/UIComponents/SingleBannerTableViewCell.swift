@@ -31,6 +31,7 @@ class SingleBannerTableViewCell: UITableViewCell {
         for grocery in groceryList {
             someSet.insert(ElGrocerUtility.sharedInstance.cleanGroceryID(grocery.dbID))
         }
+        /*
         let segment =  StorylySegmentation.init(segments: someSet)
         let story = StorylyInit(storylyId: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NfaWQiOjE1MzcsImFwcF9pZCI6MTE1MywiaW5zX2lkIjoxMTc2fQ.k3DE2c0a38t0x8Droq5htoc-O7qbOZbrCojY_fIes5Y" , segmentation: segment)
         
@@ -43,6 +44,7 @@ class SingleBannerTableViewCell: UITableViewCell {
         storylyView.storyItemIconBorderColor = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
         storylyView.storyGroupIconBorderColorNotSeen = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
         storylyView.storyGroupPinIconColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+         */
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -53,7 +55,7 @@ class SingleBannerTableViewCell: UITableViewCell {
     
     @IBAction func tapAction(_ sender: Any) {
         for group in self.storyGroupList {
-            _ = self.storylyView.openStory(storyGroupId: group.id)
+            _ = self.storylyView.openStory(storyGroupId: group.uniqueId)
         }
     }
 }
@@ -73,10 +75,11 @@ extension SingleBannerTableViewCell : StorylyDelegate {
     
     
     func storylyActionClicked(_ storylyView: StorylyView, rootViewController: UIViewController, story: Story) {
-        storylyView.dismiss(animated: true) {
+        storylyView.dismissExternalActionView()
+        //storylyView.dismiss(animated: true) {
             
             if let clouser = self.actionClicked {clouser(story.media.actionUrl)}
-        }
+        //}
     }
     
     

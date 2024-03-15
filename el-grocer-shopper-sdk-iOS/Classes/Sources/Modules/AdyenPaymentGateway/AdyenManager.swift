@@ -318,7 +318,7 @@ class AdyenManager {
                     self.cardComponent?.viewController.dismiss(animated: true, completion: nil)
                     if adyenObjData.isZeroAuth {
                         if let closure = self.isNewCardAdded {
-                            closure(false,response!, adyenObjData)
+                            closure(refusalReason.count == 0 ? false : true, response!, adyenObjData)
                         }
                     }else {
                         if let closure = self.isPaymentMade  {

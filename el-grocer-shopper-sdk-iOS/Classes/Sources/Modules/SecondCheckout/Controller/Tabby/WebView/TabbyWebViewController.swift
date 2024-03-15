@@ -19,6 +19,7 @@ enum TabbyRegistrationStatus: String {
 class TabbyWebViewController: UIViewController, NavigationBarProtocol {
     @IBOutlet var viewForWeb: UIView!
     @IBOutlet weak var activtyIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var lblErrorMsg: UILabel!
     
     var tabbyRegistrationHandler: TabbyRegistrationCallback?
     var webView: WKWebView!
@@ -41,33 +42,39 @@ class TabbyWebViewController: UIViewController, NavigationBarProtocol {
         webView.navigationDelegate = self
         self.viewForWeb.addSubview(webView)
         
-        if let tabbyUrlString = self.tabbyRedirectionUrl, let url = URL(string: tabbyUrlString) {
-            let requestObj = URLRequest(url: url)
-            
+        if let url = verifyUrl(urlString: self.tabbyRedirectionUrl) {
             self.activtyIndicator.startAnimating()
-            self.webView.load(requestObj)
+            self.webView.load(URLRequest(url: url))
+            
+            self.navigationController?.navigationBar.isHidden = true
+            self.lblErrorMsg.isHidden = true
+        } else {
+            self.navigationController?.navigationBar.isHidden = false
+            (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(false)
+            (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.hideSeparationLine()
+            (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
+            (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+            self.title = "Tabby Registration"
+            self.lblErrorMsg.isHidden = false
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.navigationController?.navigationBar.isHidden = true
-    }
-    
     func backButtonClickedHandler() {
-        self.backButtonClick()
-    }
-    
-    
-    override func viewWillDisappear(_ animated: Bool) {
-       // self.webView.delegate = nil
-    }
-
-    // MARK: Actions
-    override func backButtonClick() {
-        
         self.dismiss(animated: true)
+    }
+    
+    private func verifyUrl (urlString: String?) -> URL? {
+        if let urlString = urlString {
+            if let url = NSURL(string: urlString), UIApplication.shared.canOpenURL(url as URL) {
+                return url as URL
+            }
+        }
+        return nil
     }
 }
 
@@ -100,21 +107,21 @@ extension TabbyWebViewController:   WKUIDelegate , WKNavigationDelegate {
                 tabbyRegistrationHandler(.success)
             }
             
-            self.backButtonClick()
+            self.backButtonClickedHandler()
         } else if url.contains(TabbyRegistrationStatus.failure.rawValue) {
             
             if let tabbyRegistrationHandler = self.tabbyRegistrationHandler {
                 tabbyRegistrationHandler(.failure)
             }
             
-            self.backButtonClick()
+            self.backButtonClickedHandler()
         } else if url.contains(TabbyRegistrationStatus.cancel.rawValue) {
             
             if let tabbyRegistrationHandler = self.tabbyRegistrationHandler {
                 tabbyRegistrationHandler(.cancel)
             }
             
-            self.backButtonClick()
+            self.backButtonClickedHandler()
         }
     }
 }

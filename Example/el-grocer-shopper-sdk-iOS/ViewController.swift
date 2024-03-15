@@ -20,6 +20,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var txtAccountNumber: UITextField!
     @IBOutlet weak var txtLat: UITextField!
     @IBOutlet weak var txtLong: UITextField!
+    @IBOutlet weak var txtAddressID: UITextField!
     @IBOutlet weak var txtAddress: UITextField!
     @IBOutlet weak var txtLoyalityID: UITextField!
     @IBOutlet weak var txtEmail: UITextField!
@@ -74,6 +75,7 @@ class ViewController: UIViewController {
             accountNumber: self.txtAccountNumber.text,
             latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue,
             longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue,
+            addressID: txtAddressID.text,
             address: self.txtAddress.text,
             loyaltyID: self.txtLoyalityID.text,
             email: self.txtEmail.text,
@@ -142,14 +144,13 @@ class ViewController: UIViewController {
         txtLoyalityID.text = "111111111130"
         txtEmail.text = ""
         txtPushPayload.text = "" // "[{\"key\":\"message\",\"value\":\"Your order is accepted!\"},{\"key\":\"order_id\",\"value\":530912815},{\"key\":\"message_type\",\"value\":1},{\"key\":\"storeID\",\"value\":16},{\"key\":\"customPageId\",\"value\":7},{\"key\":\"origin\",\"value\":\"el-grocer-api\"}]"
-        txtDLPayload.text = "https://smilesmobile.page.link/?link=https://smilesmobile.page.link/exy-too-trana//elgrocer://user_id=26368,StoreID=1020,cpid=15,market_type_id=0&apn=ae.etisalat.smiles&ibi=Etisalat.House&isi=1225034537&ofl=https://www.etisalat.ae/en/c/mobile/smiles.jsp"
+        txtDLPayload.text = ""
         
         //https://smiles://exy-too-trana//elgrocer://productId=39448" //"https://elgrocer://user_id=26368,order_id=9***,substituteOrderID=9***,market_type_id=1" //"https://smilesmobile.page.link/?link=https://smilesmobile.page.link/exy-too-trana//elgrocer://user_id=26368,order_id=955939541,substituteOrderID=955939541,market_type_id=1&apn=ae.etisalat.smiles&ibi=Etisalat.House&isi=1225034537&ofl=https://www.etisalat.ae/en/c/mobile/smiles.jsp" // nil //"https://smilesmobile.page.link/?link=https%3A%2F%2Fsmilesmobile.page.link%2Fexy-too-trana%2F%2Felgrocer%3A%2F%2Fuser_id%3D379910%2Corder_id%3D1290668554%2CsubstituteOrderID%3D1290668554%2Cmarket_type_id%3D1&apn=ae.etisalat.smiles&ibi=Etisalat.House&isi=1225034537&ofl=https://www.etisalat.ae/en/c/mobile/smiles.jsp" //https://smiles://exy-too-trana//elgrocer://StoreID=16,retailer_id=16,BrandID=18,marketType=1"
         txtLanguage.text = "Base"
     }
     
     func selectEnvironment() {
-
         var refreshAlert = UIAlertController(title: "Select Env", message: "Please close the app then select now Envoirment. \n One selection per session \n 1. Staging 2. PREADMIN 3. LIVE", preferredStyle: UIAlertController.Style.alert)
 
                 refreshAlert.addAction(UIAlertAction(title: "STAGING", style: .default, handler: {[weak self] (action: UIAlertAction!) in
@@ -180,6 +181,7 @@ class ViewController: UIViewController {
             accountNumber: self.txtAccountNumber.text,
             latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue,
             longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue,
+            addressID: txtAddressID.text,
             address: self.txtAddress.text,
             loyaltyID: self.txtLoyalityID.text,
             email: self.txtEmail.text,
@@ -207,7 +209,19 @@ class ViewController: UIViewController {
     @IBAction func showPresentedView(_ sender: Any) {
         let pushData : [String: AnyHashable] = ["elgrocerMap" : self.txtPushPayload.text]
         
-        let launchOptions =  LaunchOptions(accountNumber: self.txtAccountNumber.text, latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue, longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue, address: self.txtAddress.text, loyaltyID: self.txtLoyalityID.text, email: self.txtEmail.text, pushNotificationPayload: pushData, deepLinkPayload: self.txtDLPayload.text, language: self.txtLanguage.text, environmentType: .live)
+        let launchOptions =  LaunchOptions(
+            accountNumber: self.txtAccountNumber.text,
+            latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue,
+            longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue,
+            addressID: txtAddressID.text,
+            address: self.txtAddress.text,
+            loyaltyID: self.txtLoyalityID.text,
+            email: self.txtEmail.text,
+            pushNotificationPayload: pushData,
+            deepLinkPayload: self.txtDLPayload.text,
+            language: self.txtLanguage.text,
+            environmentType: .live
+        )
         
         let vc : PresentedViewController = self.storyboard?.instantiateViewController(withIdentifier: "PresentedViewController") as! PresentedViewController
         vc.launchOption = launchOptions

@@ -14,7 +14,7 @@ import FirebaseAnalytics
 import RxSwift
 import RxDataSources
 import CoreLocation
-
+import Storyly
 
 enum StorePageType {
     case FromStorePage
@@ -91,14 +91,23 @@ extension MainCategoriesViewController : StoreFeedsDelegate {
 }
 
 class MainCategoriesViewController: BasketBasicViewController, UITableViewDelegate, NoStoreViewDelegate  {
+    //var storlyAds : StorylyAds?
+    var storlyAds : StorylyAds = StorylyAds()
+    var initialLoad = true
+    var storylyView = StorylyView()
+    var storyGroupList : [StoryGroup] = []
+    var actionClicked: ((_ url : String?)->Void)? = nil
     private var porgressHud : SpinnerView? = nil
     private var viewModel: MainCategoriesViewModelType!
     
+    @IBOutlet weak var storelyCustomView: StorylyView!
+    @IBOutlet var mainView: UIView!
     @IBOutlet weak var safeAreaBgView: UIView! {
         didSet {
             safeAreaBgView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
         }
     }
+    
     override func backButtonClickedHandler(){
         self.tabBarController?.selectedIndex = 0
     }
@@ -212,6 +221,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     var chefCall:DispatchWorkItem?
     var recipeListCall:DispatchWorkItem?
     
+    var openStoriesFlag = false
     private var isSegmentEventLogged = false
 
     private var disposeBag = DisposeBag()
@@ -352,6 +362,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+       
         self.setNavigationApearance()
         self.adjustHeaderDisplay()
         if UIApplication.topViewController() is GroceryLoaderViewController {
@@ -367,6 +378,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             screen.metaData = [EventParameterKeys.storeName : self.grocery?.name ?? "", EventParameterKeys.storeId : self.grocery?.dbID ?? ""]
             SegmentAnalyticsEngine.instance.logEvent(event: screen)
             self.isSegmentEventLogged = true
+            
         }
         
         self.initViewModel()
@@ -376,6 +388,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                 self?.callForLatestDeliverySlotsWithGroceryLoader(grocery: grocery, true)
             }
         }
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -390,6 +403,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             }
             //SpinnerView.hideSpinnerView()
         }
+        
         self.setNavigationApearance(true)
         self.adjustHeaderDisplay()
         if !Grocery.isSameGrocery(self.grocery, rhs: ElGrocerUtility.sharedInstance.activeGrocery) {
@@ -399,6 +413,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                 self.callForLatestDeliverySlotsWithGroceryLoader(grocery: grocery)
             }
             self.setTableViewHeader(self.grocery )
+         
         } else {
             
             if !self.isComingFromGroceryLoaderVc {
@@ -1624,6 +1639,11 @@ private extension MainCategoriesViewController {
     
     func initViewModel() {
         
+        defer {
+            //MARK: Blocking UI - Need to update this
+          //  self.configureStorely(openStories: false)
+        }
+        
         guard self.viewModel == nil else {
             if self.viewModel.outputs.dataValidationForLoadedGroceryNeedsToUpdate(self.grocery) {
                 self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress())
@@ -1636,6 +1656,7 @@ private extension MainCategoriesViewController {
         }
         
         self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress())
+        
     }
     
    
@@ -1782,6 +1803,18 @@ private extension MainCategoriesViewController {
             : self.porgressHud?.removeFromSuperview()
         }).disposed(by: disposeBag)
         
+        /// Storyly banner
+        //self.storlyAds = StorylyAds()
+        self.viewModel.outputs.startStorylyFetch.subscribe(onNext: { [weak self] grocery in
+            guard let self = self, let grocery = grocery else { return }
+            
+            self.storlyAds.configureStorelyForSDK(self, grocery: grocery)
+        }).disposed(by: disposeBag)
+        
+        storlyAds.storiesdataLoaded = { [weak self] groups in
+            self?.viewModel.inputs.storiesLoadedObserver.onNext(())
+        }
+        
         self.viewModel.outputs.chefTap.subscribe(onNext: { [weak self] selectedChef in
             self?.gotoFilterController(chef: selectedChef, category: nil)
         }).disposed(by: disposeBag)
@@ -1878,6 +1911,14 @@ private extension MainCategoriesViewController {
             bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: ElGrocerUtility.sharedInstance.groceries)
             MixpanelEventLogger.trackStoreBannerClick(id: bannerCampaign.dbId.stringValue, title: bannerCampaign.title, tier: "1")
             break
+        case .storely:
+            if((self.storlyAds.storyGroupList.count) > 0){
+                for group in self.storlyAds.storyGroupList {
+                    _ = self.storlyAds.storylyView.openStory(storyGroupId: group.uniqueId)
+                }
+            }
+            //self.configureStorely(openStories: true)
+            break
         }
     }
     
@@ -1892,7 +1933,6 @@ private extension MainCategoriesViewController {
         
     }
 }
-
 extension MainCategoriesViewController: HomeCellDelegate {
     
     func productCellOnProductQuickAddButtonClick(_ selectedProduct:Product, homeObj: Home, collectionVeiw:UICollectionView){

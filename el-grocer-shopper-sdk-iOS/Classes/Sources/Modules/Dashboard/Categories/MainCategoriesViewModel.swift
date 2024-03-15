@@ -12,6 +12,7 @@ import RxDataSources
 protocol MainCategoriesViewModelInput {
     var scrollObserver: AnyObserver<IndexPath> { get }
     var refreshProductCellObserver: AnyObserver<Void> { get }
+    var storiesLoadedObserver: AnyObserver<Void> { get }
 }
 
 protocol MainCategoriesViewModelOutput {
@@ -28,6 +29,7 @@ protocol MainCategoriesViewModelOutput {
     var chefTap: Observable<CHEF?> { get }
     var viewAllRecipesTap: Observable<Void> { get }
     var categories: [CategoryDTO] { get }
+    var startStorylyFetch: Observable<Grocery?> { get }
     
     func dataValidationForLoadedGroceryNeedsToUpdate(_ newGrocery: Grocery?) -> Bool
 }
@@ -49,6 +51,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     // MARK: Inputs
     var scrollObserver: AnyObserver<IndexPath> { self.scrollSubject.asObserver() }
     var refreshProductCellObserver: AnyObserver<Void> { refreshProductCellSubject.asObserver() }
+    var storiesLoadedObserver: AnyObserver<Void> {  storiesLoadedSubject.asObserver() }
     
     // MARK: outputs
     var cellViewModels: Observable<[SectionModel<Int, ReusableTableViewCellViewModelType>]> { self.cellViewModelsSubject.asObservable() }
@@ -62,6 +65,7 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     var showEmptyView: Observable<Void> { showEmptyViewSubject.asObservable() }
     var chefTap: Observable<CHEF?> { chefTapSubject.asObservable() }
     var viewAllRecipesTap: Observable<Void> { viewAllRecipesTapSubject.asObservable() }
+    var startStorylyFetch: Observable<Grocery?> { self.storylyFetchSubject.asObservable() }
     
     // MARK: subjects
     private var cellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableTableViewCellViewModelType>]>(value: [])
@@ -77,6 +81,9 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var showEmptyViewSubject = PublishSubject<Void>()
     private var chefTapSubject = PublishSubject<CHEF?>()
     private var viewAllRecipesTapSubject = PublishSubject<Void>()
+    private var storylyFetchSubject = BehaviorSubject<Grocery?>(value: nil)
+    private var storiesLoadedSubject = PublishSubject<Void>()
+    private var location1BannersFetchSubject = PublishSubject<Void>()
     
     // MARK: properties
     private var apiClient: ElGrocerApi
@@ -103,8 +110,11 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
     private var disposeBag = DisposeBag()
     private var apiCallingStatus: [IndexPath: Bool] = [:]
     
+    private var isStorylyBannerAdded = false
+    
     private var showProductsSection = ABTestManager.shared.storeConfigs.showProductsSection
-
+   
+    
     // MARK: initlizations
     init(apiClient: ElGrocerApi = ElGrocerApi.sharedInstance, recipeAPIClient: ELGrocerRecipeMeduleAPI = ELGrocerRecipeMeduleAPI(), grocery: Grocery?, deliveryAddress: DeliveryAddress?) {
         self.apiClient = apiClient
@@ -112,8 +122,9 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         self.grocery = grocery
         self.deliveryAddress = deliveryAddress
         self.isCategoriesApiCompleted = false
-        
+     
         self.fetchGroceryDeliverySlots()
+        self.storylyFetchSubject.onNext(grocery)
         self.fetchBanners(for: .store_tier_1.getType())
         self.fetchBanners(for: .store_tier_2.getType())
         
@@ -122,6 +133,28 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
             guard let self = self else { return }
             elDebugPrint("bannersLoaded")
         }
+        
+        Observable
+            .combineLatest(storiesLoadedSubject, location1BannersFetchSubject)
+            .map { _ in () }
+            .subscribe(onNext: { [weak self] in
+                guard let self = self else { return }
+                
+                let bannerStorely = BannerDTO(id: 0, name: "Storyly Banner", priority: -1, campaignType: .storely, imageURL: nil, bannerImageURL: nil, url: nil, categories: nil, subcategories: nil, brands: nil, retailerIDS: nil, locations: [28, 19, 3], storeTypes: nil, retailerGroups: nil, customScreenId: nil, isStoryly: true)
+
+                if self.isStorylyBannerAdded == false {
+                    if let bannerCellVM = (self.location1BannerVMs.first as? any GenericBannersCellViewModelType) {
+                        bannerCellVM.addBanner(banner: bannerStorely)
+                    } else {
+                        let bannerCellVM = GenericBannersCellViewModel(banners: [bannerStorely])
+                        bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
+                        self.viewModels.insert(SectionModel(model: 0, items: [bannerCellVM]), at: 0)
+                    }
+                    
+                    self.isStorylyBannerAdded = true
+                }
+            }).disposed(by: disposeBag)
+        
         dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
             
@@ -307,7 +340,7 @@ private extension MainCategoriesViewModel {
         self.bannersDispatchGroup.enter()
         // self.dispatchGroup.enter()
         
-        let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map{ "\($0)" } ?? []
+        let storeTypes = self.grocery?.getStoreTypes()?.map{ "\($0)" } ?? []
         
         self.apiClient.getBanners(for: location,
                                   retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)],
@@ -319,9 +352,11 @@ private extension MainCategoriesViewModel {
             
             switch result {
             case .success(let response):
+                
                 let banners = response.map { $0.toBannerDTO() }
+                
                 if banners.isNotEmpty {
-                    if location == .store_tier_1.getType() {
+                    if location == .store_tier_1.getType()  {
                         let bannerCellVM = GenericBannersCellViewModel(banners: banners)
                         bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
                         self.location1BannerVMs.append(bannerCellVM)
@@ -332,7 +367,9 @@ private extension MainCategoriesViewModel {
                     }
                 }
                 
-            case .failure(let _):
+                if location == .store_tier_1.getType() { self.location1BannersFetchSubject.onNext(()) }
+                
+            case .failure(_):
                 break
             }
         }

@@ -189,6 +189,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     var replaceProductsList : [Product] = [Product]()
     var carouselProducts = [AnyObject]()
     var deliverySlotsArray:[DeliverySlot] = [DeliverySlot]()
+    var deliverySlotsDTOs:[DeliverySlotDTO] = []
     var currentDeliverySlot:DeliverySlot!
     var orderToReplace : Bool =  UserDefaults.isOrderInEdit()
     var substituteProduct : Dictionary< String , Array<Product> > = Dictionary()
@@ -3845,6 +3846,16 @@ extension MyBasketViewController {
                 case .success(let response):
                         // elDebugPrint("SERVER Response:%@",response)
                     self.saveResponseDataForSlots(response,isNeedToChooseNext)
+                
+                do {
+                    let data = try JSONSerialization.data(withJSONObject: response, options: [])
+                    let deliverySlotsData = try? JSONDecoder().decode(DeliverySlotsResponse.self, from: data)
+                    let slots = deliverySlotsData?.data.deliverySlots ?? []
+                    self.deliverySlotsDTOs = slots
+                } catch {
+                    elDebugPrint("Error while getting Delivery Slots from SERVER:%@",error.localizedDescription)
+                }
+                
                     
                 case .failure(let error):
                    elDebugPrint("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
@@ -4220,13 +4231,13 @@ extension MyBasketViewController {
         let _ = SpinnerView.showSpinnerViewInView(self.view)
         
         var deliveryAddress : DeliveryAddress? = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        var slotId: Int = self.currentDeliverySlot != nil ? self.currentDeliverySlot.dbID.intValue : 0
+        var slotId: Int? = self.currentDeliverySlot != nil ? self.currentDeliverySlot.dbID.intValue : nil
         var slot: DeliverySlot? = self.currentDeliverySlot != nil ? self.currentDeliverySlot : nil
         var orderID : String? = nil
         var orderForEdit : Order? = nil
         if UserDefaults.isOrderInEdit(), order != nil {
             deliveryAddress = order.deliveryAddress
-            slotId = order.deliverySlot?.dbID.intValue ?? 0
+            slotId = order.deliverySlot?.dbID.intValue
             slot = order.deliverySlot
             orderID = UserDefaults.getEditOrderDbId()?.stringValue
             orderForEdit = order
@@ -4235,7 +4246,7 @@ extension MyBasketViewController {
         
         if let deliveryAddress = deliveryAddress {
             let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-            let vm = SecondaryViewModel(address: deliveryAddress, grocery: self.grocery!, slotId: slotId,orderId: orderID,shopingItems: self.shoppingItems, finalisedProducts: self.products, selectedPreferenceId: self.myBasketDataObj.getSelectedReason()?.reasonKey.intValue ?? 1, deliverySlot: slot)
+            let vm = SecondaryViewModel(address: deliveryAddress, grocery: self.grocery!, slotId: slotId,orderId: orderID,shopingItems: self.shoppingItems, finalisedProducts: self.products, selectedPreferenceId: self.myBasketDataObj.getSelectedReason()?.reasonKey.intValue ?? 1, deliverySlot: slot, deliverySlots: self.deliverySlotsDTOs)
             vm.setEditOrderInitialDetail(orderForEdit)
             vm.callSetCartBalanceAccountCacheApi()
             vm.setUserId(userId: user?.dbID)
