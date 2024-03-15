@@ -36,10 +36,11 @@ class ElGrocerStoreHeaderShopper:  UIView  {
         didSet {
             var attributes: [NSAttributedString.Key : Any] = [:]
             attributes[.font] = UIFont.systemFont(ofSize: 12, weight: .bold)
-            attributes[.foregroundColor] = UIColor.white
+            attributes[.foregroundColor] = ApplicationTheme.currentTheme.newBlackColor
             let title = localizedString("ios.ZDKHelpCenter.helpCenterOverview.title", comment: "")
             let atext = NSAttributedString(string: title, attributes: attributes)
             btnHelp.setAttributedTitle(atext, for: .normal)
+            btnHelp.setTitleColor(ApplicationTheme.currentTheme.newBlackColor, for: .normal)
             btnHelp.addTarget(self, action: #selector(btnHelpHandler), for: .touchUpInside)
         }
     }
@@ -74,7 +75,6 @@ class ElGrocerStoreHeaderShopper:  UIView  {
     }
     @IBOutlet var myGroceryName: UILabel! {
         didSet {
-           
             self.myGroceryName.autoresizingMask = .flexibleHeight
             self.myGroceryName.setH4SemiBoldWhiteStyle()
             if let lng = UserDefaults.getCurrentLanguage(){
@@ -91,7 +91,8 @@ class ElGrocerStoreHeaderShopper:  UIView  {
 //    @IBOutlet var slotsView: AWView!
     @IBOutlet var lblSlot: UILabel!{
         didSet {
-            lblSlot.setSubHead1SemiboldWhiteStyle()
+            lblSlot.textColor = .black
+            //lblSlot.setSubHead1SemiboldWhiteStyle()
         }
     }
     
@@ -99,11 +100,13 @@ class ElGrocerStoreHeaderShopper:  UIView  {
     
     @IBOutlet var bGView: UIView!{
         didSet{
+            //bGView.backgroundColor = .clear
             bGView.backgroundColor = .navigationBarColor()
         }
     }
     @IBOutlet var groceryBGView: UIView!{
         didSet{
+            //groceryBGView.backgroundColor = .clear
             groceryBGView.backgroundColor = .navigationBarColor()
         }
     }
