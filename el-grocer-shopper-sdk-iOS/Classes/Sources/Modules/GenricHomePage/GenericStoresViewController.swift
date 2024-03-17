@@ -36,9 +36,9 @@ class GenericStoresViewController: BasketBasicViewController {
 
     lazy var searchBarHeader : GenericHomePageSearchHeader = {
         let searchHeader = GenericHomePageSearchHeader.loadFromNib()
-        var frameHeight = searchHeader?.frame
-        frameHeight?.size.height = sdkManager.isShopperApp ? 82 : 82
-        searchHeader?.frame = frameHeight ?? searchHeader?.frame ?? CGRect.zero
+//        var frameHeight = searchHeader?.frame
+//        frameHeight?.size.height = sdkManager.isShopperApp ? 82 : 82
+//        searchHeader?.frame = frameHeight ?? searchHeader?.frame ?? CGRect.zero
         return searchHeader!
     }()
 
@@ -140,26 +140,16 @@ class GenericStoresViewController: BasketBasicViewController {
         // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.setUpTopNavigationBaar()
+        self.setUpTitles()
         self.registerCellsAndSetDelegates()
         self.setSegmentView()
+        self.addNotifcation()
         hidesBottomBarWhenPushed = true
         subCategorySelectedWithSelectedIndex(0)
-        setupClearNavBar()
-        if sdkManager.launchOptions?.marketType == .shopper {
-            SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
-        }
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-     
-        super.viewWillAppear(animated)
-        self.hideTabBar()
-        self.navigationBarCustomization()
-        self.appTabBarCustomization()
-        self.showDataLoaderIfRequiredForHomeHandler()
-        self.checkIFDataNotLoadedAndCall()
         
         // Log Segment Screen Event
+       
        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
 
        // Logging segment event for push notification enabled
@@ -178,6 +168,18 @@ class GenericStoresViewController: BasketBasicViewController {
            }
 
        })
+        
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+     
+        super.viewWillAppear(animated)
+        self.hideTabBar()
+        self.navigationBarCustomization()
+        self.appTabBarCustomization()
+        self.showDataLoaderIfRequiredForHomeHandler()
+        self.checkIFDataNotLoadedAndCall()
+
        
     }
 
@@ -194,19 +196,15 @@ class GenericStoresViewController: BasketBasicViewController {
         
         // Fetch basket status from server
         self.homeDataHandler.fetchBasketStatus()
-        
-        if let controller = self.navigationController as? ElGrocerNavigationController {
-            controller.refreshLogoView()
-            controller.navigationBar.topItem?.title = ""
-        }
       
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         UserDefaults.removeBannerView(topControllerName: FireBaseScreenName.GenericHome.rawValue)
         UserDefaults.removeOrderIdView(topControllerName: FireBaseScreenName.GenericHome.rawValue)
         HomeTileDefaults.removedTileViewedFor(screenName: FireBaseScreenName.GenericHome.rawValue + "tile")
-        
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
         // MARK: - UI Customization
@@ -217,26 +215,28 @@ class GenericStoresViewController: BasketBasicViewController {
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.setLogoHidden(true)
             controller.setGreenBackgroundColor()
+            controller.setBackButtonHidden(true)
             controller.setLocationHidden(true)
             controller.setSearchBarDelegate(self)
             controller.setSearchBarText("")
             controller.setChatButtonHidden(true)
-            controller.setNavBarHidden(false)
+            controller.setNavBarHidden(true)
             controller.setChatIconColor(.navigationBarWhiteColor())
-            controller.setSideMenuButtonHidden(true)
+            controller.setProfileButtonHidden(true)
             controller.setCartButtonHidden(true)
-            controller.setRightMenuButtonHidden(false)
-            controller.setBackButtonHidden(false)
-            controller.setLeftTitle(getNavigationTitleAccordingToTime(), false)
-            controller.actiondelegate = self
-            controller.setSearchBarPlaceholderText(localizedString("search_products", comment: ""))
-            controller.buttonActionsDelegate = self
-            (controller.navigationBar as? ElGrocerNavigationBar)?.changeBackButtonImagetoPurple() // to get purple backimage
-            controller.refreshLogoView()
-            controller.navigationBar.topItem?.title = ""
+            controller.setNavBarHidden(true)
         }
+        self.navigationController?.navigationBar.isHidden = true
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        self.navigationController?.isNavigationBarHidden = true
+        self.tableView.setContentOffset(.zero, animated: true)
+        self.setNeedsStatusBarAppearanceUpdate()
         
+        //to refresh smiles point
+        self.getSmileUserInfo()
     }
+    
+    
 
     func getNavigationTitleAccordingToTime()-> String {
         let date = Date()
@@ -290,6 +290,7 @@ class GenericStoresViewController: BasketBasicViewController {
         
         
     }
+    
 
     private func appTabBarCustomization() {
         self.basketIconOverlay?.shouldShow = false
@@ -492,15 +493,6 @@ class GenericStoresViewController: BasketBasicViewController {
         }
     }
 
-    @objc
-    func reloadAllData() {
-        
-        self.setTableViewHeader()
-        // HomePageData.shared.resetHomeDataHandler()
-        HomePageData.shared.fetchHomeData(Platform.isDebugBuild)
-        self.showDataLoaderIfRequiredForHomeHandler()
-    }
-
     @objc func showLocationCustomPopUp() {
         
         guard SDKManagerShopper.shared.launchOptions?.navigationType != .search else {
@@ -538,7 +530,20 @@ class GenericStoresViewController: BasketBasicViewController {
         }
     }
 
-
+    func checkForPushNotificationRegisteration() {
+            // guard !Platform.isSimulator else {return}
+        let isRegisteredForRemoteNotifications = UIApplication.shared.isRegisteredForRemoteNotifications
+        if isRegisteredForRemoteNotifications == false {
+            if !(UserDefaults.getIsPopAlreadyDisplayed() ?? false) {
+                if let appDelegate = sdkManager {
+                    _ = NotificationPopup.showNotificationPopup(self, withView: appDelegate.window!)
+                    UserDefaults.setIsPopAlreadyDisplayed(true)
+                }
+            }
+            
+        }
+    }
+    
     fileprivate func checkIFDataNotLoadedAndCall() {
         
         let oldLocation = self.locationHeader.localLoadedAddress
@@ -589,20 +594,18 @@ class GenericStoresViewController: BasketBasicViewController {
 
 
 
-    var smileRetryTime = 0
     private func getSmileUserInfo() {
-        
-        guard smileRetryTime < 1 else { return }
-        guard (UserDefaults.getIsSmileUser() == true || sdkManager.isSmileSDK) else {
-            return
-        }
         SmilesManager.getCachedSmileUser { [weak self] (smileUser) in
-            if smileUser == nil {
-                self?.smileRetryTime += 1
-                self?.getSmileUserInfo()
-                
-            }else {
-                self?.smileRetryTime  = 0
+            UserDefaults.setSmilesUserLoggedIn(status: smileUser != nil)
+            
+            if let user = smileUser {
+                if let points = user.availablePoints {
+                    self?.searchBarHeader.setSmilesPoints(points)
+                } else {
+                    self?.searchBarHeader.setSmilesPoints(-1)
+                }
+            } else {
+                self?.searchBarHeader.setSmilesPoints(-1)
             }
         }
     }
@@ -702,6 +705,46 @@ class GenericStoresViewController: BasketBasicViewController {
     }
 
 
+}
+
+extension GenericStoresViewController {
+    
+    func setUpTitles() {
+        self.tabBarItem.title = localizedString("home_title", comment: "")
+    }
+    
+    func setUpTopNavigationBaar() {
+        searchBarHeader
+            .profileButton
+            .addTarget(self,
+                       action: #selector(profileButtonClick),
+                       for: .touchUpInside)
+        let tapGusture = UITapGestureRecognizer(target: self, action: #selector(smilesViewClick))
+        searchBarHeader
+            .smilesPointsView
+            .addGestureRecognizer(tapGusture)
+    }
+    
+    @objc func profileButtonClick() {
+        profileButtonTap()
+    }
+    
+    @objc func smilesViewClick() {
+        if UserDefaults.getIsSmileUser() {
+            let smilepoints = UserDefaults.getSmilesPoints()
+            SmilesEventsLogger.smilePointsClickedEvent(isSmileslogin: true, smilePoints: smilepoints)
+            searchBarHeader.setSmilesPoints(smilepoints)
+            // self.gotToSmilePoints()
+        } else {
+            SmilesEventsLogger.smilesSignUpClickedEvent()
+            //self.goToSmileWithPermission()
+            self.gotToSmileLogin()
+        }
+        
+        // Logging segment Smiles Header Clicked event
+        let smilesHeaderClickedEvent = SmilesHeaderClickedEvent(isLoggedIn: UserDefaults.getIsSmileUser(), smilePoints: UserDefaults.getSmilesPoints())
+        SegmentAnalyticsEngine.instance.logEvent(event: smilesHeaderClickedEvent)
+    }
 }
 
 // MARK: Helper Methods
@@ -841,7 +884,7 @@ extension GenericStoresViewController: UITableViewDelegate, UITableViewDataSourc
 extension GenericStoresViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-      //  self.searchBarHeader.viewDidScroll(scrollView)
+        self.searchBarHeader.viewDidScroll(scrollView)
     }
 }
 
@@ -987,9 +1030,9 @@ extension GenericStoresViewController: HomePageDataLoadingComplete {
         
         (self.navigationController as? ElGrocerNavigationController)?.setCartButtonState(status)
         if status {
-            self.btnMulticart.setImage(UIImage(name: "Cart-Active-Smile"), for: UIControl.State())
+            self.btnMulticart.setImage(UIImage(name: "Cart-Active-icon"), for: UIControl.State())
         }else {
-            self.btnMulticart.setImage(UIImage(name: "Cart-InActive-Smile"), for: UIControl.State())
+            self.btnMulticart.setImage(UIImage(name: "Cart-Inactive-icon"), for: UIControl.State())
         }
         
     }
@@ -1710,3 +1753,80 @@ extension GenericStoresViewController {
 //        }
 //    }
 //}
+extension GenericStoresViewController {
+    @objc
+    func addNotifcation() {
+        
+        NotificationCenter.default.addObserver(self,selector: #selector(GenericStoresViewController.resetToZero), name: NSNotification.Name(rawValue: KresetToZero), object: nil)
+        
+        NotificationCenter.default.addObserver(self,selector: #selector(GenericStoresViewController.reloadAllData), name: NSNotification.Name(rawValue: KReloadGenericView), object: nil)
+        
+        NotificationCenter.default.addObserver(self,selector: #selector(GenericStoresViewController.handleDeepLink), name: NSNotification.Name(rawValue: kDeepLinkNotificationKey), object: nil)
+        
+        
+        NotificationCenter.default.addObserver(self,selector: #selector(GenericStoresViewController.reloadBasketData), name: NSNotification.Name(rawValue: KRefreshView), object: nil)
+        
+        
+        NotificationCenter.default.addObserver(self,selector: #selector(GenericStoresViewController.goToBasketFromNotifcation), name: NSNotification.Name(rawValue: KGoToBasketFromNotifcation), object: nil)
+        
+        
+        NotificationCenter.default.addObserver(self,selector: #selector(GenericStoresViewController.resetPageLocalChache), name: NSNotification.Name(rawValue: KResetGenericStoreLocalChacheNotifcation), object: nil)
+        
+        
+    }
+    
+    @objc
+    func resetToZero() {
+        if self.tabBarController != nil {
+            self.tabBarController?.selectedIndex = 0
+        }
+    }
+    
+//    @objc
+//    func reloadAllData() {
+//        
+//        self.setTableViewHeader()
+//        // HomePageData.shared.resetHomeDataHandler()
+//        HomePageData.shared.fetchHomeData(Platform.isDebugBuild)
+//        self.showDataLoaderIfRequiredForHomeHandler()
+//    }
+    
+    @objc
+    func reloadAllData() {
+        self.setTableViewHeader()
+        HomePageData.shared.resetHomeDataHandler()
+        HomePageData.shared.fetchHomeData(Platform.isDebugBuild)
+    }
+    
+    @objc
+    func handleDeepLink() {
+        
+        let topVc = UIApplication.topViewController()
+        if (topVc is GroceryLoaderViewController) || (topVc is GenericStoresViewController) {
+            if (ElGrocerUtility.sharedInstance.deepLinkURL.isEmpty == false) {
+                if ElGrocerUtility.sharedInstance.groceries.count > 0 {
+                    self.tabBarController?.selectedIndex = 1
+                }
+            }
+        }
+    }
+    
+    @objc
+    func reloadBasketData() {
+        (self.navigationController as? ElgrocerGenericUIParentNavViewController)?.updateBadgeValue()
+    }
+    
+    @objc
+    func resetPageLocalChache() {
+        HomePageData.shared.resetHomeDataHandler()
+    }
+    
+
+}
+extension GenericStoresViewController:NotificationPopupProtocol {
+    
+    func enableUserPushNotification(){
+        let appDelegate = sdkManager
+        appDelegate?.registerForNotifications()
+    }
+}

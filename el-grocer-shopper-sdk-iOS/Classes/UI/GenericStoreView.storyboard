@@ -578,7 +578,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9ri-I1-WJE" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rSV-as-nnS">
-                        <rect key="frame" x="0.0" y="20" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -733,7 +733,7 @@
         <!--Home-->
         <scene sceneID="2Up-dm-BfC">
             <objects>
-                <viewController storyboardIdentifier="GenericStoresViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="07A-wL-yud" customClass="GenericStoresViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GenericStoresViewController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="07A-wL-yud" customClass="GenericStoresViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="G4C-fB-Yee">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -789,6 +789,7 @@
                             <constraint firstItem="b5j-QF-hj5" firstAttribute="trailing" secondItem="lkS-xj-Ccf" secondAttribute="trailing" id="u4o-Wr-gnS"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <tabBarItem key="tabBarItem" title="Home" image="TabbarHome" id="Inh-e7-b6A"/>
                     <connections>
                         <outlet property="btnMulticart" destination="1pm-X8-IrN" id="YAB-hY-8fe"/>
