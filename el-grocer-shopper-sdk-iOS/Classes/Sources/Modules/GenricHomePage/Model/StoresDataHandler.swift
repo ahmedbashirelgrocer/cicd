@@ -146,7 +146,7 @@ class GenericStoreMeduleAPI : ElGrocerApi {
     func getAllretailers( latitude : Double , longitude : Double , success : @escaping SuccessCase , failure : @escaping FailureCase  ) {
         //
         
-        let url =  sdkManager.isShopperApp ? ElGrocerApiEndpoint.egGenericRetailersList.rawValue : ElGrocerApiEndpoint.genericRetailersList.rawValue
+        let url =  sdkManager.isShopperApp ? ElGrocerApiEndpoint.genericRetailersList.rawValue : ElGrocerApiEndpoint.genericRetailersList.rawValue
         
         let userId = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext).dbID.stringValue
         
