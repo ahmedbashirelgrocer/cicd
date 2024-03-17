@@ -233,6 +233,7 @@ class GenericStoresViewController: BasketBasicViewController {
         self.setNeedsStatusBarAppearanceUpdate()
         
         //to refresh smiles point
+        self.setNavTitle()
         self.getSmileUserInfo()
     }
     
@@ -593,7 +594,13 @@ class GenericStoresViewController: BasketBasicViewController {
     }
 
 
-
+    private func setNavTitle() {
+        
+        let title = self.getNavigationTitleAccordingToTime()
+        
+        self.searchBarHeader.setLeftTitle(title)
+    }
+    
     private func getSmileUserInfo() {
         SmilesManager.getCachedSmileUser { [weak self] (smileUser) in
             UserDefaults.setSmilesUserLoggedIn(status: smileUser != nil)

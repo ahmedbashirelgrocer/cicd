@@ -12,17 +12,7 @@ class SmilesNavigationView: UIView {
         let button = UIButton()
         let image = UIImage(name: "menu")?.withRenderingMode(.alwaysTemplate)
         button.setImage(image, for: .normal)
-        button.tintColor = .white
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
-    lazy var cartButton: UIButton = {
-        let button = UIButton()
-        let imageNormal = UIImage(name: "Cart-Inactive-icon")
-        let imageSelected = UIImage(name: "Cart-Active-icon")
-        button.setImage(imageNormal, for: .normal)
-        button.setImage(imageSelected, for: .selected)
+        button.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -34,20 +24,13 @@ class SmilesNavigationView: UIView {
         return view
     }()
     
-    private lazy var elGrocerLogo: UIImageView = {
-        let view = UIImageView(image: UIImage(name: "el_logo"))
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.contentMode = .scaleAspectFit
-        view.backgroundColor = .clear
-        return view
-    }()
-    
-    private lazy var smilesLogo: UIImageView = {
-        let view = UIImageView(image: UIImage(name: "smiles_logo_white"))
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.contentMode = .scaleAspectFit
-        view.backgroundColor = .clear
-        return view
+    lazy var leftTitle: UILabel = {
+        let label = UILabel()
+        label.text = "Good Morning 👋"
+        label.setH3SemiBoldStyle()
+        label.textColor = ApplicationTheme.currentTheme.themeBasePrimaryBlackColor
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     lazy var smilesPointsView: UIView = {
@@ -82,6 +65,7 @@ class SmilesNavigationView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        self.backgroundColor = .white
         self.addViews()
         self.setupConstraint()
     }
@@ -89,6 +73,7 @@ class SmilesNavigationView: UIView {
     internal required init?(coder: NSCoder) {
         super.init(coder: coder)
         
+        self.backgroundColor = .white
         self.addViews()
         self.setupConstraint()
     }
@@ -102,12 +87,11 @@ class SmilesNavigationView: UIView {
     }
     
     private func addViews() {
+        
+        self.addSubview(self.leftTitle)
         self.addSubview(self.profileButton)
-        self.addSubview(self.cartButton)
         self.addSubview(self.titleView)
         
-        self.titleView.addSubview(self.elGrocerLogo)
-        self.titleView.addSubview(self.smilesLogo)
         self.titleView.addSubview(self.smilesPointsView)
         
         self.smilesPointsView.addSubview(self.emojiView)
@@ -115,38 +99,24 @@ class SmilesNavigationView: UIView {
     }
     
     private func setupConstraint() {
+        
         NSLayoutConstraint.activate([
             profileButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            profileButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 6),
+            profileButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -6),
             profileButton.heightAnchor.constraint(equalToConstant: 45),
             profileButton.widthAnchor.constraint(equalTo: profileButton.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            cartButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            cartButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -6),
-            cartButton.heightAnchor.constraint(equalToConstant: 55),
-            cartButton.widthAnchor.constraint(equalTo: cartButton.heightAnchor)
+            leftTitle.centerYAnchor.constraint(equalTo: centerYAnchor),
+            leftTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            leftTitle.heightAnchor.constraint(equalToConstant: 45)
         ])
         
         NSLayoutConstraint.activate([
             titleView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            titleView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            titleView.leadingAnchor.constraint(equalTo: leftTitle.trailingAnchor, constant: 4),
             titleView.heightAnchor.constraint(equalToConstant: 55),
-        ])
-        
-        NSLayoutConstraint.activate([
-            elGrocerLogo.centerYAnchor.constraint(equalTo: centerYAnchor),
-            elGrocerLogo.leadingAnchor.constraint(equalTo: titleView.leadingAnchor),
-            elGrocerLogo.heightAnchor.constraint(equalToConstant: 22),
-            elGrocerLogo.widthAnchor.constraint(equalToConstant: 20)
-        ])
-        
-        NSLayoutConstraint.activate([
-            smilesLogo.centerYAnchor.constraint(equalTo: centerYAnchor),
-            smilesLogo.leadingAnchor.constraint(equalTo: elGrocerLogo.trailingAnchor, constant: 8),
-            smilesLogo.heightAnchor.constraint(equalToConstant: 22),
-            smilesLogo.widthAnchor.constraint(equalTo: smilesLogo.heightAnchor, multiplier: 116 / 48)
         ])
         
         NSLayoutConstraint.activate([
@@ -164,7 +134,7 @@ class SmilesNavigationView: UIView {
         
         NSLayoutConstraint.activate([
             smilesPointsView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            smilesPointsView.leadingAnchor.constraint(equalTo: smilesLogo.trailingAnchor, constant: 8),
+            smilesPointsView.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 8),
             smilesPointsView.heightAnchor.constraint(equalToConstant: 34),
             smilesPointsView.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -8),
         ])
@@ -172,5 +142,9 @@ class SmilesNavigationView: UIView {
     
     func setSmilesPoints(_ points: Int) {
         self.lblSmilesPoint.text = points == -1 ? localizedString("earn_rewards_now", comment: "") : String(points)
+    }
+    
+    func setLeftTitle(_ text: String) {
+        self.leftTitle.text = text
     }
 }
