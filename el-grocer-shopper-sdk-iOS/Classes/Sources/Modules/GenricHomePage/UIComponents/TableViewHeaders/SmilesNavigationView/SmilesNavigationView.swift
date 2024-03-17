@@ -116,13 +116,13 @@ class SmilesNavigationView: UIView {
         NSLayoutConstraint.activate([
             titleView.centerYAnchor.constraint(equalTo: centerYAnchor),
             titleView.leadingAnchor.constraint(equalTo: leftTitle.trailingAnchor, constant: 4),
-            titleView.heightAnchor.constraint(equalToConstant: 55),
+            titleView.heightAnchor.constraint(equalToConstant: 30),
         ])
         
         NSLayoutConstraint.activate([
             emojiView.centerYAnchor.constraint(equalTo: centerYAnchor),
             emojiView.leadingAnchor.constraint(equalTo: smilesPointsView.leadingAnchor, constant: 0.63),
-            emojiView.heightAnchor.constraint(equalToConstant: 32),
+            emojiView.heightAnchor.constraint(equalToConstant: 24),
             emojiView.widthAnchor.constraint(equalTo: emojiView.heightAnchor),
         ])
         
@@ -135,7 +135,7 @@ class SmilesNavigationView: UIView {
         NSLayoutConstraint.activate([
             smilesPointsView.centerYAnchor.constraint(equalTo: centerYAnchor),
             smilesPointsView.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 8),
-            smilesPointsView.heightAnchor.constraint(equalToConstant: 34),
+            smilesPointsView.heightAnchor.constraint(equalToConstant: 30),
             smilesPointsView.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -8),
         ])
     }

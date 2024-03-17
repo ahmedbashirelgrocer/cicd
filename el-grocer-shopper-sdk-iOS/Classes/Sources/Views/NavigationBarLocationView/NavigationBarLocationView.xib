@@ -64,6 +64,7 @@
                 <outlet property="btnLocation" destination="eGz-IR-at4" id="tDR-oU-R1u"/>
                 <outlet property="imgArrowDown" destination="iW8-hx-T3X" id="3bx-mX-3H0"/>
                 <outlet property="imgLocationPin" destination="mKt-nx-hud" id="M0d-dL-hZz"/>
+                <outlet property="imgLocationPinLeadingConstraint" destination="RLf-HE-7ru" id="vBw-Mb-S2T"/>
                 <outlet property="lblLocation" destination="17v-t7-V1i" id="VIm-YN-r5h"/>
             </connections>
             <point key="canvasLocation" x="215.94202898550725" y="-229.01785714285714"/>

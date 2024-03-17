@@ -10,6 +10,12 @@ import UIKit
 
 class NavigationBarLocationView: UIView {
 
+    @IBOutlet weak var imgLocationPinLeadingConstraint: NSLayoutConstraint! {
+        didSet {
+            imgLocationPinLeadingConstraint.constant = SDKManager.shared.isSmileSDK ? 50 : 16
+        }
+    }
+    
     @IBOutlet var imgLocationPin: UIImageView!{
         didSet{
             imgLocationPin.tintColor = sdkManager.isSmileSDK ? .black : .black
