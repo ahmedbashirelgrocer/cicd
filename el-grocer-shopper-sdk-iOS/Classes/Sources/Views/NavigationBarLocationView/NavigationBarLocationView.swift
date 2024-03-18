@@ -12,7 +12,7 @@ class NavigationBarLocationView: UIView {
 
     @IBOutlet weak var imgLocationPinLeadingConstraint: NSLayoutConstraint! {
         didSet {
-            imgLocationPinLeadingConstraint.constant = SDKManager.shared.isSmileSDK ? 50 : 16
+            imgLocationPinLeadingConstraint.constant = SDKManager.shared.isSmileSDK ? 50 : 45
         }
     }
     

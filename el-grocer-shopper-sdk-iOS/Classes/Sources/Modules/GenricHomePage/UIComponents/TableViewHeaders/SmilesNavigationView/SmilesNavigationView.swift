@@ -36,15 +36,16 @@ class SmilesNavigationView: UIView {
     lazy var smilesPointsView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.colorWithHexString(hexString: "423B79")
-        view.layer.cornerRadius = 16.0
+        view.layer.cornerRadius = 12.0
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private lazy var emojiView: UIImageView = {
         let view = UIImageView(image: UIImage(name: "smiles_face"))
+        view.contentMode = .scaleAspectFit
         view.backgroundColor = .clear
-        view.contentMode = .center
+//        view.contentMode = .center
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -101,41 +102,42 @@ class SmilesNavigationView: UIView {
     private func setupConstraint() {
         
         NSLayoutConstraint.activate([
-            profileButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            profileButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -6),
+            profileButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
+            profileButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
             profileButton.heightAnchor.constraint(equalToConstant: 45),
             profileButton.widthAnchor.constraint(equalTo: profileButton.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
-            leftTitle.centerYAnchor.constraint(equalTo: centerYAnchor),
-            leftTitle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            leftTitle.centerYAnchor.constraint(equalTo: profileButton.centerYAnchor),
+            leftTitle.leadingAnchor.constraint(equalTo: profileButton.trailingAnchor, constant: 0),
             leftTitle.heightAnchor.constraint(equalToConstant: 45)
         ])
         
         NSLayoutConstraint.activate([
-            titleView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            titleView.centerYAnchor.constraint(equalTo: profileButton.centerYAnchor),
             titleView.leadingAnchor.constraint(equalTo: leftTitle.trailingAnchor, constant: 4),
-            titleView.heightAnchor.constraint(equalToConstant: 30),
+            titleView.heightAnchor.constraint(equalToConstant: 24),
         ])
         
         NSLayoutConstraint.activate([
-            emojiView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            emojiView.leadingAnchor.constraint(equalTo: smilesPointsView.leadingAnchor, constant: 0.63),
-            emojiView.heightAnchor.constraint(equalToConstant: 24),
+            emojiView.centerYAnchor.constraint(equalTo: profileButton.centerYAnchor),
+            emojiView.leadingAnchor.constraint(equalTo: smilesPointsView.leadingAnchor, constant: 1),
+            emojiView.topAnchor.constraint(equalTo: smilesPointsView.topAnchor, constant: 1),
+            emojiView.bottomAnchor.constraint(equalTo: smilesPointsView.bottomAnchor, constant: -1),
             emojiView.widthAnchor.constraint(equalTo: emojiView.heightAnchor),
         ])
         
         NSLayoutConstraint.activate([
-            lblSmilesPoint.centerYAnchor.constraint(equalTo: centerYAnchor),
+            lblSmilesPoint.centerYAnchor.constraint(equalTo: profileButton.centerYAnchor),
             lblSmilesPoint.leadingAnchor.constraint(equalTo: emojiView.trailingAnchor, constant: 6),
             lblSmilesPoint.trailingAnchor.constraint(equalTo: self.smilesPointsView.trailingAnchor, constant: -6),
         ])
         
         NSLayoutConstraint.activate([
-            smilesPointsView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            smilesPointsView.centerYAnchor.constraint(equalTo: profileButton.centerYAnchor),
             smilesPointsView.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 8),
-            smilesPointsView.heightAnchor.constraint(equalToConstant: 30),
+            smilesPointsView.heightAnchor.constraint(equalToConstant: 24),
             smilesPointsView.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -8),
         ])
     }
