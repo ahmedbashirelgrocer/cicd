@@ -739,7 +739,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Qz4-pG-eyF">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                                <rect key="frame" x="0.0" y="30" width="320" height="489"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lkS-xj-Ccf">
@@ -775,10 +775,17 @@
                                 </connections>
                             </button>
                             <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GUA-i4-08o">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="0.0"/>
+                                <rect key="frame" x="0.0" y="30" width="320" height="0.0"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" id="QDs-LN-fFK"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="glU-xu-Wga">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="VVC-gc-UCP"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -786,17 +793,20 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="b5j-QF-hj5" firstAttribute="trailing" secondItem="1pm-X8-IrN" secondAttribute="trailing" constant="5" id="04R-6k-Mn2"/>
-                            <constraint firstItem="GUA-i4-08o" firstAttribute="top" secondItem="b5j-QF-hj5" secondAttribute="top" id="ARf-ws-cWs"/>
+                            <constraint firstAttribute="trailing" secondItem="glU-xu-Wga" secondAttribute="trailing" id="GIB-2B-uTk"/>
                             <constraint firstItem="Qz4-pG-eyF" firstAttribute="leading" secondItem="b5j-QF-hj5" secondAttribute="leading" id="HDg-G6-Ckt"/>
                             <constraint firstItem="GUA-i4-08o" firstAttribute="trailing" secondItem="b5j-QF-hj5" secondAttribute="trailing" id="Sfh-lx-478"/>
                             <constraint firstItem="b5j-QF-hj5" firstAttribute="trailing" secondItem="Qz4-pG-eyF" secondAttribute="trailing" id="Tgl-2E-VIw"/>
                             <constraint firstItem="lkS-xj-Ccf" firstAttribute="top" secondItem="Qz4-pG-eyF" secondAttribute="bottom" id="aPX-VO-AwU"/>
+                            <constraint firstItem="glU-xu-Wga" firstAttribute="leading" secondItem="G4C-fB-Yee" secondAttribute="leading" id="aWn-Wu-IJC"/>
                             <constraint firstItem="GUA-i4-08o" firstAttribute="leading" secondItem="b5j-QF-hj5" secondAttribute="leading" id="bRB-td-9hw"/>
                             <constraint firstAttribute="bottom" secondItem="1pm-X8-IrN" secondAttribute="bottom" constant="25" id="d5Z-Ng-weN"/>
+                            <constraint firstItem="glU-xu-Wga" firstAttribute="top" secondItem="G4C-fB-Yee" secondAttribute="top" id="jCv-uj-THl"/>
                             <constraint firstItem="lkS-xj-Ccf" firstAttribute="leading" secondItem="b5j-QF-hj5" secondAttribute="leading" id="lCC-sa-m9s"/>
                             <constraint firstItem="Qz4-pG-eyF" firstAttribute="top" secondItem="GUA-i4-08o" secondAttribute="bottom" id="ofJ-GY-aJt"/>
                             <constraint firstAttribute="bottom" secondItem="lkS-xj-Ccf" secondAttribute="bottom" id="qlH-FN-jyt"/>
                             <constraint firstItem="b5j-QF-hj5" firstAttribute="trailing" secondItem="lkS-xj-Ccf" secondAttribute="trailing" id="u4o-Wr-gnS"/>
+                            <constraint firstItem="GUA-i4-08o" firstAttribute="top" secondItem="glU-xu-Wga" secondAttribute="bottom" id="vu6-Yy-1a1"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
@@ -817,7 +827,7 @@
     </scenes>
     <designables>
         <designable name="UvO-Wj-Q0G">
-            <size key="intrinsicContentSize" width="107" height="31"/>
+            <size key="intrinsicContentSize" width="107" height="32"/>
         </designable>
     </designables>
     <resources>
