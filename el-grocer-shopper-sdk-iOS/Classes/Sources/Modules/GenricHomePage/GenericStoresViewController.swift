@@ -67,6 +67,12 @@ class GenericStoresViewController: BasketBasicViewController {
 
     lazy private (set) var tableViewHeader2 : ILSegmentView = {
         let view = ILSegmentView()
+        
+        var frameHeight = view.frame
+        frameHeight.size.width = ScreenSize.SCREEN_WIDTH
+        frameHeight.size.height = 88 + 16
+        view.frame = frameHeight ?? view.frame ?? CGRect.zero
+        
         view.onTap { [weak self] index in self?.subCategorySelectedWithSelectedIndex(index) }
         return view
     }()
@@ -121,6 +127,7 @@ class GenericStoresViewController: BasketBasicViewController {
     private var openOrders : [NSDictionary] = []
     private var configRetriesCount: Int = 0
 
+    @IBOutlet var navView: UIView!
     @IBOutlet var tableView: UITableView!
     @IBOutlet var currentOrderCollectionView: UICollectionView!
     @IBOutlet var currentOrderCollectionViewHeightConstraint: NSLayoutConstraint!
@@ -315,20 +322,43 @@ class GenericStoresViewController: BasketBasicViewController {
         }
     }
 
-    private func setTableViewHeader() {
+    
+    private func setNavAndLocationView() {
         
         self.locationHeader.configured()
         (self.navigationController as? ElGrocerNavigationController)?.setLocationText(self.locationHeader.lblAddress.text ?? "")
+        self.navView.addSubview(searchBarHeader)
+        self.searchBarHeader.setNeedsLayout()
+        self.searchBarHeader.layoutIfNeeded()
+        self.searchBarHeader.setLocationText(self.locationHeader.lblAddress.text ?? "")
+        
+        NSLayoutConstraint.activate([
+            searchBarHeader.leadingAnchor.constraint(equalTo: navView.leadingAnchor),
+            searchBarHeader.trailingAnchor.constraint(equalTo: navView.trailingAnchor),
+            searchBarHeader.topAnchor.constraint(equalTo: navView.topAnchor),
+            searchBarHeader.bottomAnchor.constraint(equalTo: navView.bottomAnchor)
+        ])
+        
+        
+    }
+    
+    private func setTableViewHeader() {
+        guard self.availableStoreTypeA.count > 0 else {
+            return
+        }
+        
         DispatchQueue.main.async(execute: {
             [weak self] in
             guard let self = self else {return}
-            self.searchBarHeader.setNeedsLayout()
-            self.searchBarHeader.layoutIfNeeded()
-            self.tableView.tableHeaderView = self.searchBarHeader
+            self.tableViewHeader2.setNeedsLayout()
+            self.tableViewHeader2.layoutIfNeeded()
+            self.tableView.tableHeaderView = self.tableViewHeader2
             self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
-            self.searchBarHeader.setLocationText(self.locationHeader.lblAddress.text ?? "")
             self.tableView.layoutTableHeaderView()
             self.tableView.reloadData()
+            self.tableViewHeader2.reloadData()
+            self.tableViewHeader2.addBorder(vBorder: .Bottom, color: ApplicationTheme.currentTheme.separatorColor, width: 1)
+            self.tableViewHeader2.isHidden = false
         })
         
     }
@@ -549,7 +579,7 @@ class GenericStoresViewController: BasketBasicViewController {
         
         let oldLocation = self.locationHeader.localLoadedAddress
         
-        self.setTableViewHeader()
+        self.setNavAndLocationView()
         
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {
             return self.tableView.reloadDataOnMain()
@@ -830,9 +860,9 @@ extension GenericStoresViewController: ButtonActionDelegate {
 extension GenericStoresViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 && self.availableStoreTypeA.count > 0 {
-            return 88 + 16//100 + 32 //cellheight + top bottom
-        }
+//        if section == 0 && self.availableStoreTypeA.count > 0 {
+//            return 88 + 16//100 + 32 //cellheight + top bottom
+//        }
         return 0.01
     }
 
@@ -842,10 +872,10 @@ extension GenericStoresViewController: UITableViewDelegate, UITableViewDataSourc
 
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 && self.availableStoreTypeA.count > 0 {
-            tableViewHeader2.addBorder(vBorder: .Bottom, color: ApplicationTheme.currentTheme.separatorColor, width: 1)
-            return tableViewHeader2
-        }
+//        if section == 0 && self.availableStoreTypeA.count > 0 {
+//            tableViewHeader2.addBorder(vBorder: .Bottom, color: ApplicationTheme.currentTheme.separatorColor, width: 1)
+//            return tableViewHeader2
+//        }
         return nil
     }
 
@@ -891,7 +921,7 @@ extension GenericStoresViewController: UITableViewDelegate, UITableViewDataSourc
 extension GenericStoresViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        self.searchBarHeader.viewDidScroll(scrollView)
+//        self.searchBarHeader.viewDidScroll(scrollView)
     }
 }
 
@@ -1006,6 +1036,7 @@ extension GenericStoresViewController: HomePageDataLoadingComplete {
             ElGrocerUtility.sharedInstance.groceries =  self.homeDataHandler.groceryA ?? []
             self.setUserProfileData()
             self.setDefaultGrocery()
+            self.setTableViewHeader()
             self.setSegmentView()
             subCategorySelectedWithSelectedIndex(0)
             
@@ -1028,6 +1059,7 @@ extension GenericStoresViewController: HomePageDataLoadingComplete {
             if self.homeDataHandler.groceryA?.count ?? 0 > 0 {
                 self.tableView.backgroundView = UIView()
             }
+            self.setTableViewHeader()
             self.tableView.reloadData()
             SpinnerView.hideSpinnerView()
         }
@@ -1800,7 +1832,7 @@ extension GenericStoresViewController {
     
     @objc
     func reloadAllData() {
-        self.setTableViewHeader()
+        self.setNavAndLocationView()
         HomePageData.shared.resetHomeDataHandler()
         HomePageData.shared.fetchHomeData(Platform.isDebugBuild)
     }

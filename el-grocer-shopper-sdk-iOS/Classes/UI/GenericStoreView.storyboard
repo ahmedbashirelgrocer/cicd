@@ -578,7 +578,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9ri-I1-WJE" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rSV-as-nnS">
-                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -738,8 +738,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Qz4-pG-eyF">
-                                <rect key="frame" x="0.0" y="48" width="414" height="638"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Qz4-pG-eyF">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lkS-xj-Ccf">
@@ -774,17 +774,27 @@
                                     <action selector="btnMultiCartHandler:" destination="07A-wL-yud" eventType="touchUpInside" id="Rdt-PT-xZ5"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GUA-i4-08o">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="0.0"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" id="QDs-LN-fFK"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="b5j-QF-hj5"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="b5j-QF-hj5" firstAttribute="trailing" secondItem="1pm-X8-IrN" secondAttribute="trailing" constant="5" id="04R-6k-Mn2"/>
-                            <constraint firstItem="Qz4-pG-eyF" firstAttribute="top" secondItem="b5j-QF-hj5" secondAttribute="top" id="EGK-nM-56a"/>
+                            <constraint firstItem="GUA-i4-08o" firstAttribute="top" secondItem="b5j-QF-hj5" secondAttribute="top" id="ARf-ws-cWs"/>
                             <constraint firstItem="Qz4-pG-eyF" firstAttribute="leading" secondItem="b5j-QF-hj5" secondAttribute="leading" id="HDg-G6-Ckt"/>
+                            <constraint firstItem="GUA-i4-08o" firstAttribute="trailing" secondItem="b5j-QF-hj5" secondAttribute="trailing" id="Sfh-lx-478"/>
                             <constraint firstItem="b5j-QF-hj5" firstAttribute="trailing" secondItem="Qz4-pG-eyF" secondAttribute="trailing" id="Tgl-2E-VIw"/>
                             <constraint firstItem="lkS-xj-Ccf" firstAttribute="top" secondItem="Qz4-pG-eyF" secondAttribute="bottom" id="aPX-VO-AwU"/>
+                            <constraint firstItem="GUA-i4-08o" firstAttribute="leading" secondItem="b5j-QF-hj5" secondAttribute="leading" id="bRB-td-9hw"/>
                             <constraint firstAttribute="bottom" secondItem="1pm-X8-IrN" secondAttribute="bottom" constant="25" id="d5Z-Ng-weN"/>
                             <constraint firstItem="lkS-xj-Ccf" firstAttribute="leading" secondItem="b5j-QF-hj5" secondAttribute="leading" id="lCC-sa-m9s"/>
+                            <constraint firstItem="Qz4-pG-eyF" firstAttribute="top" secondItem="GUA-i4-08o" secondAttribute="bottom" id="ofJ-GY-aJt"/>
                             <constraint firstAttribute="bottom" secondItem="lkS-xj-Ccf" secondAttribute="bottom" id="qlH-FN-jyt"/>
                             <constraint firstItem="b5j-QF-hj5" firstAttribute="trailing" secondItem="lkS-xj-Ccf" secondAttribute="trailing" id="u4o-Wr-gnS"/>
                         </constraints>
@@ -796,17 +806,18 @@
                         <outlet property="btnMulticartBottomConstraint" destination="d5Z-Ng-weN" id="FiA-9n-cRh"/>
                         <outlet property="currentOrderCollectionView" destination="lkS-xj-Ccf" id="mcT-31-d7o"/>
                         <outlet property="currentOrderCollectionViewHeightConstraint" destination="KiY-Cy-gvX" id="7gQ-As-dHU"/>
+                        <outlet property="navView" destination="GUA-i4-08o" id="evI-yx-xml"/>
                         <outlet property="tableView" destination="Qz4-pG-eyF" id="jbd-hi-yQS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5l2-JN-eYg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-782" y="-1063"/>
+            <point key="canvasLocation" x="-783.75" y="-1063.7323943661972"/>
         </scene>
     </scenes>
     <designables>
         <designable name="UvO-Wj-Q0G">
-            <size key="intrinsicContentSize" width="107" height="32"/>
+            <size key="intrinsicContentSize" width="107" height="31"/>
         </designable>
     </designables>
     <resources>
