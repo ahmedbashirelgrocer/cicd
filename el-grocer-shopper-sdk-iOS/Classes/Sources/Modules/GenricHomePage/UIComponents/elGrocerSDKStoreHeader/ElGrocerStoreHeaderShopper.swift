@@ -36,10 +36,11 @@ class ElGrocerStoreHeaderShopper:  UIView  {
         didSet {
             var attributes: [NSAttributedString.Key : Any] = [:]
             attributes[.font] = UIFont.systemFont(ofSize: 12, weight: .bold)
-            attributes[.foregroundColor] = UIColor.white
+            attributes[.foregroundColor] = ApplicationTheme.currentTheme.newBlackColor
             let title = localizedString("ios.ZDKHelpCenter.helpCenterOverview.title", comment: "")
             let atext = NSAttributedString(string: title, attributes: attributes)
             btnHelp.setAttributedTitle(atext, for: .normal)
+            btnHelp.setTitleColor(ApplicationTheme.currentTheme.newBlackColor, for: .normal)
             btnHelp.addTarget(self, action: #selector(btnHelpHandler), for: .touchUpInside)
         }
     }
@@ -74,7 +75,6 @@ class ElGrocerStoreHeaderShopper:  UIView  {
     }
     @IBOutlet var myGroceryName: UILabel! {
         didSet {
-           
             self.myGroceryName.autoresizingMask = .flexibleHeight
             self.myGroceryName.setH4SemiBoldWhiteStyle()
             if let lng = UserDefaults.getCurrentLanguage(){
@@ -99,17 +99,21 @@ class ElGrocerStoreHeaderShopper:  UIView  {
     
     @IBOutlet var bGView: UIView!{
         didSet{
-            bGView.backgroundColor = .navigationBarColor()
+            bGView.backgroundColor = .clear
+            //bGView.backgroundColor = .navigationBarColor()
         }
     }
     @IBOutlet var groceryBGView: UIView!{
         didSet{
-            groceryBGView.backgroundColor = .navigationBarColor()
+            groceryBGView.backgroundColor = .clear
+            //groceryBGView.backgroundColor = .navigationBarColor()
         }
     }
     @IBOutlet var imgDeliverySlot: UIImageView!{
         didSet{
             imgDeliverySlot.image = UIImage(name: "clockWhite")
+            imgDeliverySlot.image = imgDeliverySlot.image?.withCustomTintColor(color: ApplicationTheme.currentTheme.newGreyColor)
+            
         }
     }
     @IBOutlet var searchBGView: UIView!{
@@ -250,15 +254,15 @@ class ElGrocerStoreHeaderShopper:  UIView  {
                 self.hideSlotImage(slotStringData.hideSlotImage)
                 if firstObj.isInstant.boolValue {
                     slotString = localizedString("delivery_within_60_min", comment: "")
-                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
                     let attributedString = NSMutableAttributedString(string: slotString , attributes:attrs2 as [NSAttributedString.Key : Any])
                     self.setAttributedValueForSlotOnMainThread(attributedString)
                     self.currentSelectedSlot = firstObj
                     return
                 }
                 self.currentSelectedSlot = firstObj
-                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
-                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
+                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
+                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
                     let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
                     
                     var data = slotString.components(separatedBy: " ")
@@ -298,15 +302,15 @@ class ElGrocerStoreHeaderShopper:  UIView  {
                 if firstObj.isInstant.boolValue {
 //                    slotString = localizedString("today_title", comment: "") + " " +  localizedString("60_min", comment: "")  + "⚡️"
                     slotString = localizedString("delivery_within_60_min", comment: "")
-                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
                     let attributedString = NSMutableAttributedString(string: slotString , attributes:attrs2 as [NSAttributedString.Key : Any])
                     self.setAttributedValueForSlotOnMainThread(attributedString)
                     self.currentSelectedSlot = firstObj
                     return
                 }
                 self.currentSelectedSlot = firstObj
-                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
-                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : UIColor.navigationBarWhiteColor()]
+                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
+                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
                 let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
                 
                 var data = slotString.components(separatedBy: " ")

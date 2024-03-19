@@ -35,9 +35,9 @@ class CategoriesCell: RxUITableViewCell {
     }
     @IBOutlet weak var ivArrow: UIImageView! {
         didSet{
-            if SDKManager.shared.isSmileSDK  {
+            //if SDKManager.shared.isSmileSDK  {
                 ivArrow.image = UIImage(name: "arrowForwardSmiles")
-            }
+            //}
         }
     }
     @IBOutlet weak var collectionView: UICollectionView!
