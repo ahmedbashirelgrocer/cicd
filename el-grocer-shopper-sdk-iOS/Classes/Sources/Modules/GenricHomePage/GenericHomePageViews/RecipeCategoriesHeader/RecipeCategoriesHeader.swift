@@ -8,6 +8,8 @@
 import UIKit
 
 class RecipeCategoriesHeader: UIView {
+    
+    var recipeCategorySelected: ((_ selectedCategory : RecipeCategoires?)->Void)?
 
     @IBOutlet weak var categoryListView: RecipeCategoriesList!
     
@@ -25,13 +27,15 @@ class RecipeCategoriesHeader: UIView {
     func addClosure(){
         categoryListView.recipeCategorySelected = {[weak self] (selectedCategory) in
             guard let self = self else {return}
-            //            self.dataHandler.setFilterRecipeCategory(selectedCategory)
-            //            self.getFilteredData(isNeedToReset: true)
             guard selectedCategory != nil else {
                 return
             }
-            
             self.categoryListView.categorySelected = selectedCategory
+            
+            if let recipeCategorySelected = self.recipeCategorySelected {
+                recipeCategorySelected(selectedCategory)
+            }
+            
         }
     }
     

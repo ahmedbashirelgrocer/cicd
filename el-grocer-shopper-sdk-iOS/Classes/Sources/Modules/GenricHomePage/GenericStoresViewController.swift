@@ -17,7 +17,7 @@ import RxSwift
     // import MaterialShowcase
 
 let kfeaturedCategoryId : Int64 = 0 // Platform.isSimulator ? 12 : 0 // 12 for staging server
-let KfeaturedRecipeStoreTypeId: Int64 = 57
+let KfeaturedRecipeStoreTypeId: Int64 = 12//57
 class GenericStoresViewController: BasketBasicViewController {
 
     private var disposeBag = DisposeBag()
@@ -355,6 +355,14 @@ class GenericStoresViewController: BasketBasicViewController {
     
     private func setTableViewHeader() {
         guard self.availableStoreTypeA.count > 0 else {
+            
+            if self.tableView.tableHeaderView != nil {
+                self.tableView.tableHeaderView = nil
+                self.tableViewHeader2.setNeedsLayout()
+                self.tableViewHeader2.layoutIfNeeded()
+                self.tableView.reloadData()
+                self.tableViewHeader2.reloadData()
+            }
             return
         }
         
@@ -877,7 +885,7 @@ extension GenericStoresViewController: UITableViewDelegate, UITableViewDataSourc
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 && self.lastSelectType?.storeTypeid == KfeaturedRecipeStoreTypeId {
-            return 88 + 16
+            return 50
         }
         return 0.01
     }
@@ -889,9 +897,7 @@ extension GenericStoresViewController: UITableViewDelegate, UITableViewDataSourc
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 && self.lastSelectType?.storeTypeid == KfeaturedRecipeStoreTypeId {
-            let view = UIView()
-            view.backgroundColor = .blue
-            return view
+            return recipeCategoriesHeader
         }
         return nil
     }
@@ -1078,7 +1084,7 @@ extension GenericStoresViewController: HomePageDataLoadingComplete {
             }
          
             ElGrocerUtility.sharedInstance.groceries =  self.homeDataHandler.groceryA ?? []
-            recipeCategoriesHeader.configureHeader(groceryA: self.homeDataHandler.groceryA ?? [])
+            self.setUpRecipeCategory()
             self.setUserProfileData()
             self.setDefaultGrocery()
             self.setTableViewHeader()
@@ -1108,6 +1114,23 @@ extension GenericStoresViewController: HomePageDataLoadingComplete {
             self.tableView.reloadData()
             SpinnerView.hideSpinnerView()
         }
+    }
+    
+    
+    func setUpRecipeCategory() {
+        
+        recipeCategoriesHeader.configureHeader(groceryA: self.homeDataHandler.groceryA ?? [])
+        
+        recipeCategoriesHeader.recipeCategorySelected = {[weak self] category in
+            
+            guard let category = category  else {
+                return
+            }
+            
+            self?.homeDataHandler.callForRecipeForFeatureCategory(categoryId: category.categoryID ?? kfeaturedCategoryId)
+            
+        }
+        
     }
 
     func basketStatusChange(status: Bool) {

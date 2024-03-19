@@ -190,7 +190,7 @@ class HomePageData  {
             case .AllChefForDeliveryStores:
                 self.callForHomeChefs()
             case .FeatureRecipesOfAllDeliveryStore:
-                self.callForRecipeForFeatureCategory()
+            self.callForRecipeForFeatureCategory(categoryId: kfeaturedCategoryId)
             default:
                 return
         }
@@ -271,7 +271,7 @@ class HomePageData  {
     }
     
     
-    func callForRecipeForFeatureCategory() {
+    func callForRecipeForFeatureCategory(categoryId: Int64) {
         
         guard self.groceryA?.count ?? 0 > 0 else {
             self.startFetching()
@@ -283,7 +283,7 @@ class HomePageData  {
         self.chefAndRecipeItem = DispatchWorkItem {
             let retailerString = self.GenerateRetailerIdString(groceryA: self.groceryA ?? [])
             if retailerString.count > 0 {
-                self.recipeDataHandler?.getNextRecipeList(retailersId: retailerString, categroryId: kfeaturedCategoryId , limit: "100" , true)
+                self.recipeDataHandler?.getNextRecipeList(retailersId: retailerString, categroryId: categoryId , limit: "100" , true)
             }
         }
         DispatchQueue.global(qos: .utility).async(execute: self.chefAndRecipeItem!)
