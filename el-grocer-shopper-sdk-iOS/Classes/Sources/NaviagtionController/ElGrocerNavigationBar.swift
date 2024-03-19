@@ -651,13 +651,6 @@ class ElGrocerNavigationBar : UINavigationBar {
                 back.setImage(image, for: UIControl.State())
                 self.backButton = back
         }
-        if sdkManager.isShopperApp{
-            if let back = self.backButton{
-                var image = UIImage(name: "BackButtonIconGrey")!
-                back.setImage(image, for: UIControl.State())
-                self.backButton = back
-            }
-        }
     }
     
     func setCartButtonState(_ isGroceryAvailable : Bool) {

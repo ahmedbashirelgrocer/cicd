@@ -82,7 +82,7 @@ class savedRecipesVC: BasketBasicViewController, NoStoreViewDelegate  {
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         self.view.backgroundColor = .navigationBarWhiteColor()
         //self.tableView.backgroundColor = .tableViewBackgroundColor()
-        self.tableView.backgroundColor = .white
+        self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         self.navigationController?.navigationBar.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.navigationController?.navigationBar.isTranslucent = true
     }

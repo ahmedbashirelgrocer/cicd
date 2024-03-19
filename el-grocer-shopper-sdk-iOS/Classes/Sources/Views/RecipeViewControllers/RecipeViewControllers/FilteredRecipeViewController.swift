@@ -111,7 +111,7 @@ class FilteredRecipeViewController: BasketBasicViewController, NoStoreViewDelega
         
         let recipeListCell = UINib(nibName: KRecipeTableViewCellIdentifier, bundle: Bundle.resource)
         self.tableView.register(recipeListCell, forCellReuseIdentifier: KRecipeTableViewCellIdentifier )
-        self.tableView.backgroundColor = .tableViewBackgroundColor() //.navigationBarWhiteColor()
+        self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         self.tableView.estimatedRowHeight = CGFloat(KRecipeTableViewCellHeight)
         self.tableView.separatorStyle = .none
         
