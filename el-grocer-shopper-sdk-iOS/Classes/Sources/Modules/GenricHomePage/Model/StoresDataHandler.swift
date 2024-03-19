@@ -150,7 +150,9 @@ class GenericStoreMeduleAPI : ElGrocerApi {
         
         let userId = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext).dbID.stringValue
         
-        NetworkCall.get( url , parameters:  [    "limit" : "10000" , "offset" : "0" , "latitude" : latitude , "longitude" : longitude  , "all_type" : true, "shopper_id": userId ], progress: { (progress) in
+        let recipeType = SDKManager.shared.isSmileSDK ? false : true
+        
+        NetworkCall.get( url , parameters:  [    "limit" : "10000" , "offset" : "0" , "latitude" : latitude , "longitude" : longitude  , "all_type" : true, "shopper_id": userId, "recipe_type" : recipeType ], progress: { (progress) in
             elDebugPrint("Calli  ng \(progress)")
         }, success: success, failure: failure)
     }
