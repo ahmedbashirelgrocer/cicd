@@ -122,6 +122,7 @@ public protocol Theme {
     var StorePageCategoryViewBgColor: UIColor { get }
     //MARK: Home Page
     var searchBarBGBlue50Color: UIColor { get }
+    var oneClickReorderBGColor: UIColor { get }
     
     //MARK: Borders
     var darkBorderGrayColor: UIColor { get }
@@ -246,7 +247,7 @@ struct ElgrocerTheme: Theme {
     var StorePageCategoryViewBgColor: UIColor { ElgrocerBaseColors.elgrocerWhiteColour }
     //MARK: Home Page
     var searchBarBGBlue50Color: UIColor {ElgrocerBaseColors.elgrocerBGBlue50Color}
-    
+    var oneClickReorderBGColor: UIColor {ElgrocerThemeBaseColors.elgrocerFeedbackYellow100Colour}
     //MARK: Borders
     var darkBorderGrayColor: UIColor { #colorLiteral(red: 0.8470588235, green: 0.8470588235, blue: 0.8470588235, alpha: 1) }
     var borderGrayColor: UIColor { #colorLiteral(red: 0.9019607843, green: 0.9019607843, blue: 0.9019607843, alpha: 1) }
@@ -368,7 +369,7 @@ struct SmileSDKTheme: Theme {
     
     //MARK: Home Page
     var searchBarBGBlue50Color: UIColor = ElgrocerBaseColors.elgrocerBGBlue50Color
-    
+    var oneClickReorderBGColor: UIColor {ElgrocerBaseColors.elgrocerBGBlue50Color}
     //MARK: Borders
     var darkBorderGrayColor: UIColor { #colorLiteral(red: 0.8470588235, green: 0.8470588235, blue: 0.8470588235, alpha: 1) }
     var borderGrayColor: UIColor { #colorLiteral(red: 0.9019607843, green: 0.9019607843, blue: 0.9019607843, alpha: 1) }

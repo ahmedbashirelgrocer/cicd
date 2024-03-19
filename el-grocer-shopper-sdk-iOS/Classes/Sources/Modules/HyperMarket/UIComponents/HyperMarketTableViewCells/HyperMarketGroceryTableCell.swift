@@ -28,12 +28,12 @@ class HyperMarketGroceryTableCell: UITableViewCell {
     @IBOutlet var lblGroceryName: UILabel!{
         didSet{
             lblGroceryName.numberOfLines = 1
-            lblGroceryName.setBody2SemiboldGeoceryDarkGreenStyle()
+            lblGroceryName.setBody2SemiboldDarkStyle()
         }
     }
     @IBOutlet var lblSlot: UILabel!{
         didSet{
-            lblSlot.setSubHead2SemiBoldDarkGreenStyle()
+            lblSlot.setSubHead2SemiBoldDarkStyle()
         }
     }
     @IBOutlet var newBGView: UIView!{

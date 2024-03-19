@@ -72,9 +72,9 @@ class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
         }else {
             self.lblHeadingTopConstraint.constant = 16
             self.lblHeading.text = localizedString("lbl_title_one_click_reorder", comment: "")
-            self.bGView.backgroundColor = ApplicationTheme.currentTheme.searchBarBGBlue50Color
+            self.bGView.backgroundColor = ApplicationTheme.currentTheme.oneClickReorderBGColor
             self.contentView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
-            self.collectionView.backgroundColor = ApplicationTheme.currentTheme.searchBarBGBlue50Color
+            self.collectionView.backgroundColor = ApplicationTheme.currentTheme.oneClickReorderBGColor
         }
     }
     
