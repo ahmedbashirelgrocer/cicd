@@ -289,6 +289,12 @@ class GenericStoresViewController: BasketBasicViewController {
         let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: Bundle.resource)
         self.currentOrderCollectionView.register(CurrentOrderCollectionCell, forCellWithReuseIdentifier: "CurrentOrderCollectionCell")
         
+        // recipe cells
+        self.tableView.register(UINib(nibName: "chefListTableCell", bundle: Bundle.resource), forCellReuseIdentifier: "chefListTableCellTableViewCell")
+        self.tableView.register(UINib(nibName: KGenericViewTitileTableViewCell, bundle: Bundle.resource), forCellReuseIdentifier: KGenericViewTitileTableViewCell)
+        
+        let recipeListCell = UINib(nibName: KRecipeTableViewCellIdentifier, bundle: Bundle.resource)
+        self.tableView.register(recipeListCell, forCellReuseIdentifier: KRecipeTableViewCellIdentifier )
         
         
         NotificationCenter.default.addObserver(self,selector: #selector(GenericStoresViewController.getOpenOrders), name: SDKLoginManager.KOpenOrderRefresh , object: nil)
@@ -336,7 +342,7 @@ class GenericStoresViewController: BasketBasicViewController {
             searchBarHeader.leadingAnchor.constraint(equalTo: navView.leadingAnchor),
             searchBarHeader.trailingAnchor.constraint(equalTo: navView.trailingAnchor),
             searchBarHeader.topAnchor.constraint(equalTo: navView.topAnchor),
-            searchBarHeader.bottomAnchor.constraint(equalTo: navView.bottomAnchor)
+            searchBarHeader.bottomAnchor.constraint(equalTo: navView.bottomAnchor, constant: -10)
         ])
         
         
@@ -860,9 +866,9 @@ extension GenericStoresViewController: ButtonActionDelegate {
 extension GenericStoresViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        if section == 0 && self.availableStoreTypeA.count > 0 {
-//            return 88 + 16//100 + 32 //cellheight + top bottom
-//        }
+        if section == 0 && self.tableViewHeader2.selectedItemIndex == 1 {
+            return 88 + 16
+        }
         return 0.01
     }
 
@@ -872,31 +878,58 @@ extension GenericStoresViewController: UITableViewDelegate, UITableViewDataSourc
 
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        if section == 0 && self.availableStoreTypeA.count > 0 {
-//            tableViewHeader2.addBorder(vBorder: .Bottom, color: ApplicationTheme.currentTheme.separatorColor, width: 1)
-//            return tableViewHeader2
-//        }
+        if section == 0 && self.tableViewHeader2.selectedItemIndex == 1 {
+            let view = UIView()
+            view.backgroundColor = .blue
+            return view
+        }
         return nil
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        if self.tableViewHeader2.selectedItemIndex == 1 {
+            return 2
+        }else {
+            return 4
+        }
+        
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numberOfRowsInSection(section)
+        if self.tableViewHeader2.selectedItemIndex == 1 {
+            return numberOfRowsInSectionForRecipe(section)
+        }else {
+            return numberOfRowsInSection(section)
+        }
+        
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return cellForRowAt(indexPath, tableView)
+        
+        if self.tableViewHeader2.selectedItemIndex == 1 {
+            return cellForRowAtForRecipe(indexPath, tableView)
+        }else {
+            return cellForRowAt(indexPath, tableView)
+        }
+        
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        didSelectRowAt(indexPath)
+        if self.tableViewHeader2.selectedItemIndex == 1 {
+            didSelectRowAtForRecipe(indexPath)
+        }else {
+            didSelectRowAt(indexPath)
+        }
+        
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return heightForRowAt(indexPath, tableView)
+        if self.tableViewHeader2.selectedItemIndex == 1 {
+            return heightForRowAtForRecipe(indexPath, tableView)
+        }else {
+            return heightForRowAt(indexPath, tableView)
+        }
+        
     }
 
     // MARK: Banner Navigation
@@ -1285,6 +1318,87 @@ extension GenericStoresViewController {
 }
 
 extension GenericStoresViewController {
+    
+    
+    //MARK: Recipe table view cells data source and functions
+    func numberOfRowsInSectionForRecipe(_ section: Int) -> Int {
+        
+        switch section {
+        case 0:
+            return 1
+        default:
+            return self.homeDataHandler.recipeList.count + 1
+        }
+        
+    }
+    
+    func cellForRowAtForRecipe(_ indexPath: IndexPath, _ tableView: UITableView) -> UITableViewCell {
+        // New
+        switch indexPath {
+        case .init(row: 0, section: 0):
+            let cell = tableView.dequeueReusableCell(withIdentifier: "chefListTableCellTableViewCell") as! chefListTableCellTableViewCell
+            cell.chefListView.chefList(chefTotalA: self.homeDataHandler.chefList)
+            
+            cell.chefListView.chefSelected = {[weak self] (selectedChef) in
+                guard let self = self else {return}
+                // self.dataHandler.setFilterChef(selectedChef)
+                // self.getFilteredData(isNeedToReset: true)
+                self.gotoFilterController(chef: selectedChef, category: nil)
+
+            }
+            
+            return cell
+        case .init(row: 0, section: 1):
+            let cell : GenericViewTitileTableViewCell = self.tableView.dequeueReusableCell(withIdentifier: KGenericViewTitileTableViewCell , for: indexPath) as! GenericViewTitileTableViewCell
+            
+            cell.configureCell(title: localizedString("txt_All_Recipes", comment: ""))
+            return cell
+        default:
+            return makeRecipeCell(indexPath, recipeListArrayData: self.homeDataHandler.recipeList)
+        }
+    }
+    
+    func didSelectRowAtForRecipe(_ indexPath: IndexPath) {
+        print("index selected \(indexPath.row)")
+        if indexPath.section == 1 && indexPath.row > 0{
+            if let topVC = UIApplication.topViewController(){
+                (topVC.tabBarController?.navigationController as? ElgrocerGenericUIParentNavViewController)?.setLogoHidden(true)
+                (topVC.tabBarController?.navigationController as? ElgrocerGenericUIParentNavViewController)?.setBasketButtonHidden(true)
+                
+                let selectedRecipe = self.homeDataHandler.recipeList[indexPath.row - 1]
+                let recipeDetail : RecipeDetailVC = ElGrocerViewControllers.recipeDetailViewController()
+                recipeDetail.source = FireBaseEventsLogger.gettopViewControllerName()  ?? "UnKnown"
+                recipeDetail.recipe = selectedRecipe
+                recipeDetail.groceryA = self.groceryArray
+                recipeDetail.addToBasketMessageDisplayed = { [weak self] in
+                    guard let self = self else {return}
+                   
+                }
+                recipeDetail.hidesBottomBarWhenPushed = true
+            
+                
+                topVC.navigationController?.pushViewController(recipeDetail, animated: true)
+
+            }
+        }
+    }
+    
+    func heightForRowAtForRecipe(_ indexPath: IndexPath, _ tableView: UITableView) -> CGFloat {
+        
+        switch indexPath {
+        case .init(row: 0, section: 0):
+            return kChefListCellHeight
+        case .init(row: 0, section: 1):
+            return KGenericViewTitileTableViewCellHeight
+        default:
+            let height = ScreenSize.SCREEN_WIDTH - 16
+            return height
+        }
+    }
+    
+    
+    //MARK: Normal table view Cells data source and functions
+    
     func numberOfRowsInSection(_ section: Int) -> Int {
         guard sortedGroceryArray.count > 0 else {
             return 0
@@ -1440,6 +1554,46 @@ extension GenericStoresViewController {
 
 // MARK: - Make Cells
 extension GenericStoresViewController {
+    
+    func makeRecipeCell(_ indexPath: IndexPath, recipeListArrayData: [Recipe])->  RecipeTableViewCell {
+        let listCell = tableView.dequeueReusableCell(withIdentifier: KRecipeTableViewCellIdentifier ) as! RecipeTableViewCell
+        
+        var recipeListArray = recipeListArrayData
+        
+        if recipeListArray.isNotEmpty ?? false {
+            listCell.setRecipe(recipeListArray[indexPath.row - 1])
+            listCell.saveRecipeButton.tag = indexPath.row
+        }
+        
+        listCell.changeRecipeSaveStateTo = { [weak self] (isSave , recipe) in
+            guard self != nil  else {
+                return
+            }
+            let objInA = recipeListArray.filter { (rec) -> Bool in
+                return rec.recipeID == recipe?.recipeID
+            }
+            if objInA.count ?? 0 > 0 {
+                if var currentSelectRecipe = objInA[0] as? Recipe {
+                    if isSave != nil {
+                        currentSelectRecipe.isSaved = isSave!
+                    }
+                    
+                    if let index = recipeListArray.firstIndex(where: { (rec) -> Bool in
+                        return rec.recipeID == currentSelectRecipe.recipeID
+                    }) {
+                        recipeListArray[index] = currentSelectRecipe
+                    }
+                    
+                    DispatchQueue.main.async {
+                        self?.homeDataHandler.recipeList = recipeListArray
+                        self?.tableView.reloadData()
+                    }
+                }
+            }
+        }
+
+        return listCell
+    }
     
     func makeLocationOneBannerCell(_ indexPath: IndexPath) -> UITableViewCell {
         let cell : GenericBannersCell = self.tableView.dequeueReusableCell(withIdentifier: "GenericBannersCell", for: indexPath) as! GenericBannersCell
