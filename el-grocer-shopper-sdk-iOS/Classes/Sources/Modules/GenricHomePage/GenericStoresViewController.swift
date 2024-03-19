@@ -17,7 +17,7 @@ import RxSwift
     // import MaterialShowcase
 
 let kfeaturedCategoryId : Int64 = 0 // Platform.isSimulator ? 12 : 0 // 12 for staging server
-
+let KfeaturedRecipeStoreTypeId: Int64 = 57
 class GenericStoresViewController: BasketBasicViewController {
 
     private var disposeBag = DisposeBag()
@@ -377,17 +377,22 @@ class GenericStoresViewController: BasketBasicViewController {
         var filterStoreTypeData : [StoreType] = []
         for data in self.groceryArray {
             let typeA = data.getStoreTypes() ?? []
-            for type in typeA {
-                if let obj = self.availableStoreTypeA.first(where: { typeData in
-                    return type.int64Value == typeData.storeTypeid
-                }) {
+            
+            for storeType in self.availableStoreTypeA {
+                if let foundType = typeA.first { typeId in
+                    if storeType.storeTypeid == KfeaturedRecipeStoreTypeId {
+                        return true
+                    }else {
+                        return storeType.storeTypeid == typeId.int64Value
+                    }
+                }{
                     
                     if let _ = filterStoreTypeData.first(where: { type in
-                        return type.storeTypeid == obj.storeTypeid
+                        return type.storeTypeid == storeType.storeTypeid
                     }) {
                         elDebugPrint("available")
                     }else {
-                        filterStoreTypeData.append(obj)
+                        filterStoreTypeData.append(storeType)
                     }
                 }
             }
@@ -866,7 +871,7 @@ extension GenericStoresViewController: ButtonActionDelegate {
 extension GenericStoresViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 && self.tableViewHeader2.selectedItemIndex == 1 {
+        if section == 0 && self.lastSelectType?.storeTypeid == KfeaturedRecipeStoreTypeId {
             return 88 + 16
         }
         return 0.01
@@ -878,7 +883,7 @@ extension GenericStoresViewController: UITableViewDelegate, UITableViewDataSourc
 
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 && self.tableViewHeader2.selectedItemIndex == 1 {
+        if section == 0 && self.lastSelectType?.storeTypeid == KfeaturedRecipeStoreTypeId {
             let view = UIView()
             view.backgroundColor = .blue
             return view
@@ -887,7 +892,7 @@ extension GenericStoresViewController: UITableViewDelegate, UITableViewDataSourc
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        if self.tableViewHeader2.selectedItemIndex == 1 {
+        if self.lastSelectType?.storeTypeid == KfeaturedRecipeStoreTypeId {
             return 2
         }else {
             return 4
@@ -896,7 +901,7 @@ extension GenericStoresViewController: UITableViewDelegate, UITableViewDataSourc
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.tableViewHeader2.selectedItemIndex == 1 {
+        if self.lastSelectType?.storeTypeid == KfeaturedRecipeStoreTypeId {
             return numberOfRowsInSectionForRecipe(section)
         }else {
             return numberOfRowsInSection(section)
@@ -906,7 +911,7 @@ extension GenericStoresViewController: UITableViewDelegate, UITableViewDataSourc
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if self.tableViewHeader2.selectedItemIndex == 1 {
+        if self.lastSelectType?.storeTypeid == KfeaturedRecipeStoreTypeId {
             return cellForRowAtForRecipe(indexPath, tableView)
         }else {
             return cellForRowAt(indexPath, tableView)
@@ -915,7 +920,7 @@ extension GenericStoresViewController: UITableViewDelegate, UITableViewDataSourc
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if self.tableViewHeader2.selectedItemIndex == 1 {
+        if self.lastSelectType?.storeTypeid == KfeaturedRecipeStoreTypeId {
             didSelectRowAtForRecipe(indexPath)
         }else {
             didSelectRowAt(indexPath)
@@ -924,7 +929,7 @@ extension GenericStoresViewController: UITableViewDelegate, UITableViewDataSourc
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if self.tableViewHeader2.selectedItemIndex == 1 {
+        if self.lastSelectType?.storeTypeid == KfeaturedRecipeStoreTypeId {
             return heightForRowAtForRecipe(indexPath, tableView)
         }else {
             return heightForRowAt(indexPath, tableView)
@@ -1170,7 +1175,7 @@ extension GenericStoresViewController: AWSegmentViewProtocol {
         guard finalIndex < self.availableStoreTypeA.count else {return}
         
         let selectedType = self.availableStoreTypeA[finalIndex]
-        
+        self.lastSelectType = selectedType
         
         let filterA = self.groceryArray.filter { grocery in
             let storeTypes = grocery.getStoreTypes() ?? []
@@ -1192,7 +1197,7 @@ extension GenericStoresViewController: AWSegmentViewProtocol {
         
         SegmentAnalyticsEngine.instance.logEvent(event: storeCategoryClickedEvent)
         
-        self.lastSelectType = selectedType
+        
         
     }
 }
