@@ -1165,6 +1165,7 @@ extension GenericStoresViewController: AWSegmentViewProtocol {
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex:Int) {
         
         guard selectedSegmentIndex > 0 else {
+            self.lastSelectType = nil
             self.filteredGroceryArray = self.groceryArray
             self.tableView.reloadDataOnMain()
             return
