@@ -13,7 +13,7 @@ class RecipeBoutiqueListVC: BasketBasicViewController, NoStoreViewDelegate {
      var isCommingFromDeepLink = false
     @IBOutlet var searchSuperBGView: UIView!{
         didSet{
-            searchSuperBGView.backgroundColor = .white
+            searchSuperBGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             searchSuperBGView.roundWithShadow(corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner], radius: 16, withShadow: false)
         }
     }
@@ -116,7 +116,7 @@ class RecipeBoutiqueListVC: BasketBasicViewController, NoStoreViewDelegate {
 //        self.navigationController?.navigationBar.isTranslucent = false
         
         self.view.backgroundColor = .navigationBarWhiteColor()
-        self.tableView.backgroundColor = .white
+        self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         //self.tableView.backgroundColor = .tableViewBackgroundColor()
         self.navigationController?.navigationBar.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.navigationController?.navigationBar.isTranslucent = true
@@ -132,7 +132,7 @@ class RecipeBoutiqueListVC: BasketBasicViewController, NoStoreViewDelegate {
         
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
         self.navigationController?.navigationBar.isHidden = false
-        let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
+        let textAttributes = [NSAttributedString.Key.foregroundColor:ApplicationTheme.currentTheme.tableViewBGWhiteColor]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         
         if isNeedToShowCrossIcon {

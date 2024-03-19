@@ -142,7 +142,7 @@ class ElGrocerNavigationController : UINavigationController {
         self.setupGradient()
         (self.navigationBar as! ElGrocerNavigationBar).changeLogoColor(color: .navigationBarWhiteColor())
         (self.navigationBar as! ElGrocerNavigationBar).setChatIconColor(.navigationBarWhiteColor())
-        (self.navigationBar as! ElGrocerNavigationBar).changeBackButtonImage(true)
+        (self.navigationBar as! ElGrocerNavigationBar).changeBackButtonImage(false, true)
         
         
         
