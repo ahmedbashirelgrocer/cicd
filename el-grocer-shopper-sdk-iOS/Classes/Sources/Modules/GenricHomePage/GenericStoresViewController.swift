@@ -41,6 +41,11 @@ class GenericStoresViewController: BasketBasicViewController {
 //        searchHeader?.frame = frameHeight ?? searchHeader?.frame ?? CGRect.zero
         return searchHeader!
     }()
+    
+    lazy var recipeCategoriesHeader : RecipeCategoriesHeader = {
+        let recipeCategoriesHeader = RecipeCategoriesHeader.loadFromNib()
+        return recipeCategoriesHeader!
+    }()
 
     private lazy var NoDataView : NoStoreView = {
         let noStoreView = NoStoreView.loadFromNib()
@@ -1069,9 +1074,11 @@ extension GenericStoresViewController: HomePageDataLoadingComplete {
                 }
             }else {
                 FireBaseEventsLogger.trackStoreListing(self.homeDataHandler.groceryA ?? [])
+                
             }
          
             ElGrocerUtility.sharedInstance.groceries =  self.homeDataHandler.groceryA ?? []
+            recipeCategoriesHeader.configureHeader(groceryA: self.homeDataHandler.groceryA ?? [])
             self.setUserProfileData()
             self.setDefaultGrocery()
             self.setTableViewHeader()
