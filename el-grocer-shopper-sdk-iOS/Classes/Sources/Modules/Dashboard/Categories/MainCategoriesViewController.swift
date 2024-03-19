@@ -160,7 +160,6 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     func scrollViewDidScroll(forShopper scrollView: UIScrollView) {
         offset = scrollView.contentOffset.y
         let value = min(effectiveOffset, scrollView.contentOffset.y)
-        
         self.locationHeaderShopper.searchViewTopAnchor.constant = 62 - value
         self.locationHeaderShopper.searchViewLeftAnchor.constant = 16 + ((value / 60) * 30)
         self.locationHeaderShopper.groceryBGView.alpha = max(0, 1 - (value / 60))
