@@ -314,7 +314,7 @@ class RecipeTableViewCell: UITableViewCell {
     }
     @IBOutlet var lblRecipeName: UILabel! { // used as recipe name
         didSet{
-            lblRecipeName.setH4SemiBoldWhiteStyle()
+            lblRecipeName.setH4SemiBoldUpperWhiteStyle()
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 lblRecipeName.textAlignment = .right
             }
