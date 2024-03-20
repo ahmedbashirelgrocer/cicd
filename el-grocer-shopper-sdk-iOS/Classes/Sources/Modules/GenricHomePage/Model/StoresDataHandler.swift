@@ -148,7 +148,12 @@ class GenericStoreMeduleAPI : ElGrocerApi {
         
         let url =  sdkManager.isShopperApp ? ElGrocerApiEndpoint.genericRetailersList.rawValue : ElGrocerApiEndpoint.genericRetailersList.rawValue
         
-        let userId = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext).dbID.stringValue
+        var userId: String = ""
+        
+        if UserDefaults.isUserLoggedIn() {
+            userId = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext).dbID.stringValue
+        }
+        
         
         let recipeType = SDKManager.shared.isSmileSDK ? false : true
         
