@@ -81,7 +81,7 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         
-        if sdkManager.isShopperApp { addWhiteBackButton() } else {
+        if sdkManager.isShopperApp { addBackButton(isGreen: false, true) } else {
             addBackButton(isGreen: false)
         }
         setSaveButtonPosition(isKeyBoardVisible: false)
