@@ -15,6 +15,7 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
             oldPasswordTextField.dtLayer.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor.cgColor
             oldPasswordTextField.layer.borderWidth = 1
             oldPasswordTextField.layer.cornerRadius = 8
+            oldPasswordTextField.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
         }
     }
     @IBOutlet weak var newPasswordTextField: ElgrocerTextField!{
@@ -22,6 +23,7 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
             newPasswordTextField.dtLayer.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor.cgColor
             newPasswordTextField.layer.borderWidth = 1
             newPasswordTextField.layer.cornerRadius = 8
+            newPasswordTextField.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
         }
     }
     @IBOutlet weak var confirmPasswordTextField: ElgrocerTextField!{
@@ -29,6 +31,7 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
             confirmPasswordTextField.dtLayer.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor.cgColor
             confirmPasswordTextField.layer.borderWidth = 1
             confirmPasswordTextField.layer.cornerRadius = 8
+            confirmPasswordTextField.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
         }
     }
     @IBOutlet weak var saveButton: AWButton!
