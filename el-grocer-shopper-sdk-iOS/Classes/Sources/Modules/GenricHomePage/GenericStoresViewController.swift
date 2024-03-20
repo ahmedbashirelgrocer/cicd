@@ -139,7 +139,7 @@ class GenericStoresViewController: BasketBasicViewController {
 
     @IBOutlet var btnMulticart: UIButton! {
         didSet {
-            btnMulticart.setImage(UIImage(name: "Cart-InActive-Smile"), for: UIControl.State())
+            btnMulticart.setImage(UIImage(name: "Cart-Inactive-icon"), for: UIControl.State())
         }
     }
 
