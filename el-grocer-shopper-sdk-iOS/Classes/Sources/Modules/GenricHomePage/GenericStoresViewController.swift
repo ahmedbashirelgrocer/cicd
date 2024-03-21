@@ -1660,6 +1660,11 @@ extension GenericStoresViewController {
             vc.selectStoreType = self.selectStoreType
             vc.lastSelectType = self.lastSelectType
             var storeTypearray = self.availableStoreTypeA
+            
+            storeTypearray.removeAll { StoreType in
+                return StoreType.storeTypeid == KfeaturedRecipeStoreTypeId
+            }
+            
             vc.availableStoreTypeA = storeTypearray
             
             vc.groceryTapped = {[weak self] grocery in
