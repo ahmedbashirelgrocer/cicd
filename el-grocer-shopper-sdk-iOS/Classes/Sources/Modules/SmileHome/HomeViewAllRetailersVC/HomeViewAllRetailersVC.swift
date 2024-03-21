@@ -110,7 +110,7 @@ class HomeViewAllRetailersVC: UIViewController {
 
     func makeAvailableStoreCellListStyle(indexPath: IndexPath, grocery: Grocery) -> UITableViewCell {
         let cell = self.storeTableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell") as! HyperMarketGroceryTableCell
-        if (grocery.featured?.boolValue ?? false) && (indexPath.row == 0) {
+        if (grocery.featured?.boolValue ?? false) && ((grocery.parentID.intValue == 1020) || (grocery.parentID.intValue == 16)) {
             cell.configureCell(grocery: grocery, isFeatured: true)
         }else {
             cell.configureCell(grocery: grocery, isFeatured: false)
