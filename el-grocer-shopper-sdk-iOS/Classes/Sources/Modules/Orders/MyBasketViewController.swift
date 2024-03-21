@@ -1011,7 +1011,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         if  self.orderToReplace  {
             self.searchBar.frame = CGRect.init(x: 0, y: 0, width: self.viewForSearch.frame.size.width , height: self.viewForSearch.frame.size.height)
             self.searchBar.clipsToBounds = true
-            self.searchBar.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            self.searchBar.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
             self.viewForSearch.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
             self.viewForSearch.addSubview(self.searchBar)
 //            self.viewForSearch.isHidden = false
