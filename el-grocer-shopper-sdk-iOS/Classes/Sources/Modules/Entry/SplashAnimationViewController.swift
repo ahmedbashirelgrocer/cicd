@@ -178,8 +178,8 @@ class SplashAnimationViewController: UIViewController {
         // end date of ramadan splash animation
         let endDate = Calendar.current.date(from: DateComponents(year: 2024, month: 4, day: 10))!
         
-//        let shopperLottieFileName = (currentDate <= endDate) ? "ramadan_splash" : "splash_animation_shopper"
-        let shopperLottieFileName = (currentDate <= endDate) ? "splash_animation_shopper" : "splash_animation_shopper"
+        let shopperLottieFileName = (currentDate <= endDate) ? "ramadan_splash" : "splash_animation_shopper"
+//        let shopperLottieFileName = (currentDate <= endDate) ? "splash_animation_shopper" : "splash_animation_shopper"
 
         return shopperLottieFileName
     }
