@@ -767,7 +767,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lpz-kQ-857">
-                                        <rect key="frame" x="200" y="0.0" width="189" height="112"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="389" height="112"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="13"/>
                                         <state key="normal">
@@ -804,7 +804,7 @@
                                     <constraint firstItem="LSL-vF-M3S" firstAttribute="leading" secondItem="uwc-jY-vTj" secondAttribute="leading" id="3io-h2-wdd"/>
                                     <constraint firstAttribute="trailing" secondItem="LSL-vF-M3S" secondAttribute="trailing" id="6fg-3O-H5T"/>
                                     <constraint firstItem="5lm-ax-Y5c" firstAttribute="leading" secondItem="uwc-jY-vTj" secondAttribute="leading" id="9zI-tR-bEb"/>
-                                    <constraint firstItem="Lpz-kQ-857" firstAttribute="leading" secondItem="uwc-jY-vTj" secondAttribute="leading" constant="200" id="DXX-E3-GOZ"/>
+                                    <constraint firstItem="Lpz-kQ-857" firstAttribute="leading" secondItem="uwc-jY-vTj" secondAttribute="leading" id="DXX-E3-GOZ"/>
                                     <constraint firstItem="Lpz-kQ-857" firstAttribute="top" secondItem="uwc-jY-vTj" secondAttribute="top" id="N7c-l1-KeI"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="104" id="Ous-LD-b0O"/>
                                     <constraint firstAttribute="trailing" secondItem="5lm-ax-Y5c" secondAttribute="trailing" id="QUp-bV-Vu9"/>
