@@ -350,6 +350,7 @@ class RecipeTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         // setGradientBackgroundTopToBottom()
+        self.selectionStyle = .none
     }
     override func layerWillDraw(_ layer: CALayer) {
         // gradiantView.bounds = self.recipeImage.bounds
