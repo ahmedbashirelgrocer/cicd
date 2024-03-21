@@ -803,7 +803,7 @@
                             <constraint firstAttribute="bottom" secondItem="1pm-X8-IrN" secondAttribute="bottom" constant="25" id="d5Z-Ng-weN"/>
                             <constraint firstItem="glU-xu-Wga" firstAttribute="top" secondItem="G4C-fB-Yee" secondAttribute="top" id="jCv-uj-THl"/>
                             <constraint firstItem="lkS-xj-Ccf" firstAttribute="leading" secondItem="b5j-QF-hj5" secondAttribute="leading" id="lCC-sa-m9s"/>
-                            <constraint firstItem="Qz4-pG-eyF" firstAttribute="top" secondItem="GUA-i4-08o" secondAttribute="bottom" id="ofJ-GY-aJt"/>
+                            <constraint firstItem="Qz4-pG-eyF" firstAttribute="top" secondItem="GUA-i4-08o" secondAttribute="bottom" constant="-15" id="ofJ-GY-aJt"/>
                             <constraint firstAttribute="bottom" secondItem="lkS-xj-Ccf" secondAttribute="bottom" id="qlH-FN-jyt"/>
                             <constraint firstItem="b5j-QF-hj5" firstAttribute="trailing" secondItem="lkS-xj-Ccf" secondAttribute="trailing" id="u4o-Wr-gnS"/>
                             <constraint firstItem="GUA-i4-08o" firstAttribute="top" secondItem="glU-xu-Wga" secondAttribute="bottom" id="vu6-Yy-1a1"/>
