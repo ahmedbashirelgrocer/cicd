@@ -2162,7 +2162,7 @@
 
 //MARK: Delivery Slot
 "lbl_next_delivery" = "التسليم التالي:";
-"delivery_within_60_min" = " التسليم في غضون ٦٠ دقيقة ⚡️";
+"delivery_within_60_min" = "⏱️ التسليم في غضون ٦٠ دقيقة ⚡️";
 "lbl_next_self_collection" = "التسليم التالي:";
 
 //MARK: Order Details

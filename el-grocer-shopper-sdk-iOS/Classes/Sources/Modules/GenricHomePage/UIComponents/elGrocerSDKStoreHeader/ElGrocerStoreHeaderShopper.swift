@@ -254,7 +254,7 @@ class ElGrocerStoreHeaderShopper:  UIView  {
                 self.hideSlotImage(slotStringData.hideSlotImage)
                 if firstObj.isInstant.boolValue {
                     slotString = localizedString("delivery_within_60_min", comment: "")
-                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newBlackColor]
                     let attributedString = NSMutableAttributedString(string: slotString , attributes:attrs2 as [NSAttributedString.Key : Any])
                     self.setAttributedValueForSlotOnMainThread(attributedString)
                     self.currentSelectedSlot = firstObj
@@ -262,17 +262,12 @@ class ElGrocerStoreHeaderShopper:  UIView  {
                 }
                 self.currentSelectedSlot = firstObj
                 let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
-                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
+                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
                     let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
                     
                     var data = slotString.components(separatedBy: " ")
                     if data.count > 0 {
-                        var dayName = localizedString("lbl_next_delivery", comment: "")
-                        if ElGrocerUtility.sharedInstance.isDeliveryMode {
-                            dayName = localizedString("lbl_next_delivery", comment: "")
-                        }else {
-                            dayName = localizedString("lbl_next_self_collection", comment: "")
-                        }
+                        var dayName = localizedString("", comment: "")
                         let attributedString2 = NSMutableAttributedString(string:dayName as String , attributes:attrs1 as [NSAttributedString.Key : Any])
                         attributedString.append(attributedString2)
                         data.removeFirst()
@@ -302,7 +297,7 @@ class ElGrocerStoreHeaderShopper:  UIView  {
                 if firstObj.isInstant.boolValue {
 //                    slotString = localizedString("today_title", comment: "") + " " +  localizedString("60_min", comment: "")  + "⚡️"
                     slotString = localizedString("delivery_within_60_min", comment: "")
-                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
                     let attributedString = NSMutableAttributedString(string: slotString , attributes:attrs2 as [NSAttributedString.Key : Any])
                     self.setAttributedValueForSlotOnMainThread(attributedString)
                     self.currentSelectedSlot = firstObj
@@ -310,17 +305,12 @@ class ElGrocerStoreHeaderShopper:  UIView  {
                 }
                 self.currentSelectedSlot = firstObj
                 let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
-                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
+                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
                 let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
                 
                 var data = slotString.components(separatedBy: " ")
                 if data.count == 0 {
-                    var dayName = localizedString("lbl_next_delivery", comment: "")
-                    if ElGrocerUtility.sharedInstance.isDeliveryMode {
-                        dayName = localizedString("lbl_next_delivery", comment: "")
-                    }else {
-                        dayName = localizedString("lbl_next_self_collection", comment: "")
-                    }
+                    var dayName = localizedString("", comment: "")
                     let attributedString2 = NSMutableAttributedString(string:dayName as String , attributes:attrs1 as [NSAttributedString.Key : Any])
                     attributedString.append(attributedString2)
                     data.removeFirst()

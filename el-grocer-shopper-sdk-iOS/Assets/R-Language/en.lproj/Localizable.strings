@@ -2111,7 +2111,7 @@ Oreo";
 
 //MARK: Delivery Slot
 "lbl_next_delivery" = "Next delivery:";
-"delivery_within_60_min" = "Delivery within 60 min ⚡️";
+"delivery_within_60_min" = "⏱️ Delivery within 60 min ⚡️";
 "lbl_next_self_collection" = "Next self-collection:";
 
 //MARK: Order Details
@@ -2384,4 +2384,7 @@ Oreo";
 "lbl_greeting_good_morning" = "👋 Good Morning";
 "lbl_greeting_good_afternoon" = "👋 Good Afternoon";
 "lbl_greeting_good_evening" = "👋 Good Evening";
+"lbl_greeting_good_morning_shopper" = "👋 Good Morning";
+"lbl_greeting_good_afternoon_shopper" = "👋 Good Afternoon";
+"lbl_greeting_good_evening_shopper" = "👋 Good Evening";
 
