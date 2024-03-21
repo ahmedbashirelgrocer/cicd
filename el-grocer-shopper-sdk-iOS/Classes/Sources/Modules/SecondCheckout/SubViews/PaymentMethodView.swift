@@ -98,8 +98,9 @@ fileprivate extension PaymentMethodView {
                 } else if creditCard.cardType == .VISA {
                     return UIImage(name: "ic_visa_grey_bg")
                 }
+            } else {
+                return UIImage(name: "payWithApple")
             }
-            
             return nil
         }
     }
@@ -108,6 +109,10 @@ fileprivate extension PaymentMethodView {
         guard let selectedPaymentId = paymentId, let paymentOption = PaymentOption(rawValue: selectedPaymentId) else { return "" }
         
         if let selectedPaymentType = paymentTypes.first(where: { $0.id == selectedPaymentId }) {
+            //in edit order for apple pay server still sends payment id 3(online payment) with credit card object as nil
+            if paymentOption == .creditCard && creditCard == nil {
+                return localizedString("pay_via_Apple_pay", comment: "")
+            }
             if paymentOption == .creditCard {
                 return localizedString("lbl_card_ending", comment: "") + (creditCard?.last4 ?? "")
             }

@@ -67,7 +67,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupNavigationBar(); adjustHeaderDisplay(); adjustViewRefresh()
+        setupNavigationBar();adjustHeaderDisplay(); adjustViewRefresh()
         
     }
     override func viewDidAppear(_ animated: Bool) {

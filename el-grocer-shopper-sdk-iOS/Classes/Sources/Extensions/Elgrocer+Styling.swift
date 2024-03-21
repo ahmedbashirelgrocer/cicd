@@ -244,6 +244,7 @@ extension UILabel {
         self.font = UIFont.SFProDisplayBoldFont(17)
         self.textColor = UIColor.navigationBarWhiteColor()
     }
+
     func setH4SemiBoldWhiteStyle(){
         self.font = UIFont.SFProDisplayBoldFont(17)
         //self.textColor = UIColor.navigationBarWhiteColor()
