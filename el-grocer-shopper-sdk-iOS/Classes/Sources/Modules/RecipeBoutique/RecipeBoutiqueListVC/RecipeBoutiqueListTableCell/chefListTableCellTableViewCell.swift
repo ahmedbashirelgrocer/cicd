@@ -8,7 +8,7 @@
 
 import UIKit
 
-let kChefListCellHeight : CGFloat = 100 + 35 //35 for heading
+let kChefListCellHeight : CGFloat = 100 + 35 + 24 //35 for heading ,24 for padding
 
 class chefListTableCellTableViewCell: UITableViewCell {
 
