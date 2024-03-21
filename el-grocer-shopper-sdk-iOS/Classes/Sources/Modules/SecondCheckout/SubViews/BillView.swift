@@ -81,7 +81,7 @@ class BillView: UIView {
         
         view.isHidden = true
         view.layer.cornerRadius = 10
-        view.backgroundColor = UIColor.promotionRedColor()
+        view.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryBlackColor
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
