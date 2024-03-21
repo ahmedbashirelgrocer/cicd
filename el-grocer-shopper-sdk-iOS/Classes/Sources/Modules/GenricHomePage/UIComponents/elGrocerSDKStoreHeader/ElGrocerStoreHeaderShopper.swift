@@ -261,8 +261,8 @@ class ElGrocerStoreHeaderShopper:  UIView  {
                     return
                 }
                 self.currentSelectedSlot = firstObj
-                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
-                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
+                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newBlackColor]
+                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newBlackColor]
                     let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
                     
                     var data = slotString.components(separatedBy: " ")
@@ -297,15 +297,15 @@ class ElGrocerStoreHeaderShopper:  UIView  {
                 if firstObj.isInstant.boolValue {
 //                    slotString = localizedString("today_title", comment: "") + " " +  localizedString("60_min", comment: "")  + "⚡️"
                     slotString = localizedString("delivery_within_60_min", comment: "")
-                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newBlackColor]
                     let attributedString = NSMutableAttributedString(string: slotString , attributes:attrs2 as [NSAttributedString.Key : Any])
                     self.setAttributedValueForSlotOnMainThread(attributedString)
                     self.currentSelectedSlot = firstObj
                     return
                 }
                 self.currentSelectedSlot = firstObj
-                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
-                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newGreyColor]
+                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newBlackColor]
+                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.newBlackColor]
                 let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
                 
                 var data = slotString.components(separatedBy: " ")
