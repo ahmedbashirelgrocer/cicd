@@ -188,7 +188,7 @@ class ElGrocerUtility {
         var latlng = "0"
         var userID = "0"
         
-        if let version = Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
+        if let version = PackageInfo.version { //Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
             versionNumber = version
         }
         if let address = ElGrocerUtility.sharedInstance.activeAddress {

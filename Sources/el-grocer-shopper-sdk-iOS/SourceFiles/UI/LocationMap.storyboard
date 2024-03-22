@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -67,7 +67,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e07-zo-Jl2" userLabel="mapContainerView">
                                 <rect key="frame" x="0.0" y="0.0" width="390" height="810"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ls9-Rl-icI" userLabel="mapView" customClass="GMSMapView">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ls9-Rl-icI" userLabel="mapView">
                                         <rect key="frame" x="0.0" y="0.0" width="390" height="810"/>
                                         <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
@@ -481,9 +481,9 @@
                         <outlet property="lbl_chooselocation" destination="Xey-rO-0Tp" id="PWE-Iu-8aY"/>
                         <outlet property="locationMarker" destination="7Ld-sP-VpS" id="3rR-N9-0Nr"/>
                         <outlet property="manualTextField" destination="aJJ-wE-Seo" id="nLm-D8-pNt"/>
+                        <outlet property="mapContainterView" destination="ls9-Rl-icI" id="f5X-bW-iYt"/>
                         <outlet property="mapPinToolTipText" destination="frB-uV-hsX" id="a6d-lb-r8g"/>
                         <outlet property="mapToolTipBgView" destination="tyv-kr-dCS" id="juH-lP-SQx"/>
-                        <outlet property="mapView" destination="ls9-Rl-icI" id="gf1-Ik-pRs"/>
                         <outlet property="maunalSearchView" destination="fJG-iD-gad" id="YSG-aR-sw1"/>
                         <outlet property="topBg" destination="jtR-t5-udG" id="Ebe-UF-btx"/>
                         <outlet property="topView" destination="vcA-ef-QYf" id="lbN-Pi-UvO"/>

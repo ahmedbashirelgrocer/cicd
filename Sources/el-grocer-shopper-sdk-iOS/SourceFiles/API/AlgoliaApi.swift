@@ -104,7 +104,7 @@ class AlgoliaApi {
     func reStartInsights () {
         
         var versionNumber = "10000"
-        if let version = Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
+        if let version = PackageInfo.version {//Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
             versionNumber = version
         }
         var token = String(format: "%.0f", Date.timeIntervalSinceReferenceDate) + "_" + versionNumber

@@ -53,7 +53,13 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
     
     // @IBOutlet var lblCurrentLocation: UILabel!
     // MARK: Outlets
-    @IBOutlet weak var mapView: GMSMapView?
+//    @IBOutlet weak var mapView: GMSMapView?
+    @IBOutlet weak var mapContainterView : UIView!
+    lazy var mapView: GMSMapView? = {
+        let view = GMSMapView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     @IBOutlet weak var locationMarker: UIImageView! {
         didSet {
@@ -170,6 +176,13 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+       self.mapContainterView.addSubview(mapView!)
+        NSLayoutConstraint.activate([
+            mapView!.topAnchor.constraint(equalTo: self.mapContainterView.topAnchor),
+            mapView!.bottomAnchor.constraint(equalTo: self.mapContainterView.bottomAnchor),
+            mapView!.leftAnchor.constraint(equalTo: self.mapContainterView.leftAnchor),
+            mapView!.rightAnchor.constraint(equalTo: self.mapContainterView.rightAnchor)
+        ])
         
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
@@ -238,6 +251,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         DispatchQueue.main.async { [weak self] in
             guard let self = self else {return}
             self.configureMapView()
+            
         }
     }
     
@@ -805,7 +819,10 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
             let camera = GMSCameraPosition.camera(withTarget: locationCurrentCoordinates, zoom: cameraZoom)
             self.mapView?.camera = camera
         }
-       
+//        self.mapContainterView.insertSubview(mapView!, belowSubview: mapToolTipBgView)
+//        self.mapContainterView.insertSubview(mapView!, belowSubview: topView)
+//        self.mapContainterView.insertSubview(mapView!, belowSubview: locationMarker)
+        
     }
     
     fileprivate func setCameraPosition(_ coardinates : CLLocationCoordinate2D) {
@@ -1041,6 +1058,7 @@ extension LocationMapViewController: GMSMapViewDelegate {
                 viewModel.selectedLocation.value = location
             }
         }
+        
     }
 }
 

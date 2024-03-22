@@ -7,7 +7,7 @@ let package = Package(
     name: "el-grocer-shopper-sdk-iOS",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v13)
+        .iOS(.v14)
     ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
@@ -42,9 +42,9 @@ let package = Package(
         .package(url: "https://github.com/algolia/algoliasearch-client-swift", .exact("8.19.0")),
         .package(url: "https://github.com/RxSwiftCommunity/RxDataSources", from: "4.0.1"),
         .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "5.1.1"),
-        .package(url: "https://github.com/YAtechnologies/GoogleMaps-SP.git", from: "7.2.0"),
-//        .package(url: "https://github.com/googlemaps/ios-maps-sdk", from: "8.3.0"),
-//        .package(url: "https://github.com/googlemaps/ios-places-sdk", from: "8.3.0"),
+//        .package(url: "https://github.com/YAtechnologies/GoogleMaps-SP.git", from: "7.2.0"),
+        .package(url: "https://github.com/googlemaps/ios-maps-sdk", .exact("8.4.0")),
+        .package(url: "https://github.com/googlemaps/ios-places-sdk", from: "8.3.0"),
         .package(url: "https://github.com/MaherKSantina/MSPeekCollectionViewDelegateImplementation", from: "3.2.0")
     ],
     targets: [
@@ -85,10 +85,14 @@ let package = Package(
                 .product(name: "RxCocoa", package: "RxSwift"),
             
 //                // Google
-                .product(name: "GoogleMaps", package: "GoogleMaps-SP"),
-                .product(name: "GoogleMapsBase", package: "GoogleMaps-SP"),
-                .product(name: "GoogleMapsCore", package: "GoogleMaps-SP"),
-                .product(name: "GooglePlaces", package: "GoogleMaps-SP"),
+                .product(name: "GoogleMaps", package: "ios-maps-sdk"),
+                .product(name: "GoogleMapsBase", package: "ios-maps-sdk"),
+                .product(name: "GoogleMapsCore", package: "ios-maps-sdk"),
+                .product(name: "GooglePlaces", package: "ios-places-sdk"),
+//                .product(name: "GoogleMaps", package: "GoogleMaps-SP"),
+//                .product(name: "GoogleMapsBase", package: "GoogleMaps-SP"),
+//                .product(name: "GoogleMapsCore", package: "GoogleMaps-SP"),
+//                .product(name: "GooglePlaces", package: "GoogleMaps-SP"),
                 
                 // Algolia
                 .product(name: "AlgoliaSearchClient", package: "algoliasearch-client-swift"),
@@ -185,6 +189,7 @@ let package = Package(
                 .copy("Resources/FontFiles/SF-UI-Display-Medium.otf"),
                 .copy("Resources/FontFiles/SF-UI-Display-Regular.otf"),
                 .copy("Resources/FontFiles/SF-UI-Display-Semibold.otf"),
+                .copy("Resources/VersionInfo.plist")
             ]
         ),
         
