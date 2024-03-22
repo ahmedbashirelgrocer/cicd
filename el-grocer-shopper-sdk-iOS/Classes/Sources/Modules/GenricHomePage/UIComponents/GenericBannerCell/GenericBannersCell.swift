@@ -44,7 +44,10 @@ class GenericBannersCell: RxUITableViewCell {
         let sview = UIView.init()
         sview.backgroundColor = .clear
         selectedBackgroundView = sview
-        
+        pageControl.semanticContentAttribute = ElGrocerUtility.sharedInstance.isArabicSelected() ? .forceLeftToRight : .forceRightToLeft
+        if SDKManager.shared.isShopperApp {
+            pageControl.transform = CGAffineTransform(scaleX: -1, y: 1)
+        }
         pageControl.hidesForSinglePage = true
         bannerList.currentPage = { [weak self] (page , collectionView ) in
             guard let self = self else {return}

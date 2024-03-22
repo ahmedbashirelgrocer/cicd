@@ -60,6 +60,8 @@ class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
             layout.sectionInset = UIEdgeInsets(top: 0, left: edgeInset, bottom: 0, right: edgeInset)
             return layout
         }()
+        
+        self.collectionView.semanticContentAttribute = ElGrocerUtility.sharedInstance.isArabicSelected() ? .forceRightToLeft : .forceLeftToRight
     }
     
     func setupUI (isForFavourite: Bool) {
