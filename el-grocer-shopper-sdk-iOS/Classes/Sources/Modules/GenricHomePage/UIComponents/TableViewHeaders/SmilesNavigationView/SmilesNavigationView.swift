@@ -103,7 +103,7 @@ class SmilesNavigationView: UIView {
         
         NSLayoutConstraint.activate([
             profileButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
-            profileButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0),
+            profileButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 5),
             profileButton.heightAnchor.constraint(equalToConstant: 45),
             profileButton.widthAnchor.constraint(equalTo: profileButton.heightAnchor)
         ])

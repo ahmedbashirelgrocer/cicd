@@ -17,7 +17,7 @@ import RxSwift
     // import MaterialShowcase
 
 let kfeaturedCategoryId : Int64 = 0 // Platform.isSimulator ? 12 : 0 // 12 for staging server
-let KfeaturedRecipeStoreTypeId: Int64 = 12//57
+let KfeaturedRecipeStoreTypeId: Int64 = 57
 class GenericStoresViewController: BasketBasicViewController {
 
     private var disposeBag = DisposeBag()
