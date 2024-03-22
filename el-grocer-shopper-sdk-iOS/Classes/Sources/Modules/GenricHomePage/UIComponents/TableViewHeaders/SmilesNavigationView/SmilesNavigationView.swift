@@ -26,7 +26,7 @@ class SmilesNavigationView: UIView {
     
     lazy var leftTitle: UILabel = {
         let label = UILabel()
-        label.text = "Good Morning 👋"
+        label.text = ""
         label.setH3SemiBoldStyle()
         label.textColor = ApplicationTheme.currentTheme.themeBasePrimaryBlackColor
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +36,7 @@ class SmilesNavigationView: UIView {
     lazy var smilesPointsView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.colorWithHexString(hexString: "423B79")
-        view.layer.cornerRadius = 12.0
+        view.layer.cornerRadius = 13.0
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -117,7 +117,7 @@ class SmilesNavigationView: UIView {
         NSLayoutConstraint.activate([
             titleView.centerYAnchor.constraint(equalTo: profileButton.centerYAnchor),
             titleView.leadingAnchor.constraint(equalTo: leftTitle.trailingAnchor, constant: 4),
-            titleView.heightAnchor.constraint(equalToConstant: 24),
+            titleView.heightAnchor.constraint(equalToConstant: 26),
         ])
         
         NSLayoutConstraint.activate([
@@ -137,7 +137,7 @@ class SmilesNavigationView: UIView {
         NSLayoutConstraint.activate([
             smilesPointsView.centerYAnchor.constraint(equalTo: profileButton.centerYAnchor),
             smilesPointsView.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: 8),
-            smilesPointsView.heightAnchor.constraint(equalToConstant: 24),
+            smilesPointsView.heightAnchor.constraint(equalToConstant: 26),
             smilesPointsView.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -8),
         ])
     }

@@ -57,7 +57,11 @@ class NavigationBarLocationView: UIView {
     
     func setupInitialAppearnce(){
         self.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
-        
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            imgLocationPinLeadingConstraint.constant = SDKManager.shared.isSmileSDK ? 50 : 30
+        }else {
+            imgLocationPinLeadingConstraint.constant = SDKManager.shared.isSmileSDK ? 50 : 45
+        }
     }
     
     @IBAction func LocationButtonHandler(_ sender: Any) {
