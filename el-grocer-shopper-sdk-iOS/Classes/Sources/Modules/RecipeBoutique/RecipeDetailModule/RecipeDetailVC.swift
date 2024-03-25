@@ -257,7 +257,7 @@ class RecipeDetailVC: BasketBasicViewController {
         someSet.insert(recipeSlug)
         
         self.storylyView.storylyInit = StorylyInit(
-            storylyId: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhY2NfaWQiOjE1MzcsImFwcF9pZCI6MTE1MywiaW5zX2lkIjoxMTc2fQ.k3DE2c0a38t0x8Droq5htoc-O7qbOZbrCojY_fIes5Y",
+            storylyId: ElGrocerUtility.sharedInstance.appConfigData.storlyInstanceId,
             config: StorylyConfig.Builder()
                 .setBarStyling(
                     styling: StorylyBarStyling.Builder()
@@ -1165,7 +1165,7 @@ extension RecipeDetailVC : StorylyDelegate {
     func storylyLoaded(_ storylyView: StorylyView, storyGroupList: [StoryGroup], dataSource: StorylyDataSource) {
         elDebugPrint("")
         
-        
+        //16658
         headerView?.storyGroup = nil
         headerView?.storylyView = nil
         if storyGroupList.count > 0 {
@@ -1184,6 +1184,19 @@ extension RecipeDetailVC : StorylyDelegate {
         elDebugPrint("")
     }
     
+    func storylyStoryPresented(_ storylyView: Storyly.StorylyView) {
+        print(storylyView)
+    }
+
+    /**
+     * This function will let you know that programmatic story show are failed.
+     *
+     * - Parameter storylyView: StorylyView instance that event occurred
+     * - Parameter errorMessage: Error message of the fail reason
+     */
+    func storylyStoryPresentFailed(_ storylyView: Storyly.StorylyView, errorMessage: String) {
+        print(errorMessage)
+    }
     
     
     

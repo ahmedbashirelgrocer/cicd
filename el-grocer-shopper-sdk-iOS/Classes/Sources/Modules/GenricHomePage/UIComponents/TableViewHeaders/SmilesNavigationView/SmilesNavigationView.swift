@@ -24,6 +24,15 @@ class SmilesNavigationView: UIView {
         return view
     }()
     
+    lazy var leftTitleImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(name: "NavBarElgrocerIconShopper")
+        imageView.contentMode = .scaleAspectFit
+        imageView.backgroundColor = .clear
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     lazy var leftTitle: UILabel = {
         let label = UILabel()
         label.text = ""
@@ -89,6 +98,7 @@ class SmilesNavigationView: UIView {
     
     private func addViews() {
         
+        self.addSubview(self.leftTitleImage)
         self.addSubview(self.leftTitle)
         self.addSubview(self.profileButton)
         self.addSubview(self.titleView)
@@ -109,8 +119,15 @@ class SmilesNavigationView: UIView {
         ])
         
         NSLayoutConstraint.activate([
-            leftTitle.centerYAnchor.constraint(equalTo: profileButton.centerYAnchor),
-            leftTitle.leadingAnchor.constraint(equalTo: profileButton.trailingAnchor, constant: 0),
+            leftTitleImage.centerYAnchor.constraint(equalTo: profileButton.centerYAnchor),
+            leftTitleImage.leadingAnchor.constraint(equalTo: profileButton.trailingAnchor, constant: 3),
+            leftTitleImage.heightAnchor.constraint(equalToConstant: 20),
+            leftTitleImage.widthAnchor.constraint(equalTo: leftTitleImage.heightAnchor),
+        ])
+        
+        NSLayoutConstraint.activate([
+            leftTitle.centerYAnchor.constraint(equalTo: leftTitleImage.centerYAnchor, constant: 2),
+            leftTitle.leadingAnchor.constraint(equalTo: leftTitleImage.trailingAnchor, constant: 7),
             leftTitle.heightAnchor.constraint(equalToConstant: 45)
         ])
         

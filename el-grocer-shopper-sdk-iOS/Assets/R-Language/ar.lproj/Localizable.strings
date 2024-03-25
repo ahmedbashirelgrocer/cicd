@@ -2439,3 +2439,6 @@
 "lbl_greeting_good_morning" = "صباح الخير 👋";
 "lbl_greeting_good_afternoon" = "مساء الخير 👋";
 "lbl_greeting_good_evening" = "مساء الخير 👋";
+"lbl_greeting_good_morning_shopper" = "صباح الخير";
+"lbl_greeting_good_afternoon_shopper" = "مساء الخير";
+"lbl_greeting_good_evening_shopper" = "مساء الخير";

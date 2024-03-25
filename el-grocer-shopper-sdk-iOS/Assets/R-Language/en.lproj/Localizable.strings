@@ -2384,7 +2384,7 @@ Oreo";
 "lbl_greeting_good_morning" = "👋 Good Morning";
 "lbl_greeting_good_afternoon" = "👋 Good Afternoon";
 "lbl_greeting_good_evening" = "👋 Good Evening";
-"lbl_greeting_good_morning_shopper" = "👋 Good Morning";
-"lbl_greeting_good_afternoon_shopper" = "👋 Good Afternoon";
-"lbl_greeting_good_evening_shopper" = "👋 Good Evening";
+"lbl_greeting_good_morning_shopper" = "Good Morning";
+"lbl_greeting_good_afternoon_shopper" = "Good Afternoon";
+"lbl_greeting_good_evening_shopper" = "Good Evening";
 

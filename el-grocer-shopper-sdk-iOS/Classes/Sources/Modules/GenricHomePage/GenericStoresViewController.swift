@@ -256,11 +256,11 @@ class GenericStoresViewController: BasketBasicViewController {
         let hrs = date.dateComponents.hour ?? 0
         
         if hrs >= 5 && hrs < 12 {
-            return localizedString("lbl_greeting_good_morning", comment: "")
+            return localizedString("lbl_greeting_good_morning_shopper", comment: "")
         }else if hrs >= 12 && hrs < 17 {
-            return localizedString("lbl_greeting_good_afternoon", comment: "")
+            return localizedString("lbl_greeting_good_afternoon_shopper", comment: "")
         }else {
-            return localizedString("lbl_greeting_good_evening", comment: "")
+            return localizedString("lbl_greeting_good_evening_shopper", comment: "")
         }
         
     }
