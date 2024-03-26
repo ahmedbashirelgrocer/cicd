@@ -128,7 +128,6 @@ class ProductCell : RxUICollectionViewCell {
     @IBOutlet weak var minusButton: UIButton! { didSet {
         minusButton.setImage(nil, for: .normal)
         minusButton.clipsToBounds = true
-        minusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.darkGrayTextColor)
         minusButton.setBackgroundColor(.white, forState: .normal)
     } }
     @IBOutlet weak var quantityLabel: UILabel! { didSet {
@@ -760,7 +759,7 @@ class ProductCell : RxUICollectionViewCell {
                 }else if count == 1 {
                     
                     self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
-                    self.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
+                    self.minusButton.setImage(UIImage(name: "MyBasketDelete"), for: .normal)
                     
                     if self.product.promotion?.boolValue == true {
                         //self.limitedStockBGView.isHidden = false
@@ -926,7 +925,7 @@ class ProductCell : RxUICollectionViewCell {
                     
                     self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
                     if count == 2 {
-                        self.minusButton.setImage(UIImage(name: "remove_product_cell"), for: .normal)
+                        self.minusButton.setImage(UIImage(name: "MYBasketRemove"), for: .normal)
                     }
                     
                     if self.product.promotion?.boolValue == true {
@@ -1085,10 +1084,8 @@ class ProductCell : RxUICollectionViewCell {
             self.plusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
             if item.count == 1 {
                 self.minusButton.setImage(UIImage(name: "MyBasketDelete"), for: .normal)
-                self.minusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.darkGrayTextColor)
             }else{
                 self.minusButton.setImage(UIImage(name: "MYBasketRemove"), for: .normal)
-                self.minusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.darkGrayTextColor)
             }
  
         }

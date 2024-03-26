@@ -104,7 +104,7 @@ class SendBirdListViewController: UIViewController, NavigationBarProtocol, UIScr
             (self.navigationController as? ElGrocerNavigationController)?.setSearchBarHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
-            sdkManager.isShopperApp ? self.addWhiteBackButton() : self.addBackButton(isGreen: false)
+            sdkManager.isShopperApp ? self.addBackButton(isGreen: false, true) : self.addBackButton(isGreen: false)
             self.addCreateTicketButton()
             self.refreshTicketData()
             self.tableView.reloadData()
@@ -442,9 +442,9 @@ extension SendBirdListViewController {
     func addCreateTicketButton() {
         
         var image: UIImage! = UIImage(name: "addIconWhite")
-        if #available(iOS 13.0, *), !sdkManager.isShopperApp {
+        //if #available(iOS 13.0, *), !sdkManager.isShopperApp {
             image = image.withTintColor(ApplicationTheme.currentTheme.newBlackColor)
-        } else { }
+        //} else { }
         let menuButton:UIButton = UIButton(type: UIButton.ButtonType.custom)
         
         let size = self.navigationController?.navigationBar.frame.size.height

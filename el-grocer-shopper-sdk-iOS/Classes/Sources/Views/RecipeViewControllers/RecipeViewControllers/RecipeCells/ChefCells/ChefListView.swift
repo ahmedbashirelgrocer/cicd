@@ -40,6 +40,7 @@ class ChefListView: CustomCollectionView {
         dataH.delegate = self
         return dataH
     }()
+    private var chefListArray: [CHEF] = []
     private var isLoading : Bool = false
     //private(set) var chefDataList : [CHEF] = [CHEF]()
     var chefSelected: ((_ selectedChef : CHEF?)->Void)?
@@ -115,13 +116,13 @@ extension ChefListView : UICollectionViewDelegate , UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return dataHandler.chefList.count
+        return chefListArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let chefCell = collectionView.dequeueReusableCell(withReuseIdentifier: KChefDataReuseIdentifier, for: indexPath) as! ChefDataCollectionViewCell
-        chefCell.configureCell(dataHandler.chefList[indexPath.row])
+        chefCell.configureCell(chefListArray[indexPath.row])
 //        if self.selectedIndex != -1 && indexPath.row == self.selectedIndex {
 //            chefCell.avatarChef.alpha = 1.0
 //            chefCell.lblChefName.alpha = 1.0
@@ -155,7 +156,7 @@ extension ChefListView : UICollectionViewDelegate , UICollectionViewDataSource {
             collectionView.reloadItems(at: [IndexPath.init(row: oldIndex, section: 0)])
         }
         
-        let selectedChef = dataHandler.chefList[indexPath.row]
+        let selectedChef = chefListArray[indexPath.row]
         if let chefName = selectedChef.chefName as? String{
             GoogleAnalyticsHelper.trackChefWithName(chefName + " View")
             GoogleAnalyticsHelper.trackScreenWithName(kGoogleAnalyticsRecipeChefScreen)
@@ -228,6 +229,7 @@ extension ChefListView : RecipeDataHandlerDelegate {
     
      func chefList(chefTotalA : [CHEF]) -> Void {
         isLoading = !isLoading
+        self.chefListArray = chefTotalA
         self.reloadData()
 
       }

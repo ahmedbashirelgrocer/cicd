@@ -146,11 +146,14 @@ class GenericStoreMeduleAPI : ElGrocerApi {
     func getAllretailers( latitude : Double , longitude : Double , success : @escaping SuccessCase , failure : @escaping FailureCase  ) {
         //
         
-        let url =  sdkManager.isShopperApp ? ElGrocerApiEndpoint.egGenericRetailersList.rawValue : ElGrocerApiEndpoint.genericRetailersList.rawValue
+        let url =  sdkManager.isShopperApp ? ElGrocerApiEndpoint.genericRetailersList.rawValue : ElGrocerApiEndpoint.genericRetailersList.rawValue
+        var userId: String = ""
+        if UserDefaults.isUserLoggedIn() {
+            userId = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext).dbID.stringValue
+        }
         
-        let userId = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext).dbID.stringValue
-        
-        NetworkCall.get( url , parameters:  [    "limit" : "10000" , "offset" : "0" , "latitude" : latitude , "longitude" : longitude  , "all_type" : true, "shopper_id": userId ], progress: { (progress) in
+        let recipeType = SDKManager.shared.isSmileSDK ? false : true
+        NetworkCall.get( url , parameters:  [    "limit" : "10000" , "offset" : "0" , "latitude" : latitude , "longitude" : longitude  , "all_type" : true, "shopper_id": userId, "recipe_type" : recipeType ], progress: { (progress) in
             elDebugPrint("Calli  ng \(progress)")
         }, success: success, failure: failure)
     }

@@ -253,21 +253,34 @@ class RecipeDetailVC: BasketBasicViewController {
         
         var someSet = Set<String>()
         someSet.insert(recipe?.recipeStorylySlug ?? "")
-        
-        /*
-        let segment = StorylySegmentation.init(segments: someSet)
-        let story = StorylyInit.init(storylyId: ElGrocerUtility.sharedInstance.appConfigData.storlyInstanceId , segmentation: segment)
-        storylyView.translatesAutoresizingMaskIntoConstraints = false
-        storylyView.languageCode = ElGrocerUtility.sharedInstance.isArabicSelected() ? "AR" : "EN"
-        storylyView.storylyInit = story
+        self.storylyView.storylyInit = StorylyInit(
+            storylyId: ElGrocerUtility.sharedInstance.appConfigData.storlyInstanceId,
+            config: StorylyConfig.Builder()
+                .setBarStyling(
+                    styling: StorylyBarStyling.Builder()
+                        .setHorizontalPaddingBetweenItems(padding: 15)
+                        .build()
+                )
+                .setStoryGroupStyling(
+                    styling: StorylyStoryGroupStyling.Builder()
+                        .setIconBorderColorNotSeen(colors: [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor])
+                        .setPinIconColor(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
+                        .build()
+                )
+                .setStoryStyling(
+                    styling: StorylyStoryStyling.Builder()
+                        .setHeaderIconBorderColor(colors: [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor])
+                        .build()
+                )
+                .setLabels(labels: someSet)
+                .setTestMode(isTest: Platform.isDebugBuild)
+                .setLocale(locale: ElGrocerUtility.sharedInstance.isArabicSelected() ? "AR" : "EN")
+                .build()
+        )
+        self.storylyView.translatesAutoresizingMaskIntoConstraints = false
+        self.storylyView.delegate = self
+        self.storylyView.rootViewController = self
         self.view.addSubview(storylyView)
-        storylyView.delegate = self
-        storylyView.rootViewController = self
-        storylyView.storyItemIconBorderColor = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
-        storylyView.storyGroupIconBorderColorNotSeen = [ApplicationTheme.currentTheme.themeBasePrimaryColor , ApplicationTheme.currentTheme.themeBasePrimaryColor]
-        storylyView.storyGroupPinIconColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
-        */
-        
         
     }
     
@@ -1149,7 +1162,7 @@ extension RecipeDetailVC : StorylyDelegate {
     func storylyLoaded(_ storylyView: StorylyView, storyGroupList: [StoryGroup], dataSource: StorylyDataSource) {
         elDebugPrint("")
         
-        
+        //16658
         headerView?.storyGroup = nil
         headerView?.storylyView = nil
         if storyGroupList.count > 0 {
@@ -1168,6 +1181,19 @@ extension RecipeDetailVC : StorylyDelegate {
         elDebugPrint("")
     }
     
+    func storylyStoryPresented(_ storylyView: Storyly.StorylyView) {
+        print(storylyView)
+    }
+
+    /**
+     * This function will let you know that programmatic story show are failed.
+     *
+     * - Parameter storylyView: StorylyView instance that event occurred
+     * - Parameter errorMessage: Error message of the fail reason
+     */
+    func storylyStoryPresentFailed(_ storylyView: Storyly.StorylyView, errorMessage: String) {
+        print(errorMessage)
+    }
     
     
     

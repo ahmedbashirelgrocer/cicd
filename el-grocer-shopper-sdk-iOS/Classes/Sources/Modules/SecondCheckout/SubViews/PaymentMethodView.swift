@@ -13,7 +13,6 @@ protocol PaymentMethodViewDelegate: AnyObject {
 }
 
 class PaymentMethodView: UIView {
-
     @IBOutlet weak var viewBG: AWView! {
         didSet {
             viewBG.borderWidth = 1
@@ -47,13 +46,13 @@ class PaymentMethodView: UIView {
         
         self.lblTitle.text = selectedPaymentId != nil
             ? localizedString("text_payment", comment: "") + ":"
-            : localizedString("text_payment", comment: "")
+            : localizedString("payment_method_title", comment: "")
     }
 }
 
 fileprivate extension PaymentMethodView {
     func setupViews() {
-        lblTitle.text = localizedString("text_payment", comment: "")
+        lblTitle.text = localizedString("payment_method_title", comment: "")
         
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             arrowForward.transform = CGAffineTransform(scaleX: -1, y: 1)

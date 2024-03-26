@@ -61,7 +61,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        view.backgroundColor = AppSetting.theme.tableViewBGWhiteColor;
         addLocationHeader(); registerCells(); bindViews()
         
     }

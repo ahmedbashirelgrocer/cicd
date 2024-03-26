@@ -26,14 +26,14 @@ class HyperMarketGroceryTableCell: UITableViewCell {
         }
     }
     @IBOutlet var lblGroceryName: UILabel!{
-        didSet{
+        didSet {
             lblGroceryName.numberOfLines = 1
-            lblGroceryName.setBody2SemiboldGeoceryDarkGreenStyle()
+            lblGroceryName.setBody2SemiboldDarkStyle()
         }
     }
     @IBOutlet var lblSlot: UILabel!{
         didSet{
-            lblSlot.setSubHead2SemiBoldDarkGreenStyle()
+            lblSlot.setSubHead2SemiBoldDarkStyle()
         }
     }
     @IBOutlet var newBGView: UIView!{
@@ -105,7 +105,8 @@ class HyperMarketGroceryTableCell: UITableViewCell {
     func getDeliverySlotString(grocery: Grocery) {
         let scheduledEmoji = "🚛 "
         if  (grocery.isOpen.boolValue && (grocery.isInstant() || grocery.isInstantSchedule())) {
-            let attrs2 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Semibold", size: 11) , NSAttributedString.Key.foregroundColor : self.lblSlot.textColor]
+            
+            let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(11) , NSAttributedString.Key.foregroundColor : self.lblSlot.textColor]
             let instantSlotString = "🛵 " + localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "")
             let attributedString2 = NSMutableAttributedString(string: instantSlotString, attributes:attrs2 as [NSAttributedString.Key : Any])
             self.lblSlot.attributedText = attributedString2
@@ -131,16 +132,16 @@ class HyperMarketGroceryTableCell: UITableViewCell {
     func setDeliveryDate (_ data : String) {
         
         let dataA = data.components(separatedBy: CharacterSet.newlines)
-        var attrs1 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Light", size: 11) , NSAttributedString.Key.foregroundColor : self.lblSlot.textColor ]
+        var attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(11) , NSAttributedString.Key.foregroundColor : self.lblSlot.textColor ]
         if dataA.count == 1 {
             if self.lblSlot.text?.count ?? 0 > 13 {
-                attrs1 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Light", size: 11) , NSAttributedString.Key.foregroundColor : self.lblSlot.textColor ]
+                attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(11) , NSAttributedString.Key.foregroundColor : self.lblSlot.textColor ]
                  let attributedString1 = NSMutableAttributedString(string: dataA[0], attributes:attrs1 as [NSAttributedString.Key : Any])
                  self.lblSlot.attributedText = attributedString1
                 return
             }
         }
-        let attrs2 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Semibold", size: 11) , NSAttributedString.Key.foregroundColor : self.lblSlot.textColor]
+        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(11) , NSAttributedString.Key.foregroundColor : self.lblSlot.textColor]
         
         let attributedString1 = NSMutableAttributedString(string:dataA[0], attributes:attrs1 as [NSAttributedString.Key : Any])
         let timeText = dataA.count > 1 ? dataA[1] : ""

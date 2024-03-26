@@ -23,5 +23,6 @@ class WarningView: UIView {
     
     override func awakeFromNib() {
         lblWarningMsg.text = localizedString("checkout_all_fee_message_will_be_in_receipt_msg", comment: "")
+        
     }
 }

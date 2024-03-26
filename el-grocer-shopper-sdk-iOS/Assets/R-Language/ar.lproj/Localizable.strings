@@ -9,7 +9,7 @@
 // new message
 "Download tax invoice" = " تحميل الفاتورة الضريبية";
 "smiles_pts" =  "    نقطة %@    ";
-"earn_rewards_now" = "اكسب نقاط الابتسامات";
+"earn_rewards_now" = "اكسب نقاط الابتسامات!";
 "Oops! Something went wrong on our side 🤔" = "للأسف حدث خطأ ما من جانبنا 🤔";
 
 "Shopping_list_Titile" = "قائمة التسوق";
@@ -2123,7 +2123,7 @@
 //MARK: C&C
 "lbl_collectionNear" = "أين تريد أن تتسلم البقالة؟";
 //MARK: home search header
-"search_placeholder_home" = "ابحث عن المنتجات و المتاجر...";
+"search_placeholder_home" = "ابحث عن منتجات, متاجر...";
 //MARK: HyperMarketHeader
 "search_placeholder_hypermarket" = "أبحث عن المنتجات والمتاجر ...";
 "search_placeholder_view_allstore_categories" = "أبحث عن المنتجات...";
@@ -2162,7 +2162,7 @@
 
 //MARK: Delivery Slot
 "lbl_next_delivery" = "التسليم التالي:";
-"delivery_within_60_min" = " التسليم في غضون ٦٠ دقيقة ⚡️";
+"delivery_within_60_min" = "⏱️ التسليم في غضون ٦٠ دقيقة ⚡️";
 "lbl_next_self_collection" = "التسليم التالي:";
 
 //MARK: Order Details
@@ -2429,7 +2429,6 @@
 "eg_No_Campgin_Found" = "عفوا.. يؤسفنا ذلك لكن يبدو أن هذه الصفحة غير موجودة.
 اذهب إلى صفحتنا الرئيسية لمواصلة التصفح.";
 
-
 //MARK: Homepage 2.0
 
 "btn_cart_all_cap" = "سلة اﻟﺘﺴﻮق";
@@ -2441,3 +2440,6 @@
 "lbl_greeting_good_afternoon" = "مساء الخير 👋";
 "lbl_greeting_good_evening" = "مساء الخير 👋";
 
+"lbl_greeting_good_morning_shopper" = "صباح الخير";
+"lbl_greeting_good_afternoon_shopper" = "مساء الخير";
+"lbl_greeting_good_evening_shopper" = "مساء الخير";

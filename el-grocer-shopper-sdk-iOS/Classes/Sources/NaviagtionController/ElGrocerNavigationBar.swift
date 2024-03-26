@@ -227,8 +227,8 @@ class ElGrocerNavigationBar : UINavigationBar {
             barAppearance.configureWithTransparentBackground()
             barAppearance.backgroundColor = color
             barAppearance.shadowColor = .clear
-            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor :  UIColor.navigationBarWhiteColor()]
-            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+            barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor :  ApplicationTheme.currentTheme.newBlackColor]
+            barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : ApplicationTheme.currentTheme.newBlackColor]
 
             self.standardAppearance = barAppearance
             self.scrollEdgeAppearance = barAppearance

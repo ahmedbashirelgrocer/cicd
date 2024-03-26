@@ -34,7 +34,6 @@ class StorlyTableViewCell: UITableViewCell {
         }
         guard self.storylyView != nil else {return}
         var someSet = Set<String>()
-        print("chef slug: \(chef?.chefStorlySlug ?? "")")
         someSet.insert(chef?.chefStorlySlug ?? "")
         
         self.storylyView.storylyInit = StorylyInit(

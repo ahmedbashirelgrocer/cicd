@@ -10,7 +10,6 @@ import UIKit
 import STPopup
 
 class CheckoutDeliverySlotView: UIView  {
-
     @IBOutlet weak var slotBGView: AWView! {
         didSet {
             slotBGView.borderWidth = 1

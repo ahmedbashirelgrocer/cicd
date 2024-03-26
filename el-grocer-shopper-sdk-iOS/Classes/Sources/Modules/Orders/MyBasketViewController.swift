@@ -133,7 +133,13 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var checkoutBtn: UIButton!
     
         //MARK: Label outlets
-    @IBOutlet weak var itemsCount: UILabel!
+    
+    @IBOutlet weak var itemCountBGView: AWView!
+    @IBOutlet weak var itemsCount: UILabel! {
+        didSet {
+            itemsCount.setBody3RegGreenStyle()
+        }
+    }
     @IBOutlet weak var itemsTotalPrice: UILabel!
     @IBOutlet var lblTopViewEdgeCaseMsg: UILabel!
     @IBOutlet weak var lblRecomendedItems: UILabel! {
@@ -1011,7 +1017,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         if  self.orderToReplace  {
             self.searchBar.frame = CGRect.init(x: 0, y: 0, width: self.viewForSearch.frame.size.width , height: self.viewForSearch.frame.size.height)
             self.searchBar.clipsToBounds = true
-            self.searchBar.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            self.searchBar.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
             self.viewForSearch.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
             self.viewForSearch.addSubview(self.searchBar)
 //            self.viewForSearch.isHidden = false
@@ -1024,7 +1030,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     fileprivate func setupBottomView(){
         
         if LanguageManager.sharedInstance.getSelectedLocale().caseInsensitiveCompare("ar") == ComparisonResult.orderedSame {
-            self.itemsCount.textAlignment       = .natural //NSTextAlignment.left
+            self.itemsCount.textAlignment       = .center //NSTextAlignment.left
             self.itemsTotalPrice.textAlignment  = .natural //NSTextAlignment.left
         }
         
@@ -1049,6 +1055,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.checkoutBtn.isEnabled = enabled
             self.checkoutBtn.alpha = enabled ? 1 : 0.3
             self.checkOutViewForButton.backgroundColor  = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
+            
+            self.itemsCount.textColor  = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
             return
         }
         
@@ -1057,6 +1065,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.checkoutBtn.isEnabled = enabled
             self.checkoutBtn.alpha = enabled ? 1 : 0.3
             self.checkOutViewForButton.backgroundColor  = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
+            self.itemsCount.textColor  = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
         }
         
     }
@@ -1327,10 +1336,12 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                
                // resetting the view of checkoutButton
                self.itemsCount.isHidden = self.isOutOfStockProductAvailablePreCart
+               self.itemCountBGView.isHidden = self.isOutOfStockProductAvailablePreCart
                self.itemsTotalPrice.isHidden = self.isOutOfStockProductAvailablePreCart
                self.imgbasketArrow.isHidden = self.isOutOfStockProductAvailablePreCart
                self.lblPlaceOrderTitle.text = self.isOutOfStockProductAvailablePreCart ? localizedString("Confirm_OOS_Title", comment: "") : localizedString("shopping_basket_payment_button", comment: "")
                self.itemsCount.visibility = self.isOutOfStockProductAvailablePreCart ? .goneX : .visible
+               self.itemCountBGView.visibility = self.isOutOfStockProductAvailablePreCart ? .goneX : .visible
                self.itemsTotalPrice.visibility = self.isOutOfStockProductAvailablePreCart ? .goneX : .visible
                self.imgbasketArrow.visibility = self.isOutOfStockProductAvailablePreCart ? .goneX : .visible
                self.lblPlaceOrderTitle.textAlignment = self.isOutOfStockProductAvailablePreCart ? .center : .natural
@@ -1732,11 +1743,13 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         self.itemsCount.isHidden = self.isOutOfStockProductAvailablePreCart
+        self.itemCountBGView.isHidden = self.isOutOfStockProductAvailablePreCart
         self.itemsTotalPrice.isHidden = self.isOutOfStockProductAvailablePreCart
         self.imgbasketArrow.isHidden = self.isOutOfStockProductAvailablePreCart
         self.lblPlaceOrderTitle.text = self.isOutOfStockProductAvailablePreCart ? localizedString("Confirm_OOS_Title", comment: "") : localizedString("shopping_basket_payment_button", comment: "")
         
         self.itemsCount.visibility = self.isOutOfStockProductAvailablePreCart ? .goneX : .visible
+        self.itemCountBGView.visibility = self.isOutOfStockProductAvailablePreCart ? .goneX : .visible
         self.itemsTotalPrice.visibility = self.isOutOfStockProductAvailablePreCart ? .goneX : .visible
         self.imgbasketArrow.visibility = self.isOutOfStockProductAvailablePreCart ? .goneX : .visible
         self.lblPlaceOrderTitle.textAlignment = self.isOutOfStockProductAvailablePreCart ? .center : .natural
@@ -1833,11 +1846,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         if self.notAvailableProducts != nil {
             self.purchasedItemCount = summaryCount - notAvailableCount
-            self.itemsCount.text = "\(summaryCount - notAvailableCount)/\(summaryCount) " + localizedString("shopping_basket_available_label", comment: "")
-            self.itemsCount.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount - notAvailableCount)/\(summaryCount) ") + localizedString("shopping_basket_available_label", comment: "")
+            self.itemsCount.text = "\(summaryCount - notAvailableCount)/\(summaryCount)"
+            self.itemsCount.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount - notAvailableCount)/\(summaryCount) ")
         } else {
             self.purchasedItemCount = summaryCount
-            self.itemsCount.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount)") +  "\(localizedString("brand_items_count_label", comment: "")))"
+            self.itemsCount.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount)")
         }
         
         if (self.grocery  != nil && self.products.count == 0 && hidesBottomBarWhenPushed == true) {
@@ -3499,7 +3512,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             cell.productTotalPrice.textColor = UIColor.white
             cell.lblQuantity.textColor = UIColor.white
             self.itemsTotalPrice.textColor =  UIColor.white
-            self.itemsCount.textColor = UIColor.white
+//            self.itemsCount.textColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         })
         
     }

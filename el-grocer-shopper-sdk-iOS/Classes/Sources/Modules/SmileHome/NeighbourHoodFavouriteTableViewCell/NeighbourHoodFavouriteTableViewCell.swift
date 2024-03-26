@@ -60,6 +60,7 @@ class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
             layout.sectionInset = UIEdgeInsets(top: 0, left: edgeInset, bottom: 0, right: edgeInset)
             return layout
         }()
+        self.collectionView.semanticContentAttribute = ElGrocerUtility.sharedInstance.isArabicSelected() ? .forceRightToLeft : .forceLeftToRight
     }
     
     func setupUI (isForFavourite: Bool) {
@@ -72,9 +73,9 @@ class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
         }else {
             self.lblHeadingTopConstraint.constant = 16
             self.lblHeading.text = localizedString("lbl_title_one_click_reorder", comment: "")
-            self.bGView.backgroundColor = ApplicationTheme.currentTheme.searchBarBGBlue50Color
+            self.bGView.backgroundColor = ApplicationTheme.currentTheme.oneClickReorderBGColor
             self.contentView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
-            self.collectionView.backgroundColor = ApplicationTheme.currentTheme.searchBarBGBlue50Color
+            self.collectionView.backgroundColor = ApplicationTheme.currentTheme.oneClickReorderBGColor
         }
     }
     

@@ -105,7 +105,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         self.title = localizedString("lbl_Order_Details", comment: "")
         self.navigationItem.hidesBackButton = true
         
-        sdkManager.isShopperApp ? addGreenBackButton() : addBackButton(isGreen: false, true)
+        addBackButton(isGreen: false, true)
         self.setOrderLableAppearnace()
         self.setOrderData()
         self.setUpInitailizers()
