@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class ExclusiveDealBottomSheetTableViewCell: UITableViewCell {
 
@@ -42,6 +43,11 @@ class ExclusiveDealBottomSheetTableViewCell: UITableViewCell {
     @IBOutlet weak var bgView: UIView!
     
     
+    typealias tapped = (_ promo: ExclusiveDealsPromoCode?, _ grocery: Grocery?)-> Void
+    var promoTapped: tapped?
+    var grocery: Grocery?
+    var promo: ExclusiveDealsPromoCode?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -54,6 +60,42 @@ class ExclusiveDealBottomSheetTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    @IBAction func copyAndShopTapped(_ sender: Any) {
+        
+        if let promoTapped = self.promoTapped {
+            promoTapped(self.promo, self.grocery)
+        }
+        
+    }
+    
+    func configure(promoCode: ExclusiveDealsPromoCode, grocery: Grocery?) {
+        self.grocery = grocery
+        self.promo = promoCode
+        self.retailerName.text = grocery?.name ?? ""
+        self.voucherDesc.text = promoCode.title ?? ""
+        self.voucherName.text = promoCode.code ?? ""
+        
+        if grocery?.smallImageUrl != nil && grocery?.smallImageUrl != "" {
+            self.AssignImage(imageUrl: grocery?.smallImageUrl ?? "")
+        }
+    }
+
+    func AssignImage(imageUrl: String){
+        if imageUrl.range(of: "http") != nil {
+            
+            self.retailerImageView.sd_setImage(with: URL(string: imageUrl), placeholderImage: productPlaceholderPhoto, options: SDWebImageOptions(rawValue: 0), completed: { (image, error, cacheType, imageURL) in
+                if cacheType == SDImageCacheType.none {
+                    
+                    UIView.transition(with: self.retailerImageView, duration: 0.33, options: UIView.AnimationOptions.transitionCrossDissolve, animations: { () -> Void in
+                        
+                        self.retailerImageView.image = image
+                        
+                    }, completion: nil)
+                }
+            })
+        }
     }
 
 }

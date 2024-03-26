@@ -7,7 +7,7 @@
 
 import UIKit
 protocol CopyAndShopDelegate{
-    func copyAndShopWithGrocery()
+    func copyAndShopWithGrocery(promo: ExclusiveDealsPromoCode, grocery: Grocery)
 }
 class ExclusiveDealsTableViewCell: UITableViewCell {
 
@@ -52,8 +52,8 @@ class ExclusiveDealsTableViewCell: UITableViewCell {
         self.setUpCollectionView()
     }
     
-    @objc func copyAndShopTapped(){
-        self.delegate?.copyAndShopWithGrocery()
+    func copyAndShopTapped(promo: ExclusiveDealsPromoCode, grocery: Grocery){
+        self.delegate?.copyAndShopWithGrocery(promo: promo, grocery: grocery)
     }
     
     func registerCells() {
@@ -102,15 +102,23 @@ extension ExclusiveDealsTableViewCell: UICollectionViewDelegate, UICollectionVie
             return (Int(Grocery.getCleanGroceryID()) ?? 0) == (promoCode.retailer_id ?? 0)
         }
         cell.configure(promoCode: promoCode, grocery: grocery)
-        
-        
-        
-        cell.copyAndShopBtn.addTarget(self, action: #selector(copyAndShopTapped), for: .touchUpInside)
+        cell.promoTapped = {[weak self] promo, grocery in
+            
+            if let promo = promo , let grocery = grocery {
+                self?.copyAndShopTapped(promo: promo, grocery: grocery)
+            }
+            
+        }
         
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+    }
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let cell = cell as? ExclusiveDealsCollectionViewCell {
+            cell.voucherBgView.addDashedBorderAroundView(color: ApplicationTheme.currentTheme.themeBasePrimaryBlackColor)
+        }
     }
 }
 extension ExclusiveDealsTableViewCell: UICollectionViewDelegateFlowLayout {

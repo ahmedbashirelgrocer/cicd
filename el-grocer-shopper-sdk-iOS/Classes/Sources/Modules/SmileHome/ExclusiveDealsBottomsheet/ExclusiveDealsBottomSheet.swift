@@ -9,7 +9,7 @@ import UIKit
 
 class ExclusiveDealsBottomSheet: UIViewController {
 
-    var delegate: CopyAndShopDelegate?
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var headingLabel: UILabel!{
         didSet{
@@ -17,6 +17,13 @@ class ExclusiveDealsBottomSheet: UIViewController {
             headingLabel.setH3SemiBoldDarkStyle()
         }
     }
+    
+    typealias tapped = (_ promo: ExclusiveDealsPromoCode?, _ grocery: Grocery?)-> Void
+    var promoTapped: tapped?
+    var delegate: CopyAndShopDelegate?
+    var promoA: [ExclusiveDealsPromoCode] = []
+    var groceryA: [Grocery] = []
+    
     
     @IBAction func crossTapped(_ sender: Any) {
         self.dismiss(animated: false)
@@ -28,21 +35,36 @@ class ExclusiveDealsBottomSheet: UIViewController {
         self.tableView.delegate = self
     }
     
-    @objc func copyAndShopTapped(){
-        self.dismiss(animated: false){
-            self.delegate?.copyAndShopWithGrocery()
-        }
+     func copyAndShopTapped(promo: ExclusiveDealsPromoCode, grocery: Grocery){
+         if let promoTapped = self.promoTapped {
+             promoTapped(promo,grocery)
+         }
+//        self.dismiss(animated: false){
+//        }
     }
 }
 extension ExclusiveDealsBottomSheet: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return self.promoA.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "ExclusiveDealBottomSheetTableViewCell", for: indexPath) as! ExclusiveDealBottomSheetTableViewCell
-        cell.copyAndShopBtn.addTarget(self, action: #selector(copyAndShopTapped), for: .touchUpInside)
+        
+        let promoCode = promoA[indexPath.row]
+        let grocery = self.groceryA.first { Grocery in
+            return (Int(Grocery.getCleanGroceryID()) ?? 0) == (promoCode.retailer_id ?? 0)
+        }
+        cell.configure(promoCode: promoCode, grocery: grocery)
+        cell.promoTapped = {[weak self] promo, grocery in
+            
+            if let promo = promo , let grocery = grocery {
+                self?.copyAndShopTapped(promo: promo, grocery: grocery)
+            }
+            
+        }
+//        cell.copyAndShopBtn.addTarget(self, action: #selector(copyAndShopTapped), for: .touchUpInside)
         return cell
     }
     

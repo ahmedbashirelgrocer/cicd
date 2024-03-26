@@ -11,7 +11,7 @@ import RxSwift
 import STPopup
 
 protocol ShowExclusiveDealsInstructionsDelegate{
-    func showExclusiveDealsInstructions()
+    func showExclusiveDealsInstructions(promo: ExclusiveDealsPromoCode, grocery: Grocery)
 }
 var kGroceriesStoreTypeId: Int = 22
 
@@ -191,8 +191,11 @@ class SmileSdkHomeVC: BasketBasicViewController {
     @objc private func showExclusiveDealsBottomSheet() {
         let storyboard = UIStoryboard(name: "Smile", bundle: .resource)
         if let exclusiveVC = storyboard.instantiateViewController(withIdentifier: "ExclusiveDealsBottomSheet") as? ExclusiveDealsBottomSheet {
+            exclusiveVC.promoA = self.exclusiveDealsPromoList
+            exclusiveVC.groceryA = self.groceryArray
             exclusiveVC.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(ScreenSize.SCREEN_HEIGHT - (ScreenSize.SCREEN_HEIGHT/3)))
             exclusiveVC.delegate = self
+            
             let popupController = STPopupController(rootViewController: exclusiveVC)
             popupController.navigationBarHidden = true
             popupController.style = .bottomSheet
@@ -200,6 +203,14 @@ class SmileSdkHomeVC: BasketBasicViewController {
             popupController.containerView.layer.cornerRadius = 16
             popupController.navigationBarHidden = true
             popupController.present(in: self)
+            
+            exclusiveVC.promoTapped = {[weak self] promo, grocery in
+                if grocery != nil {
+                    popupController.dismiss()
+                    self?.goToGrocery(grocery!, nil, promo: promo)
+                }
+                
+            }
         }
     }
     
@@ -681,7 +692,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, mapDelegate: self.mapDelegate, presentIn: self)
     }
     
-    func goToGrocery (_ grocery : Grocery , _ bannerLink : BannerLink?) {
+    func goToGrocery (_ grocery : Grocery , _ bannerLink : BannerLink?, promo: ExclusiveDealsPromoCode? = nil) {
         
         defer {
           FireBaseEventsLogger.logEventToFirebaseWithEventName(FireBaseScreenName.SdkHome.rawValue,eventName: FireBaseParmName.SDKHomeStoreSelected.rawValue)
@@ -736,6 +747,11 @@ class SmileSdkHomeVC: BasketBasicViewController {
                                 if let mainVc =   navMain.viewControllers[0] as? MainCategoriesViewController {
                                     self.delegate = mainVc as? any ShowExclusiveDealsInstructionsDelegate
                                     mainVc.grocery = nil
+                                    if promo != nil {
+                                        mainVc.shouldShowPromoPopUp = true
+                                        mainVc.exclusivePromotionDeal = promo
+                                    }
+                                    
                                     ElGrocerUtility.sharedInstance.activeGrocery = grocery
                                     if ElGrocerUtility.sharedInstance.groceries.count == 0 {
                                         ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
@@ -1604,15 +1620,14 @@ extension SmileSdkHomeVC {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "ExclusiveDealsTableViewCell", for: indexPath) as! ExclusiveDealsTableViewCell
         cell.selectionStyle = .none
         cell.delegate = self
-        //cell.btnViewAll.addTarget(self, action: #selector(showExclusiveDealsBottomSheet), for: .touchUpInside)
         cell.configureCell(promoList: self.homeDataHandler.exclusiveDealsPromoA, groceryA: self.homeDataHandler.groceryA)
         cell.viewAllBtn.addTarget(self, action: #selector(showExclusiveDealsBottomSheet), for: .touchUpInside)
         return cell
     }
 }
 extension SmileSdkHomeVC: CopyAndShopDelegate{
-    func copyAndShopWithGrocery() {
-        self.goToGrocery(self.sortedGroceryArray[0], nil)
-        self.delegate?.showExclusiveDealsInstructions()
+    func copyAndShopWithGrocery(promo: ExclusiveDealsPromoCode, grocery: Grocery) {
+        self.goToGrocery(grocery, nil, promo: promo)
+//        self.delegate?.showExclusiveDealsInstructions(promo: promo, grocery: grocery)
     }
 }

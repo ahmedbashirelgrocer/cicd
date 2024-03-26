@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class ExclusiveDealsCollectionViewCell: UICollectionViewCell {
     
@@ -30,19 +31,19 @@ class ExclusiveDealsCollectionViewCell: UICollectionViewCell {
             voucherName.setBodyBoldDarkStyle()
         }
     }
-    @IBOutlet weak var voucherBgView: UIView!{
-        didSet{
-            voucherBgView.addDashedBorderAroundView(color: ApplicationTheme.currentTheme.newBlackColor)
-        }
-    }
+    @IBOutlet weak var voucherBgView: UIView!
     @IBOutlet weak var copyAndShopBtn: UIButton!{
         didSet{
             copyAndShopBtn.titleLabel?.setBody2BoldPurpleStyle()
         }
     }
     
-    @IBAction func copyAndShopTapped(_ sender: Any) {
-    }
+    
+    typealias tapped = (_ promo: ExclusiveDealsPromoCode?, _ grocery: Grocery?)-> Void
+    var promoTapped: tapped?
+    var grocery: Grocery?
+    var promo: ExclusiveDealsPromoCode?
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -51,9 +52,40 @@ class ExclusiveDealsCollectionViewCell: UICollectionViewCell {
         bgView.layer.cornerRadius = 8
     }
     
+    @IBAction func copyAndShopTapped(_ sender: Any) {
+        
+        if let promoTapped = self.promoTapped {
+            promoTapped(self.promo, self.grocery)
+        }
+        
+    }
+    
     
     func configure(promoCode: ExclusiveDealsPromoCode, grocery: Grocery?) {
+        self.grocery = grocery
+        self.promo = promoCode
         self.retailerName.text = grocery?.name ?? ""
+        self.voucherDesc.text = promoCode.title ?? ""
+        self.voucherName.text = promoCode.code ?? ""
+        
+        if grocery?.smallImageUrl != nil && grocery?.smallImageUrl != "" {
+            self.AssignImage(imageUrl: grocery?.smallImageUrl ?? "")
+        }
     }
 
+    func AssignImage(imageUrl: String){
+        if imageUrl.range(of: "http") != nil {
+            
+            self.imageView.sd_setImage(with: URL(string: imageUrl), placeholderImage: productPlaceholderPhoto, options: SDWebImageOptions(rawValue: 0), completed: { (image, error, cacheType, imageURL) in
+                if cacheType == SDImageCacheType.none {
+                    
+                    UIView.transition(with: self.imageView, duration: 0.33, options: UIView.AnimationOptions.transitionCrossDissolve, animations: { () -> Void in
+                        
+                        self.imageView.image = image
+                        
+                    }, completion: nil)
+                }
+            })
+        }
+    }
 }

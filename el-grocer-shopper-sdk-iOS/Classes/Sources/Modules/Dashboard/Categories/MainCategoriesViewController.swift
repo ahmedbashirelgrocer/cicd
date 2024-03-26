@@ -100,6 +100,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     var actionClicked: ((_ url : String?)->Void)? = nil
     private var porgressHud : SpinnerView? = nil
     private var viewModel: MainCategoriesViewModelType!
+    var shouldShowPromoPopUp: Bool = false
+    var exclusivePromotionDeal: ExclusiveDealsPromoCode? = nil
     
     @IBOutlet weak var storelyCustomView: StorylyView!
     @IBOutlet var mainView: UIView!
@@ -392,6 +394,11 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.shouldShowPromoPopUp = false
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         defer {
@@ -450,7 +457,9 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         }
         self.needToLogScreenEvent = true
         GoogleAnalyticsHelper.trackScreenWithName(kGoogleAnalyticsHomeScreen)
-        
+        if self.shouldShowPromoPopUp {
+            self.showExclusiveDealsInstructionsBottomSheet()
+        }
         
         return
         
@@ -1207,7 +1216,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.didMoveToIndex( grocery: grocery )
     }
     
-    @objc private func showExclusiveDealsInstructionsBottomSheet() {
+    private func showExclusiveDealsInstructionsBottomSheet() {
         let storyboard = UIStoryboard(name: "Smile", bundle: .resource)
         if let exclusiveVC = storyboard.instantiateViewController(withIdentifier: "ExclusiveDealsInstructionsBottomSheet") as? ExclusiveDealsInstructionsBottomSheet {
             exclusiveVC.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(ScreenSize.SCREEN_HEIGHT/3))
@@ -2507,11 +2516,11 @@ private func checkforDifferentDeliveryLocation() {
 
 }
 
-extension MainCategoriesViewController: ShowExclusiveDealsInstructionsDelegate{
-    func showExclusiveDealsInstructions() {
-        self.showExclusiveDealsInstructionsBottomSheet()
-    }
-}
+//extension MainCategoriesViewController: ShowExclusiveDealsInstructionsDelegate{
+//    func showExclusiveDealsInstructions(promo: ExclusiveDealsPromoCode, grocery: Grocery) {
+//        self.showExclusiveDealsInstructionsBottomSheet()
+//    }
+//}
 
 extension Notification.Name {
     static var MainCategoriesViewDataDidLoaded: Notification.Name { NSNotification.Name("MainCategoriesViewControllerDataDidLoaded") }

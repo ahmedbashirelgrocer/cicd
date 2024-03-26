@@ -44,6 +44,12 @@ class ExclusiveDealsInstructionsBottomSheet: UIViewController {
         }
     }
     
+    
+    var promoCode: ExclusiveDealsPromoCode?
+    var grocery: Grocery?
+    
+    
+    
     @IBAction func crossTapped(_ sender: Any) {
         self.dismiss(animated: false)
     }
@@ -53,5 +59,14 @@ class ExclusiveDealsInstructionsBottomSheet: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    func configureBottomSheet(promo: ExclusiveDealsPromoCode?, grocery: Grocery) {
+        self.promoCode = promo
+        self.grocery = grocery
+        
+        
+    }
+    
+    
     
 }
