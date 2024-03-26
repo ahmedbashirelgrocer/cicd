@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '100.6575.3027'
+  s.version          = '100.6575.3028'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -197,4 +197,5 @@ Pod::Spec.new do |s|
    s.dependency 'CleverTap-iOS-SDK'
    s.dependency 'Analytics'
    s.dependency 'Segment-CleverTap'
+   s.dependency 'Segment-Firebase', '2.7.10'
 end

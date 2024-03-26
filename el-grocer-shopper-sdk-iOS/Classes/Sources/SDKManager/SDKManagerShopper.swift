@@ -30,6 +30,7 @@ import SwiftDate
 import Adyen
 import Segment
 import Segment_CleverTap
+import Segment_Firebase
 
 private enum BackendSuggestedAction: Int {
     case Continue = 0
@@ -469,6 +470,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType {
         
         let configuration = AnalyticsConfiguration(writeKey: segmentSDKWriteKey)
         configuration.use(SEGCleverTapIntegrationFactory())
+        configuration.use(SEGFirebaseIntegrationFactory())
         configuration.flushAt = 3
         configuration.flushInterval = 10
         configuration.trackApplicationLifecycleEvents = false
