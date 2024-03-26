@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
-  s.version          = '100.6575.3023'
+  s.version          = '100.6575.3027'
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -138,7 +138,7 @@ Pod::Spec.new do |s|
   # pod 'MaterialShowcase'
   #s.dependency 'AppsFlyerFramework'
   s.dependency 'SwiftDate', '~> 6.3.1'
-  s.dependency 'Storyly'
+  s.dependency 'Storyly', '~> 2.13.0'
   #s.dependency 'Storyly', '~> 1.19.3'
   s.dependency 'CHDropDownTextField', '~> 1.0.0'
   s.dependency 'FXPageControl', '~> 1.5'
