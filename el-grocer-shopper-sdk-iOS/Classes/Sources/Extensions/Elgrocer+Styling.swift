@@ -106,7 +106,10 @@ extension UILabel {
         self.font = UIFont.SFProDisplayBoldFont(16)
         self.textColor = UIColor.navigationBarWhiteColor()
     }
-    
+    func setBody2BoldPurpleStyle() {
+        self.font = UIFont.SFProDisplayBoldFont(14)
+        self.textColor = UIColor.smileBaseColor()
+    }
     func setBody3RegDarkStyle() {
         self.font = UIFont.SFProDisplayNormalFont(14)
         self.textColor = UIColor.newBlackColor()
@@ -134,6 +137,10 @@ extension UILabel {
     func setBody3RegGreyStyle() {
         self.font = UIFont.SFProDisplayNormalFont(14)
         self.textColor = UIColor.textFieldPlaceHolderColor()
+    }
+    func setBody3RegDarkGreyStyle() {
+        self.font = UIFont.SFProDisplayNormalFont(14)
+        self.textColor = UIColor.selectionTabDark()
     }
     func setBody3RegSecondaryWhiteStyle() {
         self.font = UIFont.SFProDisplayNormalFont(14)

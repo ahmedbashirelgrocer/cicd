@@ -15,6 +15,7 @@ import RxSwift
 import RxDataSources
 import CoreLocation
 import Storyly
+import STPopup
 
 enum StorePageType {
     case FromStorePage
@@ -1204,6 +1205,20 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.addChangeStoreButtonWithStoreNameAtTop(grocery)
         //self.addChangeStoreButtonWithStoreNameAtLeftSide(grocery.name!, andWithLocationName: currentAddress.locationName)
         self.didMoveToIndex( grocery: grocery )
+    }
+    
+    @objc private func showExclusiveDealsInstructionsBottomSheet() {
+        let storyboard = UIStoryboard(name: "Smile", bundle: .resource)
+        if let exclusiveVC = storyboard.instantiateViewController(withIdentifier: "ExclusiveDealsInstructionsBottomSheet") as? ExclusiveDealsInstructionsBottomSheet {
+            exclusiveVC.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(ScreenSize.SCREEN_HEIGHT/3))
+            let popupController = STPopupController(rootViewController: exclusiveVC)
+            popupController.navigationBarHidden = true
+            popupController.style = .bottomSheet
+            popupController.backgroundView?.alpha = 1
+            popupController.containerView.layer.cornerRadius = 16
+            popupController.navigationBarHidden = true
+            popupController.present(in: self)
+        }
     }
     
     private func showAppStoreReviewPopUp(){
@@ -2490,6 +2505,12 @@ private func checkforDifferentDeliveryLocation() {
     } else { }
 }
 
+}
+
+extension MainCategoriesViewController: ShowExclusiveDealsInstructionsDelegate{
+    func showExclusiveDealsInstructions() {
+        self.showExclusiveDealsInstructionsBottomSheet()
+    }
 }
 
 extension Notification.Name {

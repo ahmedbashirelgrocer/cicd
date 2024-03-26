@@ -8,7 +8,12 @@
 import UIKit
 import CoreLocation
 import RxSwift
+import STPopup
 
+protocol ShowExclusiveDealsInstructionsDelegate{
+    func showExclusiveDealsInstructions()
+}
+var kGroceriesStoreTypeId = 12
 class SmileSdkHomeVC: BasketBasicViewController {
     
     private var disposeBag = DisposeBag()
@@ -102,6 +107,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     }
     var neighbourHoodSection: Int = 0
     var oneClickReOrderSection: Int = 0
+    var exclusiveDealsSection: Int = 1
     
     var availableStoreTypeA: [StoreType] = []
     var featureGroceryBanner : [BannerCampaign] = []
@@ -109,6 +115,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     var controllerTitle: String = ""
     var selectStoreType : StoreType? = nil
     var separatorCount = 2
+    var delegate: ShowExclusiveDealsInstructionsDelegate?
     private var openOrders : [NSDictionary] = []
     private var configRetriesCount: Int = 0
     
@@ -179,6 +186,21 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
         // MARK: - UI Customization
     
+    @objc private func showExclusiveDealsBottomSheet() {
+        let storyboard = UIStoryboard(name: "Smile", bundle: .resource)
+        if let exclusiveVC = storyboard.instantiateViewController(withIdentifier: "ExclusiveDealsBottomSheet") as? ExclusiveDealsBottomSheet {
+            exclusiveVC.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(ScreenSize.SCREEN_HEIGHT - (ScreenSize.SCREEN_HEIGHT/3)))
+            exclusiveVC.delegate = self
+            let popupController = STPopupController(rootViewController: exclusiveVC)
+            popupController.navigationBarHidden = true
+            popupController.style = .bottomSheet
+            popupController.backgroundView?.alpha = 1
+            popupController.containerView.layer.cornerRadius = 16
+            popupController.navigationBarHidden = true
+            popupController.present(in: self)
+        }
+    }
+    
     
     private func navigationBarCustomization() {
         
@@ -245,6 +267,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
         
         let NeighbourHoodFavouriteTableViewCell = UINib(nibName: "NeighbourHoodFavouriteTableViewCell", bundle: Bundle.resource)
         self.tableView.register(NeighbourHoodFavouriteTableViewCell, forCellReuseIdentifier: "NeighbourHoodFavouriteTableViewCell")
+        
+        let exclusiveDealsTableViewCell = UINib(nibName: "ExclusiveDealsTableViewCell", bundle: Bundle.resource)
+        self.tableView.register(exclusiveDealsTableViewCell, forCellReuseIdentifier: "ExclusiveDealsTableViewCell")
         
         let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: Bundle.resource)
         self.currentOrderCollectionView.register(CurrentOrderCollectionCell, forCellWithReuseIdentifier: "CurrentOrderCollectionCell")
@@ -656,7 +681,6 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     func goToGrocery (_ grocery : Grocery , _ bannerLink : BannerLink?) {
         
-        
         defer {
           FireBaseEventsLogger.logEventToFirebaseWithEventName(FireBaseScreenName.SdkHome.rawValue,eventName: FireBaseParmName.SDKHomeStoreSelected.rawValue)
             MixpanelEventLogger.trackHomeStoreClick(grocery.dbID)
@@ -708,6 +732,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
                         if  let navMain  = tabbar.viewControllers?[tabbar.selectedIndex] as? UINavigationController  {
                             if navMain.viewControllers.count > 0 {
                                 if let mainVc =   navMain.viewControllers[0] as? MainCategoriesViewController {
+                                    self.delegate = mainVc as? any ShowExclusiveDealsInstructionsDelegate
                                     mainVc.grocery = nil
                                     ElGrocerUtility.sharedInstance.activeGrocery = grocery
                                     if ElGrocerUtility.sharedInstance.groceries.count == 0 {
@@ -772,6 +797,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
 
 // MARK: Helper Methods
 extension SmileSdkHomeVC {
+    func navigateToStoreWithExclusiveDeal(){
+        
+    }
     func navigateToMultiCart() {
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
 
@@ -1285,7 +1313,7 @@ extension SmileSdkHomeVC {
                 oneClickReOrderSection = self.oneClickReOrderGroceryArray.count > 0 ? 1 : 0
                 return 1 + neighbourHoodSection + oneClickReOrderSection
             }else {
-                return 1 + (configs.isHomeTier1 ? 1 : 0)
+                return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection
             }
             
         case 1: //1-3: Grocery cell 1, 2, 3
@@ -1327,14 +1355,20 @@ extension SmileSdkHomeVC {
             }else {
                 if ABTestManager.shared.configs.isHomeTier1 {
                     return self.makeLocationOneBannerCell(indexPath)
+                }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kGroceriesStoreTypeId{
+                        return makeExclusiveDealsTableViewCell(indexPath: indexPath)
+                }else{
+                    return self.makeLabelCell(indexPath)
                 }
-                return self.makeLabelCell(indexPath)
             }
         case .init(row: 1, section: 0):
             if tableViewHeader2.selectedItemIndex == 0 && self.oneClickReOrderSection == 1 && self.neighbourHoodSection == 1 {
                 return makeNeighbourHoodFavouriteTableViewCell(indexPath: indexPath)
+            }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kGroceriesStoreTypeId{
+                return makeExclusiveDealsTableViewCell(indexPath: indexPath)
+            }else{
+                return self.makeLabelCell(indexPath)
             }
-            return self.makeLabelCell(indexPath)
         case .init(row: 2, section: 0):
             return self.makeLabelCell(indexPath)
         case .init(row: 0, section: 2):
@@ -1401,14 +1435,20 @@ extension SmileSdkHomeVC {
             }else {
                 if configs.isHomeTier1 {
                     return (HomePageData.shared.locationOneBanners?.count ?? 0) > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
+                }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kGroceriesStoreTypeId{
+                        return 180
+                }else{
+                    return 45
                 }
-                return 45
             }
         case .init(row: 1, section: 0):
             if tableViewHeader2.selectedItemIndex == 0 && oneClickReOrderSection == 1 && neighbourHoodSection == 1 {
                 return 166
+            }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kGroceriesStoreTypeId{
+                return 180
+            }else{
+                return 45
             }
-            return 45
         case .init(row: 2, section: 0):
             return 45
         case .init(row: 0, section: 2):
@@ -1544,5 +1584,20 @@ extension SmileSdkHomeVC {
         }
         
         return cell
+    }
+    
+    func makeExclusiveDealsTableViewCell(indexPath: IndexPath)-> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "ExclusiveDealsTableViewCell", for: indexPath) as! ExclusiveDealsTableViewCell
+        cell.selectionStyle = .none
+        cell.delegate = self
+        //cell.btnViewAll.addTarget(self, action: #selector(showExclusiveDealsBottomSheet), for: .touchUpInside)
+        cell.viewAllBtn.addTarget(self, action: #selector(showExclusiveDealsBottomSheet), for: .touchUpInside)
+        return cell
+    }
+}
+extension SmileSdkHomeVC: CopyAndShopDelegate{
+    func copyAndShopWithGrocery() {
+        self.goToGrocery(self.sortedGroceryArray[0], nil)
+        self.delegate?.showExclusiveDealsInstructions()
     }
 }
