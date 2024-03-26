@@ -339,16 +339,18 @@ class GenericStoresViewController: BasketBasicViewController {
         self.locationHeader.configured()
         (self.navigationController as? ElGrocerNavigationController)?.setLocationText(self.locationHeader.lblAddress.text ?? "")
         self.navView.addSubview(searchBarHeader)
-        self.searchBarHeader.setNeedsLayout()
-        self.searchBarHeader.layoutIfNeeded()
+       
         self.searchBarHeader.setLocationText(self.locationHeader.lblAddress.text ?? "")
         
         NSLayoutConstraint.activate([
             searchBarHeader.leadingAnchor.constraint(equalTo: navView.leadingAnchor),
-            searchBarHeader.trailingAnchor.constraint(equalTo: navView.trailingAnchor),
+            searchBarHeader.trailingAnchor.constraint(equalTo: self.view.trailingAnchor,constant: 0),
             searchBarHeader.topAnchor.constraint(equalTo: navView.topAnchor),
             searchBarHeader.bottomAnchor.constraint(equalTo: navView.bottomAnchor, constant: -10)
         ])
+        
+        self.searchBarHeader.setNeedsLayout()
+        self.searchBarHeader.layoutIfNeeded()
         
         
     }
