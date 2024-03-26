@@ -13,7 +13,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
     @IBOutlet weak var collectionView: UICollectionView!{
         didSet{
             collectionView.bounces = false
-            collectionView.backgroundColor = .textfieldBackgroundColor()
+            collectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }
     }
     @IBOutlet var bottonViewHeight: NSLayoutConstraint!
@@ -31,13 +31,13 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         didSet {
             segmentedView.commonInit()
             segmentedView.segmentDelegate = self
-            segmentedView.backgroundColor = .tableViewBackgroundColor()
+            segmentedView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }
     }
     @IBOutlet weak var segmentedViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var safeAreaBGView: UIView! {
         didSet {
-            safeAreaBGView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            safeAreaBGView.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
         }
     }
     
@@ -113,7 +113,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         NotificationCenter.default.addObserver(self,selector: #selector(ProductsViewController.refreshProductsView), name: NSNotification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
         
         
-        if sdkManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
+        if sdkManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor }
         self.navigationItem.hidesBackButton = true
         self.registerCellsForCollection()
         self.basketIconOverlay?.grocery = self.grocery
@@ -579,7 +579,7 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         let EmptyCollectionReusableViewheaderNib = UINib(nibName: "EmptyCollectionReusableView", bundle: Bundle.resource)
         self.collectionView.register(EmptyCollectionReusableViewheaderNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "EmptyCollectionReusableView")
     
-        self.collectionView.backgroundColor =  UIColor.textfieldBackgroundColor()
+        self.collectionView.backgroundColor =  ApplicationTheme.currentTheme.tableViewBGWhiteColor
         
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = UIEdgeInsets.init(top: 5 , left: 5, bottom: 10 , right: 10)

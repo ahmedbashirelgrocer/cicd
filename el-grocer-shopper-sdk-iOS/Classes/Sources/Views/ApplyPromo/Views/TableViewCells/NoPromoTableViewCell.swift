@@ -10,7 +10,12 @@ import UIKit
 
 class NoPromoTableViewCell: UITableViewCell {
 
-    @IBOutlet var bGView: UIView!
+    @IBOutlet var bGView: UIView! {
+        didSet {
+            bGView.layer.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor.cgColor
+            bGView.layer.borderWidth = 1.0
+        }
+    }
     @IBOutlet var lblNoPromo: UILabel! {
         didSet {
             lblNoPromo.setBody3RegDarkStyle()

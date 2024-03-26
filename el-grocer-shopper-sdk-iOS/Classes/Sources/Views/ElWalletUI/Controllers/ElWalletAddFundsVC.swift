@@ -29,6 +29,10 @@ class ElWalletAddFundsVC: UIViewController {
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 amountTextField.textAlignment = .right
             }
+            amountTextField.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
+            amountTextField.borderColor = ApplicationTheme.currentTheme.borderGrayColor
+            amountTextField.borderWidth = 1.0
+            
         }
     }
     @IBOutlet weak var addFundsButton: UIButton!{

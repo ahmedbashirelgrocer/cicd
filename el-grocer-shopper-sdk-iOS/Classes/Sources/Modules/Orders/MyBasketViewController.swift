@@ -100,7 +100,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet var checkOutView: UIView!
     @IBOutlet var savedAmountBGView: UIView!{
         didSet{
-            savedAmountBGView.backgroundColor = .promotionRedColor()
+            savedAmountBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
             savedAmountBGView.clipsToBounds = true
             savedAmountBGView.layer.cornerRadius = 8
             if ElGrocerUtility.sharedInstance.isArabicSelected(){
@@ -1002,8 +1002,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         customCollectionViewWithCarouselProducts.collectionView?.backgroundColor = .clear
         self.tblBasket.separatorColor = UIColor.borderGrayColor()
         self.tblBasket.separatorInset = UIEdgeInsets.zero
-        self.tblBasket.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)//UIColor.white
-        self.view.backgroundColor =  #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)
+        self.tblBasket.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.view.backgroundColor =  ApplicationTheme.currentTheme.tableViewBGWhiteColor
         //self.view.backgroundColor = .navigationBarWhiteColor()//#colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1)// UIColor.white
         self.setupBottomView()
         self.setUpCheckoutButtonAppearance()
@@ -2296,7 +2296,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             let product = self.notAvailableProductsList[(indexPath as NSIndexPath).row]
             
             let cell = tableView.dequeueReusableCell(withIdentifier: KMyBasketReplaceProductIdentifier, for: indexPath) as! MyBasketReplaceProductTableViewCell
-            cell.bottomLine.backgroundColor = UIColor.textfieldBackgroundColor()
+            cell.bottomLine.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             cell.customCollectionView.moreCellType = .ShowSubstitute
             cell.lblProductName.text = "" +  "\(product.name ?? "")"
             if product.descr != nil && product.descr?.isEmpty == false  {
@@ -2458,7 +2458,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 }
             }
             
-            cell.customCollectionView.collectionView?.backgroundColor = .colorWithHexString(hexString: "F5F5F5")
+            cell.customCollectionView.collectionView?.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             
             cell.contentView.setNeedsLayout()
             cell.contentView.layoutIfNeeded()

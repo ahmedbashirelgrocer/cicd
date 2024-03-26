@@ -10,7 +10,12 @@ import UIKit
 import STPopup
 
 class CheckoutDeliverySlotView: UIView  {
-    @IBOutlet weak var slotBGView: AWView!
+    @IBOutlet weak var slotBGView: AWView! {
+        didSet {
+            slotBGView.borderWidth = 1
+            slotBGView.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor
+        }
+    }
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblSlotText: UILabel!
     @IBOutlet weak var ivArrowRight: UIImageView! {

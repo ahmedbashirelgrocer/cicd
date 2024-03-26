@@ -27,6 +27,8 @@ class SecondaryPaymentView: UIView {
         view.backgroundColor = .white
         view.cornarRadius = 8
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.borderWidth = 1
+        view.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor
         
         return view
     }()

@@ -235,8 +235,8 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
         let productCellNib = UINib(nibName: "ProductCell", bundle: Bundle.resource)
         self.collectionView.register(productCellNib, forCellWithReuseIdentifier: kProductCellIdentifier)
         
-        self.collectionView.backgroundColor = UIColor.tableViewBackgroundColor()
-        self.collectionView.superview?.backgroundColor = .tableViewBackgroundColor()
+        self.collectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.collectionView.superview?.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = UIEdgeInsets.init(top: 5 , left: 5, bottom: 10 , right: 10)
@@ -276,7 +276,8 @@ class ReplacementViewController: BasketBasicViewController,UICollectionViewDataS
                 cell.productContainer.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
                 cell.productContainer.layer.borderWidth = 2.0
             }else{
-                cell.productContainer.layer.borderWidth = 0.0
+                cell.productContainer.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
+                cell.productContainer.layer.borderWidth = 1.0
             }
         }
         

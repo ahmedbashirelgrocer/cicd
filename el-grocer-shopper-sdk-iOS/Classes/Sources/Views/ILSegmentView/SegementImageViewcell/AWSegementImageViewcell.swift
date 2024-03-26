@@ -13,6 +13,11 @@ let kCategoriesSegmentedImageViewCell = "AWCategoriesSegmentedImageViewCell"
 
 class AWSegementImageViewcell: UICollectionViewCell {
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet var selectionUnderlineView: UIView! {
+        didSet {
+            selectionUnderlineView.backgroundColor = ApplicationTheme.currentTheme.primarySelectionColor
+        }
+    }
     @IBOutlet weak var label: UILabel!
     
     override func layoutSubviews() {
@@ -23,7 +28,8 @@ class AWSegementImageViewcell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.label.setBody3SemiBoldDarkStyle()
+        self.label.setCaptionOneBoldDarkStyle()
+        self.label.numberOfLines = 1
         self.label.backgroundColor = .clear
         self.contentView.backgroundColor = .clear
         self.backgroundColor = .clear
@@ -34,23 +40,18 @@ class AWSegementImageViewcell: UICollectionViewCell {
         self.imageView.layer.cornerRadius = 8
         self.imageView.clipsToBounds = true
         
-        self.selectedBackgroundView = {
-            let selectedBGView = UIView()
-            
-            selectedBGView.backgroundColor = UIColor.smilePrimaryPurpleColor().withAlphaComponent(0.15)
-            selectedBGView.layer.cornerRadius = 8
-            selectedBGView.layer.borderWidth = 2
-            selectedBGView.layer.borderColor = UIColor.smilePrimaryPurpleColor().cgColor
-            
-            return selectedBGView
-        }()
-        
-        self.bringSubviewToFront(selectedBackgroundView!)
     }
     
-    func configure(imageURL: String, bgColor: UIColor, text: String) {   
+    func configure(imageURL: String, bgColor: UIColor, text: String, isSelected: Bool) {
         self.imageView.sd_setImage(with: URL(string: imageURL))
         self.label.text = text
         self.imageView.backgroundColor = bgColor
+        if isSelected {
+            label.textColor = ApplicationTheme.currentTheme.primarySelectionColor
+            self.selectionUnderlineView.isHidden = false
+        }else {
+            label.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
+            self.selectionUnderlineView.isHidden = true
+        }
     }
 }

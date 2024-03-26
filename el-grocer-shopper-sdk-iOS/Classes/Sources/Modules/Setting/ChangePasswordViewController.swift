@@ -78,6 +78,7 @@ class ChangePasswordViewController: UIViewController, NavigationBarProtocol {
     
     func setupAppearance() {
       
+        self.view.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
        self.oldPasswordTextField.placeholder = localizedString("old_Password_PlaceHolder", comment: "")
        self.newPasswordTextField.placeholder = localizedString("new_Password_PlaceHolder", comment: "")
        self.confirmPasswordTextField.placeholder = localizedString("confirm_Password_PlaceHolder", comment: "")

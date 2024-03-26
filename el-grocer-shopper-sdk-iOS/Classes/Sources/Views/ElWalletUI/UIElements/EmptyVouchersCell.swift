@@ -11,10 +11,9 @@ import UIKit
 class EmptyVouchersCell: UITableViewCell {
 
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var innerContainerView: UIView!{
+    @IBOutlet weak var innerContainerView: AWView!{
         didSet {
-            innerContainerView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: 8, withShadow: false)
-        }
+            innerContainerView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor        }
     }
     @IBOutlet var lblNoVoucher: UILabel! {
         didSet {
@@ -30,6 +29,7 @@ class EmptyVouchersCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.containerView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

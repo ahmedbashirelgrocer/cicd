@@ -105,7 +105,7 @@ class ProductCell : RxUICollectionViewCell {
             addToCartButton.textAlignment = .center
             addToCartButton.setTitle("＋", for: .normal)
             addToCartButton.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-            addToCartButton.backgroundColor =  ApplicationTheme.currentTheme.themeBasePrimaryColor
+            addToCartButton.backgroundColor =  ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
         }
     }
     
@@ -121,14 +121,14 @@ class ProductCell : RxUICollectionViewCell {
     
     @IBOutlet weak var plusButton: UIButton! { didSet{
         plusButton.clipsToBounds = true
-        plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        plusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
         plusButton.setBackgroundColor(.white, forState: .normal)
         plusButton.backgroundColor = .white
     } }
     @IBOutlet weak var minusButton: UIButton! { didSet {
         minusButton.setImage(nil, for: .normal)
         minusButton.clipsToBounds = true
-        minusButton.imageView?.tintColor = UIColor.darkGrayTextColor()
+        minusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.darkGrayTextColor)
         minusButton.setBackgroundColor(.white, forState: .normal)
     } }
     @IBOutlet weak var quantityLabel: UILabel! { didSet {
@@ -152,7 +152,7 @@ class ProductCell : RxUICollectionViewCell {
     @IBOutlet var imgRepalce: UIImageView!
     @IBOutlet var promotionBGView: UIView!{
         didSet{
-            promotionBGView.backgroundColor = .promotionRedColor()
+            promotionBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
         }
     }
     @IBOutlet var lblStrikePrice: UILabel!{
@@ -760,7 +760,7 @@ class ProductCell : RxUICollectionViewCell {
                 }else if count == 1 {
                     
                     self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
-                    self.minusButton.setImage(UIImage(name: "delete_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
+                    self.minusButton.setImage(UIImage(name: "delete_product_cell"), for: .normal)
                     
                     if self.product.promotion?.boolValue == true {
                         //self.limitedStockBGView.isHidden = false
@@ -926,7 +926,7 @@ class ProductCell : RxUICollectionViewCell {
                     
                     self.quantityLabel.text = ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(count)".changeToArabic() : "\(count)"
                     if count == 2 {
-                        self.minusButton.setImage(UIImage(name: "remove_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
+                        self.minusButton.setImage(UIImage(name: "remove_product_cell"), for: .normal)
                     }
                     
                     if self.product.promotion?.boolValue == true {
@@ -960,7 +960,7 @@ class ProductCell : RxUICollectionViewCell {
                             }
                             showOverLimitMsg()
                         }
-                        self.plusButton.imageView?.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+                        self.plusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
                         self.plusButton.isEnabled = true
                         self.promotionBGView.isHidden = true
                         addCartAction()
@@ -1081,11 +1081,14 @@ class ProductCell : RxUICollectionViewCell {
                 ? "\(item.count.intValue)".changeToArabic()
                 : "\(item.count.intValue)"
           
-            self.plusButton.setImage(UIImage(name: "add_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            self.plusButton.setImage(UIImage(name: SDKManager.shared.isSmileSDK ? "add_product_cell_smiles" : "add_product_cell_shopper"), for: .normal)
+            self.plusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryColor)
             if item.count == 1 {
-                self.minusButton.setImage(UIImage(name: "delete_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
+                self.minusButton.setImage(UIImage(name: "MyBasketDelete"), for: .normal)
+                self.minusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.darkGrayTextColor)
             }else{
-                self.minusButton.setImage(UIImage(name: "remove_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
+                self.minusButton.setImage(UIImage(name: "MYBasketRemove"), for: .normal)
+                self.minusButton.imageView?.changePngColorTo(color: ApplicationTheme.currentTheme.darkGrayTextColor)
             }
  
         }
@@ -1384,12 +1387,12 @@ private extension ProductCell {
             .disposed(by: disposeBag)
         
         viewModel.outputs.plusButtonIconName
-            .map { UIImage(name: $0, in: .resource)?.withRenderingMode(.alwaysTemplate) }
+            .map { UIImage(name: $0, in: .resource) }
             .bind(to: self.plusButton.rx.image(for: .normal))
             .disposed(by: disposeBag)
         
         viewModel.outputs.minusButtonIconName
-            .map { UIImage(name: $0, in: .resource)?.withRenderingMode(.alwaysTemplate) }
+            .map { UIImage(name: $0, in: .resource) }
             .bind(to: self.minusButton.rx.image(for: .normal))
             .disposed(by: disposeBag)
         
@@ -1504,10 +1507,10 @@ private extension ProductCell {
             guard let self = self else { return }
             
             if enabled {
-                self.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                self.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
                 self.addToCartButton.isEnabled = true
                 self.addToCartButton.setBody3BoldWhiteStyle()
-                self.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
+                self.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor)
             } else {
                 self.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonDisableBGColor
                 self.addToCartButton.isEnabled = false

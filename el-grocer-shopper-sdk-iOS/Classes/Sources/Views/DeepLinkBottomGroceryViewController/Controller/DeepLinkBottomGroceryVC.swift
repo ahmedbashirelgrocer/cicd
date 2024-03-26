@@ -13,6 +13,7 @@ class DeepLinkBottomGroceryVC: UIViewController , UITableViewDelegate , UITableV
     
     @IBOutlet var superBGView: AWView! {
         didSet {
+            superBGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             superBGView.roundWithShadow(corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner], radius: 8)
         }
     }
@@ -40,7 +41,7 @@ class DeepLinkBottomGroceryVC: UIViewController , UITableViewDelegate , UITableV
     var type : String = ""
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tableView.backgroundColor = .textfieldBackgroundColor()
+        self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
        // self.view.backgroundColor = .textfieldBackgroundColor()
         registerCell ()
     }

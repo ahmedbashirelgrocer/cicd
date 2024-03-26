@@ -134,7 +134,7 @@ class savedCarsVC: UIViewController, NoStoreViewDelegate, NavigationBarProtocol 
         let spaceTableViewCell = UINib(nibName: "savedCarCell", bundle: Bundle.resource)
         self.tableView.register(spaceTableViewCell, forCellReuseIdentifier: "savedCarCell")
         
-        tableView.backgroundColor = .tableViewBackgroundColor()// .navigationBarWhiteColor()
+        tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         tableView.separatorStyle = .none
         tableView.delegate = self
     }

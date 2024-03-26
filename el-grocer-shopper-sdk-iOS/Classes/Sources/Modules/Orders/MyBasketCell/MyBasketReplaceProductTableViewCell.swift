@@ -24,7 +24,11 @@ class MyBasketReplaceProductTableViewCell: UITableViewCell {
     @IBOutlet weak var lblProductName: UILabel!
     @IBOutlet weak var customCollectionView: CustomCollectionViewWithProducts!
     @IBOutlet weak var btnCross: UIButton!
-    @IBOutlet var bottomLine: UIView!
+    @IBOutlet var bottomLine: UIView! {
+        didSet {
+            bottomLine.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

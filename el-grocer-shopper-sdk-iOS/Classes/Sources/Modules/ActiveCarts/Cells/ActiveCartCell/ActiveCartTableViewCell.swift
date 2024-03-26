@@ -23,6 +23,12 @@ class TouchlessCollectionView: UICollectionView {
 }
 
 class ActiveCartTableViewCell: RxUITableViewCell {
+    @IBOutlet var activeCartCellBGView: AWView! {
+        didSet {
+            activeCartCellBGView.borderColor = ApplicationTheme.currentTheme.borderGrayColor
+            activeCartCellBGView.borderWidth = 1.0
+        }
+    }
     @IBOutlet weak var ivStoreLogo: UIImageView!
     @IBOutlet weak var lblStoreName: UILabel! {
         didSet {
@@ -41,7 +47,7 @@ class ActiveCartTableViewCell: RxUITableViewCell {
     @IBOutlet weak var viewBanner: BannerView!
     @IBOutlet weak var buttonNext: UIButton! {
         didSet {
-            buttonNext.setImage(UIImage(name: sdkManager.isShopperApp ? "arrowRight" : "arrowForward"), for: .normal)
+            buttonNext.setImage(UIImage(name: "arrowRightBlack"), for: .normal)
         }
     }
     
@@ -53,6 +59,8 @@ class ActiveCartTableViewCell: RxUITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
     
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.contentView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         self.collectionView.delegate = self
         self.collectionView.register(UINib(nibName: ActiveCartProductCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: ActiveCartProductCell.defaultIdentifier)
         self.buttonNext.isUserInteractionEnabled = false

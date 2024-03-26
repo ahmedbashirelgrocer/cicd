@@ -11,9 +11,10 @@ import UIKit
 class CardCell: UITableViewCell {
 
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var innerContainerView: UIView!{
+    @IBOutlet weak var innerContainerView: AWView!{
         didSet {
-            innerContainerView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: 8, withShadow: false)
+            innerContainerView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+            
         }
     }
     
@@ -33,6 +34,7 @@ class CardCell: UITableViewCell {
     }
     
     private func setUpInitialAppearance() {
+        self.containerView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         nameLabel.setH4RegDarkStyle()
         cardNumLabel.setH4RegDarkStyle()
     }

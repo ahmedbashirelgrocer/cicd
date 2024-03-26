@@ -35,6 +35,7 @@ public class ElgrocerTextField: UITextField {
     public var floatPlaceholderColor:UIColor                = UIColor.black
     public var floatPlaceholderActiveColor:UIColor          = UIColor.black
     public var activeFieldColor:UIColor                =  ApplicationTheme.currentTheme.themeBasePrimaryColor
+    public var inActiveFieldBorderColor:UIColor                =  ApplicationTheme.currentTheme.borderGrayColor
     public var floatingLabelShowAnimationDuration           = 0.3
     public var floatingDisplayStatus:FloatingDisplayStatus  = .defaults
     public var borderWidth:CGFloat                          = 1.0{
@@ -442,13 +443,13 @@ public class ElgrocerTextField: UITextField {
         invalidateIntrinsicContentSize()
     }
     @objc fileprivate func textFieldTextDidEndEditing(){
-        self.borderColor = .clear
+        self.borderColor = inActiveFieldBorderColor
         invalidateIntrinsicContentSize()
     }
     @discardableResult
     public override func resignFirstResponder() -> Bool {
         super.resignFirstResponder()
-        self.borderColor = .clear
+        self.borderColor = inActiveFieldBorderColor
         return true
     }
 

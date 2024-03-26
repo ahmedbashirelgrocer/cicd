@@ -18,8 +18,8 @@ enum ElgrocerStoreHeaderDismissType {
 
 class ElgrocerStoreHeader:  UIView  {
     
-    let headerMaxHeight: CGFloat = 110
-    let headerMinHeight: CGFloat = 94
+    let headerMaxHeight: CGFloat = 125
+    let headerMinHeight: CGFloat = 125
     
     private var dimisType: ElgrocerStoreHeaderDismissType = .dismisSDK
     
@@ -44,13 +44,19 @@ class ElgrocerStoreHeader:  UIView  {
     
     
     @IBOutlet var bGView: UIView! { didSet {
-        bGView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
-      //  bGView.layer.insertSublayer(setupGradient(height: bGView.frame.size.height, topColor: UIColor.smileBaseColor().cgColor, bottomColor: UIColor.smileSecondaryColor().cgColor), at: 0)
+        bGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
     }}
     
     @IBOutlet var groceryBGView: UIView!
     
-    @IBOutlet weak var arrowDown: UIImageView!
+    @IBOutlet weak var arrowDown: UIImageView! {
+        didSet{
+            arrowDown.backgroundColor = ApplicationTheme.currentTheme.separatorColor
+            arrowDown.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: (8))
+            arrowDown.tintColor = sdkManager.isSmileSDK ? .black : .black
+            arrowDown.image = UIImage(name: "yellowArrowDown")?.withRenderingMode(.alwaysTemplate)
+        }
+    }
     
     @IBOutlet weak var btnMenu: UIButton! { didSet {
         let menuIcon = UIImage(named: "menu")?.withRenderingMode(.alwaysTemplate)
@@ -79,10 +85,15 @@ class ElgrocerStoreHeader:  UIView  {
         }
     }
     
-    @IBOutlet weak var iconLocation: UIImageView! { didSet {
-        iconLocation.image = iconLocation.image?.withRenderingMode(.alwaysTemplate)
-        iconLocation.tintColor = ApplicationTheme.currentTheme.newBlackColor
-    } }
+    @IBOutlet weak var iconLocation: UIImageView! {
+        didSet{
+            iconLocation.tintColor = sdkManager.isSmileSDK ? .black : .black
+            iconLocation.image = UIImage(name: "homeHeadeerLocationPin")?.withRenderingMode(.alwaysTemplate)
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                iconLocation.transform = CGAffineTransform(scaleX: -1, y: 1)
+            }
+        }
+    }
     
     
     @IBOutlet weak var lblLocation: UILabel! {
@@ -128,6 +139,7 @@ class ElgrocerStoreHeader:  UIView  {
             UIApplication.topViewController()?.dismiss(animated: true)
         case .dismisSDK:
             SDKManager.shared.rootContext?.dismiss(animated: true)
+            SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedEvent())
         case .popVc:
             UIApplication.topViewController()?.navigationController?.popViewController(animated: true)
         }
@@ -155,11 +167,11 @@ class ElgrocerStoreHeader:  UIView  {
         
         switch self.dimisType {
         case .dismisVC:
-            self.btnMenu.isHidden = true
+            self.btnMenu.visibility = .goneX
         case .dismisSDK:
-            self.btnMenu.isHidden = false
+            self.btnMenu.visibility = .visible
         case .popVc:
-            self.btnMenu.isHidden = true
+            self.btnMenu.visibility = .goneX
         }
     }
     

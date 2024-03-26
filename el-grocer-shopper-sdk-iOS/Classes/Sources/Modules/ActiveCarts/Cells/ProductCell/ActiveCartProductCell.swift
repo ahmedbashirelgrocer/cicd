@@ -19,7 +19,7 @@ class ActiveCartProductCell: RxUICollectionViewCell {
     }
     @IBOutlet weak var lblQuantityBg: UIView! {
         didSet {
-            lblQuantityBg.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+            lblQuantityBg.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryBlackColor
         }
     }
     
