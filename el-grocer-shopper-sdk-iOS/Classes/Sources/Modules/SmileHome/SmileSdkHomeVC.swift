@@ -13,7 +13,8 @@ import STPopup
 protocol ShowExclusiveDealsInstructionsDelegate{
     func showExclusiveDealsInstructions()
 }
-var kGroceriesStoreTypeId = 12
+var kGroceriesStoreTypeId: Int = 22
+
 class SmileSdkHomeVC: BasketBasicViewController {
     
     private var disposeBag = DisposeBag()
@@ -71,6 +72,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         // MARK: - Properties
     var groceryArray: [Grocery] = []
     var neighbourHoodFavGroceryArray: [Grocery] = []
+    var exclusiveDealsPromoList: [ExclusiveDealsPromoCode] = []
     var oneClickReOrderGroceryIDArray: [Int] = [] {
         didSet {
             var array: [Grocery] = []
@@ -107,7 +109,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     }
     var neighbourHoodSection: Int = 0
     var oneClickReOrderSection: Int = 0
-    var exclusiveDealsSection: Int = 1
+    var exclusiveDealsSection: Int = 0
     
     var availableStoreTypeA: [StoreType] = []
     var featureGroceryBanner : [BannerCampaign] = []
@@ -1052,6 +1054,7 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
             self.setDefaultGrocery()
             self.setSegmentView()
             subCategorySelectedWithSelectedIndex(0)
+            self.homeDataHandler.getExclusiveDealsData()
             
         } else if type == .HomePageLocationOneBanners {
             if self.homeDataHandler.locationOneBanners?.count == 0 {
@@ -1066,6 +1069,12 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
                 self.oneClickReOrderGroceryIDArray = self.homeDataHandler.oneClickReorderGroceryIdArray!
             }else {
                 self.oneClickReOrderGroceryIDArray = []
+            }
+        }else if type == .ExclusiveDealsPromoListArray {
+            if self.homeDataHandler.exclusiveDealsPromoA?.count ?? 0 > 0 {
+                self.exclusiveDealsPromoList = self.homeDataHandler.exclusiveDealsPromoA!
+            }else {
+                self.exclusiveDealsPromoList = []
             }
         }
         Thread.OnMainThread {
@@ -1139,6 +1148,7 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex:Int) {
         
         guard selectedSegmentIndex > 0 else {
+            self.lastSelectType = nil
             self.filteredGroceryArray = self.groceryArray
             self.tableView.reloadDataOnMain()
             return
@@ -1149,7 +1159,7 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         guard finalIndex < self.availableStoreTypeA.count else {return}
         
         let selectedType = self.availableStoreTypeA[finalIndex]
-        
+        self.lastSelectType = selectedType
         
         let filterA = self.groceryArray.filter { grocery in
             let storeTypes = grocery.getStoreTypes() ?? []
@@ -1171,7 +1181,7 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         
         SegmentAnalyticsEngine.instance.logEvent(event: storeCategoryClickedEvent)
         
-        self.lastSelectType = selectedType
+        
         
     }
     
@@ -1313,6 +1323,10 @@ extension SmileSdkHomeVC {
                 oneClickReOrderSection = self.oneClickReOrderGroceryArray.count > 0 ? 1 : 0
                 return 1 + neighbourHoodSection + oneClickReOrderSection
             }else {
+                exclusiveDealsSection = 0
+                if self.lastSelectType?.storeTypeid ?? 0 == kGroceriesStoreTypeId {
+                    exclusiveDealsSection = self.exclusiveDealsPromoList.count > 0 ? 1 : 0
+                }
                 return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection
             }
             
@@ -1591,6 +1605,7 @@ extension SmileSdkHomeVC {
         cell.selectionStyle = .none
         cell.delegate = self
         //cell.btnViewAll.addTarget(self, action: #selector(showExclusiveDealsBottomSheet), for: .touchUpInside)
+        cell.configureCell(promoList: self.homeDataHandler.exclusiveDealsPromoA, groceryA: self.homeDataHandler.groceryA)
         cell.viewAllBtn.addTarget(self, action: #selector(showExclusiveDealsBottomSheet), for: .touchUpInside)
         return cell
     }

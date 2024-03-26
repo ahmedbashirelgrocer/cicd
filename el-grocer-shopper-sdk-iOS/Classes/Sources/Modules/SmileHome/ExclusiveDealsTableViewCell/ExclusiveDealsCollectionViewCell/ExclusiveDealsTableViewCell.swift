@@ -43,6 +43,10 @@ class ExclusiveDealsTableViewCell: UITableViewCell {
     }
     @IBOutlet weak var collectionView: UICollectionView!
     
+    
+    var promoList: [ExclusiveDealsPromoCode] = []
+    var groceryA: [Grocery] = []
+    
     override func awakeFromNib() {
         self.registerCells()
         self.setUpCollectionView()
@@ -76,15 +80,33 @@ class ExclusiveDealsTableViewCell: UITableViewCell {
             return layout
         }()
     }
+    
+    func configureCell(promoList: [ExclusiveDealsPromoCode]?, groceryA: [Grocery]?) {
+        self.promoList = promoList ?? []
+        self.groceryA = groceryA ?? []
+        self.collectionView.reloadData()
+    }
+    
+    
 }
 extension ExclusiveDealsTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return promoList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExclusiveDealsCollectionViewCell", for: indexPath) as! ExclusiveDealsCollectionViewCell
+        
+        let promoCode = promoList[indexPath.row]
+        let grocery = self.groceryA.first { Grocery in
+            return (Int(Grocery.getCleanGroceryID()) ?? 0) == (promoCode.retailer_id ?? 0)
+        }
+        cell.configure(promoCode: promoCode, grocery: grocery)
+        
+        
+        
         cell.copyAndShopBtn.addTarget(self, action: #selector(copyAndShopTapped), for: .touchUpInside)
+        
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

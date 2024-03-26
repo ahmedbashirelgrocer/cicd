@@ -174,6 +174,7 @@ protocol StoresDataHandlerDelegate : class {
     func getGreatDealsBannersList(list: [BannerCampaign])
     func refreshMessageView(msg: String) -> Void
     func getDetailGrocery(grocery: Grocery?) -> Void
+    func getExclusiveDealsPromoList(promoA : [ExclusiveDealsPromoCode]) -> Void
  
 }
 
@@ -187,6 +188,7 @@ extension StoresDataHandlerDelegate {
     func getGreatDealsBannersList(list: [BannerCampaign]) {}
     func refreshMessageView(msg: String) -> Void {}
     func getDetailGrocery(grocery: Grocery?) -> Void {}
+    func getExclusiveDealsPromoList(promoA : [ExclusiveDealsPromoCode]) -> Void {}
 }
 
 
@@ -256,6 +258,33 @@ class StoresDataHandler {
                     self.delegate?.genericBannersList(list: bannerA)
                 case.failure(let _):
                     self.delegate?.genericBannersList(list: [])
+            }
+        }
+    }
+    
+    func getExclusiveDeals(groceries : [Grocery]) {
+        guard groceries.count > 0 else {return}
+        let ids = ElGrocerUtility.sharedInstance.GenerateRetailerIdString(groceries)
+        
+        ElGrocerApi.sharedInstance.getExclusiveDealsPromoList(limmit: 100, Offset: 0, groceryIds: ids ) { (result) in
+            switch result {
+                case .success(let response):
+                    do {
+                        if let rootJson = response as? [String: Any] {
+                            let data = try JSONSerialization.data(withJSONObject: rootJson)
+                            let ExclusiveDealsPromoCodeResponse = try JSONDecoder().decode(ExclusiveDealsPromoCodeResponse.self, from: data)
+                            
+                            print(ExclusiveDealsPromoCodeResponse.data.count)
+                            self.delegate?.getExclusiveDealsPromoList(promoA: ExclusiveDealsPromoCodeResponse.data)
+                            return
+                        }
+                        self.delegate?.getExclusiveDealsPromoList(promoA: [])
+                    } catch {
+                        self.delegate?.getExclusiveDealsPromoList(promoA: [])
+                    }
+                
+                case.failure(let _):
+                    self.delegate?.getExclusiveDealsPromoList(promoA: [])
             }
         }
     }

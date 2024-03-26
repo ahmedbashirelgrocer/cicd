@@ -50,5 +50,10 @@ class ExclusiveDealsCollectionViewCell: UICollectionViewCell {
         bgView.layer.borderColor = UIColor.newBorderGreyColor().cgColor
         bgView.layer.cornerRadius = 8
     }
+    
+    
+    func configure(promoCode: ExclusiveDealsPromoCode, grocery: Grocery?) {
+        self.retailerName.text = grocery?.name ?? ""
+    }
 
 }

@@ -29,6 +29,7 @@ enum loadingType {
     case AllChefForDeliveryStores
     case FeatureRecipesOfAllDeliveryStore
     case oneClickReOrderListArray
+    case ExclusiveDealsPromoListArray
 }
 
 extension HomePageData : HomePageDataLoadingComplete {
@@ -52,6 +53,7 @@ class HomePageData  {
     private lazy var recipeDataHandler : RecipeDataHandler? = nil
     private var storeListWorkItem:DispatchWorkItem?
     private var chefAndRecipeItem:DispatchWorkItem?
+    private var ExclusiveDealsWorkItem: DispatchWorkItem?
     weak var delegate : HomePageDataLoadingComplete?
     lazy var serviceA : [[MainCategoryCellType : Any]] = []
     lazy var categoryServiceA : [[MainCategoryCellType : Any]] = []
@@ -104,6 +106,7 @@ class HomePageData  {
     lazy var chefList : [CHEF] = [CHEF]()
     lazy var recipeList : [Recipe] = [Recipe]()
     lazy var featureGroceryBanner : [BannerCampaign] = []
+    lazy var exclusiveDealsPromoA : [ExclusiveDealsPromoCode]? = nil
     var fetchOrder : [loadingType]  = []
             var isDataLoading : Bool = false
     private var isFetchingTimeLogEnable : Bool = false
@@ -196,7 +199,21 @@ class HomePageData  {
         }
     }
     
-    
+    func getExclusiveDealsData() {
+        guard self.groceryA?.count ?? 0 > 0 else {
+            self.startFetching()
+            return
+        }
+        
+        if let item = self.ExclusiveDealsWorkItem {
+            item.cancel()
+        }
+        self.ExclusiveDealsWorkItem = DispatchWorkItem {
+            self.dataSource?.getExclusiveDeals(groceries: self.groceryA ?? [])
+        }
+        DispatchQueue.global(qos: .userInitiated).async(execute: self.ExclusiveDealsWorkItem!)
+        
+    }
     
     
     private func getStoreData( isOnGlobalDispatch : Bool = true) {
@@ -569,6 +586,11 @@ extension HomePageData : StoresDataHandlerDelegate {
         }
         self.delegate?.loadingDataComplete(type: .HomePageLocationTwoBanners)
         self.startFetching()
+    }
+    
+    func getExclusiveDealsPromoList(promoA : [ExclusiveDealsPromoCode])  {
+        self.exclusiveDealsPromoA = promoA
+        self.delegate?.loadingDataComplete(type: .ExclusiveDealsPromoListArray)
     }
     
     func createGenericStoresDictionary() {
