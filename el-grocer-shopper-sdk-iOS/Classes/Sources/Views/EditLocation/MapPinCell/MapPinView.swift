@@ -40,7 +40,13 @@ class MapPinView: UIView {
             addressChangeButton.setTitle(localizedString("Change", comment: ""), for: UIControl.State())
         }
     }
-    @IBOutlet weak var viewBG: AWView!
+
+    @IBOutlet weak var viewBG: AWView! {
+        didSet {
+            viewBG.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor
+            viewBG.borderWidth = 1
+        }
+    }
     
     weak var delegate: MapPinViewDelegate?
     

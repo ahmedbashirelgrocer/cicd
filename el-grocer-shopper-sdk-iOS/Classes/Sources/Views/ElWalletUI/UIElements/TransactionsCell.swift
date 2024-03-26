@@ -12,9 +12,9 @@ import SwiftDate
 class TransactionsCell: UITableViewCell {
 
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var innerContainerView: UIView!{
+    @IBOutlet weak var innerContainerView: AWView!{
         didSet {
-            innerContainerView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: 8, withShadow: false)
+            innerContainerView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }
     }
     
@@ -38,6 +38,7 @@ class TransactionsCell: UITableViewCell {
     }
     
     private func setUpInitialAppearance() {
+        self.containerView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         nameLabel.setBody3SemiBoldDarkStyle()
         valueLabel.setBody3RegDarkStyle()
         dateLabel.setBody3RegDarkStyle()

@@ -11,7 +11,12 @@ class SelectedMissingItemPreference: UITableViewCell {
 
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblSelectedOption: UILabel!
-    @IBOutlet weak var viewBG: AWView!
+    @IBOutlet weak var viewBG: AWView! {
+        didSet {
+            viewBG.borderColor = ApplicationTheme.currentTheme.borderGrayColor
+            viewBG.borderWidth = 1.0
+        }
+    }
     @IBOutlet weak var ivArrowForward: UIImageView!
     
     var cellTapHandler: (()->())?

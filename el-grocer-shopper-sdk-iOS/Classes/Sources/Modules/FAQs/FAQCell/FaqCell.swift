@@ -13,21 +13,34 @@ let kFAQCellHeight: CGFloat  = 62//50
 
 class FaqCell: UITableViewCell {
     
+    @IBOutlet var separaterView: UIView! {
+        didSet {
+            separaterView.backgroundColor = ApplicationTheme.currentTheme.borderGrayColor
+        }
+    }
     @IBOutlet weak var titleLabel: UILabel!
 
+    @IBOutlet var imgArrow: UIImageView! {
+        didSet {
+            let rightArrowIcon = UIImage(name: "arrow-right-filled")
+            imgArrow.image = rightArrowIcon
+            imgArrow.changePngColorTo(color: ApplicationTheme.currentTheme.themeBasePrimaryBlackColor)
+        }
+    }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
         
         self.setUpLabelAppearance()
-        setupAccessoryView()
+//        setupAccessoryView()
     }
     
     // MARK: Appearance
     
     fileprivate func setupAccessoryView() {
-        let rightArrowIcon = sdkManager.isShopperApp ? UIImage(name: "arrowRight") :  UIImage(name: "SettingArrowForward")
+        let rightArrowIcon = UIImage(name: "arrow-right-filled")
         let iconView = UIImageView(image: rightArrowIcon)
+        iconView.changePngColorTo(color: ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor)
         iconView.contentMode = .scaleAspectFit
         iconView.frame = CGRect(x: 0, y: 0, width: 20, height: 20)
         self.accessoryView = iconView

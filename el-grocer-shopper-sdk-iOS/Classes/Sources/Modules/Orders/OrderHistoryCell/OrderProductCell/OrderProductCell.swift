@@ -18,12 +18,12 @@ class OrderProductCell: UICollectionViewCell {
     @IBOutlet weak var saleView: UIImageView!
     @IBOutlet var lblProductCount: UILabel!{
         didSet{
-            lblProductCount.backgroundColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
+            lblProductCount.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
         }
     }
     @IBOutlet var lblProductCountView: AWView! {
         didSet{
-            lblProductCountView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
+            lblProductCountView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
         }
     }
     @IBOutlet var lblOutOfStock: UILabel! {
@@ -35,7 +35,7 @@ class OrderProductCell: UICollectionViewCell {
     @IBOutlet var oosView: UIView!
     @IBOutlet var percentageBGView: UIView!{
         didSet{
-            percentageBGView.backgroundColor = .promotionRedColor()
+            percentageBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
             percentageBGView.layer.cornerRadius = 8
             percentageBGView.layer.maskedCorners = [.layerMaxXMaxYCorner , .layerMinXMaxYCorner]
             percentageBGView.clipsToBounds = true

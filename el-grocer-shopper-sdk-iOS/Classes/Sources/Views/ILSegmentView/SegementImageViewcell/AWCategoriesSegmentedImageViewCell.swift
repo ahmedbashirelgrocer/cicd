@@ -34,18 +34,6 @@ class AWCategoriesSegmentedImageViewCell: UICollectionViewCell {
         self.imageView.backgroundColor = .clear
         self.imageView.layer.cornerRadius = 8
         self.imageView.clipsToBounds = true
-        
-        self.selectedBackgroundView = {
-            let selectedBGView = UIView()
-            
-            selectedBGView.layer.cornerRadius = 8
-            selectedBGView.layer.borderWidth = 2
-            selectedBGView.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
-            
-            return selectedBGView
-        }()
-        
-        self.bringSubviewToFront(selectedBackgroundView!)
     }
     
     override func layoutSubviews() {
@@ -54,8 +42,18 @@ class AWCategoriesSegmentedImageViewCell: UICollectionViewCell {
         self.selectedBackgroundView?.frame = imageView.frame
     }
     
-    func configure(imageURL: String, text: String) {
+    func configure(imageURL: String, text: String, isSelected: Bool) {
         self.imageView.sd_setImage(with: URL(string: imageURL))
         self.lblTitle.text = text
+        self.lblTitle.textColor = isSelected
+        ? ApplicationTheme.currentTheme.themeBasePrimaryColor
+        : UIColor.newBlackColor()
+        if isSelected {
+            self.contentView.layer.cornerRadius = 8
+            self.contentView.layer.borderWidth = 2
+            self.contentView.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
+        }else {
+            self.contentView.layer.borderWidth = 0
+        }
     }
 }

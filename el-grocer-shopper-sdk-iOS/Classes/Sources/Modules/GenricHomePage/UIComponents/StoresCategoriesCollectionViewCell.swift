@@ -90,6 +90,8 @@ class StoresCategoriesCollectionViewCell: RxUICollectionViewCell {
         self.bgView.cornarRadius = 8.0
         self.setImageViewSizeWithRaidus(true , 8.0)
         self.lblCategoryName.textColor = UIColor.newBlackColor()
+        self.bgView.borderColor = ApplicationTheme.currentTheme.borderGrayColor
+        self.bgView.borderWidth = 1.0
     }
     
     @IBOutlet var imageViewWidth: NSLayoutConstraint!

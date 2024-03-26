@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,8 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="hQr-dZ-skQ">
-                                <rect key="frame" x="0.0" y="48" width="414" height="848"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="hQr-dZ-skQ">
+                                <rect key="frame" x="0.0" y="48" width="414" height="638"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="v5q-Tf-jCh">
@@ -39,10 +39,26 @@
                                     <outlet property="delegate" destination="Y6W-OH-hqX" id="bjF-Qw-FCi"/>
                                 </connections>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AeO-j6-UkC">
+                                <rect key="frame" x="329" y="791" width="80" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="SDV-V0-kqQ"/>
+                                    <constraint firstAttribute="width" constant="80" id="i7V-3b-JbI"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="multiCartFloatySmiles">
+                                    <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnMultiCartHandler:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="rvl-lg-DFK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="AeO-j6-UkC" secondAttribute="trailing" constant="5" id="Cu7-da-4mH"/>
+                            <constraint firstAttribute="bottom" secondItem="AeO-j6-UkC" secondAttribute="bottom" constant="25" id="KbE-br-BwK"/>
                             <constraint firstItem="hQr-dZ-skQ" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="NwR-MW-PnE"/>
                             <constraint firstItem="hQr-dZ-skQ" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="YBq-Vc-Nn4"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="hQr-dZ-skQ" secondAttribute="trailing" id="jWU-Mx-9TV"/>
@@ -53,6 +69,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="btnMulticart" destination="AeO-j6-UkC" id="KTf-2f-9ig"/>
+                        <outlet property="btnMulticartBottomConstraint" destination="KbE-br-BwK" id="LJq-xA-G3P"/>
                         <outlet property="currentOrderCollectionView" destination="v5q-Tf-jCh" id="CXL-mv-ht5"/>
                         <outlet property="currentOrderCollectionViewHeightConstraint" destination="PcB-JH-u8w" id="Ig6-l6-zzI"/>
                         <outlet property="tableView" destination="hQr-dZ-skQ" id="ZCf-uS-gif"/>
@@ -64,6 +82,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="multiCartFloatySmiles" width="80" height="80"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

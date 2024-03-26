@@ -165,7 +165,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         }
         
         self.topViewWidth.constant = self.view.frame.size.width
-        self.tableView.backgroundColor = .textfieldBackgroundColor()
+        self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         self.tableView.tableHeaderView = self.topView
        
         
@@ -912,8 +912,8 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                     cell.borderContainer.backgroundColor = .navigationBarWhiteColor()
                     cell.defaultButton.isHidden = false
                 }else{
-                    cell.borderContainer.layer.borderColor = UIColor.clear.cgColor
-                    cell.borderContainer.layer.borderWidth = 0
+                    cell.borderContainer.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
+                    cell.borderContainer.layer.borderWidth = 1
                     cell.borderContainer.backgroundColor = .navigationBarWhiteColor()
                     cell.defaultButton.isHidden = true
                 }

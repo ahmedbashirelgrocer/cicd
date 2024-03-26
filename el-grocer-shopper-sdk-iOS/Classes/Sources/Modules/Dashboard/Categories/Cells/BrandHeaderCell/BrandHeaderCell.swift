@@ -26,8 +26,8 @@ class BrandHeaderCell : UICollectionReusableView {
     override func awakeFromNib() {
         super.awakeFromNib()
         setUpBrandNameLabelAppearance()
-        customCollectionViewWithBanners.backgroundColor = .tableViewBackgroundColor()
-        self.backgroundColor = .tableViewBackgroundColor()
+        customCollectionViewWithBanners.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
     }
     
     override func prepareForReuse() {

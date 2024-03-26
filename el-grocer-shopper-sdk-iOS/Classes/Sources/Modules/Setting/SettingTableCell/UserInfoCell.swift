@@ -9,7 +9,7 @@
 import UIKit
 
 let kUserInfoCellIdentifier = "UserInfoTableCell"
-let kUserInfoCellHeight: CGFloat = 200//100 //200 including padding
+let kUserInfoCellHeight: CGFloat = 230//100 //200 including padding
 
 class UserInfoCell: RxUITableViewCell {
     
@@ -17,7 +17,7 @@ class UserInfoCell: RxUITableViewCell {
     
     @IBOutlet var greenBGView: AWView!{
         didSet{
-            greenBGView.backgroundColor = ApplicationTheme.currentTheme.currentOrdersCollectionCellBGColor
+            greenBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
             greenBGView.cornarRadius = 8
         }
     }
@@ -38,8 +38,9 @@ class UserInfoCell: RxUITableViewCell {
     }
     @IBOutlet var btnEditProfile: AWButton!{
         didSet{
+            btnEditProfile.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17)
             btnEditProfile.setTitle(localizedString("btn_txt_edit", comment: ""), for: .normal)
-            btnEditProfile.setTitleColor(ApplicationTheme.currentTheme.buttonEnableSecondaryDarkBGColor, for: UIControl.State())
+            btnEditProfile.setTitleColor(ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor, for: UIControl.State())
         }
     }
     
@@ -55,10 +56,22 @@ class UserInfoCell: RxUITableViewCell {
        
     }
     
+    @discardableResult func formatPhoneNumber(_ phoneNumber: String) -> String {
+        
+        let textField = FPNCustomTextField()
+        textField.text = phoneNumber
+        textField.set(phoneNumber: phoneNumber)
+        if let formatedPhoneNum = textField.getFormattedPhoneNumber(format: .International) {
+            return formatedPhoneNum
+        }else {
+            return phoneNumber
+        }
+    }
+    
     // MARK: Data
     private func configureCellWithTitle(_ name: String? = "", withPhoneNumber phone:String? = "", andWithEmail email:String? = "") {
         self.nameLabel.text = name
-        self.phoneLabel.text = phone
+        self.phoneLabel.text = self.formatPhoneNumber(phone ?? "")
         self.emailLabel.text = email
     }
     

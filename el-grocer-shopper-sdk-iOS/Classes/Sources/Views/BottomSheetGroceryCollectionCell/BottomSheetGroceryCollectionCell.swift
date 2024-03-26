@@ -11,11 +11,13 @@ import SDWebImage
 
 class BottomSheetGroceryCollectionCell: UICollectionViewCell {
     
-    @IBOutlet var cellBGView: UIView!{
+    @IBOutlet var cellBGView: AWView!{
         didSet{
-            cellBGView.backgroundColor = .navigationBarWhiteColor()
+            cellBGView.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
             cellBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner], radius: 8, withShadow: false)
-            cellBGView.clipsToBounds = true
+//            cellBGView.clipsToBounds = true
+            cellBGView.borderWidth = 1.0
+            cellBGView.borderColor = ApplicationTheme.currentTheme.borderGrayColor
         }
     }
     @IBOutlet var imgGrocery: UIImageView!
@@ -52,7 +54,7 @@ class BottomSheetGroceryCollectionCell: UICollectionViewCell {
     }
     
     func setUpInitialAppearence(){
-        self.backgroundColor = .tableViewBackgroundColor()
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
     }
     
     func configureCell(grocery: Grocery){

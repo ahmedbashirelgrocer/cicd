@@ -44,8 +44,6 @@ public protocol Theme {
     var separatorColor: UIColor { get }
     var newGreyColor: UIColor { get }
     var selectionTabDark: UIColor { get }
-    var darkBorderGrayColor: UIColor { get }
-    var borderGrayColor: UIColor { get }
     var redInfoColor: UIColor { get }
     var lightGrayBGColor: UIColor { get }
     var darkGrayTextColor: UIColor { get }
@@ -54,10 +52,13 @@ public protocol Theme {
     var emptyViewTextColor: UIColor { get }
     
     //MARK: PrimaryTheme for activity indicators and things
+    var themeBasePrimaryBlackColor: UIColor { get }
     var themeBasePrimaryColor: UIColor { get }
     var themeBaseSecondaryDarkColor: UIColor { get }
     //MARK: Buttons
     var buttonEnableBGColor: UIColor { get }
+    var buttonthemeBasePrimaryBlackColor: UIColor { get }
+    var buttonthemeBaseBlackPrimaryForeGroundColor: UIColor { get }
     var buttonEnableSecondaryDarkBGColor: UIColor { get }
     var buttonDisableBGColor: UIColor { get }
     var buttonTextWithBackgroundColor: UIColor { get }
@@ -85,6 +86,7 @@ public protocol Theme {
     var textFieldTextColor: UIColor { get }
     //MARK: Views
     var viewPrimaryBGColor: UIColor { get }
+    var viewthemePrimaryBlackBGColor: UIColor { get }
     var viewSecondaryDarkBGColor: UIColor { get }
     var viewWhiteBGColor: UIColor { get }
     var viewSmilePurpleBGColor: UIColor { get }
@@ -92,12 +94,15 @@ public protocol Theme {
     var viewOOSItemRedColor: UIColor { get }
     var viewAlertLightYellowColor: UIColor { get }
     var viewLimmitedStockSecondaryDarkBGColor: UIColor { get }
+    var viewStoreCardNewTagBGView: UIColor { get }
+    var viewFeaturedStoreBGView: UIColor { get }
     //MARK: Category Pills
     var pillSelectedBGColor: UIColor { get }
     var pillUnSelectedBGColor: UIColor { get }
     var pillSelectedTextColor: UIColor { get }
     var pillUnSelectedTextColor: UIColor { get }
     //MARK: tableView
+    //used for view controller background colors also
     var tableViewBGGreyColor: UIColor { get }
     var tableViewBGWhiteColor: UIColor { get }
     //MARK: page Control
@@ -115,7 +120,13 @@ public protocol Theme {
     
     //MARK: StorePage
     var StorePageCategoryViewBgColor: UIColor { get }
+    //MARK: Home Page
+    var searchBarBGBlue50Color: UIColor { get }
     
+    //MARK: Borders
+    var darkBorderGrayColor: UIColor { get }
+    var borderGrayColor: UIColor { get }
+    var borderLightGrayColor: UIColor { get }
     
 }
 
@@ -156,8 +167,6 @@ struct ElgrocerTheme: Theme {
     var separatorColor: UIColor { #colorLiteral(red: 0.8941176471, green: 0.8941176471, blue: 0.8941176471, alpha: 1) }
     var newGreyColor: UIColor { #colorLiteral(red: 0.5647058824, green: 0.5647058824, blue: 0.5647058824, alpha: 1) }
     var selectionTabDark: UIColor { #colorLiteral(red: 0.3490196078, green: 0.3490196078, blue: 0.3490196078, alpha: 1) }
-    var darkBorderGrayColor: UIColor { #colorLiteral(red: 0.8470588235, green: 0.8470588235, blue: 0.8470588235, alpha: 1) }
-    var borderGrayColor: UIColor { #colorLiteral(red: 0.9019607843, green: 0.9019607843, blue: 0.9019607843, alpha: 1) }
     var redInfoColor: UIColor { #colorLiteral(red: 0.5960784314, green: 0.04705882353, blue: 0, alpha: 1) }
     var lightGrayBGColor: UIColor { #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) }
     var darkGrayTextColor: UIColor { #colorLiteral(red: 0.5568627451, green: 0.5568627451, blue: 0.5568627451, alpha: 1) }
@@ -168,10 +177,13 @@ struct ElgrocerTheme: Theme {
     var currentLocationBgColor: UIColor = ElgrocerBaseColors.elgrocerLightGreenBgColor
     
     //MARK: PrimaryTheme for activity indicators and things
+    var themeBasePrimaryBlackColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
     var themeBasePrimaryColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
     var themeBaseSecondaryDarkColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
     //MARK: Buttons
     var buttonEnableBGColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
+    var buttonthemeBasePrimaryBlackColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
+    var buttonthemeBaseBlackPrimaryForeGroundColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var buttonEnableSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
     var buttonDisableBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreyColor
     var buttonTextWithBackgroundColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
@@ -199,6 +211,7 @@ struct ElgrocerTheme: Theme {
     var textFieldTextColor: UIColor = ElgrocerBaseColors.elgrocerTextBlackColour
     //MARK: Views
     var viewPrimaryBGColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
+    var viewthemePrimaryBlackBGColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
     var viewSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
     var viewWhiteBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var viewSmilePurpleBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
@@ -206,8 +219,10 @@ struct ElgrocerTheme: Theme {
     var viewOOSItemRedColor: UIColor = ElgrocerBaseColors.elgrocerRedValidationColor
     var viewAlertLightYellowColor: UIColor = ElgrocerBaseColors.elgrocerAlertYellowColour
     var viewLimmitedStockSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
+    var viewFeaturedStoreBGView: UIColor = ElgrocerBaseColors.elgrocerFeaturedStoreBGCOlor
+    var viewStoreCardNewTagBGView: UIColor = ElgrocerBaseColors.elgrocerSmileDarkBlue600BGColor
     //MARK: Category Pills
-    var pillSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
+    var pillSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
     var pillUnSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var pillSelectedTextColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var pillUnSelectedTextColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreenColour
@@ -229,6 +244,13 @@ struct ElgrocerTheme: Theme {
     
     //MARK: StorePage
     var StorePageCategoryViewBgColor: UIColor { ElgrocerBaseColors.elgrocerWhiteColour }
+    //MARK: Home Page
+    var searchBarBGBlue50Color: UIColor {ElgrocerBaseColors.elgrocerBGBlue50Color}
+    
+    //MARK: Borders
+    var darkBorderGrayColor: UIColor { #colorLiteral(red: 0.8470588235, green: 0.8470588235, blue: 0.8470588235, alpha: 1) }
+    var borderGrayColor: UIColor { #colorLiteral(red: 0.9019607843, green: 0.9019607843, blue: 0.9019607843, alpha: 1) }
+    var borderLightGrayColor: UIColor { #colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1) }
 }
 
 struct SmileSDKTheme: Theme {
@@ -268,8 +290,6 @@ struct SmileSDKTheme: Theme {
     var separatorColor: UIColor { #colorLiteral(red: 0.8941176471, green: 0.8941176471, blue: 0.8941176471, alpha: 1) }
     var newGreyColor: UIColor { #colorLiteral(red: 0.5647058824, green: 0.5647058824, blue: 0.5647058824, alpha: 1) }
     var selectionTabDark: UIColor { #colorLiteral(red: 0.3490196078, green: 0.3490196078, blue: 0.3490196078, alpha: 1) }
-    var darkBorderGrayColor: UIColor { #colorLiteral(red: 0.8470588235, green: 0.8470588235, blue: 0.8470588235, alpha: 1) }
-    var borderGrayColor: UIColor { #colorLiteral(red: 0.9019607843, green: 0.9019607843, blue: 0.9019607843, alpha: 1) }
     var redInfoColor: UIColor { #colorLiteral(red: 0.5960784314, green: 0.04705882353, blue: 0, alpha: 1) }
     var lightGrayBGColor: UIColor { #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) }
     var darkGrayTextColor: UIColor { #colorLiteral(red: 0.5568627451, green: 0.5568627451, blue: 0.5568627451, alpha: 1) }
@@ -281,10 +301,13 @@ struct SmileSDKTheme: Theme {
 //    { #colorLiteral(red: 0.9725490196, green: 0.9725490196, blue: 0.9725490196, alpha: 1) }
     
     //MARK: PrimaryTheme for activity indicators and things
+    var themeBasePrimaryBlackColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
     var themeBasePrimaryColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
     var themeBaseSecondaryDarkColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
     //MARK: Buttons
     var buttonEnableBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
+    var buttonthemeBasePrimaryBlackColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
+    var buttonthemeBaseBlackPrimaryForeGroundColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var buttonEnableSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
     var buttonDisableBGColor: UIColor = ElgrocerBaseColors.elgrocerDarkGreyColor
     var buttonTextWithBackgroundColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
@@ -312,6 +335,7 @@ struct SmileSDKTheme: Theme {
     var textFieldTextColor: UIColor = ElgrocerBaseColors.elgrocerTextBlackColour
     //MARK: Views
     var viewPrimaryBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
+    var viewthemePrimaryBlackBGColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
     var viewSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
     var viewWhiteBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var viewSmilePurpleBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
@@ -319,8 +343,10 @@ struct SmileSDKTheme: Theme {
     var viewOOSItemRedColor: UIColor = ElgrocerBaseColors.elgrocerRedValidationColor
     var viewAlertLightYellowColor: UIColor = ElgrocerBaseColors.elgrocerAlertYellowColour
     var viewLimmitedStockSecondaryDarkBGColor: UIColor = ElgrocerBaseColors.elgrocerLimitedStockDarkGreenColour
+    var viewFeaturedStoreBGView: UIColor = ElgrocerBaseColors.elgrocerFeaturedStoreBGCOlor
+    var viewStoreCardNewTagBGView: UIColor = ElgrocerBaseColors.elgrocerSmileDarkBlue600BGColor
     //MARK: Category Pills
-    var pillSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
+    var pillSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerPrimaryBlackColour
     var pillUnSelectedBGColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var pillSelectedTextColor: UIColor = ElgrocerBaseColors.elgrocerWhiteColour
     var pillUnSelectedTextColor: UIColor = ElgrocerBaseColors.elgrocerTextBlackColour
@@ -340,6 +366,13 @@ struct SmileSDKTheme: Theme {
     var currentOrdersPageControlActiveColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleSecondarySelectionColor
     var currentOrdersPageControlInActiveColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleSecondaryNoSelectionColor
     
+    //MARK: Home Page
+    var searchBarBGBlue50Color: UIColor = ElgrocerBaseColors.elgrocerBGBlue50Color
+    
+    //MARK: Borders
+    var darkBorderGrayColor: UIColor { #colorLiteral(red: 0.8470588235, green: 0.8470588235, blue: 0.8470588235, alpha: 1) }
+    var borderGrayColor: UIColor { #colorLiteral(red: 0.9019607843, green: 0.9019607843, blue: 0.9019607843, alpha: 1) }
+    var borderLightGrayColor: UIColor { #colorLiteral(red: 0.9490196078, green: 0.9490196078, blue: 0.9490196078, alpha: 1) }
    
 }
 
@@ -360,7 +393,46 @@ public extension ApplicationTheme {
 }
 
 
+public protocol BaseTheme {
 
+    // controller BackGround Colors
+    var themeBaseControllerBGWhiteColor: UIColor { get }
+    var themeBaseControllerBGGrayColor: UIColor { get }
+    
+    // Views BackGround Colors
+    var viewPrimaryBGColor: UIColor { get }
+    var viewSecondaryDarkBGColor: UIColor { get }
+    var viewWhiteBGColor: UIColor { get }
+    var viewSmilePurpleBGColor: UIColor { get }
+    var viewPromotionRedColor: UIColor { get }
+    var viewOOSItemRedColor: UIColor { get }
+    var viewAlertLightYellowColor: UIColor { get }
+    var viewLimmitedStockSecondaryDarkBGColor: UIColor { get }
+    
+    // label Colors
+    
+    // text field colors
+    
+    // search bar colors
+    
+    // Buttons BG Colors
+    
+    // Buttons border Colors
+    
+    // views Border Colors
+    
+    // category pills Colors
+    
+    // page controls Colors
+    
+    // table View Colors
+    
+    // Current orders Base Banner
+    
+    // image colors
+    
+    
+}
 
 
 

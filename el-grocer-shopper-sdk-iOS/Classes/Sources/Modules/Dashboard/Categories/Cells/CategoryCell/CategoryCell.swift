@@ -31,16 +31,22 @@ class CategoryCell: UITableViewCell {
     @IBOutlet var subCategoryListinng: SubCategoryListing!
     @IBOutlet weak var rightArrowImageView: UIImageView! {
         didSet {
-            rightArrowImageView.image = sdkManager.isShopperApp ? UIImage(name: "arrowRight") : UIImage(name: "SettingArrowForward")
+            rightArrowImageView.image = UIImage(name: "arrowForwardSmiles")
         }
-        
-        
     }
+    
+    @IBOutlet var btnViewAllBGView: AWView! {
+        didSet {
+            btnViewAllBGView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner], radius: 15)
+            btnViewAllBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
+        }
+    }
+    
     @IBOutlet var btnViewAll: AWButton! {
         didSet{
             btnViewAll.setTitle(localizedString("view_more_title", comment: "view_more_title"), for: .normal)
             btnViewAll.titleLabel?.font = UIFont.SFProDisplayBoldFont(14)
-            btnViewAll.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
+            btnViewAll.setTitleColor(ApplicationTheme.currentTheme.buttonthemeBaseBlackPrimaryForeGroundColor, for: UIControl.State())
             btnViewAll.setBackgroundColorForAllState(.clear)
             //btnViewAll.setCaption1BoldWhiteStyle()
         }

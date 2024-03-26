@@ -39,6 +39,13 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
             lblHeading.text = localizedString("lbl_heading_my_account", comment: "")
         }
     }
+    @IBOutlet var phoneTextFieldBGView: AWView! {
+        didSet {
+            phoneTextFieldBGView.roundWithShadow(corners: [.layerMaxXMaxYCorner,.layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: 8)
+            phoneTextFieldBGView.borderWidth = 1.0
+            phoneTextFieldBGView.borderColor = ApplicationTheme.currentTheme.borderGrayColor
+        }
+    }
     
     @IBOutlet var phoneTextField: FPNTextField! {
         didSet {
@@ -181,6 +188,7 @@ class EditProfileViewController : UIViewController , NavigationBarProtocol {
         self.setUpUpdateButtonAppearance()
         usernameTextField.dtLayer.backgroundColor = UIColor.white.cgColor
         emailTextField.dtLayer.backgroundColor = UIColor.white.cgColor
+        self.view.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.view.transform = CGAffineTransform.identity
         }

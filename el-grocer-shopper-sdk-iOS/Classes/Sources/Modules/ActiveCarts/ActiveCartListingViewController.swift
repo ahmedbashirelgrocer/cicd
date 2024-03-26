@@ -39,9 +39,15 @@ class ActiveCartListingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.setInitialAppearance()
         self.tableView.register(UINib(nibName: ActiveCartTableViewCell.defaultIdentifier, bundle: .resource), forCellReuseIdentifier: ActiveCartTableViewCell.defaultIdentifier)
         self.tableView.separatorColor = .clear
         self.bindViews()
+    }
+    
+    func setInitialAppearance() {
+        self.view.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
     }
     
     @IBAction func closeButtonTap(_ sender: Any) {

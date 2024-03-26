@@ -13,6 +13,14 @@ class ElWalletVouchersVC: UIViewController, NavigationBarProtocol {
     @IBOutlet var lblDoYouHaveVoucher: UILabel! {
         didSet {
             lblDoYouHaveVoucher.text = localizedString("txt_do_you_have_voucher", comment: "")
+            lblDoYouHaveVoucher.setH4SemiBoldStyle()
+        }
+    }
+    @IBOutlet var txtVoucherCodeBGView: AWView! {
+        didSet {
+            txtVoucherCodeBGView.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
+            txtVoucherCodeBGView.borderColor = ApplicationTheme.currentTheme.borderGrayColor
+            txtVoucherCodeBGView.borderWidth = 1.0
         }
     }
     @IBOutlet var txtVoucherCode: UITextField! {
@@ -25,6 +33,7 @@ class ElWalletVouchersVC: UIViewController, NavigationBarProtocol {
     }
     @IBOutlet var btnRedeem: UIButton! {
         didSet {
+            btnRedeem.setBody3BoldPrimaryColorStyle()
             btnRedeem.setTitle(localizedString("txt_redeem_capital", comment: ""), for: UIControl.State())
             btnRedeem.setTitleColor(ApplicationTheme.currentTheme.themeBasePrimaryColor, for: UIControl.State())
         }
@@ -217,17 +226,12 @@ extension ElWalletVouchersVC: UITableViewDataSource, UITableViewDelegate {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "elWalletSectionHeaderView") as! elWalletSectionHeaderView
         headerView.configureHeaderView(title: localizedString("txt_active_vouchers", comment: ""), buttonName: "")
         headerView.moveToDetailsButton.isHidden = true
+        headerView.moveToDetailsButtonBGView.isHidden = true
         return headerView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 66
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: "elWalletSectionFooterView") as! elWalletSectionFooterView
-        //footerView.footerLabel.text = "TableView Footer \(section)"
-        return footerView
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -237,10 +241,6 @@ extension ElWalletVouchersVC: UITableViewDataSource, UITableViewDelegate {
                 cell?.voucherCodeBorderView.addDashedBorderAroundView(color: ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor)
             }
         }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 10
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension

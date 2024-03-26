@@ -16,10 +16,18 @@ let MessageLblHeight = 62
 
 class SubCateSegmentTableViewHeader: UIView {
 
+    @IBOutlet var lblTitleBGView: UIView!
     @IBOutlet var MsgLableHeight: NSLayoutConstraint!
-    @IBOutlet var lblCategoryName: UILabel!
-     @IBOutlet var lblSubCategoryMsg: UILabel!
+    @IBOutlet var lblCategoryName: UILabel! {
+        didSet {
+            lblCategoryName.setH4SemiBoldStyle()
+        }
+    }
+    @IBOutlet var lblSubCategorySuperBGView: UIView!
+    @IBOutlet var lblSubCategoryMsgBGView: AWView!
+    @IBOutlet var lblSubCategoryMsg: UILabel!
     var titlesArray = [String]()
+    @IBOutlet var segmentSuperBGView: UIView!
     @IBOutlet var segmenntCollectionView: AWSegmentView! {
         didSet {
             segmenntCollectionView.segmentViewType = .subCategories
@@ -36,16 +44,27 @@ class SubCateSegmentTableViewHeader: UIView {
     }
     */
     
+    func setUpUIColors() {
+        self.lblTitleBGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.lblSubCategorySuperBGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.segmentSuperBGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.segmenntCollectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.lblCategoryName.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+    }
+    
     func setBounds (_ rect : CGRect) {
         self.bounds = CGRect.init(x: 0, y: 0, width: rect.size.width, height: rect.size.height)
     }
     
     func configureView (_ segmentData : [String] , index : NSIndexPath) {
+        setUpUIColors()
         segmenntCollectionView.lastSelection = index as IndexPath
         segmenntCollectionView.refreshWith(dataA: segmentData)
     }
     
     func refreshWithSubCategoryText (_ text : String) {
+        setUpUIColors()
         self.lblSubCategoryMsg.text = text
         if text.count > 0 {
             self.MsgLableHeight.constant = CGFloat(MessageLblHeight)

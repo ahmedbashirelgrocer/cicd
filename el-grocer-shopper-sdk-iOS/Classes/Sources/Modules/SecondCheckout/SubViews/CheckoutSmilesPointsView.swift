@@ -15,8 +15,12 @@ class CheckoutSmilesPointsView: UIView {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblPointsApplied: UILabel!
     @IBOutlet weak var ivArrowForward: UIImageView!
-    @IBOutlet weak var viewBG: AWView!
-    
+    @IBOutlet weak var viewBG: AWView! {
+        didSet {
+            viewBG.borderWidth = 1
+            viewBG.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor
+        }
+    }    
     var delegate: CheckoutSmilesPointsViewDelegate?
     
     override func awakeFromNib() {

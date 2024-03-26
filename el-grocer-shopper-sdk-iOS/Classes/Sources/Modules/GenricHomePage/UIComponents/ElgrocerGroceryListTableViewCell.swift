@@ -14,7 +14,7 @@ class ElgrocerGroceryListTableViewCell: UITableViewCell {
     var selectedGrocery: ((_ grocery : Grocery)->Void)?
     @IBOutlet var storeListCustomCollectionView: StoreList! {
         didSet{
-            storeListCustomCollectionView.backgroundColor =  #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+            storeListCustomCollectionView.backgroundColor =  ApplicationTheme.currentTheme.tableViewBGWhiteColor
             storeListCustomCollectionView.selectedGrocery = { [weak self] grocery in
                 guard let self = self else {return}
                 if let clouser = self.selectedGrocery {
@@ -26,7 +26,7 @@ class ElgrocerGroceryListTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        self.backgroundColor = .textfieldBackgroundColor()
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

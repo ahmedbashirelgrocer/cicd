@@ -108,7 +108,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         didSet {
             segmenntCollectionView.commonInit()
             segmenntCollectionView.segmentDelegate = self
-            segmenntCollectionView.backgroundColor = .tableViewBackgroundColor()
+            segmenntCollectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }
     }
   
@@ -125,8 +125,9 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         } else {
             self.dataSource?.getDefaultSearchData()
         }
-        self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
-        self.viewMainBG.layer.cornerRadius = 24.0
+        self.view.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.viewMainBG.layer.cornerRadius = 0
+        self.viewMainBG.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         
         // Show default data papular stores and search history
         if self.searchFor == .isForStoreSearch {
@@ -267,8 +268,8 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         self.txtSearch.clearButton?.setImage(UIImage(name: "sCross"), for: .normal)
         self.txtSearch.textColor = UIColor.newBlackColor()
         self.txtSearch.clipsToBounds = false
-        self.tableView.backgroundColor = .white
-        self.collectionView.backgroundColor = .tableViewBackgroundColor()
+        self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.collectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
 //        self.storeNameViewHeight.constant = 0
         self.setCollectionViewBottomConstraint()
     }
@@ -787,7 +788,7 @@ extension UniversalSearchViewController : UITableViewDelegate , UITableViewDataS
         
         if obj.modelType == .separator {
             let cell = tableView.dequeueReusableCell(withIdentifier: "SeparatorTableViewCell", for: indexPath) as! SeparatorTableViewCell
-            cell.configure(backgroundColor: .tableViewBackgroundColor())
+            cell.configure(backgroundColor: ApplicationTheme.currentTheme.tableViewBGWhiteColor)
             
             return cell
         }
@@ -1370,7 +1371,7 @@ extension UniversalSearchViewController: UITextFieldDelegate {
                 if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
                     let storeClickedEvent = StoreClickedEvent(
                         grocery: grocery,
-                        source: self.searchString.isEmpty ? .popularStore : .relatedStore
+                        source: self.searchString.isEmpty ? StoreClickedEventSource.popularStore.rawValue : StoreClickedEventSource.relatedStore.rawValue, section: StoreComponentMarketingEnablers.none
                     )
                     
                     SegmentAnalyticsEngine.instance.logEvent(event: storeClickedEvent)

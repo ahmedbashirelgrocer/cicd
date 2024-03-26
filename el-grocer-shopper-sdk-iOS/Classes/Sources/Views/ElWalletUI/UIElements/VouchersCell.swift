@@ -11,9 +11,13 @@ import SDWebImage
 class VouchersCell: UITableViewCell {
 
     @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var innerContainerView: UIView!{
+    @IBOutlet weak var innerContainerView: AWView!{
         didSet {
-            innerContainerView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: 8, withShadow: false)
+            innerContainerView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+            innerContainerView.cornarRadius = 8
+            innerContainerView.borderColor = ApplicationTheme.currentTheme.borderGrayColor
+            innerContainerView.borderWidth = 1
+            
         }
     }
     @IBOutlet weak var logoImageView: UIImageView!
@@ -93,7 +97,7 @@ class VouchersCell: UITableViewCell {
     func setUpInitialAppearance() {
 
         self.innerContainerView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner], radius: 8, withShadow: false)
-        
+        self.containerView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         voucherGroceryNameLabel.setBody3SemiBoldDarkStyle()
         voucherNameLabel.setBody3RegDarkStyle()
         viewDetailButton.setCaption1BoldGreenStyle()

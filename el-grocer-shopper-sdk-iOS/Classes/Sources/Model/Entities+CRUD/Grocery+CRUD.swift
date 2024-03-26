@@ -244,6 +244,14 @@ extension Grocery {
             grocery.smileSupport = supported
         }
         
+        if let isNew = responseDict["is_new"] as? NSNumber {
+            grocery.isNewRetailer = isNew
+        }
+        
+        if let salesTagLine = responseDict["marketing_label"] as? String {
+            grocery.salesTagLine = salesTagLine
+        }
+        
         if let isShowRecipe = responseDict["is_show_recipe"] as? NSNumber {
             grocery.isShowRecipe = isShowRecipe
         }else{

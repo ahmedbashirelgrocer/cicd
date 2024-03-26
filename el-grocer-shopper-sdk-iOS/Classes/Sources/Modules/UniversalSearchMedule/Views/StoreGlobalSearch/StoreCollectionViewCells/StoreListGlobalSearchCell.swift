@@ -39,7 +39,7 @@ class StoreListGlobalSearchCell: UITableViewCell {
         registerCollectionCell()
     }
     func setInitialAppearence() {
-        self.backgroundColor = .textfieldBackgroundColor()
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

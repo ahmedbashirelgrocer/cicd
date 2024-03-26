@@ -82,8 +82,8 @@ class savedCarCell: UITableViewCell {
     func setupInitialAppearence(){
         lblDefault.text = localizedString("btn_default", comment: "")
         
-        cellBGView.backgroundColor = .white
-        self.backgroundColor = .tableViewBackgroundColor()
+        cellBGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         
         if saveType == .addNewCar{
             carImageView.image = UIImage(name: kCarImageBlack)
@@ -144,7 +144,8 @@ class savedCarCell: UITableViewCell {
             self.cellBGView.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
             self.defaultBGView.isHidden = !isSelected
         }else{
-            self.cellBGView.layer.borderWidth = 0
+            self.cellBGView.layer.borderWidth = 1
+            self.cellBGView.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
             self.defaultBGView.isHidden = !isSelected
         }
         

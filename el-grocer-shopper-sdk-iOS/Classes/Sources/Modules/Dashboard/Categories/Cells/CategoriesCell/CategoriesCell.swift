@@ -17,9 +17,18 @@ class CategoriesCell: RxUITableViewCell {
     }
     @IBOutlet weak var contentBGView: UIView!
     @IBOutlet weak var topLabelBgView: UIView!
+    
+    
+    @IBOutlet var btnViewAllBGView: AWView! {
+        didSet {
+            btnViewAllBGView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner], radius: 14.5)
+            btnViewAllBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
+        }
+    }
+    
     @IBOutlet weak var btnViewAll: AWButton! {
         didSet {
-            btnViewAll.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
+            btnViewAll.setTitleColor(ApplicationTheme.currentTheme.buttonthemeBaseBlackPrimaryForeGroundColor, for: UIControl.State())
             btnViewAll.setBackgroundColorForAllState(.clear)
             btnViewAll.titleLabel?.font = UIFont.SFProDisplayBoldFont(14)
         }
@@ -27,7 +36,7 @@ class CategoriesCell: RxUITableViewCell {
     @IBOutlet weak var ivArrow: UIImageView! {
         didSet{
             if SDKManager.shared.isSmileSDK  {
-                ivArrow.image = UIImage(name: "SettingArrowForward")
+                ivArrow.image = UIImage(name: "arrowForwardSmiles")
             }
         }
     }
@@ -108,6 +117,7 @@ private extension CategoriesCell {
         
         // hide View All button for varient other than base
         self.btnViewAll.isHidden = self.categoriesStyle == .verticalScroll
+        self.btnViewAllBGView.isHidden = self.categoriesStyle == .verticalScroll
         self.ivArrow.isHidden = self.categoriesStyle == .verticalScroll
         
         self.viewModel

@@ -15,6 +15,8 @@ class BillView: UIView {
         view.backgroundColor = .white
         view.cornarRadius = 8.0
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor
+        view.borderWidth = 1
         
         return view
     }()
@@ -421,5 +423,17 @@ class BillEntryView: UIView {
         }else {
             self.lblAmount.text = initialString + finalString
         }
+    }
+    
+    func configureSavedAmountTag(amount: Double) {
+        self.lblTitle.text = ""
+        self.lblAmount.textAlignment = .left
+        let amountString = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: amount)
+        self.lblAmount.text = "   " + amountString + " " +  localizedString("txt_Saved", comment: "") + "   "
+        self.lblAmount.font = UIFont.SFProDisplayBoldFont(14)
+        self.lblAmount.textColor = ApplicationTheme.currentTheme.promotionYellowColor
+        self.lblAmount.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryBlackColor
+        self.lblAmount.layer.cornerRadius = 8//self.lblAmount.layer.bounds.height / 2
+        self.lblAmount.layer.masksToBounds = true
     }
 }

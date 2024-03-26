@@ -57,7 +57,7 @@ class SecondCheckoutVC: UIViewController {
     
     var secondCheckOutDataHandler : MyBasket?
     
-    var userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)    
+    var userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
     override func viewDidLoad() {
         super.viewDidLoad()
 

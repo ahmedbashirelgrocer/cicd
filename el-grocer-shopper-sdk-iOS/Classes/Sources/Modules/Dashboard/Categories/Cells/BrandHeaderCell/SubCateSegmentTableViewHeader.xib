@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -43,7 +43,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
-                    <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="24" id="HQz-5G-bhi"/>
                         <constraint firstItem="8Yc-ta-ZsA" firstAttribute="centerY" secondItem="EXs-9K-ola" secondAttribute="centerY" id="WL8-Ko-JyT"/>
@@ -88,7 +88,7 @@
                             </userDefinedRuntimeAttributes>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="62" id="J8p-lw-ZsA"/>
                         <constraint firstItem="HhB-Xa-Egb" firstAttribute="top" secondItem="n4c-Mt-CAp" secondAttribute="top" id="NLc-AF-F5d"/>
@@ -101,7 +101,7 @@
                     <subviews>
                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="5zR-SP-lVP" customClass="AWSegmentView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                            <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="zFN-wP-ZBS">
                                 <size key="itemSize" width="50" height="50"/>
                                 <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -121,7 +121,7 @@
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
-            <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="EXs-9K-ola" secondAttribute="trailing" id="9zG-wp-reL"/>
                 <constraint firstAttribute="trailing" secondItem="9Px-2J-9IS" secondAttribute="trailing" id="Eta-Ne-LDk"/>
@@ -138,7 +138,11 @@
                 <outlet property="MsgLableHeight" destination="J8p-lw-ZsA" id="FBN-Jb-Y7Z"/>
                 <outlet property="lblCategoryName" destination="8Yc-ta-ZsA" id="cYY-Qi-cNj"/>
                 <outlet property="lblSubCategoryMsg" destination="ctE-70-rlE" id="5ca-fR-b9Y"/>
+                <outlet property="lblSubCategoryMsgBGView" destination="HhB-Xa-Egb" id="UDz-cy-t0k"/>
+                <outlet property="lblSubCategorySuperBGView" destination="n4c-Mt-CAp" id="BBe-wM-dYr"/>
+                <outlet property="lblTitleBGView" destination="EXs-9K-ola" id="JcH-25-aCa"/>
                 <outlet property="segmenntCollectionView" destination="5zR-SP-lVP" id="Hfl-4q-bEb"/>
+                <outlet property="segmentSuperBGView" destination="9Px-2J-9IS" id="xlb-aN-u2o"/>
                 <outlet property="viewLayoutButton" destination="dqe-dC-Gjh" id="1Fw-Bb-4BH"/>
             </connections>
             <point key="canvasLocation" x="132.60869565217394" y="320.08928571428572"/>

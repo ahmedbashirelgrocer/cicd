@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 import FirebaseAnalytics
 
+protocol RepeatOrderProtocol{
+    func callRepeatOrder()
+}
 
 enum OrderDetailsViewControllerCloseMode  {
     
@@ -2051,4 +2054,10 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         }
     }
     
+}
+
+extension OrderDetailsViewController: RepeatOrderProtocol{
+    func callRepeatOrder() {
+        self.reOrderButtonHandler(self)
+    }
 }

@@ -97,9 +97,15 @@ enum EventParameterKeys {
     static let authToken            = "authToken"
     static let variant              = "variant"
     static let experimentType       = "experimentType"
-    static let campaignId           = "campaignId"
-    static let storeId              = "storeId"
-    static let storeName            = "storeName"
+
+    // Tabby
+    static let amountPaidWithTabby  = "amountPaidWithTabby"
+
+    static let campaignId       = "campaignId"
+    static let storeId       = "storeId"
+    static let storeName       = "storeName"
+    
+    static let marketingEnablers = "marketingEnabler"
     
     static let elWalletRedeem       = "elWalletRedeem"
     static let smilesRedeem         = "smilesRedeem"

@@ -2123,7 +2123,7 @@
 //MARK: C&C
 "lbl_collectionNear" = "أين تريد أن تتسلم البقالة؟";
 //MARK: home search header
-"search_placeholder_home" = "البحث عن المنتجات و المتاجر...";
+"search_placeholder_home" = "ابحث عن المنتجات و المتاجر...";
 //MARK: HyperMarketHeader
 "search_placeholder_hypermarket" = "أبحث عن المنتجات والمتاجر ...";
 "search_placeholder_view_allstore_categories" = "أبحث عن المنتجات...";
@@ -2428,3 +2428,16 @@
 // MARK: custom landing page
 "eg_No_Campgin_Found" = "عفوا.. يؤسفنا ذلك لكن يبدو أن هذه الصفحة غير موجودة.
 اذهب إلى صفحتنا الرئيسية لمواصلة التصفح.";
+
+
+//MARK: Homepage 2.0
+
+"btn_cart_all_cap" = "سلة اﻟﺘﺴﻮق";
+"lbl_new_tag" = "جديد";
+"all_available_store_vc_title" = "المتاجر المتاحة";
+"lbl_title_neighborhood_fav" = "المتاجر المفضلة حولك";
+"lbl_title_one_click_reorder" = "اشترِ مرة أخرى بنقرة واحدة";
+"lbl_greeting_good_morning" = "صباح الخير 👋";
+"lbl_greeting_good_afternoon" = "مساء الخير 👋";
+"lbl_greeting_good_evening" = "مساء الخير 👋";
+
