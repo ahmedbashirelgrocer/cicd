@@ -1254,7 +1254,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                     DispatchQueue.main.async {
                         
                         
-                        let msg = localizedString("lbl_enjoy_promocode_initial", comment: "") + " " + (promo!.code ?? "") + " " + localizedString("lbl_enjoy_promocode_final", comment: "")
+                        let msg = localizedString("lbl_enjoy_promocode_initial", comment: "") + " '" + (promo!.code ?? "") + "' " + localizedString("lbl_enjoy_promocode_final", comment: "")
                         
                         ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "checkGreenTopMessageView") , -1 , false, imageTint: ElgrocerBaseColors.elgrocerGreen500Colour) { (sender , index , isUnDo) in  }
                     }
