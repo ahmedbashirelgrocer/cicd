@@ -145,9 +145,17 @@ class ApplyPromoVC: UIViewController {
                     self.promoTextField.text = promoCode
                     self.showPromoError(false, message: localizedString("txt_enjoy_promo", comment: ""),color: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor)
                 }
+            }else {
+                
+                let promoCode = UserDefaults.getExclusiveDealsPromo()
+                if self.previousGrocery?.getCleanGroceryID() == promoCode.retailerId {
+                    self.isDismisingWithPromoApplied = true
+                    self.btnPromoRemove.isHidden = true
+                    self.btnPromoApply.isHidden = false
+                    self.promoTextField.text = promoCode.code
+                }
             }
         }
-        
     }
     @IBAction func btnCloseHandler(_ sender: Any) {
         self.dismiss(animated: true)
