@@ -27,6 +27,14 @@ class GenericStoresViewController: BasketBasicViewController {
     private lazy var orderStatus : OrderStatusMedule = {
         return OrderStatusMedule()
     }()
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if #available(iOS 13, *) {
+            return self.isDarkMode ? UIStatusBarStyle.lightContent :  UIStatusBarStyle.darkContent
+        }else{
+            return  UIStatusBarStyle.default
+        }
+    }
 
         // MARK: - CustomViews
     lazy var locationHeader : ElgrocerlocationView = {

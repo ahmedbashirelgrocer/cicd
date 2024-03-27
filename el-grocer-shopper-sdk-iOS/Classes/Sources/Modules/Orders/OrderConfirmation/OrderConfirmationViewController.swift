@@ -761,6 +761,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 //edit order
                 guard sdkManager.isSmileSDK else {
                     self.navigationController?.dismiss(animated: false)
+                    self.navigationController?.popToRootViewController(animated: false)
                     return
                 }
                 let appDelegate = SDKManager.shared
