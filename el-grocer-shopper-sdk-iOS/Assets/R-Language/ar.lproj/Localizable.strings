@@ -2439,3 +2439,5 @@
 "lbl_greeting_good_morning" = "صباح الخير 👋";
 "lbl_greeting_good_afternoon" = "مساء الخير 👋";
 "lbl_greeting_good_evening" = "مساء الخير 👋";
+"lbl_enjoy_promocode_initial" = "enjoy your code";
+"lbl_enjoy_promocode_final" = "in checkout";

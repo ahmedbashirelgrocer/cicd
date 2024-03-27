@@ -1216,10 +1216,28 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.didMoveToIndex( grocery: grocery )
     }
     
+    
+    
+    func calculateHeight(text: String, width: CGFloat) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let boundingBox = text.boundingRect(with: constraintRect,
+                                        options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                                            attributes: [NSAttributedString.Key.font: UIFont.SFProDisplayNormalFont(14)],
+                                        context: nil)
+        return boundingBox.height
+    }
+    
     private func showExclusiveDealsInstructionsBottomSheet() {
+        
+        let minHeight = 160
+        let textHeight = calculateHeight(text: self.exclusivePromotionDeal?.detail ?? "", width: ScreenSize.SCREEN_WIDTH - 32)
         let storyboard = UIStoryboard(name: "Smile", bundle: .resource)
         if let exclusiveVC = storyboard.instantiateViewController(withIdentifier: "ExclusiveDealsInstructionsBottomSheet") as? ExclusiveDealsInstructionsBottomSheet {
-            exclusiveVC.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(ScreenSize.SCREEN_HEIGHT/3))
+            exclusiveVC.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(minHeight) + textHeight )
+            
+            exclusiveVC.grocery = self.grocery
+            exclusiveVC.promoCode = self.exclusivePromotionDeal
+            
             let popupController = STPopupController(rootViewController: exclusiveVC)
             popupController.navigationBarHidden = true
             popupController.style = .bottomSheet
@@ -1227,6 +1245,21 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             popupController.containerView.layer.cornerRadius = 16
             popupController.navigationBarHidden = true
             popupController.present(in: self)
+            
+            
+            exclusiveVC.promoTapped = {[weak self] promo, grocery in
+                if promo != nil {
+                    popupController.dismiss()
+                    UserDefaults.setExclusiveDealsPromo(promo: promo!)
+                    DispatchQueue.main.async {
+                        
+                        
+                        let msg = localizedString("lbl_enjoy_promocode_initial", comment: "") + " " + (promo!.code ?? "") + " " + localizedString("lbl_enjoy_promocode_final", comment: "")
+                        
+                        ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "checkGreenTopMessageView") , -1 , false, imageTint: ElgrocerBaseColors.elgrocerGreen500Colour) { (sender , index , isUnDo) in  }
+                    }
+                }
+            }
         }
     }
     
