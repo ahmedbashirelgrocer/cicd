@@ -208,7 +208,7 @@ class GenericStoresViewController: BasketBasicViewController {
         
         launchCompletion?()
         launchCompletion = nil
-        
+        self.checkForPushNotificationRegisteration()
         self.checkAddressValidation()
             //to refresh smiles point
         self.getSmileUserInfo()
