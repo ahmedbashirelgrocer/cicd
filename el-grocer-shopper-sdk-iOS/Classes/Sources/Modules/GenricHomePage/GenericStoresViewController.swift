@@ -224,7 +224,6 @@ class GenericStoresViewController: BasketBasicViewController {
         UserDefaults.removeBannerView(topControllerName: FireBaseScreenName.GenericHome.rawValue)
         UserDefaults.removeOrderIdView(topControllerName: FireBaseScreenName.GenericHome.rawValue)
         HomeTileDefaults.removedTileViewedFor(screenName: FireBaseScreenName.GenericHome.rawValue + "tile")
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
     }
 
         // MARK: - UI Customization
