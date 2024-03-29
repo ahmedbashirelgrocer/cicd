@@ -133,7 +133,17 @@ class ElgrocerStoreHeader:  UIView  {
     
  
     @objc func btnBackPressed() {
-        
+        if ((UIApplication.topViewController()  as? MainCategoriesViewController) != nil){
+            let vc = OfferAlertViewController.getViewController()
+            vc.alertTitle = "Are you sure you want to exit?"
+            vc.skipBtnText = "Exit"
+            vc.discoverBtnTitle = "Discover Stores"
+            vc.descrptionLblTitle = "Discover our wide range of Supermarkets and speciality stores on groceries and pharmacies"
+            vc.modalPresentationStyle = .overFullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+            return
+        }
         switch self.dimisType {
         case .dismisVC:
             UIApplication.topViewController()?.dismiss(animated: true)
@@ -143,9 +153,8 @@ class ElgrocerStoreHeader:  UIView  {
         case .popVc:
             UIApplication.topViewController()?.navigationController?.popViewController(animated: true)
         }
-        
-        
     }
+    
     @objc func profileBTNClicked() {
         
         MixpanelEventLogger.trackNavBarProfile()
