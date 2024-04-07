@@ -45,6 +45,11 @@ extension UILabel {
         self.textColor = UIColor.navigationBarWhiteColor()
     }
     
+    func setNeighbourHoodGroceryPercentageStyle(){
+        self.font = UIFont.SFProDisplayBoldFont(10)
+        self.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
+    }
+    
     func setApplePayWhiteStyle(){
         self.font = UIFont.SFProDisplaySemiBoldFont(19)
         self.textColor = UIColor.navigationBarWhiteColor()
@@ -343,6 +348,10 @@ extension UILabel {
         self.font = UIFont.SFProDisplaySemiBoldFont(11)
         self.textColor = UIColor.navigationBarWhiteColor()
     }
+    func setCaptionTwoBoldWhiteStyle() {
+        self.font = UIFont.SFProDisplayBoldFont(11)
+        self.textColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
+    }
     func setCaptionTwoSemiboldYellowStyle() {
         self.font = UIFont.SFProDisplaySemiBoldFont(11)
         self.textColor = UIColor.promotionYellowColor()
@@ -408,7 +417,7 @@ extension UILabel {
     }
     
     func setH3SemiBoldStyle(){
-        self.font = UIFont.SFProDisplayBoldFont(16)
+        self.font = UIFont.SFProDisplaySemiBoldFont(16)
         self.textColor = UIColor.newBlackColor()
     }
     
@@ -469,6 +478,11 @@ extension UILabel {
         self.textColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
     }
     
+    func setHeadLine5MediumDarkStyle() {
+        self.font = UIFont.SFProDisplaySemiBoldFont(18)
+        self.textColor = ApplicationTheme.currentTheme.labelHeadingTextColor
+    }
+    
 }
 
 extension UIButton {
@@ -515,6 +529,10 @@ extension UIButton {
     }
     func setBody3BoldGreenStyle(){
         self.titleLabel?.font = UIFont.SFProDisplaySemiBoldFont(17)
+        self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
+    }
+    func setBody3BoldPrimaryColorStyle(){
+        self.titleLabel?.font = UIFont.SFProDisplayBoldFont(14)
         self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: UIControl.State())
     }
     func setBody3BoldWhiteStyle(){

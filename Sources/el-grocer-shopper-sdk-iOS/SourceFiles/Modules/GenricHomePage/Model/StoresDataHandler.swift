@@ -148,8 +148,10 @@ class GenericStoreMeduleAPI : ElGrocerApi {
         
         let url =  sdkManager.isShopperApp ? ElGrocerApiEndpoint.egGenericRetailersList.rawValue : ElGrocerApiEndpoint.genericRetailersList.rawValue
         
-        NetworkCall.get( url , parameters:  [    "limit" : "10000" , "offset" : "0" , "latitude" : latitude , "longitude" : longitude  , "all_type" : true ], progress: { (progress) in
-            elDebugPrint("Calling \(progress)")
+        let userId = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext).dbID.stringValue
+        
+        NetworkCall.get( url , parameters:  [    "limit" : "10000" , "offset" : "0" , "latitude" : latitude , "longitude" : longitude  , "all_type" : true, "shopper_id": userId ], progress: { (progress) in
+            elDebugPrint("Calli  ng \(progress)")
         }, success: success, failure: failure)
     }
     //store_type_ids=2,3&retailer_group_ids
@@ -167,6 +169,7 @@ protocol StoresDataHandlerDelegate : class {
     func storeRetailerTypeData(retailerTypeA : [RetailerType]) -> Void
     func storeCategoryData(storeTypeA : [StoreType]) -> Void
     func allRetailerData(groceryA : [Grocery]) -> Void
+    func oneClickRetailerData(groceryA : [Int]) -> Void
     func genericBannersList(list : [BannerCampaign]) -> Void
     func getGreatDealsBannersList(list: [BannerCampaign])
     func refreshMessageView(msg: String) -> Void
@@ -179,6 +182,7 @@ extension StoresDataHandlerDelegate {
     func storeRetailerTypeData(retailerTypeA : [RetailerType]) -> Void {}
     func storeCategoryData(storeTypeA : [StoreType]) -> Void  {}
     func allRetailerData(groceryA : [Grocery]) -> Void {}
+    func oneClickRetailerData(groceryA : [Int]) -> Void {}
     func genericBannersList(list : [BannerCampaign]) -> Void {}
     func getGreatDealsBannersList(list: [BannerCampaign]) {}
     func refreshMessageView(msg: String) -> Void {}
@@ -220,6 +224,12 @@ class StoresDataHandler {
                     if let _ = dataDict["retailers"] as? [NSDictionary] {
                         let responseData = Grocery.insertOrReplaceGroceriesFromDictionary(data, context: DatabaseHelper.sharedInstance.mainManagedObjectContext , false)
                         self.delegate?.allRetailerData(groceryA: responseData)
+                    }
+                    
+                    if let oneClickReOrder = dataDict["one_click_store"] as? [Int] {
+                        self.delegate?.oneClickRetailerData(groceryA: oneClickReOrder)
+                    }else {
+                        self.delegate?.oneClickRetailerData(groceryA: [])
                     }
 
                 }else{

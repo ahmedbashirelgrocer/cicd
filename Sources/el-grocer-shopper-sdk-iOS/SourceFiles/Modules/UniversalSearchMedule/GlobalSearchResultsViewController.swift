@@ -107,7 +107,7 @@ class GlobalSearchResultsViewController: UIViewController {
     }
     func registerTableViewObject() {
         
-        self.tableView.backgroundColor = .tableViewBackgroundColor()//.white
+        self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         let genericViewTitileTableViewCell = UINib(nibName: KGenericViewTitileTableViewCell, bundle: .resource)
         self.tableView.register(genericViewTitileTableViewCell, forCellReuseIdentifier: KGenericViewTitileTableViewCell)
         
@@ -363,10 +363,10 @@ extension GlobalSearchResultsViewController : UITableViewDelegate , UITableViewD
             let myLabel = UILabel()
             myLabel.frame = CGRect(x: 20, y: 0, width: ScreenSize.SCREEN_WIDTH, height: 30)
             myLabel.setBody3BoldUpperStyle(false)
-            myLabel.text = "Stores that sell ‘ \(self.keyWord)’".uppercased()
+            myLabel.text = "\(localizedString("lbl_StorethatSell", comment: "")) ‘ \(self.keyWord)’".uppercased()
             myLabel.highlight(searchedText: "‘ \(self.keyWord)’".uppercased(), color: ApplicationTheme.currentTheme.labelPrimaryBaseTextColor, size: UIFont.SFProDisplayBoldFont(14))
             let headerView = UIView()
-            headerView.backgroundColor = .tableViewBackgroundColor()
+            headerView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             headerView.addSubview(myLabel)
             return headerView
         }
@@ -495,7 +495,7 @@ extension GlobalSearchResultsViewController : HomeCellDelegate  {
             ElGrocerUtility.sharedInstance.searchString = self.keyWord
             
             // Logging segment event for store clicked
-            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: .searchResultScreen))
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: StoreClickedEventSource.searchResultScreen.rawValue, section: StoreComponentMarketingEnablers.none))
             
             if isNeedToDismiss {
                 self.navigationController?.dismiss(animated: false, completion: {

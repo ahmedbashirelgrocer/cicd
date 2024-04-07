@@ -727,7 +727,7 @@
 "Shopping_list_Titile" = "Shopping list";
 "Add_Shopping_list_Title" = "Add Shopping List";
 "Cart_Title" = "Cart";
-"Cart_Title_Basket_overlay" = "Cart";
+"Cart_Title_Basket_overlay" = "CART";
 "request_button_title" = "REQUEST";
 "home_title" = "Home";
 "requests_title" = "Requests";
@@ -2057,7 +2057,7 @@ Add delivery details";
 //MARK: store header
 "btn_shopping_list_title" = "Add Shopping List";
 "btn_help" = "Help";
-"search_placeholder_store_header" = "Search Products...";
+"search_placeholder_store_header" = "Search products...";
 
 "title_view_all_cat" = "View All Categories";
 "title_proactive" = "Proactive Chat";
@@ -2074,7 +2074,7 @@ Oreo";
 //MARK: C&C
 "lbl_collectionNear" = "Where would you like to collect groceries?";
 //MARK: home search header
-"search_placeholder_home" = "Search products, stores...";
+"search_placeholder_home" = "Search products & stores";
 //MARK: HyperMarketHeader
 "search_placeholder_hypermarket" = "Search items or stores...";
 "search_placeholder_view_allstore_categories" = "Search items or stores...";
@@ -2319,7 +2319,7 @@ Oreo";
 "search_manually_text" = "Search your location manually";
 
 // Smiles SDK Home
-"lbl_AvailableStores_Smiles_Home" = "Available stores (%@)";
+"lbl_AvailableStores_Smiles_Home" = "All available stores (%@)";
 
 // CategoryDTO
 "search_by_shopping_list_text" = "Create Shopping List";
@@ -2356,6 +2356,7 @@ Oreo";
 "amount_due_text" = "Amount due";
 "remaining_amount_text" = "Remaining amount";
 "redeem_funds_text" = "Redeem funds:";
+"el_wallet_entered_amount_more_than_available_error" = "Please enter an amount equal to or lower than the elWallet Balance.";
 "el_wallet_entered_amount_more_than_available_error" = "Please enter an amount equal to or lower than the elWallet Funds.";
 "el_wallet_entered_amount_more_than_bill_error" = "Please enter an amount equal to or lower than the total bill";
 
@@ -2378,3 +2379,15 @@ Oreo";
 "text_checkout_el_wallet_points_applied_title" = "elWallet Credit Used:";
 // custom landing page
 "eg_No_Campgin_Found" = "Ooops.. this is awkward. Looks like that page doesn’t exist";
+
+//MARK: Homepage 2.0
+
+"btn_cart_all_cap" = "CART";
+"lbl_new_tag" = "New";
+"all_available_store_vc_title" = "All available stores";
+"lbl_title_neighborhood_fav" = "Neighborhood Favorites";
+"lbl_title_one_click_reorder" = "One-click reorder";
+"lbl_greeting_good_morning" = "👋 Good Morning";
+"lbl_greeting_good_afternoon" = "👋 Good Afternoon";
+"lbl_greeting_good_evening" = "👋 Good Evening";
+

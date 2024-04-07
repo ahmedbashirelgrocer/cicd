@@ -383,7 +383,7 @@ class BannerCampaign: NSObject {
         
         
         if self.customCampaignId != nil, let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-            let customVm = MarketingCustomLandingPageViewModel.init(storeId: currentActive.dbID, marketingId: String(self.customCampaignId ?? -1), addressId: currentAddress.dbID)
+            let customVm = MarketingCustomLandingPageViewModel.init(storeId: currentActive.dbID, marketingId: String(self.customCampaignId ?? -1), addressId: currentAddress.dbID, grocery: currentActive)
                     let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
             Thread.OnMainThread {
                 if let topVc = UIApplication.topViewController() {

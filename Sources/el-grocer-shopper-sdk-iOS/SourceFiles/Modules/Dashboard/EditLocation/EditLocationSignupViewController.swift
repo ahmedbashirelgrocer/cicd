@@ -104,6 +104,8 @@ class EditLocationSignupViewController: UIViewController {
         view.backgroundColor = ApplicationTheme.currentTheme.lightGrayBGColor // .locationScreenLightColor()
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+        (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
+
     }
 }
 
@@ -533,6 +535,7 @@ fileprivate extension EditLocationSignupViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44.0;
         tableView.allowsSelection = false
+        tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         
         let tableConfigData: [
             (imageName: String?,

@@ -13,7 +13,7 @@ class PromoTitleView: UIView {
     @IBOutlet var bGView: UIView! {
         didSet {
             bGView.roundWithShadow(corners: [.layerMinXMinYCorner, .layerMaxXMinYCorner], radius: 8)
-            bGView.backgroundColor = .tableViewBackgroundColor()
+            bGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }
     }
     @IBOutlet var lblTitle: UILabel! {

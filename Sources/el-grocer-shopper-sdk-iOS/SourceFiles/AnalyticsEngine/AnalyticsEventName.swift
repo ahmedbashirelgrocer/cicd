@@ -106,4 +106,9 @@ enum AnalyticsEventName {
     
     // MARK: A/B Testing
     static let abTestExperiment         = "AB Test Experiment"
+    
+    //MARK: Home page
+    static let homeViewAllClicked = "Home View All Clicked"
+    static let sdkExited = "SDK Exited"
+    static let oneClickReorderCloseClicked = "One Click Reorder Sheet Close Clicked"
 }

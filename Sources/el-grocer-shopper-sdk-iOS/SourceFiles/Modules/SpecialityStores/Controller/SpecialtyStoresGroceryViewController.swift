@@ -444,7 +444,7 @@ extension SpecialtyStoresGroceryViewController: UITableViewDelegate, UITableView
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell", for: indexPath) as! HyperMarketGroceryTableCell
             if filteredGroceryArray.count > 0 {
-                cell.configureCell(grocery: filteredGroceryArray[indexPath.row])
+                cell.configureCell(grocery: filteredGroceryArray[indexPath.row], isFeatured: false)
             }
             return cell
             
@@ -468,7 +468,7 @@ extension SpecialtyStoresGroceryViewController: UITableViewDelegate, UITableView
 //        self.navigationController?.pushViewController(vc, animated: true)
         
         // Logging Segment Analytics Event of type Store Clicked
-        let storeClickedEvent = StoreClickedEvent(grocery: self.groceryArray[indexPath.row], source: .allStoreScreen)
+        let storeClickedEvent = StoreClickedEvent(grocery: self.groceryArray[indexPath.row], source: StoreClickedEventSource.allStoreScreen.rawValue, section: StoreComponentMarketingEnablers.All_Available_Stores)
         SegmentAnalyticsEngine.instance.logEvent(event: storeClickedEvent)
         let _ = SpinnerView.showSpinnerView()
         self.dismiss(animated: true) {
@@ -506,7 +506,7 @@ extension SpecialtyStoresGroceryViewController: AWSegmentViewProtocol {
         
         // Logging Segment event for Store Category clicked and Switched 
         let storeCategorySwitchedEvent = StoreCategorySwitchedEvent(currentStoreCategoryType: currentCategory, nextStoreCategoryType: selectedStoreTypeData)
-        let storeCategoryClickedEvent = StoreCategoryClickedEvent(storeType: selectedStoreTypeData)
+        let storeCategoryClickedEvent = StoreCategoryClickedEvent(storeType: selectedStoreTypeData, screenName: StoreClickedEventSource.allStoreScreen.rawValue)
         
         SegmentAnalyticsEngine.instance.logEvent(event: storeCategoryClickedEvent)
         SegmentAnalyticsEngine.instance.logEvent(event: storeCategorySwitchedEvent)

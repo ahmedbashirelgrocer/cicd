@@ -140,6 +140,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="activeCartCellBGView" destination="GXq-YM-yU8" id="FK7-OT-cdS"/>
                 <outlet property="buttonNext" destination="Wqz-sj-Hyj" id="kHG-bt-xca"/>
                 <outlet property="collectionView" destination="kHf-nQ-tGp" id="Fma-UX-VJn"/>
                 <outlet property="ivDeliveryTypeIcon" destination="uDt-Bg-crn" id="XJT-qU-OSy"/>

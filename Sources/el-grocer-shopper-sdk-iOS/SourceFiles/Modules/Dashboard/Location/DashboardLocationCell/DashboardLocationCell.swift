@@ -56,8 +56,8 @@ class DashboardLocationCell : UITableViewCell {
         setUpActionButtonsAppearance()
         
         addPanGesture()
-        self.backgroundColor = .textfieldBackgroundColor()
-        self.contentView.backgroundColor = .textfieldBackgroundColor()
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.contentView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
     }
     
     override func prepareForReuse() {
@@ -133,8 +133,8 @@ class DashboardLocationCell : UITableViewCell {
                 borderContainer.layer.borderWidth = 2
                 borderContainer.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
             }else{
-                borderContainer.layer.borderColor = ApplicationTheme.currentTheme.textFieldBorderInActiveClearColor.cgColor
-                borderContainer.layer.borderWidth = 0
+                borderContainer.layer.borderColor = ApplicationTheme.currentTheme.borderGrayColor.cgColor
+                borderContainer.layer.borderWidth = 1
                 borderContainer.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
             }
         }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21225" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21207"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -223,6 +223,7 @@
                         </constraints>
                     </view>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="fRk-Wv-EfJ" firstAttribute="leading" secondItem="YiJ-dq-ccU" secondAttribute="leading" constant="16" id="KX1-dL-Wq0"/>
                     <constraint firstAttribute="trailing" secondItem="fRk-Wv-EfJ" secondAttribute="trailing" constant="16" id="RhH-yu-C0a"/>
@@ -230,6 +231,7 @@
                     <constraint firstAttribute="bottom" secondItem="fRk-Wv-EfJ" secondAttribute="bottom" id="jue-1Z-mL9"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
                 <outlet property="backGroundView" destination="zre-jy-II0" id="7N7-dw-qbE"/>
                 <outlet property="btnRedeem" destination="9gh-vu-gcI" id="W5H-PK-xHn"/>
@@ -263,7 +265,7 @@
     <resources>
         <image name="arrow-down-black" width="12" height="12"/>
         <image name="checkGrey" width="21" height="21"/>
-        <image name="logo-bg" width="192" height="192"/>
+        <image name="logo-bg" width="36" height="37"/>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>

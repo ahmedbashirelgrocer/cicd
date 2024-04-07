@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  el-grocer-shopper-sdk-iOS
 //  for xcode 15 support from 1.8.8
-// from origin/2023Q4/Checkout3.0_Merged_Developmemt commit => Merge branch '2023Q4/Checkout3.0' into 2023Q4/Checkout3.0_Merged_Developmemt
+// home 2.0 + development
 
 /*
  

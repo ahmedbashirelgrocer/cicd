@@ -10,6 +10,16 @@ import UIKit
 import ThirdPartyObjC
 class GroceryFromBottomSheetViewController: UIViewController , UITableViewDelegate , UITableViewDataSource {
     
+    @IBOutlet var bGView: AWView! {
+        didSet {
+            bGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        }
+    }
+    @IBOutlet var bottomBGView: UIView! {
+        didSet {
+            bottomBGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        }
+    }
     @IBOutlet var titleShimmer: FBShimmeringView!
     @IBOutlet var titleshimmerContentView: UILabel!
     @IBOutlet var bottomShimmer: FBShimmeringView!
@@ -34,8 +44,8 @@ class GroceryFromBottomSheetViewController: UIViewController , UITableViewDelega
             self.view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         }
         super.viewDidLoad()
-        self.tableView.backgroundColor = .textfieldBackgroundColor()
-        self.view.backgroundColor = .textfieldBackgroundColor()
+        self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+        self.view.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         registerCell ()
     }
     func registerCell () {

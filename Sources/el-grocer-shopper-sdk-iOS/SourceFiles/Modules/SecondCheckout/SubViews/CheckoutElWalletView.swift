@@ -16,7 +16,12 @@ class CheckoutElWalletView: UIView {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblWalletRedeemAmount: UILabel!
     @IBOutlet weak var ivForwardIcon: UIImageView!
-    @IBOutlet weak var viewBG: AWView!
+    @IBOutlet weak var viewBG: AWView!{
+        didSet {
+            viewBG.borderWidth = 1
+            viewBG.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor
+        }
+    }
     
     var delegate: CheckoutElWalletViewDelegate?
     

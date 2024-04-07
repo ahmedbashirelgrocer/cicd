@@ -11,9 +11,11 @@ import SDWebImage
 
 class GroceryWithProductTableCell: UITableViewCell {
     
-    @IBOutlet var productAndGroceryBGView: UIView!{
+    @IBOutlet var productAndGroceryBGView: AWView!{
         didSet{
             productAndGroceryBGView.roundWithShadow(corners: [.layerMinXMinYCorner,.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner ], radius: 16, withShadow: false)
+            productAndGroceryBGView.borderColor = ApplicationTheme.currentTheme.borderGrayColor
+            productAndGroceryBGView.borderWidth = 1.0
         }
     }
     @IBOutlet var imgGrocery: UIImageView!
@@ -43,7 +45,7 @@ class GroceryWithProductTableCell: UITableViewCell {
     }
     @IBOutlet var percentageBGView: UIView!{
         didSet{
-            percentageBGView.backgroundColor = UIColor.promotionRedColor()
+            percentageBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
             percentageBGView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: 8)
         }
     }

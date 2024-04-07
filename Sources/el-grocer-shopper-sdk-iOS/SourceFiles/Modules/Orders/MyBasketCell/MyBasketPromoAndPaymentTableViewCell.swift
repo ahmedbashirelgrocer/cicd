@@ -16,7 +16,11 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
     @IBOutlet var lblpromoCodeTopAnchor: NSLayoutConstraint!
     @IBOutlet var lblpriceTopAnchor: NSLayoutConstraint!
     var promoRefreshed: ((_ isAdded : Bool)->Void)?
-    @IBOutlet var imagePayment: UIImageView!
+    @IBOutlet var imagePayment: UIImageView! {
+        didSet {
+            imagePayment.image = UIImage(name: "paymentMethodSettings")
+        }
+    }
     @IBOutlet var lblPaymentType: UILabel!
     @IBOutlet var lblPaymentMethod: UILabel!
     @IBOutlet var txtCvv: UITextField! {
@@ -190,7 +194,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
             self.creditCardBGView.backgroundColor = UIColor.navigationBarWhiteColor()
             self.creditCardBGView.borderWidth = 1.0
             self.creditCardBGView.borderColor = UIColor.newBorderGreyColor()
-            self.imagePayment.changePngColorTo(color: UIColor.newBlackColor())
+//            self.imagePayment.changePngColorTo(color: UIColor.newBlackColor())
             self.lblPaymentMethod.textColor = UIColor.newBlackColor()
             self.lblPaymentType.textColor = UIColor.newBlackColor()
             self.creditCardSuperBGView.layer.masksToBounds = true
@@ -200,7 +204,7 @@ class MyBasketPromoAndPaymentTableViewCell: UITableViewCell {
             self.creditCardBGView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
             self.creditCardBGView.borderWidth = 0.0
             self.creditCardBGView.borderColor = UIColor.clear
-            self.imagePayment.changePngColorTo(color: UIColor.navigationBarWhiteColor())
+//            self.imagePayment.changePngColorTo(color: UIColor.navigationBarWhiteColor())
             self.lblPaymentMethod.textColor = UIColor.navigationBarWhiteColor()
             self.lblPaymentType.textColor = UIColor.navigationBarWhiteColor()
             self.creditCardSuperBGView.layer.masksToBounds = false

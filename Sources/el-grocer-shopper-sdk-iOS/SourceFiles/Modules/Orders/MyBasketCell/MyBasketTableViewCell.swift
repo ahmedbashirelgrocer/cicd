@@ -22,7 +22,12 @@ class MyBasketTableViewCell: UITableViewCell {
     weak var delegate:MyBasketCellProtocol?
     weak var grocery: Grocery?
     
-    @IBOutlet var viewMainContainer: UIView!
+    @IBOutlet var viewMainContainer: AWView! {
+        didSet {
+            viewMainContainer.borderColor = ApplicationTheme.currentTheme.borderGrayColor
+            viewMainContainer.borderWidth = 1.0
+        }
+    }
     
     @IBOutlet weak var productName: UILabel!
     @IBOutlet weak var productDescription: UILabel!
@@ -68,7 +73,7 @@ class MyBasketTableViewCell: UITableViewCell {
     }
     @IBOutlet var percentOffBGView: UIView!{
         didSet{
-            percentOffBGView.backgroundColor = .promotionRedColor()
+            percentOffBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
             percentOffBGView.layer.cornerRadius = 8
             percentOffBGView.clipsToBounds = true
         }
@@ -83,7 +88,7 @@ class MyBasketTableViewCell: UITableViewCell {
     @IBOutlet var plusBottomView: UIView!
     @IBOutlet var limitedStockBGView: UIView!{
         didSet{
-            limitedStockBGView.backgroundColor = ApplicationTheme.currentTheme.viewLimmitedStockSecondaryDarkBGColor
+            limitedStockBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 limitedStockBGView.roundCorners(corners: [.topRight , .bottomRight], radius: 8)
             }else {

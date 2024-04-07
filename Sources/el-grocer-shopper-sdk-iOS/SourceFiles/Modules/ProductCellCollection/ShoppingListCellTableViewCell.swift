@@ -45,7 +45,7 @@ class ShoppingListCellTableViewCell: UITableViewCell ,UITextFieldDelegate {
             }
             let image = editbutton.imageView?.image?.withRenderingMode(.alwaysTemplate)
             editbutton.setImage(image, for: .normal)
-            editbutton.imageView?.tintColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
+            editbutton.imageView?.tintColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
             
         }
     }
@@ -58,18 +58,20 @@ class ShoppingListCellTableViewCell: UITableViewCell ,UITextFieldDelegate {
     @IBOutlet var editViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var viewAllBGView: UIView! {
         didSet {
-            viewAllBGView.backgroundColor = .textfieldBackgroundColor()
+            viewAllBGView.backgroundColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
+            viewAllBGView.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner], radius: 15)
         }
     }
     @IBOutlet var lblViewAll: UILabel! {
         didSet {
             lblViewAll.setBody3BoldUpperButtonLabelStyle(true)
+            lblViewAll.textColor = ApplicationTheme.currentTheme.buttonthemeBaseBlackPrimaryForeGroundColor
         }
     }
     @IBOutlet var imgViewAllArrow: UIImageView! {
         didSet {
             
-            imgViewAllArrow.image = sdkManager.isShopperApp ? UIImage(name: "arrowRight") : UIImage(name: "SettingArrowForward")
+            imgViewAllArrow.image = UIImage(name: "arrowForwardSmiles")
             
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 self.imgViewAllArrow.transform = CGAffineTransform(scaleX: -1, y: 1)
@@ -159,7 +161,7 @@ class ShoppingListCellTableViewCell: UITableViewCell ,UITextFieldDelegate {
 //        self.viewMoreButton.titleLabel?.font = UIFont.SFProDisplayBoldFont(12)
         self.lblViewAll.text = localizedString("view_more_title", comment: "")
         self.lblNoProductFound.text = localizedString("No_Product_Found_Msg", comment: "")
-        self.customCollectionView.backgroundColor = .textfieldBackgroundColor()
+        self.customCollectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.lblNoProductFound.textAlignment = .right
             self.newSearchTextField.textAlignment = .right

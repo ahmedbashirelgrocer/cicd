@@ -24,7 +24,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol, BasketIconOverl
    
     @IBOutlet var collectionView: UICollectionView!{
         didSet{
-            collectionView.backgroundColor = .tableViewBackgroundColor ()
+            collectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }
     }
     
@@ -197,7 +197,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol, BasketIconOverl
         DispatchQueue.main.async { [self] in
             
             self.navigationController?.navigationBar.topItem?.hidesBackButton = true
-            self.view.backgroundColor = .textfieldBackgroundColor()
+            self.view.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             if let navController = self.navigationController as? ElGrocerNavigationController{
                 navController.actiondelegate = self
                 navController.setGreenBackgroundColor()
@@ -334,7 +334,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol, BasketIconOverl
         self.collectionView.register(EmptyCollectionReusableViewheaderNib, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "EmptyCollectionReusableView")
         
         
-        self.collectionView.backgroundColor =  UIColor.tableViewBackgroundColor()
+        self.collectionView.backgroundColor =  ApplicationTheme.currentTheme.tableViewBGWhiteColor
         let flowLayout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset = UIEdgeInsets.init(top: 5 , left: 5, bottom: 10 , right: 10)
         flowLayout.minimumInteritemSpacing = 0
@@ -638,7 +638,7 @@ extension BrandDeepLinksVC: UICollectionViewDelegate, UICollectionViewDataSource
                     headerView.brandName.visibility = .gone
                 }
                 
-                headerView.customCollectionViewWithBanners.backgroundColor = .textfieldBackgroundColor()
+                headerView.customCollectionViewWithBanners.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
                 if productsArray.count > 0 {
                     Thread.OnMainThread {
                         let product = self.productsArray[0]

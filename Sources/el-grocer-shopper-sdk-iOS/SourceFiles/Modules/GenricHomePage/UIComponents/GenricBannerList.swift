@@ -32,7 +32,7 @@ class GenricBannerList : CustomCollectionView {
     }
     
     func setUpInitialApearance() {
-        self.backgroundColor = .tableViewBackgroundColor() //.white
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
     }
     
     func registerCellsAndSetDelegateAndDataSource () {

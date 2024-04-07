@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina3_5" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -46,7 +46,7 @@
                                 </constraints>
                             </view>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add new card" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f82-GK-oHO">
-                                <rect key="frame" x="92.5" y="-10" width="105" height="21"/>
+                                <rect key="frame" x="92.666666666666686" y="-10" width="105" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -70,13 +70,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="290" height="1"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Visa" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="18H-g5-o81">
-                                        <rect key="frame" x="44" y="14" width="22.5" height="14"/>
+                                        <rect key="frame" x="55.999999999999993" y="14" width="22.666666666666664" height="14"/>
                                         <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="12"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select payment method" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DAa-qm-eFE">
-                                        <rect key="frame" x="44" y="30" width="110.5" height="20"/>
+                                        <rect key="frame" x="56.000000000000007" y="30" width="98.666666666666686" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="9sm-cR-Itu"/>
                                         </constraints>
@@ -85,13 +85,13 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pn2-dx-24U" userLabel="paymentMethodsSelectionChangeCall">
-                                        <rect key="frame" x="44" y="30" width="110.5" height="20"/>
+                                        <rect key="frame" x="56.000000000000007" y="30" width="98.666666666666686" height="20"/>
                                         <connections>
                                             <action selector="selectPaymentMethodHandler:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="cZt-by-uiP"/>
                                         </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="cvv" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gQX-uz-Nhp">
-                                        <rect key="frame" x="158.5" y="-15.5" width="53" height="32"/>
+                                        <rect key="frame" x="158.66666666666666" y="-15.666666666666666" width="53" height="32.333333333333336"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="32" id="Eil-lV-FbS"/>
@@ -105,10 +105,10 @@
                                         </connections>
                                     </textField>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeorder-card-white" translatesAutoresizingMaskIntoConstraints="NO" id="vZA-tk-XAZ">
-                                        <rect key="frame" x="12" y="14" width="24" height="24"/>
+                                        <rect key="frame" x="12" y="14" width="36" height="36"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="24" id="6HI-dM-lic"/>
-                                            <constraint firstAttribute="height" constant="24" id="DDH-9P-HR3"/>
+                                            <constraint firstAttribute="width" constant="36" id="6HI-dM-lic"/>
+                                            <constraint firstAttribute="height" constant="36" id="DDH-9P-HR3"/>
                                         </constraints>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c4j-j8-64J" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS">
@@ -226,7 +226,7 @@
                                 <rect key="frame" x="12" y="12" width="266" height="45"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MYBasketCoupon" translatesAutoresizingMaskIntoConstraints="NO" id="2cd-0P-ZjD">
-                                        <rect key="frame" x="16" y="12.5" width="20" height="20"/>
+                                        <rect key="frame" x="16" y="12.666666666666668" width="20" height="20.000000000000004"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="YaE-P6-EkG"/>
                                             <constraint firstAttribute="width" constant="20" id="ZaM-yb-sCk"/>
@@ -261,7 +261,7 @@
                                         </connections>
                                     </textField>
                                     <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="h9l-gR-3QW">
-                                        <rect key="frame" x="218.5" y="12.5" width="20" height="20"/>
+                                        <rect key="frame" x="218.66666666666666" y="12.666666666666668" width="20" height="20.000000000000004"/>
                                         <color key="color" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -298,7 +298,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AED --" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kTH-7U-bld">
-                                <rect key="frame" x="236.5" y="70" width="41.5" height="17"/>
+                                <rect key="frame" x="236.66666666666666" y="70" width="41.333333333333343" height="17"/>
                                 <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="14"/>
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -316,13 +316,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Service fee (incl. VAT)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v7f-sv-8ks">
-                                <rect key="frame" x="12" y="120" width="130.5" height="17"/>
+                                <rect key="frame" x="12" y="120" width="130.66666666666666" height="17"/>
                                 <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="14"/>
                                 <color key="textColor" red="0.56470588235294117" green="0.56470588235294117" blue="0.56470588235294117" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AED --" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DWs-uH-sNw">
-                                <rect key="frame" x="236.5" y="120" width="41.5" height="17"/>
+                                <rect key="frame" x="236.66666666666666" y="120" width="41.333333333333343" height="17"/>
                                 <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="14"/>
                                 <color key="textColor" red="0.56470588235294117" green="0.56470588235294117" blue="0.56470588235294117" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -400,7 +400,7 @@
                                 <rect key="frame" x="12" y="95" width="266" height="25"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AED --" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HfN-kb-hhz">
-                                        <rect key="frame" x="224.5" y="0.0" width="41.5" height="17"/>
+                                        <rect key="frame" x="224.66666666666666" y="0.0" width="41.333333333333343" height="17"/>
                                         <fontDescription key="fontDescription" name="SFUIDisplay-Regular" family="SF UI Display" pointSize="14"/>
                                         <color key="textColor" red="0.56470588239999997" green="0.56470588239999997" blue="0.56470588239999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -543,7 +543,7 @@
         </designable>
     </designables>
     <resources>
-        <image name="MYBasketCoupon" width="20" height="20.5"/>
+        <image name="MYBasketCoupon" width="20" height="20.333333969116211"/>
         <image name="placeorder-card-white" width="24" height="24"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

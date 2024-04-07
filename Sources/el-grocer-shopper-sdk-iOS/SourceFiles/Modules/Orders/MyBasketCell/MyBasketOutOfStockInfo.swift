@@ -17,7 +17,7 @@ class MyBasketOutOfStockInfo: UIView {
     }
     
     func configure() {
-        
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
 //        "Msg_Cart_Initial" = "Some items in your cart are currently ";
 //        "Msg_Cart_OUTOFSTOCK" = "OUT OF STOCK. ";
 //        "Msg_Cart_ChooseReplacement" = "Please choose the suitable replacement. ";

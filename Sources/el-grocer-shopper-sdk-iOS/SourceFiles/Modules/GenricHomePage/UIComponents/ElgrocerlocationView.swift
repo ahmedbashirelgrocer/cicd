@@ -102,7 +102,7 @@ class ElgrocerlocationView:  UIView  {
     
     @IBOutlet var bGView: UIView!{
         didSet {
-            bGView.backgroundColor = sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : .clear
+            bGView.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
         }
     }
     @IBOutlet var groceryBGView: UIView!{

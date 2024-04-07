@@ -28,6 +28,7 @@ enum loadingType {
     case HomePageLocationTwoBanners
     case AllChefForDeliveryStores
     case FeatureRecipesOfAllDeliveryStore
+    case oneClickReOrderListArray
 }
 
 extension HomePageData : HomePageDataLoadingComplete {
@@ -84,6 +85,7 @@ class HomePageData  {
     var storyTypeBaseDataDict : [Int64 : [Grocery]] = [:]
     
     lazy var storeTypeA : [StoreType]? = nil
+    lazy var oneClickReorderGroceryIdArray : [Int]? = nil
     lazy var retailerTypeA : [RetailerType]? = nil
     lazy var groceryA : [Grocery]? = nil {
         didSet {
@@ -545,6 +547,13 @@ extension HomePageData : StoresDataHandlerDelegate {
         SegmentAnalyticsEngine.instance.logEvent(event: StoresInRangeEvent(retailers: groceryA))
         
     }
+    
+    func oneClickRetailerData(groceryA : [Int]) {
+        
+        self.oneClickReorderGroceryIdArray = groceryA
+        self.delegate?.loadingDataComplete(type: .oneClickReOrderListArray)
+    }
+    
     func genericBannersList(list : [BannerCampaign]) -> Void {
         self.locationOneBanners = list
         self.locationOneBanners?.sort { (banner1, banner2) -> Bool in

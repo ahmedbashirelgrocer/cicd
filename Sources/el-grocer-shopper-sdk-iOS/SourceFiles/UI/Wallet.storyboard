@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -47,8 +47,8 @@
                                     <action selector="addFundsButtonTapped:" destination="c0x-Jd-Kul" eventType="touchUpInside" id="1eu-l5-Mgh"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gTH-nX-ZqH">
-                                <rect key="frame" x="16" y="85" width="343" height="558"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="gTH-nX-ZqH">
+                                <rect key="frame" x="0.0" y="85" width="375" height="558"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="c0x-Jd-Kul" id="00k-wU-dTc"/>
@@ -69,8 +69,8 @@
                             <constraint firstItem="BOe-aH-xLK" firstAttribute="leading" secondItem="jct-LD-cJu" secondAttribute="trailing" constant="4" id="ciA-QZ-f6V"/>
                             <constraint firstItem="jct-LD-cJu" firstAttribute="centerY" secondItem="BOe-aH-xLK" secondAttribute="centerY" id="dLd-9U-KXe"/>
                             <constraint firstAttribute="trailing" secondItem="BOe-aH-xLK" secondAttribute="trailing" constant="16" id="nPp-Od-WBM"/>
-                            <constraint firstAttribute="trailing" secondItem="gTH-nX-ZqH" secondAttribute="trailing" constant="16" id="uYI-Sn-Bvp"/>
-                            <constraint firstItem="gTH-nX-ZqH" firstAttribute="leading" secondItem="Iec-cQ-Y6B" secondAttribute="leading" constant="16" id="wW6-eD-Fzp"/>
+                            <constraint firstAttribute="trailing" secondItem="gTH-nX-ZqH" secondAttribute="trailing" id="uYI-Sn-Bvp"/>
+                            <constraint firstItem="gTH-nX-ZqH" firstAttribute="leading" secondItem="Iec-cQ-Y6B" secondAttribute="leading" id="wW6-eD-Fzp"/>
                             <constraint firstItem="BOe-aH-xLK" firstAttribute="top" secondItem="XeW-wA-y0I" secondAttribute="bottom" constant="24" id="xM2-j8-iWV"/>
                         </constraints>
                     </view>
@@ -98,7 +98,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="CbS-ja-uE8">
-                                <rect key="frame" x="16" y="144" width="343" height="503"/>
+                                <rect key="frame" x="0.0" y="144" width="375" height="503"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="EJg-aN-LbB" id="V9h-WY-MXA"/>
@@ -111,7 +111,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xdg-jD-m4J">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xdg-jD-m4J" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
                                 <rect key="frame" x="16" y="72" width="343" height="56"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MybasketEnterPromo" translatesAutoresizingMaskIntoConstraints="NO" id="ZT9-yD-0jj">
@@ -159,13 +159,13 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="CbS-ja-uE8" firstAttribute="top" secondItem="xdg-jD-m4J" secondAttribute="bottom" constant="16" id="4cX-4h-5ny"/>
-                            <constraint firstAttribute="trailing" secondItem="CbS-ja-uE8" secondAttribute="trailing" constant="16" id="6nB-SN-ewp"/>
+                            <constraint firstAttribute="trailing" secondItem="CbS-ja-uE8" secondAttribute="trailing" id="6nB-SN-ewp"/>
                             <constraint firstAttribute="trailing" secondItem="xdg-jD-m4J" secondAttribute="trailing" constant="16" id="Ghl-83-ABl"/>
                             <constraint firstAttribute="trailing" secondItem="3vm-GN-3vu" secondAttribute="trailing" constant="16" id="K5z-Da-jQx"/>
                             <constraint firstItem="3vm-GN-3vu" firstAttribute="top" secondItem="DXQ-yL-w99" secondAttribute="bottom" constant="16" id="RRa-MP-ioB"/>
                             <constraint firstItem="xdg-jD-m4J" firstAttribute="leading" secondItem="uCZ-0J-jNd" secondAttribute="leading" constant="16" id="TJ2-SI-KdB"/>
                             <constraint firstItem="xdg-jD-m4J" firstAttribute="top" secondItem="3vm-GN-3vu" secondAttribute="bottom" constant="16" id="Uio-Qw-VyI"/>
-                            <constraint firstItem="CbS-ja-uE8" firstAttribute="leading" secondItem="uCZ-0J-jNd" secondAttribute="leading" constant="16" id="X2e-wd-JiU"/>
+                            <constraint firstItem="CbS-ja-uE8" firstAttribute="leading" secondItem="uCZ-0J-jNd" secondAttribute="leading" id="X2e-wd-JiU"/>
                             <constraint firstItem="OOa-PV-vZj" firstAttribute="top" secondItem="CbS-ja-uE8" secondAttribute="bottom" constant="20" id="uJp-YJ-SX2"/>
                             <constraint firstItem="3vm-GN-3vu" firstAttribute="leading" secondItem="uCZ-0J-jNd" secondAttribute="leading" constant="16" id="yVJ-KV-KIW"/>
                         </constraints>
@@ -174,6 +174,7 @@
                         <outlet property="btnRedeem" destination="rmF-fa-eD1" id="AL7-gj-HC3"/>
                         <outlet property="lblDoYouHaveVoucher" destination="3vm-GN-3vu" id="L9G-1R-3U8"/>
                         <outlet property="txtVoucherCode" destination="GFj-Sp-5Er" id="8Iy-Tk-K7l"/>
+                        <outlet property="txtVoucherCodeBGView" destination="xdg-jD-m4J" id="tRT-cp-dsv"/>
                         <outlet property="vouchersTableView" destination="CbS-ja-uE8" id="LMm-kP-LAA"/>
                     </connections>
                 </viewController>
@@ -266,7 +267,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bCW-GU-vCs">
-                                <rect key="frame" x="16" y="40" width="343" height="534"/>
+                                <rect key="frame" x="0.0" y="40" width="375" height="534"/>
                                 <connections>
                                     <outlet property="dataSource" destination="wqk-NJ-5Rh" id="QLd-tk-qcX"/>
                                     <outlet property="delegate" destination="wqk-NJ-5Rh" id="8Le-06-Acu"/>
@@ -324,8 +325,8 @@
                             <constraint firstItem="18L-wZ-IR8" firstAttribute="top" secondItem="k1V-OE-5RO" secondAttribute="bottom" id="dGd-3e-lRe"/>
                             <constraint firstAttribute="trailing" secondItem="k1V-OE-5RO" secondAttribute="trailing" id="gz4-em-tUn"/>
                             <constraint firstItem="bCW-GU-vCs" firstAttribute="top" secondItem="Gc7-iw-dKI" secondAttribute="bottom" constant="20" id="pDY-mh-sWE"/>
-                            <constraint firstAttribute="trailing" secondItem="bCW-GU-vCs" secondAttribute="trailing" constant="16" id="wzv-7b-NEn"/>
-                            <constraint firstItem="bCW-GU-vCs" firstAttribute="leading" secondItem="977-w3-ker" secondAttribute="leading" constant="16" id="ye7-kU-5cP"/>
+                            <constraint firstAttribute="trailing" secondItem="bCW-GU-vCs" secondAttribute="trailing" id="wzv-7b-NEn"/>
+                            <constraint firstItem="bCW-GU-vCs" firstAttribute="leading" secondItem="977-w3-ker" secondAttribute="leading" id="ye7-kU-5cP"/>
                         </constraints>
                     </view>
                     <connections>
@@ -453,7 +454,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="tNY-iH-MSH">
-                                <rect key="frame" x="16" y="98" width="343" height="529"/>
+                                <rect key="frame" x="0.0" y="98" width="375" height="529"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <connections>
                                     <outlet property="dataSource" destination="LEm-d1-qu8" id="Jhp-UG-etl"/>
@@ -476,10 +477,10 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="yOS-dC-D43" secondAttribute="trailing" constant="16" id="3sS-hu-yhy"/>
-                            <constraint firstItem="tNY-iH-MSH" firstAttribute="leading" secondItem="DVG-KT-LMu" secondAttribute="leading" constant="16" id="AQb-zf-0bd"/>
+                            <constraint firstItem="tNY-iH-MSH" firstAttribute="leading" secondItem="DVG-KT-LMu" secondAttribute="leading" id="AQb-zf-0bd"/>
                             <constraint firstItem="fp8-C5-xpw" firstAttribute="top" secondItem="tNY-iH-MSH" secondAttribute="bottom" constant="40" id="CMH-ed-IRJ"/>
                             <constraint firstAttribute="trailing" secondItem="k0Z-co-rwJ" secondAttribute="trailing" constant="16" id="IJr-6y-5DJ"/>
-                            <constraint firstAttribute="trailing" secondItem="tNY-iH-MSH" secondAttribute="trailing" constant="16" id="QyU-qt-Uq2"/>
+                            <constraint firstAttribute="trailing" secondItem="tNY-iH-MSH" secondAttribute="trailing" id="QyU-qt-Uq2"/>
                             <constraint firstItem="k0Z-co-rwJ" firstAttribute="top" secondItem="rrw-1o-cgW" secondAttribute="bottom" constant="16" id="XBc-YL-mJs"/>
                             <constraint firstItem="yOS-dC-D43" firstAttribute="top" secondItem="k0Z-co-rwJ" secondAttribute="bottom" constant="4" id="YIV-qP-SNZ"/>
                             <constraint firstItem="yOS-dC-D43" firstAttribute="leading" secondItem="DVG-KT-LMu" secondAttribute="leading" constant="16" id="deL-By-Vno"/>

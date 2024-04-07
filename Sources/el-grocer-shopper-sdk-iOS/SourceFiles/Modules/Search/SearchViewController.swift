@@ -45,7 +45,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     var commingFromVc : UIViewController?
     @IBOutlet var searchViewHeader: UIView! {
         didSet {
-            searchViewHeader.backgroundColor = .textfieldBackgroundColor()
+            searchViewHeader.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
         }
     }
     lazy var locationHeader : ElgrocerlocationView = {
@@ -63,7 +63,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         
         didSet{
             lblCreatShoppingList.text =      localizedString("lbl_shopping_list", comment: "Create your shopping list")
-            lblCreatShoppingList.textColor = AppSetting.theme.navigationBarColor
+            lblCreatShoppingList.textColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
         
     }
@@ -71,7 +71,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         
         didSet{
             lblSearchAndShop.text = localizedString("lbl_search_shop", comment: "Search and shop products")
-            lblSearchAndShop.textColor = AppSetting.theme.navigationBarColor
+            lblSearchAndShop.textColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
         
     }
@@ -80,37 +80,37 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
     @IBOutlet var lblOne: UILabel! {
         didSet {
             lblOne.text = localizedString("lbl_One", comment: "")
-            lblOne.textColor = AppSetting.theme.navigationBarColor
+            lblOne.textColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
     }
     
     @IBOutlet weak var lblOneCircularView: AWView!{
         didSet{
-            lblOneCircularView.borderColor = AppSetting.theme.navigationBarColor
+            lblOneCircularView.borderColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
     }
     
     @IBOutlet var lblTwo: UILabel!{
         didSet {
             lblTwo.text = localizedString("lbl_Two", comment: "")
-            lblTwo.textColor = AppSetting.theme.navigationBarColor
+            lblTwo.textColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
     }
     @IBOutlet weak var lblTwoCircularView: AWView! {
         didSet{
-            lblTwoCircularView.borderColor = AppSetting.theme.navigationBarColor
+            lblTwoCircularView.borderColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
     }
     @IBOutlet weak var searchBgView: UIView!
     
     @IBOutlet weak var createShoppingListProgressViewBar: AWView! {
         didSet {
-            createShoppingListProgressViewBar.backgroundColor =  AppSetting.theme.navigationBarColor
+            createShoppingListProgressViewBar.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
     }
     @IBOutlet weak var searchProductsShoppingListProgressViewBar: AWView!{
         didSet {
-            searchProductsShoppingListProgressViewBar.backgroundColor =  AppSetting.theme.navigationBarColor
+            searchProductsShoppingListProgressViewBar.backgroundColor =  ApplicationTheme.currentTheme.viewPrimaryBGColor
         }
     }
     
@@ -160,7 +160,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         }
    
       //  self.collectionView.backgroundColor = UIColor.white // removed while merging
-        self.collectionView.backgroundColor = UIColor.textfieldBackgroundColor()
+        self.collectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
 
         
         self.setTableViewAppearence()
@@ -258,7 +258,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.navigationItem.hidesBackButton = true
         searchBgView.backgroundColor =  ApplicationTheme.currentTheme.navigationBarColor
         // self.extendedLayoutIncludesOpaqueBars = true
-        self.view.backgroundColor = .tableViewBackgroundColor()
+        self.view.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
     }
     override func viewDidAppear(_ animated: Bool) {
         
@@ -564,7 +564,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.singleLine
         self.tableView.separatorColor = UIColor.borderGrayColor()
         self.tableView.separatorInset = UIEdgeInsets.zero
-        self.tableView.backgroundColor = UIColor.textfieldBackgroundColor()
+        self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         self.tableView.tableFooterView = UIView()
     }
     

@@ -574,7 +574,7 @@ with our partner to add for your next shopping experience.</string>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="ahj-sv-hQA" firstAttribute="centerY" secondItem="tcF-Ex-BqD" secondAttribute="centerY" id="06W-AP-1kB"/>
                                     <constraint firstItem="tcF-Ex-BqD" firstAttribute="centerY" secondItem="G5o-ke-eaf" secondAttribute="centerY" id="0vC-0i-4q8"/>
@@ -584,7 +584,7 @@ with our partner to add for your next shopping experience.</string>
                                     <constraint firstAttribute="trailing" secondItem="ahj-sv-hQA" secondAttribute="trailing" constant="16" id="oo4-e7-anY"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AWb-Pk-Dt3">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AWb-Pk-Dt3">
                                 <rect key="frame" x="0.0" y="93" width="390" height="85"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ggw-7t-uZJ" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
@@ -639,13 +639,13 @@ with our partner to add for your next shopping experience.</string>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fLM-xr-ZB5">
                                                 <rect key="frame" x="0.0" y="9" width="32" height="14"/>
-                                                <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="12"/>
                                                 <color key="textColor" red="0.49803921579999999" green="0.34117650989999998" blue="0.61176472900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="32" id="9C0-6g-IEK"/>
                                             <constraint firstItem="fLM-xr-ZB5" firstAttribute="leading" secondItem="de0-d9-89N" secondAttribute="leading" id="I2w-wD-Gjd"/>
@@ -671,13 +671,13 @@ with our partner to add for your next shopping experience.</string>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4lD-1w-nwi">
                                                 <rect key="frame" x="0.0" y="9" width="32" height="14"/>
-                                                <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="12"/>
                                                 <color key="textColor" red="0.49803921579999999" green="0.34117650989999998" blue="0.61176472900000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
-                                        <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="32" id="1mb-6B-owz"/>
                                             <constraint firstAttribute="height" constant="32" id="5n3-AV-c1T"/>
@@ -701,7 +701,7 @@ with our partner to add for your next shopping experience.</string>
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstItem="ggw-7t-uZJ" firstAttribute="leading" secondItem="AWb-Pk-Dt3" secondAttribute="leading" constant="17" id="49Y-zq-XkX"/>
                                     <constraint firstItem="i8C-TQ-CWP" firstAttribute="centerX" secondItem="dqz-e9-CBG" secondAttribute="centerX" id="5dc-Ed-kWY"/>
@@ -1490,7 +1490,7 @@ with our partner to add for your next shopping experience.</string>
                                     </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="uAr-TG-CUc">
                                         <rect key="frame" x="0.0" y="86.333333333333314" width="390" height="651.66666666666674"/>
-                                        <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="sectionIndexBackgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                                         <color key="sectionIndexTrackingBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1569,6 +1569,8 @@ with our partner to add for your next shopping experience.</string>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="bGView" destination="Lk7-u6-SeE" id="zHg-gm-tbl"/>
+                        <outlet property="bottomBGView" destination="W2C-76-P1C" id="f88-71-aWH"/>
                         <outlet property="bottomShimmer" destination="Kwt-xG-6z9" id="uMy-B1-I3W"/>
                         <outlet property="bottomShimmerContentView" destination="EKW-f3-5jA" id="5pT-ld-cVJ"/>
                         <outlet property="lblError" destination="KRC-r5-efU" id="63f-gs-sbd"/>
@@ -1924,7 +1926,7 @@ with our partner to add for your next shopping experience.</string>
         </designable>
     </designables>
     <resources>
-        <image name="BackButtonIconGrey" width="24" height="24"/>
+        <image name="BackButtonIconGrey" width="16" height="16"/>
         <image name="CheckboxUnfilled" width="24" height="24"/>
         <image name="Home_ImgView_Car_Time" width="16" height="16"/>
         <image name="Home_ImgView_Min_Order" width="24" height="24"/>
@@ -1941,7 +1943,7 @@ with our partner to add for your next shopping experience.</string>
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGreenColor">
-            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

@@ -138,11 +138,11 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         super.viewDidLoad()
         
         if sdkManager.isShopperApp {
-            self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
         } else {
             self.view.backgroundColor = sdkManager.isGrocerySingleStore ? .clear : #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) // UIColor.productBGColor()
         }
-        self.collectionView.backgroundColor = #colorLiteral(red: 0.9607843137, green: 0.9607843137, blue: 0.9607843137, alpha: 1) //UIColor.productBGColor()
+        self.collectionView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         
         NotificationCenter.default.addObserver(self,selector: #selector(BrandDetailsViewController.refreshProductsView), name: NSNotification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
         self.navigationItem.hidesBackButton = true
@@ -191,7 +191,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
    
         self.navigationController?.navigationBar.isHidden = false
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-        if sdkManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor }
+        if sdkManager.isSmileSDK { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor }
         self.addLocationHeader()
         
         if let controller = self.navigationController as? ElGrocerNavigationController {

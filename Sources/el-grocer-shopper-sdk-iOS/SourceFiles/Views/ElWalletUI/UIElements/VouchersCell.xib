@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -19,10 +19,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X8b-A6-Wnt">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="162"/>
+                        <rect key="frame" x="16" y="0.0" width="288" height="162"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SIS-mE-mNa">
-                                <rect key="frame" x="16" y="0.0" width="288" height="154"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SIS-mE-mNa" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="288" height="154"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-bg" translatesAutoresizingMaskIntoConstraints="NO" id="RaO-v7-McL">
                                         <rect key="frame" x="16" y="16" width="24" height="24"/>
@@ -167,17 +167,17 @@ Follows out T&amp;C rules.</string>
                         </subviews>
                         <color key="backgroundColor" red="0.96078431372549022" green="0.96078431372549022" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="SIS-mE-mNa" firstAttribute="leading" secondItem="X8b-A6-Wnt" secondAttribute="leading" constant="16" id="6KU-SD-tcs"/>
+                            <constraint firstItem="SIS-mE-mNa" firstAttribute="leading" secondItem="X8b-A6-Wnt" secondAttribute="leading" id="6KU-SD-tcs"/>
                             <constraint firstAttribute="bottom" secondItem="SIS-mE-mNa" secondAttribute="bottom" constant="8" id="Vtc-OR-mgm"/>
-                            <constraint firstAttribute="trailing" secondItem="SIS-mE-mNa" secondAttribute="trailing" constant="16" id="igu-OQ-bfu"/>
+                            <constraint firstAttribute="trailing" secondItem="SIS-mE-mNa" secondAttribute="trailing" id="igu-OQ-bfu"/>
                             <constraint firstItem="SIS-mE-mNa" firstAttribute="top" secondItem="X8b-A6-Wnt" secondAttribute="top" id="ktI-Pf-yHM"/>
                         </constraints>
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="X8b-A6-Wnt" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="8eU-g2-UtL"/>
+                    <constraint firstItem="X8b-A6-Wnt" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="8eU-g2-UtL"/>
                     <constraint firstItem="X8b-A6-Wnt" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="8kn-Pp-vYe"/>
-                    <constraint firstAttribute="trailing" secondItem="X8b-A6-Wnt" secondAttribute="trailing" id="BTv-bh-x2V"/>
+                    <constraint firstAttribute="trailing" secondItem="X8b-A6-Wnt" secondAttribute="trailing" constant="16" id="BTv-bh-x2V"/>
                     <constraint firstAttribute="bottom" secondItem="X8b-A6-Wnt" secondAttribute="bottom" id="hCn-MQ-f4R"/>
                 </constraints>
             </tableViewCellContentView>
@@ -202,7 +202,7 @@ Follows out T&amp;C rules.</string>
     </objects>
     <resources>
         <image name="MyBasket_SelectPayment_DownArrow" width="16" height="16"/>
-        <image name="logo-bg" width="192" height="192"/>
+        <image name="logo-bg" width="36" height="37"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

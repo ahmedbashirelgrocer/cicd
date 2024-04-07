@@ -65,7 +65,7 @@ class BasketIconOverlayView : UIView {
     @IBOutlet weak var minOrderImageView: UIImageView!
     @IBOutlet weak var minOrderProgressView: UIProgressView! {
         didSet {
-            minOrderProgressView.progressTintColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
+            minOrderProgressView.progressTintColor = ApplicationTheme.currentTheme.themeBasePrimaryBlackColor
         }
     }
     @IBOutlet weak var cartItemsCountLabel: UILabel! {

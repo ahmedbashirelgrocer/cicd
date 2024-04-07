@@ -978,7 +978,7 @@ class DynamicLinksHelper {
                             if !self.cpid.isEmpty {
                                 Thread.OnMainThread {
                                     if let topVc = UIApplication.topViewController() {
-                                        let customVm = MarketingCustomLandingPageViewModel.init(storeId: ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? "" , marketingId: self.cpid, addressId: dbID)
+                                        let customVm = MarketingCustomLandingPageViewModel.init(storeId: ElGrocerUtility.sharedInstance.activeGrocery?.dbID ?? "" , marketingId: self.cpid, addressId: dbID, grocery: ElGrocerUtility.sharedInstance.activeGrocery)
                                         let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
                                         topVc.present(landingVC, animated: true)
                                     }

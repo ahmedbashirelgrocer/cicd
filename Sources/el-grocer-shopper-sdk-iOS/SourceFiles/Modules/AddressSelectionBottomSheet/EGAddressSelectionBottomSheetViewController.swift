@@ -219,7 +219,7 @@ extension EGAddressSelectionBottomSheetViewController : UITableViewDelegate, UIT
             return
         }
         
-        if address.isActive.boolValue {
+        if address.isActive.boolValue && self.activeGrocery != nil {
             self.crossAction("")
         } else if self.activeGrocery != nil {
             self.checkCoverage(address)
@@ -446,6 +446,9 @@ extension EGAddressSelectionBottomSheetViewController {
             } completion: { isLoaded, grocery in
                 if isLoaded ?? false {
                     ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                    if grocery != nil {
+                        HomePageData.shared.groceryA = [grocery!]
+                    }
                     completion(true)
                 } else {
                     FlavorNavigation.shared.navigateToNoLocation()

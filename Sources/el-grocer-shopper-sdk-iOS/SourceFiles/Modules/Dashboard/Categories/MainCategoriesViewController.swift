@@ -104,7 +104,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     @IBOutlet var mainView: UIView!
     @IBOutlet weak var safeAreaBgView: UIView! {
         didSet {
-            safeAreaBgView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            safeAreaBgView.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
         }
     }
     
@@ -583,7 +583,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.tableViewCategories.bounces = false
         self.tableViewCategories.separatorStyle = UITableViewCell.SeparatorStyle.none
         self.tableViewCategories.keyboardDismissMode = .onDrag
-        self.tableViewCategories.backgroundColor = ApplicationTheme.currentTheme.tableViewBGGreyColor
+        self.tableViewCategories.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         self.tableViewCategories.rowHeight = UITableView.automaticDimension
         self.tableViewCategories.estimatedRowHeight = 500
         
@@ -1666,7 +1666,7 @@ private extension MainCategoriesViewController {
         self.tableViewCategories.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 80, right: 0)
         
         if ABTestManager.shared.storeConfigs.showProductsSection == false {
-            self.tableViewCategories.backgroundColor = .white
+            self.tableViewCategories.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }
         
         self.dataSource = RxTableViewSectionedReloadDataSource(configureCell: { dataSource, tableView, indexPath, viewModel in
@@ -1749,7 +1749,7 @@ private extension MainCategoriesViewController {
                 productsVC.grocery = self.grocery
                 self.navigationController?.pushViewController(productsVC, animated: true)
             } else if category.customPage != nil, let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                let customVm = MarketingCustomLandingPageViewModel.init(storeId: self.grocery?.dbID ?? "", marketingId: String(category.customPage ?? 0), addressId: currentAddress.dbID)
+                let customVm = MarketingCustomLandingPageViewModel.init(storeId: self.grocery?.dbID ?? "", marketingId: String(category.customPage ?? 0), addressId: currentAddress.dbID, grocery: self.grocery)
                 let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
                 self.present(landingVC, animated: true)
             } else {

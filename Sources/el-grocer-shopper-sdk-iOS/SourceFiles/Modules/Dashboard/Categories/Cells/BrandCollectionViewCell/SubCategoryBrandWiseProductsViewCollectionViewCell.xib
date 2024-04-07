@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -35,6 +35,13 @@
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uqb-rP-0us" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                <rect key="frame" x="273" y="10" width="96" height="30"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="Ier-Mm-2H8"/>
+                                </constraints>
+                            </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SettingArrowForward" translatesAutoresizingMaskIntoConstraints="NO" id="9Wb-Dy-kCV">
                                 <rect key="frame" x="348" y="17" width="16" height="16"/>
                                 <constraints>
@@ -65,12 +72,15 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="uqb-rP-0us" firstAttribute="centerY" secondItem="jdg-h7-TOo" secondAttribute="centerY" id="5BJ-tK-l6b"/>
                             <constraint firstItem="jdg-h7-TOo" firstAttribute="leading" secondItem="vyS-Is-lhn" secondAttribute="trailing" constant="10" id="G9D-P5-cPh"/>
                             <constraint firstItem="vyS-Is-lhn" firstAttribute="centerY" secondItem="Hpz-nh-piX" secondAttribute="centerY" id="Sad-LC-4tl"/>
                             <constraint firstItem="9Wb-Dy-kCV" firstAttribute="leading" secondItem="jdg-h7-TOo" secondAttribute="trailing" id="Vmy-K7-7DD"/>
                             <constraint firstAttribute="trailing" secondItem="9Wb-Dy-kCV" secondAttribute="trailing" constant="16" id="aBJ-WX-mzV"/>
                             <constraint firstAttribute="height" constant="50" id="eYG-8r-K2f"/>
                             <constraint firstItem="jdg-h7-TOo" firstAttribute="centerY" secondItem="vyS-Is-lhn" secondAttribute="centerY" id="gMS-wy-NXh"/>
+                            <constraint firstItem="uqb-rP-0us" firstAttribute="leading" secondItem="jdg-h7-TOo" secondAttribute="leading" constant="-5" id="hYD-JT-Bsm"/>
+                            <constraint firstItem="uqb-rP-0us" firstAttribute="trailing" secondItem="9Wb-Dy-kCV" secondAttribute="trailing" constant="5" id="hsX-hn-Hhy"/>
                             <constraint firstItem="9Wb-Dy-kCV" firstAttribute="leading" secondItem="jdg-h7-TOo" secondAttribute="trailing" id="pNt-qV-OIe"/>
                             <constraint firstItem="vyS-Is-lhn" firstAttribute="leading" secondItem="Hpz-nh-piX" secondAttribute="leading" constant="16" id="q9Q-Zi-5Yy"/>
                             <constraint firstItem="9Wb-Dy-kCV" firstAttribute="centerY" secondItem="Hpz-nh-piX" secondAttribute="centerY" id="zMq-KD-hDd"/>
@@ -106,15 +116,16 @@
             <connections>
                 <outlet property="brandNameLbl" destination="vyS-Is-lhn" id="jSW-Va-PJZ"/>
                 <outlet property="btnViewAll" destination="jdg-h7-TOo" id="qlY-5e-7jB"/>
+                <outlet property="btnViewAllBGView" destination="uqb-rP-0us" id="TSl-16-r5L"/>
                 <outlet property="collectionView" destination="FIP-s6-9XJ" id="Q8b-V8-5Xg"/>
                 <outlet property="rightArrowImageView" destination="9Wb-Dy-kCV" id="Dd0-Dn-asA"/>
             </connections>
-            <point key="canvasLocation" x="308.69565217391306" y="142.63392857142856"/>
+            <point key="canvasLocation" x="308.69565217391306" y="141.29464285714286"/>
         </collectionViewCell>
     </objects>
     <designables>
         <designable name="jdg-h7-TOo">
-            <size key="intrinsicContentSize" width="51" height="29"/>
+            <size key="intrinsicContentSize" width="49" height="29"/>
         </designable>
     </designables>
     <resources>

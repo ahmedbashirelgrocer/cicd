@@ -12,20 +12,26 @@ class NavigationBarLocationView: UIView {
 
     @IBOutlet var imgLocationPin: UIImageView!{
         didSet{
-            imgLocationPin.tintColor = sdkManager.isSmileSDK ? .newBlackColor() : .white
-            imgLocationPin.image = UIImage(name: "yellowLocationPin")?.withRenderingMode(.alwaysTemplate)
+            imgLocationPin.tintColor = sdkManager.isSmileSDK ? .black : .black
+            imgLocationPin.image = UIImage(name: "homeHeadeerLocationPin")?.withRenderingMode(.alwaysTemplate)
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                imgLocationPin.transform = CGAffineTransform(scaleX: -1, y: 1)
+            }
         }
     }
     @IBOutlet var imgArrowDown: UIImageView!{
         didSet{
-            imgArrowDown.tintColor = sdkManager.isSmileSDK ? .newBlackColor() : .white
+            imgArrowDown.backgroundColor = ApplicationTheme.currentTheme.separatorColor
+            imgArrowDown.roundWithShadow(corners: [.layerMaxXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner], radius: (imgArrowDown.bounds.height / 2))
+            imgArrowDown.tintColor = sdkManager.isSmileSDK ? .black : .black
             imgArrowDown.image = UIImage(name: "yellowArrowDown")?.withRenderingMode(.alwaysTemplate)
         }
     }
     @IBOutlet var lblLocation: UILabel!{
         didSet{
-            lblLocation.setBody3BoldUpperWhiteStyle()
+            lblLocation.setBody3RegDarkStyle()
             if !sdkManager.isShopperApp { lblLocation.textColor = ApplicationTheme.currentTheme.newBlackColor }
+            lblLocation.textColor = ApplicationTheme.currentTheme.themeBasePrimaryBlackColor
             lblLocation.text = "... "
             lblLocation.textAlignment = .natural
         }

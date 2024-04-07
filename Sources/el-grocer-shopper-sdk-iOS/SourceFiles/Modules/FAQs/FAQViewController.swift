@@ -110,7 +110,7 @@ class FAQViewController: UIViewController, UITableViewDataSource, UITableViewDel
         
         let cellNib = UINib(nibName: "FaqCell", bundle: Bundle.resource)
         self.tableView.register(cellNib, forCellReuseIdentifier: kFAQCellIdentifier)
-        self.tableView.backgroundColor = .textfieldBackgroundColor()
+        self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -137,7 +137,7 @@ class FAQViewController: UIViewController, UITableViewDataSource, UITableViewDel
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: kFAQCellIdentifier, for: indexPath) as! FaqCell
-        cell.backgroundColor = .navigationBarWhiteColor()
+        cell.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
         //let title = localizedString(self.faqTitles[(indexPath as NSIndexPath).row], comment: "")
         let title = filteredQuestionArray[indexPath.row]
         cell.configureCellWithTitle(title)

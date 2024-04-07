@@ -113,8 +113,8 @@ class ProductCellViewModel: ProductCellViewModelType, ReusableCollectionViewCell
     private var priceSubject = BehaviorSubject<NSAttributedString?>(value: nil)
     private var imageUrlSubject = BehaviorSubject<URL?>(value: nil)
     private var isSponsoredSubject = BehaviorSubject<Bool>(value: false)
-    private var plusButtonIconNameSubject = BehaviorSubject<String>(value: "add_product_cell")
-    private var minusButtonIconNameSubject = BehaviorSubject<String>(value: "remove_product_cell")
+    private var plusButtonIconNameSubject = BehaviorSubject<String>(value: SDKManager.shared.isSmileSDK ? "add_product_cell_smiles" : "add_product_cell_shopper")
+    private var minusButtonIconNameSubject = BehaviorSubject<String>(value: "MYBasketRemove")
     private var cartButtonTintColorSubject = BehaviorSubject<UIColor?>(value: nil)
     private var addToCartButtonTypeSubject = BehaviorSubject<Bool>(value: false)
     private var quantitySubject = BehaviorSubject<String>(value: "0")
@@ -235,8 +235,8 @@ private extension ProductCellViewModel {
     func checkProductExistanceInCartAndUpdateUI() {
         CellSelectionState.shared.inputs.productQuantityObserver.onNext(self.product.id)
         if let item = getShoppingBasketItemForActiveRetailer() {
-            plusButtonIconNameSubject.onNext("add_product_cell")
-            minusButtonIconNameSubject.onNext(item.count == 1 ? "delete_product_cell" : "remove_product_cell")
+            plusButtonIconNameSubject.onNext(SDKManager.shared.isSmileSDK ? "add_product_cell_smiles" : "add_product_cell_shopper")
+            minusButtonIconNameSubject.onNext(item.count == 1 ? "MyBasketDelete" : "MYBasketRemove")
             cartButtonTintColorSubject.onNext(ApplicationTheme.currentTheme.navigationBarWhiteColor)
             // addToCartButtonTypeSubject.onNext(true)
             quantitySubject.onNext(ElGrocerUtility.sharedInstance.isArabicSelected() ? "\(item.count.intValue)".changeToArabic() : "\(item.count.intValue)")
@@ -249,9 +249,9 @@ private extension ProductCellViewModel {
             return
         }
         
-        plusButtonIconNameSubject.onNext("add_product_cell")
-        minusButtonIconNameSubject.onNext("remove_product_cell")
-        cartButtonTintColorSubject.onNext(ApplicationTheme.currentTheme.themeBasePrimaryColor)
+        plusButtonIconNameSubject.onNext(SDKManager.shared.isSmileSDK ? "add_product_cell_smiles" : "add_product_cell_shopper")
+        minusButtonIconNameSubject.onNext("MYBasketRemove")
+        cartButtonTintColorSubject.onNext(ApplicationTheme.currentTheme.themeBasePrimaryBlackColor)
         addToCartButtonTypeSubject.onNext(false)
         quantitySubject.onNext("0")
     }

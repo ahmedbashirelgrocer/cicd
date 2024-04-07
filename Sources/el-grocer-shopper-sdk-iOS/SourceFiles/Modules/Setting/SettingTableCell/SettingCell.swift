@@ -15,7 +15,11 @@ let kSettingCellHeight: CGFloat  = 65
 
 class SettingCell: RxUITableViewCell {
 
-    @IBOutlet weak var bottomLine: UIView!
+    @IBOutlet weak var bottomLine: UIView! {
+        didSet {
+            bottomLine.isHidden = true
+        }
+    }
     @IBOutlet weak var itemTitle: UILabel!{
         didSet{
             itemTitle.setBody3RegDarkStyle()
@@ -24,7 +28,8 @@ class SettingCell: RxUITableViewCell {
     @IBOutlet weak var itemImage: UIImageView!
     @IBOutlet weak var arrowImage: UIImageView! {
         didSet {
-            arrowImage.image = UIImage(name: "SettingArrowForward")?.withCustomTintColor(color: AppSetting.theme.themeBasePrimaryColor)
+            let rightIcon = UIImage(name: "arrow-right-filled")
+            arrowImage.image = rightIcon?.withCustomTintColor(color: AppSetting.theme.themeBasePrimaryBlackColor)
             if ElGrocerUtility.sharedInstance.isArabicSelected() {
                 arrowImage.transform = CGAffineTransform(scaleX: -1, y: 1)
             }

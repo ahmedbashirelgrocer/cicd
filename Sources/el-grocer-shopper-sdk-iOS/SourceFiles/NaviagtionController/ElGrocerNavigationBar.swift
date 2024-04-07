@@ -22,7 +22,9 @@ class ElGrocerNavigationBar : UINavigationBar {
     //var chatButton:UIButton!
     var chatButton:NavigationBarChatButton!
     var profileButton:UIButton!
+    var leftTitle: UILabel!
     var cartButton:UIButton!
+    var rightMenuButton:UIButton!
     var locationClick: (()->Void)?
     // MARK: Init
     
@@ -39,8 +41,10 @@ class ElGrocerNavigationBar : UINavigationBar {
         setChatButtonHidden(true)
         setLocationHidden(true)
         self.addProfileButton()
+        self.addLeftTitleLabel()
         self.addSideMenuButton()
         self.addCartButton()
+        self.addRightMenuButton()
         NotificationCenter.default.addObserver(self, selector: #selector(ElGrocerNavigationBar.chatStateChange(notification:)), name: KChatNotifcation, object: nil)
     }
     
@@ -58,7 +62,9 @@ class ElGrocerNavigationBar : UINavigationBar {
         setLocationHidden(true)
         self.addSearchBar()
         self.addProfileButton()
+        self.addLeftTitleLabel()
         self.addCartButton()
+        self.addRightMenuButton()
     }
     
     @objc func chatStateChange(notification: NSNotification) {
@@ -81,7 +87,9 @@ class ElGrocerNavigationBar : UINavigationBar {
            updateSearchBarLayout()
            updateLocationViewLayout()
            updateProfileButtonLayout()
+        updateLeftTitleLayout()
            updateCartButtonLayout()
+        updateRightMenuButtonLayout()
         self.setLogoInCenter()
     }
     
@@ -153,6 +161,20 @@ class ElGrocerNavigationBar : UINavigationBar {
             }
         }
     }
+    
+    func updateLeftTitleLayout() {
+        let leftTitleWidth: CGFloat = 200
+
+        if backButton?.isHidden == false, let leftTitle = leftTitle {
+            leftTitle.frame = CGRect(x: 32 + (backButton.frame.size.width + 2), y: (frame.size.height * 0.5) - 13, width: leftTitleWidth, height: 24)
+
+            if ElGrocerUtility.sharedInstance.isArabicSelected() {
+                let x = frame.size.width - 34 - (backButton.frame.size.width + 2) - 85
+                leftTitle.frame = CGRect(x: x, y: (frame.size.height * 0.5) - 17, width: leftTitleWidth, height: 24)
+                leftTitle.semanticContentAttribute = .forceLeftToRight
+            }
+        }
+    }
 
     func updateCartButtonLayout() {
         let cartButtonSize: CGFloat = 58.0
@@ -162,6 +184,17 @@ class ElGrocerNavigationBar : UINavigationBar {
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             cartButton.frame.origin.x = 6
             cartButton.semanticContentAttribute = .forceRightToLeft
+        }
+    }
+    
+    func updateRightMenuButtonLayout() {
+        let ButtonSize: CGFloat = 24.0
+
+        rightMenuButton.frame = CGRect(x: frame.size.width - 16 - ButtonSize, y: (frame.size.height * 0.5) - (ButtonSize * 0.5), width: ButtonSize, height: ButtonSize)
+
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            rightMenuButton.frame.origin.x = 16
+            rightMenuButton.semanticContentAttribute = .forceRightToLeft
         }
     }
     
@@ -185,7 +218,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     //MARK: Appearance
     
     func setGreenBackground() {
-        let color = sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : ApplicationTheme.currentTheme.themeBasePrimaryColor
+        let color = ApplicationTheme.currentTheme.navigationBarWhiteColor//sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.navigationBarColor : ApplicationTheme.currentTheme.themeBasePrimaryColor
         self.backgroundColor = color
         self.barTintColor = color
         self.isTranslucent = false
@@ -233,14 +266,14 @@ class ElGrocerNavigationBar : UINavigationBar {
     
     func setlightBackground() {
         
-        self.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
-        self.barTintColor = ApplicationTheme.currentTheme.navigationBarColor
+        self.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
+        self.barTintColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
         self.isTranslucent = false
         
         if #available(iOS 13.0, *) {
             let barAppearance = UINavigationBarAppearance()
             barAppearance.configureWithDefaultBackground()
-            barAppearance.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            barAppearance.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
             barAppearance.shadowColor = .clear
             barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
             barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
@@ -256,14 +289,14 @@ class ElGrocerNavigationBar : UINavigationBar {
     
     func setlightBackgroundWithPurpleTitle() {
         
-        self.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
-        self.barTintColor = ApplicationTheme.currentTheme.navigationBarColor
+        self.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
+        self.barTintColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
         self.isTranslucent = false
         
         if #available(iOS 13.0, *) {
             let barAppearance = UINavigationBarAppearance()
             barAppearance.configureWithDefaultBackground()
-            barAppearance.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            barAppearance.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
             barAppearance.shadowColor = .clear
             barAppearance.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.themeBasePrimaryColor]
             barAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor : ApplicationTheme.currentTheme.themeBasePrimaryColor]
@@ -458,6 +491,13 @@ class ElGrocerNavigationBar : UINavigationBar {
         }
     }
     
+    func setRightMenuButtonHidden(_ hidden:Bool) {
+        
+        if let rightMenuButton = self.rightMenuButton {
+            rightMenuButton.isHidden = hidden
+        }
+    }
+    
     func setCartButtonActive(_ isActive:Bool) {
         
         if let cartButn = self.cartButton {
@@ -469,6 +509,14 @@ class ElGrocerNavigationBar : UINavigationBar {
         
         if let profileBtn = self.profileButton {
             profileBtn.isHidden = hidden
+        }
+    }
+    
+    func setLeftTitleHidden(_ hidden:Bool, title: String) {
+        
+        if let leftTitle = self.leftTitle {
+            leftTitle.isHidden = hidden
+            leftTitle.text = title
         }
     }
     
@@ -625,6 +673,16 @@ class ElGrocerNavigationBar : UINavigationBar {
         setProfileButtonHidden(true)
     }
     
+    fileprivate func addLeftTitleLabel() {
+        let label = UILabel()
+        label.text = "Good Morning 👋"
+        label.setH3SemiBoldStyle()
+        label.textColor = ApplicationTheme.currentTheme.themeBasePrimaryBlackColor
+        self.leftTitle  = label
+        self.addSubview(self.leftTitle)
+        setLeftTitleHidden(true, title: "Good Morning 👋")
+    }
+    
     fileprivate func addSideMenuButton() {
         let image = UIImage(name: "menu")?.withRenderingMode(.alwaysTemplate)
         self.profileButton  = UIButton(type: .custom)
@@ -637,13 +695,19 @@ class ElGrocerNavigationBar : UINavigationBar {
     fileprivate func addCartButton() {
         let imageNormal = sdkManager.isSmileSDK ? UIImage(name: "Cart-InActive-Smile") : UIImage(name: "Cart-Inactive-icon")
         let imageSelected = sdkManager.isSmileSDK ? UIImage(name: "Cart-Active-Smile") : UIImage(name: "Cart-Active-icon")
-        
-        
         self.cartButton = UIButton(type: .custom)
         self.cartButton.setImage(imageNormal, for: .normal)
         self.cartButton.setImage(imageSelected, for: .selected)
         self.addSubview(self.cartButton)
         setCartButtonHidden(true)
+    }
+    
+    fileprivate func addRightMenuButton() {
+        let imageNormal = UIImage(name: "menu")
+        self.rightMenuButton = UIButton(type: .custom)
+        self.rightMenuButton.setImage(imageNormal, for: .normal)
+        self.addSubview(self.rightMenuButton)
+        setRightMenuButtonHidden(true)
     }
     
     

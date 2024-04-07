@@ -67,8 +67,10 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
         
         self.setupNavigationAppearence()
         self.registerCellsForTableView()
+        self.walletTableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         self.walletTableView.rowHeight = UITableView.automaticDimension
         self.walletTableView.estimatedRowHeight = UITableView.automaticDimension
+        self.walletTableView.separatorStyle = .none
         
         walletAmountLabel.font = UIFont.SFProDisplaySemiBoldFont(28)
         walletAmountLabel.textColor = UIColor.newBlackColor()
@@ -467,10 +469,13 @@ extension ElWalletHomeVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if let cell = cell as? VouchersCell {
+        if let voucherCell = cell as? VouchersCell {
             DispatchQueue.main.async { [weak cell] in
-                cell?.voucherCodeBorderView.addDashedBorderAroundView(color: ApplicationTheme.currentTheme.buttonWithBorderTextColor)
+                voucherCell.voucherCodeBorderView.addDashedBorderAroundView(color: ApplicationTheme.currentTheme.buttonWithBorderTextColor)
             }
+        }
+        if cell != nil {
+            colorSection(tableView, willDisplay: cell, forRowAt: indexPath)
         }
     }
     
@@ -537,7 +542,7 @@ extension ElWalletHomeVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 10
+        return 4
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
@@ -545,6 +550,73 @@ extension ElWalletHomeVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+    
+    func colorSection(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let cornerRadius: CGFloat = 0.0
+        cell.backgroundColor = UIColor.clear
+        tableView.backgroundColor = .clear
+        let layer: CAShapeLayer = CAShapeLayer()
+        let pathRef: CGMutablePath = CGMutablePath()
+        let bounds: CGRect = cell.bounds.insetBy(dx: 8, dy: 0)
+        var addLine: Bool = false
+        
+        if indexPath.row == 0 && indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            pathRef.addRoundedRect(in: bounds, cornerWidth: cornerRadius, cornerHeight: cornerRadius)
+        } else if indexPath.row == 0 {
+            pathRef.move(to: CGPoint(x: bounds.minX, y: bounds.maxY))
+            pathRef.addArc(tangent1End: CGPoint(x: bounds.minX, y: bounds.minY),
+                           tangent2End: CGPoint(x: bounds.midX, y: bounds.minY),
+                           radius: cornerRadius)
+            
+            pathRef.addArc(tangent1End: CGPoint(x: bounds.maxX, y: bounds.minY),
+                           tangent2End: CGPoint(x: bounds.maxX, y: bounds.midY),
+                           radius: cornerRadius)
+            pathRef.addLine(to: CGPoint(x: bounds.maxX, y: bounds.maxY))
+            addLine = true
+        } else if indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1 {
+            pathRef.move(to: CGPoint(x: bounds.minX, y: bounds.minY))
+            pathRef.addArc(tangent1End: CGPoint(x: bounds.minX, y: bounds.maxY),
+                           tangent2End: CGPoint(x: bounds.midX, y: bounds.maxY),
+                           radius: cornerRadius)
+            
+            pathRef.addArc(tangent1End: CGPoint(x: bounds.maxX, y: bounds.maxY),
+                           tangent2End: CGPoint(x: bounds.maxX, y: bounds.midY),
+                           radius: cornerRadius)
+            pathRef.addLine(to: CGPoint(x: bounds.maxX, y: bounds.minY))
+        } else {
+            pathRef.move(to: CGPoint(x: bounds.minX, y: bounds.minY))
+            pathRef.addArc(tangent1End: CGPoint(x: bounds.minX, y: bounds.maxY),
+                           tangent2End: CGPoint(x: bounds.midX, y: bounds.maxY),
+                           radius: cornerRadius)
+            
+            pathRef.move(to: CGPoint(x: bounds.maxX, y: bounds.maxY))
+            pathRef.addArc(tangent1End: CGPoint(x: bounds.maxX, y: bounds.maxY),
+                           tangent2End: CGPoint(x: bounds.maxX, y: bounds.midY),
+                           radius: cornerRadius)
+            pathRef.addLine(to: CGPoint(x: bounds.maxX, y: bounds.minY))
+            addLine = true
+        }
+        
+        layer.path = pathRef
+        layer.strokeColor = UIColor.lightGray.cgColor
+        layer.lineWidth = 1.0
+        layer.fillColor = UIColor.clear.cgColor
+        
+        if addLine == true {
+            let lineLayer: CALayer = CALayer()
+            let lineHeight: CGFloat = (1 / UIScreen.main.scale)
+            lineLayer.frame = CGRect(x: bounds.minX, y: bounds.size.height - lineHeight, width: bounds.size.width, height: lineHeight)
+            lineLayer.backgroundColor = UIColor.clear.cgColor
+//            layer.addSublayer(lineLayer)
+            cell.contentView.layer.insertSublayer(layer, at: 0)
+        }
+        
+        let backgroundView: UIView = UIView(frame: bounds)
+        backgroundView.layer.insertSublayer(layer, at: 0)
+        backgroundView.backgroundColor = .clear
+        cell.backgroundView = backgroundView
+    }
+    
 }
 extension ElWalletHomeVC  {
     

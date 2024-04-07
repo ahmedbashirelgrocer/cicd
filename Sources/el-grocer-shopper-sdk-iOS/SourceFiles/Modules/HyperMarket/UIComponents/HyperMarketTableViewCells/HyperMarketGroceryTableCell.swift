@@ -13,7 +13,9 @@ class HyperMarketGroceryTableCell: UITableViewCell {
 
     @IBOutlet var cellBGView: UIView!{
         didSet{
-            cellBGView.backgroundColor = .navigationBarWhiteColor()
+            cellBGView.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
+            cellBGView.layer.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor.cgColor
+            cellBGView.layer.borderWidth = 1.0
             cellBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner], radius: 4, withShadow: false)
         }
     }
@@ -25,6 +27,7 @@ class HyperMarketGroceryTableCell: UITableViewCell {
     }
     @IBOutlet var lblGroceryName: UILabel!{
         didSet{
+            lblGroceryName.numberOfLines = 1
             lblGroceryName.setBody2SemiboldGeoceryDarkGreenStyle()
         }
     }
@@ -35,13 +38,14 @@ class HyperMarketGroceryTableCell: UITableViewCell {
     }
     @IBOutlet var newBGView: UIView!{
         didSet{
-            newBGView.backgroundColor = ApplicationTheme.currentTheme.viewPrimaryBGColor
-            newBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner], radius: 8, withShadow: false)
+            newBGView.backgroundColor = ApplicationTheme.currentTheme.viewStoreCardNewTagBGView
+            newBGView.roundWithShadow(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMinYCorner], radius: 8, withShadow: false)
         }
     }
     @IBOutlet var lblNew: UILabel!{
         didSet{
-            lblNew.setCaptionOneBoldWhiteStyle()
+            lblNew.setCaptionTwoBoldWhiteStyle()
+            lblNew.text = localizedString("lbl_new_tag", comment: "")
         }
     }
     
@@ -53,18 +57,26 @@ class HyperMarketGroceryTableCell: UITableViewCell {
     }
     
     func setUpInitialAppearence(){
-        self.backgroundColor = .tableViewBackgroundColor()
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         self.selectionStyle = .none
     }
     
-    func configureCell(grocery: Grocery){
+    func configureCell(grocery: Grocery, isFeatured: Bool){
         if grocery.smallImageUrl != nil{
             AssignImage(imageUrl: grocery.smallImageUrl!)
         }
         self.lblGroceryName.text = grocery.name
-        self.newBGView.isHidden = true
+        self.newBGView.isHidden = !(grocery.isNewRetailer?.boolValue ?? false)
 //        self.setDeliveryDate(grocery.genericSlot ?? "")
         self.getDeliverySlotString(grocery: grocery)
+        
+        if isFeatured {
+            self.cellBGView.backgroundColor = ApplicationTheme.currentTheme.viewFeaturedStoreBGView
+            self.cellBGView.layer.borderWidth = 0.0
+        }else {
+            self.cellBGView.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
+            self.cellBGView.layer.borderWidth = 1.0
+        }
     }
     
     func AssignImage(imageUrl: String){
@@ -91,10 +103,10 @@ class HyperMarketGroceryTableCell: UITableViewCell {
         }
     }
     func getDeliverySlotString(grocery: Grocery) {
-        
+        let scheduledEmoji = "🚛 "
         if  (grocery.isOpen.boolValue && (grocery.isInstant() || grocery.isInstantSchedule())) {
             let attrs2 = [NSAttributedString.Key.font : UIFont(name: "SFProDisplay-Semibold", size: 11) , NSAttributedString.Key.foregroundColor : self.lblSlot.textColor]
-            let instantSlotString = "⚡️" + localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "")
+            let instantSlotString = "🛵 " + localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "")
             let attributedString2 = NSMutableAttributedString(string: instantSlotString, attributes:attrs2 as [NSAttributedString.Key : Any])
             self.lblSlot.attributedText = attributedString2
             hideSlotImage(isHidden: true)
@@ -102,16 +114,17 @@ class HyperMarketGroceryTableCell: UITableViewCell {
             if let dict = grocery.convertToDictionary(text: jsonSlot) {
                 
                 let slotString = DeliverySlotManager.getStoreGenericSlotFormatterTimeStringWithDictionary(dict, isDeliveryMode: grocery.isDelivery.boolValue)
-                setDeliveryDate(slotString)
-                hideSlotImage(isHidden: false)
+                
+                setDeliveryDate(scheduledEmoji + slotString)
+                hideSlotImage(isHidden: true)
                 
             }else {
-                setDeliveryDate(grocery.genericSlot ?? "")
-                hideSlotImage(isHidden: false)
+                setDeliveryDate(scheduledEmoji + (grocery.genericSlot ?? ""))
+                hideSlotImage(isHidden: true)
             }
         }else {
-            setDeliveryDate(grocery.genericSlot ?? "")
-            hideSlotImage(isHidden: false)
+            setDeliveryDate(scheduledEmoji + (grocery.genericSlot ?? ""))
+            hideSlotImage(isHidden: true)
         }
         
     }

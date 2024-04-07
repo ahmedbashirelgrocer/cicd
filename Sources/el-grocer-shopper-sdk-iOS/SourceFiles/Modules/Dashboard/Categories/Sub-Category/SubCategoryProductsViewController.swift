@@ -30,7 +30,7 @@ class SubCategoryProductsViewController: BasketBasicViewController {
     @IBOutlet weak var subCategoriesViewTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var safeAreaView: UIView! {
         didSet {
-            safeAreaView.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            safeAreaView.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
         }
     }
     private lazy var locationHeaderShopper: ElGrocerStoreHeaderShopper = {
