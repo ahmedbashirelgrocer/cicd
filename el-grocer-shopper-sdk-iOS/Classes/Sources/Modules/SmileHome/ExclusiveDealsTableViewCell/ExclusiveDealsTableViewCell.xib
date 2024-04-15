@@ -33,14 +33,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="doe-kP-ZLc" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                <rect key="frame" x="297" y="10" width="80" height="25"/>
+                                <rect key="frame" x="298" y="10" width="79" height="25"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="25" id="6lo-Fr-z0a"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nTr-jJ-BCr" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS">
-                                <rect key="frame" x="307" y="10.666666666666664" width="49" height="24"/>
+                                <rect key="frame" x="308" y="10.666666666666664" width="48" height="24"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="dPb-cI-Ern"/>
@@ -65,7 +65,7 @@
                                 </constraints>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xOc-cM-U00" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS">
-                                <rect key="frame" x="299.66666666666669" y="10" width="75" height="35"/>
+                                <rect key="frame" x="300.33333333333331" y="10" width="74.333333333333314" height="35"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             </button>
                         </subviews>
@@ -124,7 +124,10 @@
     </objects>
     <designables>
         <designable name="nTr-jJ-BCr">
-            <size key="intrinsicContentSize" width="49" height="29"/>
+            <size key="intrinsicContentSize" width="48" height="29"/>
+        </designable>
+        <designable name="xOc-cM-U00">
+            <size key="intrinsicContentSize" width="30" height="34"/>
         </designable>
     </designables>
     <resources>

@@ -1,4 +1,5 @@
 PODS:
+  - ABLoaderView (1.0.2)
   - Adyen (4.10.4):
     - Adyen/Actions (= 4.10.4)
     - Adyen/Card (= 4.10.4)
@@ -40,6 +41,7 @@ PODS:
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
   - el-grocer-shopper-sdk-iOS (2.0.9):
+    - ABLoaderView
     - Adyen (= 4.10.4)
     - AlgoliaSearchClient (~> 8.0)
     - Analytics
@@ -341,6 +343,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - ABLoaderView
     - Adyen
     - Adyen3DS2
     - AdyenNetworking
@@ -417,6 +420,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
+  ABLoaderView: 389caecbd6f855bfcf3c1c0d80fb14ce4ab9da2c
   Adyen: 4232a5b02578a54e31db158ae906f5b8d42f4673
   Adyen3DS2: 6c30dcca4ef74629d21bfd9dca351bad1bc1426b
   AdyenNetworking: 14567bd00c00ba2e2580a904708c7ba5f010b1f9
@@ -431,7 +435,7 @@ SPEC CHECKSUMS:
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: c5a343da8898c3cedd1f9d7945b7539e03b1e216
+  el-grocer-shopper-sdk-iOS: 779ae15e025ed943fb565a0b3aa7c811d76f0cff
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Firebase: 4ba896cb8e5105d4b9e247e1c1b6222b548df55a
   FirebaseABTesting: cd1ec762a0078b46a7ce91dfe5b7b8991c2dff8f
@@ -489,6 +493,6 @@ SPEC CHECKSUMS:
   SwiftMessages: 1a23aef303fa7bb26ad802880746cf8358e378fe
   SwiftSpinner: f9b59477fe107427f2b5b835497d6636fa167ede
 
-PODFILE CHECKSUM: 554cd90e9f25cea4e7160c712b87c0f5adb6f444
+PODFILE CHECKSUM: 67bac7b0fc426703b5fa5b9066354ee59c088b62
 
 COCOAPODS: 1.12.1

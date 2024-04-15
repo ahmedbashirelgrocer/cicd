@@ -22,10 +22,10 @@ class EnvironmentVariables {
     fileprivate init() {
         
         let bundle = Bundle.resource
-        let ReleaseEnvoirmentName = "Release"
+        let ReleaseEnvoirmentName = "StagingProduction"
         var configurationName = SDKManager.shared.launchOptions?.environmentType.value() ??  ReleaseEnvoirmentName
         #if DEBUG
-        configurationName = "Debug"
+        configurationName = "StagingProduction"
         #else
         configurationName = ReleaseEnvoirmentName
         #endif
