@@ -7,6 +7,9 @@
  */
 
 // new message
+"Looks like you're too far away." = ".منطقة مختلفة عن المعتاد";
+"eg_message_max_address_limit" = "عفوا! لقد وصلت إلى الحد الأقصى لعدد العناوين. لإضافة عنوان جديد، يرجى تحديث أو حذف عنوان موجود";
+"manage_address" = "يدير";
 "Download tax invoice" = " تحميل الفاتورة الضريبية";
 "smiles_pts" =  "    نقطة %@    ";
 "earn_rewards_now" = "اكسب نقاط الابتسامات";
@@ -1453,7 +1456,7 @@
 "lbl_signUp_Add_title" = "أضف بريدك الالكتروني و كلمة السر الخاصة بك";
 "lbl_use_current_location" = "الموقع الحالي";
 "lbl_Manuall_Location" = "البحث يدويًا عن العنوان الجديد...";
-"confirm_location_button_title" = "تأكيد الموقع";
+"confirm_location_button_title" = "التأكيد والمتابعة";
 
 "dashboard_My_ddresses_navigation_bar_title" = "عناويني";
 "order_lbl_numner" = "طلب # ";

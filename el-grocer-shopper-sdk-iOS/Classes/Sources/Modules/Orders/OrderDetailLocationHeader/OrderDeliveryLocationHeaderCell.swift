@@ -113,8 +113,11 @@ class OrderDeliveryLocationHeaderCell: UITableViewCell {
         
         self.setGroceryImage(order.grocery)
         self.groceryName.text = order.grocery.name
-        self.groceryAddress.text = ElGrocerUtility.sharedInstance.getFormattedAddress(order.deliveryAddress)
-        
+        if ElGrocerUtility.isAddressCentralisation {
+            self.groceryAddress.text = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(order.deliveryAddress)
+        } else {
+            self.groceryAddress.text = ElGrocerUtility.sharedInstance.getFormattedAddress(order.deliveryAddress)
+        }
         
         
         self.orderNUmber.text =  " \(order.dbID.intValue)"

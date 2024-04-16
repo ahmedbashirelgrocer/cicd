@@ -292,8 +292,11 @@ class GroceryDetailCell: UICollectionViewCell {
         
         
         
-        
-        self.lblLocationAddress.text   = ElGrocerUtility.sharedInstance.getFormattedAddress(currentAddress)
+        if ElGrocerUtility.isAddressCentralisation {
+            self.lblLocationAddress.text = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(currentAddress)
+        } else {
+            self.lblLocationAddress.text   = ElGrocerUtility.sharedInstance.getFormattedAddress(currentAddress)
+        }
         if self.lblLocationAddress.text?.count ?? 0 == 0 {
             self.lblLocationAddress.text   = currentAddress.locationName
         }

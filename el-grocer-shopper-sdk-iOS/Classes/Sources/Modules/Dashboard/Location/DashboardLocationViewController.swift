@@ -36,6 +36,11 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     @IBOutlet var btnConfirmTitile: UILabel!
     @IBOutlet var btnCOnfirm: UIButton!
+    @IBOutlet weak var btnConfirmBackgroundView: AWView! {
+        didSet{
+            btnConfirmBackgroundView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+        }
+    }
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.roundWithShadow(corners: [.layerMinXMinYCorner , .layerMaxXMinYCorner], radius: 24)
@@ -66,6 +71,10 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     @IBOutlet weak var emailDoneButton: UIButton!
     @IBOutlet weak var noCoverageView: UIView!
     
+    var completionAddressSelection: ((DeliveryAddress) -> Void)?
+    var isForCheckout = false
+    var isEditOrderFlow = false
+    
 //    @IBOutlet weak var tableViewTopToSearchView: NSLayoutConstraint!
 //    @IBOutlet weak var tableViewTopToLocationView: NSLayoutConstraint!
 //
@@ -78,7 +87,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     var selectdIndex = 0
     
-    var isFormCart:Bool = false
+    var isFromCart:Bool = false
     
     var isForNewAddress:Bool = false
     
@@ -106,6 +115,8 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     let viewModel = LocationMapViewModel()
     
     var locations:[DeliveryAddress] = [DeliveryAddress]()
+    var savedLocations: [DeliveryAddress] { locations.filter{ $0.dbID.isNotEmpty } }
+    
     var predictionsArray: [GMSAutocompletePrediction] = [GMSAutocompletePrediction]()
     
     var menuControllers:[UIViewController]!
@@ -153,15 +164,12 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name:UIResponder.keyboardWillHideNotification, object: nil)
         
-      //  self.checkLocation()
-        if   isFromNewHome ||  isFormCart {
-            if isFormCart {
+        if isFromNewHome || isFromCart  {
+            if ElGrocerUtility.isAddressCentralisation == false, isFromCart {
                 self.btnConfirmTitile.text = localizedString("intro_next_button", comment: "")
                 self.bottomViewHeight.constant = 77
-                removeBackButton()
-            }else{
-                removeBackButton()
             }
+            removeBackButton()
         }
         
         self.topViewWidth.constant = self.view.frame.size.width
@@ -257,6 +265,19 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     override func backButtonClick() {
         
+        if ElGrocerUtility.isAddressCentralisation, isFromCart {
+            
+            let index = self.savedLocations.firstIndex(where: { $0.isActive.boolValue }) ?? 0
+            let indexPath = IndexPath(row: index, section: 0)
+            
+            if index < self.savedLocations.count {
+                self.tableView(self.tableView, didSelectRowAt: indexPath)
+            } else {
+                self.navigationController?.popViewController(animated: true)
+            }
+            return
+        }
+        
         if  SDKManager.shared.launchOptions?.navigationType == .singleStore && ElGrocerUtility.sharedInstance.activeGrocery == nil {
             SDKManager.shared.rootContext?.dismiss(animated: true)
             return
@@ -284,15 +305,26 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     @IBAction func doneHandler(_ sender: AnyObject) {
         
-        var indexOfDefaultLocation = self.locations.firstIndex(where: {$0.isActive.boolValue == true})
-        if self.isFormCart {
+        if ElGrocerUtility.isAddressCentralisation {
+            if completionAddressSelection != nil {
+                if isNewAddressAdditionValidateForSDK() == false { return }
+                
+                if let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                    completionAddressSelection?(address)
+                }
+                return
+            }
+        }
+
+        var indexOfDefaultLocation = self.savedLocations.firstIndex(where: {$0.isActive.boolValue == true})
+        if self.isFromCart {
            indexOfDefaultLocation =  self.selectdIndex
         }
         if sender is DeliveryAddress {
-            indexOfDefaultLocation = self.locations.firstIndex(of: sender as! DeliveryAddress)
+            indexOfDefaultLocation = self.savedLocations.firstIndex(of: sender as! DeliveryAddress)
         }
         if (indexOfDefaultLocation != nil){
-            let location = self.locations[indexOfDefaultLocation!]
+            let location = self.savedLocations[indexOfDefaultLocation!]
             guard !sdkManager.isGrocerySingleStore else {
                 self.updateStore(location: location) { [weak self ] (isStoreChange) in
                     if isStoreChange {
@@ -341,7 +373,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     fileprivate func startUpdatingLocationToServerProcess(_ location: DeliveryAddress) {
         
-        guard !isFormCart else {
+        guard !isFromCart else {
 
             let storeID = ElGrocerUtility.sharedInstance.activeGrocery?.dbID
             let parentID = ElGrocerUtility.sharedInstance.activeGrocery?.parentID.stringValue
@@ -419,6 +451,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                     
                    _ = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: context)
                     DatabaseHelper.sharedInstance.saveDatabase()
+                    _ = ElGrocerUtility.setDefaultAddress()
                     DispatchQueue.main.async(execute: { 
                         self.refreshData()
                         SpinnerView.hideSpinnerView()
@@ -435,14 +468,15 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     func refreshData(_ isNeedShowAniamtion : Bool = true) {
         
         self.newSelectedAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        self.locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        self.locations.sort {$0.isActive.boolValue && !$1.isActive.boolValue}
+        self.locations = DeliveryAddress
+            .getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            .sorted(by: {$0.isActive.boolValue && !$1.isActive.boolValue})
       
         if (self.searchString.isEmpty) {
             //Show view according to location service
             self.showViewAccordingToLocationService()
             // Hide done button if no location is added or found
-            self.hideDoneButton(self.locations.count == 0)
+            self.hideDoneButton(self.savedLocations.count == 0)
             
         } else {
             self.hideCurrentLocationView(true)
@@ -469,7 +503,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     @objc fileprivate func addAnimationEffect(){
         
-        if self.locations.count > 0 && self.searchString.isEmpty {
+        if self.savedLocations.count > 0 && self.searchString.isEmpty {
             
             let indexPath = IndexPath(row:0, section: 0)
             let cell = self.tableView.cellForRow(at: indexPath) as! DashboardLocationCell
@@ -893,20 +927,21 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return self.locations.count // self.searchString.isEmpty ? self.locations.count :  self.predictionsArray.count
+        return self.savedLocations.count // self.searchString.isEmpty ? self.locations.count :  self.predictionsArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let location = self.locations[(indexPath as NSIndexPath).row]
+        let location = self.savedLocations[(indexPath as NSIndexPath).row]
         
         if UserDefaults.isUserLoggedIn() {
             
             let cell:DashboardLocationCell = tableView.dequeueReusableCell(withIdentifier: kDashboardLocationCellIdentifier, for: indexPath) as! DashboardLocationCell
             
-            if self.isFormCart {
+            if self.isFromCart {
                 cell.configureWithLocation(location, true)
-                if indexPath.row == self.selectdIndex {
+
+                if location.isActive.boolValue {
                     cell.borderContainer.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
                     cell.borderContainer.layer.borderWidth = 2
                     cell.borderContainer.backgroundColor = .navigationBarWhiteColor()
@@ -981,25 +1016,35 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
            
-            if (indexPath as NSIndexPath).row == self.locations.count {
+            if (indexPath as NSIndexPath).row == self.savedLocations.count {
                 
                 let locationMapController = ElGrocerViewControllers.locationMapViewController()
                 locationMapController.delegate = self
+                locationMapController.isFromCart = isFromCart
                 self.navigationController?.pushViewController(locationMapController, animated: true)
                 
                 isNoCoverage = false
                 self.noCoverageView.isHidden = true
                 
             } else {
-            
-                if self.isFormCart {
+                
+                if completionAddressSelection != nil {
+                    
+                    self.selectdIndex = indexPath.row
+                    self.tableView.reloadData()
+                    let location = self.savedLocations[(indexPath as NSIndexPath).row]
+                    self.checkConveredAreaForBasket(location: location)
+                    return
+                }
+                
+                if self.isFromCart {
                     self.selectdIndex = indexPath.row
                     self.tableView.reloadData()
 //                    let location = self.locations[(indexPath as NSIndexPath).row]
 //                    self.doneHandler(location as AnyObject)
                     return
                 }
-                 let location = self.locations[(indexPath as NSIndexPath).row]
+                 let location = self.savedLocations[(indexPath as NSIndexPath).row]
                 
                 guard !sdkManager.isGrocerySingleStore else {
                     self.updateStore(location: location) { [weak self ] (isStoreChange) in
@@ -1014,9 +1059,10 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                 ElGrocerUtility.sharedInstance.activeGrocery = nil
                 ElGrocerUtility.sharedInstance.resetRecipeView()
             }
-            
-            let location = self.locations[indexPath.row]
+        if savedLocations.count > indexPath.row {
+            let location = self.savedLocations[indexPath.row]
             MixpanelEventLogger.trackChooseLocationSelected(locAddress: location.address, locId: location.dbID)
+        }
 
     }
 
@@ -1081,10 +1127,11 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
         MixpanelEventLogger.trackChooseLocationEditClick()
         let indexPath = self.tableView.indexPath(for: cell)
-        let location = self.locations[(indexPath! as NSIndexPath).row]
+        let location = self.savedLocations[(indexPath! as NSIndexPath).row]
         let address = location.address != "" ? location.address : ElGrocerUtility.sharedInstance.getFormattedAddress(location)
         let locationDetails = LocationDetails.init(location: nil,editLocation: location, name: location.shopperName, address: address, building: location.building, cityName: location.city ?? "")
         let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
+        editLocationController.isFromCart = self.isFromCart
         redirectIfLogged(editLocationController)
         
         
@@ -1094,7 +1141,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
         MixpanelEventLogger.trackChooseLocationDeleteClick()
         let indexPath = self.tableView.indexPath(for: cell)
-        let address = self.locations[(indexPath! as NSIndexPath).row]
+        let address = self.savedLocations[(indexPath! as NSIndexPath).row]
         
         let allLocations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
@@ -1148,7 +1195,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
     fileprivate func removeUserLocation(_ selectedLocationCell:DashboardLocationCell) {
         
         let indexPath = self.tableView.indexPath(for: selectedLocationCell)
-        let address = self.locations[(indexPath! as NSIndexPath).row]
+        let address = self.savedLocations[(indexPath! as NSIndexPath).row]
         
         if UserDefaults.isUserLoggedIn() {
             
@@ -1163,7 +1210,9 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                 if result {
                     
                     //remove address from table
-                    self.locations.remove(at: (indexPath! as NSIndexPath).row)
+                    let dbID = self.savedLocations[(indexPath! as NSIndexPath).row].dbID
+                    self.locations.removeAll(where: { $0.dbID == dbID })
+                    //self.savedLocations.remove(at: (indexPath! as NSIndexPath).row)
                     self.tableView.deleteRows(at: [indexPath!], with: UITableView.RowAnimation.fade)
                     
                     //remove from database
@@ -1190,7 +1239,9 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         }else{
             
             //remove address from table
-            self.locations.remove(at: (indexPath! as NSIndexPath).row)
+            let dbID = self.savedLocations[(indexPath! as NSIndexPath).row].dbID
+            self.locations.removeAll(where: { $0.dbID == dbID })
+            // self.savedLocations.remove(at: (indexPath! as NSIndexPath).row)
             self.tableView.deleteRows(at: [indexPath!], with: UITableView.RowAnimation.fade)
             
             //remove from database
@@ -1206,6 +1257,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         } else {
             // The user is not logged in so we can only let him change his current location
             let locationSelectionController = ElGrocerViewControllers.locationMapViewController()
+            locationSelectionController.isFromCart = isFromCart
             locationSelectionController.delegate = self
             self.navigationController?.pushViewController(locationSelectionController, animated: true)
         }
@@ -1250,7 +1302,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         DynamicLinksHelper.sharedInstance.setNewGroceryAccordingToLink(currentAddress.dbID)
         ElGrocerUtility.sharedInstance.CurrentLoadedAddress = ""
         SpinnerView.hideSpinnerView()
-        guard !self.isFormCart else {
+        guard !self.isFromCart else {
             self.dismiss(animated: true) {}
             return
         }
@@ -1359,14 +1411,17 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             self.isForNewAddress = false
             let selectedLocLatitude  = String(format: "%.6f",selectedLocation.coordinate.latitude)
             let selectedLocLongitude  = String(format: "%.6f",selectedLocation.coordinate.longitude)
-            let existingLocationIndex = self.locations.firstIndex(where: {String(format: "%.6f",$0.latitude) == selectedLocLatitude && String(format: "%.6f",$0.longitude) == selectedLocLongitude})
+            let existingLocationIndex = self.savedLocations.firstIndex(where: {String(format: "%.6f",$0.latitude) == selectedLocLatitude && String(format: "%.6f",$0.longitude) == selectedLocLongitude})
             if existingLocationIndex != nil {
                 if UserDefaults.isUserLoggedIn(){
-                    ElGrocerAlertView.createAlert(localizedString("exist_location_title", comment: ""),description: localizedString("exist_location_message", comment: ""),positiveButton: localizedString("sign_out_alert_yes", comment: ""),negativeButton: localizedString("sign_out_alert_no", comment: ""),buttonClickCallback: { (buttonIndex:Int) -> Void in
+                    ElGrocerAlertView.createAlert(localizedString("exist_location_title", comment: ""),description: localizedString("exist_location_message", comment: ""),positiveButton: localizedString("sign_out_alert_yes", comment: ""),negativeButton: localizedString("sign_out_alert_no", comment: ""),buttonClickCallback: { [weak self] (buttonIndex:Int) -> Void in
+                        guard let self = self else { return }
+                        
                         if buttonIndex == 0 {
-                            let location = self.locations[existingLocationIndex!]
+                            let location = self.savedLocations[existingLocationIndex!]
                             let locationDetails = LocationDetails.init(location: nil,editLocation: location, name: location.shopperName, address: location.address, building: location.building, cityName: "")
                             let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext))
+                            editLocationController.isFromCart = self.isFromCart
                             self.redirectIfLogged(editLocationController)
                         }else{
                             self.refreshData()
@@ -1433,22 +1488,41 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             deliveryAddress.userProfile = userProfile!
             }
         
+        // Address Centralisation
+        // No need to add address here, no need to set default address after that
+        if ElGrocerUtility.isAddressCentralisation {
+            self.presentContactInfoViewController(deliveryAddress)
+            return ()
+        }
+        
             ElGrocerApi.sharedInstance.addDeliveryAddress(deliveryAddress, completionHandler: { (result:Bool, responseObject:NSDictionary?) -> Void in
                 
                 GoogleAnalyticsHelper.trackDeliveryLocationAction(DeliveryLocationActionType.Add)
                 
                 if result {
                     
-                    let addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
+                    var addressDict: NSDictionary!
+                    if sdkManager.isShopperApp {
+                        addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
+                    } else {
+                        addressDict = responseObject!["data"] as? NSDictionary
+                    }
+
+                    var dbIDString: String!
+                    if sdkManager.isShopperApp {
+                        let dbID = addressDict["id"] as! NSNumber
+                        dbIDString = "\(dbID)"
+                    } else {
+                        dbIDString = addressDict["smiles_address_id"] as? String ?? ""
+                    }
                     
-                    let dbID = addressDict["id"] as! NSNumber
-                    let dbIDString = "\(dbID)"
                     deliveryAddress.dbID = dbIDString
                     if userProfile != nil {
                           let newAddress = DeliveryAddress.insertOrUpdateDeliveryAddressForUser(userProfile!, fromDictionary: addressDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         
                         DatabaseHelper.sharedInstance.saveDatabase()
                         
+                        // No need to sed default address with address centeralisation
                         // We need to set the new address as the active address
                         ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(newAddress, completionHandler: { (result) in
                             //  SpinnerView.hideSpinnerView()
@@ -1494,7 +1568,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                elDebugPrint(result)
                 if result {
                     self.refreshData(false)
-                    if self.isFormCart  {
+                    if self.isFromCart  {
                         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         let isDataFilled = ElGrocerUtility.sharedInstance.validateUserProfile(userProfile, andUserDefaultLocation: location)
                         if isDataFilled || ElGrocerUtility.sharedInstance.activeGrocery == nil {
@@ -1576,6 +1650,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         
         let locationDetails = LocationDetails.init(location: nil,editLocation: location, name: location.shopperName, address: location.address, building: location.building, cityName: "")
         let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext),FlowOrientation.AddNewAddress)
+        editLocationController.isFromCart = self.isFromCart
         redirectIfLogged(editLocationController,  true)
         
         
@@ -1626,11 +1701,13 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                                       description: localizedString("location_error_message", comment: ""),
                                       positiveButton: localizedString("location_error_ok_button", comment: ""),
                                       negativeButton: nil,
-                                      buttonClickCallback: { (buttonIndex:Int) -> Void in
+                                      buttonClickCallback: { [weak self] (buttonIndex:Int) -> Void in
+                                        guard let self = self else { return }
                                         if buttonIndex == 0 {
-                                            
+                                                                                        
                                             let locationMapController = ElGrocerViewControllers.locationMapViewController()
                                             locationMapController.delegate = self
+                                            locationMapController.isFromCart = self.isFromCart
                                             self.navigationController?.pushViewController(locationMapController, animated: true)
                                             
                                             self.isNoCoverage = false
@@ -1639,12 +1716,51 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
         }).show()
     }
     
+    func isNewAddressAdditionValidateForSDK() -> Bool {
+        let locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext).filter{ $0.dbID.isNotEmpty }
+        let limit = ElGrocerUtility.sharedInstance.appConfigData.sdkMaxAddressLimit
+        if ElGrocerUtility.isAddressCentralisation && locations.count >= limit {
+            let message = localizedString("eg_message_max_address_limit", comment: "")
+            ElGrocerAlertView.createAlert(localizedString(message, comment: ""),
+                                          description: nil,
+                                          positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
+                                          negativeButton: nil, buttonClickCallback: nil).show()
+            return false
+        }
+        return true
+    }
+    
     @IBAction func addNewAddressAction(_ sender: Any) {
+        let allLocations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        
+        if completionAddressSelection != nil && allLocations.filter({ $0.dbID.isEmpty }).count != 0 {
+            if isNewAddressAdditionValidateForSDK() == false {
+                return
+            }
+            
+            if let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                completionAddressSelection?(address)
+            }
+            return
+        }
+        
+        let locations = allLocations
+            .filter{ $0.dbID.isNotEmpty }
+        if ElGrocerUtility.isAddressCentralisation && locations.count >= ElGrocerUtility.sharedInstance.appConfigData.sdkMaxAddressLimit {
+            let message = localizedString("eg_message_max_address_limit", comment: "")
+            ElGrocerAlertView.createAlert(localizedString(message, comment: ""),
+                                          description: nil,
+                                          positiveButton: localizedString("no_internet_connection_alert_button", comment: ""),
+                                          negativeButton: nil, buttonClickCallback: nil).show()
+            return
+        }
+        
+
         
         MixpanelEventLogger.trackChooseLocationAddAddressClick()
         let locationMapController = ElGrocerViewControllers.locationMapViewController()
         locationMapController.delegate = self
-        locationMapController.isFromCart = self.isFormCart
+        locationMapController.isFromCart = self.isFromCart
         self.isForNewAddress = true
         self.navigationController?.pushViewController(locationMapController, animated: true)
         
@@ -1763,6 +1879,61 @@ extension DashboardLocationViewController: GMSAutocompleteFetcherDelegate {
     
     func didFailAutocompleteWithError(_ error: Error) {
        elDebugPrint("Error:%@",error.localizedDescription)
+    }
+}
+
+extension DashboardLocationViewController {
+    func checkConveredAreaForBasket(location: DeliveryAddress) {
+        let clLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
+        let spinner = SpinnerView.showSpinnerViewInView(self.view)
+
+        let storeID = ElGrocerUtility.sharedInstance.activeGrocery?.dbID
+        let parentID = ElGrocerUtility.sharedInstance.activeGrocery?.parentID.stringValue
+        ElGrocerApi.sharedInstance.checkIfGroceryAvailable(clLocation, storeID: storeID ?? "", parentID: parentID ?? "") { [weak self]  (result) in
+            SpinnerView.hideSpinnerView()
+            guard let self = self else {return}
+            switch result {
+            case .success(let responseObject):
+                let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+                if let groceryDict = responseObject["data"] as? NSDictionary, groceryDict.count > 0 {
+                    let arrayGrocery = Grocery.insertOrReplaceGroceriesFromDictionary(responseObject, context: context)
+                    if groceryDict.allKeys.count > 0 {
+                        let arrayGrocery = Grocery.insertOrReplaceGroceriesFromDictionary(responseObject, context: context)
+                        if arrayGrocery.count > 0 {
+                            ElGrocerUtility.sharedInstance.activeGrocery = arrayGrocery[0]
+                            ElGrocerUtility.sharedInstance.groceries = arrayGrocery
+                            if self.isForCheckout {
+                                self.navigationController?.popViewController(animated: true)
+                            }
+                            self.completionAddressSelection?(location)
+                            return
+                        }
+                    }
+                }
+                
+                if isEditOrderFlow {
+                    ElGrocerAlertView.createAlert(localizedString("store_notinrange_alert_title", comment: ""),
+                                                  description:localizedString("store_notinrange_alert_message", comment: ""),
+                                                  positiveButton: localizedString("store_notinrange_alert_button", comment: ""),
+                                                  negativeButton: nil, buttonClickCallback: nil).show()
+                } else {
+                        ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(location) { [weak self] result in
+                            guard let self = self else { return }
+                            self.tabBarController?.selectedIndex = 0
+                        }
+                }
+                
+//                StoreOutConverageAreaBottomSheetViewController.showInBottomSheet(location: clLocation, address: self.viewModel.locationAddress.value ?? "Unknown", presentIn: self){ [weak self] (isChangeLocation) in
+//                    if isChangeLocation == false {
+//                        self?.backButtonClick()
+//                    }
+//                }
+                
+            case .failure(let error):
+                SpinnerView.hideSpinnerView()
+                error.showErrorAlert()
+            }
+        }
     }
 }
 

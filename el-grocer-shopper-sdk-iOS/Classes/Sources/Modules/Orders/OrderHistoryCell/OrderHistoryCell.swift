@@ -233,7 +233,12 @@ class OrderHistoryCell: UITableViewCell {
         self.quantityTitleLabel.text = localizedString("quantity_:", comment: "")
         self.totalPriceTitleLabel.text = localizedString("total_price_:", comment: "")
         self.viewOrderLabel.text = localizedString("lbl_Order_Details", comment: "")
-        self.userAddressLabel.text = self.currentOrder?.pickUp != nil  ? self.currentOrder?.pickUp?.details :  ElGrocerUtility.sharedInstance.getFormattedAddress(order.deliveryAddress)
+        
+        if ElGrocerUtility.isAddressCentralisation {
+            self.userAddressLabel.text = self.currentOrder?.pickUp != nil  ? self.currentOrder?.pickUp?.details : ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(order.deliveryAddress)
+        }  else {
+            self.userAddressLabel.text = self.currentOrder?.pickUp != nil  ? self.currentOrder?.pickUp?.details :  ElGrocerUtility.sharedInstance.getFormattedAddress(order.deliveryAddress)
+        }
         self.groceryAddressLabel.text = order.grocery.name
         self.orderDateLabel.text = ""
         //MARK: time is handled in orderNumberLabel

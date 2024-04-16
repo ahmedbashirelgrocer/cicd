@@ -6,6 +6,9 @@
   Copyright (c) 2015 RST IT. All rights reserved.
 */
 
+"Looks like you're too far away." = "Different spot than usual.";
+"eg_message_max_address_limit" = "Whoops! You've hit the max number of addresses. To add a new address, update or delete an existing one.";
+"manage_address" = "Manage";
 "Download tax invoice" = " Download tax invoice";
 "smiles_pts" = "%@ pts";
 "earn_rewards_now" = "Earn Smiles Points!";
@@ -1440,7 +1443,7 @@ Smiles points will be returned to your Smiles balance. ";
 "lbl_use_current_location" = "Use the current location";
 "lbl_use_Pin_location" = "Use the Pin location";
 "lbl_Manuall_Location" = "Search manually for the new address...";
-"confirm_location_button_title" = "Confirm location";
+"confirm_location_button_title" = "CONFIRM & PROCEED";
 "dashboard_My_ddresses_navigation_bar_title" = "My addresses";
 "order_lbl_numner" = "Order # ";
 "lbl_Payment" = "Payment";
@@ -1490,7 +1493,7 @@ Smiles points will be returned to your Smiles balance. ";
 
 //address
 "lbl_Note" = "Changing your address might change the current store availability in your selected area.";
-"lbl_add_new_Address" = "Add a new address";
+"lbl_add_new_Address" = "Add new address";
 
 "lbl_chooselocation" = "Choose your location";
 

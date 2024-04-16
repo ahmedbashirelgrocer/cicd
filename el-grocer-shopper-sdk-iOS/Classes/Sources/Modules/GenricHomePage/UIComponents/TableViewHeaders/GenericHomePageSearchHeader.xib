@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="SF-Pro-Display-Semibold.otf">
+            <string>SFProDisplay-Semibold</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="9Kp-2d-DsA" customClass="GenericHomePageSearchHeader" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="147"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="234"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xTu-14-2lx" userLabel="StatusView">
@@ -23,7 +28,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aiP-ur-dEL">
-                    <rect key="frame" x="0.0" y="95" width="414" height="52"/>
+                    <rect key="frame" x="0.0" y="84" width="414" height="116"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HomeEllipse" translatesAutoresizingMaskIntoConstraints="NO" id="DNL-0v-5r5">
                             <rect key="frame" x="0.0" y="-57" width="414" height="103"/>
@@ -33,12 +38,65 @@
                             </constraints>
                         </imageView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZvF-gZ-0rH">
-                            <rect key="frame" x="0.0" y="-13" width="414" height="35"/>
+                            <rect key="frame" x="0.0" y="-13" width="414" height="99"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c1Q-C6-aLU" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                            <rect key="frame" x="16" y="16" width="382" height="40"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_warning" translatesAutoresizingMaskIntoConstraints="NO" id="qUa-Sh-mMq">
+                                    <rect key="frame" x="8" y="10" width="20" height="20"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="20" id="1iP-5r-GTT"/>
+                                        <constraint firstAttribute="height" constant="20" id="St9-mE-jk0"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Looks like you're too far away." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JpG-RQ-9hr">
+                                    <rect key="frame" x="36" y="12.5" width="156" height="15"/>
+                                    <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="12"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jXW-VC-TE4">
+                                    <rect key="frame" x="264" y="6" width="94" height="28"/>
+                                    <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="13"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="Change location">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="changeLocationHadnler:" destination="9Kp-2d-DsA" eventType="touchUpInside" id="NPf-7N-8cm"/>
+                                    </connections>
+                                </button>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowForwardSmiles" translatesAutoresizingMaskIntoConstraints="NO" id="8bR-BI-Xhl">
+                                    <rect key="frame" x="358" y="12" width="16" height="16"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="16" id="BEJ-2s-Qxo"/>
+                                        <constraint firstAttribute="height" constant="16" id="YS4-1E-Rcw"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" priority="999" constant="40" id="5i9-Eh-ePD"/>
+                                <constraint firstItem="qUa-Sh-mMq" firstAttribute="leading" secondItem="c1Q-C6-aLU" secondAttribute="leading" constant="8" id="OxH-nb-klW"/>
+                                <constraint firstItem="JpG-RQ-9hr" firstAttribute="leading" secondItem="qUa-Sh-mMq" secondAttribute="trailing" constant="8" id="PSM-XW-67S"/>
+                                <constraint firstItem="jXW-VC-TE4" firstAttribute="centerY" secondItem="qUa-Sh-mMq" secondAttribute="centerY" id="eqq-Zq-tlm"/>
+                                <constraint firstItem="JpG-RQ-9hr" firstAttribute="centerY" secondItem="qUa-Sh-mMq" secondAttribute="centerY" id="g9v-Gg-M3r"/>
+                                <constraint firstItem="qUa-Sh-mMq" firstAttribute="centerY" secondItem="c1Q-C6-aLU" secondAttribute="centerY" id="gjm-zM-DHf"/>
+                                <constraint firstItem="8bR-BI-Xhl" firstAttribute="leading" secondItem="jXW-VC-TE4" secondAttribute="trailing" id="lZt-vU-ruX"/>
+                                <constraint firstItem="8bR-BI-Xhl" firstAttribute="centerY" secondItem="qUa-Sh-mMq" secondAttribute="centerY" id="o4L-fo-URV"/>
+                                <constraint firstAttribute="trailing" secondItem="8bR-BI-Xhl" secondAttribute="trailing" constant="8" id="vMq-zM-sQ6"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                    <real key="value" value="8"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QIg-7b-quk">
-                            <rect key="frame" x="16" y="8" width="382" height="44"/>
+                            <rect key="frame" x="16" y="72" width="382" height="44"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="efa-z1-ec0">
                                     <rect key="frame" x="16" y="10" width="24" height="24"/>
@@ -64,32 +122,33 @@
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="QIg-7b-quk" secondAttribute="bottom" id="Dem-gH-Kbm"/>
+                        <constraint firstAttribute="trailing" secondItem="c1Q-C6-aLU" secondAttribute="trailing" constant="16" id="HFU-yi-Tul"/>
                         <constraint firstAttribute="trailing" secondItem="DNL-0v-5r5" secondAttribute="trailing" id="JHl-yh-HdW"/>
-                        <constraint firstAttribute="height" constant="52" id="Qnr-nP-huq"/>
+                        <constraint firstAttribute="bottom" secondItem="QIg-7b-quk" secondAttribute="bottom" id="WQI-Vx-n6A"/>
                         <constraint firstItem="ZvF-gZ-0rH" firstAttribute="centerX" secondItem="aiP-ur-dEL" secondAttribute="centerX" id="WhG-wH-2IX"/>
                         <constraint firstItem="ZvF-gZ-0rH" firstAttribute="top" secondItem="aiP-ur-dEL" secondAttribute="top" constant="-13" id="Xb2-4D-4Hb"/>
+                        <constraint firstItem="c1Q-C6-aLU" firstAttribute="top" secondItem="aiP-ur-dEL" secondAttribute="top" constant="16" id="c8p-Hh-XRc"/>
                         <constraint firstItem="QIg-7b-quk" firstAttribute="leading" secondItem="aiP-ur-dEL" secondAttribute="leading" constant="16" id="eiS-uQ-3aH"/>
-                        <constraint firstItem="QIg-7b-quk" firstAttribute="top" secondItem="aiP-ur-dEL" secondAttribute="top" constant="8" id="ioz-WV-7ns"/>
                         <constraint firstItem="QIg-7b-quk" firstAttribute="centerY" secondItem="ZvF-gZ-0rH" secondAttribute="bottom" constant="8" id="ipN-ml-L5E"/>
+                        <constraint firstItem="QIg-7b-quk" firstAttribute="top" secondItem="c1Q-C6-aLU" secondAttribute="bottom" constant="16" id="ir8-3A-FRP"/>
                         <constraint firstAttribute="trailing" secondItem="ZvF-gZ-0rH" secondAttribute="trailing" id="kN6-3e-Fcv"/>
                         <constraint firstItem="DNL-0v-5r5" firstAttribute="top" secondItem="aiP-ur-dEL" secondAttribute="top" constant="-57" id="rNT-rc-54E"/>
                         <constraint firstAttribute="trailing" secondItem="QIg-7b-quk" secondAttribute="trailing" constant="16" id="sdX-HF-Fxm"/>
                         <constraint firstItem="ZvF-gZ-0rH" firstAttribute="leading" secondItem="aiP-ur-dEL" secondAttribute="leading" id="wyG-5u-bHH"/>
+                        <constraint firstItem="c1Q-C6-aLU" firstAttribute="leading" secondItem="aiP-ur-dEL" secondAttribute="leading" constant="16" id="xT9-DB-DHH"/>
                         <constraint firstItem="DNL-0v-5r5" firstAttribute="leading" secondItem="aiP-ur-dEL" secondAttribute="leading" id="zSQ-aY-AtW"/>
                     </constraints>
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JPD-dG-hoP">
-                    <rect key="frame" x="0.0" y="65" width="414" height="30"/>
+                    <rect key="frame" x="0.0" y="54" width="414" height="30"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="height" priority="750" constant="30" id="FMf-mw-Dtu"/>
                     </constraints>
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hIC-ai-BPt" userLabel="NavigationContainer">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="65"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="54"/>
                     <color key="backgroundColor" red="0.33333334329999997" green="0.7254902124" blue="0.4352940917" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstAttribute="height" priority="100" constant="65" id="Lle-fl-YFo"/>
@@ -116,21 +175,30 @@
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="bGView" destination="aiP-ur-dEL" id="3Lk-uk-MaY"/>
+                <outlet property="btnArrow" destination="8bR-BI-Xhl" id="blm-Wf-ytw"/>
+                <outlet property="btnChangeLocation" destination="jXW-VC-TE4" id="05G-q4-JzO"/>
                 <outlet property="eclipseView" destination="DNL-0v-5r5" id="hSg-pr-qNM"/>
                 <outlet property="imgSearch" destination="efa-z1-ec0" id="2yG-wy-QhY"/>
+                <outlet property="lblToolTipMsg" destination="JpG-RQ-9hr" id="RCd-Oj-7Kx"/>
                 <outlet property="locationContainerView" destination="JPD-dG-hoP" id="C3s-rE-YaX"/>
                 <outlet property="navigationContainer" destination="hIC-ai-BPt" id="19G-q3-ARe"/>
                 <outlet property="navigationContainerBottom" destination="wz1-j5-RXd" id="olQ-iT-v0X"/>
                 <outlet property="navigationContainerTopAnchar" destination="WVK-PU-FtH" id="TQ5-WL-GYM"/>
                 <outlet property="searchBarBGView" destination="QIg-7b-quk" id="ghY-S9-whm"/>
+                <outlet property="searchViewTopConstraint" destination="ir8-3A-FRP" id="pYC-Ve-iif"/>
+                <outlet property="toolTipTopConstraint" destination="c8p-Hh-XRc" id="j6Y-Li-uQc"/>
+                <outlet property="toolTipViewHeightConstraint" destination="5i9-Eh-ePD" id="IxG-CX-IW7"/>
                 <outlet property="topHalfBGView" destination="ZvF-gZ-0rH" id="Zqf-VT-opA"/>
                 <outlet property="txtSearch" destination="A3a-QA-SaX" id="uC4-It-C3h"/>
+                <outlet property="viewToolTip" destination="c1Q-C6-aLU" id="K24-Gb-QfE"/>
             </connections>
-            <point key="canvasLocation" x="311.59420289855075" y="16.071428571428569"/>
+            <point key="canvasLocation" x="331.8840579710145" y="-41.517857142857139"/>
         </view>
     </objects>
     <resources>
         <image name="HomeEllipse" width="375" height="95"/>
+        <image name="arrowForwardSmiles" width="24" height="24"/>
+        <image name="ic_warning" width="16" height="15"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

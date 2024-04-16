@@ -61,6 +61,21 @@ enum ElGrocerApiEndpoint : String {
     case DeliveryAddressImage = "v1/shopper_addresses/image.json"
     case AddressTags =  "v1/address_tags"
     case DeliveryAddressV2 = "v2/shopper_addresses.json"
+    case DeliveryAddress_Smiles = "v1/smiles_shopper_addresses"
+    static var deliveryAddressV2Value: String {
+        if ElGrocerUtility.isAddressCentralisation {
+            return Self.DeliveryAddress_Smiles.rawValue
+        } else {
+            return Self.DeliveryAddressV2.rawValue
+        }
+    }
+    static var deliveryAddressV1Value: String {
+        if ElGrocerUtility.isAddressCentralisation {
+            return Self.DeliveryAddress_Smiles.rawValue
+        } else {
+            return Self.DeliveryAddress.rawValue
+        }
+    }
     case DeliveryAddressAreas = "v1/locations.json"
     case ProductsSearch = "v1/products/shopper/elastic_search.json"
     case SearchSuggestions = "v1/products/shopper/search_suggesions"
@@ -787,15 +802,26 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
               addressParameters["location_address"] = address.address as AnyObject
           }
           if address.dbID != "" {
-              addressParameters["address_id"] = address.dbID as AnyObject
+              if ElGrocerUtility.isAddressCentralisation {
+                  addressParameters["smiles_address_id"] = address.dbID as AnyObject
+              } else {
+                  addressParameters["address_id"] = address.dbID as AnyObject
+              }
           }
           addressParameters["location_address"] = address.address as AnyObject
           addressParameters["latitude"] = address.latitude as AnyObject
           addressParameters["longitude"] = address.longitude as AnyObject
-          addressParameters["default_address"] = address.isActive.boolValue as AnyObject
+          addressParameters["default_address"] = (ElGrocerUtility.isAddressCentralisation ? false : address.isActive.boolValue) as AnyObject
           addressParameters["address_type_id"] = address.addressType as AnyObject
           addressParameters["nick_name"] = (address.nickName ?? "") as AnyObject
           addressParameters["address_image"] = (address.addressImageUrl?.absoluteString ?? "") as AnyObject
+          // Smiles needs city, area
+          
+          if ElGrocerUtility.isAddressCentralisation {
+              addressParameters["city"] = address.address as AnyObject
+          }
+          addressParameters["area"] = (address.nickName ?? "") as AnyObject
+          
           if address.street != nil {
               addressParameters["street"] = address.street! as AnyObject
           }
@@ -829,7 +855,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           }
           
           guard address.dbID == "" else {
-              NetworkCall.put( ElGrocerApiEndpoint.DeliveryAddressV2.rawValue , parameters: addressParameters, success: { (operation, response) in
+              NetworkCall.put( ElGrocerApiEndpoint.deliveryAddressV2Value , parameters: addressParameters, success: { (operation, response) in
                   completionHandler(true, response as? NSDictionary)
               }) { (operation, error) in
                   completionHandler(false, ElGrocerError.init(error: error as NSError).jsonValue as NSDictionary?)
@@ -837,7 +863,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
               return
           }
         
-          let endpoint = ElGrocerApiEndpoint.DeliveryAddressV2.rawValue
+          let endpoint = ElGrocerApiEndpoint.deliveryAddressV2Value
 
           NetworkCall.post(endpoint, parameters: addressParameters, progress: { (progress) in
               
@@ -989,7 +1015,7 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
   func getDeliveryAddresses(_ completionHandler:@escaping (_ result:Bool, _ responseObject:NSDictionary?) -> Void) {
   
     setAccessToken()
-    NetworkCall.get(ElGrocerApiEndpoint.DeliveryAddress.rawValue, parameters: nil , progress: { (progress) in
+    NetworkCall.get(ElGrocerApiEndpoint.deliveryAddressV1Value, parameters: nil , progress: { (progress) in
         // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation  , response) in
         completionHandler(true, response as? NSDictionary)
@@ -1002,7 +1028,7 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
       func getDeliveryAddressesDefault(_ completionHandler:@escaping (_ result:Bool, _ responseObject:NSDictionary?) -> Void) {
       
         setAccessToken()
-        NetworkCall.get(ElGrocerApiEndpoint.DeliveryAddressV2.rawValue, parameters: nil , progress: { (progress) in
+        NetworkCall.get(ElGrocerApiEndpoint.deliveryAddressV2Value, parameters: nil , progress: { (progress) in
             // elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response) in
             completionHandler(true, response as? NSDictionary)
@@ -1077,16 +1103,19 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
   addressParameters["name"] = address.userProfile.name as AnyObject
   }
       
-  addressParameters["nick_name"] = (address.nickName ?? "") as AnyObject
+      addressParameters["nick_name"] = (address.nickName ?? "") as AnyObject
       addressParameters["address_image"] = (address.addressImageUrl?.absoluteString ?? "") as AnyObject
       
-      
+      if ElGrocerUtility.isAddressCentralisation {
+          addressParameters["city"] = address.address as AnyObject
+      }
+      addressParameters["area"] = (address.nickName ?? "") as AnyObject
   
   // //elDebugPrint("Parameters Address Name:%@",addressParameters["address_name"] ?? "Null")
   // //elDebugPrint("Address Parameters:%@",addressParameters)
   // //elDebugPrint("Add Address Url Str:%@",ElGrocerApiEndpoint.DeliveryAddressV2.rawValue)
     
-    NetworkCall.post( ElGrocerApiEndpoint.DeliveryAddressV2.rawValue , parameters: addressParameters, progress: { (progress) in
+    NetworkCall.post( ElGrocerApiEndpoint.deliveryAddressV2Value , parameters: addressParameters, progress: { (progress) in
         // elDebugPrint("Progress for API :  \(progress)")
     }, success: { (operation, response) in
         completionHandler(true, response as? NSDictionary)
@@ -1100,11 +1129,14 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
   
   setAccessToken()
   
-  let parameters = [
-  "address_id" : address.dbID
-  ]
+        var parameters: [String: String] = [:]
+        if ElGrocerUtility.isAddressCentralisation {
+            parameters["smiles_address_id"] = address.dbID
+        } else {
+            parameters["address_id"] = address.dbID
+        }
   
-  NetworkCall.delete(ElGrocerApiEndpoint.DeliveryAddress.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
+  NetworkCall.delete(ElGrocerApiEndpoint.deliveryAddressV1Value, parameters: parameters, success: { (operation  , response: Any) -> Void in
     
     guard let response = response as? NSDictionary, let data = response["data"] as? NSDictionary else {
         completionHandler(true, "")
@@ -1144,7 +1176,13 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
   setAccessToken()
   
   var parameters = [String : AnyObject]()
-  parameters["address_id"] = address.dbID as AnyObject
+      
+      if ElGrocerUtility.isAddressCentralisation {
+          parameters["smiles_address_id"] = address.dbID as AnyObject
+      } else {
+          parameters["address_id"] = address.dbID as AnyObject
+      }
+      
   parameters["address_name"] = address.locationName as AnyObject
   parameters["location_address"] = address.address as AnyObject
   parameters["latitude"] = address.latitude as AnyObject
@@ -1188,8 +1226,14 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
   if address.additionalDirection != nil {
   parameters["additional_direction"] = address.additionalDirection! as AnyObject
   }
+      
+  if ElGrocerUtility.isAddressCentralisation {
+      parameters["city"] = address.address as AnyObject
+  }
+      
+  parameters["area"] = (address.nickName ?? "") as AnyObject
   
-  NetworkCall.put(ElGrocerApiEndpoint.DeliveryAddressV2.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
+  NetworkCall.put(ElGrocerApiEndpoint.deliveryAddressV2Value, parameters: parameters, success: { (operation  , response: Any) -> Void in
   
   completionHandler(true)
   
@@ -1201,6 +1245,28 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
   
   func setDefaultDeliveryAddress(_ address: DeliveryAddress, completionHandler: @escaping (_ result: Bool) -> Void) {
   
+      if ElGrocerUtility.isAddressCentralisation {
+          let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+          let _ = DeliveryAddress.setActiveDeliveryAddress(address, context: context)
+          
+          // deleted temporary locations
+          let addresses = DeliveryAddress.getAllDeliveryAddresses(context)
+              .filter{ $0.isActive.boolValue == false && $0.dbID.isEmpty }
+          for i in 0..<addresses.count {
+              DeliveryAddress.deleteObject(addresses[i])
+          }
+          DatabaseHelper.sharedInstance.saveDatabase()
+          
+          // update launch options for default location
+          sdkManager.launchOptions?.address = address.address
+          sdkManager.launchOptions?.addressID = address.dbID
+          sdkManager.launchOptions?.latitude = address.latitude
+          sdkManager.launchOptions?.longitude = address.longitude
+          completionHandler(true)
+          
+          return
+      }
+      
   setAccessToken()
   //elDebugPrint(address.dbID)
   let parameters = [
@@ -1208,7 +1274,7 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
   "default_address": true
   ] as [String : Any]
   
-  NetworkCall.put(ElGrocerApiEndpoint.DeliveryAddress.rawValue, parameters: parameters, success: { (operation  , response: Any) -> Void in
+  NetworkCall.put(ElGrocerApiEndpoint.deliveryAddressV1Value, parameters: parameters, success: { (operation  , response: Any) -> Void in
   
   // Also save the change to local db
   let _ = DeliveryAddress.setActiveDeliveryAddress(address, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -2665,6 +2731,9 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
     parameters["delivery_fee"] = deliveryFee
     parameters["rider_fee"] = riderFee
     parameters["vat"] = grocery.vat
+          
+    let addressID = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)?.dbID
+    parameters["smiles_address_id"] = addressID ?? "0"
         
         let time = ElGrocerUtility.sharedInstance.getCurrentMillis()
         parameters["delivery_time"] = time as AnyObject

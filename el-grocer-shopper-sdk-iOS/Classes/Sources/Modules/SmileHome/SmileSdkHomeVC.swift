@@ -30,6 +30,12 @@ class SmileSdkHomeVC: BasketBasicViewController {
         var frameHeight = searchHeader?.frame
         frameHeight?.size.height = sdkManager.isShopperApp ? 147 : 82
         searchHeader?.frame = frameHeight ?? searchHeader?.frame ?? CGRect.zero
+        
+        searchHeader?.changeLocationClickedHandler = { [weak self] in
+            self?.locationButtonClick()
+            UserDefaults.setLocationChanged(date: Date())
+        }
+        
         return searchHeader!
     }()
     
@@ -141,18 +147,39 @@ class SmileSdkHomeVC: BasketBasicViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-     
         super.viewWillAppear(animated)
+    }
+    
+    func configureBeforeViewAppears() {
         self.hideTabBar()
         self.navigationBarCustomization()
         self.appTabBarCustomization()
         self.showDataLoaderIfRequiredForHomeHandler()
+        
+//        let oldLocation = self.locationHeader.localLoadedAddress
+//        if ElGrocerUtility.sharedInstance.isAddressUpdated {
+//            ElGrocerUtility.sharedInstance.isAddressUpdated = false
+//            _ = SpinnerView.showSpinnerViewInView(self.view)
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+//                SpinnerView.hideSpinnerView()
+//                self?.checkIFDataNotLoadedAndCall()
+//            }
+//        } else {
+//        }
+        
         self.checkIFDataNotLoadedAndCall()
        
+        if ElGrocerUtility.isAddressCentralisation {
+            self.showLocationChangeToolTip(show: false)
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // self.fetchSmilesAddressesIfNeeded() { }
+        
+        self.configureBeforeViewAppears()
         
         launchCompletion?()
         launchCompletion = nil
@@ -162,19 +189,13 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.getSmileUserInfo()
         self.setDefaultGrocery()
         
-        // Fetch basket status from server 
+        // Fetch basket status from server
         self.homeDataHandler.fetchBasketStatus()
         
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.refreshLogoView()
             controller.navigationBar.topItem?.title = ""
         }
-        
-        
-//        let customVm = MarketingCustomLandingPageViewModel.init(storeId: "16", marketingId: "66")
-//        let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
-//        self.present(landingVC, animated: true)
-      
     }
     
         // MARK: - UI Customization
@@ -456,7 +477,11 @@ class SmileSdkHomeVC: BasketBasicViewController {
         if  let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() {
             if UserDefaults.isUserLoggedIn(){
                 if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                    ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile , ElGrocerUtility.sharedInstance.getFormattedAddress(address))
+                    if ElGrocerUtility.isAddressCentralisation {
+                        ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile , ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(address))
+                    } else {
+                        ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile , ElGrocerUtility.sharedInstance.getFormattedAddress(address))
+                    }
                 }
             }
         }
@@ -1057,7 +1082,19 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
         }else {
             self.btnMulticart.setImage(UIImage(name: "Cart-InActive-Smile"), for: UIControl.State())
         }
+    }
+    
+    func showLocationChangeToolTip(show: Bool) {
+        self.searchBarHeader.frame.size.height = show ? 146 : 82
+        self.searchBarHeader.configureLocationChangeToolTip(show: show)
         
+        DispatchQueue.main.async(execute: { [weak self] in
+            guard let self = self else { return }
+            
+            self.searchBarHeader.setNeedsLayout()
+            self.searchBarHeader.layoutIfNeeded()
+            self.tableView.reloadData()
+        })
     }
 }
 
@@ -1067,6 +1104,23 @@ extension SmileSdkHomeVC {
     private func checkforDifferentDeliveryLocation() {
         
         guard let deliveryAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
+        
+        if ElGrocerUtility.isAddressCentralisation {
+            if let smilesDefault = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext).first(where: { $0.isSmilesDefault?.boolValue == true }) {
+                
+                let deliveryAddressLocation = CLLocation(latitude: deliveryAddress.latitude, longitude: deliveryAddress.longitude)
+                let currentLocation = CLLocation(latitude: smilesDefault.latitude, longitude: smilesDefault.longitude)
+                
+                let distance = deliveryAddressLocation.distance(from: currentLocation)
+                
+                if distance > 300 {
+                    DispatchQueue.main.async {
+                        self.showLocationChangeToolTip(show: true)
+                    }
+                }
+            }
+            return
+        }
         
         if let currentLat = LocationManager.sharedInstance.currentLocation.value?.coordinate.latitude,
            let currentLng = LocationManager.sharedInstance.currentLocation.value?.coordinate.longitude {
@@ -1178,6 +1232,9 @@ extension SmileSdkHomeVC : UICollectionViewDelegate , UICollectionViewDataSource
         if status_id?.getStatusKeyLogic().status_id.intValue == OrderStatus.inEdit.rawValue {
             let navigator = OrderNavigationHandler.init(orderId: order["id"] as! NSNumber, topVc: self, processType: .editWithOutPopUp)
             navigator.startEditNavigationProcess { (isNavigationDone) in
+                if isNavigationDone == false {
+                    SpinnerView.hideSpinnerView()
+                }
                 debugPrint("Navigation Completed")
             }
             return
@@ -1544,5 +1601,43 @@ extension SmileSdkHomeVC {
         }
         
         return cell
+    }
+}
+
+extension SmileSdkHomeVC {
+    func fetchSmilesAddressesIfNeeded(completion: (() -> Void)? = nil) {
+        
+        guard ElGrocerUtility.isAddressCentralisation else {
+            completion?()
+            return
+        }
+        
+//        guard ElGrocerUtility.sharedInstance.isAddressListUpdated == false else {
+//            completion?()
+//            return
+//        }
+        
+        ElGrocerApi.sharedInstance.getDeliveryAddressesDefault({ [weak self] (result, responseObject) -> Void in
+         
+            guard let self = self else { return }
+            
+            if result,
+               let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)  {
+                
+                let addressList = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                
+                DatabaseHelper.sharedInstance.saveDatabase()
+                
+                if addressList.first(where: { $0.isActive.boolValue }) == nil {
+                    _ = ElGrocerUtility.setDefaultAddress()
+                    self.configureBeforeViewAppears()
+                }
+                
+                // ElGrocerUtility.sharedInstance.isAddressListUpdated = true
+                
+            }
+            
+            completion?()
+        })
     }
 }

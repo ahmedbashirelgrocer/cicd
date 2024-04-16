@@ -79,6 +79,7 @@ struct GeneralAPIErrorEvent: AnalyticsEventDataType {
             EventParameterKeys.apiEndpoint: endPoint ?? "",
             EventParameterKeys.message: message,
             EventParameterKeys.code: String(code),
+            EventParameterKeys.releaseType : "Address Centralisation"
         ]
     }
 }

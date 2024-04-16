@@ -38,7 +38,7 @@ class DeliveryAddress: NSManagedObject, DBEntity {
     @NSManaged var addressImageUrl: URL?
     @NSManaged var nickName: String?
     
-    
+    @NSManaged var isSmilesDefault: NSNumber?
  
 }
 

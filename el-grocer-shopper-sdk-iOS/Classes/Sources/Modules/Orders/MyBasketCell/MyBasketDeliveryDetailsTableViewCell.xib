@@ -22,14 +22,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="MyBasketDeliveryDetailsTableViewCell" rowHeight="243" id="KGk-i7-Jjw" customClass="MyBasketDeliveryDetailsTableViewCell" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="387" height="305"/>
+            <rect key="frame" x="0.0" y="0.0" width="614" height="305"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="387" height="305"/>
+                <rect key="frame" x="0.0" y="0.0" width="614" height="305"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="t0z-Zq-mvW">
-                        <rect key="frame" x="0.0" y="0.0" width="387" height="305"/>
+                        <rect key="frame" x="0.0" y="0.0" width="614" height="305"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivery details" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kEV-IR-cdO">
                                 <rect key="frame" x="15" y="15" width="134.66666666666666" height="20"/>
@@ -38,7 +38,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VXB-0O-A3n" userLabel="AlertView" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                <rect key="frame" x="16" y="51" width="355" height="48"/>
+                                <rect key="frame" x="16" y="51" width="582" height="48"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="infoAlertIcon" translatesAutoresizingMaskIntoConstraints="NO" id="rBi-Zt-Eal">
                                         <rect key="frame" x="12" y="8" width="16" height="16"/>
@@ -48,7 +48,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please, make sure you arrive on time. Your order will be held for 10-15 mins max." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f8z-bh-gGX">
-                                        <rect key="frame" x="36" y="8" width="307" height="32"/>
+                                        <rect key="frame" x="36" y="8" width="534" height="32"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="12"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -71,7 +71,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UsH-lY-M30" userLabel="slots" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                <rect key="frame" x="15" y="115" width="357" height="44"/>
+                                <rect key="frame" x="15" y="115" width="584" height="44"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MyBasket_time_white" translatesAutoresizingMaskIntoConstraints="NO" id="x0y-G1-V1V">
                                         <rect key="frame" x="12" y="10" width="24" height="24"/>
@@ -81,14 +81,14 @@
                                         </constraints>
                                     </imageView>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MyBasket_Arrow_white" translatesAutoresizingMaskIntoConstraints="NO" id="Pv4-8j-u88">
-                                        <rect key="frame" x="326" y="14" width="16" height="16"/>
+                                        <rect key="frame" x="553" y="14" width="16" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="SQO-m5-wTy"/>
                                             <constraint firstAttribute="width" constant="16" id="jvT-pI-9vU"/>
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivery: Today 8:30am" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qDW-Dg-DoA">
-                                        <rect key="frame" x="46" y="14" width="270" height="16"/>
+                                        <rect key="frame" x="46" y="14" width="497" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="okY-fj-F6W"/>
                                         </constraints>
@@ -97,7 +97,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lnw-z5-cKV">
-                                        <rect key="frame" x="0.0" y="0.0" width="357" height="44"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="584" height="44"/>
                                         <state key="normal">
                                             <color key="titleShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
@@ -146,7 +146,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Qa-EP-7Xu" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                <rect key="frame" x="15" y="174" width="357" height="116"/>
+                                <rect key="frame" x="15" y="174" width="584" height="116"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ProfileIcon" translatesAutoresizingMaskIntoConstraints="NO" id="Mqa-Eb-tNV">
                                         <rect key="frame" x="12" y="15" width="24" height="24"/>
@@ -156,13 +156,13 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sdP-YL-mQW">
-                                        <rect key="frame" x="46" y="18.666666666666657" width="301" height="17"/>
+                                        <rect key="frame" x="46" y="18.666666666666657" width="528" height="17"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8yH-HQ-fbd">
-                                        <rect key="frame" x="48" y="55" width="294" height="1"/>
+                                        <rect key="frame" x="48" y="55" width="521" height="1"/>
                                         <color key="backgroundColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.84705882349999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="HmP-9s-z96"/>
@@ -176,7 +176,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3242 asdfsdf" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QdE-UD-Jc3">
-                                        <rect key="frame" x="46" y="68" width="296" height="33.666666666666657"/>
+                                        <rect key="frame" x="46" y="68" width="523" height="33.666666666666657"/>
                                         <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="14"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -253,7 +253,7 @@
                 <outlet property="slotView" destination="UsH-lY-M30" id="Clu-Z9-dOy"/>
                 <outlet property="slotViewHeight" destination="Hic-yG-oT1" id="Yzs-Sh-Hc0"/>
             </connections>
-            <point key="canvasLocation" x="89.0625" y="224.47183098591549"/>
+            <point key="canvasLocation" x="261.06870229007632" y="224.29577464788733"/>
         </tableViewCell>
     </objects>
     <resources>
@@ -264,4 +264,3 @@
         <image name="infoAlertIcon" width="16" height="16"/>
     </resources>
 </document>
-

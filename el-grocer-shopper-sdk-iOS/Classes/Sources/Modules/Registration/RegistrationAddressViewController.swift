@@ -406,7 +406,12 @@ class RegistrationAddressViewController: RegistrationViewController, Form {
             
             if result == true {
                 
-                let addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
+                var addressDict: NSDictionary!
+                if ElGrocerUtility.isAddressCentralisation == false {
+                    addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
+                } else {
+                    addressDict = responseObject!["data"] as? NSDictionary
+                }
                 
                 let currentAddress = DeliveryAddress.insertOrUpdateDeliveryAddressForUser(forUser, fromDictionary: addressDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 _ = DeliveryAddress.setActiveDeliveryAddress(currentAddress, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)

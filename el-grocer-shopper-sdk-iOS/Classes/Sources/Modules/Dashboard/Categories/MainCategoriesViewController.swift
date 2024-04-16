@@ -139,6 +139,14 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     lazy var locationHeaderFlavor : ElgrocerStoreHeader = {
         let locationHeader = ElgrocerStoreHeader.loadFromNib()
         locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+        
+        locationHeader?.changeLocationButtonHandler = { [weak self] in
+            guard let self = self else { return }
+            
+            EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, mapDelegate: self.mapDelegate, presentIn: self)
+            UserDefaults.setLocationChanged(date: Date())
+        }
+        
         return locationHeader!
     }()
     
@@ -362,7 +370,9 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-       
+    }
+    
+    func configureBeforeViewAppears() {
         self.setNavigationApearance()
         self.adjustHeaderDisplay()
         if UIApplication.topViewController() is GroceryLoaderViewController {
@@ -388,11 +398,15 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                 self?.callForLatestDeliverySlotsWithGroceryLoader(grocery: grocery, true)
             }
         }
-        
+        self.showLocationChangeToolTip(show: false)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // self.fetchSmilesAddressesIfNeeded { }
+        self.configureBeforeViewAppears()
+        
         defer {
             self.setNavigationApearance(true)
             self.openOrdersView.refreshOrders { loaded in
@@ -1831,34 +1845,7 @@ private extension MainCategoriesViewController {
         }
         
         if sdkManager.isGrocerySingleStore {
-            if let smilesCoorinates = sdkManager.launchOptions?.location, let defaultAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() {
-                let smilesLocaation = CLLocation(latitude: smilesCoorinates.latitude, longitude: smilesCoorinates.longitude)
-                let defaultLocation = CLLocation(latitude: defaultAddress.latitude, longitude: defaultAddress.longitude)
-                
-                let distance = smilesLocaation.distance(from: defaultLocation)
-                
-                var intervalInMins = 0.0
-                if let checkedAt = UserDefaults.getLastLocationChangedDate() {
-                    intervalInMins = Date().timeIntervalSince(checkedAt) / 60
-                } else {
-                    intervalInMins = 66.0
-                }
-                
-                if distance > 300 && intervalInMins > 60 {
-                    DispatchQueue.main.async {
-                        let vc = LocationChangedViewController.getViewController()
-                        
-                        vc.currentLocation = smilesLocaation
-                        vc.currentSavedLocation = defaultLocation
-                        
-                        vc.modalPresentationStyle = .overFullScreen
-                        vc.modalTransitionStyle = .crossDissolve
-                        self.present(vc, animated: true, completion: nil)
-                    }
-                    UserDefaults.setLocationChanged(date: Date())
-                    return
-                }
-            }
+            self.showLocationChangeToolTip(show: true)
         }
         
         LocationManager.sharedInstance.locationWithStatus = { [weak self]  (location , state) in
@@ -2456,6 +2443,24 @@ private func checkforDifferentDeliveryLocation() {
     
     guard let deliveryAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
     
+    
+    if ElGrocerUtility.isAddressCentralisation {
+        if let smilesDefault = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext).first(where: { $0.isSmilesDefault?.boolValue == true }) {
+            
+            let deliveryAddressLocation = CLLocation(latitude: deliveryAddress.latitude, longitude: deliveryAddress.longitude)
+            let currentLocation = CLLocation(latitude: smilesDefault.latitude, longitude: smilesDefault.longitude)
+            
+            let distance = deliveryAddressLocation.distance(from: currentLocation)
+            
+            if distance > 300 {
+                DispatchQueue.main.async {
+                    self.showLocationChangeToolTip(show: true)
+                }
+            }
+        }
+        return
+    }
+    
     if let currentLat = LocationManager.sharedInstance.currentLocation.value?.coordinate.latitude,
        let currentLng = LocationManager.sharedInstance.currentLocation.value?.coordinate.longitude {
         
@@ -2464,7 +2469,6 @@ private func checkforDifferentDeliveryLocation() {
         
         let distance = deliveryAddressLocation.distance(from: currentLocation) //result is in meters
                                                                                //print("distance:",distance)
-        
         var intervalInMins = 0.0
         if let checkedAt = UserDefaults.getLastLocationChangedDate() {
             intervalInMins = Date().timeIntervalSince(checkedAt) / 60
@@ -2476,19 +2480,33 @@ private func checkforDifferentDeliveryLocation() {
         {
             DispatchQueue.main.async {
                 let vc = LocationChangedViewController.getViewController()
-                
+
                 vc.currentLocation = currentLocation
                 vc.currentSavedLocation = deliveryAddressLocation
-                
+
                 vc.modalPresentationStyle = .overFullScreen
                 vc.modalTransitionStyle = .crossDissolve
                 self.present(vc, animated: true, completion: nil)
             }
-            UserDefaults.setLocationChanged(date: Date()) //saving current date
         }
         
     } else { }
 }
+    
+    func showLocationChangeToolTip(show: Bool) {
+        self.locationHeaderFlavor.configureLocationChangeToolTip(show: show)
+        
+        let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
+        if constraintA.count > 0 {
+            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+            let headerViewHeightConstraint = constraint
+            headerViewHeightConstraint.constant = show ? locationHeaderFlavor.headerMaxHeight : locationHeaderFlavor.headerMaxHeight
+        }
+        
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
+    }
 
 }
 
@@ -2497,3 +2515,45 @@ extension Notification.Name {
 }
 
 var isShopper: Bool { sdkManager.launchOptions?.marketType == .shopper }
+
+extension MainCategoriesViewController {
+    func fetchSmilesAddressesIfNeeded(completion: (() -> Void)? = nil) {
+        
+        guard sdkManager.isGrocerySingleStore else {
+            completion?()
+            return
+        }
+        
+        guard ElGrocerUtility.isAddressCentralisation else {
+            completion?()
+            return
+        }
+        
+//        guard ElGrocerUtility.sharedInstance.isAddressListUpdated == false else {
+//            completion?()
+//            return
+//        }
+        
+        ElGrocerApi.sharedInstance.getDeliveryAddressesDefault({ [weak self] (result, responseObject) -> Void in
+         
+            guard let self = self else { return }
+            
+            if result,
+               let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)  {
+                
+                let addressList = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                
+                DatabaseHelper.sharedInstance.saveDatabase()
+                
+                if addressList.first(where: { $0.isActive.boolValue }) == nil {
+                    _ = ElGrocerUtility.setDefaultAddress()
+                    self.configureBeforeViewAppears()
+                }
+                
+                // ElGrocerUtility.sharedInstance.isAddressListUpdated = true
+                
+            }
+            completion?()
+        })
+    }
+}

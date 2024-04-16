@@ -697,7 +697,12 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             // }
             if let tab = ((getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
                 ElGrocerUtility.sharedInstance.resetTabbar(tab)
-                tab.selectedIndex = 1
+                
+                if ElGrocerUtility.sharedInstance.activeGrocery?.getCleanGroceryID() != self.order.grocery.getCleanGroceryID() {
+                    tab.selectedIndex = 0
+                } else {
+                    tab.selectedIndex = 1
+                }
             }
             
             
@@ -1713,8 +1718,12 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                 }
                 //MARK: Improvement : improve logic to find height of cell
                 if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                    let formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress) : deliveryAddress.locationName + deliveryAddress.address
-                    
+                    var formatAddressStr = ""
+                    if ElGrocerUtility.isAddressCentralisation {
+                        formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(deliveryAddress)
+                    } else {
+                        formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress) : deliveryAddress.locationName + deliveryAddress.address
+                    }
                     let height = ElGrocerUtility.sharedInstance.dynamicHeight(text: formatAddressStr, font: UIFont.SFProDisplaySemiBoldFont(14), width: ScreenSize.SCREEN_WIDTH - 100)
                     return deliveryDetailWithOutSlotCellHeight - 20 + height
                 }
