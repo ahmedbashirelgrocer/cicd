@@ -24,8 +24,12 @@ class MyBasketStroreNameTableViewCell: UITableViewCell {
         }
     }
     
+    @IBOutlet weak var buttonAddProduct: UIButton!
     @IBOutlet weak var ivUndo: UIImageView!
+    
     var returnToStoreHandler: (()->())?
+    var addProductHandler: (()->())?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -33,6 +37,12 @@ class MyBasketStroreNameTableViewCell: UITableViewCell {
         let undoIcon = UIImage(name: "undo")?.withRenderingMode(.alwaysTemplate)
         ivUndo.image = undoIcon
         ivUndo.tintColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        
+        // Add product button configuration
+        buttonAddProduct.setTitle(localizedString("add_product_button_text", comment: ""), for: .normal)
+        buttonAddProduct.layer.cornerRadius = 20.0
+        buttonAddProduct.setBody3BoldWhiteStyle()
+        buttonAddProduct.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -53,6 +63,8 @@ class MyBasketStroreNameTableViewCell: UITableViewCell {
         }
         
         returnToStoreStackView.isHidden = editOrder
+        buttonAddProduct.isHidden = !editOrder
+        buttonAddProduct.visibility = editOrder ? .visible : .goneX
     }
     
     fileprivate func setGroceryImage(_ urlString : String) {
@@ -78,6 +90,12 @@ class MyBasketStroreNameTableViewCell: UITableViewCell {
     @IBAction func returnToStoreTapped(_ sender: Any) {
         if let returnToStoreHandler = self.returnToStoreHandler {
             returnToStoreHandler()
+        }
+    }
+    
+    @IBAction func addProductTapped(_ sender: Any) {
+        if let addProductHandler = self.addProductHandler {
+            addProductHandler()
         }
     }
     

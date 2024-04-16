@@ -109,6 +109,12 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     }
     
     override func backButtonClickedHandler(){
+        if isFromEditOrder {
+            self.isFromEditOrder = false
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        
         self.tabBarController?.selectedIndex = 0
     }
     func didTapInfoButtonForStoreDet() {}
@@ -210,6 +216,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     var groceryLoaderVC : GroceryLoaderViewController?
     var isComingFromGroceryLoaderVc : Bool = false
+    var isFromEditOrder: Bool = false
     var needToLogScreenEvent = true
     var orderTrackingArray = [OrderTracking]()
     
@@ -409,7 +416,30 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         
         defer {
             self.setNavigationApearance(true)
-            self.openOrdersView.refreshOrders { loaded in
+            self.openOrdersView.refreshOrders { [weak self] loaded in
+                guard let self = self else { return }
+                
+                if let editOrderID = UserDefaults.getEditOrderDbId() {
+                    
+                    Order.insertOrReplaceOrdersFromDictionary(openOrdersView.openOrders, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                    let orders = Order.getAllDeliveryOrders(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                    
+                    if let orderInEdit = orders.first(where: { $0.dbID == editOrderID }) {
+                        if orderInEdit.status.intValue != OrderStatus.inEdit.rawValue {
+                            
+                            let title = localizedString("location_not_covered_alert_title", comment: "")
+                            let positiveButton = localizedString("ok_button_title", comment: "")
+                            let message = localizedString("order_is_no_more_in_edit_msg", comment: "")
+                            
+                            ElGrocerAlertView
+                                .createAlert(title, description: message, positiveButton: positiveButton, negativeButton: nil, buttonClickCallback: nil)
+                                .show()
+                            
+                            UserDefaults.resetEditOrder()
+                        }
+                    }
+                }
+                
                 Thread.OnMainThread {
                     self.openOrdersView.setNeedsLayout()
                     self.openOrdersView.layoutIfNeeded()

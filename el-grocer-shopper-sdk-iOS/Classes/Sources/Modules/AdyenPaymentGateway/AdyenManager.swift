@@ -90,11 +90,11 @@ class AdyenManager {
     }
     
     
-    func performZeroTokenization(controller: UIViewController,_ isForWallet: Bool = false) {
+    func performOneAEDTokenization(controller: UIViewController,_ isForWallet: Bool = false) {
         
-        let amount = AdyenManager.createAmount(amount: 0.0)
+        let amount = AdyenManager.createAmount(amount: 1.0)
         self.adyenPrice = amount
-        self.adyendataObj = AdyenManagerObj(amount: 0.0, orderNumber: "", isZeroAuth: true, isForWallet: isForWallet)
+        self.adyendataObj = AdyenManagerObj(amount: 1.0, orderNumber: "", isZeroAuth: true, isForWallet: isForWallet)
         let _ = SpinnerView.showSpinnerViewInView(controller.view)
         AdyenApiManager().getPaymentMethods(amount: amount) { error, paymentMethods in
             SpinnerView.hideSpinnerView()
@@ -108,7 +108,7 @@ class AdyenManager {
                     for method in paymentMethod.regular{
                         if method.type.elementsEqual("scheme") {
                             
-                            self.settingPaymentComponent(paymentMethod: method as! CardPaymentMethod, controller: controller, delegate: self,amount: 0.0, adyenObj: self.adyendataObj!)
+                            self.settingPaymentComponent(paymentMethod: method as! CardPaymentMethod, controller: controller, delegate: self,amount: 1.0, adyenObj: self.adyendataObj!)
                         }
                     }
                 }

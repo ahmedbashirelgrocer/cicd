@@ -498,16 +498,21 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             return
         }
      
-        let SDKManager: SDKManagerType! = sdkManager
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
-            
-            if buttonIndex == 1 {
-                self.createBasketAndNavigateToViewForEditOrder()
-            }
-        }
+        // show edit order bottom sheet
+        let viewModel = WarningBottomSheetViewModel(
+            icon: "ClockSecondaryBlack",
+            message: localizedString("edit_Notice", comment: ""),
+            positiveTitle: localizedString("order_confirmation_Edit_order_button", comment: ""),
+            negativeTitle: localizedString("ios.ZDKRequests.createRequest.cancel.button", comment: "")
+        )
         
-
-       
+        let editOrderWarningBottomSheet = WarningBottomSheetController(viewModel: viewModel)
+        
+        editOrderWarningBottomSheet.modalPresentationStyle = .overFullScreen
+        editOrderWarningBottomSheet.positiveButtonTapHandler = { [weak self] in
+            self?.createBasketAndNavigateToViewForEditOrder()
+        }
+        self.present(editOrderWarningBottomSheet, animated: true)
     }
     
     private func createBasketAndNavigateToViewForEditOrder(){

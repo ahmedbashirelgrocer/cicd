@@ -841,7 +841,7 @@ extension CreditCardListViewController : UITableViewDataSource , UITableViewDele
         
     }
     func performZeroTokenization() {
-        AdyenManager.sharedInstance.performZeroTokenization(controller: self)
+        AdyenManager.sharedInstance.performOneAEDTokenization(controller: self)
         AdyenManager.sharedInstance.isNewCardAdded = {(error, response, adyenObj) in
             if error {
                //  print("error is tokenization")

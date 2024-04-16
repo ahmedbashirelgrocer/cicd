@@ -35,6 +35,11 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
     var orderType : OrderType = .delivery
     var repeatOrderDelegate: RepeatOrderProtocol?
     
+    // Pagination
+    private var isMoreOrdersAvailableToFetch: Bool = true
+    private var limit: Int = 10
+    private var offset: Int = 0
+    
     // MARK: Life cycle
     
     required init?(coder aDecoder: NSCoder) {
@@ -161,7 +166,13 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
     // MARK: Get Order
     
     @objc func getOrderHistoryFromServer(_ isShowHud : Bool = true){
-        guard UIApplication.topViewController() is OrdersViewController || UIApplication.topViewController() is SubstitutionsProductViewController || UIApplication.topViewController() is OrderCancelationVC else {return}
+        guard
+            UIApplication.topViewController() is OrdersViewController ||
+            UIApplication.topViewController() is SubstitutionsProductViewController ||
+            UIApplication.topViewController() is OrderCancelationVC ||
+            UIApplication.topViewController() is MyBasketViewController ||
+            UIApplication.topViewController() is OrderConfirmationViewController else { return }
+        
         guard UserDefaults.isUserLoggedIn() else {
             self.addEmptyView()
             return
@@ -172,8 +183,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
             spiner = SpinnerView.showSpinnerViewInView(self.view)
         }
         self.isGettingProducts = true
-        let offSet =  isShowHud ? 0 :  self.orders.count
-        ElGrocerApi.sharedInstance.getOrdersHistoryList(limit: 10 , offset: offSet ) { (result) -> Void in
+        ElGrocerApi.sharedInstance.getOrdersHistoryList(limit: self.limit, offset: self.offset) { (result) -> Void in
             if spiner != nil {
                 spiner?.removeFromSuperview()
             }
@@ -208,6 +218,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
         // IntercomeHelper.updateIntercomBrandsDetails()
         // PushWooshTracking.updateBrandsDetails()
         self.orders = Order.getAllDeliveryOrders(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        self.isMoreOrdersAvailableToFetch = self.orders.count >= self.limit
         
         if self.switchMode.isDeliverySelected {
           self.filterOrders = self.orders.filter({ (order) -> Bool in
@@ -332,13 +343,7 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                         
                     }
                     
-                    let SDKManager: SDKManagerType! = sdkManager
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
-                        
-                        if buttonIndex == 1 {
-                            self.createBasketAndNavigateToViewForEditOrder(self.selectedOrder)
-                        }
-                    }
+                    self.showEidtOrderConfirmationBottomSheet()
                     
                 }else if self.selectedOrder.status.intValue == OrderStatus.inEdit.rawValue{
                     
@@ -404,14 +409,8 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
                     }
                     
                 }
-                
-                let SDKManager: SDKManagerType! = sdkManager
-                let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
-                    
-                    if buttonIndex == 1 {
-                        self.createBasketAndNavigateToViewForEditOrder(self.selectedOrder)
-                    }
-                }
+               
+                self.showEidtOrderConfirmationBottomSheet()
                 
             }else if self.selectedOrder.status.intValue == OrderStatus.inEdit.rawValue{
                 
@@ -787,8 +786,10 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
         let kLoadingDistance = 2 * kProductCellHeight + 8
         let y = scrollView.contentOffset.y + scrollView.bounds.size.height - scrollView.contentInset.bottom
         if y + kLoadingDistance > scrollView.contentSize.height && self.isGettingProducts == false {
-            elDebugPrint("getlist")
-            self.getOrderHistoryFromServer(false)
+            if self.isMoreOrdersAvailableToFetch {
+                self.offset += self.limit
+                self.getOrderHistoryFromServer(false)
+            }
         }
     }
     
@@ -803,5 +804,22 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
             controller.isCommingFromOrderConfirmationScreen = false
             self.repeatOrderDelegate = controller
         }
+    }
+    
+    private func showEidtOrderConfirmationBottomSheet() {
+        let viewModel = WarningBottomSheetViewModel(
+            icon: "ClockSecondaryBlack",
+            message: localizedString("edit_Notice", comment: ""),
+            positiveTitle: localizedString("order_confirmation_Edit_order_button", comment: ""),
+            negativeTitle: localizedString("ios.ZDKRequests.createRequest.cancel.button", comment: "")
+        )
+        
+        let editOrderWarningBottomSheet = WarningBottomSheetController(viewModel: viewModel)
+        editOrderWarningBottomSheet.positiveButtonTapHandler = { [weak self] in
+            guard let self = self else { return }
+            
+            self.createBasketAndNavigateToViewForEditOrder(self.selectedOrder)
+        }
+        self.present(editOrderWarningBottomSheet, animated: true)
     }
 }

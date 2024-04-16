@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,23 +17,23 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GenericWriteReviewView" customModule="ElGrocerShopper" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GenericWriteReviewView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="GenericWriteReviewView" customModule="ElGrocerShopper" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="GenericWriteReviewView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="320" height="213"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qnm-vN-qjL">
-                    <rect key="frame" x="16" y="16" width="288" height="181"/>
+                    <rect key="frame" x="16" y="36" width="288" height="161"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ev-IO-USW">
-                            <rect key="frame" x="0.0" y="0.0" width="288" height="25"/>
+                            <rect key="frame" x="0.0" y="0.0" width="288" height="5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xmS-2H-N18" userLabel="AdditionalDirectionView" customClass="AWView" customModule="ElGrocerShopper" customModuleProvider="target">
-                            <rect key="frame" x="0.0" y="49" width="288" height="132"/>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xmS-2H-N18" userLabel="AdditionalDirectionView" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="29" width="288" height="132"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/100" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LSS-mQ-iPg">
                                     <rect key="frame" x="16" y="106" width="31" height="14"/>
@@ -42,7 +42,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <textField hidden="YES" opaque="NO" clipsSubviews="YES" tag="25" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="4iq-75-Yxx">
-                                    <rect key="frame" x="16" y="34" width="256" height="0.0"/>
+                                    <rect key="frame" x="16" y="32.5" width="256" height="0.0"/>
                                     <constraints>
                                         <constraint firstAttribute="height" id="AoB-b1-6YC"/>
                                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="0.01" id="Sut-wi-i2J"/>
@@ -51,7 +51,7 @@
                                     <fontDescription key="fontDescription" name="SFProDisplay-Regular" family="SF Pro Display" pointSize="17"/>
                                     <textInputTraits key="textInputTraits" returnKeyType="next"/>
                                 </textField>
-                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Gau-fB-E2n" customClass="GrowingTextView" customModule="GrowingTextView">
+                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Gau-fB-E2n" customClass="GrowingTextView" customModule="GrowingTextView">
                                     <rect key="frame" x="16" y="67.5" width="240" height="30"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <color key="textColor" systemColor="labelColor"/>
@@ -88,11 +88,8 @@
                                         <action selector="btnCrossHandler:" destination="iN0-l3-epB" eventType="touchUpInside" id="jg3-Be-34Q"/>
                                     </connections>
                                 </button>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Help us to be better (Optional)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WoD-ak-nIB">
-                                    <rect key="frame" x="16" y="12" width="164.5" height="16"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="16" id="EB8-oF-EU7"/>
-                                    </constraints>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Help us to be better (Optional)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WoD-ak-nIB">
+                                    <rect key="frame" x="16" y="12" width="256" height="14.5"/>
                                     <fontDescription key="fontDescription" name="SFProDisplay-Bold" family="SF Pro Display" pointSize="12"/>
                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -114,6 +111,7 @@
                                 <constraint firstItem="ghP-02-sOm" firstAttribute="bottom" secondItem="Gau-fB-E2n" secondAttribute="bottom" constant="-8" id="Yr1-lA-pdr"/>
                                 <constraint firstItem="WoD-ak-nIB" firstAttribute="leading" secondItem="xmS-2H-N18" secondAttribute="leading" constant="16" id="c5s-il-5se"/>
                                 <constraint firstItem="Gau-fB-E2n" firstAttribute="leading" secondItem="xmS-2H-N18" secondAttribute="leading" constant="16" id="l3E-K3-dFH"/>
+                                <constraint firstAttribute="trailing" secondItem="WoD-ak-nIB" secondAttribute="trailing" constant="16" id="qQ4-bb-av5"/>
                                 <constraint firstAttribute="trailing" secondItem="Gau-fB-E2n" secondAttribute="trailing" constant="32" id="xO0-PG-a6q"/>
                                 <constraint firstItem="ghP-02-sOm" firstAttribute="leading" secondItem="Gau-fB-E2n" secondAttribute="trailing" id="zKi-Nq-8m0"/>
                             </constraints>
@@ -155,11 +153,6 @@
             <point key="canvasLocation" x="91.875" y="64.964788732394368"/>
         </view>
     </objects>
-    <designables>
-        <designable name="Gau-fB-E2n">
-            <size key="intrinsicContentSize" width="-1" height="30"/>
-        </designable>
-    </designables>
     <resources>
         <image name="sCross" width="16" height="16"/>
         <systemColor name="labelColor">

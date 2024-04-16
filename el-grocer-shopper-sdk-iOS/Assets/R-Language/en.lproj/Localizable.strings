@@ -827,6 +827,7 @@
 "reorder_close_store_message" = "The store selected for reordering is closed at the moment. Please try later.";
 "reorder_change_location_message" = "Retailer is not available at current location. Please change location to reorder.";
 "edit_Order_change_location_message" = "Retailer is not available at current location. Please change location to edit order.";
+"order_is_no_more_in_edit_msg" = "The 30 mins are up! Your edited order will now be processed as a new order.";
 
 "grand_total" = "Grand total";
 "item_cancelled"                        = "Cancelled";
@@ -1055,7 +1056,7 @@ Smiles points will be returned to your Smiles balance. ";
 
 
 // Order Feedback Questions
-"how_was_your_delivery_title" = "How was your delivery?";
+"how_was_your_delivery_title" = "How would you rate your delivery?";
 
 "feedback_question1_title" = "Did your order arrive on time?";
 "feedback_question1_answer1" = "It was early";
@@ -1388,7 +1389,7 @@ Smiles points will be returned to your Smiles balance. ";
 
 
 "No_Selected_Store_ShopingList"  = "Your Shopping list is empty";
-"No_Selected_Store_Cart" = "Your elGrocer cart is empty";
+"No_Selected_Store_Cart" = "Your cart is empty";
 "No_Selected_Store_Detail_Cart" = "Choose the store on the Homepage \nto fill your shopping list.";
 "No_Item_Cart" = "Add some items to continue shopping";
 "No_Item_Multi_Cart_Empty_View" = "Choose the store to start shopping";
@@ -1410,7 +1411,7 @@ Smiles points will be returned to your Smiles balance. ";
 "order_Note_reason" = "due to exact weights";
 "order_note_label_complete" = "Fresh fruits & vegetables, meat and seafood items prices may vary due to exact weights.";
 
-"edit_Notice" = "You have 30 mins to edit your order, else your last basket will be accepted.";
+"edit_Notice" = "You've got a 30 minutes to edit your order. Feel free to make any adjustments you need within this time.Your order won't be processed until you're ready!";
 
 
 "edit_Notice_intial" = "You have ";
@@ -1469,6 +1470,7 @@ Smiles points will be returned to your Smiles balance. ";
 
 "Someone_else_is_collectiing" = "Someone else is collecting?";
 "Which_car_is_collecting_the_order" = "Which car is collecting the order?";
+"add_product_button_text" = "Add product";
 
 // picker
 "lbl_change_delivery" = "Select your delivery slot";
@@ -1545,14 +1547,14 @@ Add delivery details";
 "lbl_click&Collect_feedback_Q1" = "How was the collection speed?";
 "lbl_click&Collect_feedback_Q2" = "How happy are you with our picker service?";
 "lbl_click&Collect_feedback_Q3" = "How easy was it to find the collection spot?";
-"lbl_click&Collect_feedback_Q4" = "Want to tell us more?";
-"lbl_delivery_feedback_Q1" = "How was your delivery?";
-"lbl_delivery_feedback_Q2" = "Was your order on time?";
+"lbl_click&Collect_feedback_Q4" = "Anything else you’d like to add?";
+"lbl_delivery_feedback_Q1" = "How would you rate your delivery?";
+"lbl_delivery_feedback_Q2" = "Did your order arrive on time?";
 "lbl_delivery_feedback_Q3" = "Are you satisfied with the quality of the items you received?";
 "lbl_delivery_feedback_Q4" = "Are you satisfied with the price of your items?";
-"lbl_delivery_feedback_Q5" = "Want to tell us more?";
-"lbl_delivery_feedback_textView_placeHolder" = "Type to leave us additional information";
-"lbl_delivery_feedback_textView_heading" = "Help us to be better (Optional)";
+"lbl_delivery_feedback_Q5" = "Anything else you’d like to add?";
+"lbl_delivery_feedback_textView_placeHolder" = "Type to leave us a note";
+"lbl_delivery_feedback_textView_heading" = "IN YOUR WORDS, TELL US WHAT YOU LOVE ABOUT THE APP OR WHAT COULD BE BETTER";
 "lbl_delivery_feedback_Q2_A1" = "😀 It was early";
 "lbl_delivery_feedback_Q2_A2" = "🙂 Yes, as expected";
 "lbl_delivery_feedback_Q2_A3" = "😐 No, it was late";
@@ -1561,7 +1563,7 @@ Add delivery details";
 "lbl_delivery_feedback_Q3_A2" = "🙂 Somewhat satisfied";
 "lbl_delivery_feedback_Q3_A3" = "😐 Somewhat dissatisfied";
 "lbl_delivery_feedback_Q3_A4" = "😱 Dissatisfied";
-"lbl_delivery_feedback_Q4_A1" = "😀 It’s cheaper";
+"lbl_delivery_feedback_Q4_A1" = "😀 It’s cheaper than the stone";
 "lbl_delivery_feedback_Q4_A2" = "🙂 It’s as expected";
 "lbl_delivery_feedback_Q4_A3" = "😱 It’s more expensive";
 "btn_feedback_send_title" = "Send";

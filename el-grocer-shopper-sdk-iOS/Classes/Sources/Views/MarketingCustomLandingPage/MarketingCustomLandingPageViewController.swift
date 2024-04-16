@@ -99,9 +99,12 @@ class MarketingCustomLandingPageViewController: UIViewController {
         tableView.backgroundColor = AppSetting.theme.tableViewBGWhiteColor
         tableView.rx.didScroll
                     .subscribe(onNext: { [weak self] in
-                        // Notify the subject with both content offset and did scroll event
-                        guard let contentOffset = self?.tableView.contentOffset else { return }
-                        self?.tableViewScrollSubject.onNext((contentOffset, ()))
+                        guard let self = self else { return }
+                        
+                        let cgPoint = CGPoint(x: self.tableView.contentOffset.x, y: self.tableView.contentOffset.y + tableView.bounds.size.height)
+                        self.viewModel.inputs.scrollObserver.onNext(cgPoint)
+//                        guard let contentOffset = self?.tableView.contentOffset else { return }
+//                        self?.tableViewScrollSubject.onNext((contentOffset, ()))
                     })
                     .disposed(by: disposeBag)
         
@@ -132,7 +135,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: viewModel.reusableIdentifier, for: indexPath) as! RxUITableViewCell
             cell.selectionStyle = .none
             cell.configure(viewModel: viewModel)
-            cell.bind(to: self.tableViewScrollSubject)
+//            cell.bind(to: self.tableViewScrollSubject)
             //if let cell = cell as? HomeCell { cell.productsCollectionView.contentOffset = self.cachedPosition[indexPath] ?? .zero }
             if let homeCell = cell as? HomeCell {
                 // Check if the indexPath is within bounds

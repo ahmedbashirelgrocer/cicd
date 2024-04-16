@@ -753,7 +753,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
         
-        if let vcA = self.navigationController?.viewControllers {
+        if let presentingVC = self.navigationController?.presentingViewController, (presentingVC as? UINavigationController) != nil  {
+            self.navigationController?.dismiss(animated: true)
+        } else if let vcA = self.navigationController?.viewControllers {
             elDebugPrint(vcA)
             if vcA.count == 1 {
                 //from home
@@ -762,19 +764,19 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 //edit order
                 guard sdkManager.isSmileSDK else {
                     self.navigationController?.dismiss(animated: false)
+                    self.navigationController?.popToRootViewController(animated: false)
                     return
                 }
                 let appDelegate = SDKManager.shared
                 appDelegate.rootViewController?.dismiss(animated: false, completion: nil)
                 (appDelegate.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
-            }else {
+            } else {
                 // simple place order
                 self.navigationController?.popToRootViewController(animated: false)
             }
         }
         
-        let sdkManage = SDKManager.shared
-        if let tab = sdkManage.currentTabBar  {
+        if let tab = sdkManager.currentTabBar  {
             ElGrocerUtility.sharedInstance.resetTabbar(tab)
             tab.selectedIndex = sdkManager.isGrocerySingleStore ? 1 : 0
         }
