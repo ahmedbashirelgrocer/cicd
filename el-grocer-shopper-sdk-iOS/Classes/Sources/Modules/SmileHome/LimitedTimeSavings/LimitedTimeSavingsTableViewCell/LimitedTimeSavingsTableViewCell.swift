@@ -59,7 +59,7 @@ class LimitedTimeSavingsTableViewCell: UITableViewCell {
         self.collectionView.collectionViewLayout = {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .horizontal
-            layout.itemSize = CGSize(width: ScreenSize.SCREEN_WIDTH - 40, height: 230)
+            //layout.itemSize = CGSize(width: ScreenSize.SCREEN_WIDTH - 40, height: 230)
             layout.minimumInteritemSpacing = 5
             layout.minimumLineSpacing = 5
             let edgeInset:CGFloat =  10
@@ -92,6 +92,6 @@ extension LimitedTimeSavingsTableViewCell: UICollectionViewDelegate, UICollectio
 }
 extension LimitedTimeSavingsTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: ScreenSize.SCREEN_WIDTH - 40, height: 230)
+        return CGSize(width: ScreenSize.SCREEN_WIDTH - 40, height: 238)
     }
 }

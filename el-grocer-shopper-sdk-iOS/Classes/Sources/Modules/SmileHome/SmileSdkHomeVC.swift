@@ -1655,7 +1655,10 @@ extension SmileSdkHomeVC: CopyAndShopDelegate{
 extension SmileSdkHomeVC: PushMarketingCampaignLandingPageDelegate{
     func pushMarketingCampaignLandingPageWith(limitedTimeSavings: LimitedTimeSavings) {
         if let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-            let customVm = MarketingCustomLandingPageViewModel.init(storeId: self.grocery?.dbID ?? "", marketingId: String(limitedTimeSavings.custom_screen_id ?? 0), addressId: currentAddress.dbID, grocery: self.grocery)
+            let grocery = self.groceryArray.first { Grocery in
+                return (Int(Grocery.getCleanGroceryID()) ?? 0) == (limitedTimeSavings.retailer_ids[0])
+            }
+            let customVm = MarketingCustomLandingPageViewModel.init(storeId: grocery?.dbID ?? "", marketingId: String(limitedTimeSavings.custom_screen_id ?? 0), addressId: currentAddress.dbID, grocery: grocery)
             let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
             self.present(landingVC, animated: true)
         }

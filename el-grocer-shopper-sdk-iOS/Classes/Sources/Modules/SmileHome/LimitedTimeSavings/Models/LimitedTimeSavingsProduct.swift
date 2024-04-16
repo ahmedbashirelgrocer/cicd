@@ -11,6 +11,7 @@ class LimitedTimeSavingsProduct{
     var id: Int = 0
     var photo_url: String = ""
     var shops: [Shops] = [Shops]()
+    var promotionalShops: [Shops] = [Shops]()
     
     init(dictProduct: NSDictionary){
         if let id = dictProduct["id"] as? NSNumber{
@@ -22,7 +23,15 @@ class LimitedTimeSavingsProduct{
         if let shops = dictProduct["shops"] as? NSArray{
             for shop in shops{
                 if let dictShop = shop as? NSDictionary{
-                    var shopModel = Shops(dictShop: dictShop)
+                    let shopModel = Shops(dictShop: dictShop)
+                    self.shops.append(shopModel)
+                }
+            }
+        }
+        if let shops = dictProduct["promotional_shops"] as? NSArray{
+            for shop in shops{
+                if let dictShop = shop as? NSDictionary{
+                    let shopModel = Shops(dictShop: dictShop)
                     self.shops.append(shopModel)
                 }
             }

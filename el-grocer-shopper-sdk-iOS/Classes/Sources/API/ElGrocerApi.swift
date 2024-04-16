@@ -4966,8 +4966,9 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
                       completion(.success(campaignResponse.data))
                       return
                   }
-                  
-                  completion(.failure(ElGrocerError.parsingError()))
+                  else{
+                      completion(.failure(ElGrocerError.parsingError()))
+                  }
               } catch {
                   completion(.failure(ElGrocerError.parsingError()))
               }
