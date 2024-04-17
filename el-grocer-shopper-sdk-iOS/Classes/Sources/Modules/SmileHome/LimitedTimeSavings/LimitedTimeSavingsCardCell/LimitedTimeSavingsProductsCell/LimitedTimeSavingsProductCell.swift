@@ -24,18 +24,17 @@ class LimitedTimeSavingsProductCell: UICollectionViewCell {
     func configureCell(product: LimitedTimeSavingsProduct, groceryId: String){
         oldPrice.strikeThrough(true)
         productImageView.assignImage(imageUrl: product.photo_url)
-        let shops = product.shops.filter { (String($0.retailer_id) == groceryId) }
-        let promotionalShops = product.promotionalShops.filter { (String($0.retailer_id) == groceryId) }
-        if(promotionalShops.count > 0){
-            self.productPrice.text = promotionalShops[0].price_currency + " " + promotionalShops[0].price
-            self.oldPrice.isHidden = false
-            self.oldPrice.text = shops[0].price_currency + " " + shops[0].price
-        }else if(shops.count > 0){
-            self.productPrice.text = shops[0].price_currency + " " + shops[0].price
-            self.oldPrice.isHidden = true
+        //let shops = product.shops.filter { (String($0.retailer_id) == groceryId) }
+        //let promotionalShops = product.promotionalShops.filter { (String($0.retailer_id) == groceryId) }
+        if(product.promotionalShop != nil){
+            self.productPrice.text = product.promotionalShop!.price_currency + " " + product.promotionalShop!.price
+            if(product.shop != nil){
+                self.oldPrice.text = product.shop!.price_currency + " " + product.shop!.price
+            }else{
+                self.oldPrice.text = "AED 0.0"
+            }
         }else{
             self.productPrice.text = "AED 0.0"
-            self.oldPrice.isHidden = false
             self.oldPrice.text = "AED 0.0"
         }
     }

@@ -131,13 +131,13 @@ extension LimitedTimeSavingsCardCollectionCell: UICollectionViewDelegateFlowLayo
 }
 extension LimitedTimeSavingsCardCollectionCell{
     func getAlgoliaProducts(){
-        //AlgoliaApi.sharedInstance.searchWithQuery(query: "shops.retailer_id:16", pageNumber: 0) {
-        AlgoliaApi.sharedInstance.searchWithQuery(query: offers?.query ?? "", pageNumber: 0) { content, error in
+        AlgoliaApi.sharedInstance.searchWithQuery(query: offers?.query ?? "", pageNumber: 0){
+         content, error in
             if let arrayHits = content?["hits"] as? NSArray{
                 for productObj in arrayHits{
                     if let dictProduct = productObj as? NSDictionary{
                         print(dictProduct)
-                        let productModel = LimitedTimeSavingsProduct(dictProduct: dictProduct)
+                        let productModel = LimitedTimeSavingsProduct(dictProduct: dictProduct, groceryId: Int(self.grocery?.dbID ?? "0") ?? 0)
                         self.products.append(productModel)
                     }
                 }

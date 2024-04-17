@@ -9,11 +9,15 @@ import Foundation
 
 class LimitedTimeSavingsProduct{
     var id: Int = 0
+    var groceryId = 0
     var photo_url: String = ""
-    var shops: [Shops] = [Shops]()
-    var promotionalShops: [Shops] = [Shops]()
+    var shop: Shops?
+    var promotionalShop: Shops?
+    //var shops: [Shops] = [Shops]()
+    //var promotionalShops: [Shops] = [Shops]()
     
-    init(dictProduct: NSDictionary){
+    init(dictProduct: NSDictionary, groceryId: Int){
+        self.groceryId = groceryId
         if let id = dictProduct["id"] as? NSNumber{
             self.id = id.intValue
         }
@@ -24,7 +28,10 @@ class LimitedTimeSavingsProduct{
             for shop in shops{
                 if let dictShop = shop as? NSDictionary{
                     let shopModel = Shops(dictShop: dictShop)
-                    self.shops.append(shopModel)
+                    if(shopModel.retailer_id == self.groceryId){
+                        self.shop = Shops(dictShop: dictShop)
+                    }
+                    //self.shops.append(shopModel)
                 }
             }
         }
@@ -32,7 +39,10 @@ class LimitedTimeSavingsProduct{
             for shop in shops{
                 if let dictShop = shop as? NSDictionary{
                     let shopModel = Shops(dictShop: dictShop)
-                    self.shops.append(shopModel)
+                    if(shopModel.retailer_id == self.groceryId){
+                        self.promotionalShop = Shops(dictShop: dictShop)
+                    }
+                    //self.promotionalShops.append(shopModel)
                 }
             }
         }
