@@ -377,11 +377,11 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.setNavigationApearance()
+        self.adjustHeaderDisplay()
     }
     
     func configureBeforeViewAppears() {
-        self.setNavigationApearance()
-        self.adjustHeaderDisplay()
         if UIApplication.topViewController() is GroceryLoaderViewController {
             self.isComingFromGroceryLoaderVc = true
         }
