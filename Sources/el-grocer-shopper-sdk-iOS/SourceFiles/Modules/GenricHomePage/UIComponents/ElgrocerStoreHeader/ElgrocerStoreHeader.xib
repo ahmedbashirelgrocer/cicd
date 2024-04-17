@@ -194,7 +194,7 @@
                                 <constraint firstItem="Llc-K6-zes" firstAttribute="top" secondItem="gzu-G6-0uQ" secondAttribute="top" constant="5" id="mgg-Rn-lbd"/>
                             </constraints>
                         </view>
-                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ls7-hF-Aq6" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ls7-hF-Aq6" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                             <rect key="frame" x="16" y="84" width="363" height="30"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_warning" translatesAutoresizingMaskIntoConstraints="NO" id="5pd-qi-3dL">

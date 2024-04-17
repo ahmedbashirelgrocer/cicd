@@ -2022,13 +2022,13 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                                                         <color key="textColor" red="0.0" green="0.2784313725" blue="0.21176470589999999" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="highlightedColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     </label>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DE9-gn-Kun" userLabel="orderDetail" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DE9-gn-Kun" userLabel="orderDetail" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                                                         <rect key="frame" x="16" y="196" width="358" height="180"/>
                                                         <subviews>
                                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hu6-cM-H60" userLabel="storeView" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                                                                 <rect key="frame" x="0.0" y="0.0" width="358" height="56"/>
                                                                 <subviews>
-                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mCQ-QM-oDd" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mCQ-QM-oDd" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                                                                         <rect key="frame" x="239.66666666666666" y="9" width="110.33333333333334" height="30"/>
                                                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                         <constraints>
@@ -2183,7 +2183,7 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                                                             <constraint firstItem="G60-7h-zRq" firstAttribute="top" secondItem="Hu6-cM-H60" secondAttribute="bottom" constant="8" id="pHM-cY-1qx"/>
                                                         </constraints>
                                                     </view>
-                                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hFs-ZX-Ae5" userLabel="statusView" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hFs-ZX-Ae5" userLabel="statusView" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                                                         <rect key="frame" x="16" y="392" width="358" height="180"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Estimated delivery" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eaC-PV-oFy">
@@ -2249,7 +2249,7 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                                                             <constraint firstItem="tCi-CE-V0E" firstAttribute="top" secondItem="Xaj-oK-ynN" secondAttribute="bottom" constant="8" id="vp0-Wh-Mij"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NCI-W8-1cd" userLabel="PicketView" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NCI-W8-1cd" userLabel="PicketView" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                                                         <rect key="frame" x="16" y="588" width="358" height="74"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="riderOrPicker" translatesAutoresizingMaskIntoConstraints="NO" id="llY-ZD-EgT">

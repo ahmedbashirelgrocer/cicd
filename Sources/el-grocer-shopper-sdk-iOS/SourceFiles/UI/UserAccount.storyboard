@@ -317,7 +317,7 @@
                                     <outlet property="delegate" destination="muS-6u-cwi" id="svG-X2-yQF"/>
                                 </connections>
                             </textField>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZEd-G6-F7S" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZEd-G6-F7S" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                                 <rect key="frame" x="16" y="366" width="343" height="54"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>

@@ -18,7 +18,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="417" height="123"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tsf-9M-moG" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tsf-9M-moG" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                         <rect key="frame" x="5" y="5" width="407" height="104"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="xhW-fR-DEA">

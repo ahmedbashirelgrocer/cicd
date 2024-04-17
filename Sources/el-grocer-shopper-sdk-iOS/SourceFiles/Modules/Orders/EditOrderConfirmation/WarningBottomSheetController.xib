@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WarningBottomSheetController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WarningBottomSheetController" customModule="el_grocer_shopper_sdk_iOS">
             <connections>
                 <outlet property="btnClose" destination="McQ-nh-Qir" id="EQF-wU-uua"/>
                 <outlet property="btnNegative" destination="CPy-UH-Zgm" id="VFW-vZ-t7W"/>
@@ -71,7 +71,7 @@
                             <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                             <state key="normal" title="Cancel"/>
                         </button>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HA9-Sj-0rT" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HA9-Sj-0rT" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                             <rect key="frame" x="156.66666666666666" y="44.666666666666629" width="80" height="80"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dZf-br-ghY">

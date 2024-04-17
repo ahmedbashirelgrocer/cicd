@@ -24,7 +24,7 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gBb-ys-6ue" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gBb-ys-6ue" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                             <rect key="frame" x="305" y="10" width="77" height="30"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p21-9h-if3">

@@ -21,7 +21,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vWj-2O-mkk">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="118"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BOs-Bp-7Tm" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BOs-Bp-7Tm" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                                 <rect key="frame" x="16" y="0.0" width="288" height="118"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wallet_transaction_logo" translatesAutoresizingMaskIntoConstraints="NO" id="PwR-w9-se8">

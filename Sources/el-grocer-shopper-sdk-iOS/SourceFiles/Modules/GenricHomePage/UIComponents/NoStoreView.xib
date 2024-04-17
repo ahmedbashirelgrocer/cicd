@@ -19,9 +19,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="NoStoreView" customModule="el_grocer_shopper_sdk_iOS">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="450"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+        <view contentMode="scaleToFill" id="jSn-1d-HyN" customClass="NoStoreView" customModule="el_grocer_shopper_sdk_iOS">
+            <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Eoo-bZ-ezC">
                     <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
@@ -41,8 +41,8 @@
                             <color key="textColor" red="0.34901960780000002" green="0.34901960780000002" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pd8-zv-KnH" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS">
-                            <rect key="frame" x="16" y="339" width="343" height="56"/>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cV9-ok-kAH" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS">
+                            <rect key="frame" x="16" y="480.33333333333331" width="358" height="55.999999999999943"/>
                             <color key="backgroundColor" red="0.34901960780000002" green="0.66666666669999997" blue="0.27450980390000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="56" id="wtb-QK-VKE"/>

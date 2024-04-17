@@ -90,7 +90,7 @@
                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Mz-Bf-0Of" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Mz-Bf-0Of" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                                 <rect key="frame" x="142" y="22" width="132" height="30"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>

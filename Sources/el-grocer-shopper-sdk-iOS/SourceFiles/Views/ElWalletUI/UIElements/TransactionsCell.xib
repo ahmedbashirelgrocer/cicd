@@ -20,7 +20,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wJI-wH-Ami">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="128"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G6T-cW-gx6" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G6T-cW-gx6" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                                 <rect key="frame" x="16" y="0.0" width="288" height="128"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EZb-BX-pEx">

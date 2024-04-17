@@ -21,7 +21,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hpL-0d-Dec" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                         <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L9G-yK-mLe" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L9G-yK-mLe" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                                 <rect key="frame" x="0.0" y="0.0" width="88" height="14"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8zr-k1-BvZ">
