@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -26,7 +26,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="AD" translatesAutoresizingMaskIntoConstraints="NO" id="9aL-qN-v6T">
-                                <rect key="frame" x="20" y="10" width="40" height="40"/>
+                                <rect key="frame" x="16" y="10" width="40" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="CWB-TB-3At"/>
                                     <constraint firstAttribute="width" constant="40" id="EVM-AH-GZE"/>
@@ -38,7 +38,7 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="ZQB-vS-3xH">
-                                <rect key="frame" x="68" y="10" width="140" height="40.5"/>
+                                <rect key="frame" x="64" y="10" width="104.5" height="40.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Union Coop" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oy3-NL-tVt">
                                         <rect key="frame" x="0.0" y="0.0" width="90.5" height="20.5"/>
@@ -47,7 +47,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="t3b-Bq-OM5">
-                                        <rect key="frame" x="0.0" y="24.5" width="140" height="16"/>
+                                        <rect key="frame" x="0.0" y="24.5" width="104.5" height="16"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="undo" translatesAutoresizingMaskIntoConstraints="NO" id="uHs-b0-uTY">
                                                 <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
@@ -57,7 +57,7 @@
                                                 </constraints>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="odj-NX-akL">
-                                                <rect key="frame" x="20" y="0.0" width="120" height="16"/>
+                                                <rect key="frame" x="20" y="0.0" width="84.5" height="16"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="16" id="61E-Fx-SaX"/>
                                                 </constraints>
@@ -71,13 +71,28 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YCD-n8-hHp">
+                                <rect key="frame" x="176.5" y="10" width="127.5" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="NHm-Wn-Uze"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Add Products"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Add Products"/>
+                                <connections>
+                                    <action selector="addProductTapped:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="uWo-c9-6hy"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="YCD-n8-hHp" firstAttribute="leading" secondItem="ZQB-vS-3xH" secondAttribute="trailing" constant="8" id="D1W-wd-fIf"/>
                             <constraint firstItem="ZQB-vS-3xH" firstAttribute="centerY" secondItem="9aL-qN-v6T" secondAttribute="centerY" id="Drg-da-ocy"/>
                             <constraint firstAttribute="height" constant="60" id="Tos-Uh-zVY"/>
-                            <constraint firstItem="9aL-qN-v6T" firstAttribute="leading" secondItem="cKt-Dz-SFO" secondAttribute="leading" constant="20" id="ZL9-iw-Ozd"/>
+                            <constraint firstItem="9aL-qN-v6T" firstAttribute="leading" secondItem="cKt-Dz-SFO" secondAttribute="leading" constant="16" id="ZL9-iw-Ozd"/>
+                            <constraint firstItem="YCD-n8-hHp" firstAttribute="centerY" secondItem="9aL-qN-v6T" secondAttribute="centerY" id="bRL-6r-jDO"/>
                             <constraint firstItem="9aL-qN-v6T" firstAttribute="top" secondItem="cKt-Dz-SFO" secondAttribute="top" constant="10" id="eiz-3Y-mlE"/>
+                            <constraint firstAttribute="trailing" secondItem="YCD-n8-hHp" secondAttribute="trailing" constant="16" id="rOY-Mp-NUS"/>
                             <constraint firstItem="ZQB-vS-3xH" firstAttribute="leading" secondItem="9aL-qN-v6T" secondAttribute="trailing" constant="8" id="wpR-b5-Vph"/>
                         </constraints>
                     </view>
@@ -93,6 +108,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
+                <outlet property="buttonAddProduct" destination="YCD-n8-hHp" id="zRN-ZQ-PdL"/>
                 <outlet property="buttonReturnToStore" destination="odj-NX-akL" id="iLB-Ym-ajZ"/>
                 <outlet property="imageGrocery" destination="9aL-qN-v6T" id="SdO-ny-Hu4"/>
                 <outlet property="ivUndo" destination="uHs-b0-uTY" id="RbS-Wo-3hq"/>

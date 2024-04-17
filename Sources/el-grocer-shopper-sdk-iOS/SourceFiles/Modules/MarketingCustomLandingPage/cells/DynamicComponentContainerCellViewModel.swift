@@ -10,6 +10,8 @@ import RxSwift
 import RxDataSources
 
 protocol DynamicComponentContainerCellInput {
+    var scrollObserver: AnyObserver<CGPoint> { get }
+    var contentSizeObserver: AnyObserver<CGSize> { get }
 }
 
 protocol DynamicComponentContainerCellOutput {
@@ -47,11 +49,16 @@ class DynamicComponentContainerCellViewModel: DynamicComponentContainerCellType,
     }
     
     // MARK: Inputs
+    var scrollObserver: AnyObserver<CGPoint> { scrollSubject.asObserver() }
+    var contentSizeObserver: AnyObserver<CGSize> { contentSizeSubject.asObserver() }
+    
     // MARK: Outputs
     var isArabic: Observable<Bool> { isArabicSubject.asObservable() }
     var productCollectionCellViewModels: Observable<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]> { self.productCollectionCellViewModelsSubject.asObservable() }
     var productCount: Observable<Int> { productCountSubject.asObservable() }
     // MARK: Subject
+    var scrollSubject: PublishSubject<CGPoint> = .init()
+    var contentSizeSubject: PublishSubject<CGSize> = .init()
     private let isArabicSubject = BehaviorSubject<Bool>(value: false)
     let productCollectionCellViewModelsSubject = BehaviorSubject<[SectionModel<Int, ReusableCollectionViewCellViewModelType>]>(value: [])
     var productCountSubject = BehaviorSubject<Int>(value: 1)

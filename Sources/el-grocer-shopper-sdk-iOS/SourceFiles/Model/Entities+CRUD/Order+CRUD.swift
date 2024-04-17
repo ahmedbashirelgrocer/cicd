@@ -270,7 +270,15 @@ extension Order {
         
             //delivery address
         let addressId = orderDict["shopper_address_id"] as? NSNumber
-        let addressOrderId = "\(orderId)_\(String(describing: addressId ?? -1))"
+        let smilesAddressId = orderDict["smiles_address_id"] as? String
+        
+        var addressOrderId: String!
+        
+        if ElGrocerUtility.isAddressCentralisation {
+            addressOrderId = "\(orderId)_\(smilesAddressId ?? "")"
+        } else {
+            addressOrderId = "\(orderId)_\(String(describing: addressId ?? -1))"
+        }
         
         let deliveryAddress = DatabaseHelper.sharedInstance.insertOrReplaceObjectForEntityForName(DeliveryAddressEntity, entityDbId: addressOrderId as AnyObject, keyId: "dbID", context: context) as! DeliveryAddress
         

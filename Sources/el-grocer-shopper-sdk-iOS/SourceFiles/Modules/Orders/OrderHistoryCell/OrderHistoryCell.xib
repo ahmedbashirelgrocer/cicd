@@ -295,6 +295,7 @@
                             <constraint firstAttribute="trailing" secondItem="HCF-nL-wyn" secondAttribute="trailing" constant="16" id="QkB-Ox-Mhx"/>
                             <constraint firstItem="3Mz-Bf-0Of" firstAttribute="leading" secondItem="HWd-tn-2pC" secondAttribute="trailing" constant="5" id="RkN-UX-vRi"/>
                             <constraint firstItem="3S0-14-Tdv" firstAttribute="leading" secondItem="8Zz-ec-81F" secondAttribute="leading" constant="12" id="Ryn-P8-eu5"/>
+                            <constraint firstAttribute="trailing" secondItem="0AK-di-9fj" secondAttribute="trailing" constant="12" id="SXk-cA-P7X"/>
                             <constraint firstItem="jjy-TV-d9i" firstAttribute="leading" secondItem="UMK-uh-i7b" secondAttribute="leading" id="TPL-mv-iHb"/>
                             <constraint firstItem="tuu-X0-Iyt" firstAttribute="top" secondItem="ZI8-1D-sMc" secondAttribute="bottom" constant="8" id="UZB-cs-vQv"/>
                             <constraint firstItem="vsi-Zx-bSu" firstAttribute="leading" secondItem="yVN-SZ-fJ6" secondAttribute="trailing" constant="4" id="Uuf-PH-PCo"/>
@@ -395,7 +396,10 @@
         <image name="arrowForwardSmiles" width="24" height="24"/>
         <image name="icHalfflagOrange" width="90" height="16.5"/>
         <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

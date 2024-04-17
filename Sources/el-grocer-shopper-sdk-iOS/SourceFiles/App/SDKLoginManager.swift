@@ -14,6 +14,7 @@ public struct SDKLoginManager {
     static var KOpenOrderRefresh = NSNotification.Name(rawValue: "KOpenOrderRefreshFromPush")
     
     var launchOptions: LaunchOptions
+    static var isAddressFetched = false
     
     // This flag is used to keep track whether user is registered or login with out system
     // And on the base of this we are pushing User Registered or User Signed In events to Segment Analytics
@@ -25,6 +26,7 @@ public struct SDKLoginManager {
     func loginFlowForSDK(_ completionHandler:@escaping CompletionHandler) {
         // if from SDK
         
+        Self.isAddressFetched = false
         
         self.setLanguageWithLunchOptions()
         
@@ -60,21 +62,26 @@ public struct SDKLoginManager {
         ElGrocerApi.sharedInstance
             .registerPhone(phoneNumber) { error, responseObject in
                 if error == nil {
-                    let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                    if (locations.count > 0 && locations[0].address.count > 0) {
+//                    let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+//                    if (locations.count > 0 && locations[0].address.count > 0) {
+//                        self.updateProfileAndData(responseObject!)
+//                        ElGrocerUtility.sharedInstance.addDeliveryToServerWithBlock(locations) { (isResult, errorMsg) in
+//                            if isResult {
+//                                UserDefaults.setDidUserSetAddress(true)
+//                                completionHandler(true, "", 0)
+//                            }else {
+//                                completionHandler(false, errorMsg, 0)
+//                            }
+//                        }
+//                    }else{
+//                        self.getUserDeliveryAddresses(responseObject!, completionHandler: completionHandler)
+//                    }
+                    self.getUserDeliveryAddresses(responseObject) { isSuccess, errorMessage, errorCode in
                         self.updateProfileAndData(responseObject!)
-                        ElGrocerUtility.sharedInstance.addDeliveryToServerWithBlock(locations) { (isResult, errorMsg) in
-                            if isResult {
-                                UserDefaults.setDidUserSetAddress(true)
-                                completionHandler(true, "", 0)
-                            }else {
-                                completionHandler(false, errorMsg, 0)
-                            }
-                        }
-                    }else{
-                        self.getUserDeliveryAddresses(responseObject!, completionHandler: completionHandler)
+                        _ = ElGrocerUtility.setDefaultAddress()
+                        completionHandler(true, "", 0)
+                        // ElGrocerUtility.sharedInstance.isAddressListUpdated = true
                     }
-                    
                 } else {
                     let errorMessage = error?.message ?? ""
                     completionHandler(false, errorMessage, error?.code ?? 0)
@@ -89,6 +96,12 @@ public struct SDKLoginManager {
         ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile)
         UserDefaults.setLogInUserID(userProfile.dbID.stringValue)
         FireBaseEventsLogger.setUserID(userProfile.dbID.stringValue)
+        
+        
+        UserDefaults.setDidUserSetAddress(true)
+        UserDefaults.setLogInUserID(userProfile.dbID.stringValue)
+        UserDefaults.setUserLoggedIn(true)
+        SDKLoginManager.isUserRegistered = false
     }
     
     private func getUserDeliveryAddresses(_ responseObject:NSDictionary?, completionHandler:@escaping CompletionHandler){
@@ -98,29 +111,31 @@ public struct SDKLoginManager {
         ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile)
         UserDefaults.setLogInUserID(userProfile.dbID.stringValue)
         FireBaseEventsLogger.setUserID(userProfile.dbID.stringValue)
+        DatabaseHelper.sharedInstance.saveDatabase()
         
+        Self.getDeliveryAddress(userProfile, completionHandler)
+    }
+    
+    static func getDeliveryAddress(_ userProfile: UserProfile! = nil, _ completionHandler: ((_ isSuccess: Bool, _ errorMessage: String, _ errorCode: Int?) -> Void)?) {
         // Get the user delivery addresses
+        
+        var userProfile: UserProfile! = userProfile
+        if userProfile == nil {
+            userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        }
+        
         ElGrocerApi.sharedInstance.getDeliveryAddressesDefault({ (result, responseObject) -> Void in
-         
+            
             if result {
                 let deliveryAddress = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                if deliveryAddress.count == 0 {
-                    SDKLoginManager.isUserRegistered = true
-                    self.createNewDefaultAddressForNewUser(for: userProfile, completion: completionHandler)
-                } else {
-                    UserDefaults.setDidUserSetAddress(true)
-                    UserDefaults.setLogInUserID(userProfile.dbID.stringValue)
-                    UserDefaults.setUserLoggedIn(true)
-                    SDKLoginManager.isUserRegistered = false
-                    
-                    completionHandler(true, "", 0)
-                }
-    
+                DatabaseHelper.sharedInstance.saveDatabase()
+                Self.isAddressFetched = true
+                completionHandler?(true, "", 0)
             } else {
+                Self.isAddressFetched = true
                 let errorMessage = localizedString("registration_error_alert", comment: "")
-                completionHandler(false, errorMessage, 0)
+                completionHandler?(false, errorMessage, 0)
             }
-            
         })
     }
     
@@ -161,7 +176,13 @@ public struct SDKLoginManager {
             DatabaseHelper.sharedInstance.mainManagedObjectContext.delete(deliveryAddress)
             if result == true {
                 
-                let addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
+                var addressDict: NSDictionary!
+                if sdkManager.isShopperApp {
+                    addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
+                } else {
+                    addressDict = responseObject!["data"] as? NSDictionary
+                }
+                
                 let currentAddress = DeliveryAddress.insertOrUpdateDeliveryAddressForUser(forUser, fromDictionary: addressDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 _ = DeliveryAddress.setActiveDeliveryAddress(currentAddress, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 DatabaseHelper.sharedInstance.saveDatabase()
@@ -211,6 +232,7 @@ extension SDKLoginManager {
             }
             
             if !nav.isBeingPresented {
+                SDKManager.shared.rootContext = UIWindow.key?.rootViewController
                 SDKManager.shared.rootContext?.present(nav, animated: true, completion: nil)
             }
         }

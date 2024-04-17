@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="WarningBottomSheetController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+            <connections>
+                <outlet property="btnClose" destination="McQ-nh-Qir" id="EQF-wU-uua"/>
+                <outlet property="btnNegative" destination="CPy-UH-Zgm" id="VFW-vZ-t7W"/>
+                <outlet property="btnPositive" destination="IS5-QF-Hak" id="PR3-xu-TkE"/>
+                <outlet property="ivIcon" destination="dZf-br-ghY" id="oD9-Cb-BFB"/>
+                <outlet property="lblMsg" destination="suW-7u-RoG" id="bp5-CK-FwH"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kmA-ji-4sj" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
+                    <rect key="frame" x="0.0" y="482" width="393" height="370"/>
+                    <subviews>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3De-K0-G7F">
+                            <rect key="frame" x="0.0" y="0.66666666666668561" width="393" height="44"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="McQ-nh-Qir">
+                                    <rect key="frame" x="341" y="2" width="48" height="40"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="40" id="beM-Ub-fT6"/>
+                                    </constraints>
+                                    <state key="normal" title="Button"/>
+                                    <buttonConfiguration key="configuration" style="plain" image="cross" title=""/>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="McQ-nh-Qir" secondAttribute="trailing" constant="4" id="6uD-8z-VA8"/>
+                                <constraint firstAttribute="bottom" secondItem="McQ-nh-Qir" secondAttribute="bottom" constant="2" id="NyX-A9-N11"/>
+                                <constraint firstItem="McQ-nh-Qir" firstAttribute="top" secondItem="3De-K0-G7F" secondAttribute="top" constant="2" id="edg-Kj-Seo"/>
+                            </constraints>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="suW-7u-RoG">
+                            <rect key="frame" x="16" y="132.66666666666663" width="361" height="81.333333333333314"/>
+                            <string key="text">You've got a 30 minutes to edit your order. Feel free to make any adjustments you need within this time.Your order won't be processed until you're ready!</string>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IS5-QF-Hak">
+                            <rect key="frame" x="16" y="230" width="361" height="56"/>
+                            <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="56" id="iwg-ZF-hRz"/>
+                            </constraints>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Edit Order">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CPy-UH-Zgm">
+                            <rect key="frame" x="16" y="290" width="361" height="56"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="56" id="Avh-3o-2ED"/>
+                            </constraints>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Cancel"/>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HA9-Sj-0rT" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                            <rect key="frame" x="156.66666666666666" y="44.666666666666629" width="80" height="80"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dZf-br-ghY">
+                                    <rect key="frame" x="17.333333333333343" y="17.666666666666742" width="45" height="45"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="dZf-br-ghY" secondAttribute="height" multiplier="1:1" id="YOe-lU-5Qr"/>
+                                        <constraint firstAttribute="width" constant="45" id="mx9-IF-tAG"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" red="0.96078431369999995" green="0.96078431369999995" blue="0.96078431369999995" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="width" secondItem="HA9-Sj-0rT" secondAttribute="height" multiplier="1:1" id="XfO-NL-xGH"/>
+                                <constraint firstItem="dZf-br-ghY" firstAttribute="centerX" secondItem="HA9-Sj-0rT" secondAttribute="centerX" id="Y36-ae-Roi"/>
+                                <constraint firstAttribute="width" constant="80" id="okk-VI-kAI"/>
+                                <constraint firstItem="dZf-br-ghY" firstAttribute="centerY" secondItem="HA9-Sj-0rT" secondAttribute="centerY" id="peA-aG-4fu"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                    <real key="value" value="40"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="CPy-UH-Zgm" firstAttribute="trailing" secondItem="IS5-QF-Hak" secondAttribute="trailing" id="1Yx-xF-Ywe"/>
+                        <constraint firstItem="3De-K0-G7F" firstAttribute="leading" secondItem="kmA-ji-4sj" secondAttribute="leading" id="6uc-oL-TK2"/>
+                        <constraint firstItem="IS5-QF-Hak" firstAttribute="leading" secondItem="kmA-ji-4sj" secondAttribute="leading" constant="16" id="8s7-mq-pGl"/>
+                        <constraint firstAttribute="height" constant="370" id="Lbm-wf-4Hb"/>
+                        <constraint firstAttribute="bottom" secondItem="CPy-UH-Zgm" secondAttribute="bottom" constant="24" id="MpE-YK-Vaw"/>
+                        <constraint firstItem="IS5-QF-Hak" firstAttribute="top" secondItem="suW-7u-RoG" secondAttribute="bottom" constant="16" id="T10-AH-4mU"/>
+                        <constraint firstAttribute="trailing" secondItem="IS5-QF-Hak" secondAttribute="trailing" constant="16" id="TCj-Cf-lal"/>
+                        <constraint firstItem="HA9-Sj-0rT" firstAttribute="centerX" secondItem="kmA-ji-4sj" secondAttribute="centerX" id="TMl-Tx-WuY"/>
+                        <constraint firstAttribute="trailing" secondItem="suW-7u-RoG" secondAttribute="trailing" constant="16" id="TO5-dp-igo"/>
+                        <constraint firstItem="suW-7u-RoG" firstAttribute="top" secondItem="HA9-Sj-0rT" secondAttribute="bottom" constant="8" id="aRr-k4-zjt"/>
+                        <constraint firstItem="CPy-UH-Zgm" firstAttribute="leading" secondItem="IS5-QF-Hak" secondAttribute="leading" id="cBr-tn-BcC"/>
+                        <constraint firstItem="HA9-Sj-0rT" firstAttribute="top" secondItem="3De-K0-G7F" secondAttribute="bottom" id="iQN-6q-xq4"/>
+                        <constraint firstItem="CPy-UH-Zgm" firstAttribute="top" secondItem="IS5-QF-Hak" secondAttribute="bottom" constant="4" id="lTR-f9-3ay"/>
+                        <constraint firstItem="suW-7u-RoG" firstAttribute="leading" secondItem="kmA-ji-4sj" secondAttribute="leading" constant="16" id="m9O-iz-np8"/>
+                        <constraint firstAttribute="trailing" secondItem="3De-K0-G7F" secondAttribute="trailing" id="oL9-9s-Nfl"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                            <real key="value" value="16"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" white="0.0" alpha="0.29509002483443708" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="kmA-ji-4sj" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="JsD-sY-DZq"/>
+                <constraint firstAttribute="bottom" secondItem="kmA-ji-4sj" secondAttribute="bottom" id="cCz-ke-Qfc"/>
+                <constraint firstAttribute="trailing" secondItem="kmA-ji-4sj" secondAttribute="trailing" id="f8M-pn-p7K"/>
+            </constraints>
+            <point key="canvasLocation" x="136.64122137404578" y="233.09859154929578"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="cross" width="24" height="24"/>
+    </resources>
+</document>

@@ -87,9 +87,18 @@ extension LocationMapDelegation : LocationMapViewControllerDelegate {
                 ElGrocerApi.sharedInstance.addOrUpdateDeliveryAddress(withEmail: userProfile?.email ?? "", and: deliveryAddress) { result, responseObject in
                     SpinnerView.hideSpinnerView()
                     if result {
-                        let addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
-                        let dbID = addressDict["id"] as! NSNumber
-                        let dbIDString = "\(dbID)"
+                        var addressDict: NSDictionary!
+                        var dbIDString: String!
+                        
+                        if ElGrocerUtility.isAddressCentralisation {
+                            addressDict = responseObject!["data"] as? NSDictionary
+                            dbIDString = addressDict["smiles_address_id"] as? String
+                        } else {
+                            addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as? NSDictionary
+                            let dbID = addressDict["id"] as! NSNumber
+                            dbIDString = "\(dbID)"
+                        }
+                        
                         deliveryAddress.dbID = dbIDString
                         if userProfile != nil {
                             let newAddress = DeliveryAddress.insertOrUpdateDeliveryAddressForUser(userProfile!, fromDictionary: addressDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -223,9 +232,22 @@ extension LocationMapDelegation : LocationMapViewControllerDelegate {
                 ElGrocerApi.sharedInstance.addDeliveryAddress(deliveryAddress, completionHandler: { (result:Bool, responseObject:NSDictionary?) -> Void in
                     SpinnerView.hideSpinnerView()
                     if result {
-                        let addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
-                        let dbID = addressDict["id"] as! NSNumber
-                        let dbIDString = "\(dbID)"
+                        
+                        var addressDict: NSDictionary!
+                        if ElGrocerUtility.isAddressCentralisation {
+                            addressDict = responseObject!["data"] as? NSDictionary
+                        } else {
+                            addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
+                        }
+
+                        var dbIDString: String!
+                        if ElGrocerUtility.isAddressCentralisation {
+                            dbIDString = addressDict["smiles_address_id"] as? String ?? ""
+                        } else {
+                            let dbID = addressDict["id"] as! NSNumber
+                            dbIDString = "\(dbID)"
+                        }
+                        
                         deliveryAddress.dbID = dbIDString
                         if userProfile != nil {
                             let newAddress = DeliveryAddress.insertOrUpdateDeliveryAddressForUser(userProfile!, fromDictionary: addressDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)

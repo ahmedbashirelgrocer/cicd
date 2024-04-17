@@ -295,6 +295,7 @@ struct AppConfiguration {
     var fetchCatalogFromAlgolia : Bool = true
     var smilesData: SmilesData = SmilesData()
     var initialAuthAmount: Double = 0.00
+    var sdkMaxAddressLimit: Int = 5
 }
 extension AppConfiguration {
     
@@ -318,6 +319,7 @@ extension AppConfiguration {
         if let smilesDictionary = dict["smile_data"] as? Dictionary<String, Any> {
             smilesData = SmilesData.init(smilesDict: smilesDictionary)
         }
+        sdkMaxAddressLimit = dict["sdk_max_address_limit"] as? Int ?? 5
     }
     
 }

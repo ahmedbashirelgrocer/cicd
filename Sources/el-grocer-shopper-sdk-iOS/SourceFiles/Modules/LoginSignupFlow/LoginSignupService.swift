@@ -216,10 +216,21 @@ struct LoginSignupService {
             
             if result {
                 
-                let addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
+                var addressDict: NSDictionary!
+                if ElGrocerUtility.isAddressCentralisation {
+                    addressDict = responseObject!["data"] as? NSDictionary
+                } else {
+                    addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
+                }
+
+                var dbIDString: String!
+                if ElGrocerUtility.isAddressCentralisation {
+                    dbIDString = addressDict["smiles_address_id"] as? String ?? ""
+                } else {
+                    let dbID = addressDict["id"] as! NSNumber
+                    dbIDString = "\(dbID)"
+                }
                 
-                let dbID = addressDict["id"] as! NSNumber
-                let dbIDString = "\(dbID)"
                 deliveryAddress.dbID = dbIDString
                 DatabaseHelper.sharedInstance.saveDatabase()
                 
@@ -260,7 +271,7 @@ struct LoginSignupService {
         }
     }
     
-    static func updateDeliveryAddress(_ deliveryAddress: DeliveryAddress, userProfile : UserProfile , completionHandler: ((_ code: Int)->Void)? ) {
+    static func updateDeliveryAddress(_ deliveryAddress: DeliveryAddress, setDefault: Bool = true, userProfile : UserProfile , completionHandler: ((_ code: Int)->Void)? ) {
         
         UserDefaults.setDidUserSetAddress(true)
         
@@ -272,20 +283,33 @@ struct LoginSignupService {
             
             if result {
                 
-                let addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
-                let dbID = addressDict["id"] as! NSNumber
-                let dbIDString = "\(dbID)"
+                var addressDict: NSDictionary!
+                if ElGrocerUtility.isAddressCentralisation {
+                    addressDict = responseObject!["data"] as? NSDictionary
+                } else {
+                    addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
+                }
+
+                var dbIDString: String!
+                if ElGrocerUtility.isAddressCentralisation {
+                    dbIDString = addressDict["smiles_address_id"] as? String ?? ""
+                } else {
+                    let dbID = addressDict["id"] as! NSNumber
+                    dbIDString = "\(dbID)"
+                }
                 deliveryAddress.dbID = dbIDString
                 let newAddress = DeliveryAddress.insertOrUpdateDeliveryAddressForUser(userProfile, fromDictionary: addressDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 
                 DatabaseHelper.sharedInstance.saveDatabase()
                 
                     // We need to set the new address as the active address
-                ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(newAddress, completionHandler: { (result) in
-                    UserDefaults.setDidUserSetAddress(true)
+                if setDefault {
+                    ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(newAddress, completionHandler: { (result) in
+                        UserDefaults.setDidUserSetAddress(true)
                         // self.refreshData()
                         // self.presentContactInfoViewController(newAddress)
-                })
+                    })
+                }
                 completionHandler?(200)
                 
             } else {

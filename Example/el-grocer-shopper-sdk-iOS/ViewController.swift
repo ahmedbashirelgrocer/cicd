@@ -96,6 +96,7 @@ class ViewController: UIViewController {
         /// remember phone number
         let isRememberMeEnabled = self.rememberMeSwitch.isOn
         self.rememberPhoneNumber(phoneNumber: self.txtAccountNumber.text, isRemember: isRememberMeEnabled)
+        self.rememberLoyaltyID(self.txtLoyalityID.text, isRemember: isRememberMeEnabled)
         
 //        FlavorAgent.startFlavorEngine(launchOptions) {
 //            debugPrint("startAnimation")
@@ -132,6 +133,18 @@ class ViewController: UIViewController {
     }
     
     func setDefaultData() {
+        /// Test Account Staging
+        /// Phone: +923062520002
+        /// Loyalty: 111111115603
+        ///
+        /// Test Account Admin
+        /// Phone:
+        /// Loyalty:
+        ///
+        /// Test Account Live
+        /// Phone: +971503959146
+        /// Loyalty: 111125506651
+        
         txtAccountNumber.text = self.getRemeberedPhoneNumber()
         #if DEBUG
         txtAccountNumber.text = self.getRemeberedPhoneNumber()
@@ -139,7 +152,11 @@ class ViewController: UIViewController {
         txtLat.text = "\(31.4125128)"
         txtLong.text = "\(73.1165197)"
         txtAddress.text = "Cluster D, United Arab Emirates"
-        txtLoyalityID.text = "111111111130"
+        txtLoyalityID.text = self.getRemeberedLoyaltyID()
+        #if DEBUG
+        txtLoyalityID.text = self.getRemeberedLoyaltyID()
+        #endif
+
         txtEmail.text = ""
         txtPushPayload.text = "" // "[{\"key\":\"message\",\"value\":\"Your order is accepted!\"},{\"key\":\"order_id\",\"value\":530912815},{\"key\":\"message_type\",\"value\":1},{\"key\":\"storeID\",\"value\":16},{\"key\":\"customPageId\",\"value\":7},{\"key\":\"origin\",\"value\":\"el-grocer-api\"}]"
         txtDLPayload.text = "https://smilesmobile.page.link/?link=https://smilesmobile.page.link/exy-too-trana//elgrocer://user_id=26368,StoreID=16,cpid=1,market_type_id=0&apn=ae.etisalat.smiles&ibi=Etisalat.House&isi=1225034537&ofl=https://www.etisalat.ae/en/c/mobile/smiles.jsp"
@@ -340,5 +357,17 @@ fileprivate extension ViewController {
     
     func getRemeberedPhoneNumber() -> String? {
         return UserDefaults.standard.string(forKey: "smiles.wrapper.phone.number")
+    }
+    
+    func rememberLoyaltyID(_ id: String?, isRemember: Bool) {
+        if isRemember {
+            UserDefaults.standard.setValue(id, forKey: "smiles.wrapper.loyalty.id")
+        } else {
+            UserDefaults.standard.setValue("", forKey: "smiles.wrapper.loyalty.id")
+        }
+    }
+    
+    func getRemeberedLoyaltyID() -> String? {
+        return UserDefaults.standard.string(forKey: "smiles.wrapper.loyalty.id")
     }
 }

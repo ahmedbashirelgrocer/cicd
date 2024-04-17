@@ -650,7 +650,10 @@ extension UIButton {
         self.setTitleColor(ApplicationTheme.currentTheme.buttonTextWithClearBGColor, for: .normal)
     }
     
-    
+    func setSubHead2BoldWhiteStyle() {
+        self.titleLabel?.font = UIFont.SFProDisplayBoldFont(13)
+        self.setTitleColor(UIColor.navigationBarWhiteColor(), for: .normal)
+    }
     
     
     func centerVertically(padding: CGFloat = 10.0) {

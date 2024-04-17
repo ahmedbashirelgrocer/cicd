@@ -266,7 +266,7 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
     
     func goToAddNewCardController() {
         
-        AdyenManager.sharedInstance.performZeroTokenization(controller: self,true)
+        AdyenManager.sharedInstance.performOneAEDTokenization(controller: self,true)
         AdyenManager.sharedInstance.walletPaymentMade = {(error, response, adyenObj) in
             SpinnerView.hideSpinnerView()
             if error {

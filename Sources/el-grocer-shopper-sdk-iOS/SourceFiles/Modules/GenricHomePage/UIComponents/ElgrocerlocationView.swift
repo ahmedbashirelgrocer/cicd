@@ -541,13 +541,16 @@ class ElgrocerlocationView:  UIView  {
             self.lblAddress.text = localizedString("error_-6", comment: "")
             return
         }
-        
-        var addressString = ""
-        if let nickName = address.nickName, nickName.count > 0 {
-            addressString = "\(nickName):"
+        if ElGrocerUtility.isAddressCentralisation {
+            self.lblAddress.text = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(address)
+        } else {
+            var addressString = ""
+            if let nickName = address.nickName, nickName.count > 0 {
+                addressString = "\(nickName):"
+            }
+            addressString = addressString + (ElGrocerUtility.sharedInstance.getFormattedAddress(address).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(address) : address.locationName + address.address)
+            self.lblAddress.text   = addressString
         }
-        addressString = addressString + (ElGrocerUtility.sharedInstance.getFormattedAddress(address).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(address) : address.locationName + address.address)
-        self.lblAddress.text   = addressString
          self.loadedAddress = address
         self.localLoadedAddress = LocalDeliverAddress(lat: address.latitude, lng: address.longitude, address: address.locationName)
         
@@ -575,7 +578,11 @@ class ElgrocerlocationView:  UIView  {
         
         self.loadedAddress = address
         self.localLoadedAddress = LocalDeliverAddress(lat: address.latitude, lng: address.longitude, address: address.locationName)
-        self.lblAddress.text   = ElGrocerUtility.sharedInstance.getFormattedAddress(address).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(address) : address.locationName + address.address
+        if ElGrocerUtility.isAddressCentralisation {
+            self.lblAddress.text = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(address)
+        } else {
+            self.lblAddress.text   = ElGrocerUtility.sharedInstance.getFormattedAddress(address).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(address) : address.locationName + address.address
+        }
         
         self.configureCell(grocery!)
         self.widthMultiplier.setMultiplier(multiplier: halfWidth)

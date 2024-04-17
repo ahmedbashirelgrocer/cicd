@@ -12,7 +12,8 @@ import RxCocoa
 
 
 
-protocol RxCollectionViewOnlyTableViewCellInput { }
+protocol RxCollectionViewOnlyTableViewCellInput { 
+}
 
 protocol RxCollectionViewOnlyTableViewCellOutput {
     var updateCellHeight: Observable<CGFloat> { get }
@@ -95,18 +96,18 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
 
     }
     
-    override func bind(to subject: PublishSubject<(contentOffset: CGPoint, didScrollEvent: Void)>) {
-            subject
-                .subscribe(onNext: { [weak self] (contentOffset, _) in
-                    guard let self = self else { return }
-                    let offSetY = contentOffset.y + 250 + self.bounds.maxY
-                    let contentHeight = self.productsCollectionView.contentSize.height - 200
-                    if offSetY > ((contentHeight) - (self.productsCollectionView.frame.size.width)  ) {
-                        self.viewModel.fetchProductsObserver.onNext(())
-                    }
-                })
-                .disposed(by: disposeBag)
-    }
+//    override func bind(to subject: PublishSubject<(contentOffset: CGPoint, didScrollEvent: Void)>) {
+//            subject
+//                .subscribe(onNext: { [weak self] (contentOffset, _) in
+//                    guard let self = self else { return }
+//                    let offSetY = contentOffset.y + 250 + self.bounds.maxY
+//                    let contentHeight = self.productsCollectionView.contentSize.height - 200
+//                    if offSetY > ((contentHeight) - (self.productsCollectionView.frame.size.height)  ) {
+//                        self.viewModel.fetchProductsObserver.onNext(())
+//                    }
+//                })
+//                .disposed(by: disposeBag)
+//    }
     
     private func bindViews() {
         
@@ -132,14 +133,22 @@ class RxCollectionViewOnlyTableViewCell: RxUITableViewCell {
         }).disposed(by: disposeBag)
         
         // Pagination
-        productsCollectionView.rx.didScroll.subscribe { [weak self] _ in
-            guard let self = self else { return }
-            let offSetX = self.productsCollectionView.contentOffset.x
-            let contentWidth = self.productsCollectionView.contentSize.width
-            if offSetX > (contentWidth - self.productsCollectionView.frame.size.width - 200) {
-                // self.viewModel.fetchProductsObserver.onNext(())
-            }
-        }.disposed(by: disposeBag)
+        productsCollectionView.rx.contentSize
+            .subscribe(onNext: { [weak self] value in
+                self?.viewModel.contentSize = value
+            })
+//            .bind(to: self.viewModel.inputs.contentSizeObserver)
+            .disposed(by: disposeBag)
+        
+//        productsCollectionView.rx.didScroll.subscribe { [weak self] _ in
+//            guard let self = self else { return }
+//            let offSetY = self.productsCollectionView.contentOffset.y
+//            let contentHeight = self.productsCollectionView.contentSize.height
+//            
+//            if offSetY > (contentHeight - (self.productsCollectionView.frame.size.height + 400)) {
+//                 self.viewModel.fetchProductsObserver.onNext(())
+//            }
+//        }.disposed(by: disposeBag)
     
         /*
         productsCollectionView.rx.contentSize
@@ -256,6 +265,7 @@ class RxCollectionViewOnlyTableViewCellViewModel: DynamicComponentContainerCellV
         }
     }
     var productCountValue = 0
+    var contentSize: CGSize?
   
 
     init(apiClient: ElGrocerApi = ElGrocerApi.sharedInstance, algoliaAPI: AlgoliaApi = AlgoliaApi.sharedInstance, deliveryTime: Int, category: CategoryDTO?, grocery: Grocery?, component: CampaignSection) {
@@ -275,7 +285,16 @@ class RxCollectionViewOnlyTableViewCellViewModel: DynamicComponentContainerCellV
             }
         }).disposed(by: disposeBag)
         self.fetchProductsSubject.onNext(())
-       // self.productCountSubject.onNext(0)
+        
+        scrollSubject
+            .filter({ offset in
+                let contentOffsetY = offset.y
+                let threshold = (self.contentSize?.height ?? 0.0) - CGFloat(kProductCellHeight * 3)
+                return contentOffsetY > threshold
+            })
+            .map { _ in () }
+            .bind(to: self.fetchProductsSubject)
+            .disposed(by: disposeBag)
     }
     
 }
@@ -313,6 +332,8 @@ private extension RxCollectionViewOnlyTableViewCellViewModel {
             self.limit = (self.category?.algoliaQuery != nil || self.category?.algoliaQuery != "") ? 20 : self.limit
             
             let pageNumber = self.offset / self.limit
+            
+            print("pageNumber >>> \(pageNumber)")
             // ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsStorePage ?? 20
             guard (self.category?.algoliaQuery == nil || self.category?.algoliaQuery == "") else {
                 if let query = self.category?.algoliaQuery {
@@ -355,7 +376,7 @@ private extension RxCollectionViewOnlyTableViewCellViewModel {
         if self.offset == 0 {
             DispatchQueue.global(qos: .default).async(execute: self.dispatchWorkItem!)
         }else {
-            DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 2, execute: self.dispatchWorkItem!)
+            DispatchQueue.global(qos: .utility).async(execute: self.dispatchWorkItem!)
         }
         
     }
@@ -378,9 +399,13 @@ private extension RxCollectionViewOnlyTableViewCellViewModel {
         self.offset += limit
         self.productCountSubject.onNext(self.productCellVMs.count)
         self.productCountValue = self.productCellVMs.count
-        if self.productCellVMs.count >= 20 { self.moreAvailable = false } // check for custom marketing campaign page
-      
     }
 }
+
+//extension RxCollectionViewOnlyTableViewCell: UICollectionViewDelegate {
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        print("did scroll")
+//    }
+//}
 
 

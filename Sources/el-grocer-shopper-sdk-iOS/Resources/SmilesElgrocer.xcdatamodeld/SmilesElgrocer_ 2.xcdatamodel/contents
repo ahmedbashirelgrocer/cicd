@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22G90" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22522" systemVersion="23E224" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Brand" representedClassName="el_grocer_shopper_sdk_iOS.Brand" syncable="YES">
         <attribute name="dbID" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="imageUrl" optional="YES" attributeType="String"/>
@@ -48,6 +48,7 @@
         <attribute name="isArchive" optional="YES" attributeType="Boolean" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="isCovered" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO"/>
         <attribute name="isInvoiceAddress" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="NO"/>
+        <attribute name="isSmilesDefault" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="latitude" attributeType="Double" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="locationName" optional="YES" attributeType="String"/>
         <attribute name="longitude" attributeType="Double" defaultValueString="0" usesScalarValueType="NO"/>
@@ -89,6 +90,7 @@
         <attribute name="isDelivery" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isFavourite" optional="YES" attributeType="Boolean" usesScalarValueType="NO"/>
         <attribute name="isInRange" optional="YES" attributeType="Boolean" usesScalarValueType="NO"/>
+        <attribute name="isNewRetailer" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isOpen" optional="YES" attributeType="Boolean" usesScalarValueType="NO"/>
         <attribute name="isSchedule" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isShowRecipe" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -106,6 +108,7 @@
         <attribute name="retailerType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="reviewScore" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO"/>
         <attribute name="riderFee" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="salesTagLine" optional="YES" attributeType="String"/>
         <attribute name="serviceFee" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="smallImageUrl" optional="YES" attributeType="String"/>
         <attribute name="smileSupport" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>

@@ -47,7 +47,11 @@ class EGNewAddressTableViewCell: UITableViewCell {
         
         //set address detail
         self.lblNickName.text = address.nickName
-        self.lblAddressDetail.text = ElGrocerUtility.sharedInstance.getFormattedAddress(address)
+        if ElGrocerUtility.isAddressCentralisation {
+            self.lblAddressDetail.text = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(address, showNickName: false)
+        } else {
+            self.lblAddressDetail.text = ElGrocerUtility.sharedInstance.getFormattedAddress(address)
+        }
         self.lblAddressStyle.text = address.isActive.boolValue ? ("  " + localizedString("eg_current_location", comment: "") + "  ")  : ""
         // theme updatation for Not coverd case
         if !isCovered {

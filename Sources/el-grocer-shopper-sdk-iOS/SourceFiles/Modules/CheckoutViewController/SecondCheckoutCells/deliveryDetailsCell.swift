@@ -39,6 +39,9 @@ class deliveryDetailsCell: UITableViewCell {
     func getAddress(modeType : OrderType , dataHandler : MyBasketCandCDataHandler?) -> String {
         if modeType == .delivery{
             if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                if ElGrocerUtility.isAddressCentralisation {
+                    return ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(deliveryAddress)
+                }
                 let formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress) : deliveryAddress.locationName + deliveryAddress.address
                 
                 return formatAddressStr
@@ -49,6 +52,9 @@ class deliveryDetailsCell: UITableViewCell {
             guard let address = dataHandler?.pickUpLocation?.details else {
                 
                 if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                    if ElGrocerUtility.isAddressCentralisation {
+                        return ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(deliveryAddress)
+                    }
                     let formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress) : deliveryAddress.locationName + deliveryAddress.address
                     
                     return formatAddressStr

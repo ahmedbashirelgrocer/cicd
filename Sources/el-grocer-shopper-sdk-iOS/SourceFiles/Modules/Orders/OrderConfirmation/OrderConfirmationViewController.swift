@@ -175,6 +175,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         self.bindViews()
         self.setNavigationAppearance()
         self.checkForPushNotificationRegisteration()
+        // self.fetchAddressListIfNeeded()
         // Logging segment event for segment order confirmation screen
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderConfirmationScreen))
     }
@@ -752,7 +753,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
         NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
         
-        if let vcA = self.navigationController?.viewControllers {
+        if let presentingVC = self.navigationController?.presentingViewController, (presentingVC as? UINavigationController) != nil  {
+            self.navigationController?.dismiss(animated: true)
+        } else if let vcA = self.navigationController?.viewControllers {
             elDebugPrint(vcA)
             if vcA.count == 1 {
                 //from home
@@ -761,19 +764,19 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 //edit order
                 guard sdkManager.isSmileSDK else {
                     self.navigationController?.dismiss(animated: false)
+                    self.navigationController?.popToRootViewController(animated: false)
                     return
                 }
                 let appDelegate = SDKManager.shared
                 appDelegate.rootViewController?.dismiss(animated: false, completion: nil)
                 (appDelegate.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
-            }else {
+            } else {
                 // simple place order
                 self.navigationController?.popToRootViewController(animated: false)
             }
         }
         
-        let sdkManage = SDKManager.shared
-        if let tab = sdkManage.currentTabBar  {
+        if let tab = sdkManager.currentTabBar  {
             ElGrocerUtility.sharedInstance.resetTabbar(tab)
             tab.selectedIndex = sdkManager.isGrocerySingleStore ? 1 : 0
         }
@@ -1983,8 +1986,12 @@ extension OrderConfirmationViewController : UITableViewDelegate , UITableViewDat
                 if self.checkIfPickerAvailable(deliveryMode: .delivery, statusId: orderStatus.rawValue){
                     let cell = tableView.dequeueReusableCell(withIdentifier: "OrderStatusDetailCell", for: indexPath) as! OrderStatusDetailCell
                     cell.setAppearence(cellType: .location)
-                    let addressString = ElGrocerUtility.sharedInstance.getFormattedAddress(self.order.deliveryAddress) + self.order.deliveryAddress.address
-                    cell.configureLocationName(addressString)
+                    if ElGrocerUtility.isAddressCentralisation {
+                        cell.configureLocationName(ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(self.order.deliveryAddress))
+                    } else {
+                        let addressString = ElGrocerUtility.sharedInstance.getFormattedAddress(self.order.deliveryAddress) + self.order.deliveryAddress.address
+                        cell.configureLocationName(addressString)
+                    }
                     return cell
                 }
                 
@@ -2021,8 +2028,12 @@ extension OrderConfirmationViewController : UITableViewDelegate , UITableViewDat
                 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "OrderStatusDetailCell", for: indexPath) as! OrderStatusDetailCell
                 cell.setAppearence(cellType: .location)
-                let addressString = ElGrocerUtility.sharedInstance.getFormattedAddress(self.order.deliveryAddress) + self.order.deliveryAddress.address
-                cell.configureLocationName(addressString)
+                if ElGrocerUtility.isAddressCentralisation {
+                    cell.configureLocationName(ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(self.order.deliveryAddress))
+                } else {
+                    let addressString = ElGrocerUtility.sharedInstance.getFormattedAddress(self.order.deliveryAddress) + self.order.deliveryAddress.address
+                    cell.configureLocationName(addressString)
+                }
                 return cell
             }else {
                 let cell : GenericBannersCell = tableView.dequeueReusableCell(withIdentifier: "GenericBannersCell", for: indexPath) as! GenericBannersCell

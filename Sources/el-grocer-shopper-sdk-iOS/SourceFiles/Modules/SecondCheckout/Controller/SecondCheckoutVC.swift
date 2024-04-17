@@ -404,7 +404,14 @@ class SecondCheckoutVC: UIViewController {
         UserDefaults.resetEditOrder()
     
         self.resetLocalDBData(order)
-       
+        
+        if ElGrocerUtility.isAddressCentralisation {
+            DeliveryAddress
+                .getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                .forEach { $0.isSmilesDefault = $0.isActive }
+            DatabaseHelper.sharedInstance.saveDatabase()
+        }
+        
         let viewModel = OrderConfirmationViewModel(OrderStatusMedule(), orderId: order.dbID.stringValue, true)
         let orderConfirmationController = OrderConfirmationViewController.make(viewModel: viewModel)
         self.navigationController?.pushViewController(orderConfirmationController, animated: true)
@@ -646,6 +653,11 @@ extension SecondCheckoutVC: PromocodeDelegate {
 extension SecondCheckoutVC : MapPinViewDelegate, LocationMapViewControllerDelegate {
     
     func changeButtonClickedWith(_ currentDetails: UserMapPinAdress?) -> Void {
+        if ElGrocerUtility.isAddressCentralisation {
+            let isEditOrder = (self.viewModel.getOrderId() ?? "").isNotEmpty
+            EGAddressSelectionBottomSheetViewController.showInBottomSheet(self.viewModel.getGrocery(), mapDelegate: self.mapDelegate, presentIn: self, isFromCheckout: true, isEditOrder: isEditOrder)
+            return
+        }
         EGAddressSelectionBottomSheetViewController.showInBottomSheet(self.viewModel.getGrocery(), mapDelegate: self.mapDelegate, presentIn: self)
     }
     
@@ -672,6 +684,11 @@ extension SecondCheckoutVC : MapPinViewDelegate, LocationMapViewControllerDelega
         }
        // self.pinView.configureWith(detail: UserMapPinAdress.init(address: address.address, addressImageUrl: address.addressImageUrl, addressLat: address.latitude , addressLng: address.longitude))
        // self.viewModel.setGroceryAndAddressAndRefreshData(grocery, deliveryAddress: address)
+        if ElGrocerUtility.isAddressCentralisation {
+            if (self.navigationController?.viewControllers.last as? DashboardLocationViewController) != nil {
+                self.navigationController?.popViewController(animated: false)
+            }
+        }
         self.navigationController?.popViewController(animated: true)
     }
     

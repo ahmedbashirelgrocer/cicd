@@ -573,10 +573,21 @@ class DeliveryInfoViewController: UIViewController {
                     
                     if result {
                         
-                        let addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
+                        var addressDict: NSDictionary!
+                        if ElGrocerUtility.isAddressCentralisation == false {
+                            addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
+                        } else {
+                            addressDict = responseObject!["data"] as? NSDictionary
+                        }
+
+                        var dbIDString: String!
+                        if ElGrocerUtility.isAddressCentralisation == false {
+                            let dbID = addressDict["id"] as! NSNumber
+                            dbIDString = "\(dbID)"
+                        } else {
+                            dbIDString = addressDict["smiles_address_id"] as? String ?? ""
+                        }
                         
-                        let dbID = addressDict["id"] as! NSNumber
-                        let dbIDString = "\(dbID)"
                         self.deliveryAddress!.dbID = dbIDString
                         let newAddress = DeliveryAddress.insertOrUpdateDeliveryAddressForUser(userProfile, fromDictionary: addressDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         DatabaseHelper.sharedInstance.saveDatabase()

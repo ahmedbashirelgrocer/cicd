@@ -181,9 +181,13 @@ class EGBasketProgress: UIView {
     
     func setAddress() {
         if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-            let formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress) : deliveryAddress.locationName + deliveryAddress.address
-            
-               self.lblDeliveryAddress.text = formatAddressStr
+            if ElGrocerUtility.isAddressCentralisation {
+                self.lblDeliveryAddress.text = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(deliveryAddress)
+            } else {
+                let formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress) : deliveryAddress.locationName + deliveryAddress.address
+                
+                self.lblDeliveryAddress.text = formatAddressStr
+            }
         }else{
              self.lblDeliveryAddress.text = ""
         }

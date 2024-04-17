@@ -352,7 +352,7 @@ extension savedCarsVC {
     
     func goToAddNewCardController() {
         
-        AdyenManager.sharedInstance.performZeroTokenization(controller: self)
+        AdyenManager.sharedInstance.performOneAEDTokenization(controller: self)
         AdyenManager.sharedInstance.isNewCardAdded = { (error , response,adyenObj) in
             if error {
                //  print("error in authorization")

@@ -27,6 +27,17 @@ extension GenericHomePageSearchHeader {
 
 class GenericHomePageSearchHeader: UIView {
     
+    @IBOutlet weak var btnChangeLocation: UIButton! { didSet {
+        btnChangeLocation.setSubHead2BoldWhiteStyle()
+        btnChangeLocation.setTitle(localizedString("changelocation_button", comment: ""), for: .normal)
+    }}
+    @IBOutlet weak var btnArrow: UIImageView! { didSet {
+        btnArrow.image = LanguageManager.sharedInstance.getSelectedLocale() == "ar" ? UIImage(name: "LeftArrow"):UIImage(name: "RightArrow")
+    }}
+    @IBOutlet weak var lblToolTipMsg: UILabel! { didSet {
+        lblToolTipMsg.text = localizedString("Looks like you're too far away.", comment: "")
+    }}
+    
     @IBOutlet weak var navigationContainer: UIView!
     @IBOutlet weak var navigationContainerTopAnchar: NSLayoutConstraint!
     @IBOutlet weak var navigationContainerBottom: NSLayoutConstraint!
@@ -72,10 +83,17 @@ class GenericHomePageSearchHeader: UIView {
             }
         }
     }
+    @IBOutlet weak var viewToolTip: UIView!
+    @IBOutlet weak var toolTipViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var locationContainerView: UIView!
     var locationView: NavigationBarLocationView!
     let KGenericHomePageSearchHeaderHeight: CGFloat = 60
+    
+    @IBOutlet weak var toolTipTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var searchViewTopConstraint: NSLayoutConstraint!
+    
+    var changeLocationClickedHandler: (()->())?
     
     class func loadFromNib() -> GenericHomePageSearchHeader? {
         return self.loadFromNib(withName: "GenericHomePageSearchHeader")
@@ -214,7 +232,25 @@ class GenericHomePageSearchHeader: UIView {
         vc.present(navigationController, animated: true, completion: nil)
     }
    
+    func configureLocationChangeToolTip(show: Bool) {
+        self.toolTipViewHeightConstraint.constant = show ? 40 : 0
+        self.viewToolTip.clipsToBounds = !show
+        toolTipTopConstraint.constant = show ? 16 : 0
+        searchViewTopConstraint.constant = show ? 16 : 8
+        
+        if show {
+            self.viewToolTip.addTriangleLayerToView(x: 32, y: 0)
+
+            btnChangeLocation.setTitle(localizedString("changelocation_button", comment: ""), for: .normal)
+            btnArrow.image = LanguageManager.sharedInstance.getSelectedLocale() == "ar" ? UIImage(name: "LeftArrow"):UIImage(name: "RightArrow")
+            lblToolTipMsg.text = localizedString("Looks like you're too far away.", comment: "")
+            
+        }
+    }
     
+    @IBAction func changeLocationHadnler(_ sender: Any) {
+        changeLocationClickedHandler?()
+    }
 }
 extension GenericHomePageSearchHeader: UITextFieldDelegate{
     

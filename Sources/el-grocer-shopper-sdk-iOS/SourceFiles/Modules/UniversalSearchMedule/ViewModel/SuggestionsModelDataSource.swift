@@ -565,11 +565,28 @@ extension SuggestionsModelDataSource {
 extension SuggestionsModelDataSource {
    
     func filterOutSegmentSubcateFrom () ->  (Dictionary<String, Array<Product>> , [String])  {
+        func removeDuplicates(from array: [NSDictionary]) -> [NSDictionary] {
+            var uniqueNames = Set<String>()
+            var filteredArray = [NSDictionary]()
+            
+            for object in array {
+                if let subcategoryName = object["name"] as? String ?? (object["name_ar"] as? String) {
+                    if !uniqueNames.contains(subcategoryName) {
+                        uniqueNames.insert(subcategoryName)
+                        filteredArray.append(object)
+                    }
+                }
+            }
+            
+            return filteredArray
+        }
+        
         var dataDict : Dictionary<String, Array<Product>> = [:]
         var stringA : [String] = []
         for product in self.productsList {
            // let subcategoryName  = ElGrocerUtility.sharedInstance.isArabicSelected() ? (product.subcategoryName ?? "") : (product.subcategoryNameEn ?? "")
-            let subcateogyA = product.subCategoryArray
+            let subcateogyA = removeDuplicates(from: product.subCategoryArray)
+            
             for data in subcateogyA {
                 if let subcategoryName = ElGrocerUtility.sharedInstance.isArabicSelected() ? (data["name_ar"] as? String):(data["name"] as? String) {
                     if var isContain = dataDict[subcategoryName] {
