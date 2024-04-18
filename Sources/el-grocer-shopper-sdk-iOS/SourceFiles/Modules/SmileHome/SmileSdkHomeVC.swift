@@ -148,12 +148,12 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    }
-    
-    func configureBeforeViewAppears() {
         self.hideTabBar()
         self.navigationBarCustomization()
         self.appTabBarCustomization()
+    }
+    
+    func configureBeforeViewAppears() {
         self.showDataLoaderIfRequiredForHomeHandler()
         
 //        let oldLocation = self.locationHeader.localLoadedAddress
