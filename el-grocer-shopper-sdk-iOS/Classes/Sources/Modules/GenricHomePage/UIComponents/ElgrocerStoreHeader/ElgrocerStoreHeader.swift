@@ -35,7 +35,7 @@ class ElgrocerStoreHeader:  UIView  {
                         image = UIImage(name: "smiles-Single-Store-en")!
                     }
                 } else {
-                    image = UIImage(name: "smile_Logo_elgrocer")!
+                    image = UIImage(name: "smiles-Single-Store-en")!
                 }
             }
             elgrocerLogoImgView.image = image

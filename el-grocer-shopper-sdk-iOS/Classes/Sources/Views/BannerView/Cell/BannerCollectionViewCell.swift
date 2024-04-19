@@ -36,7 +36,7 @@ private extension BannerCollectionViewCell {
         self.viewModel.outputs.bannerImage.subscribe(onNext: { [weak self] imageUrl in
             guard let self = self else { return }
             
-            self.ivBanner.sd_setImage(with: imageUrl, placeholderImage: UIImage(name: ""), context: nil)
+            self.ivBanner.sd_setImage(with: imageUrl, placeholderImage: UIImage(name: "Banner Large 2_1"), context: nil)
         }).disposed(by: disposeBag)
     }
 }

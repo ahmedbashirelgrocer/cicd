@@ -819,6 +819,8 @@ extension GenericStoresViewController {
                 break
             case .storely:
                 break
+            case .staticImage:
+                break
             }
             
         }).disposed(by: disposeBag)

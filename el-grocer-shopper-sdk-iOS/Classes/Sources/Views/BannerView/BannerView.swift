@@ -78,12 +78,14 @@ extension BannerView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell: BannerCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCollectionViewCell.defaultIdentifier, for: indexPath) as! BannerCollectionViewCell
         let banner = self.banners[indexPath.row]
-        cell.configure(viewModel: BannerCellViewModel(banner: banner))
         if banner.campaignType == .customBanners {
             cell.backgroundColor = .clear
             cell.contentView.backgroundColor = .clear
             cell.viewBannerWrapper.backgroundColor = .clear
+        }else  if banner.campaignType == .staticImage {
+            cell.ivBanner.image = UIImage(named: banner.imageURL ?? "")
         }
+        cell.configure(viewModel: BannerCellViewModel(banner: banner))
         return cell
     }
 }

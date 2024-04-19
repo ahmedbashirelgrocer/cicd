@@ -641,6 +641,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         vc.descrptionLblTitle = "Discover our wide range of products and offers on Smiles Market"
         vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .crossDissolve
+        vc.isSmilemarket = false
         self.present(vc, animated: true, completion: nil)
     
     }
@@ -817,6 +818,8 @@ extension SmileSdkHomeVC {
                 activeCartVC?.dismiss(animated: true, completion: {
                     bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
                 })
+            case .staticImage:
+                break
             }
             
         }).disposed(by: disposeBag)
