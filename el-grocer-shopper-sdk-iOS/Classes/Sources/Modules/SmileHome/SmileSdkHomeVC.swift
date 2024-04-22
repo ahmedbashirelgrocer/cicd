@@ -635,11 +635,11 @@ class SmileSdkHomeVC: BasketBasicViewController {
     override func backButtonClickedHandler() {
         
         let vc = OfferAlertViewController.getViewController()
-        vc.alertTitle = "Are you sure you want to exit?"
-        vc.skipBtnText = "Skip the offers"
-        vc.discoverBtnTitle = "Discover the offers"
-        vc.descrptionLblTitle = "Discover our wide range of products and offers on Smiles Market"
-        vc.modalPresentationStyle = .overFullScreen
+        vc.alertTitle = localizedString( "Are you sure you want to exit?", comment: "")
+        vc.skipBtnText = localizedString("Skip the offers" , comment: "")
+        vc.discoverBtnTitle = localizedString("Discover the offers", comment: "")
+        vc.descrptionLblTitle = localizedString("Discover our wide range of products and offers on Smiles Market", comment: "")
+       vc.modalPresentationStyle = .overFullScreen
         vc.modalTransitionStyle = .crossDissolve
         vc.isSmilemarket = false
         self.present(vc, animated: true, completion: nil)

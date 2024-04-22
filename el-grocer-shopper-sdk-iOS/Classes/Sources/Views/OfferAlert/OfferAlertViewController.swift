@@ -49,8 +49,7 @@ class OfferAlertViewController: UIViewController {
         self.viewBanner.bannerTapped = { [weak self] banner in
           guard let self = self, let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
             self.dismiss(animated: false) {
-                
-                let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
+            let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
                 switch campaignType {
                 case .brand:
                     bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: sdkManager.isGrocerySingleStore ? [ElGrocerUtility.sharedInstance.activeGrocery!] : (HomePageData.shared.groceryA ?? [ElGrocerUtility.sharedInstance.activeGrocery!]))

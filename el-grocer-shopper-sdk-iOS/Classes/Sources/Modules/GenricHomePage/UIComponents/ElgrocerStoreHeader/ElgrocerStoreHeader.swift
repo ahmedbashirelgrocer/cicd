@@ -135,10 +135,10 @@ class ElgrocerStoreHeader:  UIView  {
     @objc func btnBackPressed() {
         if ((UIApplication.topViewController()  as? MainCategoriesViewController) != nil){
             let vc = OfferAlertViewController.getViewController()
-            vc.alertTitle = "Are you sure you want to exit?"
-            vc.skipBtnText = "Exit"
-            vc.discoverBtnTitle = "Discover Stores"
-            vc.descrptionLblTitle = "Discover our wide range of Supermarkets and speciality stores on groceries and pharmacies"
+            vc.alertTitle = localizedString("Are you sure you want to exit?", comment:"" )
+            vc.skipBtnText =  localizedString("Exit", comment:"" )
+            vc.discoverBtnTitle =  localizedString("Discover Stores", comment:"" )
+            vc.descrptionLblTitle =  localizedString("Discover our wide range of Supermarkets and speciality stores on groceries and pharmacies", comment:"" )
             vc.modalPresentationStyle = .overFullScreen
             vc.modalTransitionStyle = .crossDissolve
             UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
