@@ -124,16 +124,18 @@ class SplashAnimationViewController: UIViewController {
                     UserDefaults.setIsAnalyticsIdentificationCompleted(new: true)
                 }
                 
-                if !SDKLoginManager.isAddressFetched {
-                    fetchGroup.enter()
-                    let oldAddressId = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()?.dbID ?? ""
-                    SDKLoginManager.getDeliveryAddress { isSuccess, errorMessage, errorCode in
-                        
-                        let newAddressId = ElGrocerUtility.setDefaultAddress()
-                        isAddressChanged = oldAddressId != newAddressId
-                        fetchGroup.leave()
-                    }
-                }
+                let newAddressId = ElGrocerUtility.setDefaultAddress()
+                
+//                if !SDKLoginManager.isAddressFetched {
+//                    fetchGroup.enter()
+//                    let oldAddressId = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()?.dbID ?? ""
+//                    SDKLoginManager.getDeliveryAddress { isSuccess, errorMessage, errorCode in
+//
+//                        let newAddressId = ElGrocerUtility.setDefaultAddress()
+//                        isAddressChanged = oldAddressId != newAddressId
+//                        fetchGroup.leave()
+//                    }
+//                }
                 
                 fetchGroup.leave()
             }

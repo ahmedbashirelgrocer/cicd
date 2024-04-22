@@ -77,6 +77,7 @@ enum ElGrocerApiEndpoint : String {
         }
     }
     case DeliveryAddressAreas = "v1/locations.json"
+    case SetSmilesDefaultAddress = "v1/smiles_shopper_addresses/smiles_default_address"
     case ProductsSearch = "v1/products/shopper/elastic_search.json"
     case SearchSuggestions = "v1/products/shopper/search_suggesions"
     //sab
@@ -811,7 +812,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
           addressParameters["location_address"] = address.address as AnyObject
           addressParameters["latitude"] = address.latitude as AnyObject
           addressParameters["longitude"] = address.longitude as AnyObject
-          addressParameters["default_address"] = (ElGrocerUtility.isAddressCentralisation ? false : address.isActive.boolValue) as AnyObject
+          addressParameters["default_address"] = (ElGrocerUtility.isAddressCentralisation ? true : address.isActive.boolValue) as AnyObject
           addressParameters["address_type_id"] = address.addressType as AnyObject
           addressParameters["nick_name"] = (address.nickName ?? "") as AnyObject
           addressParameters["address_image"] = (address.addressImageUrl?.absoluteString ?? "") as AnyObject
@@ -1037,6 +1038,19 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
         }
         
       }
+      
+      func getDeliveryAddressesElGrocerDefault(_ completionHandler:@escaping (_ result:Bool, _ responseObject:NSDictionary?) -> Void) {
+      
+        setAccessToken()
+          NetworkCall.get(ElGrocerApiEndpoint.DeliveryAddressV2.rawValue, parameters: nil , progress: { (progress) in
+            // elDebugPrint("Progress for API :  \(progress)")
+        }, success: { (operation  , response) in
+            completionHandler(true, response as? NSDictionary)
+        }) { (operation  , error) in
+            completionHandler(false, nil)
+        }
+        
+      }
     
     func getaddressTag(_ completionHandler:@escaping (_ result:Bool, _ responseObject:NSDictionary?) -> Void) {
         setAccessToken()
@@ -1246,23 +1260,30 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
   func setDefaultDeliveryAddress(_ address: DeliveryAddress, completionHandler: @escaping (_ result: Bool) -> Void) {
   
       if ElGrocerUtility.isAddressCentralisation {
-          let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-          let _ = DeliveryAddress.setActiveDeliveryAddress(address, context: context)
           
-          // deleted temporary locations
-          let addresses = DeliveryAddress.getAllDeliveryAddresses(context)
-              .filter{ $0.isActive.boolValue == false && $0.dbID.isEmpty }
-          for i in 0..<addresses.count {
-              DeliveryAddress.deleteObject(addresses[i])
+          let url = ElGrocerApiEndpoint.SetSmilesDefaultAddress.rawValue + "?smiles_address_id=\(address.dbID)"
+          
+          NetworkCall.put(url, parameters: nil, success: { (operation  , response: Any) -> Void in
+              
+              let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
+              let _ = DeliveryAddress.setActiveDeliveryAddress(address, context: context)
+              
+              // deleted temporary locations
+              let addresses = DeliveryAddress.getAllDeliveryAddresses(context)
+                  .filter{ $0.isActive.boolValue == false && $0.dbID.isEmpty }
+              for i in 0..<addresses.count {
+                  DeliveryAddress.deleteObject(addresses[i])
+              }
+              DatabaseHelper.sharedInstance.saveDatabase()
+              
+              DefaultAddress.shared.update(with: address)
+              
+              completionHandler(true)
+              
+          }) { (operation  , error: Error) -> Void in
+              
+              completionHandler(false)
           }
-          DatabaseHelper.sharedInstance.saveDatabase()
-          
-          // update launch options for default location
-          sdkManager.launchOptions?.address = address.address
-          sdkManager.launchOptions?.addressID = address.dbID
-          sdkManager.launchOptions?.latitude = address.latitude
-          sdkManager.launchOptions?.longitude = address.longitude
-          completionHandler(true)
           
           return
       }
@@ -5458,3 +5479,52 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
     
  }
  
+class DefaultAddress {
+    static var shared: DefaultAddress = .init()
+    
+    var latitude: Double?
+    var longitude: Double?
+    var addressID: String?
+    var address: String?
+    
+    init() {}
+    
+    func update(with launchOptions: LaunchOptions) {
+        self.latitude = launchOptions.latitude
+        self.longitude = launchOptions.longitude
+        self.addressID = launchOptions.addressID
+        self.address = launchOptions.address
+    }
+    
+    func update(with deliveryAddress: DeliveryAddress) {
+        self.address = deliveryAddress.address
+        self.addressID = deliveryAddress.dbID
+        self.latitude = deliveryAddress.latitude
+        self.longitude = deliveryAddress.longitude
+    }
+}
+
+class LaunchLocation {
+    static var shared: DefaultAddress = .init()
+    
+    var latitude: Double?
+    var longitude: Double?
+    var addressID: String?
+    var address: String?
+    
+    init() {}
+    
+    func update(with launchOptions: LaunchOptions) {
+        self.latitude = launchOptions.latitude
+        self.longitude = launchOptions.longitude
+        self.addressID = launchOptions.addressID
+        self.address = launchOptions.address
+    }
+    
+    func update(with deliveryAddress: DeliveryAddress) {
+        self.address = deliveryAddress.address
+        self.addressID = deliveryAddress.dbID
+        self.latitude = deliveryAddress.latitude
+        self.longitude = deliveryAddress.longitude
+    }
+}

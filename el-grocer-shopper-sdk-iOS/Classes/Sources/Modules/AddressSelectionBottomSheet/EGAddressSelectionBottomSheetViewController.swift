@@ -97,10 +97,9 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
             popupController.present(in: presentIn)
             
         }
-    
+        
         let profile = UserProfile.getOptionalUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        let addressList = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        if addressList.count < 2 && profile != nil {
+        if ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch && profile != nil { // Need to update this condition
             _ = SpinnerView.showSpinnerViewInView(presentIn.view)
             ElGrocerApi.sharedInstance.getDeliveryAddresses({ (result:Bool, responseObject:NSDictionary?) -> Void in
                 if result {
@@ -111,6 +110,8 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
                         showView()
                         SpinnerView.hideSpinnerView()
                     })
+                    ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch = false
+                    _ = ElGrocerUtility.setDefaultAddress()
                 } else {
                     showView()
                     SpinnerView.hideSpinnerView()

@@ -60,10 +60,10 @@ class PreLoadData {
         
         guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
             // Data already loaded return
-            SDKLoginManager.getDeliveryAddress { isSuccess, errorMessage, errorCode in
-                _ = ElGrocerUtility.setDefaultAddress()
-                self.completion?()
-            }
+            // SDKLoginManager.getDeliveryAddress { isSuccess, errorMessage, errorCode in
+            _ = ElGrocerUtility.setDefaultAddress()
+            self.completion?()
+            // }
             return
         }
         SDKManager.shared.launchOptions = launchOptions
@@ -73,10 +73,10 @@ class PreLoadData {
                 self.completion?()
             }
         } else {
-            SDKLoginManager.getDeliveryAddress { isSuccess, errorMessage, errorCode in
-                _ = ElGrocerUtility.setDefaultAddress()
-                self.completion?()
-            }
+            // SDKLoginManager.getDeliveryAddress { isSuccess, errorMessage, errorCode in
+            _ = ElGrocerUtility.setDefaultAddress()
+            self.completion?()
+            // }
         }
         
         getSponsoredProductsAndBannersSlots { _ in }

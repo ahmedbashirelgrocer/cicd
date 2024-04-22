@@ -172,6 +172,8 @@ class SmileSdkHomeVC: BasketBasicViewController {
         if ElGrocerUtility.isAddressCentralisation {
             self.showLocationChangeToolTip(show: false)
         }
+        
+        self.fetchDefaultAddressIfNeeded()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -498,6 +500,10 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     @objc func showLocationCustomPopUp() {
         
+        if ElGrocerUtility.isAddressCentralisation {
+            return
+        }
+        
         guard SDKManager.shared.launchOptions?.navigationType != .search else {
             return
         }
@@ -786,8 +792,79 @@ class SmileSdkHomeVC: BasketBasicViewController {
         
         vc.grocery = grocery
         vc.checkoutTapped = { [weak self] in
-            vc.dismiss(animated: true)
-            self?.tabBarController?.selectedIndex = 4
+            vc.dismiss(animated: true) {
+                if let topVc = UIApplication.topViewController() {
+                    
+                    let userProfile = UserProfile.getOptionalUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                    if  userProfile == nil {
+                        // not login case
+                        ElGrocerEventsLogger.sharedInstance.trackSettingClicked("CreateAccount")
+                        let signInVC = ElGrocerViewControllers.signInViewController()
+                            signInVC.isForLogIn = false
+                            signInVC.isCommingFrom = .cart
+                        let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+                        navController.viewControllers = [signInVC]
+                        navController.modalPresentationStyle = .fullScreen
+                        topVc.present(navController, animated: true, completion: nil)
+                        return
+                    } else {
+                        handleLoggedInCaseForAddressCentralisation(topVc, userProfile)
+                        return
+                    }
+                }
+
+                func handleLoggedInCaseForAddressCentralisation(_ topVc: UIViewController,
+                                                                                _ userProfile: UserProfile?) {
+                        
+                        if ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch {
+                            _ = SpinnerView.showSpinnerViewInView(topVc.view)
+                            
+                            SDKLoginManager.getDeliveryAddress { [weak self] isSuccess, errorMessage, errorCode in
+                                
+                                SpinnerView.hideSpinnerView()
+                                _ = ElGrocerUtility.setDefaultAddress()
+                                ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch = false
+                                
+                                guard let self = self else { return }
+                                
+                                guard let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) else { return }
+                                let isDataFilled = ElGrocerUtility.sharedInstance.validateUserProfile(userProfile, andUserDefaultLocation: deliveryAddress)
+                                
+                                if !isDataFilled {
+                                    let locationDetails = LocationDetails(location: nil, editLocation: deliveryAddress, name: deliveryAddress.shopperName)
+                                    let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, userProfile, FlowOrientation.basketNav)
+                                    editLocationController.isFromCart = true
+                                    topVc.navigationController?.pushViewController(editLocationController, animated: true)
+                                    
+                                    return
+                                }
+                                
+                                if topVc.navigationController is ElGrocerNavigationController {
+                                    self.tabBarController?.selectedIndex = 4
+                                }
+                                
+                            }
+                            
+                            return
+                        }
+
+                        guard let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) else { return }
+                        let isDataFilled = ElGrocerUtility.sharedInstance.validateUserProfile(userProfile, andUserDefaultLocation: deliveryAddress)
+                        
+                        if !isDataFilled {
+                            let locationDetails = LocationDetails(location: nil, editLocation: deliveryAddress, name: deliveryAddress.shopperName)
+                            let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, userProfile, FlowOrientation.basketNav)
+                            editLocationController.isFromCart = true
+                            topVc.navigationController?.pushViewController(editLocationController, animated: true)
+                            
+                            return
+                        }
+                        
+                        if topVc.navigationController is ElGrocerNavigationController {
+                            self?.tabBarController?.selectedIndex = 4
+                        }
+                    }
+            }
         }
         self.present(vc, animated: true)
     }
@@ -1085,6 +1162,10 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
     }
     
     func showLocationChangeToolTip(show: Bool) {
+        
+        var show = show
+        show = show && !ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch
+        
         self.searchBarHeader.frame.size.height = show ? 146 : 82
         self.searchBarHeader.configureLocationChangeToolTip(show: show)
         
@@ -1095,6 +1176,14 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
             self.searchBarHeader.layoutIfNeeded()
             self.tableView.reloadData()
         })
+        
+        if ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch {
+            return
+        }
+        
+        if show {
+            ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch = true
+        }
     }
 }
 
@@ -1103,22 +1192,24 @@ extension SmileSdkHomeVC {
     
     private func checkforDifferentDeliveryLocation() {
         
-        guard let deliveryAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
+        guard let deliveryAddress = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext).first(where: { $0.isSmilesDefault?.boolValue == true }) else { return }
         
         if ElGrocerUtility.isAddressCentralisation {
-            if let smilesDefault = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext).first(where: { $0.isSmilesDefault?.boolValue == true }) {
-                
-                let deliveryAddressLocation = CLLocation(latitude: deliveryAddress.latitude, longitude: deliveryAddress.longitude)
-                let currentLocation = CLLocation(latitude: smilesDefault.latitude, longitude: smilesDefault.longitude)
-                
-                let distance = deliveryAddressLocation.distance(from: currentLocation)
-                
-                if distance > 300 {
-                    DispatchQueue.main.async {
-                        self.showLocationChangeToolTip(show: true)
-                    }
+            
+            let deliveryAddressLocation = CLLocation(latitude: deliveryAddress.latitude, longitude: deliveryAddress.longitude)
+            
+            let launchLocation = CLLocation(latitude: sdkManager.launchOptions?.latitude ?? 0,
+                                            longitude: sdkManager.launchOptions?.longitude ?? 0)
+            
+            let distance = deliveryAddressLocation.distance(from: launchLocation)
+            print("LocationsForDistance: \(launchLocation.coordinate), \(deliveryAddressLocation.coordinate)")
+            
+            if distance > 300 {
+                DispatchQueue.main.async {
+                    self.showLocationChangeToolTip(show: true)
                 }
             }
+            
             return
         }
         
@@ -1639,5 +1730,35 @@ extension SmileSdkHomeVC {
             
             completion?()
         })
+    }
+    
+    func fetchDefaultAddressIfNeeded() {
+        
+        if ElGrocerUtility.sharedInstance.isDefaultAddressFetchedAfterSDKLaunch {
+            self.checkforDifferentDeliveryLocation()
+            return
+        }
+        
+        // _ = SpinnerView.showSpinnerViewInView(self.view)
+        
+        ElGrocerApi.sharedInstance.getDeliveryAddressesElGrocerDefault { [weak self] (result, responseObject) in
+            
+            // SpinnerView.hideSpinnerView()
+            
+            if result {
+                ElGrocerUtility.sharedInstance.isDefaultAddressFetchedAfterSDKLaunch = true
+                if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)  {
+                    
+                    let addressList = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, deleteNotInJSON: false)
+                    
+                    addressList.first?.isSmilesDefault = true
+                    _ = ElGrocerUtility.setDefaultAddress()
+                    DatabaseHelper.sharedInstance.saveDatabase()
+                }
+                self?.checkforDifferentDeliveryLocation()
+            } else {
+                print("error loading default address")
+            }
+        }
     }
 }

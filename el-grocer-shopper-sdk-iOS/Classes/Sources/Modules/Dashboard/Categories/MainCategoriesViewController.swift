@@ -155,7 +155,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         
         return locationHeader!
     }()
-    
+    var isDataLoaded = false
     /// Begin Collapsing Table Header Shopper
     lazy var locationHeaderShopper : ElGrocerStoreHeaderShopper = {
         let locationHeader = ElGrocerStoreHeaderShopper.loadFromNib()
@@ -405,7 +405,10 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                 self?.callForLatestDeliverySlotsWithGroceryLoader(grocery: grocery, true)
             }
         }
+        
         self.showLocationChangeToolTip(show: false)
+        
+        self.fetchDefaultAddressIfNeeded()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -1870,10 +1873,14 @@ private extension MainCategoriesViewController {
     
     @objc func showLocationCustomPopUp() {
         
-        guard SDKManager.shared.launchOptions?.navigationType != .search else {
+        if ElGrocerUtility.isAddressCentralisation {
             return
         }
         
+        guard SDKManager.shared.launchOptions?.navigationType != .search else {
+            return
+        }
+
         if sdkManager.isGrocerySingleStore {
             self.showLocationChangeToolTip(show: true)
         }
@@ -2471,7 +2478,26 @@ extension MainCategoriesViewController {
 
 private func checkforDifferentDeliveryLocation() {
     
-    guard let deliveryAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
+    guard let deliveryAddress = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext).first(where: { $0.isSmilesDefault?.boolValue == true }) else { return }
+    
+    if ElGrocerUtility.isAddressCentralisation {
+            
+        let deliveryAddressLocation = CLLocation(latitude: deliveryAddress.latitude, longitude: deliveryAddress.longitude)
+        
+        let launchLocation = CLLocation(latitude: LaunchLocation.shared.latitude ?? 0,
+                                        longitude: LaunchLocation.shared.longitude ?? 0)
+        let distance = deliveryAddressLocation.distance(from: launchLocation)
+        
+        print("AddressDifference(\(distance): \(deliveryAddress.nickName) \(deliveryAddress.latitude) \(deliveryAddress.longitude), \(sdkManager.launchOptions?.address ?? "") \(sdkManager.launchOptions?.latitude ?? 0) \(sdkManager.launchOptions?.longitude ?? 0)")
+        
+        if distance > 300 {
+            DispatchQueue.main.async {
+                self.showLocationChangeToolTip(show: true)
+            }
+        }
+        
+        return
+    }
     
     
     if ElGrocerUtility.isAddressCentralisation {
@@ -2524,6 +2550,10 @@ private func checkforDifferentDeliveryLocation() {
 }
     
     func showLocationChangeToolTip(show: Bool) {
+        
+        var show = show
+        show = show && !ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch || (show && isDataLoaded)
+        
         self.locationHeaderFlavor.configureLocationChangeToolTip(show: show)
         
         let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
@@ -2535,6 +2565,18 @@ private func checkforDifferentDeliveryLocation() {
         
         UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
+        }
+        
+        if ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch {
+            return
+        }
+        
+        if show {
+            isDataLoaded = true
+            ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+                self?.isDataLoaded = false
+            }
         }
     }
 
@@ -2585,5 +2627,35 @@ extension MainCategoriesViewController {
             }
             completion?()
         })
+    }
+    
+    func fetchDefaultAddressIfNeeded() {
+        
+        if ElGrocerUtility.sharedInstance.isDefaultAddressFetchedAfterSDKLaunch {
+            self.checkforDifferentDeliveryLocation()
+            return
+        }
+        
+        // _ = SpinnerView.showSpinnerViewInView(self.view)
+        
+        ElGrocerApi.sharedInstance.getDeliveryAddressesElGrocerDefault { [weak self] (result, responseObject) in
+            
+            // SpinnerView.hideSpinnerView()
+            
+            if result {
+                ElGrocerUtility.sharedInstance.isDefaultAddressFetchedAfterSDKLaunch = true
+                if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)  {
+                    
+                    let addressList = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, deleteNotInJSON: false)
+                    addressList.first?.isSmilesDefault = true
+                    _ = ElGrocerUtility.setDefaultAddress()
+                    
+                    DatabaseHelper.sharedInstance.saveDatabase()
+                }
+                self?.checkforDifferentDeliveryLocation()
+            } else {
+                print("error loading default address")
+            }
+        }
     }
 }

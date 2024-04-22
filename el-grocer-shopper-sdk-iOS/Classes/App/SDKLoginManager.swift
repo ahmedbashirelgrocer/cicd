@@ -113,7 +113,8 @@ public struct SDKLoginManager {
         FireBaseEventsLogger.setUserID(userProfile.dbID.stringValue)
         DatabaseHelper.sharedInstance.saveDatabase()
         
-        Self.getDeliveryAddress(userProfile, completionHandler)
+        completionHandler(true, "", 0)
+        // Self.getDeliveryAddress(userProfile, completionHandler)
     }
     
     static func getDeliveryAddress(_ userProfile: UserProfile! = nil, _ completionHandler: ((_ isSuccess: Bool, _ errorMessage: String, _ errorCode: Int?) -> Void)?) {
