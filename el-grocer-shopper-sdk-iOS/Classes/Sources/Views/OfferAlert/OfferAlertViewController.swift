@@ -76,32 +76,53 @@ class OfferAlertViewController: UIViewController {
     
     //MARK: - Button Actions
     @IBAction func discoverBtnClick() {
-        SpinnerView.showSpinnerViewInView()
         var launchOptions = sdkManager.launchOptions
         guard launchOptions != nil else {return}
-        self.dismiss(animated: true)
-        if isSmilemarket {
-           // ElGrocerUtility
-            launchOptions?.marketType = .marketPlace
-            ElGrocer.start(with: launchOptions)
-       } else {
-            if DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) != nil{
-                launchOptions?.marketType = .grocerySingleStore
-                FlavorAgent.restartEngineWithLaunchOptions(launchOptions!) { } completion: { isCompleted, grocery in
-                    SpinnerView.hideSpinnerView()
-                    ElGrocerUtility.sharedInstance.activeGrocery = grocery
-                    if let tab = sdkManager.currentTabBar {
-                        ElGrocerUtility.sharedInstance.resetTabbar(tab)
-                        tab.selectedIndex = 1
+        
+        SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedDiscoverOffersEvent(isSmilemarket))
+        
+        self.dismiss(animated: true) {
+            if self.isSmilemarket {
+               // ElGrocerUtility
+                launchOptions?.marketType = .marketPlace
+                ElGrocer.start(with: launchOptions)
+           } else {
+                if DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) != nil {
+                    launchOptions?.marketType = .grocerySingleStore
+                    FlavorAgent.restartEngineWithLaunchOptions(launchOptions!) {
+                        if let view = UIApplication.topViewController()?.view {
+                            let _ = SpinnerView.showSpinnerViewInView(view)
+                        }
+                    } completion: { isCompleted, grocery in
+                        SpinnerView.hideSpinnerView()
+                        ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                        if let tab = sdkManager.currentTabBar {
+                            ElGrocerUtility.sharedInstance.resetTabbar(tab)
+                            tab.selectedIndex = 1
+                        }
                     }
                 }
             }
         }
+        
     }
     
     @IBAction func skipBtnClick() {
+        
+        defer {
+            
+            SDKManager.shared.rootContext = nil
+            SDKManager.shared.rootViewController = nil
+            SDKManager.shared.currentTabBar = nil
+        }
+        
+        
+        
+        
         SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedEvent())
         NotificationCenter.default.removeObserver(SDKManager.shared, name: NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
+        
+        
         if let rootContext = SDKManager.shared.rootContext,
            let presentedViewController = rootContext.presentedViewController {
             presentedViewController.dismiss(animated:true, completion: {
@@ -131,8 +152,8 @@ class OfferAlertViewController: UIViewController {
         ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: ids, store_type_ids: storeTyprA , retailer_group_ids: nil , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
             switch result {
             case .success(let bannerA):
-                if bannerA.count > 0{
-                    self.viewBanner.banners = bannerA.map { $0.toBannerDTO() }
+                if bannerA.count > 0 {
+                    self.viewBanner.banners = self.viewBanner.banners + bannerA.map { $0.toBannerDTO() }
                 }
             case.failure(let _): break
             }

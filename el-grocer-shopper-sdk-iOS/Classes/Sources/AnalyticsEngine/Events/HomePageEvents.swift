@@ -17,15 +17,6 @@ struct HomeViewAllClickedEvent: AnalyticsEventDataType {
     }
 }
 
-struct SDKExitedEvent: AnalyticsEventDataType {
-    var eventType: AnalyticsEventType
-    var metaData: [String : Any]?
-    
-    init() {
-        self.eventType = .track(eventName: AnalyticsEventName.sdkExited)
-        self.metaData = [:]
-    }
-}
 
 struct OneClickReOrderCloseEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
@@ -36,3 +27,26 @@ struct OneClickReOrderCloseEvent: AnalyticsEventDataType {
         self.metaData = [:]
     }
 }
+
+struct SDKExitedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.sdkExited)
+        self.metaData = [:]
+    }
+}
+
+struct SDKExitedDiscoverOffersEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(_ isSmileStore: Bool) {
+        self.eventType = .track(eventName: AnalyticsEventName.sdkDiscoverOffers)
+        self.metaData = [:]
+    }
+}
+
+
+

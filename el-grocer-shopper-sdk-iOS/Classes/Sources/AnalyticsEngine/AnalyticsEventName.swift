@@ -110,5 +110,6 @@ enum AnalyticsEventName {
     //MARK: Home page
     static let homeViewAllClicked = "Home View All Clicked"
     static let sdkExited = "SDK Exited"
+    static let sdkDiscoverOffers = "SDK Discover Offers"
     static let oneClickReorderCloseClicked = "One Click Reorder Sheet Close Clicked"
 }
