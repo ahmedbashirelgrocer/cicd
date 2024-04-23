@@ -30,21 +30,21 @@ class ElGrocerNavigationBar : UINavigationBar {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setTitleColor()
-        self.setWhiteBackground()
-        self.addLogoView()
-        self.addSearchBar()
-        self.addLocationBar()
-        self.addBackButton()
-        self.addChatButton()
-        self.setSearchBarHidden(true)
-        setChatButtonHidden(true)
-        setLocationHidden(true)
-        self.addProfileButton()
-        self.addLeftTitleLabel()
-        self.addSideMenuButton()
-        self.addCartButton()
-        self.addRightMenuButton()
+            setTitleColor()
+            self.setWhiteBackground()
+            self.addLogoView()
+            self.addSearchBar()
+            self.addLocationBar()
+            self.addBackButton()
+            self.addChatButton()
+            self.setSearchBarHidden(true)
+            setChatButtonHidden(true)
+            setLocationHidden(true)
+            self.addProfileButton()
+            self.addLeftTitleLabel()
+            self.addSideMenuButton()
+            self.addCartButton()
+            self.addRightMenuButton()
         NotificationCenter.default.addObserver(self, selector: #selector(ElGrocerNavigationBar.chatStateChange(notification:)), name: KChatNotifcation, object: nil)
     }
     
@@ -120,6 +120,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
 
     func updateSearchBarLayout() {
+        guard searchBar != nil else { return }
         let searchBarWidth: CGFloat = 40.0
 
         searchBar.frame.size = CGSize(width: searchBarWidth, height: 36)
@@ -554,6 +555,7 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     
     func shakeSearchBar() {
+        guard searchBar != nil else { return }
         
         CATransaction.begin()
         
@@ -603,9 +605,12 @@ class ElGrocerNavigationBar : UINavigationBar {
     }
     
     fileprivate func addSearchBar() {
-        self.searchBar = NavigationBarSearchView.loadViewFromNib()
-        self.searchBar.backgroundColor = UIColor.white
-        self.addSubview(self.searchBar)
+        if let view = NavigationBarSearchView.loadViewFromNib() {
+            self.searchBar = view
+            self.searchBar.backgroundColor = UIColor.white
+            self.addSubview(self.searchBar)
+        }
+       
     }
     fileprivate func addLocationBar() {
         self.locationView = NavigationBarLocationView.loadFromNib()

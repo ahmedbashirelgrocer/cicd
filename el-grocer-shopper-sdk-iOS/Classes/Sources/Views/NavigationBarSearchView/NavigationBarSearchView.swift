@@ -29,9 +29,11 @@ class NavigationBarSearchView : UIView, UITextFieldDelegate {
     
     // MARK: Instance
     
-    class func loadViewFromNib() -> NavigationBarSearchView {
-        
-        return Bundle.resource.loadNibNamed("NavigationBarSearchView", owner: nil, options: nil)![0] as! NavigationBarSearchView
+    class func loadViewFromNib() -> NavigationBarSearchView? {
+        if let view = Bundle.resource.loadNibNamed("NavigationBarSearchView", owner: nil, options: nil), view.count > 0 {
+            return view[0] as? NavigationBarSearchView
+        }
+        return nil
     }
     
     // MARK: Life cycle
