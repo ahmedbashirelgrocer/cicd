@@ -192,7 +192,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
     }
      override func viewDidAppear(_ animated: Bool) {
          super.viewDidAppear(animated)
-         self.addBackButtonWithCrossIconRightSide(sdkManager.isShopperApp ? ApplicationTheme.currentTheme.viewWhiteBGColor : ApplicationTheme.currentTheme.newBlackColor)
+         self.addBackButtonWithCrossIconRightSide( ApplicationTheme.currentTheme.newBlackColor)
          self.setNavigationAppearance()
         // self.viewModel.reloadData()
      }

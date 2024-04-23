@@ -12,7 +12,7 @@
 "manage_address" = "يدير";
 "Download tax invoice" = " تحميل الفاتورة الضريبية";
 "smiles_pts" =  "    نقطة %@    ";
-"earn_rewards_now" = "اكسب نقاط الابتسامات";
+"earn_rewards_now" = "اكسب نقاط الابتسامات!";
 "Oops! Something went wrong on our side 🤔" = "للأسف حدث خطأ ما من جانبنا 🤔";
 
 "Shopping_list_Titile" = "قائمة التسوق";
@@ -2128,7 +2128,7 @@
 //MARK: C&C
 "lbl_collectionNear" = "أين تريد أن تتسلم البقالة؟";
 //MARK: home search header
-"search_placeholder_home" = "ابحث عن المنتجات و المتاجر...";
+"search_placeholder_home" = "ابحث عن منتجات, متاجر...";
 //MARK: HyperMarketHeader
 "search_placeholder_hypermarket" = "أبحث عن المنتجات والمتاجر ...";
 "search_placeholder_view_allstore_categories" = "أبحث عن المنتجات...";
@@ -2167,7 +2167,7 @@
 
 //MARK: Delivery Slot
 "lbl_next_delivery" = "التسليم التالي:";
-"delivery_within_60_min" = " التسليم في غضون ٦٠ دقيقة ⚡️";
+"delivery_within_60_min" = "⏱️ التسليم في غضون ٦٠ دقيقة ⚡️";
 "lbl_next_self_collection" = "التسليم التالي:";
 
 //MARK: Order Details
@@ -2444,3 +2444,12 @@
 "lbl_greeting_good_morning" = "صباح الخير 👋";
 "lbl_greeting_good_afternoon" = "مساء الخير 👋";
 "lbl_greeting_good_evening" = "مساء الخير 👋";
+"lbl_enjoy_promocode_initial" = "استمتع باستخدام الكود";
+"lbl_enjoy_promocode_final" = "عند الدفع";
+"lbl_title_exclusive_deals" = "عروض حصرية";
+"btn_copy_and_shop_title" = "انسخ وتسوق";
+"btn_start_shoping_title" = "انسخ وتسوق";
+"lbl_greeting_good_morning_shopper" = "صباح الخير";
+"lbl_greeting_good_afternoon_shopper" = "مساء الخير";
+"lbl_greeting_good_evening_shopper" = "مساء الخير";
+"smiles_entered_amount_more_than_available_error" = "يرجى إدخال مبلغ يساوي أو يقل عن نقاط Smiles.";

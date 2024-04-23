@@ -65,7 +65,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
   
     @IBOutlet weak var topBg: UIView! {
         didSet {
-            topBg.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            topBg.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }
     }
     @IBOutlet weak var footerTitleLabel: UILabel!
@@ -225,7 +225,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         super.viewWillAppear(animated)
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
         self.navigationItem.hidesBackButton = true
-        sdkManager.isShopperApp ? addWhiteBackButton() : addBackButton(isGreen: false)
+        sdkManager.isShopperApp ? addBackButton(isGreen: false, true) : addBackButton(isGreen: false)
         // self.setUpBottomView()
     }
     

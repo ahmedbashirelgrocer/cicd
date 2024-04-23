@@ -19,7 +19,7 @@ class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
     }
     @IBOutlet var collectionView: UICollectionView!
     
-    typealias tapped = (_ isForFavourite: Bool, _ grocery: Grocery)-> Void
+    typealias tapped = (_ isForFavourite: Bool, _ grocery: Grocery,_ index: Int)-> Void
     var groceryTapped: tapped?
     var isForFavourite: Bool = false
     var groceryA: [Grocery] = []
@@ -60,6 +60,7 @@ class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
             layout.sectionInset = UIEdgeInsets(top: 0, left: edgeInset, bottom: 0, right: edgeInset)
             return layout
         }()
+        self.collectionView.semanticContentAttribute = ElGrocerUtility.sharedInstance.isArabicSelected() ? .forceRightToLeft : .forceLeftToRight
     }
     
     func setupUI (isForFavourite: Bool) {
@@ -72,9 +73,9 @@ class NeighbourHoodFavouriteTableViewCell: UITableViewCell {
         }else {
             self.lblHeadingTopConstraint.constant = 16
             self.lblHeading.text = localizedString("lbl_title_one_click_reorder", comment: "")
-            self.bGView.backgroundColor = ApplicationTheme.currentTheme.searchBarBGBlue50Color
+            self.bGView.backgroundColor = ApplicationTheme.currentTheme.oneClickReorderBGColor
             self.contentView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
-            self.collectionView.backgroundColor = ApplicationTheme.currentTheme.searchBarBGBlue50Color
+            self.collectionView.backgroundColor = ApplicationTheme.currentTheme.oneClickReorderBGColor
         }
     }
     
@@ -102,7 +103,7 @@ extension NeighbourHoodFavouriteTableViewCell: UICollectionViewDelegate, UIColle
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let groceryTapped = self.groceryTapped {
-            groceryTapped(isForFavourite, groceryA[indexPath.row])
+            groceryTapped(isForFavourite, groceryA[indexPath.row], indexPath.row)
         }
     }
 }

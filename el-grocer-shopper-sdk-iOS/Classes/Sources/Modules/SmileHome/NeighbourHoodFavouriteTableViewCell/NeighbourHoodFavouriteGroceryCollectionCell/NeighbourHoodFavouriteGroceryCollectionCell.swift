@@ -11,6 +11,7 @@ class NeighbourHoodFavouriteGroceryCollectionCell: UICollectionViewCell {
 
     @IBOutlet var bGView: AWView! {
         didSet {
+            bGView.clipsToBounds = true
             bGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
             bGView.borderWidth = 1.0
             bGView.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor

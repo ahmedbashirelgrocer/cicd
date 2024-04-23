@@ -15,6 +15,7 @@ import RxSwift
 import RxDataSources
 import CoreLocation
 import Storyly
+import STPopup
 
 enum StorePageType {
     case FromStorePage
@@ -99,6 +100,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     var actionClicked: ((_ url : String?)->Void)? = nil
     private var porgressHud : SpinnerView? = nil
     private var viewModel: MainCategoriesViewModelType!
+    var shouldShowPromoPopUp: Bool = false
+    var exclusivePromotionDeal: ExclusiveDealsPromoCode? = nil
     
     @IBOutlet weak var storelyCustomView: StorylyView!
     @IBOutlet var mainView: UIView!
@@ -174,7 +177,6 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     func scrollViewDidScroll(forShopper scrollView: UIScrollView) {
         offset = scrollView.contentOffset.y
         let value = min(effectiveOffset, scrollView.contentOffset.y)
-        
         self.locationHeaderShopper.searchViewTopAnchor.constant = 62 - value
         self.locationHeaderShopper.searchViewLeftAnchor.constant = 16 + ((value / 60) * 30)
         self.locationHeaderShopper.groceryBGView.alpha = max(0, 1 - (value / 60))
@@ -411,6 +413,10 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.fetchDefaultAddressIfNeeded()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -496,8 +502,6 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         }
         self.needToLogScreenEvent = true
         GoogleAnalyticsHelper.trackScreenWithName(kGoogleAnalyticsHomeScreen)
-        
-        
         return
         
     }
@@ -548,7 +552,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
             if self.grocery != nil{
                 (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-                sdkManager.isShopperApp ?  addWhiteBackButton() : self.addBackButton(isGreen: false)
+                self.addBackButton(isGreen: false)
             }else{
                 (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
             }
@@ -561,12 +565,14 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
             
+        }else {
+            (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+            if let controller = self.navigationController as? ElGrocerNavigationController {
+                controller.setNavBarHidden(isSingleStore || isShopper)
+                controller.setupGradient()
+            }
         }
-        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-        if let controller = self.navigationController as? ElGrocerNavigationController {
-            controller.setNavBarHidden(isSingleStore || isShopper)
-            controller.setupGradient()
-        }
+        
         
         if let commingContrller = UIApplication.topViewController() {
             if commingContrller is GroceryLoaderViewController || String(describing: commingContrller.classForCoder) == "STPopupContainerViewController" || viewdidAppear {
@@ -1251,6 +1257,56 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.addChangeStoreButtonWithStoreNameAtTop(grocery)
         //self.addChangeStoreButtonWithStoreNameAtLeftSide(grocery.name!, andWithLocationName: currentAddress.locationName)
         self.didMoveToIndex( grocery: grocery )
+    }
+    
+    
+    
+    func calculateHeight(text: String, width: CGFloat) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let boundingBox = text.boundingRect(with: constraintRect,
+                                        options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                                            attributes: [NSAttributedString.Key.font: UIFont.SFProDisplayNormalFont(14)],
+                                        context: nil)
+        return boundingBox.height
+    }
+    
+    private func showExclusiveDealsInstructionsBottomSheet() {
+        
+        let minHeight = 180
+        let textHeight = calculateHeight(text: self.exclusivePromotionDeal?.detail ?? "", width: ScreenSize.SCREEN_WIDTH - 32)
+        let storyboard = UIStoryboard(name: "Smile", bundle: .resource)
+        if let exclusiveVC = storyboard.instantiateViewController(withIdentifier: "ExclusiveDealsInstructionsBottomSheet") as? ExclusiveDealsInstructionsBottomSheet {
+            exclusiveVC.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(minHeight) + textHeight )
+            
+            exclusiveVC.grocery = self.grocery
+            exclusiveVC.promoCode = self.exclusivePromotionDeal
+            
+            let popupController = STPopupController(rootViewController: exclusiveVC)
+            popupController.navigationBarHidden = true
+            popupController.style = .bottomSheet
+            popupController.backgroundView?.alpha = 1
+            popupController.containerView.layer.cornerRadius = 16
+            popupController.navigationBarHidden = true
+            popupController.present(in: self)
+            
+            
+            exclusiveVC.promoTapped = {[weak self] promo, grocery in
+                if promo != nil {
+                    
+                    SegmentAnalyticsEngine.instance.logEvent(event: ExclusiveDealCopiedEvent(retailerId: grocery?.getCleanGroceryID() ?? "0", retailerName: grocery?.name ?? "", promoCode: promo?.code ?? "", source: .storeScreen))
+                    
+                    popupController.dismiss()
+                    UserDefaults.setExclusiveDealsPromo(promo: promo!)
+                    DispatchQueue.main.async {
+                        
+                        
+                        let msg = localizedString("lbl_enjoy_promocode_initial", comment: "") + " '" + (promo!.code ?? "") + "' " + localizedString("lbl_enjoy_promocode_final", comment: "")
+                        
+                        ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "checkGreenTopMessageView") , -1 , false, imageTint: ElgrocerBaseColors.elgrocerGreen500Colour) { (sender , index , isUnDo) in  }
+                    }
+                }
+            }
+        }
     }
     
     private func showAppStoreReviewPopUp(){
@@ -2330,6 +2386,10 @@ extension MainCategoriesViewController: GroceryLoaderDelegate {
             self.refreshBasketIconStatus()
         }
         self.groceryLoaderVC = nil
+        if self.shouldShowPromoPopUp {
+            self.shouldShowPromoPopUp = false
+            self.showExclusiveDealsInstructionsBottomSheet()
+        }
     }
 }
 
@@ -2581,6 +2641,12 @@ private func checkforDifferentDeliveryLocation() {
     }
 
 }
+
+//extension MainCategoriesViewController: ShowExclusiveDealsInstructionsDelegate{
+//    func showExclusiveDealsInstructions(promo: ExclusiveDealsPromoCode, grocery: Grocery) {
+//        self.showExclusiveDealsInstructionsBottomSheet()
+//    }
+//}
 
 extension Notification.Name {
     static var MainCategoriesViewDataDidLoaded: Notification.Name { NSNotification.Name("MainCategoriesViewControllerDataDidLoaded") }

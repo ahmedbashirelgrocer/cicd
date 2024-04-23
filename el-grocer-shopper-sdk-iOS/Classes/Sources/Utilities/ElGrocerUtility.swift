@@ -1396,7 +1396,7 @@ class ElGrocerUtility {
     }
     
     
-    func showTopMessageView (_ msg : String ,_ title : String = "", image : UIImage? , _ index : Int = -1 , _ isNeedtoShowButton : Bool = true , backButtonClicked: @escaping (Any? , Int , Bool) -> Void, buttonIcon: UIImage? = nil) {
+    func showTopMessageView (_ msg : String ,_ title : String = "", image : UIImage? , _ index : Int = -1 , _ isNeedtoShowButton : Bool = true ,imageTint: UIColor? = UIColor.navigationBarWhiteColor(), backButtonClicked: @escaping (Any? , Int , Bool) -> Void, buttonIcon: UIImage? = nil) {
         let view = MessageView.viewFromNib(layout: .cardView)
         //  view.configureTheme(.warning)
         
@@ -1405,7 +1405,7 @@ class ElGrocerUtility {
             view.iconImageView?.image = data
             view.iconImageView?.image = view.iconImageView?.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
             view.iconImageView?.isHidden = false
-            view.iconImageView?.tintColor = UIColor.navigationBarWhiteColor()
+            view.iconImageView?.tintColor = imageTint
         
         }
         view.id = "\(index)"

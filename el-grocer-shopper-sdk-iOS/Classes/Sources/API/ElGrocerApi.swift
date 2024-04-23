@@ -157,7 +157,8 @@ enum ElGrocerApiEndpoint : String {
     case ScreenProducts = "v1/screens/screen_products"
     case OrderPaymentDetails = "v1/orders/online_payment_details"
     case getRetailerDetail = "v2/retailers/delivery/show"
-    case getPromoList = "v1/promotion_codes/list"    
+    case getPromoList = "v1/promotion_codes/list"  
+    case getExclusiveDealsPromo = "v2/promotion_codes/promo_list?"
     case genericCustomBanners = "v1/banners/show"
     // Time Zone standrization Api change 17 sept https://elgrocerdxb.atlassian.net/browse/EG-584
     // Dark store new UI Changes 10nov https://elgrocerdxb.atlassian.net/wiki/spaces/CNC/pages/1270218754/Launching+Dark+Store+w+New+UI
@@ -4727,6 +4728,36 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
     }
     
     //
+      
+      //MARK: get exclusive deals promo for home page
+      
+        func getExclusiveDealsPromoList(limmit: Int, Offset: Int, groceryIds:String, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+          
+          setAccessToken()
+          let parameters = NSMutableDictionary()
+          parameters["retailer_ids"] = groceryIds
+          parameters["limit"] = limmit
+          parameters["offset"] = Offset
+          NetworkCall.get(ElGrocerApiEndpoint.getExclusiveDealsPromo.rawValue, parameters: parameters, progress: { (progress) in
+              // elDebugPrint("Progress for API :  \(progress)")
+          }, success: { (operation  , response: Any) -> Void in
+              
+              guard let response = response as? NSDictionary else {
+                  completionHandler(Either.failure(ElGrocerError.genericError()))
+                  return
+              }
+              
+              completionHandler(Either.success(response))
+              
+          }) { (operation  , error: Error) -> Void in
+              
+              
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completionHandler(Either.failure(errorToParse))
+              }
+          }
+      }
     
     
     func getorderDetails( orderId : String ,  completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {

@@ -102,19 +102,19 @@ class DeliverySlotManager {
                     let dayName = startDate.getDayName() ?? ""
                     if startDate.isToday || slotId == 0 {
                         if ElGrocerUtility.sharedInstance.isDeliveryMode {
-                            dayTitle = localizedString("lbl_next_delivery", comment: "") + " " + localizedString("today_title", comment: "")
+                            dayTitle = localizedString("today_title", comment: "")
                         }else {
                             dayTitle = localizedString("lbl_next_self_collection", comment: "")
                         }
                         
                     }else if startDate.isTomorrow {
                         if ElGrocerUtility.sharedInstance.isDeliveryMode {
-                            dayTitle = localizedString("lbl_next_delivery", comment: "") + " " + localizedString("tomorrow_title", comment: "")
+                            dayTitle = localizedString("tomorrow_title", comment: "")
                         }else {
                             dayTitle = localizedString("lbl_next_self_collection", comment: "")
                         }
                     }else {
-                        dayTitle = localizedString("lbl_next_delivery", comment: "") + " " + (startDate.getDayName() ?? "")
+                        dayTitle =  (startDate.getDayName() ?? "")
                     }
                     let timeSlot = ( isDeliveryMode ?  startDate.formatDateForDeliveryFormateString() : startDate.formatDateForCandCFormateString() ) + " - " + ( isDeliveryMode ?  endDate.formatDateForDeliveryFormateString() : endDate.formatDateForCandCFormateString())
                     groceryNextDeliveryString =  dayTitle + (dayTitle.count > 0 ? "\n" : "") + ( dayTitle.count > 0 ? "" : "\(dayName) ") + "\(timeSlot)"

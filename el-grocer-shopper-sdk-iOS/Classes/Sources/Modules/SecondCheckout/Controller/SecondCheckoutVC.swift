@@ -43,7 +43,7 @@ class SecondCheckoutVC: UIViewController {
    
     
     var viewModel: SecondaryViewModel!
-    
+    var identifyEventLogged: Bool = false
     var activeAddressObj : DeliveryAddress?
     var selectedPaymentOption: PaymentOption?
     var selectedSlot: DeliverySlot?
@@ -109,7 +109,7 @@ class SecondCheckoutVC: UIViewController {
             // check delivery slot and show popup
             if self.viewModel.getCurrentDeliverySlotId() == nil {
                 showMessage("Please choose a slot to schedule this order.")
-                return
+                return 
             }
             
             let _ = SpinnerView.showSpinnerViewInView(self.view)
@@ -146,9 +146,22 @@ class SecondCheckoutVC: UIViewController {
             
                 guard order != nil else { return }
                 
+                let elwalletBalance = self.viewModel.basketDataValue?.elWalletBalance ?? 0.00
+                let elwalletRedeem = self.viewModel.basketDataValue?.elWalletRedeem ?? 0.00
+                
+                if elwalletRedeem > 0 {
+                    var elwalletTotalBalance = elwalletBalance - elwalletRedeem
+                    if elwalletTotalBalance <= 0.00 {
+                        elwalletTotalBalance = 0.00
+                    }
+                    logIdentifyEventWithElwalletBalance(balance: elwalletTotalBalance)
+                }
+                self.clearUserDefaultsForPromo()
+                
+                
                 func logPurchaseEvents() {
                     self.viewModel.setRecipeCartAnalyticsAndRemoveRecipe()
-                    ElGrocerUtility.sharedInstance.delay(0.5) {
+                    ElGrocerUtility.sharedInstance.delay(0.5) { 
                         
                         ElGrocerEventsLogger.sharedInstance.recordPurchaseAnalytics(
                             finalOrderItems:self.viewModel.getShoppingItems() ?? []
@@ -249,9 +262,26 @@ class SecondCheckoutVC: UIViewController {
         self.pinView.configureWith(detail: UserMapPinAdress.init(nickName: address?.nickName ?? "",address: addressString, addressImageUrl: address?.addressImageUrl, addressLat: address?.latitude ?? 0.0, addressLng: address?.longitude ?? 0.0))
     }
     
+    func clearUserDefaultsForPromo() {
+        UserDefaults.deleteExclusiveDealsPromo()
+    }
+    
+    func logIdentifyEventWithElwalletBalance(balance: Double) {
+   
+        if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile, walletBalance: String(balance)))
+        }
+    }
+    
     func updateViewAccordingToData(data: BasketDataClass) {
         
         Thread.OnMainThread {
+            if self.identifyEventLogged == false {
+                self.identifyEventLogged = true
+                self.logIdentifyEventWithElwalletBalance(balance: data.elWalletBalance ?? 0.0)
+            }
+            
+            
             self.billView.configure(productTotal: data.productsTotal ?? 0.00, serviceFee: data.serviceFee ?? 0.00, total: data.totalValue ?? 0.00, productSaving: data.totalDiscount ?? 0.00, finalTotal: data.finalAmount ?? 0.00, elWalletRedemed: data.elWalletRedeem ?? 0.00, smilesRedemed: data.smilesRedeem ?? 0.00, promocode: data.promoCode, quantity: data.quantity ?? 0, smilesSubscriber: data.smilesSubscriber ?? false, tabbyRedeem: data.tabbyRedeem)
 
             self.checkoutDeliverySlotView.configure(selectedDeliverySlot: data.selectedDeliverySlot, deliverySlots: self.viewModel.deliverySlots)

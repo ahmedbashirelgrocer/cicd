@@ -32,7 +32,14 @@ class MyBasketTableViewCell: UITableViewCell {
     @IBOutlet weak var productName: UILabel!
     @IBOutlet weak var productDescription: UILabel!
     @IBOutlet weak var productPrice: UILabel!
-    @IBOutlet weak var plusBtn: UIButton!
+    @IBOutlet weak var plusBtn: UIButton! {
+        didSet{
+            plusBtn.layer.cornerRadius = 8
+            plusBtn.layer.maskedCorners = [.layerMinXMinYCorner , .layerMaxXMaxYCorner]
+            plusBtn.layer.masksToBounds = true
+            plusBtn.clipsToBounds = true
+        }
+    }
     @IBOutlet weak var minusBtn: UIButton!
     @IBOutlet var plusButtonBGView: UIView!{
         didSet{
@@ -84,8 +91,16 @@ class MyBasketTableViewCell: UITableViewCell {
         }
     }
     
-    @IBOutlet var plusTopView: UIView!
-    @IBOutlet var plusBottomView: UIView!
+    @IBOutlet var plusTopView: UIView! {
+        didSet {
+            plusTopView.isHidden = true
+        }
+    }
+    @IBOutlet var plusBottomView: UIView! {
+        didSet {
+            plusBottomView.isHidden = true
+        }
+    }
     @IBOutlet var limitedStockBGView: UIView!{
         didSet{
             limitedStockBGView.backgroundColor = ApplicationTheme.currentTheme.viewthemePrimaryBlackBGColor
@@ -234,13 +249,13 @@ class MyBasketTableViewCell: UITableViewCell {
 //                    self.limitedStockBGView.isHidden = true
             }else{
                 self.plusBtn.isEnabled = true
-                self.plusBtn.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                self.plusBtn.backgroundColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
                 
                 //self.limitedStockBGView.isHidden = true
                 self.percentOffBGView.isHidden = false
                 
-                self.plusTopView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
-                self.plusBottomView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                self.plusTopView.backgroundColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
+                self.plusBottomView.backgroundColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
             }
         }else if product.availableQuantity != -1 {
             
@@ -289,13 +304,13 @@ class MyBasketTableViewCell: UITableViewCell {
                     //                    self.limitedStockBGView.isHidden = true
             }else{
                 self.plusBtn.isEnabled = true
-                self.plusBtn.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                self.plusBtn.backgroundColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
                 
                     //self.limitedStockBGView.isHidden = true
                 self.percentOffBGView.isHidden = false
                 
-                self.plusTopView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
-                self.plusBottomView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+                self.plusTopView.backgroundColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
+                self.plusBottomView.backgroundColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
             }
             
             
@@ -321,13 +336,13 @@ class MyBasketTableViewCell: UITableViewCell {
             self.percentOffBGView.isHidden = false
             
             self.plusBtn.isEnabled = true
-            self.plusBtn.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+            self.plusBtn.backgroundColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
             
             self.limitedStockBGView.isHidden = true
             self.percentOffBGView.isHidden = true
             
-            self.plusTopView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
-            self.plusBottomView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+            self.plusTopView.backgroundColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
+            self.plusBottomView.backgroundColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
             
             self.lblStrikePrice.visibility = .gone
             //sab new
@@ -499,10 +514,10 @@ class MyBasketTableViewCell: UITableViewCell {
             
         } else {
             
-            self.plusBtn.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
-            self.plusBtn.imageView?.tintColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+            self.plusBtn.tintColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
+            self.plusBtn.imageView?.tintColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
             self.plusBtn.isEnabled = true
-            self.plusBtn.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonEnableBGColor)
+            self.plusBtn.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor)
             
         }
     }

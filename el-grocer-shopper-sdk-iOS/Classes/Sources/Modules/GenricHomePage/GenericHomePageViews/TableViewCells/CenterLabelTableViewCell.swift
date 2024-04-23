@@ -23,13 +23,7 @@ class CenterLabelTableViewCell: UITableViewCell {
             lblViewAllButton.textColor = ApplicationTheme.currentTheme.buttonthemeBaseBlackPrimaryForeGroundColor
         }
     }
-    @IBOutlet var imgArrowForward: UIImageView! {
-        didSet {
-            if ElGrocerUtility.sharedInstance.isArabicSelected() {
-                imgArrowForward.transform = CGAffineTransform(scaleX: -1, y: 1)
-            }
-        }
-    }
+    @IBOutlet var imgArrowForward: UIImageView! 
     @IBOutlet var lblLabel: UILabel!  {
         didSet {
             lblLabel.setH4SemiBoldDarkGreenStyle()
@@ -42,12 +36,19 @@ class CenterLabelTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        setInitialAppearance()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(false, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func setInitialAppearance() {
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            imgArrowForward.transform = CGAffineTransform(scaleX: -1, y: 1)
+        }
     }
     
     func configureLabel (_ title : String) {

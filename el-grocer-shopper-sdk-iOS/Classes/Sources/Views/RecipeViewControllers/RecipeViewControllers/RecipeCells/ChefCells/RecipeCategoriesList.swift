@@ -39,7 +39,8 @@ class RecipeCategoriesList: CustomCollectionView {
     }
     
     func setUpInitialApearance() {
-        self.backgroundColor = UIColor.tableViewBackgroundColor()
+        //self.backgroundColor = UIColor.tableViewBackgroundColor()
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         self.collectionView?.clipsToBounds = false
         self.collectionView?.backgroundColor = .clear
         if ElGrocerUtility.sharedInstance.isArabicSelected() {

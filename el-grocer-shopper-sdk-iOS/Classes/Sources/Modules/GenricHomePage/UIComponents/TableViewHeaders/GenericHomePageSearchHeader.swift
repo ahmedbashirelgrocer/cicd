@@ -10,13 +10,17 @@ import UIKit
 
 extension GenericHomePageSearchHeader {
     var profileButton: UIButton! { self.smileView.profileButton }
-    var cartButton: UIButton! { self.smileView.cartButton }
     var smilesPointsView: UIView { self.smileView.smilesPointsView }
+    var leftTitle: UIView { self.smileView.leftTitle }
     /// Set smiles points inside smiles navigation view
     /// - Parameter points: set value -1 For not login case
     /// - Parameter points: set value >= 0  in case of connected user
     func setSmilesPoints(_ points: Int) {
         self.smileView.setSmilesPoints(points)
+    }
+    
+    func setLeftTitle(_ text: String) {
+        self.smileView.setLeftTitle(text)
     }
     
     /// Resets smiles points view

@@ -49,7 +49,13 @@ class NavigationBarChatButton: UIView {
         }
     }
     
-    func changeChatIconColor(color: UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor){
+    func changeChatIconColor(color: UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor) {
+        self.navChatButton.imageView?.changePngColorTo(color: color)
+        if color == ApplicationTheme.currentTheme.themeBasePrimaryColor{
+            self.backgroundColor = SDKManager.shared.isSmileSDK ? .clear : .clear
+        }else{
+            self.backgroundColor = SDKManager.shared.isSmileSDK ? .clear : .clear
+        }
         let image = UIImage(name: "icon_help")?.withRenderingMode(.alwaysTemplate)
         self.navChatButton.tintColor = color
         self.navChatButton.setImage(image, for: .normal)

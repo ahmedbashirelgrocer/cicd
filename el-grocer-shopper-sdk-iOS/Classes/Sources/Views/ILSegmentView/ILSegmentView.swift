@@ -70,7 +70,7 @@ class ILSegmentView: UICollectionView {
                 layout.minimumInteritemSpacing = 0
                 layout.minimumLineSpacing = 0
                 let edgeInset:CGFloat =  16
-                layout.sectionInset = UIEdgeInsets(top: edgeInset , left: edgeInset, bottom: 0, right: edgeInset)
+                layout.sectionInset = UIEdgeInsets(top: edgeInset , left: edgeInset/2, bottom: 0, right: edgeInset)
                 return layout
             }()
         }

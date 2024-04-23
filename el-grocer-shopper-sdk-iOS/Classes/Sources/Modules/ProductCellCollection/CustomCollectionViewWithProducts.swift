@@ -375,11 +375,11 @@ extension CustomCollectionViewWithProducts : UICollectionViewDataSource {
                                 productCell.addToCartButton.text = "＋"
                             }
                             
-                            productCell.plusButton.setImage(UIImage(name: "add_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
+                            productCell.plusButton.setImage(UIImage(name: SDKManager.shared.isSmileSDK ? "add_product_cell_smiles" : "add_product_cell_shopper"), for: .normal)
                             if product.count.intValue == 1 {
-                                productCell.minusButton.setImage(UIImage(name: "delete_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
+                                productCell.minusButton.setImage(UIImage(name: "MyBasketDelete"), for: .normal)
                             }else{
-                                productCell.minusButton.setImage(UIImage(name: "remove_product_cell")?.withRenderingMode(.alwaysTemplate), for: .normal)
+                                productCell.minusButton.setImage(UIImage(name: "MYBasketRemove"), for: .normal)
                             }
                             
                             func setPlusButtonState(_ isEnable : Bool){
