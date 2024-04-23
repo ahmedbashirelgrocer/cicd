@@ -175,7 +175,7 @@ class GenericStoresViewController: BasketBasicViewController {
         // Log Segment Screen Event
        
        SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
-
+        
        // Logging segment event for push notification enabled
        UNUserNotificationCenter.current().getNotificationSettings(completionHandler: { permission in
            switch permission.authorizationStatus  {
@@ -192,6 +192,15 @@ class GenericStoresViewController: BasketBasicViewController {
            }
 
        })
+        
+        currentOrderCollectionView.collectionViewLayout = {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            layout.minimumInteritemSpacing = 0
+            layout.minimumLineSpacing = 0
+            layout.sectionInset = .zero
+            return layout
+        }()
         
     }
 
@@ -223,7 +232,6 @@ class GenericStoresViewController: BasketBasicViewController {
         if self.groceryArray.count > 0 {
             self.homeDataHandler.getExclusiveDealsData()
         }
-      
     }
     
     override func viewWillDisappear(_ animated: Bool) {

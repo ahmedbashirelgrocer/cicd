@@ -75,7 +75,7 @@ fileprivate extension PaymentMethodView {
     
     func iconForPayment(_ paymentId: UInt32?, creditCard: CreditCard?) -> UIImage? {
         guard let selectedPaymentId = paymentId, let paymentOption = PaymentOption(rawValue: selectedPaymentId) else {
-            return UIImage(name: "ic_payment_method")
+            return UIImage(name: "ic_visa_grey_bg")
         }
 
         switch paymentOption {
@@ -84,7 +84,7 @@ fileprivate extension PaymentMethodView {
             case .tabby:        return UIImage(name: "ic_tabby_grey_bg")
             case .applePay:     return UIImage(name: "payWithApple")
             case .creditCard:   return creditCardIcon()
-            case .none:         return UIImage(name: "ic_payment_method")
+            case .none:         return UIImage(name: "ic_visa_grey_bg")
             
             // Secondary Payments
             case .smilePoints, .voucher, .PromoCode: return nil

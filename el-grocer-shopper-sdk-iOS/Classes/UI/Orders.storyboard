@@ -2068,8 +2068,8 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                                                                         <color key="textColor" red="0.52941176469999995" green="0.3294117647" blue="0.63137254899999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <nil key="highlightedColor"/>
                                                                     </label>
-                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UEC-at-o2e">
-                                                                        <rect key="frame" x="64" y="20" width="35.333333333333343" height="17"/>
+                                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UEC-at-o2e">
+                                                                        <rect key="frame" x="63.999999999999986" y="20" width="171.66666666666663" height="17"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                         <nil key="textColor"/>
                                                                         <nil key="highlightedColor"/>
@@ -2087,29 +2087,19 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
                                                                             <constraint firstAttribute="height" constant="40" id="ifN-WW-TTi"/>
                                                                         </constraints>
                                                                     </imageView>
-                                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SmM-W1-r7O">
-                                                                        <rect key="frame" x="99.333333333333329" y="0.0" width="226.66666666666669" height="56"/>
-                                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                                        <connections>
-                                                                            <action selector="orderDetailButtonAction:" destination="Hme-EH-edV" eventType="touchUpInside" id="RRL-pI-bSB"/>
-                                                                        </connections>
-                                                                    </button>
                                                                 </subviews>
                                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                                 <constraints>
-                                                                    <constraint firstItem="SmM-W1-r7O" firstAttribute="leading" secondItem="UEC-at-o2e" secondAttribute="trailing" id="3v8-yb-30W"/>
                                                                     <constraint firstAttribute="trailing" secondItem="FvU-rl-H3R" secondAttribute="trailing" constant="16" id="4XC-Eu-z3T"/>
                                                                     <constraint firstItem="FvU-rl-H3R" firstAttribute="leading" secondItem="ZZi-lm-3Zl" secondAttribute="trailing" constant="2" id="9X4-ba-f39"/>
-                                                                    <constraint firstItem="SmM-W1-r7O" firstAttribute="top" secondItem="Hu6-cM-H60" secondAttribute="top" id="CJt-rP-rBP"/>
                                                                     <constraint firstItem="UEC-at-o2e" firstAttribute="top" secondItem="Hu6-cM-H60" secondAttribute="top" constant="20" id="S4j-hY-vwq"/>
                                                                     <constraint firstItem="WRn-NI-VVO" firstAttribute="leading" secondItem="UEC-at-o2e" secondAttribute="leading" id="Sk4-dc-ZbB"/>
-                                                                    <constraint firstItem="FvU-rl-H3R" firstAttribute="leading" secondItem="SmM-W1-r7O" secondAttribute="trailing" id="Smh-sO-MuU"/>
                                                                     <constraint firstItem="55s-rh-5zi" firstAttribute="top" secondItem="Hu6-cM-H60" secondAttribute="top" constant="16" id="V62-Iv-ITa"/>
                                                                     <constraint firstItem="55s-rh-5zi" firstAttribute="leading" secondItem="Hu6-cM-H60" secondAttribute="leading" constant="16" id="XAd-J3-MH9"/>
-                                                                    <constraint firstAttribute="bottom" secondItem="SmM-W1-r7O" secondAttribute="bottom" id="ZdF-dQ-0nJ"/>
                                                                     <constraint firstItem="UEC-at-o2e" firstAttribute="leading" secondItem="55s-rh-5zi" secondAttribute="trailing" constant="8" id="cYc-u4-bPl"/>
                                                                     <constraint firstItem="ZZi-lm-3Zl" firstAttribute="top" secondItem="Hu6-cM-H60" secondAttribute="top" constant="16" id="hrK-YE-GcC"/>
                                                                     <constraint firstItem="FvU-rl-H3R" firstAttribute="top" secondItem="Hu6-cM-H60" secondAttribute="top" constant="16" id="ism-8x-C91"/>
+                                                                    <constraint firstItem="mCQ-QM-oDd" firstAttribute="leading" secondItem="UEC-at-o2e" secondAttribute="trailing" constant="4" id="mRt-tV-Jr5"/>
                                                                     <constraint firstAttribute="height" constant="56" id="qdS-9T-ldo"/>
                                                                     <constraint firstItem="mCQ-QM-oDd" firstAttribute="leading" secondItem="ZZi-lm-3Zl" secondAttribute="leading" constant="-8" id="tDU-LO-It0"/>
                                                                     <constraint firstItem="WRn-NI-VVO" firstAttribute="top" secondItem="UEC-at-o2e" secondAttribute="bottom" id="tdG-bO-ZQW"/>
@@ -3121,7 +3111,7 @@ YOUR ORDER SUCCESSFULLY PLACED</string>
         <image name="reorder-icon" width="20" height="20"/>
         <image name="riderOrPicker" width="36" height="36"/>
         <image name="saleTagNew" width="68" height="24"/>
-        <image name="smile_pin" width="24.333333969116211" height="24.333333969116211"/>
+        <image name="smile_pin" width="40" height="51"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

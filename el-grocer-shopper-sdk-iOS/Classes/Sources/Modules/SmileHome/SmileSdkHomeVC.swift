@@ -153,6 +153,15 @@ class SmileSdkHomeVC: BasketBasicViewController {
         if sdkManager.launchOptions?.marketType == .marketPlace {
             SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
         }
+        
+        currentOrderCollectionView.collectionViewLayout = {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            layout.minimumInteritemSpacing = 0
+            layout.minimumLineSpacing = 0
+            layout.sectionInset = .zero
+            return layout
+        }()
     }
     
     override func viewWillAppear(_ animated: Bool) {

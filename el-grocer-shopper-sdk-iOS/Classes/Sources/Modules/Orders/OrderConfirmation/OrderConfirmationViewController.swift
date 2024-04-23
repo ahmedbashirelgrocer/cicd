@@ -178,6 +178,9 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         // self.fetchAddressListIfNeeded()
         // Logging segment event for segment order confirmation screen
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderConfirmationScreen))
+        
+        btnOrderDetailsBGView.isUserInteractionEnabled = true
+        btnOrderDetailsBGView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToOrderDetailAction)))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -437,7 +440,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         LottieAniamtionViewUtil.showAnimation(onView:  self.lottieAnimation, withJsonFileName: "OrderConfirmationSmiles", removeFromSuper: false, loopMode: .playOnce) { isloaded in }*/
      
     }
-    @IBAction func orderDetailButtonAction(_ sender: Any) {
+    @objc func orderDetailButtonAction(_ sender: UITapGestureRecognizer) {
         self.goToOrderDetailAction("")
     }
     @IBAction func orderStatusUserAction(_ sender: Any) {
