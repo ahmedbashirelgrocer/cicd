@@ -508,7 +508,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
         let editOrderWarningBottomSheet = WarningBottomSheetController(viewModel: viewModel)
         
-        editOrderWarningBottomSheet.modalPresentationStyle = .overFullScreen
+        editOrderWarningBottomSheet.modalPresentationStyle = .overCurrentContext
+        editOrderWarningBottomSheet.modalTransitionStyle = .crossDissolve
         editOrderWarningBottomSheet.positiveButtonTapHandler = { [weak self] in
             self?.createBasketAndNavigateToViewForEditOrder()
         }

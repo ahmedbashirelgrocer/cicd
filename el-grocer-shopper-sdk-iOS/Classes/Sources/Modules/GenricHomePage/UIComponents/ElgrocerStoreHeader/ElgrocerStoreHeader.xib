@@ -73,23 +73,23 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ckn-aP-YAg" userLabel="LocationSlotView">
-                            <rect key="frame" x="16" y="43" width="363" height="20"/>
+                            <rect key="frame" x="16" y="43" width="363" height="25"/>
                             <subviews>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ip8-60-Bjk" userLabel="location" customClass="UIControl">
-                                    <rect key="frame" x="0.0" y="0.0" width="247" height="20"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="257" height="25"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blackLocationPin" translatesAutoresizingMaskIntoConstraints="NO" id="ppb-xP-Idw">
-                                            <rect key="frame" x="0.0" y="0.0" width="24" height="20"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="24" height="25"/>
                                             <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="Dubai, JLT " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZX6-sE-EOS">
-                                            <rect key="frame" x="29" y="0.0" width="66.5" height="20"/>
+                                            <rect key="frame" x="29" y="0.0" width="66.5" height="25"/>
                                             <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
                                             <color key="textColor" red="0.90196073060000004" green="0.8392156959" blue="0.31372550129999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blackArrowDown" translatesAutoresizingMaskIntoConstraints="NO" id="GMN-8X-Dco">
-                                            <rect key="frame" x="99.5" y="4" width="12" height="12"/>
+                                            <rect key="frame" x="99.5" y="4" width="17" height="17"/>
                                             <color key="tintColor" red="0.90196073060000004" green="0.8392156959" blue="0.31372550129999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="GMN-8X-Dco" secondAttribute="height" multiplier="1:1" id="ZHl-mN-EER"/>
@@ -120,17 +120,10 @@
                                     </connections>
                                 </view>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="252" verticalCompressionResistancePriority="752" translatesAutoresizingMaskIntoConstraints="NO" id="M7j-Is-c6Y" userLabel="slots" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                    <rect key="frame" x="257" y="2" width="106" height="16"/>
+                                    <rect key="frame" x="267" y="2" width="96" height="21"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SingleStore_delivery" translatesAutoresizingMaskIntoConstraints="NO" id="GXy-Cr-2hH">
-                                            <rect key="frame" x="6" y="2" width="12" height="12"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="12" id="SSn-1t-sna"/>
-                                                <constraint firstAttribute="height" constant="12" id="fEf-1D-wu6"/>
-                                            </constraints>
-                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="752" text="Tod 2pm-3pm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zpy-5b-pos">
-                                            <rect key="frame" x="20" y="1" width="76" height="14"/>
+                                            <rect key="frame" x="10" y="3.5" width="76" height="14"/>
                                             <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="12"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -139,11 +132,9 @@
                                     <color key="backgroundColor" red="0.45490196350000001" green="0.74901962280000001" blue="0.75686275960000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstItem="GXy-Cr-2hH" firstAttribute="leading" secondItem="M7j-Is-c6Y" secondAttribute="leading" constant="6" id="BxN-JZ-dyY"/>
                                         <constraint firstItem="Zpy-5b-pos" firstAttribute="centerY" secondItem="M7j-Is-c6Y" secondAttribute="centerY" id="Du8-zp-h2z"/>
-                                        <constraint firstItem="Zpy-5b-pos" firstAttribute="leading" secondItem="GXy-Cr-2hH" secondAttribute="trailing" constant="2" id="RgO-8t-jh7"/>
                                         <constraint firstAttribute="trailing" secondItem="Zpy-5b-pos" secondAttribute="trailing" constant="10" id="a6Z-6o-qCh"/>
-                                        <constraint firstItem="GXy-Cr-2hH" firstAttribute="centerY" secondItem="M7j-Is-c6Y" secondAttribute="centerY" id="dw9-Wi-j0X"/>
+                                        <constraint firstItem="Zpy-5b-pos" firstAttribute="leading" secondItem="M7j-Is-c6Y" secondAttribute="leading" constant="10" id="eK7-2F-bTs"/>
                                     </constraints>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
@@ -195,23 +186,23 @@
                             </constraints>
                         </view>
                         <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ls7-hF-Aq6" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                            <rect key="frame" x="16" y="84" width="363" height="30"/>
+                            <rect key="frame" x="16" y="84" width="363" height="0.0"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_warning" translatesAutoresizingMaskIntoConstraints="NO" id="5pd-qi-3dL">
-                                    <rect key="frame" x="8" y="5" width="20" height="20"/>
+                                    <rect key="frame" x="8" y="-10" width="20" height="20"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="20" id="O6z-7L-qi1"/>
                                         <constraint firstAttribute="width" constant="20" id="Wn7-9E-bAO"/>
                                     </constraints>
                                 </imageView>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Looks like you're too far away." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sRb-oU-OID">
-                                    <rect key="frame" x="36" y="8" width="156" height="14"/>
+                                    <rect key="frame" x="36" y="-7" width="156" height="14"/>
                                     <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="12"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="juG-EY-T3c">
-                                    <rect key="frame" x="245" y="1" width="94" height="28"/>
+                                    <rect key="frame" x="245" y="-14" width="94" height="28"/>
                                     <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="13"/>
                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                     <state key="normal" title="Change location">
@@ -222,7 +213,7 @@
                                     </connections>
                                 </button>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowForwardSmiles" translatesAutoresizingMaskIntoConstraints="NO" id="N34-wl-q54">
-                                    <rect key="frame" x="339" y="7" width="16" height="16"/>
+                                    <rect key="frame" x="339" y="-8" width="16" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="16" id="A6S-rm-Nln"/>
                                         <constraint firstAttribute="height" constant="16" id="ezt-jL-Ztc"/>
@@ -302,7 +293,6 @@
         </view>
     </objects>
     <resources>
-        <image name="SingleStore_delivery" width="12" height="13"/>
         <image name="arrowForwardSmiles" width="24" height="24"/>
         <image name="backPinPurple" width="24" height="24"/>
         <image name="blackArrowDown" width="16" height="16"/>

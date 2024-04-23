@@ -44,7 +44,7 @@ class GenericBannersCell: RxUITableViewCell {
         let sview = UIView.init()
         sview.backgroundColor = .clear
         selectedBackgroundView = sview
-        pageControl.semanticContentAttribute = ElGrocerUtility.sharedInstance.isArabicSelected() ? .forceLeftToRight : .forceRightToLeft
+        pageControl.semanticContentAttribute = ElGrocerUtility.sharedInstance.isArabicSelected() ? .forceRightToLeft : .forceLeftToRight
         if SDKManager.shared.isShopperApp {
             pageControl.transform = CGAffineTransform(scaleX: -1, y: 1)
         }

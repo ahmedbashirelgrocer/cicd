@@ -815,6 +815,8 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
         )
         
         let editOrderWarningBottomSheet = WarningBottomSheetController(viewModel: viewModel)
+        editOrderWarningBottomSheet.modalPresentationStyle = .overCurrentContext
+        editOrderWarningBottomSheet.modalTransitionStyle = .crossDissolve
         editOrderWarningBottomSheet.positiveButtonTapHandler = { [weak self] in
             guard let self = self else { return }
             

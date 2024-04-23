@@ -3018,10 +3018,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                             self.finalRemoveCall();
                         }
                     }else{
-                        guard let self = self else {return}
-                            // do nothing let user add more things
-                        self.loadShoppingBasketData()
-                        self.reloadTableData()
+                        // do nothing let user add more things
+                        guard let self = self else { return }
+                        let storeVC = ElGrocerViewControllers.mainCategoriesViewController()
+                        storeVC.isFromEditOrder = true
+                        self.navigationController?.pushViewController(storeVC, animated: true)
                     }
                     
                 }).show()
