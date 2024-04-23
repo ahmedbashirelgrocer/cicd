@@ -84,11 +84,12 @@ class NavigationBarSearchView : UIView, UITextFieldDelegate {
         self.searchPlaceholder.isHidden = self.searchTextField.text!.isEmpty ? false : true
         
         if animated {
+            Thread.OnMainThread {
+                UIView.animate(withDuration: 0.33, animations: { () -> Void in
+                    self.layoutIfNeeded()
+                })
+            }
             
-            UIView.animate(withDuration: 0.33, animations: { () -> Void in
-                
-                self.layoutIfNeeded()
-            })
         }
     }
     

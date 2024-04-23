@@ -536,10 +536,9 @@ private extension SecondCheckoutVC {
                     }
                     
                     var price = product.price.doubleValue
-                    if product.promoPrice?.doubleValue ?? 0 > 0 {
-                        price = product.promoPrice?.doubleValue ?? 0
-                    }
-                    
+//                    if product.promoPrice?.doubleValue ?? 0 > 0 {
+//                        price = product.promoPrice?.doubleValue ?? 0
+//                    }
                     return TopSortEvent.Item(productId: product.productId.stringValue,
                                              unitPrice: price,
                                              quantity: quantity)
