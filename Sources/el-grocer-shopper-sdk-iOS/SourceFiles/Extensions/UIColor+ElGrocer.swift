@@ -16,7 +16,7 @@ fileprivate extension UIColor {
 extension UIColor {
     
     class func smileBaseColor() -> UIColor {
-        return ApplicationTheme.currentTheme.smileBaseColor
+        return ApplicationTheme.currentTheme.themeBasePrimaryColor
     }
     class func smileSecondaryColor() -> UIColor {
         return ApplicationTheme.currentTheme.smileSecondaryColor

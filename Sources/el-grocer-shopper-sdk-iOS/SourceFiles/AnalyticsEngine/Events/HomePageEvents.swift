@@ -36,3 +36,33 @@ struct OneClickReOrderCloseEvent: AnalyticsEventDataType {
         self.metaData = [:]
     }
 }
+
+struct ExclusiveDealClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(retailerId: String, retailerName: String, categoryId: String, categoryName: String, promoCode: String, source: ScreenName) {
+        self.eventType = .track(eventName: AnalyticsEventName.exclusiveDealClicked)
+        self.metaData = [EventParameterKeys.retailerID: retailerId, EventParameterKeys.retailerName: retailerName, EventParameterKeys.categoryID: categoryId, EventParameterKeys.categoryName: categoryName, EventParameterKeys.promoCode: promoCode,EventParameterKeys.source: source.rawValue]
+    }
+}
+
+struct ExclusiveDealsViewAllClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(categoryId: String, categoryName: String, source: ScreenName) {
+        self.eventType = .track(eventName: AnalyticsEventName.exclusiveDealsViewAllClicked)
+        self.metaData = [ EventParameterKeys.categoryID: categoryId, EventParameterKeys.categoryName: categoryName,EventParameterKeys.source: source.rawValue]
+    }
+}
+
+struct ExclusiveDealCopiedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(retailerId: String, retailerName: String, promoCode: String, source: ScreenName) {
+        self.eventType = .track(eventName: AnalyticsEventName.exclusiveDealCopied)
+        self.metaData = [EventParameterKeys.retailerID: retailerId, EventParameterKeys.retailerName: retailerName, EventParameterKeys.promoCode: promoCode,EventParameterKeys.source: source.rawValue]
+    }
+}

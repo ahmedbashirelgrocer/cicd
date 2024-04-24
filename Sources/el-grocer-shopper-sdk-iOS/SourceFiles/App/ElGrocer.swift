@@ -49,59 +49,59 @@ public final class ElGrocer {
                 ElGrocer.showDefaultErrorForDB()
                 return defers()
             }
+            
+            guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
+                
+                _ = ElGrocerUtility.setDefaultAddress()
+                
+                if ElGrocerUtility.sharedInstance.appConfigData == nil || HomePageData.shared.groceryA?.count == 0 || SDKManager.shared.launchOptions?.language !=  UserDefaults.getCurrentLanguage() {
+                    PreLoadData.shared.loadConfigData {}
+                    HomePageData.shared.fetchHomeData(true) {
+                        SDKManager.shared.launchCompletion?()
+                    }
+                }else if HomePageData.shared.groceryA?.count == 1 {
+                    HomePageData.shared.fetchHomeData(true) {
+                        SDKManager.shared.launchCompletion?()
+                    }
+                }
 
-            /// This flow is removed as we need to load address list on each launch and that could be done splash screen
-            /// Hence splashed is updated to handle address list on each launch, However, other pre-load cases are handled in-side splash VC.
-//            guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
-//
-//                if ElGrocerUtility.sharedInstance.appConfigData == nil || HomePageData.shared.groceryA?.count == 0 || SDKManager.shared.launchOptions?.language !=  UserDefaults.getCurrentLanguage() {
-//                    PreLoadData.shared.loadConfigData {}
-//                    HomePageData.shared.fetchHomeData(true) {
-//                        SDKManager.shared.launchCompletion?()
-//                    }
-//                }else if HomePageData.shared.groceryA?.count == 1 {
-//                    HomePageData.shared.fetchHomeData(true) {
-//                        SDKManager.shared.launchCompletion?()
-//                    }
-//                }
-//
-//                func basicHomeViewSetUp() {
-//                    if let launchOptions = launchOptions {
-//                        let manager = SDKLoginManager(launchOptions: launchOptions)
-//                        SDKManager.shared.launchOptions = launchOptions
-//                        SDKManager.shared.startBasicThirdPartyInit()
-//                        SDKManager.shared.setupLanguage()
-//                        LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: SDKManager.shared.launchOptions?.language ?? "Base", SDKManagers: SDKManager.shared)
-//                        manager.setHomeView()
-//                        SDKManager.shared.launchCompletion?()
-//
-//                        // Logging segment identify event for every time user launch our SDK
-//                        if SDKManager.shared.isInitialized {
-//                            if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-//                                SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
-//
-//                                // Logging User Registered or User Signed In event
-//                                let event: AnalyticsEventDataType = SDKLoginManager.isUserRegistered ? UserRegisteredEvent() : UserSignedInEvent()
-//                                SegmentAnalyticsEngine.instance.logEvent(event: event)
-//                                SDKLoginManager.isUserRegistered = false
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                if let data = launchOptions?.pushNotificationPayload, (launchOptions?.pushNotificationPayload?.count ?? 0) > 0 , let dataObj = data["elgrocerMap"] as? String, dataObj.count > 0 {
-//                    basicHomeViewSetUp()
-//                    ElGrocerNotification.handlePushNotification(launchOptions)
-//                }else if let url = URL(string: launchOptions?.deepLinkPayload ?? ""), (launchOptions?.deepLinkPayload?.count ?? 0) > 0 {
-//                    basicHomeViewSetUp()
-//                    ElGrocerDynamicLink.handleDeepLink(url)
-//                    return defers()
-//                }else {
-//                    basicHomeViewSetUp()
-//                  //  SDKManager.shared.start(with: launchOptions)
-//                }
-//                return defers()
-//            }
+                func basicHomeViewSetUp() {
+                    if let launchOptions = launchOptions {
+                        let manager = SDKLoginManager(launchOptions: launchOptions)
+                        SDKManager.shared.launchOptions = launchOptions
+                        SDKManager.shared.startBasicThirdPartyInit()
+                        SDKManager.shared.setupLanguage()
+                        LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: SDKManager.shared.launchOptions?.language ?? "Base", SDKManagers: SDKManager.shared)
+                        manager.setHomeView()
+                        SDKManager.shared.launchCompletion?()
+
+                        // Logging segment identify event for every time user launch our SDK
+                        if SDKManager.shared.isInitialized {
+                            if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                                SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
+
+                                // Logging User Registered or User Signed In event
+                                let event: AnalyticsEventDataType = SDKLoginManager.isUserRegistered ? UserRegisteredEvent() : UserSignedInEvent()
+                                SegmentAnalyticsEngine.instance.logEvent(event: event)
+                                SDKLoginManager.isUserRegistered = false
+                            }
+                        }
+                    }
+                }
+
+                if let data = launchOptions?.pushNotificationPayload, (launchOptions?.pushNotificationPayload?.count ?? 0) > 0 , let dataObj = data["elgrocerMap"] as? String, dataObj.count > 0 {
+                    basicHomeViewSetUp()
+                    ElGrocerNotification.handlePushNotification(launchOptions)
+                }else if let url = URL(string: launchOptions?.deepLinkPayload ?? ""), (launchOptions?.deepLinkPayload?.count ?? 0) > 0 {
+                    basicHomeViewSetUp()
+                    ElGrocerDynamicLink.handleDeepLink(url)
+                    return defers()
+                }else {
+                    basicHomeViewSetUp()
+                  //  SDKManager.shared.start(with: launchOptions)
+                }
+                return defers()
+            }
             
             SDKManager.shared.start(with: launchOptions)
             if let data = launchOptions?.pushNotificationPayload, (launchOptions?.pushNotificationPayload?.count ?? 0) > 0, let dataObj = data["elgrocerMap"] as? String, dataObj.count > 0 {

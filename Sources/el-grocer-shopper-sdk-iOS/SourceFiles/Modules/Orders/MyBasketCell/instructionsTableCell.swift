@@ -28,7 +28,11 @@ class instructionsTableCell: UITableViewCell , GrowingTextViewDelegate {
         }
     }
     @IBOutlet var btnCross: UIButton!
-    @IBOutlet var superBGView: AWView!
+    @IBOutlet var superBGView: AWView! {
+        didSet {
+            superBGView.backgroundColor = ApplicationTheme.currentTheme.tableViewBackgroundColor
+        }
+    }
     var tblView : UITableView!
     
     override func awakeFromNib() {

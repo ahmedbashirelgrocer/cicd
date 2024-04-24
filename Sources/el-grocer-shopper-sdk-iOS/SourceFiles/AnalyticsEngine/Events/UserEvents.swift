@@ -13,7 +13,7 @@ struct IdentifyUserEvent: IdentifyUserDataType {
     var userId: String
     var traits: [String : Any]?
 
-    init(user: UserProfile?) {
+    init(user: UserProfile?, walletBalance: String? = "") {
         self.userId = String(user?.dbID.intValue ?? -1)
         self.traits = [
             EventParameterKeys.email        : user?.email ?? "",
@@ -26,6 +26,10 @@ struct IdentifyUserEvent: IdentifyUserDataType {
             EventParameterKeys.msgSMS : true,           // Enable SMS notifications
             EventParameterKeys.msgWhatsApp : true       // Enable WhatsApp notifications
         ]
+        if walletBalance != nil && walletBalance != "" {
+            self.traits?[EventParameterKeys.elWalletBalance] = walletBalance
+        }
+        
     }
 }
 

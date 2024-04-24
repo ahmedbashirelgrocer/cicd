@@ -14,13 +14,20 @@ import Foundation
 extension GMSAddress {
     
     var formattedAddress: String {
-        let addressComponents = [
+        var addressComponents = [
             thoroughfare,        // One Infinite Loop
             subLocality,         // sublocatility
-            locality,            // Cupertino
-            administrativeArea,  // California
-            postalCode           // 95014
         ]
+        if !addressComponents.contains(where: { $0 == locality }) {
+            addressComponents.append(locality) // Cupertino
+        }
+        if !addressComponents.contains(where: { $0 == administrativeArea }) {
+            addressComponents.append(administrativeArea) // California
+        }
+        if !addressComponents.contains(where: { $0 == postalCode }) {
+            addressComponents.append(postalCode) // 95014
+        }
+        
         return addressComponents
             .compactMap { $0 }
             .joined(separator: ", ")

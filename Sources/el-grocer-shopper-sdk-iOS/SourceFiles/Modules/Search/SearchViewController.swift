@@ -256,7 +256,7 @@ class SearchViewController: BasketBasicViewController,UICollectionViewDataSource
         self.view.layoutIfNeeded()
        
         self.navigationItem.hidesBackButton = true
-        searchBgView.backgroundColor =  ApplicationTheme.currentTheme.navigationBarColor
+        searchBgView.backgroundColor =  ApplicationTheme.currentTheme.tableViewBGWhiteColor
         // self.extendedLayoutIncludesOpaqueBars = true
         self.view.backgroundColor = ApplicationTheme.currentTheme.viewWhiteBGColor
     }
@@ -1177,7 +1177,7 @@ extension SearchViewController: UITextFieldDelegate {
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.searchBarView.layer.borderColor = sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor :  ApplicationTheme.currentTheme.textFieldBorderActiveColor.cgColor
+        self.searchBarView.layer.borderColor =  ApplicationTheme.currentTheme.borderGrayColor.cgColor
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.searchBarView.layer.borderColor = UIColor.borderGrayColor().cgColor

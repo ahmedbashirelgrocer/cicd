@@ -113,7 +113,7 @@ private extension ActiveCartCellViewModel {
             break
             
         case .scheduled:
-            let prefix = localizedString("lbl_next_delivery", bundle: .resource, comment: "")
+            let prefix = localizedString("", bundle: .resource, comment: "")
             let formattedTimesString = self.formattedSlot()
             let text = prefix + formattedTimesString
             let attributedString = NSMutableAttributedString(string: text)

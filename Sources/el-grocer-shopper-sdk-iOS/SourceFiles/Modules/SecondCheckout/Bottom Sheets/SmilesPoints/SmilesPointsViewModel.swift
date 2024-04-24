@@ -11,6 +11,7 @@ import RxSwift
 protocol SmilesPointsViewModelInput {
     var sliderValueObserver: AnyObserver<Float> { get }
     var confirmButtonTapObserver: AnyObserver<Void> { get }
+    var textFieldObserver: AnyObserver<String?> { get }
 }
 
 protocol SmilesPointsViewModelOutput {
@@ -25,6 +26,7 @@ protocol SmilesPointsViewModelOutput {
     var result: Observable<Int> { get }
     var amountDueInAED: Observable<String?> { get }
     var amountRemaningInAED: Observable<String?> { get }
+    var error: Observable<String?> { get }
 }
 
 protocol SmilesPointsViewModelType {
@@ -41,7 +43,7 @@ class SmilesPointsViewModel: SmilesPointsViewModelType, SmilesPointsViewModelInp
     /// Inputs
     var sliderValueObserver: RxSwift.AnyObserver<Float> { sliderValueSubject.asObserver() }
     var confirmButtonTapObserver: RxSwift.AnyObserver<Void> { confirmButtonTapSubject.asObserver() }
-    
+    var textFieldObserver: AnyObserver<String?> { textFieldSubject.asObserver() }
     /// Outputs
     var localizedText: RxSwift.Observable<LocalizedText> { localizedTextSubject.asObservable() }
     var smilesPointsRedeemed: RxSwift.Observable<String> { smilesPointsRedeemedSubject.asObservable() }
@@ -52,6 +54,7 @@ class SmilesPointsViewModel: SmilesPointsViewModelType, SmilesPointsViewModelInp
     var amountDueInAED: Observable<String?> { amountDueInAEDSubject.asObservable() }
     var amountRemaningInAED: RxSwift.Observable<String?> { amountRemaningInAEDSubject.asObservable() }
     var result: Observable<Int> { resultSubject.asObservable() }
+    var error: Observable<String?> { errorSubject.asObservable() }
     
     /// Subjects
     private let localizedTextSubject: BehaviorSubject<LocalizedText>
@@ -67,6 +70,8 @@ class SmilesPointsViewModel: SmilesPointsViewModelType, SmilesPointsViewModelInp
     private let resultSubject: PublishSubject<Int> = .init()
     private var sliderCurrentValueSubject: BehaviorSubject<Float> = .init(value: 0.0)
     private let sliderInitialValueSubject: BehaviorSubject<Float> = .init(value: 0.0)
+    private var textFieldSubject: BehaviorSubject<String?> = .init(value: nil)
+    private var errorSubject: BehaviorSubject<String?> = .init(value: nil)
     
     /// Properties
     private var disponseBag = DisposeBag()
@@ -119,10 +124,41 @@ class SmilesPointsViewModel: SmilesPointsViewModelType, SmilesPointsViewModelInp
             .bind(to: availablePointsConvertedToAEDSubject)
             .disposed(by: disponseBag)
         
-        confirmButtonTapSubject
-            .withLatestFrom(sliderValue)
-            .map { $0 }
+        smilesPointsRedeemedSubject
+            .bind(to: self.textFieldSubject)
+            .disposed(by: disponseBag)
+        
+        let confirmButtonTap = confirmButtonTapSubject
+            .withLatestFrom(textFieldSubject)
+            .map { $0?.removingWhitespaceAndNewlines() }
+            .map { Int($0 ?? "0") ?? 0 }
+            .share()
+        
+        Observable
+            .combineLatest(confirmButtonTap, smilesPointsRedeemedSubject.map{Int($0) ?? 0}, availableSmilesPointsSubject)
+            .filter {
+                $0 > $2
+            }
+            .map { self.errorMsg(redeemAmount: $0, availableAmount: $2) }
+            .bind(to: errorSubject)
+            .disposed(by: disponseBag)
+        
+        
+        Observable
+            .combineLatest(confirmButtonTap, smilesPointsRedeemedSubject.map{Int($0 ?? "0") ?? 0}, availableSmilesPointsSubject)
+            .filter {
+                $0 <= $2
+            }
+            .map { Int($0.0) }
             .bind(to: resultSubject)
             .disposed(by: disponseBag)
+    }
+    
+    private func errorMsg(redeemAmount: Int, availableAmount: Int) -> String {
+        if redeemAmount > availableAmount {
+            return localizedString("smiles_entered_amount_more_than_available_error", comment: "")
+        }
+        
+        return localizedString("", comment: "")
     }
 }

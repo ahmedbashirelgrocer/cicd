@@ -434,6 +434,10 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
             return
         }
         
+        guard ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch else {
+            return
+        }
+        
         //get user locations
         _ = SpinnerView.showSpinnerViewInView(self.view)
         
@@ -450,12 +454,14 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                     }
                     
                    _ = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: context)
-                    DatabaseHelper.sharedInstance.saveDatabase()
-                    _ = ElGrocerUtility.setDefaultAddress()
                     DispatchQueue.main.async(execute: { 
                         self.refreshData()
                         SpinnerView.hideSpinnerView()
                     })
+                    
+                    _ = ElGrocerUtility.setDefaultAddress()
+                    DatabaseHelper.sharedInstance.saveDatabase()
+                    ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch = false
                 })
             } else {
                 

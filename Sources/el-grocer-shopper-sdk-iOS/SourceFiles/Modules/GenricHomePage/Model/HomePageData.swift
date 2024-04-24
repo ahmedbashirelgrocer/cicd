@@ -29,6 +29,7 @@ enum loadingType {
     case AllChefForDeliveryStores
     case FeatureRecipesOfAllDeliveryStore
     case oneClickReOrderListArray
+    case ExclusiveDealsPromoListArray
 }
 
 extension HomePageData : HomePageDataLoadingComplete {
@@ -52,6 +53,7 @@ class HomePageData  {
     private lazy var recipeDataHandler : RecipeDataHandler? = nil
     private var storeListWorkItem:DispatchWorkItem?
     private var chefAndRecipeItem:DispatchWorkItem?
+    private var ExclusiveDealsWorkItem: DispatchWorkItem?
     weak var delegate : HomePageDataLoadingComplete?
     lazy var serviceA : [[MainCategoryCellType : Any]] = []
     lazy var categoryServiceA : [[MainCategoryCellType : Any]] = []
@@ -104,6 +106,7 @@ class HomePageData  {
     lazy var chefList : [CHEF] = [CHEF]()
     lazy var recipeList : [Recipe] = [Recipe]()
     lazy var featureGroceryBanner : [BannerCampaign] = []
+    lazy var exclusiveDealsPromoA : [ExclusiveDealsPromoCode]? = nil
     var fetchOrder : [loadingType]  = []
             var isDataLoading : Bool = false
     private var isFetchingTimeLogEnable : Bool = false
@@ -190,13 +193,27 @@ class HomePageData  {
             case .AllChefForDeliveryStores:
                 self.callForHomeChefs()
             case .FeatureRecipesOfAllDeliveryStore:
-                self.callForRecipeForFeatureCategory()
+            self.callForRecipeForFeatureCategory(categoryId: kfeaturedCategoryId)
             default:
                 return
         }
     }
     
-    
+    func getExclusiveDealsData() {
+        guard self.groceryA?.count ?? 0 > 0 else {
+            self.startFetching()
+            return
+        }
+        
+        if let item = self.ExclusiveDealsWorkItem {
+            item.cancel()
+        }
+        self.ExclusiveDealsWorkItem = DispatchWorkItem {
+            self.dataSource?.getExclusiveDeals(groceries: self.groceryA ?? [])
+        }
+        DispatchQueue.global(qos: .userInitiated).async(execute: self.ExclusiveDealsWorkItem!)
+        
+    }
     
     
     private func getStoreData( isOnGlobalDispatch : Bool = true) {
@@ -271,7 +288,7 @@ class HomePageData  {
     }
     
     
-    func callForRecipeForFeatureCategory() {
+    func callForRecipeForFeatureCategory(categoryId: Int64) {
         
         guard self.groceryA?.count ?? 0 > 0 else {
             self.startFetching()
@@ -283,7 +300,7 @@ class HomePageData  {
         self.chefAndRecipeItem = DispatchWorkItem {
             let retailerString = self.GenerateRetailerIdString(groceryA: self.groceryA ?? [])
             if retailerString.count > 0 {
-                self.recipeDataHandler?.getNextRecipeList(retailersId: retailerString, categroryId: kfeaturedCategoryId , limit: "100" , true)
+                self.recipeDataHandler?.getNextRecipeList(retailersId: retailerString, categroryId: categoryId , limit: "100" , true)
             }
         }
         DispatchQueue.global(qos: .utility).async(execute: self.chefAndRecipeItem!)
@@ -569,6 +586,11 @@ extension HomePageData : StoresDataHandlerDelegate {
         }
         self.delegate?.loadingDataComplete(type: .HomePageLocationTwoBanners)
         self.startFetching()
+    }
+    
+    func getExclusiveDealsPromoList(promoA : [ExclusiveDealsPromoCode])  {
+        self.exclusiveDealsPromoA = promoA
+        self.delegate?.loadingDataComplete(type: .ExclusiveDealsPromoListArray)
     }
     
     func createGenericStoresDictionary() {

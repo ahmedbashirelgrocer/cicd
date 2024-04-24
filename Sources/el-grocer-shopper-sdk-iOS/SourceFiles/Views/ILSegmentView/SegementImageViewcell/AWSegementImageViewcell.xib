@@ -18,15 +18,16 @@
                 <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="e4e-nw-ZbF">
-                        <rect key="frame" x="8" y="0.0" width="72" height="57.666666666666664"/>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="e4e-nw-ZbF">
+                        <rect key="frame" x="16" y="0.0" width="56" height="56"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="width" secondItem="e4e-nw-ZbF" secondAttribute="height" multiplier="1:0.8" id="ugA-Np-m3L"/>
+                            <constraint firstAttribute="width" constant="56" id="fbz-Mp-HIw"/>
+                            <constraint firstAttribute="height" constant="56" id="ukF-wB-EDL"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0pS-IL-Edn">
-                        <rect key="frame" x="35.666666666666664" y="61.666666666666664" width="17" height="20.333333333333336"/>
+                        <rect key="frame" x="35.666666666666664" y="60" width="17" height="22"/>
                         <fontDescription key="fontDescription" type="system" pointSize="7"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -43,7 +44,6 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="e4e-nw-ZbF" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="1eg-NH-OH9"/>
                 <constraint firstItem="0pS-IL-Edn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="8" id="DZs-GN-O8x"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="0pS-IL-Edn" secondAttribute="trailing" constant="8" id="DvQ-gU-eEs"/>
                 <constraint firstAttribute="bottom" secondItem="LPB-8H-3ID" secondAttribute="bottom" id="Ecw-qa-Bbr"/>
@@ -51,8 +51,8 @@
                 <constraint firstItem="0pS-IL-Edn" firstAttribute="top" secondItem="e4e-nw-ZbF" secondAttribute="bottom" constant="4" id="X7u-ag-rvy"/>
                 <constraint firstItem="LPB-8H-3ID" firstAttribute="centerX" secondItem="0pS-IL-Edn" secondAttribute="centerX" id="ctt-Bb-2pi"/>
                 <constraint firstItem="0pS-IL-Edn" firstAttribute="centerX" secondItem="e4e-nw-ZbF" secondAttribute="centerX" id="eIX-fl-KHC"/>
+                <constraint firstItem="e4e-nw-ZbF" firstAttribute="centerX" secondItem="ZTg-uK-7eu" secondAttribute="centerX" id="fCi-Rh-S4l"/>
                 <constraint firstItem="LPB-8H-3ID" firstAttribute="top" secondItem="0pS-IL-Edn" secondAttribute="bottom" constant="4" id="hRE-dx-3o9"/>
-                <constraint firstAttribute="trailing" secondItem="e4e-nw-ZbF" secondAttribute="trailing" constant="8" id="wre-5H-Eyh"/>
                 <constraint firstItem="LPB-8H-3ID" firstAttribute="width" secondItem="0pS-IL-Edn" secondAttribute="width" id="yhm-ff-GMe"/>
             </constraints>
             <size key="customSize" width="184" height="248"/>

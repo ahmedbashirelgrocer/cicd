@@ -22,7 +22,6 @@ class orderBillDetailsTableViewCell: UITableViewCell {
     private var burnElwalletPointsView = BillEntryView(isGreen: true)
     private var finalBillAmountView = BillEntryView(isGreen: true)
     private var savedTagView = BillEntryView(isGreen: false)
-    private var viewTabbyAmount = BillEntryView(isGreen: true)
     private lazy var dividerView: UIView = {
         let view = UIView()
         

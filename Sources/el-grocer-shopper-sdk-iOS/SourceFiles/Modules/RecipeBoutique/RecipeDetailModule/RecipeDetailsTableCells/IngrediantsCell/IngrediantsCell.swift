@@ -87,8 +87,8 @@ class IngrediantsCell: UITableViewCell {
             guard let ingrediantQuantity = ingrediant.recipeIngredientsQuantity else {return}
             guard let ingrediantQuantityUnit = ingrediant.recipeIngredientsQuantityUnit else{return}
             guard let ingrediantSizeUnit = ingrediant.recipeIngredientsTotalQuantity else{return}
-            lblTotalQuantity.text = "\(ingrediantQuantity)" + ingrediantQuantityUnit
-            lblIngrediantQuantity.text = ingrediantSizeUnit
+            lblTotalQuantity.text = ingrediantSizeUnit
+            lblIngrediantQuantity.text = "\(ingrediantQuantity)" + ingrediantQuantityUnit
 
             if let url = ingrediant.recipeIngredientsImageURL{
                 setImage(url, inImageView: self.ingrediantImage)

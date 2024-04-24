@@ -17,7 +17,7 @@ extension UIViewController {
         
         var image: UIImage! = UIImage(name: "cross")
         if isWhite{
-            image =  UIImage(name: "crossWhite")
+            //image =  UIImage(name: "crossWhite")
         }
         if isPurple {
             image = UIImage(name: "cross_Purple")

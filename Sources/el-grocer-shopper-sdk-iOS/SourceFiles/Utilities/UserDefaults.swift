@@ -174,6 +174,32 @@ public class UserDefaults {
     
     // MARK: Tutorial screen
     
+    class func getExclusiveDealsPromo() -> (code: String, retailerId: String){
+        
+
+        let data =  Foundation.UserDefaults.standard.value(forKey: "exclusiveDealsPromo") as? [String : Any] ?? [:]
+        
+        let code = data["code"] as? String ?? ""
+        let retailerId = data["retailer_id"] as? String ?? ""
+        
+        return (code,retailerId)
+    }
+    
+    class func setExclusiveDealsPromo(promo: ExclusiveDealsPromoCode) {
+        
+        var data: [String: Any] = ["code": promo.code ?? "", "retailer_id": String(promo.retailer_id ?? 0) ]
+        Foundation.UserDefaults.standard.set(data, forKey: "exclusiveDealsPromo")
+        Foundation.UserDefaults.standard.synchronize()
+    }
+    
+    class func deleteExclusiveDealsPromo() {
+        
+        Foundation.UserDefaults.standard.removeObject(forKey: "exclusiveDealsPromo")
+        Foundation.UserDefaults.standard.synchronize()
+    }
+    
+    // MARK: Tutorial screen
+    
     class func wasTutorialImageShown(_ tutorialImage:TutorialView.TutorialImage) -> Bool {
         
         let imageName = "\(tutorialImage)"

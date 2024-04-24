@@ -111,7 +111,7 @@ class FilteredRecipeViewController: BasketBasicViewController, NoStoreViewDelega
         
         let recipeListCell = UINib(nibName: KRecipeTableViewCellIdentifier, bundle: Bundle.resource)
         self.tableView.register(recipeListCell, forCellReuseIdentifier: KRecipeTableViewCellIdentifier )
-        self.tableView.backgroundColor = .tableViewBackgroundColor() //.navigationBarWhiteColor()
+        self.tableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         self.tableView.estimatedRowHeight = CGFloat(KRecipeTableViewCellHeight)
         self.tableView.separatorStyle = .none
         
@@ -383,10 +383,15 @@ extension FilteredRecipeViewController : UITableViewDelegate , UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CGFloat.leastNonzeroMagnitude
+        return 0.01
     }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0.01
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section == 0{
+        if indexPath.section == 0 {
             
             guard chef.chefName.count > 0 else {
                 return 0.01

@@ -293,7 +293,7 @@
             }
         } else {
 #if DEBUG
-            NSLog(@"\nAPICALL_%@(Success): %@%@\nPARAMS:%@,Header:%@", method, self.baseURL, URLString, parameters, headers, responseObject);
+            NSLog(@"\nAPICALL_%@(Success): %@%@\nPARAMS:%@,Header:%@,Response:%@", method, self.baseURL, URLString, parameters, headers, responseObject);
 #endif
             if (success) {
                 

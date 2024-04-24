@@ -8,7 +8,7 @@
 
 import UIKit
 
-let kChefListCellHeight : CGFloat = 100 + 35 //35 for heading
+let kChefListCellHeight : CGFloat = 100 + 35 + 24 //35 for heading ,24 for padding
 
 class chefListTableCellTableViewCell: UITableViewCell {
 
@@ -22,6 +22,7 @@ class chefListTableCellTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.selectionStyle = .none
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

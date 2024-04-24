@@ -128,10 +128,8 @@ class HomeCell: RxUITableViewCell {
     }
     
     @IBOutlet weak var rightArrowImageView: UIImageView! {
-        didSet{
-            if SDKManager.shared.isSmileSDK  {
+        didSet {
                 rightArrowImageView.image = UIImage(name: "arrowForwardSmiles")
-            }
         }
     }
     

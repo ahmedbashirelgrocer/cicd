@@ -111,7 +111,9 @@ class ElgrocerChannelController : SBUGroupChannelViewController {
         self.useRightBarButtonItem = false
         setChannelName()
         sdkManager.setSendbirdDelegate()
-        IQKeyboardManager.shared.enableAutoToolbar = true
+//        IQKeyboardManager.shared.enableAutoToolbar = true
+        IQKeyboardManager.shared.enableAutoToolbar = false
+        IQKeyboardManager.shared.enable = false
        // self.addBackButton()
     }
     override func backButtonClick() {

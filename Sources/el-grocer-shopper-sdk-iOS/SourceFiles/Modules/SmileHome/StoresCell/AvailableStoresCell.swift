@@ -13,7 +13,7 @@ class AvailableStoresCell: UITableViewCell {
     @IBOutlet weak var cellHeight: NSLayoutConstraint!
     
     var groceries: [Grocery] = []
-    var onTapCompletion: ((Grocery) -> Void)?
+    var onTapCompletion: ((Grocery, Int) -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -59,7 +59,7 @@ extension AvailableStoresCell: UICollectionViewDelegate, UICollectionViewDataSou
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.onTapCompletion?(self.groceries[indexPath.row])
+        self.onTapCompletion?(self.groceries[indexPath.row], indexPath.row)
     }
 }
 
@@ -74,7 +74,7 @@ extension AvailableStoresCell {
     }
     
     @discardableResult
-    func onTap(completion: @escaping (Grocery) -> Void) -> Self  {
+    func onTap(completion: @escaping (Grocery, Int) -> Void) -> Self  {
         self.onTapCompletion = completion
         return self
     }

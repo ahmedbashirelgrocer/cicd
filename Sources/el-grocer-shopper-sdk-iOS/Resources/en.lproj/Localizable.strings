@@ -2117,7 +2117,7 @@ Oreo";
 
 //MARK: Delivery Slot
 "lbl_next_delivery" = "Next delivery:";
-"delivery_within_60_min" = "Delivery within 60 min ⚡️";
+"delivery_within_60_min" = "⏱️ Delivery within 60 min ⚡️";
 "lbl_next_self_collection" = "Next self-collection:";
 
 //MARK: Order Details
@@ -2361,7 +2361,6 @@ Oreo";
 "amount_due_text" = "Amount due";
 "remaining_amount_text" = "Remaining amount";
 "redeem_funds_text" = "Redeem funds:";
-"el_wallet_entered_amount_more_than_available_error" = "Please enter an amount equal to or lower than the elWallet Balance.";
 "el_wallet_entered_amount_more_than_available_error" = "Please enter an amount equal to or lower than the elWallet Funds.";
 "el_wallet_entered_amount_more_than_bill_error" = "Please enter an amount equal to or lower than the total bill";
 
@@ -2395,4 +2394,12 @@ Oreo";
 "lbl_greeting_good_morning" = "👋 Good Morning";
 "lbl_greeting_good_afternoon" = "👋 Good Afternoon";
 "lbl_greeting_good_evening" = "👋 Good Evening";
-
+"lbl_enjoy_promocode_initial" = "Enjoy your code";
+"lbl_enjoy_promocode_final" = "in checkout";
+"lbl_title_exclusive_deals" = "Exclusive deals";
+"btn_copy_and_shop_title" = "Copy & Shop";
+"btn_start_shoping_title" = "Start Shopping";
+"lbl_greeting_good_morning_shopper" = "Good Morning";
+"lbl_greeting_good_afternoon_shopper" = "Good Afternoon";
+"lbl_greeting_good_evening_shopper" = "Good Evening";
+"smiles_entered_amount_more_than_available_error" = "Please enter an amount equal to or lower than the Smiles points.";

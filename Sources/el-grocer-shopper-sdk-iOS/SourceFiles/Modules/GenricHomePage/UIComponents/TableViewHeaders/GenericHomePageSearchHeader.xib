@@ -28,7 +28,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aiP-ur-dEL">
-                    <rect key="frame" x="0.0" y="84" width="414" height="116"/>
+                    <rect key="frame" x="0.0" y="77" width="414" height="116"/>
                     <subviews>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HomeEllipse" translatesAutoresizingMaskIntoConstraints="NO" id="DNL-0v-5r5">
                             <rect key="frame" x="0.0" y="-57" width="414" height="103"/>
@@ -141,14 +141,14 @@
                     </constraints>
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JPD-dG-hoP">
-                    <rect key="frame" x="0.0" y="54" width="414" height="30"/>
+                    <rect key="frame" x="0.0" y="47" width="414" height="30"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="height" priority="750" constant="30" id="FMf-mw-Dtu"/>
                     </constraints>
                 </view>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hIC-ai-BPt" userLabel="NavigationContainer">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="54"/>
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="47"/>
                     <color key="backgroundColor" red="0.33333334329999997" green="0.7254902124" blue="0.4352940917" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstAttribute="height" priority="100" constant="65" id="Lle-fl-YFo"/>
@@ -192,7 +192,7 @@
                 <outlet property="txtSearch" destination="A3a-QA-SaX" id="uC4-It-C3h"/>
                 <outlet property="viewToolTip" destination="c1Q-C6-aLU" id="K24-Gb-QfE"/>
             </connections>
-            <point key="canvasLocation" x="331.8840579710145" y="-41.517857142857139"/>
+            <point key="canvasLocation" x="331.8840579710145" y="-43.861607142857139"/>
         </view>
     </objects>
     <resources>

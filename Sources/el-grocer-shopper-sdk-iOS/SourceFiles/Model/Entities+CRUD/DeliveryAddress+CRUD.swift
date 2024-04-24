@@ -38,7 +38,13 @@ extension DeliveryAddress {
         if let oldActiveDeliveryAddress = DeliveryAddress.getActiveDeliveryAddress(context) {
             oldActiveDeliveryAddress.isActive = false
         }
+        
+        if let oldActiveDeliveryAddress = DeliveryAddress.getAllDeliveryAddresses(context).first(where: { $0.isSmilesDefault?.boolValue == true }) {
+            oldActiveDeliveryAddress.isSmilesDefault = false
+        }
+        
         deliveryAddress.isActive = true
+        deliveryAddress.isSmilesDefault = true
         
         DatabaseHelper.sharedInstance.saveDatabase()
         
@@ -58,7 +64,7 @@ extension DeliveryAddress {
     
     // MARK: Insert
     
-    class func insertOrUpdateDeliveryAddressesForUser(_ userProfile:UserProfile, fromDictionary dictionary:NSDictionary, context:NSManagedObjectContext) -> [DeliveryAddress] {
+    class func insertOrUpdateDeliveryAddressesForUser(_ userProfile:UserProfile, fromDictionary dictionary:NSDictionary, context:NSManagedObjectContext, deleteNotInJSON: Bool = true) -> [DeliveryAddress] {
         
         var results = [DeliveryAddress]()
         var jsonLocationsIds = [String]()
@@ -78,7 +84,9 @@ extension DeliveryAddress {
             }
         }
         
-        deleteLocatiosNotInJSON(jsonLocationsIds,context: context)
+        if deleteNotInJSON {
+            deleteLocatiosNotInJSON(jsonLocationsIds,context: context)
+        }
         
         do {
             try context.save()

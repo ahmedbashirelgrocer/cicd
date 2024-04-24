@@ -39,7 +39,7 @@ class PopImageViwerViewController: UIViewController {
     @IBOutlet var zoomView: UIView!
     @IBOutlet var offerView: AWView!{
         didSet{
-            offerView.backgroundColor = .promotionRedColor()
+            offerView.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryBlackColor
             offerView.roundCorners(corners:[.topRight , .bottomRight] , radius: 18)
             offerView.isHidden = true
         }
@@ -57,7 +57,7 @@ class PopImageViwerViewController: UIViewController {
     }
     @IBOutlet var offerPercentView: AWView!{
         didSet{
-            offerPercentView.backgroundColor = .promotionRedColor()
+            offerPercentView.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryBlackColor
             offerPercentView.cornarRadius = 12.5
             offerPercentView.isHidden = true
         }

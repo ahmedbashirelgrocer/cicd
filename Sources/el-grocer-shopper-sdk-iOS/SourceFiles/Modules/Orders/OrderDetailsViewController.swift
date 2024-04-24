@@ -105,7 +105,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         self.title = localizedString("lbl_Order_Details", comment: "")
         self.navigationItem.hidesBackButton = true
         
-        sdkManager.isShopperApp ? addGreenBackButton() : addBackButton(isGreen: false, true)
+        addBackButton(isGreen: false, true)
         self.setOrderLableAppearnace()
         self.setOrderData()
         self.setUpInitailizers()
@@ -508,7 +508,8 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         
         let editOrderWarningBottomSheet = WarningBottomSheetController(viewModel: viewModel)
         
-        editOrderWarningBottomSheet.modalPresentationStyle = .overFullScreen
+        editOrderWarningBottomSheet.modalPresentationStyle = .overCurrentContext
+        editOrderWarningBottomSheet.modalTransitionStyle = .crossDissolve
         editOrderWarningBottomSheet.positiveButtonTapHandler = { [weak self] in
             self?.createBasketAndNavigateToViewForEditOrder()
         }

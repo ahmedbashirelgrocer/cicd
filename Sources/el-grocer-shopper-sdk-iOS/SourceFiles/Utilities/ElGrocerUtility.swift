@@ -90,6 +90,9 @@ class ElGrocerUtility {
     
     var isUserCloseOrderTracking:Bool = false
     
+    var addressListNeedsUpdateAfterSDKLaunch = true
+    var isDefaultAddressFetchedAfterSDKLaunch = false
+    var isToolTipShownAfterSDKLaunch = false
     
     var isZenDesk:Bool = true
     
@@ -1036,7 +1039,11 @@ class ElGrocerUtility {
         let nickName = address.nickName ?? ""
         let apartment = address.apartment ?? ""
         let building = address.building ?? ""
-        let city = address.city ?? ""
+        var city = address.city ?? ""
+        let street = address.street ?? ""
+        if street.count > city.count {
+            city = street
+        }
         let addressField = address.address
         
         if showNickName, nickName.count > 0 {
@@ -1389,7 +1396,7 @@ class ElGrocerUtility {
     }
     
     
-    func showTopMessageView (_ msg : String ,_ title : String = "", image : UIImage? , _ index : Int = -1 , _ isNeedtoShowButton : Bool = true , backButtonClicked: @escaping (Any? , Int , Bool) -> Void, buttonIcon: UIImage? = nil) {
+    func showTopMessageView (_ msg : String ,_ title : String = "", image : UIImage? , _ index : Int = -1 , _ isNeedtoShowButton : Bool = true ,imageTint: UIColor? = UIColor.navigationBarWhiteColor(), backButtonClicked: @escaping (Any? , Int , Bool) -> Void, buttonIcon: UIImage? = nil) {
         let view = MessageView.viewFromNib(layout: .cardView)
         //  view.configureTheme(.warning)
         
@@ -1398,7 +1405,7 @@ class ElGrocerUtility {
             view.iconImageView?.image = data
             view.iconImageView?.image = view.iconImageView?.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
             view.iconImageView?.isHidden = false
-            view.iconImageView?.tintColor = UIColor.navigationBarWhiteColor()
+            view.iconImageView?.tintColor = imageTint
         
         }
         view.id = "\(index)"
@@ -1754,12 +1761,12 @@ extension ElGrocerUtility {
         
         // There is some potential candidate for default address
         var potentialCandidate: DeliveryAddress?
-        potentialCandidate = locations.first { $0.dbID == sdkManager.launchOptions?.addressID }
+        potentialCandidate = locations.first { $0.dbID == DefaultAddress.shared.addressID }
 
         if potentialCandidate == nil {
             potentialCandidate = locations.first(where: { loc in
                 let location1 = CLLocation(latitude: loc.latitude, longitude: loc.longitude)
-                let location2 = CLLocation(latitude: sdkManager.launchOptions?.latitude ?? 0, longitude: sdkManager.launchOptions?.longitude ?? 0)
+                let location2 = CLLocation(latitude: DefaultAddress.shared.latitude ?? 0, longitude: DefaultAddress.shared.longitude ?? 0)
                 let distance = location1.distance(from: location2).magnitude
                 return distance < 100
             })
@@ -1771,9 +1778,9 @@ extension ElGrocerUtility {
         } else {
             let location = DatabaseHelper.sharedInstance.insertOrReplaceObjectForEntityForName(DeliveryAddressEntity, entityDbId: "" as AnyObject, keyId: "dbID", context: DatabaseHelper.sharedInstance.mainManagedObjectContext) as! DeliveryAddress
             location.isActive = true
-            location.address = sdkManager.launchOptions?.address ?? ""
-            location.latitude = sdkManager.launchOptions?.latitude ?? 0
-            location.longitude = sdkManager.launchOptions?.longitude ?? 0
+            location.address = DefaultAddress.shared.address ?? ""
+            location.latitude = DefaultAddress.shared.latitude ?? 0
+            location.longitude = DefaultAddress.shared.longitude ?? 0
             newDefaultAddressID = location.dbID
         }
         
