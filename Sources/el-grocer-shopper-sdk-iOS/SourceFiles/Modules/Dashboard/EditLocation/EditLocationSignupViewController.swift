@@ -309,6 +309,8 @@ fileprivate extension EditLocationSignupViewController {
                 } else {
                     activeAddress = DeliveryAddress.setActiveDeliveryAddress(deliveryAddress, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 }
+                guard activeAddress != nil else { return }
+                
                 
                 // Logging segment Confrim Address Details event
                 SegmentAnalyticsEngine.instance.logEvent(event: ConfirmAddressDetailsEvent())
