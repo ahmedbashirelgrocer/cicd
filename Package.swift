@@ -184,7 +184,11 @@ let package = Package(
                 .copy("Resources/FontFiles/SF-UI-Display-Medium.otf"),
                 .copy("Resources/FontFiles/SF-UI-Display-Regular.otf"),
                 .copy("Resources/FontFiles/SF-UI-Display-Semibold.otf"),
-                .copy("Resources/VersionInfo.plist")
+                .copy("Resources/VersionInfo.plist"),
+                .copy("Resources/JsonFiles/OrderConfirmationSmiles.json"),
+                .copy("Resources/JsonFiles/eg_order_confirmation.json"),
+                .copy("Resources/JsonFiles/splash_animation_sdk.json"),
+                .copy("Resources/JsonFiles/splash_animation_shopper.json")
             ]
         ),
         
