@@ -20,7 +20,6 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "10.4.0")),
         .package(url: "https://github.com/Netvent/storyly-ios", from: "2.13.0"),
-        .package(url: "https://github.com/iziz/libPhoneNumber-iOS", from: "0.9.15"),
         .package(url: "https://github.com/malcommac/SwiftDate", from: "6.3.1"),
         .package(url: "https://github.com/airbnb/lottie-ios", from: "3.5.0"),
         .package(url: "https://github.com/SDWebImage/SDWebImage.git", from: "5.1.0"),
@@ -42,7 +41,6 @@ let package = Package(
         .package(url: "https://github.com/algolia/algoliasearch-client-swift", .exact("8.19.0")),
         .package(url: "https://github.com/RxSwiftCommunity/RxDataSources", from: "4.0.1"),
         .package(url: "https://github.com/ReactiveX/RxSwift.git", from: "5.1.1"),
-//        .package(url: "https://github.com/YAtechnologies/GoogleMaps-SP.git", from: "7.2.0"),
         .package(url: "https://github.com/googlemaps/ios-maps-sdk", .exact("8.4.0")),
         .package(url: "https://github.com/googlemaps/ios-places-sdk", from: "8.3.0"),
         .package(url: "https://github.com/MaherKSantina/MSPeekCollectionViewDelegateImplementation", from: "3.2.0"),
@@ -91,10 +89,6 @@ let package = Package(
                 .product(name: "GoogleMapsBase", package: "ios-maps-sdk"),
                 .product(name: "GoogleMapsCore", package: "ios-maps-sdk"),
                 .product(name: "GooglePlaces", package: "ios-places-sdk"),
-//                .product(name: "GoogleMaps", package: "GoogleMaps-SP"),
-//                .product(name: "GoogleMapsBase", package: "GoogleMaps-SP"),
-//                .product(name: "GoogleMapsCore", package: "GoogleMaps-SP"),
-//                .product(name: "GooglePlaces", package: "GoogleMaps-SP"),
                 
                 // Algolia
                 .product(name: "AlgoliaSearchClient", package: "algoliasearch-client-swift"),
@@ -102,7 +96,6 @@ let package = Package(
                 
                 // Utilities
                 .product(name: "Storyly", package: "storyly-ios"),
-                .product(name: "libPhoneNumber", package: "libPhoneNumber-iOS"),
                 .product(name: "SwiftDate", package: "SwiftDate"),
                 .product(name: "Lottie", package: "lottie-ios"),
                 .product(name: "SDWebImage", package: "SDWebImage"),

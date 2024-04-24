@@ -7,7 +7,7 @@
 //
 import UIKit
 import Foundation
-import libPhoneNumber
+import ThirdPartyObjC //imported to use libPhoneNumber which is added locally for SPM
 
 open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
     public weak var customDelegate : FPNTextFieldCustomDelegate?

@@ -8,7 +8,7 @@
 
 
 import UIKit
-import libPhoneNumber
+import ThirdPartyObjC //imported to use libPhoneNumber which is added locally for SPM
 @available(iOS 9.0, *)
 open class FPNCustomTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
     

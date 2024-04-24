@@ -7,8 +7,8 @@
 //
 
 import UIKit
-import libPhoneNumber
-//import libPhoneNumber_iOS
+import ThirdPartyObjC // imported to use libPhoneNumber which is added locally for SPM
+//import ThirdPartyObjC_iOS
 
 enum CartCollectorType {
     case OrderCollector

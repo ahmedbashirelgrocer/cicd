@@ -244,15 +244,6 @@
       }
     },
     {
-      "identity" : "libphonenumber-ios",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/iziz/libPhoneNumber-iOS",
-      "state" : {
-        "revision" : "6dcd392724f9514f589cce3671ef30457ea68c41",
-        "version" : "0.9.16"
-      }
-    },
-    {
       "identity" : "lottie-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/airbnb/lottie-ios",
