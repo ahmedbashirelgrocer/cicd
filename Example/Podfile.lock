@@ -40,7 +40,7 @@ PODS:
   - Differentiator (4.0.1)
   - DisplaySwitcher (2.0)
   - DoneCancelNumberPadToolbar (0.6.0)
-  - el-grocer-shopper-sdk-iOS (2.0.9):
+  - el-grocer-shopper-sdk-iOS (2.0.23):
     - ABLoaderView
     - Adyen (= 4.10.4)
     - AlgoliaSearchClient (~> 8.0)
@@ -81,12 +81,13 @@ PODS:
     - RxSwift (~> 5.1.1)
     - SDWebImage (~> 5.12.3)
     - Segment-CleverTap
+    - Segment-Firebase (= 2.7.10)
     - SendbirdChatSDK (= 4.10.0)
     - SendBirdDesk (= 1.1.3)
     - SendBirdUIKit (= 3.6.2)
     - Shimmer (~> 1.0)
     - SkyFloatingLabelTextField (~> 3.0)
-    - Storyly
+    - Storyly (= 2.13.0)
     - STPopup (~> 1.8.7)
     - SwiftDate (~> 6.3.1)
     - SwiftMessages (~> 9.0.9)
@@ -95,6 +96,8 @@ PODS:
   - FBSnapshotTestCase/Core (2.1.4)
   - FBSnapshotTestCase/SwiftSupport (2.1.4):
     - FBSnapshotTestCase/Core
+  - Firebase (9.2.0):
+    - Firebase/Core (= 9.2.0)
   - Firebase/Auth (9.2.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 9.2.0)
@@ -320,6 +323,17 @@ PODS:
   - Segment-CleverTap (1.2.6):
     - Analytics
     - CleverTap-iOS-SDK (>= 4.2.2)
+  - Segment-Firebase (2.7.10):
+    - Analytics
+    - Firebase (~> 9.2.0)
+    - Firebase/Core (~> 9.2.0)
+    - FirebaseAnalytics (~> 9.2.0)
+    - Segment-Firebase/Core (= 2.7.10)
+  - Segment-Firebase/Core (2.7.10):
+    - Analytics
+    - Firebase (~> 9.2.0)
+    - Firebase/Core (~> 9.2.0)
+    - FirebaseAnalytics (~> 9.2.0)
   - SendbirdChatSDK (4.10.0)
   - SendBirdDesk (1.1.3):
     - SendbirdChatSDK (>= 4.6.7)
@@ -404,6 +418,7 @@ SPEC REPOS:
     - RxSwift
     - SDWebImage
     - Segment-CleverTap
+    - Segment-Firebase
     - SendbirdChatSDK
     - SendBirdDesk
     - SendBirdUIKit
@@ -435,7 +450,7 @@ SPEC CHECKSUMS:
   Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   DisplaySwitcher: 1db23ee6a45fbebac733917cc002204adad37d28
   DoneCancelNumberPadToolbar: 5a0d24aa43712e3a24076a3818283a3082c7b6ed
-  el-grocer-shopper-sdk-iOS: c5a343da8898c3cedd1f9d7945b7539e03b1e216
+  el-grocer-shopper-sdk-iOS: 2f26a5e498c33e2e32fac469ee3dc133c282b5a8
   FBSnapshotTestCase: 094f9f314decbabe373b87cc339bea235a63e07a
   Firebase: 4ba896cb8e5105d4b9e247e1c1b6222b548df55a
   FirebaseABTesting: cd1ec762a0078b46a7ce91dfe5b7b8991c2dff8f
@@ -482,6 +497,7 @@ SPEC CHECKSUMS:
   RxSwift: 915abbdfb62214aa89ccd0b194d44fb478019b27
   SDWebImage: 0905f1b7760fc8ac4198cae0036600d67478751e
   Segment-CleverTap: 1558a5ac123bbc1cf4d4b56c1163ed2552c70230
+  Segment-Firebase: 8cbbdefe3c15c759d958c5c2454f636679ba8c57
   SendbirdChatSDK: d8752353d071024076ce1d1e527d3ba352beca88
   SendBirdDesk: b700219c7cb267332f5fa866035244c400bd7a2e
   SendBirdUIKit: 5aa0e6a246d59499f8f2cf2cf1107d7241891b13
@@ -495,4 +511,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 67bac7b0fc426703b5fa5b9066354ee59c088b62
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.15.2

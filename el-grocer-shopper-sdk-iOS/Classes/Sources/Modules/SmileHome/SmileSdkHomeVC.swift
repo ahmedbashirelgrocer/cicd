@@ -1624,11 +1624,7 @@ extension SmileSdkHomeVC {
                 return self.makeLabelCell(indexPath)
             }
         case .init(row: 3, section: 0):
-            if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
-                return makeLimitedTimeSavingsTableViewCell(indexPath: indexPath)
-            }else{
-                return self.makeLabelCell(indexPath)
-            }
+            return self.makeLabelCell(indexPath)
         case .init(row: 0, section: 2):
             if tableViewHeader2.selectedItemIndex == 0 {
                 return UITableViewCell()
@@ -1863,7 +1859,6 @@ extension SmileSdkHomeVC {
         }
         cell.viewAllBtn.addTarget(self, action: #selector(showExclusiveDealsBottomSheet), for: .touchUpInside)
         cell.configureCell(promoList: self.homeDataHandler.exclusiveDealsPromoA, groceryA: self.homeDataHandler.groceryA)
-        cell.viewAllBtn.addTarget(self, action: #selector(showExclusiveDealsBottomSheet), for: .touchUpInside)
         return cell
     }
     
