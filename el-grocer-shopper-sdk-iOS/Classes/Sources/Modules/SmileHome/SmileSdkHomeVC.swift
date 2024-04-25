@@ -118,6 +118,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     var neighbourHoodSection: Int = 0
     var oneClickReOrderSection: Int = 0
     var exclusiveDealsSection: Int = 0
+    var limitedTimeSavingsSection: Int = 0
     
     var availableStoreTypeA: [StoreType] = []
     var featureGroceryBanner : [BannerCampaign] = []
@@ -1552,8 +1553,10 @@ extension SmileSdkHomeVC {
                 exclusiveDealsSection = 0
                 if self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId {
                     exclusiveDealsSection = self.exclusiveDealsPromoList.count > 0 ? 1 : 0
+                    limitedTimeSavingsSection = self.limitedTimeSavingsCardList.count > 0 ? 1 : 0
                 }
-                return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection
+                
+                return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection + limitedTimeSavingsSection
             }
             
         case 1: //1-3: Grocery cell 1, 2, 3
@@ -1596,7 +1599,9 @@ extension SmileSdkHomeVC {
                 if ABTestManager.shared.configs.isHomeTier1 {
                     return self.makeLocationOneBannerCell(indexPath)
                 }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
-                        return makeExclusiveDealsTableViewCell(indexPath: indexPath)
+                    return makeExclusiveDealsTableViewCell(indexPath: indexPath)
+                }else if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                    return makeLimitedTimeSavingsTableViewCell(indexPath: indexPath)
                 }else{
                     return self.makeLabelCell(indexPath)
                 }
@@ -1607,11 +1612,23 @@ extension SmileSdkHomeVC {
 
             }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
                 return makeExclusiveDealsTableViewCell(indexPath: indexPath)
+            }else if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                return makeLimitedTimeSavingsTableViewCell(indexPath: indexPath)
             }else{
                 return self.makeLabelCell(indexPath)
             }
         case .init(row: 2, section: 0):
-            return self.makeLabelCell(indexPath)
+            if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                return makeLimitedTimeSavingsTableViewCell(indexPath: indexPath)
+            }else{
+                return self.makeLabelCell(indexPath)
+            }
+        case .init(row: 3, section: 0):
+            if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                return makeLimitedTimeSavingsTableViewCell(indexPath: indexPath)
+            }else{
+                return self.makeLabelCell(indexPath)
+            }
         case .init(row: 0, section: 2):
             if tableViewHeader2.selectedItemIndex == 0 {
                 return UITableViewCell()
@@ -1677,8 +1694,11 @@ extension SmileSdkHomeVC {
                 if configs.isHomeTier1 {
                     return (HomePageData.shared.locationOneBanners?.count ?? 0) > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
                 }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
-                        return 180
-                }else{
+                    return 180
+                }else if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                    return 300
+                }
+                else{
                     return 45
                 }
             }
@@ -1687,11 +1707,17 @@ extension SmileSdkHomeVC {
                 return 166
             }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
                 return 180
+            }else if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                return 300
             }else{
                 return 45
             }
         case .init(row: 2, section: 0):
-            return 45
+            if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                return 300
+            }else{
+                return 45
+            }
         case .init(row: 0, section: 2):
             if tableViewHeader2.selectedItemIndex == 0 {
                 return minCellHeight
@@ -1866,13 +1892,13 @@ extension SmileSdkHomeVC {
             return
         }
         
-//        guard ElGrocerUtility.sharedInstance.isAddressListUpdated == false else {
-//            completion?()
-//            return
-//        }
+        //        guard ElGrocerUtility.sharedInstance.isAddressListUpdated == false else {
+        //            completion?()
+        //            return
+        //        }
         
         ElGrocerApi.sharedInstance.getDeliveryAddressesDefault({ [weak self] (result, responseObject) -> Void in
-         
+            
             guard let self = self else { return }
             
             if result,
@@ -1894,6 +1920,7 @@ extension SmileSdkHomeVC {
             completion?()
         })
     }
+    
     
     func fetchDefaultAddressIfNeeded() {
         
@@ -1922,8 +1949,9 @@ extension SmileSdkHomeVC {
             } else {
                 print("error loading default address")
             }
-        self.goToGrocery(grocery, nil, promo: promo)
-//        self.delegate?.showExclusiveDealsInstructions(promo: promo, grocery: grocery)
+            //self.goToGrocery(grocery, nil, promo: promo)
+            //        self.delegate?.showExclusiveDealsInstructions(promo: promo, grocery: grocery)
+        }
     }
 }
 extension SmileSdkHomeVC: PushMarketingCampaignLandingPageDelegate{
