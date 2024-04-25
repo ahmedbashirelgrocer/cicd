@@ -99,6 +99,7 @@ enum EventParameterKeys {
     static let experimentType       = "experimentType"
     // Tabby
     static let amountPaidWithTabby  = "amountPaidWithTabby"
+    static let isTabbyEnabled       = "isTabbyEnabled"
 
     static let campaignId       = "campaignId"
     static let storeId       = "storeId"

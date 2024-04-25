@@ -13,6 +13,7 @@ import STPopup
 protocol ShowExclusiveDealsInstructionsDelegate{
     func showExclusiveDealsInstructions(promo: ExclusiveDealsPromoCode, grocery: Grocery)
 }
+
 var kExclusiveDealsStoreTypeId: Int = 12
 
 class SmileSdkHomeVC: BasketBasicViewController {
@@ -79,6 +80,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     var groceryArray: [Grocery] = []
     var neighbourHoodFavGroceryArray: [Grocery] = []
     var exclusiveDealsPromoList: [ExclusiveDealsPromoCode] = []
+    var limitedTimeSavingsCardList: [LimitedTimeSavings] = []
     var oneClickReOrderGroceryIDArray: [Int] = [] {
         didSet {
             var array: [Grocery] = []
@@ -328,6 +330,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
         
         let exclusiveDealsTableViewCell = UINib(nibName: "ExclusiveDealsTableViewCell", bundle: Bundle.resource)
         self.tableView.register(exclusiveDealsTableViewCell, forCellReuseIdentifier: "ExclusiveDealsTableViewCell")
+        
+        let limitedTimeSavingsTableViewCell = UINib(nibName: "LimitedTimeSavingsTableViewCell", bundle: Bundle.resource)
+        self.tableView.register(limitedTimeSavingsTableViewCell, forCellReuseIdentifier: "LimitedTimeSavingsTableViewCell")
         
         let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: Bundle.resource)
         self.currentOrderCollectionView.register(CurrentOrderCollectionCell, forCellWithReuseIdentifier: "CurrentOrderCollectionCell")
@@ -1195,6 +1200,7 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
             self.setSegmentView()
             subCategorySelectedWithSelectedIndex(0)
             self.homeDataHandler.getExclusiveDealsData()
+            self.homeDataHandler.getLimitedTimeSavingsData()
             
         } else if type == .HomePageLocationOneBanners {
             if self.homeDataHandler.locationOneBanners?.count == 0 {
@@ -1217,6 +1223,12 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
                 self.exclusiveDealsPromoList = []
             }
             filterExclusivePromo()
+        }else if type == .LimitedTimeSavings {
+            if self.homeDataHandler.limitedTimeSavings?.count ?? 0 > 0 {
+                self.limitedTimeSavingsCardList = self.homeDataHandler.limitedTimeSavings!
+            }else {
+                self.limitedTimeSavingsCardList = []
+            }
         }
         Thread.OnMainThread {
             if self.homeDataHandler.groceryA?.count ?? 0 > 0 {
@@ -1235,6 +1247,7 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
         }else {
             self.btnMulticart.setImage(UIImage(name: "Cart-InActive-Smile"), for: UIControl.State())
         }
+
     }
     
     func showLocationChangeToolTip(show: Bool) {
@@ -1591,6 +1604,7 @@ extension SmileSdkHomeVC {
         case .init(row: 1, section: 0):
             if tableViewHeader2.selectedItemIndex == 0 && self.oneClickReOrderSection == 1 && self.neighbourHoodSection == 1 {
                 return makeNeighbourHoodFavouriteTableViewCell(indexPath: indexPath)
+
             }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
                 return makeExclusiveDealsTableViewCell(indexPath: indexPath)
             }else{
@@ -1805,7 +1819,8 @@ extension SmileSdkHomeVC {
             }else {
                 //show bottom sheet for one click reOrder
                 self?.showBottomSheeetForOneClickReOrder(grocery: grocery)
-                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: ScreenName.homeScreen.rawValue, section: .One_Click_Re_Order, position: index + 1))
+                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: ScreenName.homeScreen.rawValue, section: .One_Click_Re_Order, position: index + 1)
+                )
             }
             
         }
@@ -1821,6 +1836,16 @@ extension SmileSdkHomeVC {
             cell.configureCell(promoList: self.exclusiveDealsPromoList, groceryA: self.sortedGroceryArray)
         }
         cell.viewAllBtn.addTarget(self, action: #selector(showExclusiveDealsBottomSheet), for: .touchUpInside)
+        cell.configureCell(promoList: self.homeDataHandler.exclusiveDealsPromoA, groceryA: self.homeDataHandler.groceryA)
+        cell.viewAllBtn.addTarget(self, action: #selector(showExclusiveDealsBottomSheet), for: .touchUpInside)
+        return cell
+    }
+    
+    func makeLimitedTimeSavingsTableViewCell(indexPath: IndexPath)-> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "LimitedTimeSavingsTableViewCell", for: indexPath) as! LimitedTimeSavingsTableViewCell
+        cell.delegate = self
+        cell.configureCell(offers: self.homeDataHandler.limitedTimeSavings, groceryA: self.homeDataHandler.groceryA)
+        cell.selectionStyle = .none
         return cell
     }
 }
@@ -1897,6 +1922,19 @@ extension SmileSdkHomeVC {
             } else {
                 print("error loading default address")
             }
+        self.goToGrocery(grocery, nil, promo: promo)
+//        self.delegate?.showExclusiveDealsInstructions(promo: promo, grocery: grocery)
+    }
+}
+extension SmileSdkHomeVC: PushMarketingCampaignLandingPageDelegate{
+    func pushMarketingCampaignLandingPageWith(limitedTimeSavings: LimitedTimeSavings) {
+        if let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            let grocery = self.groceryArray.first { Grocery in
+                return (Int(Grocery.getCleanGroceryID()) ?? 0) == (limitedTimeSavings.retailer_ids[0])
+            }
+            let customVm = MarketingCustomLandingPageViewModel.init(storeId: grocery?.dbID ?? "", marketingId: String(limitedTimeSavings.custom_screen_id ?? 0), addressId: currentAddress.dbID, grocery: grocery)
+            let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
+            self.present(landingVC, animated: true)
         }
     }
 }

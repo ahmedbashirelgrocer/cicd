@@ -655,7 +655,6 @@ extension ClickAndCollectMapViewController :  UITableViewDelegate , UITableViewD
 }
 
 extension ClickAndCollectMapViewController :  StoresDataHandlerDelegate {
-    
     func storeCategoryData(storeTypeA : [StoreType]) -> Void  {
         elDebugPrint(storeTypeA)
         self.storeTypeA = storeTypeA

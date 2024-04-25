@@ -18,7 +18,11 @@ Pod::Spec.new do |s|
   #
 
   s.name             = 'el-grocer-shopper-sdk-iOS'
+<<<<<<< HEAD
   s.version          = '2.0.23'
+=======
+  s.version          = '2.0.9'
+>>>>>>> Ahmed/LimitedTimeSavingsMerged
   s.summary          = 'IOS Shopper app basic setUp.'
 
   # This description is used to generate tags and improve search results.
@@ -139,7 +143,7 @@ Pod::Spec.new do |s|
   #s.dependency 'AppsFlyerFramework'
   s.dependency 'SwiftDate', '~> 6.3.1'
   s.dependency 'Storyly', '2.13.0'
-  #s.dependency 'Storyly', '~> 1.19.3'
+  s.dependency 'ABLoaderView'
   s.dependency 'CHDropDownTextField', '~> 1.0.0'
   s.dependency 'FXPageControl', '~> 1.5'
   s.dependency 'RxSwift', '~>5.1.1'
