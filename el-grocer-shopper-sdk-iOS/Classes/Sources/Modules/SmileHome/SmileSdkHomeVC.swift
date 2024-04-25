@@ -1394,6 +1394,8 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         self.filteredGroceryArray = filterA
         self.filteredGroceryArray = ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA: self.filteredGroceryArray)
         filterExclusivePromo()
+        self.homeDataHandler.locationOneBanners = []
+        self.homeDataHandler.getBannerLocationOne(groceryA: self.sortedGroceryArray)
         
         FireBaseEventsLogger.trackStoreListingOneCategoryFilter(StoreCategoryID: "\(selectedType.storeTypeid)" , StoreCategoryName: selectedType.name ?? "", lastStoreCategoryID: "\(self.lastSelectType?.storeTypeid ?? 0)", lastStoreCategoryName: self.lastSelectType?.name ?? "All Stores")
         
