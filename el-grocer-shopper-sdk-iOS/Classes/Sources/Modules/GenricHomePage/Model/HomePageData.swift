@@ -190,7 +190,7 @@ class HomePageData  {
             case .CategoryAndStoreList:
                 self.getStoreData(isOnGlobalDispatch : true)
             case .HomePageLocationOneBanners:
-                self.getBannerLocationOne()
+            self.getBannerLocationOne(groceryA: self.groceryA)
             case .HomePageLocationTwoBanners:
                 self.getBannersLocationTwo()
             case .AllChefForDeliveryStores:
@@ -255,8 +255,8 @@ class HomePageData  {
         DispatchQueue.global(qos: .userInitiated).async(execute: self.storeListWorkItem!)
     }
     
-    private func getBannerLocationOne () {
-        guard self.groceryA?.count ?? 0 > 0 else {
+    func getBannerLocationOne (groceryA: [Grocery]?) {
+        guard groceryA?.count ?? 0 > 0 else {
             self.startFetching()
             return
         }
@@ -265,7 +265,7 @@ class HomePageData  {
             item.cancel()
         }
         self.storeListWorkItem = DispatchWorkItem {
-            self.dataSource?.getGenericBanners(for: self.groceryA ?? [], and: self.storeTypeA ?? [])
+            self.dataSource?.getGenericBanners(for: groceryA ?? [], and: self.storeTypeA ?? [])
         }
         DispatchQueue.global(qos: .userInitiated).async(execute: self.storeListWorkItem!)
         
