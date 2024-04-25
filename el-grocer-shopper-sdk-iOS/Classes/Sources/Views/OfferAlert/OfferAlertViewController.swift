@@ -34,7 +34,13 @@ class OfferAlertViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.viewBanner.banners = [BannerDTO.init(name: "", campaignType:.staticImage, imageURL:"Banner Large 2_1" , bannerImageURL: "", url: "", categories: [], subcategories: [], brands: [], retailerIDS: [], locations: [], storeTypes: [], retailerGroups: [], customScreenId: nil)]
+        var imageUrl = ""
+        if isSmilemarket{
+            imageUrl = "smilesmarketBanner"
+        }else{
+            imageUrl = "SingleStoreBanner"
+        }
+        self.viewBanner.banners = [BannerDTO.init(name: "", campaignType:.staticImage, imageURL:imageUrl , bannerImageURL: "", url: "", categories: [], subcategories: [], brands: [], retailerIDS: [], locations: [], storeTypes: [], retailerGroups: [], customScreenId: nil)]
         if let groceries = HomePageData.shared.groceryA {
            self.getGenericBanners(for: groceries)
         }

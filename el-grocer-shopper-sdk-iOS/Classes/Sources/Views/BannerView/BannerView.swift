@@ -83,8 +83,10 @@ extension BannerView: UICollectionViewDataSource {
             cell.contentView.backgroundColor = .clear
             cell.viewBannerWrapper.backgroundColor = .clear
         }else  if banner.campaignType == .staticImage {
-            cell.ivBanner.image = UIImage(named: banner.imageURL ?? "")
+          cell.ivBanner.image = UIImage(named: banner.imageURL ?? "")
+            cell.plachoderImageData = banner.imageURL ?? ""
         }
+       
         cell.configure(viewModel: BannerCellViewModel(banner: banner))
         return cell
     }

@@ -83,6 +83,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     }
     var oneClickReOrderGroceryArray: [Grocery] = []
     var sortedGroceryArray: [Grocery] = []
+    var oncePresesion = false
     var filteredGroceryArray: [Grocery] = [] {
         didSet {
             sortedGroceryArray = filteredGroceryArray
@@ -633,16 +634,27 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
         // MARK: - ButtonAction
     override func backButtonClickedHandler() {
-        
-        let vc = OfferAlertViewController.getViewController()
-        vc.alertTitle = localizedString( "Are you sure you want to exit?", comment: "")
-        vc.skipBtnText = localizedString("Skip the offers" , comment: "")
-        vc.discoverBtnTitle = localizedString("Discover the offers", comment: "")
-        vc.descrptionLblTitle = localizedString("Discover our wide range of products and offers on Smiles Market", comment: "")
-       vc.modalPresentationStyle = .overFullScreen
-        vc.modalTransitionStyle = .crossDissolve
-        vc.isSmilemarket = false
-        self.present(vc, animated: true, completion: nil)
+        if oncePresesion == false{
+            oncePresesion = true
+            let vc = OfferAlertViewController.getViewController()
+            vc.alertTitle = localizedString( "Are you sure you want to exit?", comment: "")
+            vc.skipBtnText = localizedString("Skip the offers" , comment: "")
+            vc.discoverBtnTitle = localizedString("Discover the offers", comment: "")
+            vc.descrptionLblTitle = localizedString("Discover our wide range of products and offers on Smiles Market", comment: "")
+           vc.modalPresentationStyle = .overFullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            vc.isSmilemarket = false
+            self.present(vc, animated: true, completion: nil)
+        }else{
+            defer {
+                SDKManager.shared.rootContext = nil
+                 SDKManager.shared.rootViewController = nil
+                 SDKManager.shared.currentTabBar = nil
+             }
+             SDKManager.shared.rootContext?.dismiss(animated: true)
+             SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedEvent())
+        }
+       
     
     }
     

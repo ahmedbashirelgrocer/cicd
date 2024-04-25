@@ -20,6 +20,7 @@ class ElgrocerStoreHeader:  UIView  {
     
     let headerMaxHeight: CGFloat = 125
     let headerMinHeight: CGFloat = 125
+    var oncePresesion = false
     
     private var dimisType: ElgrocerStoreHeaderDismissType = .dismisSDK
     
@@ -133,7 +134,8 @@ class ElgrocerStoreHeader:  UIView  {
     
  
     @objc func btnBackPressed() {
-        if ((UIApplication.topViewController()  as? MainCategoriesViewController) != nil){
+        if ((UIApplication.topViewController()  as? MainCategoriesViewController) != nil) && oncePresesion == false {
+            oncePresesion = true
             let vc = OfferAlertViewController.getViewController()
             vc.alertTitle = localizedString("Are you sure you want to exit?", comment:"" )
             vc.skipBtnText =  localizedString("Exit", comment:"" )
@@ -148,8 +150,14 @@ class ElgrocerStoreHeader:  UIView  {
         case .dismisVC:
             UIApplication.topViewController()?.dismiss(animated: true)
         case .dismisSDK:
+           defer {
+               SDKManager.shared.rootContext = nil
+                SDKManager.shared.rootViewController = nil
+                SDKManager.shared.currentTabBar = nil
+            }
             SDKManager.shared.rootContext?.dismiss(animated: true)
             SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedEvent())
+           
         case .popVc:
             UIApplication.topViewController()?.navigationController?.popViewController(animated: true)
         }
