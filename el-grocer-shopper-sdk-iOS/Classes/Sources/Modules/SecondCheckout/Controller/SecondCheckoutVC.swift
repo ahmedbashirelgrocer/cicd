@@ -135,7 +135,7 @@ class SecondCheckoutVC: UIViewController {
             } else {
                 if self.viewModel.getSelectedPaymentOption() == .creditCard, let card = self.viewModel.getCreditCard()?.adyenPaymentMethod {
                     self.paymentWithCard(card, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
-                } else if self.viewModel.getSelectedPaymentOption() == .creditCard, let card = self.viewModel.getApplePay(), self.viewModel.getCreditCard() == nil{
+                } else if (self.viewModel.getSelectedPaymentOption() == .creditCard || self.viewModel.getSelectedPaymentOption() == .applePay), let card = self.viewModel.getApplePay(), self.viewModel.getCreditCard() == nil{
                     self.payWithApplePay(selctedApplePayMethod: card, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
                 } else {
                     self.orderPlacement.generateEditOrderAndProcessPayment()
@@ -298,9 +298,8 @@ class SecondCheckoutVC: UIViewController {
             self.checkoutDeliveryAddressView.configure(address: self.viewModel.getDeliveryAddress())
 
             self.promocodeView.configure(promocode: data.promoCode?.code ?? "", promoCodeValue: data.promoCode?.value, primaryPaymentMethodId: data.primaryPaymentTypeID)
-        
-        
-            self.paymentMethodView.configure(paymentTypes: data.paymentTypes ?? [], selectedPaymentId: self.viewModel.getSelectedPaymentMethodId(),creditCard: self.viewModel.getCreditCard())
+         
+            self.paymentMethodView.configure(paymentTypes: data.paymentTypes ?? [], selectedPaymentId: self.viewModel.getSelectedPaymentMethodId(),creditCard: self.viewModel.getCreditCard(), applePay: self.viewModel.getApplePay())
             
             // Configuration of elWallet and Smiles Points view
             let (hidesSmilesPoints, hidesElWallet) = self.viewModel.hidesSecondaryPaymentsViews(paymentMethods: data.paymentTypes ?? [])
@@ -315,11 +314,11 @@ class SecondCheckoutVC: UIViewController {
             var paymentOption = self.viewModel.createPaymentOptionFromString(paymentTypeId: data.primaryPaymentTypeID ?? 0)
             let isSmilesApplied = (data.smilesRedeem ?? 0) > 0
             let creditCard = self.viewModel.getCreditCard()
-            // Checkout button configuration
-            if paymentOption == .creditCard && creditCard == nil {
-                paymentOption = .applePay
-            }
-            self.checkoutButtonView.configure(paymentOption: paymentOption, points: self.viewModel.getBurnPointsFromAed(), amount: data.finalAmount ?? 0.00, aedSaved: data.productsSaving ?? 0.00, earnSmilePoints: data.smilesEarn ?? 0, promoCode: data.promoCode, isSmileOn: isSmilesApplied)
+//            // Checkout button configuration
+//            if paymentOption == .creditCard && creditCard == nil {
+//                paymentOption = .applePay
+//            }
+            self.checkoutButtonView.configure(paymentOption: paymentOption, points: self.viewModel.getBurnPointsFromAed(), amount: data.finalAmount ?? 0.00, aedSaved: data.productsSaving ?? 0.00, earnSmilePoints: data.smilesEarn ?? 0, promoCode: data.promoCode, isSmileOn: isSmilesApplied, applePay: self.viewModel.getApplePay(), card:  self.viewModel.getCreditCard())
             
             // Showing tabby limit reach message
             if let message = data.tabbyThresholdMessage, message.isNotEmpty {
