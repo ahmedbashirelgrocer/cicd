@@ -21,6 +21,12 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hpL-0d-Dec" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                         <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gk6-hQ-sDC">
+                                <rect key="frame" x="0.0" y="0.0" width="88" height="88"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="gk6-hQ-sDC" secondAttribute="height" multiplier="1:1" id="nFD-wc-uIo"/>
+                                </constraints>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L9G-yK-mLe" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS">
                                 <rect key="frame" x="0.0" y="0.0" width="88" height="14"/>
                                 <subviews>
@@ -40,9 +46,6 @@
                                     <constraint firstAttribute="trailing" secondItem="8zr-k1-BvZ" secondAttribute="trailing" id="oqd-7H-HyC"/>
                                 </constraints>
                             </view>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gk6-hQ-sDC">
-                                <rect key="frame" x="0.0" y="14" width="88" height="74"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
@@ -51,7 +54,7 @@
                             <constraint firstItem="L9G-yK-mLe" firstAttribute="top" secondItem="hpL-0d-Dec" secondAttribute="top" id="lI7-6x-ev9"/>
                             <constraint firstItem="gk6-hQ-sDC" firstAttribute="leading" secondItem="hpL-0d-Dec" secondAttribute="leading" id="pFc-8I-WA4"/>
                             <constraint firstAttribute="bottom" secondItem="gk6-hQ-sDC" secondAttribute="bottom" id="pGi-LF-C4A"/>
-                            <constraint firstItem="gk6-hQ-sDC" firstAttribute="top" secondItem="L9G-yK-mLe" secondAttribute="bottom" id="qTE-MU-WPf"/>
+                            <constraint firstItem="gk6-hQ-sDC" firstAttribute="top" secondItem="hpL-0d-Dec" secondAttribute="top" id="qTE-MU-WPf"/>
                             <constraint firstAttribute="trailing" secondItem="L9G-yK-mLe" secondAttribute="trailing" id="wGm-92-shq"/>
                         </constraints>
                     </view>

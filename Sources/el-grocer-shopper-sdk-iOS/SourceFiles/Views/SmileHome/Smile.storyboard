@@ -104,13 +104,13 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yzo-zu-hHP">
-                                                    <rect key="frame" x="25" y="49" width="36" height="17"/>
+                                                    <rect key="frame" x="25" y="49" width="323" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
                                                     <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aSz-Xp-JmP">
-                                                    <rect key="frame" x="58" y="22.5" width="37.5" height="17"/>
+                                                    <rect key="frame" x="58" y="22.5" width="290" height="17"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -157,12 +157,14 @@
                                                 <constraint firstAttribute="trailing" secondItem="6Rz-31-aDY" secondAttribute="trailing" constant="5" id="7ix-Nb-dx6"/>
                                                 <constraint firstItem="ZVS-jr-pzb" firstAttribute="top" secondItem="flQ-6w-3g3" secondAttribute="topMargin" constant="5" id="B9a-ZK-wLb"/>
                                                 <constraint firstItem="aSz-Xp-JmP" firstAttribute="centerY" secondItem="ZVS-jr-pzb" secondAttribute="centerY" id="BOY-kf-N1T"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="aSz-Xp-JmP" secondAttribute="trailing" constant="16" id="ILJ-Zb-gpB"/>
                                                 <constraint firstItem="Qf6-vs-EMX" firstAttribute="centerY" secondItem="ctW-qp-dE7" secondAttribute="centerY" id="Nhx-LX-bNF"/>
                                                 <constraint firstAttribute="bottom" secondItem="6Rz-31-aDY" secondAttribute="bottom" constant="5" id="NxJ-rN-jfA"/>
                                                 <constraint firstItem="TCZ-9H-0iV" firstAttribute="leading" secondItem="flQ-6w-3g3" secondAttribute="leadingMargin" constant="5" id="Pe8-IT-9DT"/>
                                                 <constraint firstItem="Yzo-zu-hHP" firstAttribute="leading" secondItem="flQ-6w-3g3" secondAttribute="leadingMargin" constant="5" id="SAU-0B-xUG"/>
                                                 <constraint firstItem="TCZ-9H-0iV" firstAttribute="top" secondItem="Yzo-zu-hHP" secondAttribute="bottom" constant="15" id="YDU-ae-z6Z"/>
                                                 <constraint firstItem="6Rz-31-aDY" firstAttribute="leading" secondItem="flQ-6w-3g3" secondAttribute="leading" constant="5" id="cbM-np-0Nb"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Yzo-zu-hHP" secondAttribute="trailing" constant="16" id="emm-AI-O9p"/>
                                                 <constraint firstItem="aSz-Xp-JmP" firstAttribute="leading" secondItem="ZVS-jr-pzb" secondAttribute="trailing" constant="9" id="iaJ-Sp-cWL"/>
                                                 <constraint firstItem="Yzo-zu-hHP" firstAttribute="top" secondItem="flQ-6w-3g3" secondAttribute="topMargin" constant="35" id="lPg-4a-NaB"/>
                                                 <constraint firstAttribute="trailingMargin" secondItem="Qf6-vs-EMX" secondAttribute="trailing" constant="5" id="lka-hd-0dw"/>
@@ -232,7 +234,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PAF-B3-N73">
-                                <rect key="frame" x="58" y="76.5" width="37.5" height="17"/>
+                                <rect key="frame" x="58" y="76.5" width="274" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -288,7 +290,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get FREE Delivery." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DnG-pM-aFe">
-                                <rect key="frame" x="25" y="109" width="137" height="20"/>
+                                <rect key="frame" x="25" y="109" width="364" height="20"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -319,10 +321,12 @@
                             <constraint firstItem="zTe-Sr-KMy" firstAttribute="top" secondItem="flt-nq-X4W" secondAttribute="bottom" constant="17" id="NjK-xz-DcL"/>
                             <constraint firstItem="PAF-B3-N73" firstAttribute="leading" secondItem="ATw-x5-m8f" secondAttribute="trailing" constant="9" id="QSf-kQ-5vk"/>
                             <constraint firstItem="DnG-pM-aFe" firstAttribute="leading" secondItem="BZo-ld-7k3" secondAttribute="leading" constant="25" id="TRC-fk-VR9"/>
+                            <constraint firstItem="I0v-px-JXc" firstAttribute="leading" secondItem="PAF-B3-N73" secondAttribute="trailing" constant="32" id="g0d-e3-mAS"/>
                             <constraint firstItem="flt-nq-X4W" firstAttribute="leading" secondItem="BZo-ld-7k3" secondAttribute="leading" constant="25" id="nM3-yT-0v2"/>
                             <constraint firstItem="PAF-B3-N73" firstAttribute="centerY" secondItem="ATw-x5-m8f" secondAttribute="centerY" id="oTF-c2-aWy"/>
                             <constraint firstItem="zTe-Sr-KMy" firstAttribute="leading" secondItem="BZo-ld-7k3" secondAttribute="leading" constant="25" id="oid-bp-adp"/>
                             <constraint firstItem="BZo-ld-7k3" firstAttribute="trailing" secondItem="I0v-px-JXc" secondAttribute="trailing" constant="25" id="qKN-HX-N9E"/>
+                            <constraint firstItem="BZo-ld-7k3" firstAttribute="trailing" secondItem="DnG-pM-aFe" secondAttribute="trailing" constant="25" id="x5R-ic-BBl"/>
                         </constraints>
                     </view>
                     <connections>
