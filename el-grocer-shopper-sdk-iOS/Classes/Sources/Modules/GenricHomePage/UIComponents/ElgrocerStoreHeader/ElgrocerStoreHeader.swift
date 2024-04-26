@@ -20,11 +20,10 @@ class ElgrocerStoreHeader:  UIView  {
     
     let headerMaxHeight: CGFloat = 125
     let headerMinHeight: CGFloat = 125
-    var oncePresesion = false
+   // var oncePresesion = false
     
     private var dimisType: ElgrocerStoreHeaderDismissType = .dismisSDK
-    
-    @IBOutlet weak var elgrocerLogoImgView: UIImageView! {
+   @IBOutlet weak var elgrocerLogoImgView: UIImageView! {
         
         didSet {
             var image = UIImage(name: "elGrocerLogo")!
@@ -134,8 +133,8 @@ class ElgrocerStoreHeader:  UIView  {
     
  
     @objc func btnBackPressed() {
-        if ((UIApplication.topViewController()  as? MainCategoriesViewController) != nil) && oncePresesion == false {
-            oncePresesion = true
+        if ((UIApplication.topViewController()  as? MainCategoriesViewController) != nil) && sdkManager.isOncePerSession == false {
+            sdkManager.isOncePerSession = true
             let vc = OfferAlertViewController.getViewController()
             vc.alertTitle = localizedString("Are you sure you want to exit?", comment:"" )
             vc.skipBtnText =  localizedString("Exit", comment:"" )
@@ -147,6 +146,7 @@ class ElgrocerStoreHeader:  UIView  {
             return
         }
         switch self.dimisType {
+            
         case .dismisVC:
             UIApplication.topViewController()?.dismiss(animated: true)
         case .dismisSDK:
@@ -154,6 +154,7 @@ class ElgrocerStoreHeader:  UIView  {
                SDKManager.shared.rootContext = nil
                 SDKManager.shared.rootViewController = nil
                 SDKManager.shared.currentTabBar = nil
+               sdkManager.isOncePerSession = false
             }
             SDKManager.shared.rootContext?.dismiss(animated: true)
             SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedEvent())

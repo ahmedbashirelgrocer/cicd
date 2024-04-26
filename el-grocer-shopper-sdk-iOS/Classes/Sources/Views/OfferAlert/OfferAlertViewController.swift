@@ -35,7 +35,7 @@ class OfferAlertViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         var imageUrl = ""
-        if isSmilemarket{
+        if isSmilemarket {
             imageUrl = "smilesmarketBanner"
         }else{
             imageUrl = "SingleStoreBanner"
@@ -83,7 +83,6 @@ class OfferAlertViewController: UIViewController {
     @IBAction func discoverBtnClick() {
         var launchOptions = sdkManager.launchOptions
         guard launchOptions != nil else {return}
-        
         SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedDiscoverOffersEvent(isSmilemarket))
         
         self.dismiss(animated: true) {
@@ -113,27 +112,22 @@ class OfferAlertViewController: UIViewController {
     }
     
     @IBAction func skipBtnClick() {
-        
+       // SDKManager.isOncePerSession = false
         defer {
             
             SDKManager.shared.rootContext = nil
             SDKManager.shared.rootViewController = nil
             SDKManager.shared.currentTabBar = nil
+            sdkManager.isOncePerSession = false
         }
-        
-        
-        
         
         SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedEvent())
         NotificationCenter.default.removeObserver(SDKManager.shared, name: NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
-        
-        
         if let rootContext = SDKManager.shared.rootContext,
            let presentedViewController = rootContext.presentedViewController {
             presentedViewController.dismiss(animated:true, completion: {
                 rootContext.dismiss(animated: true)
             })
-          
         }else {
             if let _ = self.tabBarController {
                 self.tabBarController?.dismiss(animated: true)

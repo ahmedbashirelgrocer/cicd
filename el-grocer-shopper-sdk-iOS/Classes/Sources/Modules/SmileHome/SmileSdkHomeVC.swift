@@ -634,8 +634,8 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
         // MARK: - ButtonAction
     override func backButtonClickedHandler() {
-        if oncePresesion == false{
-            oncePresesion = true
+        if sdkManager.isOncePerSession == false{
+            sdkManager.isOncePerSession = true
             let vc = OfferAlertViewController.getViewController()
             vc.alertTitle = localizedString( "Are you sure you want to exit?", comment: "")
             vc.skipBtnText = localizedString("Skip the offers" , comment: "")
@@ -650,6 +650,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
                 SDKManager.shared.rootContext = nil
                  SDKManager.shared.rootViewController = nil
                  SDKManager.shared.currentTabBar = nil
+                sdkManager.isOncePerSession = false
              }
              SDKManager.shared.rootContext?.dismiss(animated: true)
              SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedEvent())
