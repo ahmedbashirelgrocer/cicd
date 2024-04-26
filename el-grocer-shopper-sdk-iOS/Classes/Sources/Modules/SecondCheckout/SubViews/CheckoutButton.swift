@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import UIKit
+import Adyen
 
 class CheckoutButtonView: AWView {
     @IBOutlet weak var lblPoints: UILabel!
@@ -54,7 +55,7 @@ class CheckoutButtonView: AWView {
         self.viewDiscountWrapper.layer.masksToBounds = true
     }
     
-    func configure(paymentOption: PaymentOption, points: Int, amount: Double, aedSaved: Double, earnSmilePoints: Int, promoCode: PromoCode?,isSmileOn: Bool) {
+    func configure(paymentOption: PaymentOption, points: Int, amount: Double, aedSaved: Double, earnSmilePoints: Int, promoCode: PromoCode?,isSmileOn: Bool, applePay: ApplePayPaymentMethod?, card: CreditCard?) {
         self.buttonCheckout.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(checkoutButtonTap(_ :))))
         
         var totalSavedAED: Double = 0.00
@@ -67,6 +68,10 @@ class CheckoutButtonView: AWView {
         }
         
         self.setSavedAmountAndEarnSmilePoints(savedAed: totalSavedAED, earnSmilePoints: earnSmilePoints, paymentOption: paymentOption, isSmileTrue: isSmileOn)
+        if paymentOption == PaymentOption.creditCard && card == nil && applePay == nil {
+            disableButton()
+            return
+        }
         switch paymentOption {
         case .cash, .card, .creditCard, .smilePoints, .voucher, .PromoCode, .tabby:
             self.enableButton(isApplePay: false)
