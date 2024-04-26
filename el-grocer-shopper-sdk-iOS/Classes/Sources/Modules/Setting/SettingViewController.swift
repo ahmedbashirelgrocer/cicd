@@ -79,10 +79,25 @@ class SettingViewController: UIViewController {
         if let version = Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
             self.lblversionNumber.text = "v" + " " + version
             if let buildnumber = Bundle.resource.infoDictionary?["CFBundleVersion"] as? String  {
-                self.lblversionNumber.text = (self.lblversionNumber.text ?? ("v" + " ")) + "-" + buildnumber
+                self.lblversionNumber.text = (self.lblversionNumber.text ?? ("v" + " ")) + "-" + buildnumber + getEnvironmentName()
             }
         }else{
             self.lblversionNumber.text = "----"
+        }
+        
+        func getEnvironmentName() -> String {
+
+            let environment = SDKManager.shared.launchOptions?.environmentType.value() ?? ""
+            var environmentName = ""
+            
+            switch environment {
+                case "StagingProduction": environmentName = " - Staging"
+                case "PreAdmin"         : environmentName = " - Admin"
+                case "Release"          : environmentName = ""
+                default                 : environmentName = ""
+            }
+            
+            return environmentName
         }
     }
     

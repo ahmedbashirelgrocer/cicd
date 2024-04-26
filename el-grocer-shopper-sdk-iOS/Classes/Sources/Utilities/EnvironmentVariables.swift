@@ -24,11 +24,11 @@ class EnvironmentVariables {
         let bundle = Bundle.resource
         let ReleaseEnvoirmentName = "Release"
         var configurationName = SDKManager.shared.launchOptions?.environmentType.value() ??  ReleaseEnvoirmentName
-        #if DEBUG
-        configurationName = "Debug"
-        #else
-        configurationName = ReleaseEnvoirmentName
-        #endif
+//        #if DEBUG
+//        configurationName = "Debug"
+//        #else
+//        configurationName = ReleaseEnvoirmentName
+//        #endif
       
         //load our configuration plist
         let environmentsPath = bundle.path(forResource: kEnvironmentPlistName, ofType: "plist")
