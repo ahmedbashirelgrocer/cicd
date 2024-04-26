@@ -7,8 +7,7 @@
 //
 
 import UIKit
-import ThirdPartyObjC // imported to use libPhoneNumber which is added locally for SPM
-//import ThirdPartyObjC_iOS
+import libPhoneNumber
 
 enum CartCollectorType {
     case OrderCollector
@@ -60,7 +59,7 @@ class CartPickerAddDetails: UIViewController {
     }
     @IBOutlet var btnConfirm: AWButton!
     @IBOutlet var mobileTopCOnstraint: NSLayoutConstraint!
-    private lazy var phoneUtil: NBPhoneNumberUtil = NBPhoneNumberUtil()
+    private lazy var phoneUtil: NBPhoneNumberUtil = NBPhoneNumberUtil(metadataHelper: NBMetadataHelper())
     var checked = false
     var collectorType : CartCollectorType = .AddNewCollector
     var currentVc : UIViewController?

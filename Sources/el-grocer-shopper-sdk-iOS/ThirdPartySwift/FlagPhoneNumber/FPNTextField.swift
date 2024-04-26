@@ -7,7 +7,7 @@
 //
 import UIKit
 import Foundation
-import ThirdPartyObjC //imported to use libPhoneNumber which is added locally for SPM
+import libPhoneNumber
 
 open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
     public weak var customDelegate : FPNTextFieldCustomDelegate?
@@ -32,7 +32,7 @@ open class FPNTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
     }
     private var phoneCodeTextField: UITextField = UITextField()
     private lazy var countryPicker: FPNCountryPicker = FPNCountryPicker()
-    private lazy var phoneUtil: NBPhoneNumberUtil = NBPhoneNumberUtil()
+    private lazy var phoneUtil: NBPhoneNumberUtil = NBPhoneNumberUtil(metadataHelper: NBMetadataHelper())
     private var nbPhoneNumber: NBPhoneNumber?
     private var formatter: NBAsYouTypeFormatter?
     public var flagButton: UIButton = UIButton()

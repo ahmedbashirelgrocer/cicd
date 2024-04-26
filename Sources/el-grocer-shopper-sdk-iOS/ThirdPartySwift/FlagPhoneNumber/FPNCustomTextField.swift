@@ -8,7 +8,8 @@
 
 
 import UIKit
-import ThirdPartyObjC //imported to use libPhoneNumber which is added locally for SPM
+import libPhoneNumber
+
 @available(iOS 9.0, *)
 open class FPNCustomTextField: UITextField, FPNCountryPickerDelegate, FPNDelegate {
     
@@ -69,7 +70,7 @@ open class FPNCustomTextField: UITextField, FPNCountryPickerDelegate, FPNDelegat
     }()
     
     private lazy var countryPicker: FPNCountryPicker = FPNCountryPicker()
-    private lazy var phoneUtil: NBPhoneNumberUtil = NBPhoneNumberUtil()
+    private lazy var phoneUtil: NBPhoneNumberUtil = NBPhoneNumberUtil(metadataHelper: NBMetadataHelper())
     private var nbPhoneNumber: NBPhoneNumber?
     private var formatter: NBAsYouTypeFormatter?
     

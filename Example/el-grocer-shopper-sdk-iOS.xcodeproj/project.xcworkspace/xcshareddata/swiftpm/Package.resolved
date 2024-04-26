@@ -244,6 +244,15 @@
       }
     },
     {
+      "identity" : "libphonenumber-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/iziz/libPhoneNumber-iOS",
+      "state" : {
+        "revision" : "a6f5cb0a2a264e8396da65b0fb27ecf0df8a975e",
+        "version" : "1.1.0"
+      }
+    },
+    {
       "identity" : "lottie-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/airbnb/lottie-ios",
@@ -356,8 +365,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Netvent/storyly-ios",
       "state" : {
-        "revision" : "a4409608dbfb0bda9ae92502e184512589e06fe9",
-        "version" : "2.17.0"
+        "revision" : "376a07cf5f1c98ad513efb4c43a2cbeee12d0c3c",
+        "version" : "2.17.2"
       }
     },
     {
