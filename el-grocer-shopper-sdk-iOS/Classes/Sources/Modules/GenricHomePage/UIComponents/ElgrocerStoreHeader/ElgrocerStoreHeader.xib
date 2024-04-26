@@ -73,23 +73,23 @@
                             </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ckn-aP-YAg" userLabel="LocationSlotView">
-                            <rect key="frame" x="16" y="43" width="363" height="20"/>
+                            <rect key="frame" x="16" y="43" width="363" height="25"/>
                             <subviews>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ip8-60-Bjk" userLabel="location" customClass="UIControl">
-                                    <rect key="frame" x="0.0" y="0.0" width="247" height="20"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="257" height="25"/>
                                     <subviews>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blackLocationPin" translatesAutoresizingMaskIntoConstraints="NO" id="ppb-xP-Idw">
-                                            <rect key="frame" x="0.0" y="0.0" width="24" height="20"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="24" height="25"/>
                                             <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="Dubai, JLT " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZX6-sE-EOS">
-                                            <rect key="frame" x="29" y="0.0" width="66.5" height="20"/>
+                                            <rect key="frame" x="29" y="0.0" width="66.5" height="25"/>
                                             <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="14"/>
                                             <color key="textColor" red="0.90196073060000004" green="0.8392156959" blue="0.31372550129999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blackArrowDown" translatesAutoresizingMaskIntoConstraints="NO" id="GMN-8X-Dco">
-                                            <rect key="frame" x="99.5" y="4" width="12" height="12"/>
+                                            <rect key="frame" x="99.5" y="4" width="17" height="17"/>
                                             <color key="tintColor" red="0.90196073060000004" green="0.8392156959" blue="0.31372550129999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="GMN-8X-Dco" secondAttribute="height" multiplier="1:1" id="ZHl-mN-EER"/>
@@ -120,17 +120,10 @@
                                     </connections>
                                 </view>
                                 <view clipsSubviews="YES" contentMode="scaleToFill" verticalHuggingPriority="252" verticalCompressionResistancePriority="752" translatesAutoresizingMaskIntoConstraints="NO" id="M7j-Is-c6Y" userLabel="slots" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
-                                    <rect key="frame" x="257" y="2" width="106" height="16"/>
+                                    <rect key="frame" x="267" y="2" width="96" height="21"/>
                                     <subviews>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SingleStore_delivery" translatesAutoresizingMaskIntoConstraints="NO" id="GXy-Cr-2hH">
-                                            <rect key="frame" x="6" y="2" width="12" height="12"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="12" id="SSn-1t-sna"/>
-                                                <constraint firstAttribute="height" constant="12" id="fEf-1D-wu6"/>
-                                            </constraints>
-                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" horizontalCompressionResistancePriority="752" text="Tod 2pm-3pm" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zpy-5b-pos">
-                                            <rect key="frame" x="20" y="1" width="76" height="14"/>
+                                            <rect key="frame" x="10" y="3.5" width="76" height="14"/>
                                             <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="12"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
@@ -139,11 +132,9 @@
                                     <color key="backgroundColor" red="0.45490196350000001" green="0.74901962280000001" blue="0.75686275960000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstItem="GXy-Cr-2hH" firstAttribute="leading" secondItem="M7j-Is-c6Y" secondAttribute="leading" constant="6" id="BxN-JZ-dyY"/>
                                         <constraint firstItem="Zpy-5b-pos" firstAttribute="centerY" secondItem="M7j-Is-c6Y" secondAttribute="centerY" id="Du8-zp-h2z"/>
-                                        <constraint firstItem="Zpy-5b-pos" firstAttribute="leading" secondItem="GXy-Cr-2hH" secondAttribute="trailing" constant="2" id="RgO-8t-jh7"/>
                                         <constraint firstAttribute="trailing" secondItem="Zpy-5b-pos" secondAttribute="trailing" constant="10" id="a6Z-6o-qCh"/>
-                                        <constraint firstItem="GXy-Cr-2hH" firstAttribute="centerY" secondItem="M7j-Is-c6Y" secondAttribute="centerY" id="dw9-Wi-j0X"/>
+                                        <constraint firstItem="Zpy-5b-pos" firstAttribute="leading" secondItem="M7j-Is-c6Y" secondAttribute="leading" constant="10" id="eK7-2F-bTs"/>
                                     </constraints>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
@@ -194,14 +185,70 @@
                                 <constraint firstItem="Llc-K6-zes" firstAttribute="top" secondItem="gzu-G6-0uQ" secondAttribute="top" constant="5" id="mgg-Rn-lbd"/>
                             </constraints>
                         </view>
+                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ls7-hF-Aq6" customClass="AWView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                            <rect key="frame" x="16" y="84" width="363" height="0.0"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_warning" translatesAutoresizingMaskIntoConstraints="NO" id="5pd-qi-3dL">
+                                    <rect key="frame" x="8" y="-10" width="20" height="20"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="20" id="O6z-7L-qi1"/>
+                                        <constraint firstAttribute="width" constant="20" id="Wn7-9E-bAO"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Looks like you're too far away." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sRb-oU-OID">
+                                    <rect key="frame" x="36" y="-7" width="156" height="14"/>
+                                    <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="12"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="juG-EY-T3c">
+                                    <rect key="frame" x="245" y="-14" width="94" height="28"/>
+                                    <fontDescription key="fontDescription" name="SFProDisplay-Semibold" family="SF Pro Display" pointSize="13"/>
+                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                    <state key="normal" title="Change location">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="changeLocationButtonTap:" destination="iN0-l3-epB" eventType="touchUpInside" id="h5B-Fw-91t"/>
+                                    </connections>
+                                </button>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrowForwardSmiles" translatesAutoresizingMaskIntoConstraints="NO" id="N34-wl-q54">
+                                    <rect key="frame" x="339" y="-8" width="16" height="16"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="16" id="A6S-rm-Nln"/>
+                                        <constraint firstAttribute="height" constant="16" id="ezt-jL-Ztc"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstItem="5pd-qi-3dL" firstAttribute="centerY" secondItem="ls7-hF-Aq6" secondAttribute="centerY" id="CqY-k1-O4y"/>
+                                <constraint firstItem="sRb-oU-OID" firstAttribute="leading" secondItem="5pd-qi-3dL" secondAttribute="trailing" constant="8" id="GMY-Ng-hF0"/>
+                                <constraint firstItem="5pd-qi-3dL" firstAttribute="leading" secondItem="ls7-hF-Aq6" secondAttribute="leading" constant="8" id="Jru-eg-iZu"/>
+                                <constraint firstItem="N34-wl-q54" firstAttribute="centerY" secondItem="5pd-qi-3dL" secondAttribute="centerY" id="Ti4-OK-bji"/>
+                                <constraint firstItem="N34-wl-q54" firstAttribute="leading" secondItem="juG-EY-T3c" secondAttribute="trailing" id="U9Z-pR-f4A"/>
+                                <constraint firstItem="sRb-oU-OID" firstAttribute="centerY" secondItem="5pd-qi-3dL" secondAttribute="centerY" id="emG-vf-1Dq"/>
+                                <constraint firstItem="juG-EY-T3c" firstAttribute="centerY" secondItem="5pd-qi-3dL" secondAttribute="centerY" id="ewh-7b-9Jx"/>
+                                <constraint firstAttribute="height" priority="989" constant="40" id="oT7-5V-I54"/>
+                                <constraint firstAttribute="trailing" secondItem="N34-wl-q54" secondAttribute="trailing" constant="8" id="sm7-T8-7lx"/>
+                            </constraints>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                    <real key="value" value="8"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                        </view>
                     </subviews>
                     <color key="backgroundColor" red="0.93725490196078431" green="0.94117647058823528" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <color key="tintColor" red="0.93725490196078431" green="0.94117647058823528" blue="0.97647058823529409" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="Ckn-aP-YAg" firstAttribute="top" secondItem="2ou-QN-EoU" secondAttribute="bottom" constant="16" id="4G4-CC-Gck"/>
+                        <constraint firstAttribute="trailing" secondItem="ls7-hF-Aq6" secondAttribute="trailing" constant="16" id="5aC-wF-Vfu"/>
                         <constraint firstAttribute="trailing" secondItem="gzu-G6-0uQ" secondAttribute="trailing" constant="16" id="FBK-uc-T4f"/>
-                        <constraint firstItem="gzu-G6-0uQ" firstAttribute="top" secondItem="Ckn-aP-YAg" secondAttribute="bottom" constant="8" id="QTj-77-Nmd"/>
+                        <constraint firstItem="ls7-hF-Aq6" firstAttribute="top" secondItem="Ckn-aP-YAg" secondAttribute="bottom" priority="992" constant="16" id="RwG-KX-9Eg"/>
                         <constraint firstItem="iYk-ca-3Nn" firstAttribute="leading" secondItem="2ou-QN-EoU" secondAttribute="trailing" id="Y61-C7-9ON"/>
+                        <constraint firstItem="ls7-hF-Aq6" firstAttribute="leading" secondItem="cxg-fo-Llm" secondAttribute="leading" constant="16" id="YbM-87-NRZ"/>
+                        <constraint firstItem="gzu-G6-0uQ" firstAttribute="top" secondItem="ls7-hF-Aq6" secondAttribute="bottom" priority="990" constant="8" id="ZTo-wT-BSs"/>
                         <constraint firstItem="2ou-QN-EoU" firstAttribute="top" secondItem="cxg-fo-Llm" secondAttribute="top" constant="3" id="b9Z-sP-xMN"/>
                         <constraint firstItem="Ckn-aP-YAg" firstAttribute="leading" secondItem="cxg-fo-Llm" secondAttribute="leading" constant="16" id="clU-Zi-U6g"/>
                         <constraint firstItem="zQB-zT-0wW" firstAttribute="centerX" secondItem="cxg-fo-Llm" secondAttribute="centerX" id="fAE-m9-fXP"/>
@@ -227,6 +274,8 @@
                 <outlet property="arrowDown" destination="GMN-8X-Dco" id="E95-x3-wia"/>
                 <outlet property="bGView" destination="cxg-fo-Llm" id="T99-H2-S8p"/>
                 <outlet property="backButton" destination="2ou-QN-EoU" id="z04-r0-y7E"/>
+                <outlet property="btnArrow" destination="N34-wl-q54" id="nQU-9H-EyW"/>
+                <outlet property="btnChangeLocation" destination="juG-EY-T3c" id="TZG-es-ClZ"/>
                 <outlet property="btnHelp" destination="DxT-jV-evr" id="W2t-X4-nJF"/>
                 <outlet property="btnMenu" destination="bUW-oF-AP1" id="2la-MH-G7A"/>
                 <outlet property="elgrocerLogoImgView" destination="zQB-zT-0wW" id="rb5-2s-RCS"/>
@@ -235,17 +284,20 @@
                 <outlet property="imgSearch" destination="Nbs-8M-Y4I" id="FV3-Jd-rjM"/>
                 <outlet property="lblLocation" destination="ZX6-sE-EOS" id="kID-HK-e9M"/>
                 <outlet property="lblSlots" destination="Zpy-5b-pos" id="Jri-SR-2q7"/>
+                <outlet property="msgFarAway" destination="sRb-oU-OID" id="Ecf-C1-UkA"/>
                 <outlet property="searchBGView" destination="gzu-G6-0uQ" id="pCX-YN-AuI"/>
                 <outlet property="txtSearchBar" destination="Llc-K6-zes" id="u6A-qe-aZc"/>
+                <outlet property="viewToolTip" destination="ls7-hF-Aq6" id="cKu-v7-mjW"/>
             </connections>
-            <point key="canvasLocation" x="150.9375" y="154.75352112676057"/>
+            <point key="canvasLocation" x="150.9375" y="180.63380281690141"/>
         </view>
     </objects>
     <resources>
-        <image name="SingleStore_delivery" width="12" height="13"/>
+        <image name="arrowForwardSmiles" width="24" height="24"/>
         <image name="backPinPurple" width="24" height="24"/>
         <image name="blackArrowDown" width="16" height="16"/>
         <image name="blackLocationPin" width="24" height="24"/>
+        <image name="ic_warning" width="16" height="15"/>
         <image name="icon_help_Purple" width="24" height="24"/>
         <image name="menu" width="24" height="24"/>
         <image name="search-SearchBar" width="24.5" height="24"/>

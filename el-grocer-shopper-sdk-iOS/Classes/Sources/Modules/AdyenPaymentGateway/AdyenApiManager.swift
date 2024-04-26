@@ -120,7 +120,12 @@ class AdyenApiManager {
         
         
         let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()
-        let formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(address)
+        var formatAddressStr: String = ""
+        if ElGrocerUtility.isAddressCentralisation {
+            formatAddressStr = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(address)
+        } else {
+            formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(address)
+        }
         params["billingAddress"] = formatAddressStr
         
         if let userProfile = UserProfile.getOptionalUserProfile( DatabaseHelper.sharedInstance.mainManagedObjectContext) {

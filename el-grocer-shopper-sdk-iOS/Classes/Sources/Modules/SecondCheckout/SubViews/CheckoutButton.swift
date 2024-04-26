@@ -22,7 +22,11 @@ class CheckoutButtonView: AWView {
     }
     @IBOutlet weak var ivForwardIcon: UIImageView!
     @IBOutlet weak var viewDiscountWrapper: UIView!
-    @IBOutlet var lblAEDSavedBottomBGView: UIView!
+    @IBOutlet var lblAEDSavedBottomBGView: UIView! {
+        didSet {
+            lblAEDSavedBottomBGView.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryBlackColor
+        }
+    }
     @IBOutlet var lblEarnPointsBGView: UIView!
     @IBOutlet weak var lblEarnSmilesPoints: UILabel! {
         didSet {

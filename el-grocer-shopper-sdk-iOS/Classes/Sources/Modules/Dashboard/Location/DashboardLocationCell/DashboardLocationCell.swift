@@ -111,13 +111,17 @@ class DashboardLocationCell : UITableViewCell {
         
         self.userName.text = location.nickName ?? location.shopperName ?? ""
         
-        let adr = ElGrocerUtility.sharedInstance.getFormattedAddress(location)
-        var address = location.address
-        address = ""
-        if adr.count > 0 && location.phoneNumber?.count ?? 0 > 0 {
-            self.locationName.text =  (location.phoneNumber ?? "") + "\n" + ElGrocerUtility.sharedInstance.getFormattedAddress(location) + (address.count > 0 ? ( "\n" + address) : "")
-        }else if location.phoneNumber?.count ?? 0 == 0 {
-           self.locationName.text =  ElGrocerUtility.sharedInstance.getFormattedAddress(location)
+        if ElGrocerUtility.isAddressCentralisation {
+            self.locationName.text = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(location, showNickName: false)
+        } else {
+            let adr = ElGrocerUtility.sharedInstance.getFormattedAddress(location)
+            var address = location.address
+            address = ""
+            if adr.count > 0 && location.phoneNumber?.count ?? 0 > 0 {
+                self.locationName.text =  (location.phoneNumber ?? "") + "\n" + ElGrocerUtility.sharedInstance.getFormattedAddress(location) + (address.count > 0 ? ( "\n" + address) : "")
+            }else if location.phoneNumber?.count ?? 0 == 0 {
+               self.locationName.text =  ElGrocerUtility.sharedInstance.getFormattedAddress(location)
+            }
         }
        
 //        self.locationAddress.text = location.locationName

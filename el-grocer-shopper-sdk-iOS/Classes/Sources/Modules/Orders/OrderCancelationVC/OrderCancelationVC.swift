@@ -60,7 +60,7 @@ class OrderCancelationVC: UIViewController {
             }else{
                 (self.navigationController as? ElGrocerNavigationController)?.navigationBar.topItem?.title = localizedString("delete_account", comment: "")
             }
-            self.addGreenBackButton()
+            self.addBackButton(isGreen: false, true)
         }
         
         

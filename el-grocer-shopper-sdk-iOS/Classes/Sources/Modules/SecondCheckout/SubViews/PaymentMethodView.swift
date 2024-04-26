@@ -46,13 +46,13 @@ class PaymentMethodView: UIView {
         
         self.lblTitle.text = selectedPaymentId != nil
             ? localizedString("text_payment", comment: "") + ":"
-            : localizedString("text_payment", comment: "")
+            : localizedString("payment_method_title", comment: "")
     }
 }
 
 fileprivate extension PaymentMethodView {
     func setupViews() {
-        lblTitle.text = localizedString("text_payment", comment: "")
+        lblTitle.text = localizedString("payment_method_title", comment: "")
         
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             arrowForward.transform = CGAffineTransform(scaleX: -1, y: 1)
@@ -75,7 +75,7 @@ fileprivate extension PaymentMethodView {
     
     func iconForPayment(_ paymentId: UInt32?, creditCard: CreditCard?) -> UIImage? {
         guard let selectedPaymentId = paymentId, let paymentOption = PaymentOption(rawValue: selectedPaymentId) else {
-            return UIImage(name: "ic_payment_method")
+            return UIImage(name: "ic_visa_grey_bg")
         }
 
         switch paymentOption {
@@ -84,7 +84,7 @@ fileprivate extension PaymentMethodView {
             case .tabby:        return UIImage(name: "ic_tabby_grey_bg")
             case .applePay:     return UIImage(name: "payWithApple")
             case .creditCard:   return creditCardIcon()
-            case .none:         return UIImage(name: "ic_payment_method")
+            case .none:         return UIImage(name: "ic_visa_grey_bg")
             
             // Secondary Payments
             case .smilePoints, .voucher, .PromoCode: return nil
@@ -98,8 +98,9 @@ fileprivate extension PaymentMethodView {
                 } else if creditCard.cardType == .VISA {
                     return UIImage(name: "ic_visa_grey_bg")
                 }
+            } else {
+                return UIImage(name: "payWithApple")
             }
-            
             return nil
         }
     }
@@ -108,6 +109,10 @@ fileprivate extension PaymentMethodView {
         guard let selectedPaymentId = paymentId, let paymentOption = PaymentOption(rawValue: selectedPaymentId) else { return "" }
         
         if let selectedPaymentType = paymentTypes.first(where: { $0.id == selectedPaymentId }) {
+            //in edit order for apple pay server still sends payment id 3(online payment) with credit card object as nil
+            if paymentOption == .creditCard && creditCard == nil {
+                return localizedString("pay_via_Apple_pay", comment: "")
+            }
             if paymentOption == .creditCard {
                 return localizedString("lbl_card_ending", comment: "") + (creditCard?.last4 ?? "")
             }

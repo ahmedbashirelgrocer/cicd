@@ -52,6 +52,8 @@ public final class ElGrocer {
             
             guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
                 
+                _ = ElGrocerUtility.setDefaultAddress()
+                
                 if ElGrocerUtility.sharedInstance.appConfigData == nil || HomePageData.shared.groceryA?.count == 0 || SDKManager.shared.launchOptions?.language !=  UserDefaults.getCurrentLanguage() {
                     PreLoadData.shared.loadConfigData {}
                     HomePageData.shared.fetchHomeData(true) {
@@ -62,7 +64,7 @@ public final class ElGrocer {
                         SDKManager.shared.launchCompletion?()
                     }
                 }
-                
+
                 func basicHomeViewSetUp() {
                     if let launchOptions = launchOptions {
                         let manager = SDKLoginManager(launchOptions: launchOptions)
@@ -72,12 +74,12 @@ public final class ElGrocer {
                         LanguageManager.sharedInstance.languageButtonAction(selectedLanguage: SDKManager.shared.launchOptions?.language ?? "Base", SDKManagers: SDKManager.shared)
                         manager.setHomeView()
                         SDKManager.shared.launchCompletion?()
-                        
+
                         // Logging segment identify event for every time user launch our SDK
                         if SDKManager.shared.isInitialized {
                             if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
                                 SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
-                                
+
                                 // Logging User Registered or User Signed In event
                                 let event: AnalyticsEventDataType = SDKLoginManager.isUserRegistered ? UserRegisteredEvent() : UserSignedInEvent()
                                 SegmentAnalyticsEngine.instance.logEvent(event: event)
@@ -86,7 +88,7 @@ public final class ElGrocer {
                         }
                     }
                 }
-                
+
                 if let data = launchOptions?.pushNotificationPayload, (launchOptions?.pushNotificationPayload?.count ?? 0) > 0 , let dataObj = data["elgrocerMap"] as? String, dataObj.count > 0 {
                     basicHomeViewSetUp()
                     ElGrocerNotification.handlePushNotification(launchOptions)

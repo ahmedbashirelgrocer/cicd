@@ -67,6 +67,10 @@ extension MyBasketViewController : NoStoreViewDelegate {
 }
 
 class MyBasketViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MyBasketCellProtocol   {
+    enum ScreenType {
+        case basket
+        case editOrder
+    }
     
         //MARK:- IBOutlet
         //MARK:-
@@ -133,7 +137,13 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var checkoutBtn: UIButton!
     
         //MARK: Label outlets
-    @IBOutlet weak var itemsCount: UILabel!
+    
+    @IBOutlet weak var itemCountBGView: AWView!
+    @IBOutlet weak var itemsCount: UILabel! {
+        didSet {
+            itemsCount.setBody3RegGreenStyle()
+        }
+    }
     @IBOutlet weak var itemsTotalPrice: UILabel!
     @IBOutlet var lblTopViewEdgeCaseMsg: UILabel!
     @IBOutlet weak var lblRecomendedItems: UILabel! {
@@ -287,7 +297,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     // This flag is added to keep track of whether reload the screen data or not.
     // In case of showing substitution option bottom sheet no need to reload the screen data
     private var isReloadScreen = true
-    
+    private var screenType: ScreenType = .basket
     
     
     
@@ -311,10 +321,12 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         self.signView.isHidden = true
         hidesBottomBarWhenPushed = true
         
-        if UserDefaults.isOrderInEdit() {
+        if UserDefaults.isOrderInEdit() && self.order != nil {
             SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .orderEditScreen))
+            self.screenType = .editOrder
         } else {
             SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .cartScreen))
+            self.screenType = .basket
         }
     }
     
@@ -322,9 +334,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewWillAppear(animated)
         
         if isReloadScreen == false { return }
-        if  !(UserDefaults.isOrderInEdit() && self.order != nil) {
-            self.searchBar.isHidden = true
-        }
+        
         userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         let topVc = UIApplication.topViewController()
         guard !(topVc is ReplacementViewController) else {
@@ -358,29 +368,16 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         if isReloadScreen == false { return }
         
-        GoogleAnalyticsHelper.trackScreenWithName(kGoogleAnalyticsBasketScreen)
-        FireBaseEventsLogger.setScreenName( FireBaseScreenName.MyBasket.rawValue , screenClass: String(describing: self.classForCoder))
         self.setUpNavigationAppearance()
-        self.orderToReplace = ( UserDefaults.isOrderInEdit() && self.order != nil )
-        if self.orderToReplace && self.order != nil {
-            if let order =  self.order {
-                self.order = Order.getOrderFrom(order.dbID, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-            }
-            self.isDeliveryMode = !self.order.isCandCOrder()
-            if self.order.isCandCOrder() {
-                if let vehicleID = self.order.vehicleDetail?.dbID?.intValue {
-                    UserDefaults.setCurrentSelectedCar(vehicleID)
-                }
-                if let collectorId = self.order.collector?.dbID.intValue {
-                    UserDefaults.setCurrentSelectedCollector(collectorId)
-                }
-            }else{
-                self.isDeliveryMode = ElGrocerUtility.sharedInstance.isDeliveryMode
-            }
-        }else {
-            self.isDeliveryMode = ElGrocerUtility.sharedInstance.isDeliveryMode
-        }
+        self.orderToReplace = self.screenType == .editOrder //(UserDefaults.isOrderInEdit()) && self.order != nil
         
+        if let orderId = UserDefaults.getEditOrderDbId() {
+            self.getOrderDetails(orderID: orderId.stringValue) { [weak self] order in
+                guard let self = self else { return }
+                
+                self.order = order
+            }
+        }
 
         self.reloadTableData()
         self.setControlerTitle()
@@ -396,7 +393,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.checkIsAddressFull(groceryA)
         }
         let _ = self.getFinalAmount()
-        self.searchBar.isHidden = !self.orderToReplace
+        self.searchBar.isHidden = true // search bar is removed in edit case also
+        
         //hide tabbar
         self.hideTabBar()
     }
@@ -413,6 +411,32 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             item.cancel()
         }
         
+    }
+    
+    func getOrderDetails(orderID: String, completion: @escaping ((Order?) -> Void)) {
+        
+        // If user is navigated here from edit order flow then the order is already available, there is no need
+        // of fetchingE it again.
+        if self.order != nil {
+            let order = Order.getOrderFrom(order.dbID, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            completion(order)
+            return
+        }
+        
+        // Fetching order if order is from current store is in edit and user is landing here from normal flow
+        ElGrocerApi.sharedInstance.getorderDetails(orderId: orderID) { (result) in
+            switch result {
+            case .success(let response):
+                if let orderDict = response["data"] as? NSDictionary {
+                    let order = Order.insertOrReplaceOrderFromDictionary(orderDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                    completion(order)
+                }
+               
+                SpinnerView.hideSpinnerView()
+            case .failure(let error):
+                completion(nil)
+            }
+        }
     }
     
         // MARK: Life cycle End
@@ -462,7 +486,6 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.addCustomTitleViewWithTitleDarkShade(localizedString("Edit_Basket_Title", comment: "") , true)
             self.navigationItem.hidesBackButton = true
             self.lblPlaceOrderTitle.text = localizedString("place_order_title_label", comment: "")   // place_order_title_label localizedString("confirm_button_title", comment: "").uppercased()
-            (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
         }else{
             self.title = localizedString("Cart_Title", comment: "")
             if self.isDeliveryMode{
@@ -622,11 +645,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
 
         }
         
-        if  self.orderToReplace  {
-            self.tblViewYPossition.constant = 76
-            self.viewForSearch.isHidden = false
-            self.view.bringSubviewToFront(self.viewForSearch)
-        }
+//        if  self.orderToReplace  {
+//            self.tblViewYPossition.constant = 76
+//            self.viewForSearch.isHidden = false
+//            self.view.bringSubviewToFront(self.viewForSearch)
+//        }
         
     }
     
@@ -664,6 +687,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     
     // Previous purchase items will be visible here ...
     fileprivate func getCarouselProduct () {
+        if self.order != nil { return }
+        
         let parameters = NSMutableDictionary()
         parameters["limit"] = 20
         parameters["offset"] = 0
@@ -1011,7 +1036,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         if  self.orderToReplace  {
             self.searchBar.frame = CGRect.init(x: 0, y: 0, width: self.viewForSearch.frame.size.width , height: self.viewForSearch.frame.size.height)
             self.searchBar.clipsToBounds = true
-            self.searchBar.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            self.searchBar.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
             self.viewForSearch.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
             self.viewForSearch.addSubview(self.searchBar)
 //            self.viewForSearch.isHidden = false
@@ -1024,7 +1049,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
     fileprivate func setupBottomView(){
         
         if LanguageManager.sharedInstance.getSelectedLocale().caseInsensitiveCompare("ar") == ComparisonResult.orderedSame {
-            self.itemsCount.textAlignment       = .natural //NSTextAlignment.left
+            self.itemsCount.textAlignment       = .center //NSTextAlignment.left
             self.itemsTotalPrice.textAlignment  = .natural //NSTextAlignment.left
         }
         
@@ -1049,6 +1074,8 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.checkoutBtn.isEnabled = enabled
             self.checkoutBtn.alpha = enabled ? 1 : 0.3
             self.checkOutViewForButton.backgroundColor  = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
+            
+            self.itemsCount.textColor  = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
             return
         }
         
@@ -1057,6 +1084,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.checkoutBtn.isEnabled = enabled
             self.checkoutBtn.alpha = enabled ? 1 : 0.3
             self.checkOutViewForButton.backgroundColor  = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
+            self.itemsCount.textColor  = enabled ? ApplicationTheme.currentTheme.buttonEnableBGColor : ApplicationTheme.currentTheme.buttonDisableBGColor
         }
         
     }
@@ -1066,7 +1094,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         UserDefaults.setAdditionalInstructionsNote("")
         if self.orderToReplace {
-            UserDefaults.resetEditOrder(false)
+//            UserDefaults.resetEditOrder(false)
         }
         
         if self.tabBarController?.selectedIndex == 4 && self.navigationController?.viewControllers.count == 1 {
@@ -1327,10 +1355,12 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                
                // resetting the view of checkoutButton
                self.itemsCount.isHidden = self.isOutOfStockProductAvailablePreCart
+               self.itemCountBGView.isHidden = self.isOutOfStockProductAvailablePreCart
                self.itemsTotalPrice.isHidden = self.isOutOfStockProductAvailablePreCart
                self.imgbasketArrow.isHidden = self.isOutOfStockProductAvailablePreCart
                self.lblPlaceOrderTitle.text = self.isOutOfStockProductAvailablePreCart ? localizedString("Confirm_OOS_Title", comment: "") : localizedString("shopping_basket_payment_button", comment: "")
                self.itemsCount.visibility = self.isOutOfStockProductAvailablePreCart ? .goneX : .visible
+               self.itemCountBGView.visibility = self.isOutOfStockProductAvailablePreCart ? .goneX : .visible
                self.itemsTotalPrice.visibility = self.isOutOfStockProductAvailablePreCart ? .goneX : .visible
                self.imgbasketArrow.visibility = self.isOutOfStockProductAvailablePreCart ? .goneX : .visible
                self.lblPlaceOrderTitle.textAlignment = self.isOutOfStockProductAvailablePreCart ? .center : .natural
@@ -1732,11 +1762,13 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         self.itemsCount.isHidden = self.isOutOfStockProductAvailablePreCart
+        self.itemCountBGView.isHidden = self.isOutOfStockProductAvailablePreCart
         self.itemsTotalPrice.isHidden = self.isOutOfStockProductAvailablePreCart
         self.imgbasketArrow.isHidden = self.isOutOfStockProductAvailablePreCart
         self.lblPlaceOrderTitle.text = self.isOutOfStockProductAvailablePreCart ? localizedString("Confirm_OOS_Title", comment: "") : localizedString("shopping_basket_payment_button", comment: "")
         
         self.itemsCount.visibility = self.isOutOfStockProductAvailablePreCart ? .goneX : .visible
+        self.itemCountBGView.visibility = self.isOutOfStockProductAvailablePreCart ? .goneX : .visible
         self.itemsTotalPrice.visibility = self.isOutOfStockProductAvailablePreCart ? .goneX : .visible
         self.imgbasketArrow.visibility = self.isOutOfStockProductAvailablePreCart ? .goneX : .visible
         self.lblPlaceOrderTitle.textAlignment = self.isOutOfStockProductAvailablePreCart ? .center : .natural
@@ -1833,11 +1865,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         
         if self.notAvailableProducts != nil {
             self.purchasedItemCount = summaryCount - notAvailableCount
-            self.itemsCount.text = "\(summaryCount - notAvailableCount)/\(summaryCount) " + localizedString("shopping_basket_available_label", comment: "")
-            self.itemsCount.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount - notAvailableCount)/\(summaryCount) ") + localizedString("shopping_basket_available_label", comment: "")
+            self.itemsCount.text = "\(summaryCount - notAvailableCount)/\(summaryCount)"
+            self.itemsCount.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount - notAvailableCount)/\(summaryCount) ")
         } else {
             self.purchasedItemCount = summaryCount
-            self.itemsCount.text = "(" + ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount)") +  "\(localizedString("brand_items_count_label", comment: "")))"
+            self.itemsCount.text = ElGrocerUtility.sharedInstance.setNumeralsForLanguage(numeral: "\(summaryCount)")
         }
         
         if (self.grocery  != nil && self.products.count == 0 && hidesBottomBarWhenPushed == true) {
@@ -2008,7 +2040,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         if  self.orderToReplace && section == 0 {
-            return .leastNormalMagnitude
+            return 0//.leastNormalMagnitude
         }
         
         if section == 2 {
@@ -2059,10 +2091,18 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                 
                 if indexPath.row == 0 {
                     let cell : MyBasketStroreNameTableViewCell = tableView.dequeueReusableCell(withIdentifier: "MyBasketStroreNameTableViewCell" , for: indexPath) as! MyBasketStroreNameTableViewCell
-                    cell.setGrocery(grocery: self.grocery)
+                    cell.setGrocery(grocery: self.grocery, editOrder: self.orderToReplace)
                     
                     cell.returnToStoreHandler = { [weak self] in
                         self?.backButtonClick()
+                    }
+                    
+                    cell.addProductHandler = { [weak self] in
+                        guard let self = self else { return }
+                        
+                        let storeVC = ElGrocerViewControllers.mainCategoriesViewController()
+                        storeVC.isFromEditOrder = true
+                        self.navigationController?.pushViewController(storeVC, animated: true)
                     }
                     
                     return cell
@@ -2136,6 +2176,14 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     cell.setGrocery(grocery: self.grocery)
                     cell.returnToStoreHandler = { [weak self] in
                         self?.backButtonClick()
+                    }
+                    
+                    cell.addProductHandler = { [weak self] in
+                        guard let self = self else { return }
+                        
+                        let storeVC = ElGrocerViewControllers.mainCategoriesViewController()
+                        storeVC.isFromEditOrder = true
+                        self.navigationController?.pushViewController(storeVC, animated: true)
                     }
                     return cell
                     // Disabling progress view cell in favour of new design
@@ -2970,10 +3018,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                             self.finalRemoveCall();
                         }
                     }else{
-                        guard let self = self else {return}
-                            // do nothing let user add more things
-                        self.loadShoppingBasketData()
-                        self.reloadTableData()
+                        // do nothing let user add more things
+                        guard let self = self else { return }
+                        let storeVC = ElGrocerViewControllers.mainCategoriesViewController()
+                        storeVC.isFromEditOrder = true
+                        self.navigationController?.pushViewController(storeVC, animated: true)
                     }
                     
                 }).show()
@@ -3499,7 +3548,7 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             cell.productTotalPrice.textColor = UIColor.white
             cell.lblQuantity.textColor = UIColor.white
             self.itemsTotalPrice.textColor =  UIColor.white
-            self.itemsCount.textColor = UIColor.white
+//            self.itemsCount.textColor = ApplicationTheme.currentTheme.buttonEnableBGColor
         })
         
     }
@@ -4236,7 +4285,7 @@ extension MyBasketViewController {
         var orderID : String? = nil
         var orderForEdit : Order? = nil
         if UserDefaults.isOrderInEdit(), order != nil {
-            deliveryAddress = order.deliveryAddress
+//            deliveryAddress = order.deliveryAddress
             slotId = order.deliverySlot?.dbID.intValue
             slot = order.deliverySlot
             orderID = UserDefaults.getEditOrderDbId()?.stringValue

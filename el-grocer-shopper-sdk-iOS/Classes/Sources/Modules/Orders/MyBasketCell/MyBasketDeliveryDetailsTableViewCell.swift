@@ -134,6 +134,11 @@ class MyBasketDeliveryDetailsTableViewCell: UITableViewCell {
     
     
     func setOrdeAddress(_ order : Order?) {
+        if ElGrocerUtility.isAddressCentralisation {
+            self.lblDeliveryAddress.text = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(order?.deliveryAddress)
+            return
+        }
+        
         guard order != nil else {
             self.lblDeliveryAddress.text = ""
             return
@@ -158,7 +163,7 @@ class MyBasketDeliveryDetailsTableViewCell: UITableViewCell {
         let nickName = nickName
         let attributedString1 = NSMutableAttributedString(string: nickName   , attributes:attrs2 as [NSAttributedString.Key : Any])
         attributedString.append(attributedString1)
-        let attributedString2 = NSMutableAttributedString(string: "\n" + address  , attributes:attrs1 as [NSAttributedString.Key : Any])
+        let attributedString2 = NSMutableAttributedString(string: ": " + address  , attributes:attrs1 as [NSAttributedString.Key : Any])
         attributedString.append(attributedString2)
         DispatchQueue.main.async {
             UIView.performWithoutAnimation {
@@ -192,9 +197,12 @@ class MyBasketDeliveryDetailsTableViewCell: UITableViewCell {
         }
         
         if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-            let formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress) : deliveryAddress.locationName + deliveryAddress.address
-            
-            self.lblDeliveryAddress.text = formatAddressStr
+            if ElGrocerUtility.isAddressCentralisation {
+                self.lblDeliveryAddress.text = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(deliveryAddress)
+            } else {
+                let formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress) : deliveryAddress.locationName + deliveryAddress.address
+                self.lblDeliveryAddress.text = formatAddressStr
+            }
         }else{
             self.lblDeliveryAddress.text = ""
         }
@@ -205,9 +213,13 @@ class MyBasketDeliveryDetailsTableViewCell: UITableViewCell {
     
     func setAddress() {
         if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-            let formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress) : deliveryAddress.locationName + deliveryAddress.address
-            
-            self.lblDeliveryAddress.text = formatAddressStr
+            if ElGrocerUtility.isAddressCentralisation {
+                self.lblDeliveryAddress.text = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(deliveryAddress)
+            } else {
+                let formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress) : deliveryAddress.locationName + deliveryAddress.address
+                
+                self.lblDeliveryAddress.text = formatAddressStr
+            }
         }else{
             self.lblDeliveryAddress.text = ""
         }

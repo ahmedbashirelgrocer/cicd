@@ -43,7 +43,7 @@ class SecondCheckoutVC: UIViewController {
    
     
     var viewModel: SecondaryViewModel!
-    
+    var identifyEventLogged: Bool = false
     var activeAddressObj : DeliveryAddress?
     var selectedPaymentOption: PaymentOption?
     var selectedSlot: DeliverySlot?
@@ -109,7 +109,7 @@ class SecondCheckoutVC: UIViewController {
             // check delivery slot and show popup
             if self.viewModel.getCurrentDeliverySlotId() == nil {
                 showMessage("Please choose a slot to schedule this order.")
-                return
+                return 
             }
             
             let _ = SpinnerView.showSpinnerViewInView(self.view)
@@ -123,17 +123,26 @@ class SecondCheckoutVC: UIViewController {
                 self.orderPlacement.isForNewOrder = true
                 // orderPlacement.placeOrder()
             }
-            if self.viewModel.getSelectedPaymentOption() == .creditCard, let card = self.viewModel.getCreditCard()?.adyenPaymentMethod {
-                self.paymentWithCard(card, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
-            } else if self.viewModel.getSelectedPaymentOption() == .applePay, let card = self.viewModel.getApplePay(){
-                self.payWithApplePay(selctedApplePayMethod: card, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
-            } else {
-                if self.orderPlacement.isForNewOrder == true {
+            
+            if self.orderPlacement.isForNewOrder == true {
+                if self.viewModel.getSelectedPaymentOption() == .creditCard, let card = self.viewModel.getCreditCard()?.adyenPaymentMethod {
+                    self.paymentWithCard(card, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
+                } else if self.viewModel.getSelectedPaymentOption() == .applePay, let card = self.viewModel.getApplePay(){
+                    self.payWithApplePay(selctedApplePayMethod: card, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
+                } else {
                     self.orderPlacement.generateOrderAndProcessPayment()
+                }
+            } else {
+                if self.viewModel.getSelectedPaymentOption() == .creditCard, let card = self.viewModel.getCreditCard()?.adyenPaymentMethod {
+                    self.paymentWithCard(card, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
+                } else if self.viewModel.getSelectedPaymentOption() == .creditCard, let card = self.viewModel.getApplePay(), self.viewModel.getCreditCard() == nil{
+                    self.payWithApplePay(selctedApplePayMethod: card, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
                 } else {
                     self.orderPlacement.generateEditOrderAndProcessPayment()
                 }
             }
+            
+            
             
             self.orderPlacement.orderPlaced = { [weak self] order, error, apiResponse in
                 guard let self = self else { return }
@@ -146,9 +155,22 @@ class SecondCheckoutVC: UIViewController {
             
                 guard order != nil else { return }
                 
+                let elwalletBalance = self.viewModel.basketDataValue?.elWalletBalance ?? 0.00
+                let elwalletRedeem = self.viewModel.basketDataValue?.elWalletRedeem ?? 0.00
+                
+                if elwalletRedeem > 0 {
+                    var elwalletTotalBalance = elwalletBalance - elwalletRedeem
+                    if elwalletTotalBalance <= 0.00 {
+                        elwalletTotalBalance = 0.00
+                    }
+                    logIdentifyEventWithElwalletBalance(balance: elwalletTotalBalance)
+                }
+                self.clearUserDefaultsForPromo()
+                
+                
                 func logPurchaseEvents() {
                     self.viewModel.setRecipeCartAnalyticsAndRemoveRecipe()
-                    ElGrocerUtility.sharedInstance.delay(0.5) {
+                    ElGrocerUtility.sharedInstance.delay(0.5) { 
                         
                         ElGrocerEventsLogger.sharedInstance.recordPurchaseAnalytics(
                             finalOrderItems:self.viewModel.getShoppingItems() ?? []
@@ -249,9 +271,26 @@ class SecondCheckoutVC: UIViewController {
         self.pinView.configureWith(detail: UserMapPinAdress.init(nickName: address?.nickName ?? "",address: addressString, addressImageUrl: address?.addressImageUrl, addressLat: address?.latitude ?? 0.0, addressLng: address?.longitude ?? 0.0))
     }
     
+    func clearUserDefaultsForPromo() {
+        UserDefaults.deleteExclusiveDealsPromo()
+    }
+    
+    func logIdentifyEventWithElwalletBalance(balance: Double) {
+   
+        if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile, walletBalance: String(balance)))
+        }
+    }
+    
     func updateViewAccordingToData(data: BasketDataClass) {
         
         Thread.OnMainThread {
+            if self.identifyEventLogged == false {
+                self.identifyEventLogged = true
+                self.logIdentifyEventWithElwalletBalance(balance: data.elWalletBalance ?? 0.0)
+            }
+            
+            
             self.billView.configure(productTotal: data.productsTotal ?? 0.00, serviceFee: data.serviceFee ?? 0.00, total: data.totalValue ?? 0.00, productSaving: data.totalDiscount ?? 0.00, finalTotal: data.finalAmount ?? 0.00, elWalletRedemed: data.elWalletRedeem ?? 0.00, smilesRedemed: data.smilesRedeem ?? 0.00, promocode: data.promoCode, quantity: data.quantity ?? 0, smilesSubscriber: data.smilesSubscriber ?? false, tabbyRedeem: data.tabbyRedeem)
 
             self.checkoutDeliverySlotView.configure(selectedDeliverySlot: data.selectedDeliverySlot, deliverySlots: self.viewModel.deliverySlots)
@@ -273,9 +312,13 @@ class SecondCheckoutVC: UIViewController {
             self.elWalletView.configure(redeemAmount: data.elWalletRedeem ?? 0.00, primaryPaymentMethodId: data.primaryPaymentTypeID)
             
             // Primary Payment method configuration
-            let paymentOption = self.viewModel.createPaymentOptionFromString(paymentTypeId: data.primaryPaymentTypeID ?? 0)
+            var paymentOption = self.viewModel.createPaymentOptionFromString(paymentTypeId: data.primaryPaymentTypeID ?? 0)
             let isSmilesApplied = (data.smilesRedeem ?? 0) > 0
+            let creditCard = self.viewModel.getCreditCard()
             // Checkout button configuration
+            if paymentOption == .creditCard && creditCard == nil {
+                paymentOption = .applePay
+            }
             self.checkoutButtonView.configure(paymentOption: paymentOption, points: self.viewModel.getBurnPointsFromAed(), amount: data.finalAmount ?? 0.00, aedSaved: data.productsSaving ?? 0.00, earnSmilePoints: data.smilesEarn ?? 0, promoCode: data.promoCode, isSmileOn: isSmilesApplied)
             
             // Showing tabby limit reach message
@@ -404,7 +447,14 @@ class SecondCheckoutVC: UIViewController {
         UserDefaults.resetEditOrder()
     
         self.resetLocalDBData(order)
-       
+        
+        if ElGrocerUtility.isAddressCentralisation {
+            DeliveryAddress
+                .getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                .forEach { $0.isSmilesDefault = $0.isActive }
+            DatabaseHelper.sharedInstance.saveDatabase()
+        }
+        
         let viewModel = OrderConfirmationViewModel(OrderStatusMedule(), orderId: order.dbID.stringValue, true)
         let orderConfirmationController = OrderConfirmationViewController.make(viewModel: viewModel)
         self.navigationController?.pushViewController(orderConfirmationController, animated: true)
@@ -499,10 +549,9 @@ private extension SecondCheckoutVC {
                     }
                     
                     var price = product.price.doubleValue
-                    if product.promoPrice?.doubleValue ?? 0 > 0 {
-                        price = product.promoPrice?.doubleValue ?? 0
-                    }
-                    
+//                    if product.promoPrice?.doubleValue ?? 0 > 0 {
+//                        price = product.promoPrice?.doubleValue ?? 0
+//                    }
                     return TopSortEvent.Item(productId: product.productId.stringValue,
                                              unitPrice: price,
                                              quantity: quantity)
@@ -646,6 +695,11 @@ extension SecondCheckoutVC: PromocodeDelegate {
 extension SecondCheckoutVC : MapPinViewDelegate, LocationMapViewControllerDelegate {
     
     func changeButtonClickedWith(_ currentDetails: UserMapPinAdress?) -> Void {
+        if ElGrocerUtility.isAddressCentralisation {
+            let isEditOrder = (self.viewModel.getOrderId() ?? "").isNotEmpty
+            EGAddressSelectionBottomSheetViewController.showInBottomSheet(self.viewModel.getGrocery(), mapDelegate: self.mapDelegate, presentIn: self, isFromCheckout: true, isEditOrder: isEditOrder)
+            return
+        }
         EGAddressSelectionBottomSheetViewController.showInBottomSheet(self.viewModel.getGrocery(), mapDelegate: self.mapDelegate, presentIn: self)
     }
     
@@ -672,6 +726,11 @@ extension SecondCheckoutVC : MapPinViewDelegate, LocationMapViewControllerDelega
         }
        // self.pinView.configureWith(detail: UserMapPinAdress.init(address: address.address, addressImageUrl: address.addressImageUrl, addressLat: address.latitude , addressLng: address.longitude))
        // self.viewModel.setGroceryAndAddressAndRefreshData(grocery, deliveryAddress: address)
+        if ElGrocerUtility.isAddressCentralisation {
+            if (self.navigationController?.viewControllers.last as? DashboardLocationViewController) != nil {
+                self.navigationController?.popViewController(animated: false)
+            }
+        }
         self.navigationController?.popViewController(animated: true)
     }
     

@@ -17,13 +17,23 @@ enum ElgrocerStoreHeaderDismissType {
 }
 
 class ElgrocerStoreHeader:  UIView  {
-    
-    let headerMaxHeight: CGFloat = 125
-    let headerMinHeight: CGFloat = 125
-   // var oncePresesion = false
+    var showLocationChange = false
+    var headerMaxHeight: CGFloat { showLocationChange ? 170 : 125 }
+    var headerMinHeight: CGFloat = 125
     
     private var dimisType: ElgrocerStoreHeaderDismissType = .dismisSDK
-   @IBOutlet weak var elgrocerLogoImgView: UIImageView! {
+    
+    @IBOutlet weak var btnChangeLocation: UIButton! { didSet {
+        btnChangeLocation.setTitle(localizedString("changelocation_button", comment: ""), for: .normal)
+    }}
+    @IBOutlet weak var btnArrow: UIImageView! { didSet {
+        btnArrow.image = LanguageManager.sharedInstance.getSelectedLocale() == "ar" ? UIImage(name: "LeftArrow"):UIImage(name: "RightArrow")
+    }}
+    @IBOutlet weak var msgFarAway: UILabel! { didSet {
+        msgFarAway.text = localizedString("Looks like you're too far away.", comment: "")
+    }}
+    
+    @IBOutlet weak var elgrocerLogoImgView: UIImageView! {
         
         didSet {
             var image = UIImage(name: "elGrocerLogo")!
@@ -131,7 +141,7 @@ class ElgrocerStoreHeader:  UIView  {
         self.changeLocation()
     }
     
- 
+    @IBOutlet weak var viewToolTip: AWView!
     @objc func btnBackPressed() {
         if ((UIApplication.topViewController()  as? MainCategoriesViewController) != nil) && sdkManager.isOncePerSession == false {
             sdkManager.isOncePerSession = true
@@ -205,6 +215,8 @@ class ElgrocerStoreHeader:  UIView  {
     
     var localLoadedAddress: LocalDeliverAddress?
     var loadedAddress : DeliveryAddress?
+    
+    var changeLocationButtonHandler: (()->())?
 
     typealias tapped = (_ isShoppingTapped: Bool)-> Void
    
@@ -243,13 +255,21 @@ class ElgrocerStoreHeader:  UIView  {
             return
         }
         
-        var addressString = ""
-        if let nickName = location.nickName, nickName.count > 0 {
-            addressString = "\(nickName):"
+        if ElGrocerUtility.isAddressCentralisation {
+            self.lblLocation.text = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(location)
+        } else {
+            var addressString = ""
+            if let nickName = location.nickName, nickName.count > 0 {
+                addressString = "\(nickName):"
+            }
+            addressString = addressString + (ElGrocerUtility.sharedInstance.getFormattedAddress(location).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(location) : location.locationName + location.address)
+            
+            self.lblLocation.text = addressString
         }
-        addressString = addressString + (ElGrocerUtility.sharedInstance.getFormattedAddress(location).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(location) : location.locationName + location.address)
-        
-        self.lblLocation.text = addressString
+    }
+    
+    func configureLocationChangeToolTip(show: Bool) {
+        self.showLocationChange = show
     }
     
     func callSendBird(){
@@ -261,6 +281,11 @@ class ElgrocerStoreHeader:  UIView  {
         sendBirdDeskManager.setUpSenBirdDeskWithCurrentUser()
     }
     
+    @IBAction func changeLocationButtonTap(_ sender: Any) {
+        if let changeLocationButtonHandler = self.changeLocationButtonHandler {
+            changeLocationButtonHandler()
+        }
+    }
     
     func navigationBarSearchTapped() {
         //  print("Implement in controller")

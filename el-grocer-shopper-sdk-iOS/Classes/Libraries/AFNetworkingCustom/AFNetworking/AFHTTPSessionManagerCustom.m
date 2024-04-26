@@ -282,7 +282,9 @@
                         downloadProgress:downloadProgress
                        completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
         if (error) {
+#if DEBUG
             NSLog(@"\nAPICALL_%@(Error): %@%@\nPARAMS:%@\nError:%@", method, self.baseURL, URLString, parameters,error);
+#endif
             if (failure) {
                 [[NSNotificationCenter defaultCenter]
                  postNotificationName:@"api-error"
@@ -290,7 +292,9 @@
                 failure(dataTask, error);
             }
         } else {
-            NSLog(@"\nAPICALL_%@(Success): %@%@\nPARAMS:%@", method, self.baseURL, URLString, parameters);
+#if DEBUG
+            NSLog(@"\nAPICALL_%@(Success): %@%@\nPARAMS:%@,Header:%@,Response:%@", method, self.baseURL, URLString, parameters, headers, responseObject);
+#endif
             if (success) {
                 
                 if ([responseObject isMemberOfClass:[NSDictionary class]]) {

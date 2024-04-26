@@ -14,22 +14,18 @@ class SmilesPointsViewController: UIViewController {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var slider: UISlider!
-    @IBOutlet weak var lblSmilesPointsRedeemed: UILabel!
     @IBOutlet weak var lblMinAED: UILabel!
     @IBOutlet weak var lblMinPoints: UILabel!
     @IBOutlet weak var lblAvailableAED: UILabel!
     @IBOutlet weak var lblAvailablePoints: UILabel!
     @IBOutlet weak var confirmButton: AWButton!
-    @IBOutlet weak var viewSmilesRedeemed: AWView!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var lblAmountDue: UILabel!
     @IBOutlet weak var lblRemaningAmount: UILabel!
-    
-    @IBOutlet weak var lblRedeemText: UILabel! // Text
-    @IBOutlet weak var lblPointsText: UILabel! // Text
     @IBOutlet weak var lblAmountDueText: UILabel!
     @IBOutlet weak var lblAmountRemaningText: UILabel!
-    
+    @IBOutlet weak var lblError: UILabel!
+    @IBOutlet weak var tfRedeemAmount: PaddedLeftRightViewTextField!
     @IBOutlet weak var lblLowerLimitAEDs: UILabel!
     @IBOutlet weak var lblLowerLimitPts: UILabel!
     
@@ -72,14 +68,31 @@ class SmilesPointsViewController: UIViewController {
 fileprivate extension SmilesPointsViewController {
     func setupViews() {
         slider.setThumbImage(UIImage(name: "smileLogo"), for: .normal)
+        slider.minimumValue = 0
+        tfRedeemAmount.keyboardType = .numberPad
+        tfRedeemAmount.textAlignment = .right
+        tfRedeemAmount.leftView = {
+            let label = UILabel()
+            label.text = localizedString("redeem_funds_text", comment: "")
+            label.setCaptionOneRegDarkStyle()
+            return label
+        }()
+        
+        tfRedeemAmount.rightView = {
+            let label = UILabel()
+            label.text = localizedString("smile_point_unit", comment: "")
+            label.setBody1RegPlaceholderStyle()
+            return label
+        }()
+        tfRedeemAmount.leftViewMode = .always
+        tfRedeemAmount.rightViewMode = .always
+        tfRedeemAmount.delegate = self
     }
     
     func setupTheme() {
         lblTitle.setH4SemiBoldSmilesStyle()
         lblDescription.setCaptionTwoRegDarkStyle()
-        lblRedeemText.setCaptionOneRegDarkStyle()
-        lblSmilesPointsRedeemed.setBody1RegDarkStyle()
-        lblPointsText.setBody1RegPlaceholderStyle()
+        tfRedeemAmount.setBody1RegStyle()
         lblMinAED.setCaptionOneRegSmilesStyle()
         lblAvailableAED.setCaptionOneRegSmilesStyle()
         lblMinPoints.setCaptionOneSemiBoldSmilesStyle()
@@ -92,6 +105,7 @@ fileprivate extension SmilesPointsViewController {
         lblRemaningAmount.setCaptionOneRegDarkStyle()
         lblAmountDueText.setCaptionOneRegDarkStyle()
         lblAmountRemaningText.setCaptionOneRegDarkStyle()
+        lblError.setCaptionOneRegErrorStyle()
         
         confirmButton.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
         
@@ -106,14 +120,24 @@ fileprivate extension SmilesPointsViewController {
             self.lblDescription.text = strings.description
             self.lblAmountDueText.text = strings.amountDue
             self.lblAmountRemaningText.text = strings.amountRemaining
-            self.lblRedeemText.text = strings.redeemPoints
-            self.lblPointsText.text = strings.points
             self.confirmButton.setTitle(strings.confirmButtonTitle, for: .normal)
             
         }).disposed(by: disposeBag)
         
         viewModel.outputs.smilesPointsRedeemed
-            .bind(to: lblSmilesPointsRedeemed.rx.text)
+            .bind(to: tfRedeemAmount.rx.text)
+            .disposed(by: disposeBag)
+        
+        viewModel.outputs.error
+            .subscribe(onNext: { [weak self] error in
+                guard let self = self else { return }
+                self.lblError.isHidden = false
+                self.lblError.text = error
+                
+                let errorLabelPadding = 12.0
+                let height = error?.heightOfString(withConstrainedWidth: ScreenSize.SCREEN_WIDTH - 32, font: UIFont.SFProDisplayNormalFont(12)) ?? 0.0
+                self.contentSizeInPopup = CGSize(width: ScreenSize.SCREEN_WIDTH , height: DEFAULT_HEIGHT + height + errorLabelPadding)
+            })
             .disposed(by: disposeBag)
         
         viewModel.outputs.sliderCurrentValue
@@ -167,5 +191,26 @@ fileprivate extension SmilesPointsViewController {
                     self.dismiss(animated: true)
                 }
             }.disposed(by: disposeBag)
+    }
+}
+extension SmilesPointsViewController: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        self.lblError.isHidden = true
+        self.contentSizeInPopup = CGSize(width: ScreenSize.SCREEN_WIDTH , height: DEFAULT_HEIGHT)
+        let currentRedeem = Double(textField.text?.removingWhitespaceAndNewlines() ?? "0") ?? 0.00
+        textField.text = currentRedeem == 0 ? "" : textField.text
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == tfRedeemAmount {
+            if let text = textField.text, let textRange = Range(range, in: text) {
+                let updatedText = text.replacingCharacters(in: textRange, with: string)
+                self.viewModel.inputs.textFieldObserver.onNext(updatedText)
+                
+                return updatedText.count <= 9
+            }
+        }
+        
+        return true
     }
 }

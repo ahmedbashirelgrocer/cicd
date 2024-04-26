@@ -1032,7 +1032,7 @@ class MyBasketPlaceOrderVC: UIViewController {
             guard let self = self else {return}
 //            self.goToAddNewCardController()
             self.isPayingBySmilePoints = false
-            AdyenManager.sharedInstance.performZeroTokenization(controller: self)
+            AdyenManager.sharedInstance.performOneAEDTokenization(controller: self)
             AdyenManager.sharedInstance.isNewCardAdded = { (error, response,adyenObj) in
                 if error {
                     if let resultCode = response["resultCode"] as? String {

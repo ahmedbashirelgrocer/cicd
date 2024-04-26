@@ -15,41 +15,44 @@ public class FlavorAgent {
         startAnimation?()
         SDKManager.shared.startBasicThirdPartyInit()
         ElgrocerPreloadManager.shared.loadInitialDataWithOutHomeCalls(launchOptions) {
-            if let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                _ = FlavorsClient.init(address: address, launchOptions.language, loadCompletion: { isLoaded, grocery in
-                    
-                    let deepLinkPayload = launchOptions.deepLinkPayload ?? ""
-                    let pushPayload = launchOptions.pushNotificationPayload?["elgrocerMap"]?.description.isEmpty ?? false
-                                        
-                    if grocery == nil { //&& deepLinkPayload == "" && pushPayload == false {
-                        var updatedLaunchOptions = launchOptions
-                        updatedLaunchOptions.marketType = .marketPlace
-                        ElGrocer.start(with: updatedLaunchOptions)
-                        completion?(true)
-                    } else {
-                        ElGrocer.startEngineForFlavourStore(with: grocery, isLoaded: isLoaded, completion: nil)
-                        completion?(isLoaded)
-                        return
-                    }
-                })
-            } else {
-                _ = FlavorsClient.init(launchOptions: launchOptions, loadCompletion: { isLoaded, grocery in
-                    guard let isLoaded = isLoaded else { return }
-                    
-                    let deepLinkPayload = launchOptions.deepLinkPayload ?? ""
-                    let pushPayload = launchOptions.pushNotificationPayload?["elgrocerMap"]?.description.isEmpty ?? false
-                    
-                    if grocery == nil { //&& deepLinkPayload == "" && pushPayload == false {
-                        var updatedLaunchOptions = launchOptions
-                        updatedLaunchOptions.marketType = .marketPlace
-                        ElGrocer.start(with: updatedLaunchOptions)
-                        completion?(true)
-                    } else {
-                        ElGrocer.startEngineForFlavourStore(with: grocery, isLoaded: isLoaded, completion: nil)
-                        completion?(isLoaded)
-                        return
-                    }
-                })
+            DispatchQueue.main.async {
+                if let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+                    print("SingleStoreActiveAddress: \(address.nickName)")
+                    _ = FlavorsClient.init(address: address, launchOptions.language, loadCompletion: { isLoaded, grocery in
+                        
+                        let deepLinkPayload = launchOptions.deepLinkPayload ?? ""
+                        let pushPayload = launchOptions.pushNotificationPayload?["elgrocerMap"]?.description.isEmpty ?? false
+                                            
+                        if grocery == nil { //&& deepLinkPayload == "" && pushPayload == false {
+                            var updatedLaunchOptions = launchOptions
+                            updatedLaunchOptions.marketType = .marketPlace
+                            ElGrocer.start(with: updatedLaunchOptions)
+                            completion?(true)
+                        } else {
+                            ElGrocer.startEngineForFlavourStore(with: grocery, isLoaded: isLoaded, completion: nil)
+                            completion?(isLoaded)
+                            return
+                        }
+                    })
+                } else {
+                    _ = FlavorsClient.init(launchOptions: launchOptions, loadCompletion: { isLoaded, grocery in
+                        guard let isLoaded = isLoaded else { return }
+                        
+                        let deepLinkPayload = launchOptions.deepLinkPayload ?? ""
+                        let pushPayload = launchOptions.pushNotificationPayload?["elgrocerMap"]?.description.isEmpty ?? false
+                        
+                        if grocery == nil { //&& deepLinkPayload == "" && pushPayload == false {
+                            var updatedLaunchOptions = launchOptions
+                            updatedLaunchOptions.marketType = .marketPlace
+                            ElGrocer.start(with: updatedLaunchOptions)
+                            completion?(true)
+                        } else {
+                            ElGrocer.startEngineForFlavourStore(with: grocery, isLoaded: isLoaded, completion: nil)
+                            completion?(isLoaded)
+                            return
+                        }
+                    })
+                }
             }
         }
     }

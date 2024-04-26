@@ -42,7 +42,8 @@ class AccountDeletionReasonsVC: UIViewController, NavigationBarProtocol {
             (self.navigationController as? ElGrocerNavigationController)?.actiondelegate = self
             self.title = localizedString("delete_account", comment: "")
             if sdkManager.isShopperApp {
-                self.addWhiteBackButton()
+                //self.addWhiteBackButton()
+                self.addBackButton(isGreen: false, true)
             }else {
                 self.addBackButton(isGreen: false)
             }

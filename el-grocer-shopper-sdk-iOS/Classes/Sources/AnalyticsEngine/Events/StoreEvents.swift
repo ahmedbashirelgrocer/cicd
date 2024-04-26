@@ -37,14 +37,13 @@ enum StoreComponentMarketingEnablers: String {
     case All_Available_Stores = "All Available Stores"
     case none = "None"
 }
-
+//position is set to -1 for search and other controllers to represent no position
+//position will only be sent for home page and view all retailers
 struct StoreClickedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    
-    
-    init(grocery: Grocery, source: String?, section: StoreComponentMarketingEnablers) {
+    init(grocery: Grocery, source: String?, section: StoreComponentMarketingEnablers, position: Int = -1) {
         self.eventType = .track(eventName: AnalyticsEventName.storeClicked)
         self.metaData = [
             EventParameterKeys.retailerID       : grocery.dbID,
@@ -53,7 +52,8 @@ struct StoreClickedEvent: AnalyticsEventDataType {
             EventParameterKeys.parentId         : grocery.parentID.stringValue,
             EventParameterKeys.typesStoreID     : grocery.retailerType.stringValue,
             EventParameterKeys.address          : grocery.address ?? "",
-            EventParameterKeys.marketingEnablers  : section.rawValue
+            EventParameterKeys.marketingEnablers  : section.rawValue,
+            EventParameterKeys.position  : String(position)
         ]
         if source != nil {self.metaData?[EventParameterKeys.source] = source}
     }

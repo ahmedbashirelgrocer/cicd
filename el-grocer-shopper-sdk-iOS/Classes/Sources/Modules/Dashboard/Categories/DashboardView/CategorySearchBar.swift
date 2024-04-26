@@ -31,7 +31,7 @@ class CategorySearchBar: UIView {
         super.awakeFromNib()
         // Initialization code
 
-        self.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+        self.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
 
         self.setUpSearchViewAppearance()
     }

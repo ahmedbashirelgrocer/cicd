@@ -14,6 +14,7 @@ class DownloadPDFCell: UITableViewCell {
             btnDownload.setBody3BoldSecondaryDarkGreenColorStyle()
             btnDownload.setTitle(localizedString("Download tax invoice", comment: ""), for: .normal)
             btnDownload.setImage(UIImage(name: sdkManager.isSmileSDK ? "pdf_icon_purple" :  "pdf_icon"), for: .normal)
+            btnDownload.tintColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
 //            if #available(iOS 13.0, *) {
 //                btnDownload.imageView?.tintColor = ApplicationTheme.currentTheme.themeBaseSecondaryDarkColor
 //            }

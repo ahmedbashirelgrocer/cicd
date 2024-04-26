@@ -34,13 +34,16 @@ class AddAddressCell: UITableViewCell {
     
     func configureWithLocation (_ location : DeliveryAddress) {
         
-        let adr = ElGrocerUtility.sharedInstance.getFormattedAddress(location)
-        if adr.count > 0 && location.phoneNumber?.count ?? 0 > 0 {
-            self.locationTitle.text =  (location.phoneNumber ?? "") + "\n" + ElGrocerUtility.sharedInstance.getFormattedAddress(location)
-        }else if location.phoneNumber?.count ?? 0 == 0 {
-            self.locationTitle.text =  ElGrocerUtility.sharedInstance.getFormattedAddress(location)
+        if ElGrocerUtility.isAddressCentralisation {
+            self.locationTitle.text =  ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(location)
+        } else {
+            let adr = ElGrocerUtility.sharedInstance.getFormattedAddress(location)
+            if adr.count > 0 && location.phoneNumber?.count ?? 0 > 0 {
+                self.locationTitle.text =  (location.phoneNumber ?? "") + "\n" + ElGrocerUtility.sharedInstance.getFormattedAddress(location)
+            }else if location.phoneNumber?.count ?? 0 == 0 {
+                self.locationTitle.text =  ElGrocerUtility.sharedInstance.getFormattedAddress(location)
+            }
         }
-        
         
         if location.isActive.boolValue == true {
             borderContainer.layer.borderColor = ApplicationTheme.currentTheme.primarySelectionColor.cgColor

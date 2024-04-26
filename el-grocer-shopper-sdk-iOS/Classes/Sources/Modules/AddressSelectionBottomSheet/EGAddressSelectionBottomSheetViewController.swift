@@ -40,28 +40,36 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
         }
     }
     
-    
-    private var addressList: [DeliveryAddress] = []
+    private var addressListWithTemporary: [DeliveryAddress] = []
+    private var addressList: [DeliveryAddress] { addressListWithTemporary.filter{ $0.dbID.isNotEmpty } }
     private var isCoverd: [String: Bool] = [:]
     private var activeGrocery: Grocery? = nil
     private weak var mapDelegate : LocationMapDelegation? = nil
     private weak var presentIn : UIViewController? = nil
     private var isSingleStore: Bool = false
     private var locationSelectionHandler: (() -> Void)?
+    private var isFromCheckout: Bool = false
+    private var isEditOrder: Bool = false
     
-    class func showInBottomSheet(_ activeGrocery: Grocery?, mapDelegate: LocationMapDelegation?, presentIn: UIViewController, locationSelectionHandler: (() -> Void)? = nil) {
-        
+    class func showInBottomSheet(_ activeGrocery: Grocery?, mapDelegate: LocationMapDelegation?, presentIn: UIViewController, isFromCheckout: Bool = false, locationSelectionHandler: (() -> Void)? = nil, isEditOrder: Bool = false) {
         
         func showView() {
             
             var addressList = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                .filter{ $0.dbID.isNotEmpty }
             addressList = addressList.sorted(by: { $0.isActive > $1.isActive })
             mapDelegate?.updateAddressList(addressList)
             
             var height = 80 + 16 + 24 + localizedString("eg_choose_delivery_location", comment: "Choose delivery location").heightOfString(withConstrainedWidth: ScreenSize.SCREEN_WIDTH - 32, font:  UIFont.SFProDisplaySemiBoldFont(14))
             addressList.forEach { address in
                 let nickNameHeight = address.nickName?.heightOfString(withConstrainedWidth: ScreenSize.SCREEN_WIDTH - 64, font: UIFont.SFProDisplaySemiBoldFont(14)) ?? 0.0
-                let addressDetailsHeight = ElGrocerUtility.sharedInstance.getFormattedAddress(address).heightOfString(withConstrainedWidth: ScreenSize.SCREEN_WIDTH - 64, font: UIFont.SFProDisplayNormalFont(17))
+                
+                var addressDetailsHeight = 0.0
+                if ElGrocerUtility.isAddressCentralisation {
+                    addressDetailsHeight = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(address).heightOfString(withConstrainedWidth: ScreenSize.SCREEN_WIDTH - 64, font: UIFont.SFProDisplayNormalFont(17))
+                } else {
+                    addressDetailsHeight = ElGrocerUtility.sharedInstance.getFormattedAddress(address).heightOfString(withConstrainedWidth: ScreenSize.SCREEN_WIDTH - 64, font: UIFont.SFProDisplayNormalFont(17))
+                }
                 let defaultAddressTagHeight = address.isActive.boolValue ? localizedString("eg_current_location", comment: "").heightOfString(usingFont: UIFont.SFProDisplaySemiBoldFont(11)) : 0
                 let paddings = 24.0
                 
@@ -73,9 +81,11 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
                 height = ScreenSize.SCREEN_HEIGHT * 0.7
             }
             let addressView = EGAddressSelectionBottomSheetViewController.init(nibName: "EGAddressSelectionBottomSheetViewController", bundle: .resource)
+            addressView.isEditOrder = isEditOrder
             addressView.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(height))
             addressView.configure(addressList, activeGrocery, mapDelegate: mapDelegate, presentIn: presentIn)
             addressView.locationSelectionHandler = locationSelectionHandler
+            addressView.isFromCheckout = isFromCheckout
             
             let popupController = STPopupController(rootViewController: addressView)
             popupController.navigationBarHidden = true
@@ -87,10 +97,9 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
             popupController.present(in: presentIn)
             
         }
-    
+        
         let profile = UserProfile.getOptionalUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        let addressList = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        if addressList.count < 2 && profile != nil {
+        if ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch && profile != nil { // Need to update this condition
             _ = SpinnerView.showSpinnerViewInView(presentIn.view)
             ElGrocerApi.sharedInstance.getDeliveryAddresses({ (result:Bool, responseObject:NSDictionary?) -> Void in
                 if result {
@@ -101,6 +110,8 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
                         showView()
                         SpinnerView.hideSpinnerView()
                     })
+                    ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch = false
+                    _ = ElGrocerUtility.setDefaultAddress()
                 } else {
                     showView()
                     SpinnerView.hideSpinnerView()
@@ -145,7 +156,7 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
     func configure(_ address: [DeliveryAddress], _ activeGrocery: Grocery? = nil, mapDelegate: LocationMapDelegation?, presentIn: UIViewController?, _ isSingleStore : Bool = SDKManager.shared.isGrocerySingleStore) {
         
         self.isSingleStore = isSingleStore
-        self.addressList = address
+        self.addressListWithTemporary = address
         self.activeGrocery = activeGrocery
         self.mapDelegate = mapDelegate
         self.presentIn = presentIn
@@ -166,6 +177,55 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
     }
     
     @IBAction func chooseLocationAction(_ sender: Any) {
+        
+        let locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext).filter{ $0.dbID.isNotEmpty }
+        if ElGrocerUtility.isAddressCentralisation && locations.count >= ElGrocerUtility.sharedInstance.appConfigData.sdkMaxAddressLimit {
+            
+            let message = localizedString("eg_message_max_address_limit", comment: "")
+            let positiveButton = localizedString("manage_address", comment: "")
+            let negativeButton = localizedString("promo_code_alert_no", comment: "")
+            
+            if isFromCheckout {
+                
+                ElGrocerAlertView.createAlert(localizedString(message, comment: ""),
+                                              description: nil,
+                                              positiveButton: positiveButton,
+                                              negativeButton: negativeButton) { [weak self] actionID in
+                    guard let self = self else { return }
+                    if actionID == 0 {
+                        self.dismiss(animated: true) {
+                            let locationVC = ElGrocerViewControllers.dashboardLocationViewController()
+                            locationVC.isEditOrderFlow = self.isEditOrder
+                            locationVC.isFromCart = true
+                            locationVC.completionAddressSelection = { location in
+                                ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(location) {[weak self] isAdded in
+                                    self?.dismissPopUpVc()
+                                    self?.mapDelegate?.locationSelectedAddress(location, grocery: ElGrocerUtility.sharedInstance.activeGrocery)
+//                                    ((sdkManager.rootViewController as? UITabBarController) ?? ((sdkManager.rootViewController as? UINavigationController)?.viewControllers.first) as? UITabBarController)?.selectedIndex = 0
+                                }
+                            }
+                            self.presentIn?.navigationController?.pushViewController(locationVC, animated: true)
+                        }
+                    }
+                }.show()
+            } else {
+                
+                ElGrocerAlertView.createAlert(localizedString(message, comment: ""),
+                                              description: nil,
+                                              positiveButton: positiveButton,
+                                              negativeButton: negativeButton) { [weak self] actionID in
+                    guard let self = self else { return }
+                    if actionID == 0 {
+                        self.dismiss(animated: true) {
+                            let locationVC = ElGrocerViewControllers.dashboardLocationViewController()
+                            self.presentIn?.navigationController?.pushViewController(locationVC, animated: true)
+                        }
+                    }
+                }.show()
+            }
+            
+            return
+        }
         
         let locationMapController = ElGrocerViewControllers.locationMapViewController()
         if let delegate = self.mapDelegate
@@ -302,7 +362,7 @@ extension EGAddressSelectionBottomSheetViewController : LocationMapViewControlle
                 deliveryAddress.isActive = NSNumber(value: true as Bool)
                 UserDefaults.setDidUserSetAddress(true)
                 DatabaseHelper.sharedInstance.saveDatabase()
-                self.addressList = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                self.addressListWithTemporary = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 controller.dismiss(animated: true)
                 self.tableView.reloadDataOnMain()
             } else {
@@ -317,9 +377,22 @@ extension EGAddressSelectionBottomSheetViewController : LocationMapViewControlle
                     ElGrocerApi.sharedInstance.addDeliveryAddress(deliveryAddress, completionHandler: { (result:Bool, responseObject:NSDictionary?) -> Void in
                         SpinnerView.hideSpinnerView()
                         if result {
-                            let addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
-                            let dbID = addressDict["id"] as! NSNumber
-                            let dbIDString = "\(dbID)"
+                            
+                            var addressDict: NSDictionary!
+                            if ElGrocerUtility.isAddressCentralisation {
+                                addressDict = responseObject!["data"] as? NSDictionary
+                            } else {
+                                addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
+                            }
+
+                            var dbIDString: String!
+                            if ElGrocerUtility.isAddressCentralisation {
+                                dbIDString = addressDict["smiles_address_id"] as? String ?? ""
+                            } else {
+                                let dbID = addressDict["id"] as! NSNumber
+                                dbIDString = "\(dbID)"
+                            }
+                            
                             deliveryAddress.dbID = dbIDString
                             if userProfile != nil {
                                   let newAddress = DeliveryAddress.insertOrUpdateDeliveryAddressForUser(userProfile!, fromDictionary: addressDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)

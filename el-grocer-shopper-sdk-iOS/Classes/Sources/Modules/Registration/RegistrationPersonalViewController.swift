@@ -529,7 +529,7 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
                             }else{
                                 let dashboardLocationVC = ElGrocerViewControllers.dashboardLocationViewController()
                                 dashboardLocationVC.isRootController = false
-                                dashboardLocationVC.isFormCart = self.isFromCart
+                                dashboardLocationVC.isFromCart = self.isFromCart
                                 self.navigationController?.pushViewController(dashboardLocationVC, animated: true)
                             }
                            
@@ -718,7 +718,12 @@ class RegistrationPersonalViewController: RegistrationViewController, Form, Loca
             
             if result == true {
                 
-                let addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
+                var addressDict: NSDictionary!
+                if ElGrocerUtility.isAddressCentralisation == false {
+                    addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
+                } else {
+                    addressDict = responseObject!["data"] as? NSDictionary
+                }
                 
                 let currentAddress = DeliveryAddress.insertOrUpdateDeliveryAddressForUser(forUser, fromDictionary: addressDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 let _ = DeliveryAddress.setActiveDeliveryAddress(currentAddress, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)

@@ -174,6 +174,32 @@ public class UserDefaults {
     
     // MARK: Tutorial screen
     
+    class func getExclusiveDealsPromo() -> (code: String, retailerId: String){
+        
+
+        let data =  Foundation.UserDefaults.standard.value(forKey: "exclusiveDealsPromo") as? [String : Any] ?? [:]
+        
+        let code = data["code"] as? String ?? ""
+        let retailerId = data["retailer_id"] as? String ?? ""
+        
+        return (code,retailerId)
+    }
+    
+    class func setExclusiveDealsPromo(promo: ExclusiveDealsPromoCode) {
+        
+        var data: [String: Any] = ["code": promo.code ?? "", "retailer_id": String(promo.retailer_id ?? 0) ]
+        Foundation.UserDefaults.standard.set(data, forKey: "exclusiveDealsPromo")
+        Foundation.UserDefaults.standard.synchronize()
+    }
+    
+    class func deleteExclusiveDealsPromo() {
+        
+        Foundation.UserDefaults.standard.removeObject(forKey: "exclusiveDealsPromo")
+        Foundation.UserDefaults.standard.synchronize()
+    }
+    
+    // MARK: Tutorial screen
+    
     class func wasTutorialImageShown(_ tutorialImage:TutorialView.TutorialImage) -> Bool {
         
         let imageName = "\(tutorialImage)"
@@ -383,6 +409,24 @@ public class UserDefaults {
     class func getLastSearchList() -> String? {
         return Foundation.UserDefaults.standard.string(forKey: "searchList")
     }
+    
+    class func getEditOrderForRetailer(retailerID: String) -> NSNumber? {
+        let marketType = sdkManager.isShopperApp ? 0 : sdkManager.isGrocerySingleStore ? 1 : 2
+        let key = "\(retailerID)_\(marketType)"
+        
+        let orderIDsDictionary = Foundation.UserDefaults.standard.dictionary(forKey: "order_ids_dictionary") as? [String: NSNumber] ?? [:]
+        return orderIDsDictionary[key]
+    }
+    
+    class func setEditOrderForRetailer(retailerID: String, orderID: NSNumber?) {
+        let marketType = sdkManager.isShopperApp ? 0 : sdkManager.isGrocerySingleStore ? 1 : 2
+        let key = "\(retailerID)_\(marketType)"
+        
+        var orderIDsDictionary = Foundation.UserDefaults.standard.dictionary(forKey: "order_ids_dictionary") as? [String: NSNumber] ?? [:]
+        orderIDsDictionary[key] = orderID
+        Foundation.UserDefaults.standard.set(orderIDsDictionary, forKey: "order_ids_dictionary")
+    }
+    
     //MARK:- Edit Order
     class func setEditOrder(_ order : Order)  {
         guard order.dbID.stringValue.isEmpty else {
@@ -390,7 +434,7 @@ public class UserDefaults {
             let reason = Reasons.init(key: reasonKey, reason: "")
             let reasonData = try? NSKeyedArchiver.archivedData(withRootObject: reason , requiringSecureCoding: false)
             UserDefaults.setSelectedReason(reasonData)
-            Foundation.UserDefaults.standard.set( order.dbID , forKey: "editOrderID")
+//            Foundation.UserDefaults.standard.set( order.dbID , forKey: "editOrderID")
             Foundation.UserDefaults.standard.set( Date().dataInCurrent() , forKey: "editOrderDate")
             Foundation.UserDefaults.standard.set((order.cardType == "7" || order.cardType == "8"), forKey: "isApplePay")
             UserDefaults.setLeaveUsNote(order.orderNote)
@@ -409,8 +453,7 @@ public class UserDefaults {
             if let paymentType = order.payementType {
                 UserDefaults.setPaymentMethod(UInt32(paymentType.int32Value), forStoreId: ElGrocerUtility.sharedInstance.cleanGroceryID(order.dbID.stringValue))
             }
-            
-            
+            UserDefaults.setEditOrderForRetailer(retailerID: order.grocery.dbID, orderID: order.dbID)
             return
         }
     }
@@ -425,11 +468,15 @@ public class UserDefaults {
     }
     
     class func resetEditOrder(_ isNeedToResetPromo : Bool = true)  {
-        Foundation.UserDefaults.standard.removeObject(forKey: "editOrderID")
+//        Foundation.UserDefaults.standard.removeObject(forKey: "editOrderID")
         Foundation.UserDefaults.standard.removeObject(forKey: "editOrderDate")
         Foundation.UserDefaults.standard.removeObject(forKey: "DeliverySlotId")
         Foundation.UserDefaults.standard.removeObject(forKey: "DeliverySlotObj")
         Foundation.UserDefaults.standard.removeObject(forKey: "isApplePay")
+        
+        if let activeGroceryID = ElGrocerUtility.sharedInstance.activeGrocery {
+            UserDefaults.setEditOrderForRetailer(retailerID: activeGroceryID.dbID, orderID: nil)
+        }
         
         if isNeedToResetPromo {
             UserDefaults.setLeaveUsNote(nil)
@@ -439,18 +486,29 @@ public class UserDefaults {
         UserDefaults.setEditOrderSelectedDelivery(nil)
     }
     class func isOrderInEdit() -> Bool  {
-        if let orderiD = Foundation.UserDefaults.standard.string(forKey: "editOrderID") {
-            if !orderiD.isEmpty {
-                return true
-            }
+        
+        if let activeGroceryID = ElGrocerUtility.sharedInstance.activeGrocery {
+            let orderID = UserDefaults.getEditOrderForRetailer(retailerID: activeGroceryID.dbID)
+            return orderID != nil && orderID?.stringValue != ""
         }
+//        if let orderiD = Foundation.UserDefaults.standard.string(forKey: "editOrderID") {
+//            if !orderiD.isEmpty {
+//                return true
+//            }
+//        }
         return false
     }
     class func getEditOrderDate () -> Date? {
         return Foundation.UserDefaults.standard.object(forKey: "editOrderDate") as? Date
     }
     class func getEditOrderDbId () -> NSNumber? {
-        return Foundation.UserDefaults.standard.object(forKey: "editOrderID") as? NSNumber
+        if let activeGroceryID = ElGrocerUtility.sharedInstance.activeGrocery {
+            let orderID = UserDefaults.getEditOrderForRetailer(retailerID: activeGroceryID.dbID)
+            return orderID
+        }
+        
+        return nil
+//        return Foundation.UserDefaults.standard.object(forKey: "editOrderID") as? NSNumber
     }
     class func removeOrderFromEdit()  {
        Foundation.UserDefaults.standard.removeObject(forKey: "editOrderID")

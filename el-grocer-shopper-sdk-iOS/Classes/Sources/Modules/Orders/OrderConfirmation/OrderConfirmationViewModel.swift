@@ -164,9 +164,13 @@ private extension OrderConfirmationViewModel {
                         self.orderProgressValueSubject.onNext(self.orderProgressFloatValueWithOrderStatus(latestOrderObj))
                         self.orderStatusStringSubject.onNext(self.getOrderStatus(latestOrderObj))
                         self.orderStatusSubject.onNext(latestOrderObj.getOrderDynamicStatus().getMappingTypeWithOrderStatus())
-                      
-                        let addressString = ElGrocerUtility.sharedInstance.getFormattedAddress(latestOrderObj.deliveryAddress) + latestOrderObj.deliveryAddress.address
-                        self.addressSubject.onNext(addressString)
+                        if ElGrocerUtility.isAddressCentralisation {
+                            let addressString = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(latestOrderObj.deliveryAddress)
+                            self.addressSubject.onNext(addressString)
+                        } else {
+                            let addressString = ElGrocerUtility.sharedInstance.getFormattedAddress(latestOrderObj.deliveryAddress) + latestOrderObj.deliveryAddress.address
+                            self.addressSubject.onNext(addressString)
+                        }
                         self.isNewOrderSubject.onNext(self.isNewOrderLocalObj) // This should be last updated; As it will update constraints to not show irralvent views
                         if self.isNewOrderLocalObj {
                             self.deleteBasketFromServerWithGrocery(latestOrderObj.grocery)

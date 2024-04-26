@@ -6,6 +6,9 @@
   Copyright (c) 2015 RST IT. All rights reserved.
 */
 
+"Looks like you're too far away." = "Different spot than usual.";
+"eg_message_max_address_limit" = "Whoops! You've hit the max number of addresses. To add a new address, update or delete an existing one.";
+"manage_address" = "Manage";
 "Download tax invoice" = " Download tax invoice";
 "smiles_pts" = "%@ pts";
 "earn_rewards_now" = "Earn Smiles Points!";
@@ -824,6 +827,7 @@
 "reorder_close_store_message" = "The store selected for reordering is closed at the moment. Please try later.";
 "reorder_change_location_message" = "Retailer is not available at current location. Please change location to reorder.";
 "edit_Order_change_location_message" = "Retailer is not available at current location. Please change location to edit order.";
+"order_is_no_more_in_edit_msg" = "The 30 mins are up! Your edited order will now be processed as a new order.";
 
 "grand_total" = "Grand total";
 "item_cancelled"                        = "Cancelled";
@@ -1052,7 +1056,7 @@ Smiles points will be returned to your Smiles balance. ";
 
 
 // Order Feedback Questions
-"how_was_your_delivery_title" = "How was your delivery?";
+"how_was_your_delivery_title" = "How would you rate your delivery?";
 
 "feedback_question1_title" = "Did your order arrive on time?";
 "feedback_question1_answer1" = "It was early";
@@ -1385,7 +1389,7 @@ Smiles points will be returned to your Smiles balance. ";
 
 
 "No_Selected_Store_ShopingList"  = "Your Shopping list is empty";
-"No_Selected_Store_Cart" = "Your elGrocer cart is empty";
+"No_Selected_Store_Cart" = "Your cart is empty";
 "No_Selected_Store_Detail_Cart" = "Choose the store on the Homepage \nto fill your shopping list.";
 "No_Item_Cart" = "Add some items to continue shopping";
 "No_Item_Multi_Cart_Empty_View" = "Choose the store to start shopping";
@@ -1407,7 +1411,7 @@ Smiles points will be returned to your Smiles balance. ";
 "order_Note_reason" = "due to exact weights";
 "order_note_label_complete" = "Fresh fruits & vegetables, meat and seafood items prices may vary due to exact weights.";
 
-"edit_Notice" = "You have 30 mins to edit your order, else your last basket will be accepted.";
+"edit_Notice" = "You've got a 30 minutes to edit your order. Feel free to make any adjustments you need within this time.Your order won't be processed until you're ready!";
 
 
 "edit_Notice_intial" = "You have ";
@@ -1440,7 +1444,7 @@ Smiles points will be returned to your Smiles balance. ";
 "lbl_use_current_location" = "Use the current location";
 "lbl_use_Pin_location" = "Use the Pin location";
 "lbl_Manuall_Location" = "Search manually for the new address...";
-"confirm_location_button_title" = "Confirm location";
+"confirm_location_button_title" = "CONFIRM & PROCEED";
 "dashboard_My_ddresses_navigation_bar_title" = "My addresses";
 "order_lbl_numner" = "Order # ";
 "lbl_Payment" = "Payment";
@@ -1466,6 +1470,7 @@ Smiles points will be returned to your Smiles balance. ";
 
 "Someone_else_is_collectiing" = "Someone else is collecting?";
 "Which_car_is_collecting_the_order" = "Which car is collecting the order?";
+"add_product_button_text" = "Add product";
 
 // picker
 "lbl_change_delivery" = "Select your delivery slot";
@@ -1490,7 +1495,7 @@ Smiles points will be returned to your Smiles balance. ";
 
 //address
 "lbl_Note" = "Changing your address might change the current store availability in your selected area.";
-"lbl_add_new_Address" = "Add a new address";
+"lbl_add_new_Address" = "Add new address";
 
 "lbl_chooselocation" = "Choose your location";
 
@@ -1542,14 +1547,14 @@ Add delivery details";
 "lbl_click&Collect_feedback_Q1" = "How was the collection speed?";
 "lbl_click&Collect_feedback_Q2" = "How happy are you with our picker service?";
 "lbl_click&Collect_feedback_Q3" = "How easy was it to find the collection spot?";
-"lbl_click&Collect_feedback_Q4" = "Want to tell us more?";
-"lbl_delivery_feedback_Q1" = "How was your delivery?";
-"lbl_delivery_feedback_Q2" = "Was your order on time?";
+"lbl_click&Collect_feedback_Q4" = "Anything else you’d like to add?";
+"lbl_delivery_feedback_Q1" = "How would you rate your delivery?";
+"lbl_delivery_feedback_Q2" = "Did your order arrive on time?";
 "lbl_delivery_feedback_Q3" = "Are you satisfied with the quality of the items you received?";
 "lbl_delivery_feedback_Q4" = "Are you satisfied with the price of your items?";
-"lbl_delivery_feedback_Q5" = "Want to tell us more?";
-"lbl_delivery_feedback_textView_placeHolder" = "Type to leave us additional information";
-"lbl_delivery_feedback_textView_heading" = "Help us to be better (Optional)";
+"lbl_delivery_feedback_Q5" = "Anything else you’d like to add?";
+"lbl_delivery_feedback_textView_placeHolder" = "Type to leave us a note";
+"lbl_delivery_feedback_textView_heading" = "IN YOUR WORDS, TELL US WHAT YOU LOVE ABOUT THE APP OR WHAT COULD BE BETTER";
 "lbl_delivery_feedback_Q2_A1" = "😀 It was early";
 "lbl_delivery_feedback_Q2_A2" = "🙂 Yes, as expected";
 "lbl_delivery_feedback_Q2_A3" = "😐 No, it was late";
@@ -1558,7 +1563,7 @@ Add delivery details";
 "lbl_delivery_feedback_Q3_A2" = "🙂 Somewhat satisfied";
 "lbl_delivery_feedback_Q3_A3" = "😐 Somewhat dissatisfied";
 "lbl_delivery_feedback_Q3_A4" = "😱 Dissatisfied";
-"lbl_delivery_feedback_Q4_A1" = "😀 It’s cheaper";
+"lbl_delivery_feedback_Q4_A1" = "😀 It’s cheaper than the stone";
 "lbl_delivery_feedback_Q4_A2" = "🙂 It’s as expected";
 "lbl_delivery_feedback_Q4_A3" = "😱 It’s more expensive";
 "btn_feedback_send_title" = "Send";
@@ -2111,7 +2116,7 @@ Oreo";
 
 //MARK: Delivery Slot
 "lbl_next_delivery" = "Next delivery:";
-"delivery_within_60_min" = "Delivery within 60 min ⚡️";
+"delivery_within_60_min" = "⏱️ Delivery within 60 min ⚡️";
 "lbl_next_self_collection" = "Next self-collection:";
 
 //MARK: Order Details
@@ -2349,7 +2354,6 @@ Oreo";
 "amount_due_text" = "Amount due";
 "remaining_amount_text" = "Remaining amount";
 "redeem_funds_text" = "Redeem funds:";
-"el_wallet_entered_amount_more_than_available_error" = "Please enter an amount equal to or lower than the elWallet Balance.";
 "el_wallet_entered_amount_more_than_available_error" = "Please enter an amount equal to or lower than the elWallet Funds.";
 "el_wallet_entered_amount_more_than_bill_error" = "Please enter an amount equal to or lower than the total bill";
 
@@ -2384,4 +2388,12 @@ Oreo";
 "lbl_greeting_good_morning" = "👋 Good Morning";
 "lbl_greeting_good_afternoon" = "👋 Good Afternoon";
 "lbl_greeting_good_evening" = "👋 Good Evening";
-
+"lbl_enjoy_promocode_initial" = "Enjoy your code";
+"lbl_enjoy_promocode_final" = "in checkout";
+"lbl_title_exclusive_deals" = "Exclusive deals";
+"btn_copy_and_shop_title" = "Copy & Shop";
+"btn_start_shoping_title" = "Start Shopping";
+"lbl_greeting_good_morning_shopper" = "Good Morning";
+"lbl_greeting_good_afternoon_shopper" = "Good Afternoon";
+"lbl_greeting_good_evening_shopper" = "Good Evening";
+"smiles_entered_amount_more_than_available_error" = "Please enter an amount equal to or lower than the Smiles points.";

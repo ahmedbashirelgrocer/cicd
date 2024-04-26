@@ -341,7 +341,7 @@ class ElgrocerlocationView:  UIView  {
                 if firstObj.isInstant.boolValue {
 //                    slotString = localizedString("today_title", comment: "") + " " +  localizedString("60_min", comment: "")  + "⚡️"
                     slotString = localizedString("delivery_within_60_min", comment: "")
-                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
                     let attributedString = NSMutableAttributedString(string: slotString , attributes:attrs2 as [NSAttributedString.Key : Any])
                     self.setAttributedValueForSlotOnMainThread(attributedString)
                     self.currentSelectedSlot = firstObj
@@ -349,17 +349,12 @@ class ElgrocerlocationView:  UIView  {
                 }
                 self.currentSelectedSlot = firstObj
                 let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
-                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
                     let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
                     
                     var data = slotString.components(separatedBy: " ")
                     if data.count > 0 {
-                        var dayName = localizedString("lbl_next_delivery", comment: "")
-                        if ElGrocerUtility.sharedInstance.isDeliveryMode {
-                            dayName = localizedString("lbl_next_delivery", comment: "")
-                        }else {
-                            dayName = localizedString("lbl_next_self_collection", comment: "")
-                        }
+                        var dayName = localizedString("", comment: "")
                         let attributedString2 = NSMutableAttributedString(string:dayName as String , attributes:attrs1 as [NSAttributedString.Key : Any])
                         attributedString.append(attributedString2)
                         data.removeFirst()
@@ -389,7 +384,7 @@ class ElgrocerlocationView:  UIView  {
                 if firstObj.isInstant.boolValue {
 //                    slotString = localizedString("today_title", comment: "") + " " +  localizedString("60_min", comment: "")  + "⚡️"
                     slotString = localizedString("delivery_within_60_min", comment: "")
-                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
                     let attributedString = NSMutableAttributedString(string: slotString , attributes:attrs2 as [NSAttributedString.Key : Any])
                     self.setAttributedValueForSlotOnMainThread(attributedString)
                     self.currentSelectedSlot = firstObj
@@ -397,17 +392,12 @@ class ElgrocerlocationView:  UIView  {
                 }
                 self.currentSelectedSlot = firstObj
                 let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
-                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
                 let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
                 
                 var data = slotString.components(separatedBy: " ")
                 if data.count == 0 {
-                    var dayName = localizedString("lbl_next_delivery", comment: "")
-                    if ElGrocerUtility.sharedInstance.isDeliveryMode {
-                        dayName = localizedString("lbl_next_delivery", comment: "")
-                    }else {
-                        dayName = localizedString("lbl_next_self_collection", comment: "")
-                    }
+                    var dayName = localizedString("", comment: "")
                     let attributedString2 = NSMutableAttributedString(string:dayName as String , attributes:attrs1 as [NSAttributedString.Key : Any])
                     attributedString.append(attributedString2)
                     data.removeFirst()
@@ -541,13 +531,16 @@ class ElgrocerlocationView:  UIView  {
             self.lblAddress.text = localizedString("error_-6", comment: "")
             return
         }
-        
-        var addressString = ""
-        if let nickName = address.nickName, nickName.count > 0 {
-            addressString = "\(nickName):"
+        if ElGrocerUtility.isAddressCentralisation {
+            self.lblAddress.text = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(address)
+        } else {
+            var addressString = ""
+            if let nickName = address.nickName, nickName.count > 0 {
+                addressString = "\(nickName):"
+            }
+            addressString = addressString + (ElGrocerUtility.sharedInstance.getFormattedAddress(address).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(address) : address.locationName + address.address)
+            self.lblAddress.text   = addressString
         }
-        addressString = addressString + (ElGrocerUtility.sharedInstance.getFormattedAddress(address).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(address) : address.locationName + address.address)
-        self.lblAddress.text   = addressString
          self.loadedAddress = address
         self.localLoadedAddress = LocalDeliverAddress(lat: address.latitude, lng: address.longitude, address: address.locationName)
         
@@ -575,7 +568,11 @@ class ElgrocerlocationView:  UIView  {
         
         self.loadedAddress = address
         self.localLoadedAddress = LocalDeliverAddress(lat: address.latitude, lng: address.longitude, address: address.locationName)
-        self.lblAddress.text   = ElGrocerUtility.sharedInstance.getFormattedAddress(address).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(address) : address.locationName + address.address
+        if ElGrocerUtility.isAddressCentralisation {
+            self.lblAddress.text = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(address)
+        } else {
+            self.lblAddress.text   = ElGrocerUtility.sharedInstance.getFormattedAddress(address).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(address) : address.locationName + address.address
+        }
         
         self.configureCell(grocery!)
         self.widthMultiplier.setMultiplier(multiplier: halfWidth)

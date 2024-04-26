@@ -14,6 +14,7 @@ import RxDataSources
 protocol MarketingCustomLandingPageViewModelInput {
     var cellSelectedObserver: AnyObserver<DynamicComponentContainerCellViewModel> { get }
     var filterUpdateIndexObserver: AnyObserver<Int> { get }
+    var scrollObserver: AnyObserver<CGPoint> { get }
    }
 
 protocol MarketingCustomLandingPageViewModelOutput {
@@ -45,6 +46,7 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     // MARK: Inputs
     var cellSelectedObserver: AnyObserver<DynamicComponentContainerCellViewModel> { cellSelectedSubject.asObserver() }
     var filterUpdateIndexObserver: AnyObserver<Int> { filterUpdateIndexSubject.asObserver() }
+    var scrollObserver: AnyObserver<CGPoint> { scrollSubject.asObserver() }
     
     // MARK: Outputs
     var loading: Observable<Bool> { loadingSubject.asObservable() }
@@ -61,6 +63,7 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     var recipeHederHeight: Observable<CGFloat> { recipeHederHeightSubject.asObservable() }
     
     // MARK: Subjects
+    private var scrollSubject: PublishSubject<CGPoint> = .init()
     var recipeHederHeightSubject: BehaviorSubject<CGFloat> = .init(value: 0)
     private var loadingSubject = BehaviorSubject<Bool>(value: false)
     private let errorSubject = PublishSubject<ElGrocerError>()
@@ -350,6 +353,19 @@ extension MarketingCustomLandingPageViewModel {
         collectionViewCellVM.basketUpdated.subscribe { _ in
             self.basketUpdatedSubject.onNext(())
         }.disposed(by: disposeBag)
+        
+        /// Enable pagination if:
+        /// - two or less sections
+        ///          AND
+        /// - one should be of type `categorySection` and the other one will be of type `bannerImage` if exists.
+        Observable
+            .combineLatest(componentSubject, scrollSubject)
+            .filter({ component, _ in
+                return component.count <= 2 && component.last?.sectionName == .categorySection
+            })
+            .map { $0.1 }
+            .bind(to: collectionViewCellVM.inputs.scrollObserver)
+            .disposed(by: disposeBag)
         
         return collectionViewCellVM
     }

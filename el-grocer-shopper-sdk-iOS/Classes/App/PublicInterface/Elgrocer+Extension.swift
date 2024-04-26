@@ -11,6 +11,10 @@ public extension ElGrocer {
     
     
     static func configure(with launchOptions: LaunchOptions, completion: ((Bool) -> Void)? ) {
+        
+        DefaultAddress.shared.update(with: launchOptions)
+        LaunchLocation.shared.update(with: launchOptions)
+        
         ElgrocerPreloadManager.shared.loadInitialDataWithOutHomeCalls(launchOptions) {
             completion?(true)
         }
@@ -78,6 +82,12 @@ public extension ElGrocer {
         }
         
 //        sdkManager.launchOptions = launchOptions
+        ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch = true
+        ElGrocerUtility.sharedInstance.isDefaultAddressFetchedAfterSDKLaunch = false
+        ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch = false
+        
+        DefaultAddress.shared.update(with: launchOptions)
+        LaunchLocation.shared.update(with: launchOptions)
         
         SDKManager.shared.startBasicThirdPartyInit()
         ElGrocer.trackSDKLaunch(launchOptions)
@@ -118,6 +128,13 @@ public extension ElGrocer {
         }
         
 //        sdkManager.launchOptions = launchOptions
+        ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch = true
+        ElGrocerUtility.sharedInstance.isDefaultAddressFetchedAfterSDKLaunch = false
+        ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch = false
+        
+        DefaultAddress.shared.update(with: launchOptions)
+        LaunchLocation.shared.update(with: launchOptions)
+        
         
         if !(sdkManager.launchOptions?.language?.isEmptyStr ?? true) && sdkManager.launchOptions?.language != launchOptions.language {
             // language change

@@ -105,12 +105,14 @@ class OrderBasketProductTableViewCell: UITableViewCell {
 //            actual_weight /quantity+ product_size_unit
 //        }
         
+        var promotionPrice = 0
         if let orderPosition = orderPosition {
             var unit = ""
             
             let aWeight = (orderPosition["actual_weight"] as? NSNumber) ?? 0
             let uWeight = orderPosition["unit_weight"] as? NSNumber ?? 0
             let psUnit = orderPosition["product_size_unit"] as? String ?? ""
+            promotionPrice = orderPosition["promotional_price"] as? Int ?? 0
             
             if aWeight == 0 {
                 self.productUnit.text = (uWeight > 0 ? "\(uWeight)": "") + psUnit
@@ -127,7 +129,7 @@ class OrderBasketProductTableViewCell: UITableViewCell {
         self.lblPercent.text = "-" + stringPercent + localizedString("txt_off", comment: "")
         
         let promotionValues = ProductQuantiy.checkPromoNeedToDisplayWithoutTimeCheckForOrders(product)
-        if promotionValues.isNeedToDisplayPromo {
+        if promotionValues.isNeedToDisplayPromo && promotionPrice != 0 {
             self.lblStrikePrice.isHidden = false
             self.percentOffBGView.isHidden = false
 //            self.productPrice.text = (NSString(format: "%@ %.2f",CurrencyManager.getCurrentCurrency() , product.orderPromoPrice?.doubleValue ?? 0.0) as String)
@@ -155,10 +157,7 @@ class OrderBasketProductTableViewCell: UITableViewCell {
                 self.lblStrikePrice.visibility = .visible
                 self.saleView.isHidden = true
             }
-        } else if promotionValues.isNeedToDisplayPromo {
-            
-            
-        }else {
+        } else {
             self.lblStrikePrice.isHidden = true
             self.percentOffBGView.isHidden = true
             

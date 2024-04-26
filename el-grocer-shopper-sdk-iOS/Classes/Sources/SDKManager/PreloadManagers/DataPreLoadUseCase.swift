@@ -17,10 +17,13 @@ class PreLoadData {
         self.completion = completion
         
         guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
-            // Data already loaded return
-            self.updateLocationIfNeeded() {
-                basicApiCallCompletion?(true)
+            // Data already loaded but load addresses again
+            SDKLoginManager.getDeliveryAddress { isSuccess, errorMessage, errorCode in
+                _ = ElGrocerUtility.setDefaultAddress()
+                
                 HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
+                
+                basicApiCallCompletion?(true)
             }
             return
         }
@@ -35,18 +38,17 @@ class PreLoadData {
         if self.isNotLoggedin() {
             loginSignup { isSucceed in
                 if isSucceed {
-                    self.updateLocationIfNeeded() {
-                        basicApiCallCompletion?(true)
-                        HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
-                    }
-                } else {
-                    basicApiCallCompletion?(false)
+                    HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
                 }
+                basicApiCallCompletion?(true)
             }
         } else {
-            self.updateLocationIfNeeded() {
-                basicApiCallCompletion?(true)
+            SDKLoginManager.getDeliveryAddress { isSuccess, errorMessage, errorCode in
+                _ = ElGrocerUtility.setDefaultAddress()
+                
                 HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
+                
+                basicApiCallCompletion?(true)
             }
         }
         
@@ -58,35 +60,23 @@ class PreLoadData {
         
         guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
             // Data already loaded return
-            self.updateLocationIfNeeded() {
-                self.completion?()
-                
-//                // Logging segment identify event every time user launch our Single Store
-//                if SDKManager.shared.isInitialized {
-//                    if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-//                        SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
-//                    }
-//                }
-            }
+            // SDKLoginManager.getDeliveryAddress { isSuccess, errorMessage, errorCode in
+            _ = ElGrocerUtility.setDefaultAddress()
+            self.completion?()
+            // }
             return
         }
         SDKManager.shared.launchOptions = launchOptions
         configureElgrocerShopper()
         if self.isNotLoggedin() {
             loginSignup { isSucceed in
-                if isSucceed {
-                    self.updateLocationIfNeeded() {
-                        self.completion?()
-                    }
-                } else {
-                    self.completion?()
-                }
-                
-            }
-        } else {
-            self.updateLocationIfNeeded() {
                 self.completion?()
             }
+        } else {
+            // SDKLoginManager.getDeliveryAddress { isSuccess, errorMessage, errorCode in
+            _ = ElGrocerUtility.setDefaultAddress()
+            self.completion?()
+            // }
         }
         
         getSponsoredProductsAndBannersSlots { _ in }
@@ -111,11 +101,8 @@ class PreLoadData {
            //  print("self.retryAttemp: \(self.retryAttemp)")
             if isSuccess {
                 ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
-                self.updateLocationIfNeeded { [weak self] in
-                    guard let self = self else { return }
-                    self.retryAttemp = 0
-                    completion?(true)
-                }
+                self.retryAttemp = 0
+                completion?(true)
             } else {
                 if self.retryAttemp < 4,
                     errorCode != 4237, /*Suspended*/

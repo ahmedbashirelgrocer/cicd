@@ -13,6 +13,10 @@ class HomeViewAllRetailersVC: UIViewController {
     
     lazy private (set) var categoryHeader : ILSegmentView = {
         let view = ILSegmentView()
+        var frameHeight = view.frame
+        frameHeight.size.width = ScreenSize.SCREEN_WIDTH
+        frameHeight.size.height = 88 + 16
+        view.frame = frameHeight ?? view.frame ?? CGRect.zero
         view.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         view.backgroundView?.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         view.onTap { [weak self] index in self?.subCategorySelectedWithSelectedIndex(index) }
@@ -56,6 +60,7 @@ class HomeViewAllRetailersVC: UIViewController {
         setSegmentView()
         subCategorySelectedWithSelectedIndex(0)
         fetchPreviousSelectedIndexForHomePage()
+        self.setTableViewHeader()
     }
     
     func setHeader() {
@@ -98,6 +103,35 @@ class HomeViewAllRetailersVC: UIViewController {
         let HyperMarketGroceryTableCell = UINib(nibName: "HyperMarketGroceryTableCell" , bundle: Bundle.resource)
         self.storeTableView.register(HyperMarketGroceryTableCell, forCellReuseIdentifier: "HyperMarketGroceryTableCell" )
     }
+
+    private func setTableViewHeader() {
+        guard self.availableStoreTypeA.count > 0 else {
+            
+            if self.storeTableView.tableHeaderView != nil {
+                self.storeTableView.tableHeaderView = nil
+                self.categoryHeader.setNeedsLayout()
+                self.categoryHeader.layoutIfNeeded()
+                self.storeTableView.reloadData()
+                self.categoryHeader.reloadData()
+            }
+            return
+        }
+        
+        DispatchQueue.main.async {
+            [weak self] in
+            guard let self = self else {return}
+            self.categoryHeader.setNeedsLayout()
+            self.categoryHeader.layoutIfNeeded()
+            self.storeTableView.tableHeaderView = self.categoryHeader
+            self.storeTableView.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
+            self.storeTableView.layoutTableHeaderView()
+            self.storeTableView.reloadData()
+            self.categoryHeader.reloadData()
+            self.categoryHeader.addBorder(vBorder: .Bottom, color: ApplicationTheme.currentTheme.separatorColor, width: 1)
+            self.categoryHeader.isHidden = false
+        }
+        
+    }
     /*
     // MARK: - Navigation
 
@@ -110,7 +144,8 @@ class HomeViewAllRetailersVC: UIViewController {
 
     func makeAvailableStoreCellListStyle(indexPath: IndexPath, grocery: Grocery) -> UITableViewCell {
         let cell = self.storeTableView.dequeueReusableCell(withIdentifier: "HyperMarketGroceryTableCell") as! HyperMarketGroceryTableCell
-        if (grocery.featured?.boolValue ?? false) && (indexPath.row == 0) {
+        if (grocery.featured?.boolValue ?? false) && ((grocery.parentID.intValue == 1020) || (grocery.parentID.intValue == 16)) {
+
             cell.configureCell(grocery: grocery, isFeatured: true)
         }else {
             cell.configureCell(grocery: grocery, isFeatured: false)
@@ -168,23 +203,24 @@ extension HomeViewAllRetailersVC: UITableViewDelegate, UITableViewDataSource {
         
         if let groceryTapped = self.groceryTapped {
             groceryTapped(sortedGroceryArray[indexPath.row])
-            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.sortedGroceryArray[indexPath.row], source: ScreenName.allStoreListScreen.rawValue, section: StoreComponentMarketingEnablers.All_Available_Stores))
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.sortedGroceryArray[indexPath.row], source: ScreenName.allStoreListScreen.rawValue, section: StoreComponentMarketingEnablers.All_Available_Stores, position: indexPath.row + 1))
 
         }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 0 && self.availableStoreTypeA.count > 0 {
-            categoryHeader.addBorder(vBorder: .Bottom, color: ApplicationTheme.currentTheme.separatorColor, width: 1)
-            return categoryHeader
-        }
+
+//        if section == 0 && self.availableStoreTypeA.count > 0 {
+//            categoryHeader.addBorder(vBorder: .Bottom, color: ApplicationTheme.currentTheme.separatorColor, width: 1)
+//            return categoryHeader
+//        }
         return nil
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if section == 0 && self.availableStoreTypeA.count > 0 {
-            return 88 + 16 //cellheight + top
-        }
+//        if section == 0 && self.availableStoreTypeA.count > 0 {
+//            return 88 + 16 //cellheight + top
+//        }
         return 0.01
     }
     

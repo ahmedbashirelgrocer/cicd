@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import CoreLocation
 //import Intercom
 
 let DeliveryAddressEntity = "DeliveryAddress"
@@ -37,7 +38,13 @@ extension DeliveryAddress {
         if let oldActiveDeliveryAddress = DeliveryAddress.getActiveDeliveryAddress(context) {
             oldActiveDeliveryAddress.isActive = false
         }
+        
+        if let oldActiveDeliveryAddress = DeliveryAddress.getAllDeliveryAddresses(context).first(where: { $0.isSmilesDefault?.boolValue == true }) {
+            oldActiveDeliveryAddress.isSmilesDefault = false
+        }
+        
         deliveryAddress.isActive = true
+        deliveryAddress.isSmilesDefault = true
         
         DatabaseHelper.sharedInstance.saveDatabase()
         
@@ -57,7 +64,7 @@ extension DeliveryAddress {
     
     // MARK: Insert
     
-    class func insertOrUpdateDeliveryAddressesForUser(_ userProfile:UserProfile, fromDictionary dictionary:NSDictionary, context:NSManagedObjectContext) -> [DeliveryAddress] {
+    class func insertOrUpdateDeliveryAddressesForUser(_ userProfile:UserProfile, fromDictionary dictionary:NSDictionary, context:NSManagedObjectContext, deleteNotInJSON: Bool = true) -> [DeliveryAddress] {
         
         var results = [DeliveryAddress]()
         var jsonLocationsIds = [String]()
@@ -77,7 +84,9 @@ extension DeliveryAddress {
             }
         }
         
-        deleteLocatiosNotInJSON(jsonLocationsIds,context: context)
+        if deleteNotInJSON {
+            deleteLocatiosNotInJSON(jsonLocationsIds,context: context)
+        }
         
         do {
             try context.save()
@@ -95,8 +104,13 @@ extension DeliveryAddress {
     
     class func insertOrUpdateDeliveryAddressForUser(_ userProfile:UserProfile, fromDictionary adressDict:NSDictionary, context:NSManagedObjectContext) -> DeliveryAddress {
         
-        let dbID = adressDict["id"] as! NSNumber
-        let dbIDString = "\(dbID)"
+        var dbIDString: String!
+        if ElGrocerUtility.isAddressCentralisation {
+            dbIDString = adressDict["smiles_address_id"] as? String ?? ""
+        } else {
+            let dbID = adressDict["id"] as! NSNumber
+            dbIDString = "\(dbID)"
+        }
         
         let location = DatabaseHelper.sharedInstance.insertOrReplaceObjectForEntityForName(DeliveryAddressEntity, entityDbId: dbIDString as AnyObject, keyId: "dbID", context: context) as! DeliveryAddress
         
@@ -111,7 +125,11 @@ extension DeliveryAddress {
    
         location.latitude = adressDict["latitude"] as! Double
         location.longitude = adressDict["longitude"] as! Double
-        location.address = adressDict["location_address"] as! String
+        if ElGrocerUtility.isAddressCentralisation {
+            location.address = adressDict["city"] as? String ?? ""
+        } else {
+            location.address = adressDict["location_address"] as? String ?? ""
+        }
         location.isCovered = adressDict["is_covered"] as? Bool ?? true
         
         
@@ -126,6 +144,7 @@ extension DeliveryAddress {
         location.building = adressDict["building_name"] as? String
         location.apartment = adressDict["apartment_number"] as? String
         location.isActive = adressDict["default_address"] as? Bool as NSNumber? ?? false as NSNumber
+        location.isSmilesDefault = adressDict["default_address"] as? Bool as NSNumber? ?? false as NSNumber
         
         if let addressType = adressDict["address_type_id"] as? Int {
             location.addressType = String(addressType)
@@ -154,7 +173,9 @@ extension DeliveryAddress {
         location.isArchive = NSNumber(value: false as Bool)
 
 //        userProfile.addDeliveryAddress(location)
-
+        #if DEBUG
+        print("IsSmilesDefault: \(adressDict["default_address"]), Nick: \(location.nickName ?? "Null")")
+        #endif
         return location
     }
     

@@ -13,6 +13,7 @@ protocol PromocodeDelegate: AnyObject {
 }
 
 class PromocodeView: UIView {
+
     @IBOutlet weak var viewBG: AWView! {
         didSet {
             viewBG.borderWidth = 1

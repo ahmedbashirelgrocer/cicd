@@ -133,6 +133,8 @@ class GenericFeedBackVC: UIViewController {
         let dateStr = dateFormatter.string(from: self.orderTracking.orderCreatedDate)
         
         self.lblTime.text = dateStr
+        
+        self.genericCollectionView.semanticContentAttribute = .forceLeftToRight
     }
     
     //MARK: Appearence

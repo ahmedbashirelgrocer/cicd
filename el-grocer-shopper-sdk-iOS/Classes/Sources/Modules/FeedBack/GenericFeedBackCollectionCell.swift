@@ -42,9 +42,13 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
     var collectionView : UICollectionView?
     let topBottomPadding : CGFloat = 32.0
     
+    var reviewViewHeight: NSLayoutConstraint!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        reviewViewHeight = reviewView.heightAnchor.constraint(equalToConstant: 1)
+        reviewViewHeight.isActive = true
     }
     
     func hideBtnSubmit(hiden : Bool){
@@ -437,7 +441,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
         ratingView.trailingAnchor.constraint(equalTo: backGroundView.trailingAnchor).isActive = true
         ratingView.topAnchor.constraint(equalTo: backGroundView.topAnchor).isActive = true
         ratingView.bottomAnchor.constraint(equalTo: backGroundView.bottomAnchor , constant: 0).isActive = true
-        self.show(height)
+        self.reviewViewHeight.constant = height
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
 //            ratingView.transform = CGAffineTransform(scaleX: -1, y: 1)
 //            ratingView.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
@@ -474,7 +478,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
         reviewView.trailingAnchor.constraint(equalTo: backGroundView.trailingAnchor).isActive = true
         reviewView.topAnchor.constraint(equalTo: backGroundView.topAnchor).isActive = true
         reviewView.bottomAnchor.constraint(equalTo: backGroundView.bottomAnchor , constant: 0).isActive = true
-        reviewView.heightAnchor.constraint(equalToConstant: height).isActive = true
+        reviewViewHeight.constant = height
     }
     func setUpWriteReviewView(){
         let height = getHeight(Type: feedBackType, index: self.backGroundView.tag)
@@ -487,7 +491,7 @@ class GenericFeedBackCollectionCell: UICollectionViewCell {
         writeReviewView.trailingAnchor.constraint(equalTo: backGroundView.trailingAnchor).isActive = true
         writeReviewView.topAnchor.constraint(equalTo: backGroundView.topAnchor).isActive = true
         writeReviewView.bottomAnchor.constraint(equalTo: backGroundView.bottomAnchor , constant: 0).isActive = true
-        writeReviewView.heightAnchor.constraint(equalToConstant: height).isActive = true
+        reviewViewHeight.constant = height
     }
     
 }

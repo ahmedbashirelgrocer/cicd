@@ -90,6 +90,9 @@ class ElGrocerUtility {
     
     var isUserCloseOrderTracking:Bool = false
     
+    var addressListNeedsUpdateAfterSDKLaunch = true
+    var isDefaultAddressFetchedAfterSDKLaunch = false
+    var isToolTipShownAfterSDKLaunch = false
     
     var isZenDesk:Bool = true
     
@@ -151,6 +154,7 @@ class ElGrocerUtility {
     var genericRecipeList : [Recipe] = [Recipe]()
     var recipeList : Dictionary<String , [Recipe] > = [:]
     
+    static var isAddressCentralisation: Bool { sdkManager.isShopperApp == false }
     
     var isCommingFromUniversalSearch : Bool = false
     var searchString : String? = nil
@@ -555,10 +559,20 @@ class ElGrocerUtility {
                     
                     if result {
                         
-                        let addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
-                        
-                        let dbID = addressDict["id"] as! NSNumber
-                        let dbIDString = "\(dbID)"
+                        var addressDict: NSDictionary!
+                        if ElGrocerUtility.isAddressCentralisation {
+                            addressDict = responseObject!["data"] as? NSDictionary
+                        } else {
+                            addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as? NSDictionary
+                        }
+
+                        var dbIDString: String!
+                        if ElGrocerUtility.isAddressCentralisation {
+                            dbIDString = addressDict?["smiles_address_id"] as? String ?? ""
+                        } else {
+                            let dbID = addressDict?["id"] as! NSNumber
+                            dbIDString = "\(dbID)"
+                        }
                         
                         location.dbID = dbIDString
                         let newAddress = DeliveryAddress.insertOrUpdateDeliveryAddressForUser(userProfile!, fromDictionary: addressDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -624,10 +638,20 @@ class ElGrocerUtility {
                     
                     if result {
                         
-                        let addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
-                        
-                        let dbID = addressDict["id"] as! NSNumber
-                        let dbIDString = "\(dbID)"
+                        var addressDict: NSDictionary!
+                        if ElGrocerUtility.isAddressCentralisation == false {
+                            addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
+                        } else {
+                            addressDict = responseObject!["data"] as? NSDictionary
+                        }
+
+                        var dbIDString: String!
+                        if ElGrocerUtility.isAddressCentralisation == false {
+                            let dbID = addressDict["id"] as! NSNumber
+                            dbIDString = "\(dbID)"
+                        } else {
+                            dbIDString = addressDict["smiles_address_id"] as? String ?? ""
+                        }
                         
                         location.dbID = dbIDString
                         let newAddress = DeliveryAddress.insertOrUpdateDeliveryAddressForUser(userProfile!, fromDictionary: addressDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -1007,8 +1031,70 @@ class ElGrocerUtility {
         
     }
     
+    func getFormattedCentralisedAddress(_ address: DeliveryAddress?, showNickName: Bool = true) -> String {
+        guard let address = address else { return "" }
+        
+        var addressString = ""
+        
+        let nickName = address.nickName ?? ""
+        let apartment = address.apartment ?? ""
+        let building = address.building ?? ""
+        var city = address.city ?? ""
+        let street = address.street ?? ""
+        if street.count > city.count {
+            city = street
+        }
+        let addressField = address.address
+        
+        if showNickName, nickName.count > 0 {
+            addressString += "\(nickName): "
+        }
+        
+        if apartment.count > 0 {
+            addressString += "\(apartment), "
+        }
+        
+        if building.count > 0, city.count > 0, building.contains(city) {
+            addressString += "\(building)"
+        } else {
+            if building.count > 0 {
+                addressString += "\(building)"
+            }
+            if city.count > 0 {
+                addressString += ", \(city)"
+            }
+        }
+        
+        if addressField.count > 0, addressField != city && addressField != building {
+            addressString += ", \(addressField)"
+        }
+        
+        return addressString.trimmingCharacters(in: CharacterSet(charactersIn: " ,:"))
+    }
     
-    
+    func getAttributedCentralisedAddress(_ address: DeliveryAddress?) -> NSMutableAttributedString {
+        guard let address = address else {
+            return NSMutableAttributedString(string: "")
+        }
+        
+        
+        var addressString: String = self.getFormattedCentralisedAddress(address, showNickName: false)
+        let nickName = address.nickName ?? ""
+        
+        guard nickName.count > 0 else {
+            return NSMutableAttributedString(string: addressString)
+        }
+        
+        let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
+        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : UIColor.newBlackColor()]
+        let attributedString = NSMutableAttributedString(string: "" , attributes: attrs1 as [NSAttributedString.Key : Any])
+        let attributedString1 = NSMutableAttributedString(string: nickName, attributes: attrs2 as [NSAttributedString.Key : Any])
+        attributedString.append(attributedString1)
+        let attributedString2 = NSMutableAttributedString(string: ": " + addressString  , attributes:attrs1 as [NSAttributedString.Key : Any])
+        attributedString.append(attributedString2)
+        
+        return attributedString
+    }
     
     func getFormattedAddress(_ locations:DeliveryAddress?) -> String {
         var formatted = "";
@@ -1089,6 +1175,7 @@ class ElGrocerUtility {
         if finalCHeck.isEmpty {
             formatted = locations?.city ?? ""
         }
+        formatted += (locations?.nickName?.isEmpty ?? true) ? "": "\(locations?.nickName ?? ""): "
         return formatted;
     }
     
@@ -1309,7 +1396,7 @@ class ElGrocerUtility {
     }
     
     
-    func showTopMessageView (_ msg : String ,_ title : String = "", image : UIImage? , _ index : Int = -1 , _ isNeedtoShowButton : Bool = true , backButtonClicked: @escaping (Any? , Int , Bool) -> Void, buttonIcon: UIImage? = nil) {
+    func showTopMessageView (_ msg : String ,_ title : String = "", image : UIImage? , _ index : Int = -1 , _ isNeedtoShowButton : Bool = true ,imageTint: UIColor? = UIColor.navigationBarWhiteColor(), backButtonClicked: @escaping (Any? , Int , Bool) -> Void, buttonIcon: UIImage? = nil) {
         let view = MessageView.viewFromNib(layout: .cardView)
         //  view.configureTheme(.warning)
         
@@ -1318,7 +1405,7 @@ class ElGrocerUtility {
             view.iconImageView?.image = data
             view.iconImageView?.image = view.iconImageView?.image?.withRenderingMode(UIImage.RenderingMode.alwaysTemplate)
             view.iconImageView?.isHidden = false
-            view.iconImageView?.tintColor = UIColor.navigationBarWhiteColor()
+            view.iconImageView?.tintColor = imageTint
         
         }
         view.id = "\(index)"
@@ -1652,6 +1739,54 @@ class ElGrocerUtility {
         }
 
         return Int(round(amount / ratio))
+    }
+}
+
+// MARK: - Setting default address locally based on launch options.
+extension ElGrocerUtility {
+    static func setDefaultAddress() -> String {
+        let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        
+        var newDefaultAddressID: String = ""
+        
+        // current default address
+        for i in 0..<locations.count {
+            print(locations[i].isActive)
+        }
+        let defaultAddress = locations
+            .filter{ $0.isActive.boolValue }
+        for i in 0..<defaultAddress.count {
+            defaultAddress[i].isActive = 0
+        }
+        
+        // There is some potential candidate for default address
+        var potentialCandidate: DeliveryAddress?
+        potentialCandidate = locations.first { $0.dbID == DefaultAddress.shared.addressID }
+
+        if potentialCandidate == nil {
+            potentialCandidate = locations.first(where: { loc in
+                let location1 = CLLocation(latitude: loc.latitude, longitude: loc.longitude)
+                let location2 = CLLocation(latitude: DefaultAddress.shared.latitude ?? 0, longitude: DefaultAddress.shared.longitude ?? 0)
+                let distance = location1.distance(from: location2).magnitude
+                return distance < 100
+            })
+        }
+        
+        if potentialCandidate != nil {
+            potentialCandidate?.isActive = 1
+            newDefaultAddressID = potentialCandidate?.dbID ?? ""
+        } else {
+            let location = DatabaseHelper.sharedInstance.insertOrReplaceObjectForEntityForName(DeliveryAddressEntity, entityDbId: "" as AnyObject, keyId: "dbID", context: DatabaseHelper.sharedInstance.mainManagedObjectContext) as! DeliveryAddress
+            location.isActive = true
+            location.address = DefaultAddress.shared.address ?? ""
+            location.latitude = DefaultAddress.shared.latitude ?? 0
+            location.longitude = DefaultAddress.shared.longitude ?? 0
+            newDefaultAddressID = location.dbID
+        }
+        
+        DatabaseHelper.sharedInstance.saveDatabase()
+        
+        return newDefaultAddressID
     }
 }
 

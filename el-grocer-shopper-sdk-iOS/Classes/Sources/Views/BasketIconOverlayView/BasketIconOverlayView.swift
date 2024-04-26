@@ -118,23 +118,9 @@ class BasketIconOverlayView : UIView {
                     navController.modalPresentationStyle = .fullScreen
                     topVc.present(navController, animated: true, completion: nil)
                     return
-                } else if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                    let isDataFilled = ElGrocerUtility.sharedInstance.validateUserProfile(userProfile, andUserDefaultLocation: deliveryAddress)
-                    if !isDataFilled {
-                        let locationDetails = LocationDetails(location: nil, editLocation: deliveryAddress, name: deliveryAddress.shopperName)
-                        let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, userProfile, FlowOrientation.basketNav)
-                        topVc.navigationController?.pushViewController(editLocationController, animated: true)
-                        return
-                    }
-                }
-            
-                if topVc.navigationController is ElGrocerNavigationController {
-                    MixpanelEventLogger.trackStoreCart()
-                    let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
-                    topVc.navigationController?.pushViewController(myBasketViewController, animated: true)
-                    
-                    // Logging segment event Cart Event
-                    SegmentAnalyticsEngine.instance.logEvent(event: CartClickedEvent(grocery: self.grocery))
+                } else {
+                    self.handleLoggedInCase(topVc: topVc, userProfile: userProfile)
+                    return
                 }
             }
         }
@@ -429,5 +415,97 @@ class BasketIconOverlayView : UIView {
             }
         }
         return false
+    }
+}
+
+extension BasketIconOverlayView {
+    // Handling of max address limits
+    func handleLoggedInCase(topVc: UIViewController, userProfile: UserProfile?) {
+        
+        if ElGrocerUtility.isAddressCentralisation {
+            self.handleLoggedInCaseForAddressCentralisation(topVc, userProfile)
+            return
+        }
+            
+        if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            let isDataFilled = ElGrocerUtility.sharedInstance.validateUserProfile(userProfile, andUserDefaultLocation: deliveryAddress)
+            if !isDataFilled {
+                let locationDetails = LocationDetails(location: nil, editLocation: deliveryAddress, name: deliveryAddress.shopperName)
+                let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, userProfile, FlowOrientation.basketNav)
+                topVc.navigationController?.pushViewController(editLocationController, animated: true)
+                return
+            }
+        }
+        
+        if topVc.navigationController is ElGrocerNavigationController {
+            MixpanelEventLogger.trackStoreCart()
+            let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
+            topVc.navigationController?.pushViewController(myBasketViewController, animated: true)
+            
+            // Logging segment event Cart Event
+            SegmentAnalyticsEngine.instance.logEvent(event: CartClickedEvent(grocery: self.grocery))
+        }
+    }
+    
+    fileprivate func handleLoggedInCaseForAddressCentralisation(_ topVc: UIViewController,
+                                                                _ userProfile: UserProfile?) {
+        
+        if ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch {
+            _ = SpinnerView.showSpinnerViewInView(topVc.view)
+            
+            SDKLoginManager.getDeliveryAddress { [weak self] isSuccess, errorMessage, errorCode in
+                
+                SpinnerView.hideSpinnerView()
+                _ = ElGrocerUtility.setDefaultAddress()
+                ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch = false
+                
+                guard let self = self else { return }
+                
+                guard let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) else { return }
+                let isDataFilled = ElGrocerUtility.sharedInstance.validateUserProfile(userProfile, andUserDefaultLocation: deliveryAddress)
+                
+                if !isDataFilled {
+                    let locationDetails = LocationDetails(location: nil, editLocation: deliveryAddress, name: deliveryAddress.shopperName)
+                    let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, userProfile, FlowOrientation.basketNav)
+                    editLocationController.isFromCart = true
+                    topVc.navigationController?.pushViewController(editLocationController, animated: true)
+                    
+                    return
+                }
+                
+                if topVc.navigationController is ElGrocerNavigationController {
+                    MixpanelEventLogger.trackStoreCart()
+                    let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
+                    topVc.navigationController?.pushViewController(myBasketViewController, animated: true)
+                    
+                    // Logging segment event Cart Event
+                    SegmentAnalyticsEngine.instance.logEvent(event: CartClickedEvent(grocery: self.grocery))
+                }
+                
+            }
+            
+            return
+        }
+
+        guard let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) else { return }
+        let isDataFilled = ElGrocerUtility.sharedInstance.validateUserProfile(userProfile, andUserDefaultLocation: deliveryAddress)
+        
+        if !isDataFilled {
+            let locationDetails = LocationDetails(location: nil, editLocation: deliveryAddress, name: deliveryAddress.shopperName)
+            let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, userProfile, FlowOrientation.basketNav)
+            editLocationController.isFromCart = true
+            topVc.navigationController?.pushViewController(editLocationController, animated: true)
+            
+            return
+        }
+        
+        if topVc.navigationController is ElGrocerNavigationController {
+            MixpanelEventLogger.trackStoreCart()
+            let myBasketViewController = ElGrocerViewControllers.myBasketViewController()
+            topVc.navigationController?.pushViewController(myBasketViewController, animated: true)
+            
+            // Logging segment event Cart Event
+            SegmentAnalyticsEngine.instance.logEvent(event: CartClickedEvent(grocery: self.grocery))
+        }
     }
 }

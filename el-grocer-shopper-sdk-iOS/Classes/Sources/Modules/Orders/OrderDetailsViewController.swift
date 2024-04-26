@@ -105,7 +105,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
         self.title = localizedString("lbl_Order_Details", comment: "")
         self.navigationItem.hidesBackButton = true
         
-        sdkManager.isShopperApp ? addGreenBackButton() : addBackButton(isGreen: false, true)
+        addBackButton(isGreen: false, true)
         self.setOrderLableAppearnace()
         self.setOrderData()
         self.setUpInitailizers()
@@ -498,16 +498,22 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             return
         }
      
-        let SDKManager: SDKManagerType! = sdkManager
-        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage(name: "editOrderPopUp") , header: localizedString("order_confirmation_Edit_order_button", comment: "") , detail: localizedString("edit_Notice", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("order_confirmation_Edit_order_button", comment: "") , withView: SDKManager.window!) { (buttonIndex) in
-            
-            if buttonIndex == 1 {
-                self.createBasketAndNavigateToViewForEditOrder()
-            }
-        }
+        // show edit order bottom sheet
+        let viewModel = WarningBottomSheetViewModel(
+            icon: "ClockSecondaryBlack",
+            message: localizedString("edit_Notice", comment: ""),
+            positiveTitle: localizedString("order_confirmation_Edit_order_button", comment: ""),
+            negativeTitle: localizedString("ios.ZDKRequests.createRequest.cancel.button", comment: "")
+        )
         
-
-       
+        let editOrderWarningBottomSheet = WarningBottomSheetController(viewModel: viewModel)
+        
+        editOrderWarningBottomSheet.modalPresentationStyle = .overCurrentContext
+        editOrderWarningBottomSheet.modalTransitionStyle = .crossDissolve
+        editOrderWarningBottomSheet.positiveButtonTapHandler = { [weak self] in
+            self?.createBasketAndNavigateToViewForEditOrder()
+        }
+        self.present(editOrderWarningBottomSheet, animated: true)
     }
     
     private func createBasketAndNavigateToViewForEditOrder(){
@@ -697,7 +703,12 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             // }
             if let tab = ((getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
                 ElGrocerUtility.sharedInstance.resetTabbar(tab)
-                tab.selectedIndex = 1
+                
+                if ElGrocerUtility.sharedInstance.activeGrocery?.getCleanGroceryID() != self.order.grocery.getCleanGroceryID() {
+                    tab.selectedIndex = 0
+                } else {
+                    tab.selectedIndex = 1
+                }
             }
             
             
@@ -1713,8 +1724,12 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                 }
                 //MARK: Improvement : improve logic to find height of cell
                 if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                    let formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress) : deliveryAddress.locationName + deliveryAddress.address
-                    
+                    var formatAddressStr = ""
+                    if ElGrocerUtility.isAddressCentralisation {
+                        formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(deliveryAddress)
+                    } else {
+                        formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress) : deliveryAddress.locationName + deliveryAddress.address
+                    }
                     let height = ElGrocerUtility.sharedInstance.dynamicHeight(text: formatAddressStr, font: UIFont.SFProDisplaySemiBoldFont(14), width: ScreenSize.SCREEN_WIDTH - 100)
                     return deliveryDetailWithOutSlotCellHeight - 20 + height
                 }

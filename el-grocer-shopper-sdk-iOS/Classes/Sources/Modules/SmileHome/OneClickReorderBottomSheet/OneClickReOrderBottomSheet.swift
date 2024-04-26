@@ -329,8 +329,10 @@ extension OneClickReOrderBottomSheet: ProductCellProtocol{
         
         if priceSum < minValue || priceSum == 0.00 {
             self.checkoutBGView.backgroundColor = ApplicationTheme.currentTheme.disableButtonColor
+            lblItemNum.textColor = ApplicationTheme.currentTheme.disableButtonColor
         }else {
             self.checkoutBGView.backgroundColor = ApplicationTheme.currentTheme.buttonEnableBGColor
+            lblItemNum.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
         }
     }
     

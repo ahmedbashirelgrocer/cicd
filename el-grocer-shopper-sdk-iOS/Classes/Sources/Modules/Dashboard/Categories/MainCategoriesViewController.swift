@@ -15,6 +15,7 @@ import RxSwift
 import RxDataSources
 import CoreLocation
 import Storyly
+import STPopup
 
 enum StorePageType {
     case FromStorePage
@@ -99,6 +100,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     var actionClicked: ((_ url : String?)->Void)? = nil
     private var porgressHud : SpinnerView? = nil
     private var viewModel: MainCategoriesViewModelType!
+    var shouldShowPromoPopUp: Bool = false
+    var exclusivePromotionDeal: ExclusiveDealsPromoCode? = nil
     
     @IBOutlet weak var storelyCustomView: StorylyView!
     @IBOutlet var mainView: UIView!
@@ -109,6 +112,12 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     }
     
     override func backButtonClickedHandler(){
+        if isFromEditOrder {
+            self.isFromEditOrder = false
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        
         self.tabBarController?.selectedIndex = 0
     }
     func didTapInfoButtonForStoreDet() {}
@@ -139,9 +148,17 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     lazy var locationHeaderFlavor : ElgrocerStoreHeader = {
         let locationHeader = ElgrocerStoreHeader.loadFromNib()
         locationHeader?.translatesAutoresizingMaskIntoConstraints = false
+        
+        locationHeader?.changeLocationButtonHandler = { [weak self] in
+            guard let self = self else { return }
+            
+            EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, mapDelegate: self.mapDelegate, presentIn: self)
+            UserDefaults.setLocationChanged(date: Date())
+        }
+        
         return locationHeader!
     }()
-    
+    var isDataLoaded = false
     /// Begin Collapsing Table Header Shopper
     lazy var locationHeaderShopper : ElGrocerStoreHeaderShopper = {
         let locationHeader = ElGrocerStoreHeaderShopper.loadFromNib()
@@ -160,7 +177,6 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     func scrollViewDidScroll(forShopper scrollView: UIScrollView) {
         offset = scrollView.contentOffset.y
         let value = min(effectiveOffset, scrollView.contentOffset.y)
-        
         self.locationHeaderShopper.searchViewTopAnchor.constant = 62 - value
         self.locationHeaderShopper.searchViewLeftAnchor.constant = 16 + ((value / 60) * 30)
         self.locationHeaderShopper.groceryBGView.alpha = max(0, 1 - (value / 60))
@@ -202,6 +218,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     var groceryLoaderVC : GroceryLoaderViewController?
     var isComingFromGroceryLoaderVc : Bool = false
+    var isFromEditOrder: Bool = false
     var needToLogScreenEvent = true
     var orderTrackingArray = [OrderTracking]()
     
@@ -362,9 +379,11 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-       
         self.setNavigationApearance()
         self.adjustHeaderDisplay()
+    }
+    
+    func configureBeforeViewAppears() {
         if UIApplication.topViewController() is GroceryLoaderViewController {
             self.isComingFromGroceryLoaderVc = true
         }
@@ -389,13 +408,47 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             }
         }
         
+        self.showLocationChangeToolTip(show: false)
+        
+        self.fetchDefaultAddressIfNeeded()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // self.fetchSmilesAddressesIfNeeded { }
+        self.configureBeforeViewAppears()
+        
         defer {
             self.setNavigationApearance(true)
-            self.openOrdersView.refreshOrders { loaded in
+            self.openOrdersView.refreshOrders { [weak self] loaded in
+                guard let self = self else { return }
+                
+                if let editOrderID = UserDefaults.getEditOrderDbId() {
+                    
+                    Order.insertOrReplaceOrdersFromDictionary(openOrdersView.openOrders, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                    let orders = Order.getAllDeliveryOrders(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                    
+                    if let orderInEdit = orders.first(where: { $0.dbID == editOrderID }) {
+                        if orderInEdit.status.intValue != OrderStatus.inEdit.rawValue {
+                            
+                            let title = localizedString("location_not_covered_alert_title", comment: "")
+                            let positiveButton = localizedString("ok_button_title", comment: "")
+                            let message = localizedString("order_is_no_more_in_edit_msg", comment: "")
+                            
+                            ElGrocerAlertView
+                                .createAlert(title, description: message, positiveButton: positiveButton, negativeButton: nil, buttonClickCallback: nil)
+                                .show()
+                            
+                            UserDefaults.resetEditOrder()
+                        }
+                    }
+                }
+                
                 Thread.OnMainThread {
                     self.openOrdersView.setNeedsLayout()
                     self.openOrdersView.layoutIfNeeded()
@@ -449,8 +502,6 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         }
         self.needToLogScreenEvent = true
         GoogleAnalyticsHelper.trackScreenWithName(kGoogleAnalyticsHomeScreen)
-        
-        
         return
         
     }
@@ -501,7 +552,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
             if self.grocery != nil{
                 (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
-                sdkManager.isShopperApp ?  addWhiteBackButton() : self.addBackButton(isGreen: false)
+                self.addBackButton(isGreen: false)
             }else{
                 (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
             }
@@ -514,12 +565,14 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
             
+        }else {
+            (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
+            if let controller = self.navigationController as? ElGrocerNavigationController {
+                controller.setNavBarHidden(isSingleStore || isShopper)
+                controller.setupGradient()
+            }
         }
-        (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
-        if let controller = self.navigationController as? ElGrocerNavigationController {
-            controller.setNavBarHidden(isSingleStore || isShopper)
-            controller.setupGradient()
-        }
+        
         
         if let commingContrller = UIApplication.topViewController() {
             if commingContrller is GroceryLoaderViewController || String(describing: commingContrller.classForCoder) == "STPopupContainerViewController" || viewdidAppear {
@@ -1206,6 +1259,56 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         self.didMoveToIndex( grocery: grocery )
     }
     
+    
+    
+    func calculateHeight(text: String, width: CGFloat) -> CGFloat {
+        let constraintRect = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let boundingBox = text.boundingRect(with: constraintRect,
+                                        options: NSStringDrawingOptions.usesLineFragmentOrigin,
+                                            attributes: [NSAttributedString.Key.font: UIFont.SFProDisplayNormalFont(14)],
+                                        context: nil)
+        return boundingBox.height
+    }
+    
+    private func showExclusiveDealsInstructionsBottomSheet() {
+        
+        let minHeight = 180
+        let textHeight = calculateHeight(text: self.exclusivePromotionDeal?.detail ?? "", width: ScreenSize.SCREEN_WIDTH - 32)
+        let storyboard = UIStoryboard(name: "Smile", bundle: .resource)
+        if let exclusiveVC = storyboard.instantiateViewController(withIdentifier: "ExclusiveDealsInstructionsBottomSheet") as? ExclusiveDealsInstructionsBottomSheet {
+            exclusiveVC.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(minHeight) + textHeight )
+            
+            exclusiveVC.grocery = self.grocery
+            exclusiveVC.promoCode = self.exclusivePromotionDeal
+            
+            let popupController = STPopupController(rootViewController: exclusiveVC)
+            popupController.navigationBarHidden = true
+            popupController.style = .bottomSheet
+            popupController.backgroundView?.alpha = 1
+            popupController.containerView.layer.cornerRadius = 16
+            popupController.navigationBarHidden = true
+            popupController.present(in: self)
+            
+            
+            exclusiveVC.promoTapped = {[weak self] promo, grocery in
+                if promo != nil {
+                    
+                    SegmentAnalyticsEngine.instance.logEvent(event: ExclusiveDealCopiedEvent(retailerId: grocery?.getCleanGroceryID() ?? "0", retailerName: grocery?.name ?? "", promoCode: promo?.code ?? "", source: .storeScreen))
+                    
+                    popupController.dismiss()
+                    UserDefaults.setExclusiveDealsPromo(promo: promo!)
+                    DispatchQueue.main.async {
+                        
+                        
+                        let msg = localizedString("lbl_enjoy_promocode_initial", comment: "") + " '" + (promo!.code ?? "") + "' " + localizedString("lbl_enjoy_promocode_final", comment: "")
+                        
+                        ElGrocerUtility.sharedInstance.showTopMessageView(msg , image: UIImage(name: "checkGreenTopMessageView") , -1 , false, imageTint: ElgrocerBaseColors.elgrocerGreen500Colour) { (sender , index , isUnDo) in  }
+                    }
+                }
+            }
+        }
+    }
+    
     private func showAppStoreReviewPopUp(){
         
         if #available(iOS 10.3, *) {
@@ -1826,39 +1929,16 @@ private extension MainCategoriesViewController {
     
     @objc func showLocationCustomPopUp() {
         
-        guard SDKManager.shared.launchOptions?.navigationType != .search else {
+        if ElGrocerUtility.isAddressCentralisation {
             return
         }
         
+        guard SDKManager.shared.launchOptions?.navigationType != .search else {
+            return
+        }
+
         if sdkManager.isGrocerySingleStore {
-            if let smilesCoorinates = sdkManager.launchOptions?.location, let defaultAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() {
-                let smilesLocaation = CLLocation(latitude: smilesCoorinates.latitude, longitude: smilesCoorinates.longitude)
-                let defaultLocation = CLLocation(latitude: defaultAddress.latitude, longitude: defaultAddress.longitude)
-                
-                let distance = smilesLocaation.distance(from: defaultLocation)
-                
-                var intervalInMins = 0.0
-                if let checkedAt = UserDefaults.getLastLocationChangedDate() {
-                    intervalInMins = Date().timeIntervalSince(checkedAt) / 60
-                } else {
-                    intervalInMins = 66.0
-                }
-                
-                if distance > 300 && intervalInMins > 60 {
-                    DispatchQueue.main.async {
-                        let vc = LocationChangedViewController.getViewController()
-                        
-                        vc.currentLocation = smilesLocaation
-                        vc.currentSavedLocation = defaultLocation
-                        
-                        vc.modalPresentationStyle = .overFullScreen
-                        vc.modalTransitionStyle = .crossDissolve
-                        self.present(vc, animated: true, completion: nil)
-                    }
-                    UserDefaults.setLocationChanged(date: Date())
-                    return
-                }
-            }
+            self.showLocationChangeToolTip(show: true)
         }
         
         LocationManager.sharedInstance.locationWithStatus = { [weak self]  (location , state) in
@@ -2308,6 +2388,10 @@ extension MainCategoriesViewController: GroceryLoaderDelegate {
             self.refreshBasketIconStatus()
         }
         self.groceryLoaderVC = nil
+        if self.shouldShowPromoPopUp {
+            self.shouldShowPromoPopUp = false
+            self.showExclusiveDealsInstructionsBottomSheet()
+        }
     }
 }
 
@@ -2456,7 +2540,44 @@ extension MainCategoriesViewController {
 
 private func checkforDifferentDeliveryLocation() {
     
-    guard let deliveryAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
+    guard let deliveryAddress = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext).first(where: { $0.isSmilesDefault?.boolValue == true }) else { return }
+    
+    if ElGrocerUtility.isAddressCentralisation {
+            
+        let deliveryAddressLocation = CLLocation(latitude: deliveryAddress.latitude, longitude: deliveryAddress.longitude)
+        
+        let launchLocation = CLLocation(latitude: LaunchLocation.shared.latitude ?? 0,
+                                        longitude: LaunchLocation.shared.longitude ?? 0)
+        let distance = deliveryAddressLocation.distance(from: launchLocation)
+        
+        print("AddressDifference(\(distance): \(deliveryAddress.nickName) \(deliveryAddress.latitude) \(deliveryAddress.longitude), \(sdkManager.launchOptions?.address ?? "") \(sdkManager.launchOptions?.latitude ?? 0) \(sdkManager.launchOptions?.longitude ?? 0)")
+        
+        if distance > 300 {
+            DispatchQueue.main.async {
+                self.showLocationChangeToolTip(show: true)
+            }
+        }
+        
+        return
+    }
+    
+    
+    if ElGrocerUtility.isAddressCentralisation {
+        if let smilesDefault = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext).first(where: { $0.isSmilesDefault?.boolValue == true }) {
+            
+            let deliveryAddressLocation = CLLocation(latitude: deliveryAddress.latitude, longitude: deliveryAddress.longitude)
+            let currentLocation = CLLocation(latitude: smilesDefault.latitude, longitude: smilesDefault.longitude)
+            
+            let distance = deliveryAddressLocation.distance(from: currentLocation)
+            
+            if distance > 300 {
+                DispatchQueue.main.async {
+                    self.showLocationChangeToolTip(show: true)
+                }
+            }
+        }
+        return
+    }
     
     if let currentLat = LocationManager.sharedInstance.currentLocation.value?.coordinate.latitude,
        let currentLng = LocationManager.sharedInstance.currentLocation.value?.coordinate.longitude {
@@ -2466,7 +2587,6 @@ private func checkforDifferentDeliveryLocation() {
         
         let distance = deliveryAddressLocation.distance(from: currentLocation) //result is in meters
                                                                                //print("distance:",distance)
-        
         var intervalInMins = 0.0
         if let checkedAt = UserDefaults.getLastLocationChangedDate() {
             intervalInMins = Date().timeIntervalSince(checkedAt) / 60
@@ -2478,24 +2598,132 @@ private func checkforDifferentDeliveryLocation() {
         {
             DispatchQueue.main.async {
                 let vc = LocationChangedViewController.getViewController()
-                
+
                 vc.currentLocation = currentLocation
                 vc.currentSavedLocation = deliveryAddressLocation
-                
+
                 vc.modalPresentationStyle = .overFullScreen
                 vc.modalTransitionStyle = .crossDissolve
                 self.present(vc, animated: true, completion: nil)
             }
-            UserDefaults.setLocationChanged(date: Date()) //saving current date
         }
         
     } else { }
 }
+    
+    func showLocationChangeToolTip(show: Bool) {
+        
+        var show = show
+        show = show && !ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch || (show && isDataLoaded)
+        
+        self.locationHeaderFlavor.configureLocationChangeToolTip(show: show)
+        
+        let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
+        if constraintA.count > 0 {
+            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+            let headerViewHeightConstraint = constraint
+            headerViewHeightConstraint.constant = show ? locationHeaderFlavor.headerMaxHeight : locationHeaderFlavor.headerMaxHeight
+        }
+        
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
+        
+        if ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch {
+            return
+        }
+        
+        if show {
+            isDataLoaded = true
+            ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+                self?.isDataLoaded = false
+            }
+        }
+    }
 
 }
+
+//extension MainCategoriesViewController: ShowExclusiveDealsInstructionsDelegate{
+//    func showExclusiveDealsInstructions(promo: ExclusiveDealsPromoCode, grocery: Grocery) {
+//        self.showExclusiveDealsInstructionsBottomSheet()
+//    }
+//}
 
 extension Notification.Name {
     static var MainCategoriesViewDataDidLoaded: Notification.Name { NSNotification.Name("MainCategoriesViewControllerDataDidLoaded") }
 }
 
 var isShopper: Bool { sdkManager.launchOptions?.marketType == .shopper }
+
+extension MainCategoriesViewController {
+    func fetchSmilesAddressesIfNeeded(completion: (() -> Void)? = nil) {
+        
+        guard sdkManager.isGrocerySingleStore else {
+            completion?()
+            return
+        }
+        
+        guard ElGrocerUtility.isAddressCentralisation else {
+            completion?()
+            return
+        }
+        
+//        guard ElGrocerUtility.sharedInstance.isAddressListUpdated == false else {
+//            completion?()
+//            return
+//        }
+        
+        ElGrocerApi.sharedInstance.getDeliveryAddressesDefault({ [weak self] (result, responseObject) -> Void in
+         
+            guard let self = self else { return }
+            
+            if result,
+               let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)  {
+                
+                let addressList = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                
+                DatabaseHelper.sharedInstance.saveDatabase()
+                
+                if addressList.first(where: { $0.isActive.boolValue }) == nil {
+                    _ = ElGrocerUtility.setDefaultAddress()
+                    self.configureBeforeViewAppears()
+                }
+                
+                // ElGrocerUtility.sharedInstance.isAddressListUpdated = true
+                
+            }
+            completion?()
+        })
+    }
+    
+    func fetchDefaultAddressIfNeeded() {
+        
+        if ElGrocerUtility.sharedInstance.isDefaultAddressFetchedAfterSDKLaunch {
+            self.checkforDifferentDeliveryLocation()
+            return
+        }
+        
+        // _ = SpinnerView.showSpinnerViewInView(self.view)
+        
+        ElGrocerApi.sharedInstance.getDeliveryAddressesElGrocerDefault { [weak self] (result, responseObject) in
+            
+            // SpinnerView.hideSpinnerView()
+            
+            if result {
+                ElGrocerUtility.sharedInstance.isDefaultAddressFetchedAfterSDKLaunch = true
+                if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)  {
+                    
+                    let addressList = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, deleteNotInJSON: false)
+                    addressList.first?.isSmilesDefault = true
+                    _ = ElGrocerUtility.setDefaultAddress()
+                    
+                    DatabaseHelper.sharedInstance.saveDatabase()
+                }
+                self?.checkforDifferentDeliveryLocation()
+            } else {
+                print("error loading default address")
+            }
+        }
+    }
+}

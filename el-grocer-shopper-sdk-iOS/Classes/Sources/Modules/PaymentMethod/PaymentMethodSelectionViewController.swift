@@ -143,7 +143,7 @@ fileprivate extension PaymentMethodSelectionViewController {
             break
             
         case .addNewCard:
-            AdyenManager.sharedInstance.performZeroTokenization(controller: self)
+            AdyenManager.sharedInstance.performOneAEDTokenization(controller: self)
             
             AdyenManager.sharedInstance.isNewCardAdded = { [weak self] (isFailed: Bool, response: NSDictionary, _ adyenObj: AdyenManagerObj) in
                 if isFailed {

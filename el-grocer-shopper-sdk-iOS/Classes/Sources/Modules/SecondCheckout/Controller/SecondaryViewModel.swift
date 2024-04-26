@@ -292,7 +292,11 @@ extension SecondaryViewModel {
         finalParams["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(self.getGroceryId())
         finalParams["secondary_payments"] = secondaryPayments
         finalParams["retailer_service_id"] =  OrderType.delivery.rawValue
-        finalParams["shopper_address_id"] = DeliveryAddress.getAddressIdForDeliveryAddress(self.address)
+        if ElGrocerUtility.isAddressCentralisation == false {
+            finalParams["shopper_address_id"] = DeliveryAddress.getAddressIdForDeliveryAddress(self.address)
+        } else {
+            finalParams["smiles_address_id"] = DeliveryAddress.getAddressIdForDeliveryAddress(self.address)
+        }
         finalParams["service_fee"] = self.getGrocery()?.serviceFee
         finalParams["delivery_fee"] = self.getGrocery()?.deliveryFee
         finalParams["rider_fee"] = self.getGrocery()?.riderFee
@@ -512,6 +516,9 @@ extension SecondaryViewModel {
                 self.defaultApiData["primary_payment_type_id"] = self.getSelectedPaymentMethodId()
             }
         }
+        
+        let addressID = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)?.dbID
+        self.defaultApiData["smiles_address_id"] = addressID ?? "0"
        
         return self.defaultApiData
     }
@@ -699,15 +706,23 @@ extension SecondaryViewModel {
 extension SecondaryViewModel {
     
     private func setDeliveryAddress(_ currentAddress : DeliveryAddress) {
-        self.deliveryAddress = ElGrocerUtility.sharedInstance.getFormattedAddress(currentAddress)
+        if ElGrocerUtility.isAddressCentralisation {
+            self.deliveryAddress = ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(currentAddress, showNickName: false)
+        }  else {
+            self.deliveryAddress = ElGrocerUtility.sharedInstance.getFormattedAddress(currentAddress)
+        }
         self.deliveryAddressObj = currentAddress
     }
     func getDeliveryAddress() -> String {
         if let formatterAddress = self.deliveryAddress {
             return formatterAddress
         }else if let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-            let formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress) : deliveryAddress.locationName + deliveryAddress.address
-            return formatAddressStr
+            if ElGrocerUtility.isAddressCentralisation {
+                return ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(deliveryAddress, showNickName: false)
+            }  else {
+                let formatAddressStr =  ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress).count > 0 ? ElGrocerUtility.sharedInstance.getFormattedAddress(deliveryAddress) : deliveryAddress.locationName + deliveryAddress.address
+                return formatAddressStr
+            }
         }else {
             return ""
         }

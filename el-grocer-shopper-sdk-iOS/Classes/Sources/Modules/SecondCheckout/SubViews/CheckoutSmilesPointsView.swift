@@ -21,7 +21,6 @@ class CheckoutSmilesPointsView: UIView {
             viewBG.borderColor = ApplicationTheme.currentTheme.borderLightGrayColor
         }
     }
-    
     var delegate: CheckoutSmilesPointsViewDelegate?
     
     override func awakeFromNib() {

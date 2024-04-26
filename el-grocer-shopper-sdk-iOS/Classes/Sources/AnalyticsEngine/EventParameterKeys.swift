@@ -109,4 +109,8 @@ enum EventParameterKeys {
     static let elWalletRedeem       = "elWalletRedeem"
     static let smilesRedeem         = "smilesRedeem"
     static let id                   = "id"
+    
+    static let elWalletBalance = "elWalletBalance"
+    // Release, address centralisation, payment centralisation
+    static let releaseType = "releaseType"
 }

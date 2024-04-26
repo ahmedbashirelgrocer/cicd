@@ -102,8 +102,17 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
         
         viewModel.walletBalance.bind { [weak self] data in
             self?.walletAmountLabel.text = ElGrocerUtility.sharedInstance.getPriceStringByLanguage(price: data ?? 0.0)
+            if data != nil {
+                self?.logIdentifyEventWithElwalletBalance(balance: data ?? 0.0)
+            }
         }
         
+    }
+    
+    func logIdentifyEventWithElwalletBalance(balance: Double) {
+        if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile, walletBalance: String(balance)))
+        }
     }
     
     func setupNavigationAppearence() {
@@ -266,7 +275,7 @@ class ElWalletHomeVC: UIViewController, NavigationBarProtocol {
     
     func goToAddNewCardController() {
         
-        AdyenManager.sharedInstance.performZeroTokenization(controller: self,true)
+        AdyenManager.sharedInstance.performOneAEDTokenization(controller: self,true)
         AdyenManager.sharedInstance.walletPaymentMade = {(error, response, adyenObj) in
             SpinnerView.hideSpinnerView()
             if error {

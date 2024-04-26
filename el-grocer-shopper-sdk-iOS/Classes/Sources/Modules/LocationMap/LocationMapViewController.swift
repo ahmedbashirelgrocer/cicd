@@ -65,7 +65,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
   
     @IBOutlet weak var topBg: UIView! {
         didSet {
-            topBg.backgroundColor = ApplicationTheme.currentTheme.navigationBarColor
+            topBg.backgroundColor = ApplicationTheme.currentTheme.tableViewBGWhiteColor
         }
     }
     @IBOutlet weak var footerTitleLabel: UILabel!
@@ -225,7 +225,7 @@ class LocationMapViewController: UIViewController,GroceriesPopUpViewProtocol , N
         super.viewWillAppear(animated)
         (self.navigationController as? ElGrocerNavigationController)?.setBackButtonHidden(true)
         self.navigationItem.hidesBackButton = true
-        sdkManager.isShopperApp ? addWhiteBackButton() : addBackButton(isGreen: false)
+        sdkManager.isShopperApp ? addBackButton(isGreen: false, true) : addBackButton(isGreen: false)
         // self.setUpBottomView()
     }
     
@@ -1134,24 +1134,26 @@ extension LocationMapViewController: UITextFieldDelegate {
 extension LocationMapViewController: GMSAutocompleteViewControllerDelegate {
     
     func viewController(_ viewController: GMSAutocompleteViewController, didAutocompleteWith place: GMSPlace) {
-        self.isNeedToUpdateManual = true
-        self.fetchDeliveryAddressFromEntry = nil
-        let location = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
-        self.viewModel.selectedLocation.value = location
-        self.viewModel.locationName.value = place.name
-        self.viewModel.locationAddress.value = place.formattedAddress
-        self.viewModel.buildingName.value = ElGrocerUtility.sharedInstance.getPremiseFrom(place)
-        FireBaseEventsLogger.trackSelectLocationEvents("" , params: ["selectedLocation" : place.formattedAddress ?? "" ])
-        viewController.presentingViewController?.dismiss(animated: true, completion: {
-            self.shouldUpdatePinUpdate = false
-            let camera = GMSCameraPosition.camera(withTarget: location.coordinate , zoom: self.cameraZoom)
-            self.mapView?.camera = camera
-            ElGrocerUtility.sharedInstance.delay(0.1) {
-                // self.manualLbl.text = ""
-                //self.lblAddress.text = place.formattedAddress
-                self.btnChangeAddress.isHidden = self.lblAddress.text?.count == 0
-            }
-        })
+            self.isNeedToUpdateManual = true
+            self.fetchDeliveryAddressFromEntry = nil
+            let location = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
+            self.viewModel.selectedLocation.value = location
+            self.viewModel.locationName.value = place.name
+            self.viewModel.locationAddress.value = place.formattedAddress
+            self.viewModel.buildingName.value = ElGrocerUtility.sharedInstance.getPremiseFrom(place)
+            FireBaseEventsLogger.trackSelectLocationEvents("" , params: ["selectedLocation" : place.formattedAddress ?? "" ])
+            viewController.presentingViewController?.dismiss(animated: true, completion: {
+                self.shouldUpdatePinUpdate = false
+                DispatchQueue.main.async {
+                    let camera = GMSCameraPosition.camera(withTarget: location.coordinate , zoom: self.cameraZoom)
+                    self.mapView?.camera = camera
+                    ElGrocerUtility.sharedInstance.delay(0.2) {
+                        // self.manualLbl.text = ""
+                        //self.lblAddress.text = place.formattedAddress
+                        self.btnChangeAddress.isHidden = self.lblAddress.text?.count == 0
+                    }
+                }
+            })
     }
     
     func viewController(_ viewController: GMSAutocompleteViewController, didFailAutocompleteWithError error: Error) {

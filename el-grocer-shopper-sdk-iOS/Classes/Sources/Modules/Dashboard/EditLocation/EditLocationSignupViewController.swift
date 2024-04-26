@@ -40,6 +40,7 @@ class EditLocationSignupViewController: UIViewController {
     var userProfile : UserProfile? = nil
     var tableCells: [UITableViewCell] = []
     var isPresented: Bool = false
+    var isFromCart: Bool = false
     
     convenience init (locationDetails: LocationDetails, _ userProfile : UserProfile?, _ flowOrientation: FlowOrientation = FlowOrientation.defaultNav) {
         self.init(nibName: "EditLocationSignupViewController", bundle: .resource)
@@ -100,7 +101,7 @@ class EditLocationSignupViewController: UIViewController {
     private func uiUpdates() {
         
         title = localizedString("add_delivery_address", comment: "")
-        AppSetting.currentSetting.isElgrocerApp() ? addWhiteBackButton() : addBackButton(isGreen: false)
+        AppSetting.currentSetting.isElgrocerApp() ? addBackButton(isGreen: false, true) : addBackButton(isGreen: false)
         view.backgroundColor = ApplicationTheme.currentTheme.lightGrayBGColor // .locationScreenLightColor()
         (self.navigationController as? ElGrocerNavigationController)?.setLogoHidden(true)
         (self.navigationController as? ElGrocerNavigationController)?.setGreenBackgroundColor()
@@ -206,6 +207,20 @@ fileprivate extension EditLocationSignupViewController {
                         }
                     }else {
                         if (self.navigationController?.viewControllers.count ?? 0) > 2 {
+                            if ElGrocerUtility.isAddressCentralisation,
+                               self.isFromCart,
+                               let vcs = self.navigationController?.viewControllers,
+                               (vcs[vcs.count - 2] as? LocationMapViewController) != nil {
+                                
+                                self.navigationController?.setViewControllers(Array(vcs[0..<(vcs.count - 2)]), animated: true)
+                                return
+                            }
+                            
+                            if self.isFromCart {
+                                self.navigationController?.popViewController(animated: true)
+                                return
+                            }
+                            
                             self.navigationController?.popToRootViewController(animated: true)
                             return
                         }
@@ -284,11 +299,18 @@ fileprivate extension EditLocationSignupViewController {
         deliveryAddress.city = deliveryAddress.city ?? ""
         
         _ = SpinnerView.showSpinnerViewInView(self.view)
-        LoginSignupService.updateDeliveryAddress(deliveryAddress, userProfile: userProfile) { [weak self] code in
+        LoginSignupService.updateDeliveryAddress(deliveryAddress, setDefault: !isFromCart, userProfile: userProfile) { [weak self] code in
             guard let self = self else { return }
             if code == 200 {
                 
-                let activeAddress = DeliveryAddress.setActiveDeliveryAddress(deliveryAddress, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                var activeAddress: DeliveryAddress!
+                if self.isFromCart {
+                    activeAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                } else {
+                    activeAddress = DeliveryAddress.setActiveDeliveryAddress(deliveryAddress, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                }
+                guard activeAddress != nil else { return }
+                
                 
                 // Logging segment Confrim Address Details event
                 SegmentAnalyticsEngine.instance.logEvent(event: ConfirmAddressDetailsEvent())
@@ -412,6 +434,17 @@ fileprivate extension EditLocationSignupViewController {
                             }
                         }else {
                             if (self.navigationController?.viewControllers.count ?? 0) > 2 {
+                                if self.isFromCart,
+                                    let vcs = self.navigationController?.viewControllers,
+                                    (vcs[vcs.count - 2] as? LocationMapViewController) != nil {
+                                    
+                                    self.navigationController?.setViewControllers(Array(vcs[0..<(vcs.count - 2)]), animated: true)
+                                    return
+                                }
+                                if self.isFromCart {
+                                    self.navigationController?.popViewController(animated: true)
+                                    return
+                                }
                                 self.navigationController?.popToRootViewController(animated: true)
                                 return
                             }
@@ -631,6 +664,7 @@ extension EditLocationSignupViewController : MapPinViewDelegate, LocationMapView
         
         let location = CLLocation(latitude: currentDetails?.addressLat ?? 0.0  , longitude: currentDetails?.addressLng ?? 0.0)
         let locationMapController = ElGrocerViewControllers.locationMapViewController()
+        locationMapController.isFromCart = isFromCart && (self.locationDetails.editLocation?.isActive == true)
         locationMapController.delegate = self
         locationMapController.locationCurrentCoordinates = location.coordinate
         locationMapController.isConfirmAddress = false

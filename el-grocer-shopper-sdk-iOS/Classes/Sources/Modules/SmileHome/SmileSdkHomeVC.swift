@@ -8,6 +8,12 @@
 import UIKit
 import CoreLocation
 import RxSwift
+import STPopup
+
+protocol ShowExclusiveDealsInstructionsDelegate{
+    func showExclusiveDealsInstructions(promo: ExclusiveDealsPromoCode, grocery: Grocery)
+}
+var kExclusiveDealsStoreTypeId: Int = 12
 
 class SmileSdkHomeVC: BasketBasicViewController {
     
@@ -30,6 +36,12 @@ class SmileSdkHomeVC: BasketBasicViewController {
         var frameHeight = searchHeader?.frame
         frameHeight?.size.height = sdkManager.isShopperApp ? 147 : 82
         searchHeader?.frame = frameHeight ?? searchHeader?.frame ?? CGRect.zero
+        
+        searchHeader?.changeLocationClickedHandler = { [weak self] in
+            self?.locationButtonClick()
+            UserDefaults.setLocationChanged(date: Date())
+        }
+        
         return searchHeader!
     }()
     
@@ -66,6 +78,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         // MARK: - Properties
     var groceryArray: [Grocery] = []
     var neighbourHoodFavGroceryArray: [Grocery] = []
+    var exclusiveDealsPromoList: [ExclusiveDealsPromoCode] = []
     var oneClickReOrderGroceryIDArray: [Int] = [] {
         didSet {
             var array: [Grocery] = []
@@ -103,6 +116,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     }
     var neighbourHoodSection: Int = 0
     var oneClickReOrderSection: Int = 0
+    var exclusiveDealsSection: Int = 0
     
     var availableStoreTypeA: [StoreType] = []
     var featureGroceryBanner : [BannerCampaign] = []
@@ -110,6 +124,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     var controllerTitle: String = ""
     var selectStoreType : StoreType? = nil
     var separatorCount = 2
+    var delegate: ShowExclusiveDealsInstructionsDelegate?
     private var openOrders : [NSDictionary] = []
     private var configRetriesCount: Int = 0
     
@@ -141,23 +156,53 @@ class SmileSdkHomeVC: BasketBasicViewController {
             
             SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
         }
+        
+        currentOrderCollectionView.collectionViewLayout = {
+            let layout = UICollectionViewFlowLayout()
+            layout.scrollDirection = .horizontal
+            layout.minimumInteritemSpacing = 0
+            layout.minimumLineSpacing = 0
+            layout.sectionInset = .zero
+            return layout
+        }()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-     
         super.viewWillAppear(animated)
         self.hideTabBar()
         self.navigationBarCustomization()
         self.appTabBarCustomization()
+    }
+    
+    func configureBeforeViewAppears() {
         self.showDataLoaderIfRequiredForHomeHandler()
+        
+//        let oldLocation = self.locationHeader.localLoadedAddress
+//        if ElGrocerUtility.sharedInstance.isAddressUpdated {
+//            ElGrocerUtility.sharedInstance.isAddressUpdated = false
+//            _ = SpinnerView.showSpinnerViewInView(self.view)
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+//                SpinnerView.hideSpinnerView()
+//                self?.checkIFDataNotLoadedAndCall()
+//            }
+//        } else {
+//        }
+        
         self.checkIFDataNotLoadedAndCall()
        
-    
-       
+        if ElGrocerUtility.isAddressCentralisation {
+            self.showLocationChangeToolTip(show: false)
+        }
+        
+        self.fetchDefaultAddressIfNeeded()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // self.fetchSmilesAddressesIfNeeded() { }
+        
+        self.configureBeforeViewAppears()
         
         launchCompletion?()
         launchCompletion = nil
@@ -167,22 +212,55 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.getSmileUserInfo()
         self.setDefaultGrocery()
         
-        // Fetch basket status from server 
+        // Fetch basket status from server
         self.homeDataHandler.fetchBasketStatus()
         
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.refreshLogoView()
             controller.navigationBar.topItem?.title = ""
         }
-        
-        
-//        let customVm = MarketingCustomLandingPageViewModel.init(storeId: "16", marketingId: "66")
-//        let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
-//        self.present(landingVC, animated: true)
-      
+        if self.groceryArray.count > 0 {
+            self.homeDataHandler.getExclusiveDealsData()
+        }
     }
     
         // MARK: - UI Customization
+    
+    @objc private func showExclusiveDealsBottomSheet() {
+        let storyboard = UIStoryboard(name: "Smile", bundle: .resource)
+        if let exclusiveVC = storyboard.instantiateViewController(withIdentifier: "ExclusiveDealsBottomSheet") as? ExclusiveDealsBottomSheet {
+            
+            let catId = self.lastSelectType?.storeTypeid ?? 0
+            SegmentAnalyticsEngine.instance.logEvent(event: ExclusiveDealsViewAllClickedEvent(categoryId: String(catId), categoryName: self.lastSelectType?.name ?? "", source: .homeScreen))
+            
+            
+            exclusiveVC.promoA = self.exclusiveDealsPromoList
+            exclusiveVC.groceryA = self.sortedGroceryArray
+            exclusiveVC.contentSizeInPopup = CGSizeMake(ScreenSize.SCREEN_WIDTH, CGFloat(ScreenSize.SCREEN_HEIGHT - (ScreenSize.SCREEN_HEIGHT/3)))
+            exclusiveVC.delegate = self
+            
+            let popupController = STPopupController(rootViewController: exclusiveVC)
+            popupController.navigationBarHidden = true
+            popupController.style = .bottomSheet
+            popupController.backgroundView?.alpha = 1
+            popupController.containerView.layer.cornerRadius = 16
+            popupController.navigationBarHidden = true
+            popupController.present(in: self)
+            
+            exclusiveVC.promoTapped = {[weak self] promo, grocery in
+                if grocery != nil {
+                    
+                    let catId = self?.lastSelectType?.storeTypeid ?? 0
+                    let catName = self?.lastSelectType?.name ?? ""
+                    SegmentAnalyticsEngine.instance.logEvent(event: ExclusiveDealClickedEvent(retailerId: grocery?.getCleanGroceryID() ?? "0", retailerName: grocery?.name ?? "", categoryId: String(catId), categoryName: catName, promoCode: promo?.code ?? "", source: .exclusiveDealsSheet))
+                    
+                    popupController.dismiss()
+                    self?.goToGrocery(grocery!, nil, promo: promo)
+                }
+                
+            }
+        }
+    }
     
     
     private func navigationBarCustomization() {
@@ -250,6 +328,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
         
         let NeighbourHoodFavouriteTableViewCell = UINib(nibName: "NeighbourHoodFavouriteTableViewCell", bundle: Bundle.resource)
         self.tableView.register(NeighbourHoodFavouriteTableViewCell, forCellReuseIdentifier: "NeighbourHoodFavouriteTableViewCell")
+        
+        let exclusiveDealsTableViewCell = UINib(nibName: "ExclusiveDealsTableViewCell", bundle: Bundle.resource)
+        self.tableView.register(exclusiveDealsTableViewCell, forCellReuseIdentifier: "ExclusiveDealsTableViewCell")
         
         let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: Bundle.resource)
         self.currentOrderCollectionView.register(CurrentOrderCollectionCell, forCellWithReuseIdentifier: "CurrentOrderCollectionCell")
@@ -462,7 +543,11 @@ class SmileSdkHomeVC: BasketBasicViewController {
         if  let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() {
             if UserDefaults.isUserLoggedIn(){
                 if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                    ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile , ElGrocerUtility.sharedInstance.getFormattedAddress(address))
+                    if ElGrocerUtility.isAddressCentralisation {
+                        ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile , ElGrocerUtility.sharedInstance.getFormattedCentralisedAddress(address))
+                    } else {
+                        ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile , ElGrocerUtility.sharedInstance.getFormattedAddress(address))
+                    }
                 }
             }
         }
@@ -478,6 +563,10 @@ class SmileSdkHomeVC: BasketBasicViewController {
     }
     
     @objc func showLocationCustomPopUp() {
+        
+        if ElGrocerUtility.isAddressCentralisation {
+            return
+        }
         
         guard SDKManager.shared.launchOptions?.navigationType != .search else {
             return
@@ -664,8 +753,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, mapDelegate: self.mapDelegate, presentIn: self)
     }
     
-    func goToGrocery (_ grocery : Grocery , _ bannerLink : BannerLink?) {
-        
+    func goToGrocery (_ grocery : Grocery , _ bannerLink : BannerLink?, promo: ExclusiveDealsPromoCode? = nil) {
         
         defer {
           FireBaseEventsLogger.logEventToFirebaseWithEventName(FireBaseScreenName.SdkHome.rawValue,eventName: FireBaseParmName.SDKHomeStoreSelected.rawValue)
@@ -718,7 +806,13 @@ class SmileSdkHomeVC: BasketBasicViewController {
                         if  let navMain  = tabbar.viewControllers?[tabbar.selectedIndex] as? UINavigationController  {
                             if navMain.viewControllers.count > 0 {
                                 if let mainVc =   navMain.viewControllers[0] as? MainCategoriesViewController {
+                                    self.delegate = mainVc as? any ShowExclusiveDealsInstructionsDelegate
                                     mainVc.grocery = nil
+                                    if promo != nil {
+                                        mainVc.shouldShowPromoPopUp = true
+                                        mainVc.exclusivePromotionDeal = promo
+                                    }
+                                    
                                     ElGrocerUtility.sharedInstance.activeGrocery = grocery
                                     if ElGrocerUtility.sharedInstance.groceries.count == 0 {
                                         ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
@@ -771,8 +865,79 @@ class SmileSdkHomeVC: BasketBasicViewController {
         
         vc.grocery = grocery
         vc.checkoutTapped = { [weak self] in
-            vc.dismiss(animated: true)
-            self?.tabBarController?.selectedIndex = 4
+            vc.dismiss(animated: true) {
+                if let topVc = UIApplication.topViewController() {
+                    
+                    let userProfile = UserProfile.getOptionalUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                    if  userProfile == nil {
+                        // not login case
+                        ElGrocerEventsLogger.sharedInstance.trackSettingClicked("CreateAccount")
+                        let signInVC = ElGrocerViewControllers.signInViewController()
+                            signInVC.isForLogIn = false
+                            signInVC.isCommingFrom = .cart
+                        let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+                        navController.viewControllers = [signInVC]
+                        navController.modalPresentationStyle = .fullScreen
+                        topVc.present(navController, animated: true, completion: nil)
+                        return
+                    } else {
+                        handleLoggedInCaseForAddressCentralisation(topVc, userProfile)
+                        return
+                    }
+                }
+
+                func handleLoggedInCaseForAddressCentralisation(_ topVc: UIViewController,
+                                                                                _ userProfile: UserProfile?) {
+                        
+                        if ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch {
+                            _ = SpinnerView.showSpinnerViewInView(topVc.view)
+                            
+                            SDKLoginManager.getDeliveryAddress { [weak self] isSuccess, errorMessage, errorCode in
+                                
+                                SpinnerView.hideSpinnerView()
+                                _ = ElGrocerUtility.setDefaultAddress()
+                                ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch = false
+                                
+                                guard let self = self else { return }
+                                
+                                guard let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) else { return }
+                                let isDataFilled = ElGrocerUtility.sharedInstance.validateUserProfile(userProfile, andUserDefaultLocation: deliveryAddress)
+                                
+                                if !isDataFilled {
+                                    let locationDetails = LocationDetails(location: nil, editLocation: deliveryAddress, name: deliveryAddress.shopperName)
+                                    let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, userProfile, FlowOrientation.basketNav)
+                                    editLocationController.isFromCart = true
+                                    topVc.navigationController?.pushViewController(editLocationController, animated: true)
+                                    
+                                    return
+                                }
+                                
+                                if topVc.navigationController is ElGrocerNavigationController {
+                                    self.tabBarController?.selectedIndex = 4
+                                }
+                                
+                            }
+                            
+                            return
+                        }
+
+                        guard let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) else { return }
+                        let isDataFilled = ElGrocerUtility.sharedInstance.validateUserProfile(userProfile, andUserDefaultLocation: deliveryAddress)
+                        
+                        if !isDataFilled {
+                            let locationDetails = LocationDetails(location: nil, editLocation: deliveryAddress, name: deliveryAddress.shopperName)
+                            let editLocationController = EditLocationSignupViewController(locationDetails: locationDetails, userProfile, FlowOrientation.basketNav)
+                            editLocationController.isFromCart = true
+                            topVc.navigationController?.pushViewController(editLocationController, animated: true)
+                            
+                            return
+                        }
+                        
+                        if topVc.navigationController is ElGrocerNavigationController {
+                            self?.tabBarController?.selectedIndex = 4
+                        }
+                    }
+            }
         }
         self.present(vc, animated: true)
     }
@@ -782,6 +947,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
 
 // MARK: Helper Methods
 extension SmileSdkHomeVC {
+    func navigateToStoreWithExclusiveDeal(){
+        
+    }
     func navigateToMultiCart() {
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
 
@@ -1036,6 +1204,7 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
             self.setDefaultGrocery()
             self.setSegmentView()
             subCategorySelectedWithSelectedIndex(0)
+            self.homeDataHandler.getExclusiveDealsData()
             
         } else if type == .HomePageLocationOneBanners {
             if self.homeDataHandler.locationOneBanners?.count == 0 {
@@ -1051,6 +1220,13 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
             }else {
                 self.oneClickReOrderGroceryIDArray = []
             }
+        }else if type == .ExclusiveDealsPromoListArray {
+            if self.homeDataHandler.exclusiveDealsPromoA?.count ?? 0 > 0 {
+                self.exclusiveDealsPromoList = self.homeDataHandler.exclusiveDealsPromoA!
+            }else {
+                self.exclusiveDealsPromoList = []
+            }
+            filterExclusivePromo()
         }
         Thread.OnMainThread {
             if self.homeDataHandler.groceryA?.count ?? 0 > 0 {
@@ -1069,7 +1245,31 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
         }else {
             self.btnMulticart.setImage(UIImage(name: "Cart-InActive-Smile"), for: UIControl.State())
         }
+    }
+    
+    func showLocationChangeToolTip(show: Bool) {
         
+        var show = show
+        show = show && !ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch
+        
+        self.searchBarHeader.frame.size.height = show ? 146 : 82
+        self.searchBarHeader.configureLocationChangeToolTip(show: show)
+        
+        DispatchQueue.main.async(execute: { [weak self] in
+            guard let self = self else { return }
+            
+            self.searchBarHeader.setNeedsLayout()
+            self.searchBarHeader.layoutIfNeeded()
+            self.tableView.reloadData()
+        })
+        
+        if ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch {
+            return
+        }
+        
+        if show {
+            ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch = true
+        }
     }
 }
 
@@ -1078,7 +1278,26 @@ extension SmileSdkHomeVC {
     
     private func checkforDifferentDeliveryLocation() {
         
-        guard let deliveryAddress = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else { return }
+        guard let deliveryAddress = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext).first(where: { $0.isSmilesDefault?.boolValue == true }) else { return }
+        
+        if ElGrocerUtility.isAddressCentralisation {
+            
+            let deliveryAddressLocation = CLLocation(latitude: deliveryAddress.latitude, longitude: deliveryAddress.longitude)
+            
+            let launchLocation = CLLocation(latitude: sdkManager.launchOptions?.latitude ?? 0,
+                                            longitude: sdkManager.launchOptions?.longitude ?? 0)
+            
+            let distance = deliveryAddressLocation.distance(from: launchLocation)
+            print("LocationsForDistance: \(launchLocation.coordinate), \(deliveryAddressLocation.coordinate)")
+            
+            if distance > 300 {
+                DispatchQueue.main.async {
+                    self.showLocationChangeToolTip(show: true)
+                }
+            }
+            
+            return
+        }
         
         if let currentLat = LocationManager.sharedInstance.currentLocation.value?.coordinate.latitude,
            let currentLng = LocationManager.sharedInstance.currentLocation.value?.coordinate.longitude {
@@ -1120,9 +1339,36 @@ extension SmileSdkHomeVC {
 
 extension SmileSdkHomeVC: AWSegmentViewProtocol {
     
+    func filterExclusivePromo() {
+        
+        guard exclusiveDealsPromoList.count > 0 && sortedGroceryArray.count > 0 && (self.lastSelectType?.storeTypeid ?? 0) == kExclusiveDealsStoreTypeId else {
+            return
+        }
+        
+        let filteredArray = self.exclusiveDealsPromoList.filter { ExclusiveDealsPromoCode in
+            
+            if let grocery = self.sortedGroceryArray.first(where: { Grocery in
+                Grocery.getCleanGroceryID().elementsEqual(String(ExclusiveDealsPromoCode.retailer_id ?? 0))
+            }) {
+                return true
+            }else {
+                return false
+            }
+        }
+        if filteredArray.count > 0 {
+            self.exclusiveDealsPromoList = filteredArray
+        }else {
+            self.exclusiveDealsPromoList = []
+        }
+        
+        self.tableView.reloadDataOnMain()
+        
+    }
+    
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex:Int) {
         
         guard selectedSegmentIndex > 0 else {
+            self.lastSelectType = nil
             self.filteredGroceryArray = self.groceryArray
             self.tableView.reloadDataOnMain()
             return
@@ -1133,7 +1379,7 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         guard finalIndex < self.availableStoreTypeA.count else {return}
         
         let selectedType = self.availableStoreTypeA[finalIndex]
-        
+        self.lastSelectType = selectedType
         
         let filterA = self.groceryArray.filter { grocery in
             let storeTypes = grocery.getStoreTypes() ?? []
@@ -1143,7 +1389,7 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         }
         self.filteredGroceryArray = filterA
         self.filteredGroceryArray = ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA: self.filteredGroceryArray)
-        // self.tableView.reloadDataOnMain()
+        filterExclusivePromo()
         
         FireBaseEventsLogger.trackStoreListingOneCategoryFilter(StoreCategoryID: "\(selectedType.storeTypeid)" , StoreCategoryName: selectedType.name ?? "", lastStoreCategoryID: "\(self.lastSelectType?.storeTypeid ?? 0)", lastStoreCategoryName: self.lastSelectType?.name ?? "All Stores")
         
@@ -1155,7 +1401,7 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         
         SegmentAnalyticsEngine.instance.logEvent(event: storeCategoryClickedEvent)
         
-        self.lastSelectType = selectedType
+        
         
     }
     
@@ -1190,6 +1436,9 @@ extension SmileSdkHomeVC : UICollectionViewDelegate , UICollectionViewDataSource
         if status_id?.getStatusKeyLogic().status_id.intValue == OrderStatus.inEdit.rawValue {
             let navigator = OrderNavigationHandler.init(orderId: order["id"] as! NSNumber, topVc: self, processType: .editWithOutPopUp)
             navigator.startEditNavigationProcess { (isNavigationDone) in
+                if isNavigationDone == false {
+                    SpinnerView.hideSpinnerView()
+                }
                 debugPrint("Navigation Completed")
             }
             return
@@ -1297,7 +1546,11 @@ extension SmileSdkHomeVC {
                 oneClickReOrderSection = self.oneClickReOrderGroceryArray.count > 0 ? 1 : 0
                 return 1 + neighbourHoodSection + oneClickReOrderSection
             }else {
-                return 1 + (configs.isHomeTier1 ? 1 : 0)
+                exclusiveDealsSection = 0
+                if self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId {
+                    exclusiveDealsSection = self.exclusiveDealsPromoList.count > 0 ? 1 : 0
+                }
+                return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection
             }
             
         case 1: //1-3: Grocery cell 1, 2, 3
@@ -1339,14 +1592,20 @@ extension SmileSdkHomeVC {
             }else {
                 if ABTestManager.shared.configs.isHomeTier1 {
                     return self.makeLocationOneBannerCell(indexPath)
+                }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                        return makeExclusiveDealsTableViewCell(indexPath: indexPath)
+                }else{
+                    return self.makeLabelCell(indexPath)
                 }
-                return self.makeLabelCell(indexPath)
             }
         case .init(row: 1, section: 0):
             if tableViewHeader2.selectedItemIndex == 0 && self.oneClickReOrderSection == 1 && self.neighbourHoodSection == 1 {
                 return makeNeighbourHoodFavouriteTableViewCell(indexPath: indexPath)
+            }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                return makeExclusiveDealsTableViewCell(indexPath: indexPath)
+            }else{
+                return self.makeLabelCell(indexPath)
             }
-            return self.makeLabelCell(indexPath)
         case .init(row: 2, section: 0):
             return self.makeLabelCell(indexPath)
         case .init(row: 0, section: 2):
@@ -1380,7 +1639,7 @@ extension SmileSdkHomeVC {
             self.goToGrocery(self.sortedGroceryArray[indexPath.row], nil)
             
             // Logging segment event for store clicked
-            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPath.row], source: ScreenName.homeScreen.rawValue, section: StoreComponentMarketingEnablers.All_Available_Stores))
+            SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPath.row], source: ScreenName.homeScreen.rawValue, section: StoreComponentMarketingEnablers.All_Available_Stores, position: indexPath.row + 1))
 
             // Fix: 55
         }
@@ -1391,7 +1650,7 @@ extension SmileSdkHomeVC {
                 self.goToGrocery(self.sortedGroceryArray[indexPathRow], nil)
                 
                 // Logging segment event for store clicked
-                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPathRow], source: ScreenName.homeScreen.rawValue, section: StoreComponentMarketingEnablers.All_Available_Stores))
+                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: self.filteredGroceryArray[indexPathRow], source: ScreenName.homeScreen.rawValue, section: StoreComponentMarketingEnablers.All_Available_Stores, position: indexPathRow + 1))
             }
         }
     }
@@ -1413,14 +1672,20 @@ extension SmileSdkHomeVC {
             }else {
                 if configs.isHomeTier1 {
                     return (HomePageData.shared.locationOneBanners?.count ?? 0) > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
+                }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                        return 180
+                }else{
+                    return 45
                 }
-                return 45
             }
         case .init(row: 1, section: 0):
             if tableViewHeader2.selectedItemIndex == 0 && oneClickReOrderSection == 1 && neighbourHoodSection == 1 {
                 return 166
+            }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                return 180
+            }else{
+                return 45
             }
-            return 45
         case .init(row: 2, section: 0):
             return 45
         case .init(row: 0, section: 2):
@@ -1494,9 +1759,9 @@ extension SmileSdkHomeVC {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AvailableStoresCell") as! AvailableStoresCell
         return cell
             .configure(groceries: groceries)
-            .onTap { [weak self] grocery in
+            .onTap { [weak self] grocery, index in
                 self?.goToGrocery(grocery, nil)
-                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: ScreenName.homeScreen.rawValue, section: StoreComponentMarketingEnablers.All_Available_Stores))
+                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: ScreenName.homeScreen.rawValue, section: StoreComponentMarketingEnablers.All_Available_Stores, position: index + 1))
             }
     }
     
@@ -1543,18 +1808,105 @@ extension SmileSdkHomeVC {
             }
         }
         
-        cell.groceryTapped = { [weak self] isForFavourite, grocery in
+        cell.groceryTapped = { [weak self] isForFavourite, grocery, index in
             if isForFavourite {
                 self?.goToGrocery(grocery, nil)
-                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: ScreenName.homeScreen.rawValue, section: .Neighbourhood_Stores))
+                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: ScreenName.homeScreen.rawValue, section: .Neighbourhood_Stores, position: index + 1))
             }else {
                 //show bottom sheet for one click reOrder
                 self?.showBottomSheeetForOneClickReOrder(grocery: grocery)
-                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: ScreenName.homeScreen.rawValue, section: .One_Click_Re_Order))
+                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: ScreenName.homeScreen.rawValue, section: .One_Click_Re_Order, position: index + 1))
             }
             
         }
         
         return cell
+    }
+    
+    func makeExclusiveDealsTableViewCell(indexPath: IndexPath)-> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "ExclusiveDealsTableViewCell", for: indexPath) as! ExclusiveDealsTableViewCell
+        cell.selectionStyle = .none
+        cell.delegate = self
+        if exclusiveDealsPromoList.count > 0 && sortedGroceryArray.count > 0 {
+            cell.configureCell(promoList: self.exclusiveDealsPromoList, groceryA: self.sortedGroceryArray)
+        }
+        cell.viewAllBtn.addTarget(self, action: #selector(showExclusiveDealsBottomSheet), for: .touchUpInside)
+        return cell
+    }
+}
+extension SmileSdkHomeVC: CopyAndShopDelegate{
+    func copyAndShopWithGrocery(promo: ExclusiveDealsPromoCode, grocery: Grocery) {
+        let catId = self.lastSelectType?.storeTypeid ?? 0
+        let catName = self.lastSelectType?.name ?? ""
+        SegmentAnalyticsEngine.instance.logEvent(event: ExclusiveDealClickedEvent(retailerId: grocery.getCleanGroceryID(), retailerName: grocery.name ?? "", categoryId: String(catId), categoryName: catName, promoCode: promo.code ?? "", source: .homeScreen))
+        self.goToGrocery(grocery, nil, promo: promo)
+    }
+}
+
+extension SmileSdkHomeVC {
+    func fetchSmilesAddressesIfNeeded(completion: (() -> Void)? = nil) {
+        
+        guard ElGrocerUtility.isAddressCentralisation else {
+            completion?()
+            return
+        }
+        
+//        guard ElGrocerUtility.sharedInstance.isAddressListUpdated == false else {
+//            completion?()
+//            return
+//        }
+        
+        ElGrocerApi.sharedInstance.getDeliveryAddressesDefault({ [weak self] (result, responseObject) -> Void in
+         
+            guard let self = self else { return }
+            
+            if result,
+               let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)  {
+                
+                let addressList = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                
+                DatabaseHelper.sharedInstance.saveDatabase()
+                
+                if addressList.first(where: { $0.isActive.boolValue }) == nil {
+                    _ = ElGrocerUtility.setDefaultAddress()
+                    self.configureBeforeViewAppears()
+                }
+                
+                // ElGrocerUtility.sharedInstance.isAddressListUpdated = true
+                
+            }
+            
+            completion?()
+        })
+    }
+    
+    func fetchDefaultAddressIfNeeded() {
+        
+        if ElGrocerUtility.sharedInstance.isDefaultAddressFetchedAfterSDKLaunch {
+            self.checkforDifferentDeliveryLocation()
+            return
+        }
+        
+        // _ = SpinnerView.showSpinnerViewInView(self.view)
+        
+        ElGrocerApi.sharedInstance.getDeliveryAddressesElGrocerDefault { [weak self] (result, responseObject) in
+            
+            // SpinnerView.hideSpinnerView()
+            
+            if result {
+                ElGrocerUtility.sharedInstance.isDefaultAddressFetchedAfterSDKLaunch = true
+                if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)  {
+                    
+                    let addressList = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, deleteNotInJSON: false)
+                    
+                    addressList.first?.isSmilesDefault = true
+                    _ = ElGrocerUtility.setDefaultAddress()
+                    DatabaseHelper.sharedInstance.saveDatabase()
+                }
+                self?.checkforDifferentDeliveryLocation()
+            } else {
+                print("error loading default address")
+            }
+        }
     }
 }

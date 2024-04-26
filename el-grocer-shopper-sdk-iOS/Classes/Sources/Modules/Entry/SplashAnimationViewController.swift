@@ -44,7 +44,7 @@ class SplashAnimationViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor :ApplicationTheme.currentTheme.navigationBarWhiteColor
-        
+    if !ElGrocerUtility.isAddressCentralisation {
         HomePageData.shared.loadingCompletionSplash = { [weak self] in
             if self?.isAnimationCompleted == true {
                 if AppSetting.currentSetting.isSmileApp() {
@@ -59,6 +59,7 @@ class SplashAnimationViewController: UIViewController {
             SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
             UserDefaults.setIsAnalyticsIdentificationCompleted(new: true)
         }
+    }
         
         if  sdkManager.isShopperApp {
             self.configureElgrocerShopper()
@@ -72,22 +73,102 @@ class SplashAnimationViewController: UIViewController {
            
         }
         
+    if !ElGrocerUtility.isAddressCentralisation {
         if ElGrocerUtility.sharedInstance.adSlots == nil {
             self.configureElgrocerShopper()
             getSponsoredProductsAndBannersSlots { isLoaded in }
         }
+    }
         
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .splashScreen))
+        
+        if ElGrocerUtility.isAddressCentralisation {
+            fetchData()
+        }
+    }
+    
+    func fetchData() {
+        
+        var sDKLoginManager: SDKLoginManager?
+        var isAddressChanged = false
+        let fetchGroup = DispatchGroup()
+        
+        // fetchGroup.enter()
+        self.startLogoAnimation() { }
+
+        if ElGrocerUtility.sharedInstance.adSlots == nil {
+            self.getSponsoredProductsAndBannersSlots { isLoaded in }
+        }
+        
+        if ElGrocerUtility.sharedInstance.appConfigData == nil {
+            fetchGroup.enter()
+            self.configureElgrocerShopper() { AccessQueue.execute {
+                fetchGroup.leave()
+            } }
+        }
+        
+        // LoginSignup
+        fetchGroup.enter()
+        self.delegate.showEntryViewWithSuccessClouser({ (_ manager: SDKLoginManager?) -> Void in
+            AccessQueue.execute {
+                sDKLoginManager = manager
+                
+                if !UserDefaults.isAnalyticsIdentificationCompleted() {
+                    let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                    SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
+                    UserDefaults.setIsAnalyticsIdentificationCompleted(new: true)
+                }
+                
+                let _ = ElGrocerUtility.setDefaultAddress()
+                // this code crashing on smiles application please do not enable it in future
+                // https://console.firebase.google.com/u/2/project/smiles-83564/crashlytics/app/ios:Etisalat.House/issues/f1a7ac176d17c10438478ba0391f19ee?time=last-seven-days&types=crash&sessionEventKey=3c854bdc3953405691fe6a167f9a452a_1939451492008114799
+//                if !SDKLoginManager.isAddressFetched {
+//                    fetchGroup.enter()
+//                    let oldAddressId = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress()?.dbID ?? ""
+//                    SDKLoginManager.getDeliveryAddress { isSuccess, errorMessage, errorCode in
+//
+//                        let newAddressId = ElGrocerUtility.setDefaultAddress()
+//                        isAddressChanged = oldAddressId != newAddressId
+//                        fetchGroup.leave()
+//                    }
+//                }
+                
+                fetchGroup.leave()
+            }
+        })
+        
+        fetchGroup.notify(queue: .main) { AccessQueue.execute {
+            HomePageData.shared.loadingCompletionSplash = {
+                sDKLoginManager?.setHomeView()
+                HomePageData.shared.loadingCompletionSplash = nil
+            }
+            
+            if isAddressChanged {
+                HomePageData.shared.fetchHomeData(Platform.isDebugBuild)
+                return
+            }
+            
+            if HomePageData.shared.isDataLoading {
+                print("loading data ...")
+                return
+            } else if HomePageData.shared.isLoadingComplete {
+                sDKLoginManager?.setHomeView()
+            } else {
+                HomePageData.shared.fetchHomeData(Platform.isDebugBuild)
+            }
+        }}
     }
  
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        if ElGrocerUtility.isAddressCentralisation { return }
+        
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         if HomePageData.shared.isLoadingComplete && sdkManager.launchOptions?.accountNumber == userProfile?.phone {
             self.animationCompletedSetRootVc()
         } else {
-            self.StartLogoAnimation()
+            self.startLogoAnimation()
         }
         // self.startConditionalHomeDataFetching()
     }
@@ -108,7 +189,7 @@ class SplashAnimationViewController: UIViewController {
         }
     }
     
-    private func StartLogoAnimation() {
+    private func startLogoAnimation(completion: (()->Void)? = nil) {
         
         if UIApplication.shared.applicationState == .active {
             // 
@@ -120,6 +201,8 @@ class SplashAnimationViewController: UIViewController {
                                                       removeFromSuper: false,
                                                       loopMode: .playOnce) {[weak self] isloaded in
                     guard let self = self else { return }
+                    completion?()
+                    
                     if isloaded {
                         self.isAnimationCompleted = true
                         if HomePageData.shared.fetchOrder.count == 0 && self.locationFetching == false {
@@ -133,15 +216,18 @@ class SplashAnimationViewController: UIViewController {
                 
             } else {
                 // this method is only for smile sdk. if you thing you need to remove png and add lottie here please make sure to remove this method and update the fetching process accordinly
-                self.forLogoAnimatorStartFetchProcess()
+//                self.forLogoAnimatorStartFetchProcess()
                 
                 self.logoAnimator.startAnimate { [weak self] (isCompleted) in
+                    completion?()
+                    
                     if isCompleted {
-                        if HomePageData.shared.fetchOrder.count == 0 && self?.locationFetching == false {
-                            self?.animationCompletedSetRootVc()
-                            
-                        }
-                        self?.isAnimationCompleted = true
+//                        if HomePageData.shared.fetchOrder.count == 0 && self?.locationFetching == false {
+//                            self?.animationCompletedSetRootVc()
+//
+//                        }
+//                        self?.isAnimationCompleted = true
+                        
                         self?.activityIndicator.isHidden = false
                         self?.activityIndicator.startAnimating()
                         
@@ -164,7 +250,7 @@ class SplashAnimationViewController: UIViewController {
             
         } else {
             ElGrocerUtility.sharedInstance.delay(0.5) {
-                self.StartLogoAnimation()
+                self.startLogoAnimation(completion: completion)
             }
         }
        
@@ -175,33 +261,34 @@ class SplashAnimationViewController: UIViewController {
         
         let currentDate = Date()
         
-        // start and end date of splash animation with UAE flag
-        let startDate = Calendar.current.date(from: DateComponents(year: 2023, month: 11, day: 20))!
-        let endDate = Calendar.current.date(from: DateComponents(year: 2023, month: 12, day: 15))!
+        // end date of ramadan splash animation
+        let endDate = Calendar.current.date(from: DateComponents(year: 2024, month: 4, day: 10))!
         
-        let shopperLottieFileName = (currentDate <= endDate) && (currentDate >= startDate) ? "splash_animation_shopper_with_uae_flag" : "splash_animation_shopper"
+        let shopperLottieFileName = (currentDate <= endDate) ? "ramadan_splash" : "splash_animation_shopper"
+//        let shopperLottieFileName = (currentDate <= endDate) ? "splash_animation_shopper" : "splash_animation_shopper"
+ 
         return shopperLottieFileName
     }
     
-    private func forLogoAnimatorStartFetchProcess() {
-        self.delegate.showEntryViewWithSuccessClouser { manager in
-            self.setHome(manager: manager)
-        }
-    }
+//    private func forLogoAnimatorStartFetchProcess() {
+//        self.delegate.showEntryViewWithSuccessClouser { manager in
+//            self.setHome(manager: manager)
+//        }
+//    }
     
-    private func setHome(manager : SDKLoginManager?) {
-        
-        guard self.isAnimationCompleted  else {
-            let when = DispatchTime.now() + 1
-            DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: when) {
-                self.setHome(manager: manager)
-            }
-            return
-        }
-        Thread.OnMainThread {
-            manager?.setHomeView()
-        }
-    }
+//    private func setHome(manager : SDKLoginManager?) {
+//
+//        guard self.isAnimationCompleted  else {
+//            let when = DispatchTime.now() + 1
+//            DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: when) {
+//                self.setHome(manager: manager)
+//            }
+//            return
+//        }
+//        Thread.OnMainThread {
+//            manager?.setHomeView()
+//        }
+//    }
     
     private func animationCompletedSetRootVc() {
         
@@ -216,6 +303,11 @@ class SplashAnimationViewController: UIViewController {
     
     @objc func cameBackFromSleep(sender : AnyObject) {
         
+        if ElGrocerUtility.isAddressCentralisation {
+            fetchData()
+            return
+        }
+        
         if self.isAnimationCompleted {
             
             if let dataAvailable = getSDKManager().sdkStartTime {
@@ -224,9 +316,9 @@ class SplashAnimationViewController: UIViewController {
                     return
                 }
             }
-            self.StartLogoAnimation()
+            self.startLogoAnimation()
         }else{
-            self.StartLogoAnimation()
+            self.startLogoAnimation()
         }
         
     }
@@ -283,9 +375,9 @@ extension SplashAnimationViewController {
     
     
     
- @objc private func configureElgrocerShopper() {
+    @objc private func configureElgrocerShopper(completion: (()->Void)? = nil) {
 
-        ElGrocerApi.sharedInstance.getAppConfig { (result) in
+        ElGrocerApi.sharedInstance.getAppConfig { [weak self] (result) in
             switch result {
                 case .success(let response):
                     if let newData = response["data"] as? NSDictionary {
@@ -293,14 +385,15 @@ extension SplashAnimationViewController {
                         if sdkManager.isShopperApp {
                             ABTestManager.shared.fetchRemoteConfigs()
                         }
+                        completion?()
                     }else{
-                        self.configFailureCase()
+                        self?.configFailureCase()
                     }
                 case .failure(let error):
                 if error.code >= 500 && error.code <= 599 {
                         let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
                             if buttonIndex == 1 {
-                                self.configFailureCase()
+                                self?.configFailureCase()
                             }
                         }
                     }
@@ -316,8 +409,8 @@ extension SplashAnimationViewController {
             delay = 1.0
         }
         let when = DispatchTime.now() + delay
-        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: when) {
-            self.configureElgrocerShopper()
+        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: when) { [weak self] in
+            self?.configureElgrocerShopper()
         }
 
     }
@@ -325,14 +418,14 @@ extension SplashAnimationViewController {
     private func checkClientVersion() {
         
         let when = DispatchTime.now() + 5
-        DispatchQueue.global(qos: .utility).asyncAfter(deadline: when) {
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: when) { [weak self] in
             ElGrocerApi.sharedInstance.checkClientVersion({ (action, message) -> Void in
                 guard let action = BackendSuggestedAction(rawValue: action) else {
                     return
                 }
                 switch action {
                     case .ForceUpdate:
-                        self.delegate.showForceUpdateView()
+                        self?.delegate.showForceUpdateView()
                     case .Continue:
                         break
                 }
@@ -365,7 +458,7 @@ extension SplashAnimationViewController {
                 return
             }
             
-            ElGrocerApi.sharedInstance.getDeliveryAddresses({ (result:Bool, responseObject:NSDictionary?) -> Void in
+            ElGrocerApi.sharedInstance.getDeliveryAddresses({ [weak self] (result:Bool, responseObject:NSDictionary?) -> Void in
                 if result {
                     let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
                     context.performAndWait({ () -> Void in
@@ -373,7 +466,7 @@ extension SplashAnimationViewController {
                         DatabaseHelper.sharedInstance.saveDatabase()
                     })
                 }
-                self.locationFetching = false
+                self?.locationFetching = false
             })
         }
         
@@ -383,13 +476,13 @@ extension SplashAnimationViewController {
             return
         }
         
-        ElGrocerApi.sharedInstance.getUserProfile { response in
+        ElGrocerApi.sharedInstance.getUserProfile { [weak self] response in
             switch response {
             case.success(let responseObject):
                 let userProfile = UserProfile.createOrUpdateUserProfile(responseObject, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 callAddressApi(userProfile)
             case.failure(_):
-                self.locationFetching = false
+                self?.locationFetching = false
             }
         }
       
