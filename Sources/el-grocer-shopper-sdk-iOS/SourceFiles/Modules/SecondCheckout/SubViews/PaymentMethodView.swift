@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Adyen
 
 protocol PaymentMethodViewDelegate: AnyObject {
     func tap(on view: PaymentMethodView, paymentTypes: [PaymentType])
@@ -38,13 +39,21 @@ class PaymentMethodView: UIView {
         delegate?.tap(on: self, paymentTypes: self.paymentTypes)
     }
     
-    func configure(paymentTypes: [PaymentType], selectedPaymentId: UInt32?, creditCard: CreditCard? ) {
+    func configure(paymentTypes: [PaymentType], selectedPaymentId: UInt32?, creditCard: CreditCard?, applePay: ApplePayPaymentMethod? ) {
         self.paymentTypes = paymentTypes
         
-        self.imagePaymentType.image = self.iconForPayment(selectedPaymentId, creditCard: creditCard)
-        self.lblPaymentMethod.text = self.nameForPayment(selectedPaymentId, creditCard: creditCard)
+        self.imagePaymentType.image = self.iconForPayment(selectedPaymentId, creditCard: creditCard, applePay: applePay)
+        self.lblPaymentMethod.text = self.nameForPayment(selectedPaymentId, creditCard: creditCard, applePay: applePay)
         
-        self.lblTitle.text = selectedPaymentId != nil
+        guard let selectedPaymentId = selectedPaymentId, let paymentOption = PaymentOption(rawValue: selectedPaymentId) else {
+            self.lblTitle.text =  localizedString("payment_method_title", comment: "")
+            return
+        }
+        if paymentOption == PaymentOption.creditCard && creditCard == nil && applePay == nil {
+            self.lblTitle.text =  localizedString("payment_method_title", comment: "")
+            return
+        }
+        self.lblTitle.text = ( selectedPaymentId != nil )
             ? localizedString("text_payment", comment: "") + ":"
             : localizedString("payment_method_title", comment: "")
     }
@@ -73,7 +82,7 @@ fileprivate extension PaymentMethodView {
         arrowForward.image  = rightIcon
     }
     
-    func iconForPayment(_ paymentId: UInt32?, creditCard: CreditCard?) -> UIImage? {
+    func iconForPayment(_ paymentId: UInt32?, creditCard: CreditCard?, applePay: ApplePayPaymentMethod?) -> UIImage? {
         guard let selectedPaymentId = paymentId, let paymentOption = PaymentOption(rawValue: selectedPaymentId) else {
             return UIImage(name: "ic_visa_grey_bg")
         }
@@ -98,6 +107,8 @@ fileprivate extension PaymentMethodView {
                 } else if creditCard.cardType == .VISA {
                     return UIImage(name: "ic_visa_grey_bg")
                 }
+            }else if applePay == nil {
+                return UIImage(name: "ic_visa_grey_bg")
             } else {
                 return UIImage(name: "payWithApple")
             }
@@ -105,10 +116,15 @@ fileprivate extension PaymentMethodView {
         }
     }
     
-    func nameForPayment(_ paymentId: UInt32?, creditCard: CreditCard?) -> String {
+    func nameForPayment(_ paymentId: UInt32?, creditCard: CreditCard?,applePay: ApplePayPaymentMethod?) -> String {
         guard let selectedPaymentId = paymentId, let paymentOption = PaymentOption(rawValue: selectedPaymentId) else { return "" }
         
         if let selectedPaymentType = paymentTypes.first(where: { $0.id == selectedPaymentId }) {
+            
+            if paymentOption == .creditCard && creditCard == nil && applePay == nil {
+                return ""
+            }
+            
             //in edit order for apple pay server still sends payment id 3(online payment) with credit card object as nil
             if paymentOption == .creditCard && creditCard == nil {
                 return localizedString("pay_via_Apple_pay", comment: "")
