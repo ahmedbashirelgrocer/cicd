@@ -726,6 +726,9 @@ class ElGrocerUtility {
     
     func getCurrentDeliveryAddress() -> DeliveryAddress? {
         let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        guard !(address?.dbID.isEmptyStr ?? true) && address?.latitude != 0.0 && address?.longitude != 0.0 else {
+            return nil
+        }
         self.activeAddress = address
         return address
     }
@@ -1745,6 +1748,16 @@ class ElGrocerUtility {
 // MARK: - Setting default address locally based on launch options.
 extension ElGrocerUtility {
     static func setDefaultAddress() -> String {
+        
+        guard ElGrocerUtility.isAddressCentralisation else {
+            let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            if !(address?.dbID.isEmptyStr ?? true) && address?.latitude != 0.0 && address?.longitude != 0.0 {
+                return address?.dbID ?? ""
+            } else {
+                return ""
+            }
+        }
+        
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
         var newDefaultAddressID: String = ""
