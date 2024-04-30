@@ -44,47 +44,37 @@ class SplashAnimationViewController: UIViewController {
         super.viewDidLoad()
         
         self.view.backgroundColor = sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.themeBasePrimaryColor :ApplicationTheme.currentTheme.navigationBarWhiteColor
-    if !ElGrocerUtility.isAddressCentralisation {
-        HomePageData.shared.loadingCompletionSplash = { [weak self] in
-            if self?.isAnimationCompleted == true {
-                if AppSetting.currentSetting.isSmileApp() {
-                    self?.animationCompletedSetRootVc()
-                }
-            }
-        }
-        
-        // segment identification of existing users who already logged in application
-        if UserDefaults.isUserLoggedIn() && !UserDefaults.isAnalyticsIdentificationCompleted() {
-            let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-            SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
-            UserDefaults.setIsAnalyticsIdentificationCompleted(new: true)
-        }
-    }
         
         if  sdkManager.isShopperApp {
-            self.configureElgrocerShopper()
-            if UserDefaults.isUserLoggedIn() {
-                self.fetchLocations()
+            
+            if UserDefaults.isUserLoggedIn() && !UserDefaults.isAnalyticsIdentificationCompleted() {
+                let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
+                UserDefaults.setIsAnalyticsIdentificationCompleted(new: true)
             }
             self.checkClientVersion()
+            self.configureElgrocerShopper()
+            if UserDefaults.isUserLoggedIn() { self.fetchLocations() }
+            
+            if ElGrocerUtility.sharedInstance.adSlots == nil {
+                self.configureElgrocerShopper()
+                getSponsoredProductsAndBannersSlots { isLoaded in }
+            }
+            
             UserDefaults.setIsPopAlreadyDisplayed(false)
             // Logging segment event for Application Opnened only for shopper application
             SegmentAnalyticsEngine.instance.logEvent(event: ApplicationOpenedEvent())
            
+        }else {
+            // ElGrocerUtility.isAddressCentralisation
+            // Smiles Application case
+            fetchData()
         }
+  
         
-    if !ElGrocerUtility.isAddressCentralisation {
-        if ElGrocerUtility.sharedInstance.adSlots == nil {
-            self.configureElgrocerShopper()
-            getSponsoredProductsAndBannersSlots { isLoaded in }
-        }
-    }
         
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .splashScreen))
         
-        if ElGrocerUtility.isAddressCentralisation {
-            fetchData()
-        }
     }
     
     func fetchData() {
@@ -453,7 +443,7 @@ extension SplashAnimationViewController {
         
         func callAddressApi(_ userProfile: UserProfile) {
             
-            if let activeAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext){
+            if let activeAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext), !activeAddress.dbID.isEmptyStr {
                 self.locationFetching = false
                 return
             }

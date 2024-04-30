@@ -221,6 +221,7 @@ class GenericStoresViewController: BasketBasicViewController {
         
         launchCompletion?()
         launchCompletion = nil
+        self.showLocationChangeToolTip(show: false)
         self.checkForPushNotificationRegisteration()
         self.checkAddressValidation()
             //to refresh smiles point
@@ -232,6 +233,7 @@ class GenericStoresViewController: BasketBasicViewController {
         if self.groceryArray.count > 0 {
             self.homeDataHandler.getExclusiveDealsData()
         }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -2200,5 +2202,30 @@ extension GenericStoresViewController: CopyAndShopDelegate{
         let catName = self.lastSelectType?.name ?? ""
         SegmentAnalyticsEngine.instance.logEvent(event: ExclusiveDealClickedEvent(retailerId: grocery.getCleanGroceryID(), retailerName: grocery.name ?? "", categoryId: String(catId), categoryName: catName, promoCode: promo.code ?? "", source: .homeScreen))
         self.goToGrocery(grocery, nil, promo: promo)
+    }
+    
+    func showLocationChangeToolTip(show: Bool) {
+        
+        var show = show
+        show = show && !ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch
+        
+        self.searchBarHeader.frame.size.height = show ? 220 : 160
+        self.searchBarHeader.configureLocationChangeToolTip(show: show)
+        
+        DispatchQueue.main.async(execute: { [weak self] in
+            guard let self = self else { return }
+            
+            self.searchBarHeader.setNeedsLayout()
+            self.searchBarHeader.layoutIfNeeded()
+            self.tableView.reloadData()
+        })
+        
+        if ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch {
+            return
+        }
+        
+        if show {
+            ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch = true
+        }
     }
 }
