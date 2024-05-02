@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import ThirdPartyObjC
 
 class RequestsViewController: UIViewController {
     
@@ -16,7 +15,7 @@ class RequestsViewController: UIViewController {
     @IBOutlet weak var requestDescriptionLabel: UILabel!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var requestTextField: UITextField!
-    @IBOutlet weak var tagsView: ASJTagsView!
+    @IBOutlet weak var tagsView: UIView!
     @IBOutlet weak var requestButton: UIButton!
     
     //MARK: Variables
@@ -112,30 +111,30 @@ class RequestsViewController: UIViewController {
     
     fileprivate func setTagsViewAppearance() {
         
-        self.tagsView.tagColor = UIColor( red: 66/255, green: 157/255, blue:57/255, alpha: 1.0)
-        self.tagsView.tagFont = UIFont.SFProDisplayBoldFont(14.0)
-        self.tagsView.tagTextColor = UIColor.white
-        self.tagsView.crossImage = UIImage(name:"icCloseWhite")
+//        self.tagsView.tagColor = UIColor( red: 66/255, green: 157/255, blue:57/255, alpha: 1.0)
+//        self.tagsView.tagFont = UIFont.SFProDisplayBoldFont(14.0)
+//        self.tagsView.tagTextColor = UIColor.white
+//        self.tagsView.crossImage = UIImage(name:"icCloseWhite")
         
         self.handleTagBlocks()
     }
     
     fileprivate func handleTagBlocks(){
         
-        self.tagsView.deleteBlock = {(tagText:String, idx:Int) -> Void in
-            self.tagsView.deleteTag(at: idx)
-            self.productsRequestArray.remove(at: idx)
-            self.refreshButtons()
-        }
-        
-        self.tagsView.tapBlock = {(tagText:String, idx:Int) -> Void in
-           elDebugPrint("Tapped Tag:%@",tagText)
-        }
+//        self.tagsView.deleteBlock = {(tagText:String, idx:Int) -> Void in
+//            self.tagsView.deleteTag(at: idx)
+//            self.productsRequestArray.remove(at: idx)
+//            self.refreshButtons()
+//        }
+//        
+//        self.tagsView.tapBlock = {(tagText:String, idx:Int) -> Void in
+//           elDebugPrint("Tapped Tag:%@",tagText)
+//        }
     }
     
     func clearTags() {
         DispatchQueue.main.async { 
-            self.tagsView.deleteAllTags()
+//            self.tagsView.deleteAllTags()
             self.productsRequestArray.removeAll()
             self.refreshButtons()
         }
@@ -219,7 +218,7 @@ extension RequestsViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         if(textField.text!.trimmingCharacters(in: CharacterSet.whitespaces).isEmpty == false){
-            self.tagsView.addTag(textField.text!)
+//            self.tagsView.addTag(textField.text!)
             self.productsRequestArray.append(textField.text!)
             self.refreshButtons()
             textField.text = ""
