@@ -233,8 +233,15 @@ extension SDKLoginManager {
             }
             
             if !nav.isBeingPresented {
-                SDKManager.shared.rootContext = UIWindow.key?.rootViewController
-                SDKManager.shared.rootContext?.present(nav, animated: true, completion: nil)
+                
+                if let nav  = sdkManager.currentTabBar?.navigationController{
+                    SDKManager.shared.rootContext? = nav
+                }else{
+                    SDKManager.shared.rootContext = UIWindow.key?.rootViewController
+                    SDKManager.shared.rootContext?.present(nav, animated: true, completion: nil)
+                }
+               
+                
             }
         }
         

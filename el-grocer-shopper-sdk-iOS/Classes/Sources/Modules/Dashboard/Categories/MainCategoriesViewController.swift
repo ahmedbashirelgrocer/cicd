@@ -1999,6 +1999,8 @@ private extension MainCategoriesViewController {
             }
             //self.configureStorely(openStories: true)
             break
+        case .staticImage:
+            break
         }
     }
     

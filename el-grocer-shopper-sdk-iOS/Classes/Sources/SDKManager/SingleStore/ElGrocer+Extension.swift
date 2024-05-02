@@ -15,7 +15,6 @@ extension ElGrocer {
         let launchOptions = SDKManager.shared.launchOptions
         
         DispatchQueue.main.async {
-            
             func handleDeepLinkOrPush() {
                 if let url = URL(string: launchOptions?.deepLinkPayload ?? ""), (launchOptions?.deepLinkPayload?.count ?? 0) > 0 {
                     ElGrocerDynamicLink.handleDeepLink(url)

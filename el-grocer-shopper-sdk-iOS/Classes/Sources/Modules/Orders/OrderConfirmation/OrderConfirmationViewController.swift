@@ -367,6 +367,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
                 break
             case .storely:
                 break
+            case .staticImage:
+                break
             }
             
            

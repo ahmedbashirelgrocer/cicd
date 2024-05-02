@@ -44,6 +44,7 @@ public protocol SDKManagerType: CleverTapInAppNotificationDelegate {
     
     var kGoogleMapsApiKey: String { get }
     var isInitialized: Bool { get set }
+    var isOncePerSession: Bool { get set }
     
     // Methods
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]?) -> Bool

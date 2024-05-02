@@ -45,7 +45,7 @@ class ElgrocerStoreHeader:  UIView  {
                         image = UIImage(name: "smiles-Single-Store-en")!
                     }
                 } else {
-                    image = UIImage(name: "smile_Logo_elgrocer")!
+                    image = UIImage(name: "smiles-Single-Store-en")!
                 }
             }
             elgrocerLogoImgView.image = image
@@ -143,19 +143,37 @@ class ElgrocerStoreHeader:  UIView  {
     
     @IBOutlet weak var viewToolTip: AWView!
     @objc func btnBackPressed() {
-        
+        if ((UIApplication.topViewController()  as? MainCategoriesViewController) != nil) && sdkManager.isOncePerSession == false {
+            sdkManager.isOncePerSession = true
+            let vc = OfferAlertViewController.getViewController()
+            vc.alertTitle = localizedString("Are you sure you want to exit?", comment:"" )
+            vc.skipBtnText =  localizedString("Exit", comment:"" )
+            vc.discoverBtnTitle =  localizedString("Discover Stores", comment:"" )
+            vc.descrptionLblTitle =  localizedString("Discover our wide range of Supermarkets and speciality stores on groceries and pharmacies", comment:"" )
+            vc.modalPresentationStyle = .overFullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            UIApplication.topViewController()?.present(vc, animated: true, completion: nil)
+            return
+        }
         switch self.dimisType {
+            
         case .dismisVC:
             UIApplication.topViewController()?.dismiss(animated: true)
         case .dismisSDK:
+           defer {
+               SDKManager.shared.rootContext = nil
+                SDKManager.shared.rootViewController = nil
+                SDKManager.shared.currentTabBar = nil
+               sdkManager.isOncePerSession = false
+            }
             SDKManager.shared.rootContext?.dismiss(animated: true)
             SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedEvent())
+           
         case .popVc:
             UIApplication.topViewController()?.navigationController?.popViewController(animated: true)
         }
-        
-        
     }
+    
     @objc func profileBTNClicked() {
         
         MixpanelEventLogger.trackNavBarProfile()

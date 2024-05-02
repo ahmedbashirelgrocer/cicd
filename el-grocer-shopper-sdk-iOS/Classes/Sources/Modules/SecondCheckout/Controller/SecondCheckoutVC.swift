@@ -123,17 +123,26 @@ class SecondCheckoutVC: UIViewController {
                 self.orderPlacement.isForNewOrder = true
                 // orderPlacement.placeOrder()
             }
-            if self.viewModel.getSelectedPaymentOption() == .creditCard, let card = self.viewModel.getCreditCard()?.adyenPaymentMethod {
-                self.paymentWithCard(card, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
-            } else if self.viewModel.getSelectedPaymentOption() == .applePay, let card = self.viewModel.getApplePay(){
-                self.payWithApplePay(selctedApplePayMethod: card, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
-            } else {
-                if self.orderPlacement.isForNewOrder == true {
+            
+            if self.orderPlacement.isForNewOrder == true {
+                if self.viewModel.getSelectedPaymentOption() == .creditCard, let card = self.viewModel.getCreditCard()?.adyenPaymentMethod {
+                    self.paymentWithCard(card, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
+                } else if self.viewModel.getSelectedPaymentOption() == .applePay, let card = self.viewModel.getApplePay(){
+                    self.payWithApplePay(selctedApplePayMethod: card, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
+                } else {
                     self.orderPlacement.generateOrderAndProcessPayment()
+                }
+            } else {
+                if self.viewModel.getSelectedPaymentOption() == .creditCard, let card = self.viewModel.getCreditCard()?.adyenPaymentMethod {
+                    self.paymentWithCard(card, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
+                } else if self.viewModel.getSelectedPaymentOption() == .creditCard, let card = self.viewModel.getApplePay(), self.viewModel.getCreditCard() == nil{
+                    self.payWithApplePay(selctedApplePayMethod: card, amount: self.viewModel.basketDataValue?.finalAmount ?? 0.00)
                 } else {
                     self.orderPlacement.generateEditOrderAndProcessPayment()
                 }
             }
+            
+            
             
             self.orderPlacement.orderPlaced = { [weak self] order, error, apiResponse in
                 guard let self = self else { return }
@@ -303,9 +312,13 @@ class SecondCheckoutVC: UIViewController {
             self.elWalletView.configure(redeemAmount: data.elWalletRedeem ?? 0.00, primaryPaymentMethodId: data.primaryPaymentTypeID)
             
             // Primary Payment method configuration
-            let paymentOption = self.viewModel.createPaymentOptionFromString(paymentTypeId: data.primaryPaymentTypeID ?? 0)
+            var paymentOption = self.viewModel.createPaymentOptionFromString(paymentTypeId: data.primaryPaymentTypeID ?? 0)
             let isSmilesApplied = (data.smilesRedeem ?? 0) > 0
+            let creditCard = self.viewModel.getCreditCard()
             // Checkout button configuration
+            if paymentOption == .creditCard && creditCard == nil {
+                paymentOption = .applePay
+            }
             self.checkoutButtonView.configure(paymentOption: paymentOption, points: self.viewModel.getBurnPointsFromAed(), amount: data.finalAmount ?? 0.00, aedSaved: data.productsSaving ?? 0.00, earnSmilePoints: data.smilesEarn ?? 0, promoCode: data.promoCode, isSmileOn: isSmilesApplied)
             
             // Showing tabby limit reach message

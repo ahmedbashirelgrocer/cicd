@@ -98,6 +98,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     }
     var oneClickReOrderGroceryArray: [Grocery] = []
     var sortedGroceryArray: [Grocery] = []
+    var oncePresesion = false
     var filteredGroceryArray: [Grocery] = [] {
         didSet {
             sortedGroceryArray = filteredGroceryArray
@@ -148,12 +149,14 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
         // MARK: - LifeCycle
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         self.registerCellsAndSetDelegates()
         self.setSegmentView()
         subCategorySelectedWithSelectedIndex(0)
         setupClearNavBar()
         if sdkManager.launchOptions?.marketType == .marketPlace {
+            
             SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
         }
         
@@ -355,6 +358,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         cartButtonTap()
     }
     private func showDataLoaderIfRequiredForHomeHandler() {
+        
         if self.homeDataHandler.isDataLoading {
             let _ = SpinnerView.showSpinnerViewInView(self.view)
         }
@@ -725,25 +729,29 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
         // MARK: - ButtonAction
     override func backButtonClickedHandler() {
-        
-        super.backButtonClickedHandler()
-        
-        SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedEvent())
-        
-        NotificationCenter.default.removeObserver(SDKManager.shared, name: NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
-        
-        if let rootContext = SDKManager.shared.rootContext {
-            rootContext.dismiss(animated: true)
-        }else {
-            if let _ = self.tabBarController {
-                self.tabBarController?.dismiss(animated: true)
-            }else if let _ = SDKManager.shared.currentTabBar {
-                SDKManager.shared.currentTabBar?.dismiss(animated: true)
-            }else if let _ = SDKManager.shared.rootViewController {
-                SDKManager.shared.rootViewController?.dismiss(animated: true)
-            }
+        if sdkManager.isOncePerSession == false{
+            sdkManager.isOncePerSession = true
+            let vc = OfferAlertViewController.getViewController()
+            vc.alertTitle = localizedString( "Are you sure you want to exit?", comment: "")
+            vc.skipBtnText = localizedString("Skip the offers" , comment: "")
+            vc.discoverBtnTitle = localizedString("Discover the offers", comment: "")
+            vc.descrptionLblTitle = localizedString("Discover our wide range of products and offers on Smiles Market", comment: "")
+           vc.modalPresentationStyle = .overFullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            vc.isSmilemarket = false
+            self.present(vc, animated: true, completion: nil)
+        }else{
+            defer {
+                SDKManager.shared.rootContext = nil
+                 SDKManager.shared.rootViewController = nil
+                 SDKManager.shared.currentTabBar = nil
+                sdkManager.isOncePerSession = false
+             }
+             SDKManager.shared.rootContext?.dismiss(animated: true)
+             SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedEvent())
         }
-      
+       
+    
     }
     
     @objc override func locationButtonClick() {
@@ -997,6 +1005,8 @@ extension SmileSdkHomeVC {
                 activeCartVC?.dismiss(animated: true, completion: {
                     bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
                 })
+            case .staticImage:
+                break
             }
             
         }).disposed(by: disposeBag)

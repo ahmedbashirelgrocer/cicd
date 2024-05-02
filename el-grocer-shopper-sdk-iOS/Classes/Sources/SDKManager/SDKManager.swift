@@ -73,7 +73,7 @@ class SDKManager: NSObject, SDKManagerType  {
     var launchOptionsLocation: CLLocation? = nil
     var isLaunchEventConfigured: Bool = false
     var isInitialized = false
-    
+    var isOncePerSession: Bool = false
     // MARK: Initializers
     private override init() {
         super.init()
