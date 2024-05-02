@@ -10,9 +10,20 @@ import UIKit
 protocol PushMarketingCampaignLandingPageDelegate{
     func pushMarketingCampaignLandingPageWith(limitedTimeSavings: LimitedTimeSavings)
 }
+protocol RemoveCardWithNoProducts{
+    func removeCardWithNoProducts(offer: LimitedTimeSavings)
+}
+protocol RemoveLimitedTimeSavingsSection{
+    func removeLimitedTimeSavingsSection()
+}
+protocol CustomLandingPageTapped{
+    func didTapCustomLandingPageWith(offer: LimitedTimeSavings)
+}
+
 class LimitedTimeSavingsTableViewCell: UITableViewCell {
 
     var delegate: PushMarketingCampaignLandingPageDelegate?
+    var delegateRemoveLimitedTimeSavings: RemoveLimitedTimeSavingsSection?
     var offers: [LimitedTimeSavings] = []
     var groceryA: [Grocery] = []
     
@@ -75,11 +86,16 @@ extension LimitedTimeSavingsTableViewCell: UICollectionViewDelegate, UICollectio
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LimitedTimeSavingsCardCollectionCell", for: indexPath) as! LimitedTimeSavingsCardCollectionCell
-        let offer = offers[indexPath.row]
-        let grocery = self.groceryA.first { Grocery in
-            return (Int(Grocery.getCleanGroceryID()) ?? 0) == (offer.retailer_ids[0])
+        cell.delegate = self
+        cell.delegateCustomLandingPageTapped = self
+        if(offers.count != 0){
+            let offer = offers[indexPath.row]
+            let grocery = self.groceryA.first { Grocery in
+                return (Int(Grocery.getCleanGroceryID()) ?? 0) == (offer.retailer_ids[0])
+            }
+            print(offer)
+            cell.configure(offers: offer, grocery: grocery)
         }
-        cell.configure(offers: offer, grocery: grocery)
         cell.bgView.layer.cornerRadius = 8
         return cell
     }
@@ -92,6 +108,28 @@ extension LimitedTimeSavingsTableViewCell: UICollectionViewDelegate, UICollectio
 }
 extension LimitedTimeSavingsTableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: ScreenSize.SCREEN_WIDTH - 40, height: 238)
+        if(offers.count == 1){
+            return CGSize(width: ScreenSize.SCREEN_WIDTH - 35, height: 238)
+        }else{
+            return CGSize(width: ScreenSize.SCREEN_WIDTH - 80, height: 238)
+        }
+    }
+}
+extension LimitedTimeSavingsTableViewCell: RemoveCardWithNoProducts{
+    func removeCardWithNoProducts(offer: LimitedTimeSavings) {
+        if let index = offers.firstIndex(where: { $0.id == offer.id }) {
+            offers.remove(at: index)
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+                if(self.offers.count == 0){
+                    self.delegateRemoveLimitedTimeSavings?.removeLimitedTimeSavingsSection()
+                }
+            }
+        }
+    }
+}
+extension LimitedTimeSavingsTableViewCell: CustomLandingPageTapped{
+    func didTapCustomLandingPageWith(offer: LimitedTimeSavings) {
+        self.delegate?.pushMarketingCampaignLandingPageWith(limitedTimeSavings: offer)
     }
 }

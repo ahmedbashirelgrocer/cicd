@@ -1556,9 +1556,12 @@ extension SmileSdkHomeVC {
                 if self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId {
                     exclusiveDealsSection = self.exclusiveDealsPromoList.count > 0 ? 1 : 0
                     limitedTimeSavingsSection = self.limitedTimeSavingsCardList.count > 0 ? 1 : 0
+                    return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection + limitedTimeSavingsSection
                 }
-                
-                return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection + limitedTimeSavingsSection
+                else{
+                    return 1 + (configs.isHomeTier1 ? 1 : 0) 
+                }
+                //return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection + limitedTimeSavingsSection
             }
             
         case 1: //1-3: Grocery cell 1, 2, 3
@@ -1867,9 +1870,16 @@ extension SmileSdkHomeVC {
     func makeLimitedTimeSavingsTableViewCell(indexPath: IndexPath)-> UITableViewCell {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "LimitedTimeSavingsTableViewCell", for: indexPath) as! LimitedTimeSavingsTableViewCell
         cell.delegate = self
+        cell.delegateRemoveLimitedTimeSavings = self
         cell.configureCell(offers: self.homeDataHandler.limitedTimeSavings, groceryA: self.homeDataHandler.groceryA)
         cell.selectionStyle = .none
         return cell
+    }
+    
+    func removeLimitedTimeSavingsTableViewCell(){
+        self.limitedTimeSavingsSection = 0
+        self.limitedTimeSavingsCardList.removeAll()
+        self.tableView.reloadData()
     }
 }
 extension SmileSdkHomeVC: CopyAndShopDelegate{
@@ -1961,5 +1971,10 @@ extension SmileSdkHomeVC: PushMarketingCampaignLandingPageDelegate{
             let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
             self.present(landingVC, animated: true)
         }
+    }
+}
+extension SmileSdkHomeVC: RemoveLimitedTimeSavingsSection{
+    func removeLimitedTimeSavingsSection() {
+        self.removeLimitedTimeSavingsTableViewCell()
     }
 }

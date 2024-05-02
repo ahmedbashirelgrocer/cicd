@@ -10,6 +10,8 @@ import ABLoaderView
 import SDWebImage
 class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
 
+    var delegate : RemoveCardWithNoProducts?
+    var delegateCustomLandingPageTapped : CustomLandingPageTapped?
     var algoliaProductsLoaded = false
     var products = [LimitedTimeSavingsProduct]()
     var grocery: Grocery?
@@ -17,6 +19,7 @@ class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
     public var storeName = "Smiles Market "
     public var discountOffer = "  50% Off Fruits  "
     
+    @IBOutlet weak var ivArrow: UIImageView!
     @IBOutlet weak var bgView: UIView!
     @IBOutlet weak var retailerImageView: UIImageView!
     @IBOutlet weak var discount: UILabel!{
@@ -39,7 +42,7 @@ class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
                 .font: UIFont.SFProDisplaySemiBoldFont(14)
             ]
             let attributedNameString = NSAttributedString(string: storeName, attributes: nameAttributes)
-            retailerName.numberOfLines = 0
+            //retailerName.numberOfLines = 0
             retailerName.attributedText = attributedNameString
         }
     }
@@ -47,6 +50,7 @@ class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
         didSet{
             deliverySlot.setCaptionOneRegDarkStyle()
             deliverySlot.text = "🛵 Within 40 mins"
+            self.getAlgoliaProducts()
         }
     }
     @IBOutlet weak var collectionView: UICollectionView!
@@ -55,11 +59,13 @@ class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        self.setInitialAppearance()
+        self.collectionView.isScrollEnabled = false
         self.collectionView.reloadData()
         self.layer.cornerRadius = 8
         self.registerCells()
         self.setUpCollectionView()
-        self.getAlgoliaProducts()
+        //self.getAlgoliaProducts()
     }
 
     func configure(offers: LimitedTimeSavings, grocery: Grocery?) {
@@ -69,8 +75,26 @@ class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
         self.discountOffer = "  " + (grocery?.salesTagLine ?? "") + "  "
         self.retailerName.text = self.storeName
         self.discount.text = self.discountOffer
-        self.deliverySlot.text = grocery?.genericSlot ?? ""
+        if(grocery?.salesTagLine == nil || grocery?.salesTagLine == ""){
+            self.discount.isHidden = true
+        }else{
+            self.discount.isHidden = false
+        }
+        //self.deliverySlot.text = grocery?.genericSlot ?? ""
+        if(grocery != nil){
+            self.getDeliverySlotString(grocery: grocery!)
+        }
         self.retailerImageView.assignImage(imageUrl: grocery?.smallImageUrl ?? "")
+        //if(!self.algoliaProductsLoaded && self.products.count == 0){
+            //self.getAlgoliaProducts()
+        //}
+    }
+    
+    func setInitialAppearance() {
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            ivArrow.transform = CGAffineTransform(scaleX: -1, y: 1)
+            deliverySlot.textAlignment = .right
+        }
     }
     
     func registerCells() {
@@ -120,6 +144,9 @@ extension LimitedTimeSavingsCardCollectionCell: UICollectionViewDelegate, UIColl
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if(offers != nil){
+            self.delegateCustomLandingPageTapped?.didTapCustomLandingPageWith(offer: self.offers!)
+        }
     }
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
     }
@@ -134,20 +161,86 @@ extension LimitedTimeSavingsCardCollectionCell{
         AlgoliaApi.sharedInstance.searchWithQuery(query: offers?.query ?? "", pageNumber: 0){
          content, error in
             if let arrayHits = content?["hits"] as? NSArray{
-                for productObj in arrayHits{
-                    if let dictProduct = productObj as? NSDictionary{
-                        print(dictProduct)
-                        let productModel = LimitedTimeSavingsProduct(dictProduct: dictProduct, groceryId: Int(self.grocery?.dbID ?? "0") ?? 0)
-                        self.products.append(productModel)
+                print("array hits:", arrayHits.count)
+                print("id:", self.offers?.id)
+                print("query:", self.offers?.query)
+                if(arrayHits.count >= 4){
+                    for productObj in arrayHits{
+                        if let dictProduct = productObj as? NSDictionary{
+                            print(dictProduct)
+                            let productModel = LimitedTimeSavingsProduct(dictProduct: dictProduct, groceryId: Int(self.grocery?.dbID ?? "0") ?? 0)
+                            self.products.append(productModel)
+                        }
                     }
-                }
-                DispatchQueue.main.async {
-                    self.algoliaProductsLoaded = true
-                    self.collectionView.reloadData()
+                    DispatchQueue.main.async {
+                        self.algoliaProductsLoaded = true
+                        self.collectionView.reloadData()
+                    }
+                }else{
+                    //remove this object from card collection list as products available are less than 4
+                    if(self.offers != nil){
+                        self.delegate?.removeCardWithNoProducts(offer: self.offers!)
+                    }
                 }
             }else{
                 //remove this object from card collection list as no products are available
+                if(self.offers != nil){
+                    self.delegate?.removeCardWithNoProducts(offer: self.offers!)
+                }
             }
         }
+    }
+}
+extension LimitedTimeSavingsCardCollectionCell{
+    func setDeliveryDate (_ data : String) {
+        
+        let dataA = data.components(separatedBy: CharacterSet.newlines)
+        var attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(11) , NSAttributedString.Key.foregroundColor : self.deliverySlot.textColor ]
+        if dataA.count == 1 {
+            if self.deliverySlot.text?.count ?? 0 > 13 {
+                attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(11) , NSAttributedString.Key.foregroundColor : self.deliverySlot.textColor ]
+                 let attributedString1 = NSMutableAttributedString(string: dataA[0], attributes:attrs1 as [NSAttributedString.Key : Any])
+                 self.deliverySlot.attributedText = attributedString1
+                return
+            }
+        }
+        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(11) , NSAttributedString.Key.foregroundColor : self.deliverySlot.textColor]
+        
+        let attributedString1 = NSMutableAttributedString(string:dataA[0], attributes:attrs1 as [NSAttributedString.Key : Any])
+        let timeText = dataA.count > 1 ? dataA[1] : ""
+        let attributedString2 = NSMutableAttributedString(string:" \(timeText)", attributes:attrs2 as [NSAttributedString.Key : Any])
+        
+        attributedString1.append(attributedString2)
+        self.deliverySlot.attributedText = attributedString1
+        
+        self.deliverySlot.minimumScaleFactor = 0.5;
+        
+    }
+    func getDeliverySlotString(grocery: Grocery) {
+        let scheduledEmoji = "🚛 "
+        if  (grocery.isOpen.boolValue && (grocery.isInstant() || grocery.isInstantSchedule())) {
+            
+            let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(11) , NSAttributedString.Key.foregroundColor : self.deliverySlot.textColor]
+            let instantSlotString = "🛵 " + localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "")
+            let attributedString2 = NSMutableAttributedString(string: instantSlotString, attributes:attrs2 as [NSAttributedString.Key : Any])
+            self.deliverySlot.attributedText = attributedString2
+            //hideSlotImage(isHidden: true)
+        }else if let jsonSlot = grocery.initialDeliverySlotData {
+            if let dict = grocery.convertToDictionary(text: jsonSlot) {
+                
+                let slotString = DeliverySlotManager.getStoreGenericSlotFormatterTimeStringWithDictionary(dict, isDeliveryMode: grocery.isDelivery.boolValue)
+                
+                setDeliveryDate(scheduledEmoji + slotString)
+                //hideSlotImage(isHidden: true)
+                
+            }else {
+                setDeliveryDate(scheduledEmoji + (grocery.genericSlot ?? ""))
+                //hideSlotImage(isHidden: true)
+            }
+        }else {
+            setDeliveryDate(scheduledEmoji + (grocery.genericSlot ?? ""))
+            //hideSlotImage(isHidden: true)
+        }
+        
     }
 }
