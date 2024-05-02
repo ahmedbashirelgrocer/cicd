@@ -20,7 +20,7 @@ class ElgrocerWhilteLogoBar: UINavigationBar {
      var logoView:UIImageView!
      var backButton:UIButton!
      var basketButton:UIButton!
-      private var upperLeftBadge: BadgeController!
+//      private var upperLeftBadge: BadgeController!
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.setWhiteBackground()
@@ -56,11 +56,11 @@ class ElgrocerWhilteLogoBar: UINavigationBar {
             
             if self.basketButton != nil {
                 self.basketButton.frame = CGRect(x:  16 , y: self.frame.size.height / 2 - 22 , width: 36, height: 36)
-                if upperLeftBadge == nil {
-                    upperLeftBadge = BadgeController(for: self.basketButton, in: .upperRightCorner, badgeBackgroundColor: UIColor.colorWithHexString(hexString: "ee7a6b") , badgeTextColor: UIColor.white, borderWidth: 2, badgeHeight: 18)
-                    upperLeftBadge.borderColor = UIColor.white
-                    upperLeftBadge.centerPosition = .custom(x: 38, y: 6)
-                }
+//                if upperLeftBadge == nil {
+//                    upperLeftBadge = BadgeController(for: self.basketButton, in: .upperRightCorner, badgeBackgroundColor: UIColor.colorWithHexString(hexString: "ee7a6b") , badgeTextColor: UIColor.white, borderWidth: 2, badgeHeight: 18)
+//                    upperLeftBadge.borderColor = UIColor.white
+//                    upperLeftBadge.centerPosition = .custom(x: 38, y: 6)
+//                }
             }
             
            
@@ -76,11 +76,11 @@ class ElgrocerWhilteLogoBar: UINavigationBar {
             
             if self.basketButton != nil {
                 self.basketButton.frame = CGRect(x: ( self.frame.size.width - 55) , y: self.frame.size.height / 2 - 22 , width: 36, height: 36)
-                if upperLeftBadge == nil {
-                    upperLeftBadge = BadgeController(for: self.basketButton, in: .upperRightCorner, badgeBackgroundColor: UIColor.colorWithHexString(hexString: "ee7a6b") , badgeTextColor: UIColor.white, borderWidth: 2, badgeHeight: 18)
-                    upperLeftBadge.borderColor = UIColor.white
-                    upperLeftBadge.centerPosition = .custom(x: 38, y: 6)
-                }
+//                if upperLeftBadge == nil {
+//                    upperLeftBadge = BadgeController(for: self.basketButton, in: .upperRightCorner, badgeBackgroundColor: UIColor.colorWithHexString(hexString: "ee7a6b") , badgeTextColor: UIColor.white, borderWidth: 2, badgeHeight: 18)
+//                    upperLeftBadge.borderColor = UIColor.white
+//                    upperLeftBadge.centerPosition = .custom(x: 38, y: 6)
+//                }
             }
             
             
@@ -181,34 +181,35 @@ class ElgrocerWhilteLogoBar: UINavigationBar {
     }
     
     func updateBadge( number : String) {
-        upperLeftBadge.addOrReplaceCurrent(with: number , animated: true)
+        print("<<<>>> updateBadge")
+//        upperLeftBadge.addOrReplaceCurrent(with: number , animated: true)
     }
     
     func updateBadgeValue () {
-        
-        guard upperLeftBadge != nil else {return}
-        
-        if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
-            let isBasketForOtherGroceryActive = ShoppingBasketItem.checkIfBasketForOtherGroceryIsActive(grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-            if isBasketForOtherGroceryActive {
-                 upperLeftBadge.addOrReplaceCurrent(with: "x" , animated: true)
-                return
-            }
-        }
-        let items = ShoppingBasketItem.getBasketItemsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        var itemsCount = 0
-        for item in items {
-            itemsCount += item.count.intValue
-        }
-        if itemsCount == 0 {
-            upperLeftBadge.remove(animated: true)
-        }else{
-            let itemsCountStr = "\(itemsCount)"
-            
-           let finalString =  ElGrocerUtility.sharedInstance.isArabicSelected() ?  itemsCountStr.changeToArabic() : itemsCountStr.changeToEnglish()
-            
-            upperLeftBadge.addOrReplaceCurrent(with: finalString  , animated: true)
-        }
+        print("<<<>>> updateBadgeValue")
+//        guard upperLeftBadge != nil else {return}
+//        
+//        if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
+//            let isBasketForOtherGroceryActive = ShoppingBasketItem.checkIfBasketForOtherGroceryIsActive(grocery, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+//            if isBasketForOtherGroceryActive {
+//                 upperLeftBadge.addOrReplaceCurrent(with: "x" , animated: true)
+//                return
+//            }
+//        }
+//        let items = ShoppingBasketItem.getBasketItemsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+//        var itemsCount = 0
+//        for item in items {
+//            itemsCount += item.count.intValue
+//        }
+//        if itemsCount == 0 {
+//            upperLeftBadge.remove(animated: true)
+//        }else{
+//            let itemsCountStr = "\(itemsCount)"
+//            
+//           let finalString =  ElGrocerUtility.sharedInstance.isArabicSelected() ?  itemsCountStr.changeToArabic() : itemsCountStr.changeToEnglish()
+//            
+//            upperLeftBadge.addOrReplaceCurrent(with: finalString  , animated: true)
+//        }
     }
     
     fileprivate func addLogoView() {

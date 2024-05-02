@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Adyen/adyen-3ds2-ios",
       "state" : {
-        "revision" : "1ab16d13ed815083755dcfedc297283d96f1c6eb",
-        "version" : "2.4.1"
+        "revision" : "0de394345ca9d88748532ed91d99399afb85b8ed",
+        "version" : "2.4.2"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Adyen/adyen-ios",
       "state" : {
-        "revision" : "20c9ee6b4af3634fec3143b5234e575a8d3e00e5",
-        "version" : "4.12.0"
+        "revision" : "51d3ce99faa200927b8a49ffec3ddf657426fcb6",
+        "version" : "4.12.1"
       }
     },
     {
@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk.git",
       "state" : {
-        "revision" : "42eae77a0af79e9c3f41df04a23c76f05cfdda77",
-        "version" : "10.24.0"
+        "revision" : "97940381e57703c07f31a8058d8f39ec53b7c272",
+        "version" : "10.25.0"
       }
     },
     {
@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",
       "state" : {
-        "revision" : "51ba746a9d51a4bd0774b68499b0c73ef6e8570d",
-        "version" : "10.24.0"
+        "revision" : "16244d177c4e989f87b25e9db1012b382cfedc55",
+        "version" : "10.25.0"
       }
     },
     {
@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleUtilities.git",
       "state" : {
-        "revision" : "26c898aed8bed13b8a63057ee26500abbbcb8d55",
-        "version" : "7.13.1"
+        "revision" : "8e5d57ed87057cd7b0e4e8f474d9e78f73eb85f7",
+        "version" : "7.13.2"
       }
     },
     {
@@ -329,8 +329,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sendbird/sendbird-chat-sdk-ios",
       "state" : {
-        "revision" : "858841999de5aee1652d76ce74ee0afb0ef530da",
-        "version" : "4.19.2"
+        "revision" : "00cb4c26ab9a616030c69d04aecfcf44b7ac272c",
+        "version" : "4.19.3"
       }
     },
     {
@@ -347,8 +347,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sendbird/sendbird-uikit-ios-spm.git",
       "state" : {
-        "revision" : "7b01c7b97bf518ff29b270b03a5e598691af7fca",
-        "version" : "3.20.0"
+        "revision" : "afee3e48cf6e315a83266b1fcff2a007ca5b6a70",
+        "version" : "3.21.0"
       }
     },
     {
