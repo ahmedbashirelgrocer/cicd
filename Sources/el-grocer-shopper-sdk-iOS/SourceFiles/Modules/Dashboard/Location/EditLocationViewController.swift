@@ -443,10 +443,10 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
        // self.locNameTextField.textColor = UIColor.darkTextGrayColor()
         self.locNameTextField.addTarget(self, action: #selector(EditLocationViewController.textFieldDidChange(_:)), for: UIControl.Event.editingChanged)
         
-        let toolBar = DoneCancelNumberPadToolbar(textField: self.locNameTextField, withKeyboardType:Int32(self.locNameTextField.keyboardType.rawValue))
-        toolBar?.delegate = self
-        toolBar?.barStyle = UIBarStyle.default
-        self.locNameTextField.inputAccessoryView = toolBar
+//        let toolBar = DoneCancelNumberPadToolbar(textField: self.locNameTextField, withKeyboardType:Int32(self.locNameTextField.keyboardType.rawValue))
+//        toolBar?.delegate = self
+//        toolBar?.barStyle = UIBarStyle.default
+//        self.locNameTextField.inputAccessoryView = toolBar
     }
     
     fileprivate func setUpBuildingTextFieldAppearance() {
@@ -460,10 +460,10 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         self.buildingTextField.textColor = UIColor.black
         
         
-        let toolBar = DoneCancelNumberPadToolbar(textField: self.buildingTextField, withKeyboardType:Int32(self.buildingTextField.keyboardType.rawValue))
-        toolBar?.delegate = self
-        toolBar?.barStyle = UIBarStyle.default
-        self.buildingTextField.inputAccessoryView = toolBar
+//        let toolBar = DoneCancelNumberPadToolbar(textField: self.buildingTextField, withKeyboardType:Int32(self.buildingTextField.keyboardType.rawValue))
+//        toolBar?.delegate = self
+//        toolBar?.barStyle = UIBarStyle.default
+//        self.buildingTextField.inputAccessoryView = toolBar
     }
     
     fileprivate func setUpFloorTextFieldAppearance() {
@@ -475,10 +475,10 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         self.floorTextField.textColor = UIColor.black
         
         
-        let toolBar = DoneCancelNumberPadToolbar(textField: self.floorTextField, withKeyboardType:Int32(self.floorTextField.keyboardType.rawValue))
-        toolBar?.delegate = self
-        toolBar?.barStyle = UIBarStyle.default
-        self.floorTextField.inputAccessoryView = toolBar
+//        let toolBar = DoneCancelNumberPadToolbar(textField: self.floorTextField, withKeyboardType:Int32(self.floorTextField.keyboardType.rawValue))
+//        toolBar?.delegate = self
+//        toolBar?.barStyle = UIBarStyle.default
+//        self.floorTextField.inputAccessoryView = toolBar
     }
     
     fileprivate func setUpApartmentNumberTextFieldAppearance() {
@@ -490,10 +490,10 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         self.apartmentNumberTextField.textColor = UIColor.black
        
         
-        let toolBar = DoneCancelNumberPadToolbar(textField: self.apartmentNumberTextField, withKeyboardType:Int32(self.apartmentNumberTextField.keyboardType.rawValue))
-        toolBar?.delegate = self
-        toolBar?.barStyle = UIBarStyle.default
-        self.apartmentNumberTextField.inputAccessoryView = toolBar
+//        let toolBar = DoneCancelNumberPadToolbar(textField: self.apartmentNumberTextField, withKeyboardType:Int32(self.apartmentNumberTextField.keyboardType.rawValue))
+//        toolBar?.delegate = self
+//        toolBar?.barStyle = UIBarStyle.default
+//        self.apartmentNumberTextField.inputAccessoryView = toolBar
     }
     
     fileprivate func setUpStreetTextFieldAppearance() {
@@ -503,10 +503,10 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
      //   self.streetTextField.font = UIFont.mediumFont(15.0)
         self.streetTextField.textColor = UIColor.black
       
-        let toolBar = DoneCancelNumberPadToolbar(textField: self.streetTextField, withKeyboardType:Int32(self.streetTextField.keyboardType.rawValue))
-        toolBar?.delegate = self
-        toolBar?.barStyle = UIBarStyle.default
-        self.streetTextField.inputAccessoryView = toolBar
+//        let toolBar = DoneCancelNumberPadToolbar(textField: self.streetTextField, withKeyboardType:Int32(self.streetTextField.keyboardType.rawValue))
+//        toolBar?.delegate = self
+//        toolBar?.barStyle = UIBarStyle.default
+//        self.streetTextField.inputAccessoryView = toolBar
     }
     
     fileprivate func setUpAdditionalDirectionTextFieldAppearance() {
@@ -522,10 +522,10 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
         self.additionalDirectionTextField.textColor = UIColor.newBlackColor()
         self.additionalDirectionTextView.textColor = UIColor.newBlackColor()
         
-        let toolBar = DoneCancelNumberPadToolbar(textField: self.additionalDirectionTextField, withKeyboardType:Int32(self.additionalDirectionTextField.keyboardType.rawValue))
-        toolBar?.delegate = self
-        toolBar?.barStyle = UIBarStyle.default
-        self.additionalDirectionTextField.inputAccessoryView = toolBar
+//        let toolBar = DoneCancelNumberPadToolbar(textField: self.additionalDirectionTextField, withKeyboardType:Int32(self.additionalDirectionTextField.keyboardType.rawValue))
+//        toolBar?.delegate = self
+//        toolBar?.barStyle = UIBarStyle.default
+//        self.additionalDirectionTextField.inputAccessoryView = toolBar
         if ElGrocerUtility.sharedInstance.isArabicSelected() {
             self.additionalDirectionTextView.textAlignment = .right
         }
@@ -1001,7 +1001,7 @@ class EditLocationViewController: UIViewController,UITableViewDataSource,UITable
 
         }
         
-         self.apartmentNumber = self.deliveryAddress.apartment!
+//         self.apartmentNumber = self.deliveryAddress.apartment!
         
         if self.deliveryAddress.additionalDirection != nil {
             self.limitLabel.text = String(format: "%d/100",(self.deliveryAddress.additionalDirection?.count)!)
@@ -1877,12 +1877,12 @@ extension EditLocationViewController: GMSAutocompleteFetcherDelegate {
 }
 
 // MARK: DoneCancelNumberPadToolbarDelegate
-extension EditLocationViewController: DoneCancelNumberPadToolbarDelegate {
-    
-    func doneCancelNumberPadToolbarDelegate(_ controller: DoneCancelNumberPadToolbar!, didClickDone textField: UITextField!) {
-    }
-    
-    func doneCancelNumberPadToolbarDelegate(_ controller: DoneCancelNumberPadToolbar!, didClickCancel textField: UITextField!) {
-    }
-}
+//extension EditLocationViewController: DoneCancelNumberPadToolbarDelegate {
+//    
+//    func doneCancelNumberPadToolbarDelegate(_ controller: DoneCancelNumberPadToolbar!, didClickDone textField: UITextField!) {
+//    }
+//    
+//    func doneCancelNumberPadToolbarDelegate(_ controller: DoneCancelNumberPadToolbar!, didClickCancel textField: UITextField!) {
+//    }
+//}
 
