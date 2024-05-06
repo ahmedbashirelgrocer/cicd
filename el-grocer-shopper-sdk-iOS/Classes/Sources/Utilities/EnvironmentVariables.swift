@@ -23,7 +23,7 @@ class EnvironmentVariables {
         
         let bundle = Bundle.resource
         let ReleaseEnvoirmentName = "Release"
-        var configurationName = SDKManager.shared.launchOptions?.environmentType.value() ??  ReleaseEnvoirmentName
+        let configurationName = SDKManager.shared.launchOptions?.environmentType.value() ??  ReleaseEnvoirmentName
 //        #if DEBUG
 //        configurationName = "Debug"
 //        #else
