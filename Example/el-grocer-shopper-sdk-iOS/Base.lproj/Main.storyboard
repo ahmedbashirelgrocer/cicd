@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9oE-gi-UHu">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="9oE-gi-UHu">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -64,7 +64,7 @@
                                 <color key="backgroundColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                             </containerView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4aN-ik-e0A">
-                                <rect key="frame" x="72.000000000000014" y="389" width="231.33333333333337" height="34.333333333333314"/>
+                                <rect key="frame" x="72.000000000000014" y="385" width="231.33333333333337" height="42.333333333333314"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Start ElGrocerShopper App"/>
@@ -469,6 +469,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="grz-hG-Ip6" userLabel="Integrated Search">
                                                 <rect key="frame" x="20" y="946.66666666666674" width="335" height="46"/>
                                                 <color key="backgroundColor" red="0.26274511220000002" green="0.2941176593" blue="0.67450982329999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="grz-hG-Ip6" secondAttribute="height" multiplier="335:46" id="uv3-b3-tvL"/>
+                                                </constraints>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="Load Data"/>
@@ -487,6 +490,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Pb-9g-Cue" userLabel="Integrated Search">
                                                 <rect key="frame" x="20" y="1008.6666666666667" width="335" height="46"/>
                                                 <color key="backgroundColor" red="0.26274511220000002" green="0.2941176593" blue="0.67450982329999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="6Pb-9g-Cue" secondAttribute="height" multiplier="335:46" id="XYk-KR-cnK"/>
+                                                </constraints>
                                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                 <state key="normal" title="Integrated Search"/>
@@ -534,7 +540,6 @@
                                             <constraint firstItem="ddB-oo-DJW" firstAttribute="height" secondItem="B7n-Be-zV5" secondAttribute="height" id="Soy-w3-2Xf"/>
                                             <constraint firstAttribute="trailing" secondItem="B7n-Be-zV5" secondAttribute="trailing" constant="20" symbolic="YES" id="VuW-b9-2f2"/>
                                             <constraint firstItem="ddB-oo-DJW" firstAttribute="leading" secondItem="Utn-j6-G1T" secondAttribute="leading" constant="20" symbolic="YES" id="WXe-Jl-HcT"/>
-                                            <constraint firstItem="6Pb-9g-Cue" firstAttribute="width" secondItem="6Pb-9g-Cue" secondAttribute="height" multiplier="335:46" id="XYk-KR-cnK"/>
                                             <constraint firstAttribute="bottom" secondItem="6Pb-9g-Cue" secondAttribute="bottom" constant="16" id="YqY-GU-a1p"/>
                                             <constraint firstItem="B7n-Be-zV5" firstAttribute="leading" secondItem="Utn-j6-G1T" secondAttribute="leading" constant="20" symbolic="YES" id="bog-Jn-iuf"/>
                                             <constraint firstItem="ddB-oo-DJW" firstAttribute="top" secondItem="yfB-Nd-mie" secondAttribute="bottom" constant="10" id="cFn-AF-oZF"/>
@@ -552,7 +557,6 @@
                                             <constraint firstItem="Kl5-lj-vka" firstAttribute="leading" secondItem="Utn-j6-G1T" secondAttribute="leading" constant="20" symbolic="YES" id="tCp-gI-09C"/>
                                             <constraint firstAttribute="trailing" secondItem="fUE-7A-ybb" secondAttribute="trailing" constant="20" symbolic="YES" id="uIt-Nr-rHg"/>
                                             <constraint firstItem="Kl5-lj-vka" firstAttribute="height" secondItem="oes-AC-gLo" secondAttribute="height" id="udr-nO-lV6"/>
-                                            <constraint firstItem="grz-hG-Ip6" firstAttribute="width" secondItem="grz-hG-Ip6" secondAttribute="height" multiplier="335:46" id="uv3-b3-tvL"/>
                                             <constraint firstItem="ai7-to-hc6" firstAttribute="leading" secondItem="Utn-j6-G1T" secondAttribute="leading" constant="20" symbolic="YES" id="ux6-G5-IBA"/>
                                             <constraint firstItem="oes-AC-gLo" firstAttribute="leading" secondItem="Utn-j6-G1T" secondAttribute="leading" constant="20" symbolic="YES" id="vTm-Yh-bDs"/>
                                             <constraint firstAttribute="trailing" secondItem="6dm-L0-2m5" secondAttribute="trailing" constant="20" symbolic="YES" id="vXe-Jb-ROk"/>
@@ -796,7 +800,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ydm-mi-94T">
-                                <rect key="frame" x="55.666666666666657" y="389" width="264" height="34.333333333333314"/>
+                                <rect key="frame" x="55.666666666666657" y="385" width="264" height="42.333333333333314"/>
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Launch SDK on Presented View"/>
                                 <connections>
@@ -878,7 +882,7 @@
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="labelColor">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

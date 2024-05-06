@@ -36,9 +36,9 @@ class OfferAlertViewController: UIViewController {
         super.viewDidLoad()
         var imageUrl = ""
         if isSmilemarket {
-            imageUrl = "smilesmarketBanner"
-        }else{
             imageUrl = "SingleStoreBanner"
+        } else {
+            imageUrl = "smilesmarketBanner"
         }
         self.viewBanner.banners = [BannerDTO.init(name: "", campaignType:.staticImage, imageURL:imageUrl , bannerImageURL: "", url: "", categories: [], subcategories: [], brands: [], retailerIDS: [], locations: [], storeTypes: [], retailerGroups: [], customScreenId: nil)]
         if let groceries = HomePageData.shared.groceryA {
@@ -152,7 +152,7 @@ class OfferAlertViewController: UIViewController {
             switch result {
             case .success(let bannerA):
                 if bannerA.count > 0 {
-                    self.viewBanner.banners = self.viewBanner.banners + bannerA.map { $0.toBannerDTO() }
+                    self.viewBanner.banners =  bannerA.map { $0.toBannerDTO() }
                 }
             case.failure(let _): break
             }
