@@ -86,18 +86,18 @@ class SettingViewController: UIViewController {
         }
         
         func getEnvironmentName() -> String {
-
-            let environment = SDKManager.shared.launchOptions?.environmentType.value() ?? ""
-            var environmentName = ""
+            let stagingBaseURL = "https://el-grocer-staging-dev.herokuapp.com/api/"
+            let adminBaseURL = "https://el-grocer-admin.herokuapp.com/api/"
             
-            switch environment {
-                case "StagingProduction": environmentName = " - Staging"
-                case "PreAdmin"         : environmentName = " - Admin"
-                case "Release"          : environmentName = ""
-                default                 : environmentName = ""
+            let baseUrl = EnvironmentVariables.sharedInstance.getBackendUrl()
+            
+            if baseUrl == stagingBaseURL {
+                return " - Staging"
+            } else if baseUrl == adminBaseURL {
+                return " - Admin"
             }
             
-            return environmentName
+            return ""
         }
     }
     
