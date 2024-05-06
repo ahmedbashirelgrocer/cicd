@@ -114,4 +114,5 @@ enum EventParameterKeys {
     static let elWalletBalance = "elWalletBalance"
     // Release, address centralisation, payment centralisation
     static let releaseType = "releaseType"
+    static let marketingCampaignType = "campaignType"
 }

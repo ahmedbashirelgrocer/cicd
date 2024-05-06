@@ -15,46 +15,51 @@ class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
     var algoliaProductsLoaded = false
     var products = [LimitedTimeSavingsProduct]()
     var grocery: Grocery?
-    var offers: LimitedTimeSavings?
-    public var storeName = "Smiles Market "
-    public var discountOffer = "  50% Off Fruits  "
+    var offers: LimitedTimeSavings?{
+        didSet{
+            if(self.offers != nil){
+                self.getAlgoliaProductsWith(cardObject: self.offers!)
+            }
+        }
+    }
+    var cellInitialized: Bool?
+    public var storeName = ""
+    public var discountOffer = ""
     
     @IBOutlet weak var ivArrow: UIImageView!
     @IBOutlet weak var bgView: UIView!
     @IBOutlet weak var retailerImageView: UIImageView!
     @IBOutlet weak var discount: UILabel!{
         didSet{
-            let discountAttributes: [NSAttributedString.Key: Any] = [
-                .foregroundColor: UIColor.navigationBarWhiteColor(),
-                .backgroundColor: UIColor.promotionRedColor(),
-                .font: UIFont.SFProDisplaySemiBoldFont(11)
-            ]
-            let attributedDiscountString = NSAttributedString(string: discountOffer, attributes: discountAttributes)
-            discount.attributedText = attributedDiscountString
+            discount.textColor = UIColor.navigationBarWhiteColor()
+            discount.backgroundColor = UIColor.promotionRedColor()
+            discount.font = UIFont.SFProDisplaySemiBoldFont(11)
             discount.layer.cornerRadius = 7
             discount.clipsToBounds = true
         }
     }
-    @IBOutlet weak var retailerName: UILabel!{
+    
+    @IBOutlet weak var name: UILabel!{
         didSet{
-            let nameAttributes: [NSAttributedString.Key: Any] = [
-                .foregroundColor: ApplicationTheme.currentTheme.labelGroceryCellSecondaryDarkTextColor,
-                .font: UIFont.SFProDisplaySemiBoldFont(14)
-            ]
-            let attributedNameString = NSAttributedString(string: storeName, attributes: nameAttributes)
-            //retailerName.numberOfLines = 0
-            retailerName.attributedText = attributedNameString
+            name.textColor = ApplicationTheme.currentTheme.labelGroceryCellSecondaryDarkTextColor
+            name.font = UIFont.SFProDisplaySemiBoldFont(14)
         }
     }
+    
     @IBOutlet weak var deliverySlot: UILabel!{
         didSet{
             deliverySlot.setCaptionOneRegDarkStyle()
-            deliverySlot.text = "🛵 Within 40 mins"
-            self.getAlgoliaProducts()
         }
     }
     @IBOutlet weak var collectionView: UICollectionView!
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.products.removeAll()
+        self.offers = nil
+        self.algoliaProductsLoaded = false
+        //self.cellInitialized = false
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -71,9 +76,10 @@ class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
     func configure(offers: LimitedTimeSavings, grocery: Grocery?) {
         self.grocery = grocery
         self.offers = offers
+        self.cellInitialized = true
         self.storeName = grocery?.name ?? ""
         self.discountOffer = "  " + (grocery?.salesTagLine ?? "") + "  "
-        self.retailerName.text = self.storeName
+        self.name.text = self.storeName
         self.discount.text = self.discountOffer
         if(grocery?.salesTagLine == nil || grocery?.salesTagLine == ""){
             self.discount.isHidden = true
@@ -85,9 +91,11 @@ class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
             self.getDeliverySlotString(grocery: grocery!)
         }
         self.retailerImageView.assignImage(imageUrl: grocery?.smallImageUrl ?? "")
-        //if(!self.algoliaProductsLoaded && self.products.count == 0){
-            //self.getAlgoliaProducts()
-        //}
+//        if(!self.algoliaProductsLoaded && self.offers?.query != nil && self.products.count == 0){
+//            DispatchQueue.global(qos: .userInitiated).async {
+//                self.getAlgoliaProducts()
+//            }
+//        }
     }
     
     func setInitialAppearance() {
@@ -157,36 +165,37 @@ extension LimitedTimeSavingsCardCollectionCell: UICollectionViewDelegateFlowLayo
     }
 }
 extension LimitedTimeSavingsCardCollectionCell{
-    func getAlgoliaProducts(){
-        AlgoliaApi.sharedInstance.searchWithQuery(query: offers?.query ?? "", pageNumber: 0){
+    func getAlgoliaProductsWith(cardObject: LimitedTimeSavings){
+        AlgoliaApi.sharedInstance.searchWithQuery(query: cardObject.query ?? "", pageNumber: 0){
          content, error in
             if let arrayHits = content?["hits"] as? NSArray{
                 print("array hits:", arrayHits.count)
-                print("id:", self.offers?.id)
-                print("query:", self.offers?.query)
-                if(arrayHits.count >= 4){
+                print("id:", cardObject.id)
+                print("query:", cardObject.query)
+                if(arrayHits.count >= 1){
+                    self.products.removeAll()
                     for productObj in arrayHits{
                         if let dictProduct = productObj as? NSDictionary{
                             print(dictProduct)
                             let productModel = LimitedTimeSavingsProduct(dictProduct: dictProduct, groceryId: Int(self.grocery?.dbID ?? "0") ?? 0)
-                            self.products.append(productModel)
+                            if(productModel.shop != nil){
+                                self.products.append(productModel)
+                            }
                         }
                     }
-                    DispatchQueue.main.async {
-                        self.algoliaProductsLoaded = true
-                        self.collectionView.reloadData()
+                    if(self.products.count >= 4){
+                        DispatchQueue.main.async {
+                            self.algoliaProductsLoaded = true
+                            self.collectionView.reloadData()
+                        }
+                    }else{
+                        self.delegate?.removeCardWithNoProducts(offer: cardObject)
                     }
                 }else{
-                    //remove this object from card collection list as products available are less than 4
-                    if(self.offers != nil){
-                        self.delegate?.removeCardWithNoProducts(offer: self.offers!)
-                    }
+                    self.delegate?.removeCardWithNoProducts(offer: cardObject)
                 }
             }else{
-                //remove this object from card collection list as no products are available
-                if(self.offers != nil){
-                    self.delegate?.removeCardWithNoProducts(offer: self.offers!)
-                }
+                self.delegate?.removeCardWithNoProducts(offer: cardObject)
             }
         }
     }

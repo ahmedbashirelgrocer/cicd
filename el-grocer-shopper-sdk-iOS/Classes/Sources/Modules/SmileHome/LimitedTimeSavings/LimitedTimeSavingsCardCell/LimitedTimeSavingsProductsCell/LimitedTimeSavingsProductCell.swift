@@ -12,7 +12,7 @@ class LimitedTimeSavingsProductCell: UICollectionViewCell {
     @IBOutlet weak var productImageView: UIImageView!
     @IBOutlet weak var productPrice: UILabel!{
         didSet{
-            productPrice.setBody3SemiBoldDarkStyle()
+            productPrice.setCaptionOneBoldDarkStyle()
         }
     }
     @IBOutlet weak var oldPrice: UILabel!{

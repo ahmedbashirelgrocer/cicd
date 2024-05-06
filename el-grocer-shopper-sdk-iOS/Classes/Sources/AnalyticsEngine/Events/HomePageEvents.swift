@@ -68,6 +68,16 @@ struct ExclusiveDealsViewAllClickedEvent: AnalyticsEventDataType {
     }
 }
 
+struct LimitedSavingsClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(categoryId: String, categoryName: String, source: ScreenName, retailerName: String, retailerId: String) {
+        self.eventType = .track(eventName: AnalyticsEventName.limitedSavingsClicked)
+        self.metaData = [ EventParameterKeys.categoryID: categoryId, EventParameterKeys.categoryName: categoryName,EventParameterKeys.source: source.rawValue, EventParameterKeys.retailerName: retailerName, EventParameterKeys.retailerID: retailerId]
+    }
+}
+
 struct ExclusiveDealCopiedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?

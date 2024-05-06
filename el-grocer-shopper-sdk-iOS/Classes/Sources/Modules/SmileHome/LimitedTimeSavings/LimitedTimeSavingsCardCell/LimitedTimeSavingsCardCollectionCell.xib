@@ -27,7 +27,7 @@
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_single_store_en" translatesAutoresizingMaskIntoConstraints="NO" id="YTI-Hg-LIG">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YTI-Hg-LIG">
                                 <rect key="frame" x="25" y="16" width="40" height="40"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -115,15 +115,14 @@
                 <outlet property="deliverySlot" destination="cCQ-NW-FcK" id="W7o-ev-wI9"/>
                 <outlet property="discount" destination="qYg-vU-2HD" id="sOX-m6-1Vk"/>
                 <outlet property="ivArrow" destination="Abs-fv-kzn" id="lr4-9P-Voi"/>
+                <outlet property="name" destination="4A0-0f-EOk" id="d0n-CS-fx3"/>
                 <outlet property="retailerImageView" destination="YTI-Hg-LIG" id="48s-fz-zah"/>
-                <outlet property="retailerName" destination="4A0-0f-EOk" id="MlM-Bb-Nrv"/>
             </connections>
             <point key="canvasLocation" x="133.58778625954199" y="24.647887323943664"/>
         </collectionViewCell>
     </objects>
     <resources>
         <image name="arrowForward" width="7.6666665077209473" height="12.666666984558105"/>
-        <image name="logo_single_store_en" width="78" height="32"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

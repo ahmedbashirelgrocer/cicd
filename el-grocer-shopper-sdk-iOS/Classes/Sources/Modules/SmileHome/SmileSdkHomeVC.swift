@@ -1973,11 +1973,16 @@ extension SmileSdkHomeVC {
 }
 extension SmileSdkHomeVC: PushMarketingCampaignLandingPageDelegate{
     func pushMarketingCampaignLandingPageWith(limitedTimeSavings: LimitedTimeSavings) {
+        let catId = self.lastSelectType?.storeTypeid ?? 0
+        let catName = self.lastSelectType?.name ?? ""
+        SegmentAnalyticsEngine.instance.logEvent(event: LimitedSavingsClickedEvent(categoryId: String(catId), categoryName: catName, source: .homeScreen, retailerName: grocery?.name ?? "", retailerId: grocery?.getCleanGroceryID() ?? "0"))
+        
         if let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             let grocery = self.groceryArray.first { Grocery in
                 return (Int(Grocery.getCleanGroceryID()) ?? 0) == (limitedTimeSavings.retailer_ids[0])
             }
-            let customVm = MarketingCustomLandingPageViewModel.init(storeId: grocery?.dbID ?? "", marketingId: String(limitedTimeSavings.custom_screen_id ?? 0), addressId: currentAddress.dbID, grocery: grocery)
+            var customVm = MarketingCustomLandingPageViewModel.init(storeId: grocery?.dbID ?? "", marketingId: String(limitedTimeSavings.custom_screen_id ?? 0), addressId: currentAddress.dbID, grocery: grocery)
+            customVm.campaignType = .limitedSavingsCampaign
             let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
             self.present(landingVC, animated: true)
         }

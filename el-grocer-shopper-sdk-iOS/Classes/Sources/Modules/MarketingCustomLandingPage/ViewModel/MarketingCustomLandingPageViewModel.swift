@@ -84,6 +84,7 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     private let isArabic : Bool = ElGrocerUtility.sharedInstance.isArabicSelected()
     let tableviewVmsSubject = BehaviorSubject<[SectionHeaderModel<Int, String, ReusableTableViewCellViewModelType>]>(value: [])
     var basketUpdatedSubject = PublishSubject<Void>()
+    var campaignType: ScreenRecordEvent.CampaignType = .marketingCampaign
     
     private enum DynamicQueryParam: String {
         case storeId = "$storeId"
@@ -127,9 +128,9 @@ struct MarketingCustomLandingPageViewModel: MarketingCustomLandingPageViewModelT
     }
     
     private func logScreenViewEvents() {
-        var screen = ScreenRecordEvent(screenName: .customMarketingCampaign)
-        screen.metaData = [EventParameterKeys.campaignId : self.marketingId, EventParameterKeys.storeId : self.storeId]
-        self.analyticsEngine.logEvent(event: ScreenRecordEvent(screenName: .customMarketingCampaign))
+        var screenEvent = ScreenRecordEvent(screenName: .customMarketingCampaign)
+        screenEvent.metaData = [EventParameterKeys.campaignId : self.marketingId, EventParameterKeys.storeId : self.storeId, EventParameterKeys.marketingCampaignType : self.campaignType.rawValue]
+        self.analyticsEngine.logEvent(event: screenEvent)
     }
     
     private func bindComponents() {
