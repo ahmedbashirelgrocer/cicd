@@ -79,10 +79,25 @@ class SettingViewController: UIViewController {
         if let version = Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
             self.lblversionNumber.text = "v" + " " + version
             if let buildnumber = Bundle.resource.infoDictionary?["CFBundleVersion"] as? String  {
-                self.lblversionNumber.text = (self.lblversionNumber.text ?? ("v" + " ")) + "-" + buildnumber
+                self.lblversionNumber.text = (self.lblversionNumber.text ?? ("v" + " ")) + "-" + buildnumber + getEnvironmentName()
             }
         }else{
             self.lblversionNumber.text = "----"
+        }
+        
+        func getEnvironmentName() -> String {
+            let stagingBaseURL = "https://el-grocer-staging-dev.herokuapp.com/api/"
+            let adminBaseURL = "https://el-grocer-admin.herokuapp.com/api/"
+            
+            let baseUrl = EnvironmentVariables.sharedInstance.getBackendUrl()
+            
+            if baseUrl == stagingBaseURL {
+                return " - Staging"
+            } else if baseUrl == adminBaseURL {
+                return " - Admin"
+            }
+            
+            return ""
         }
     }
     
