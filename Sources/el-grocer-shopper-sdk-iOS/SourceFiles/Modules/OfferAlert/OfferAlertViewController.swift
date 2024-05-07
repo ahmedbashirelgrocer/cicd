@@ -145,6 +145,7 @@ class OfferAlertViewController: UIViewController {
     }
     func getGenericBanners(for groceries : [Grocery], and storeTyprA : [String]? = nil) {
         guard groceries.count > 0 else {return}
+        self.viewBanner.banners.removeAll()
         let ids = groceries.map { $0.dbID }
         let location = BannerLocation.campaign_locationExit_grocery_and_more.getType()
         
