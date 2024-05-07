@@ -160,10 +160,14 @@ enum BannerLocation : Int, Decodable {
                 case .marketPlace: return BannerLocation.sdk_custom_campaign
                 case .shopper: return BannerLocation.custom_campaign_shopper
             }
-        } else if self == .campaign_locationExit_smile_market {
+        } else if self == .campaign_locationExit_grocery_and_more {
             switch marketType {
-                case .grocerySingleStore: return BannerLocation.campaign_locationExit_smile_market
-                case .marketPlace: return BannerLocation.campaign_locationExit_grocery_and_more
+                case .grocerySingleStore: 
+                    return BannerLocation.campaign_locationExit_smile_market
+                
+                case .marketPlace: 
+                    return BannerLocation.campaign_locationExit_grocery_and_more
+                
                 case .shopper: return self
             }
         }else {

@@ -84,9 +84,9 @@ extension BannerView: UICollectionViewDataSource {
             cell.viewBannerWrapper.backgroundColor = .clear
         }else  if banner.campaignType == .staticImage {
                 cell.ivBanner.image = UIImage(named: banner.imageURL ?? "")
-                cell.plachoderImageData = banner.imageURL ?? ""
+               
         }
-       
+        cell.plachoderImageData = banner.imageURL ?? ""
         cell.configure(viewModel: BannerCellViewModel(banner: banner))
         return cell
     }
@@ -133,6 +133,12 @@ extension BannerView: UICollectionViewDelegateFlowLayout, UICollectionViewDelega
             let banner = self.banners[indexPath.row]
             ElGrocerUtility.sharedInstance.resolvedBidIdForBannerClicked = banner.resolvedBidId            
             bannerTapped(banner)
+            
+            if let bannerDTODictionary = banner.dictionary as? NSDictionary {
+                let bannerCampign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
+                let bannerClickedEvent = BannerClickedEvent(banner: bannerCampign, position: indexPath.row + 1)
+                SegmentAnalyticsEngine.instance.logEvent(event: bannerClickedEvent)
+            }
         }
     }
 }
