@@ -1881,7 +1881,7 @@ extension SmileSdkHomeVC {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "LimitedTimeSavingsTableViewCell", for: indexPath) as! LimitedTimeSavingsTableViewCell
         cell.delegate = self
         cell.delegateRemoveLimitedTimeSavings = self
-        cell.configureCell(offers: self.homeDataHandler.limitedTimeSavings, groceryA: self.homeDataHandler.groceryA)
+        cell.configureCell(offers: self.homeDataHandler.limitedTimeSavings, groceryA: self.homeDataHandler.groceryA, position: indexPath.row)
         cell.selectionStyle = .none
         return cell
     }
@@ -1972,10 +1972,10 @@ extension SmileSdkHomeVC {
     }
 }
 extension SmileSdkHomeVC: PushMarketingCampaignLandingPageDelegate{
-    func pushMarketingCampaignLandingPageWith(limitedTimeSavings: LimitedTimeSavings) {
+    func pushMarketingCampaignLandingPageWith(limitedTimeSavings: LimitedTimeSavings, position: Int) {
         let catId = self.lastSelectType?.storeTypeid ?? 0
         let catName = self.lastSelectType?.name ?? ""
-        SegmentAnalyticsEngine.instance.logEvent(event: LimitedSavingsClickedEvent(categoryId: String(catId), categoryName: catName, source: .homeScreen, retailerName: grocery?.name ?? "", retailerId: grocery?.getCleanGroceryID() ?? "0"))
+        SegmentAnalyticsEngine.instance.logEvent(event: LimitedSavingsClickedEvent(categoryId: String(catId), categoryName: catName, source: .homeScreen, retailerName: grocery?.name ?? "", retailerId: grocery?.getCleanGroceryID() ?? "0", position: position))
         
         if let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             let grocery = self.groceryArray.first { Grocery in

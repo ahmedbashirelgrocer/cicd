@@ -72,9 +72,9 @@ struct LimitedSavingsClickedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(categoryId: String, categoryName: String, source: ScreenName, retailerName: String, retailerId: String) {
+    init(categoryId: String, categoryName: String, source: ScreenName, retailerName: String, retailerId: String, position: Int) {
         self.eventType = .track(eventName: AnalyticsEventName.limitedSavingsClicked)
-        self.metaData = [ EventParameterKeys.categoryID: categoryId, EventParameterKeys.categoryName: categoryName,EventParameterKeys.source: source.rawValue, EventParameterKeys.retailerName: retailerName, EventParameterKeys.retailerID: retailerId]
+        self.metaData = [ EventParameterKeys.categoryID: categoryId, EventParameterKeys.categoryName: categoryName,EventParameterKeys.source: source.rawValue, EventParameterKeys.retailerName: retailerName, EventParameterKeys.retailerID: retailerId, EventParameterKeys.position: String(position)]
     }
 }
 

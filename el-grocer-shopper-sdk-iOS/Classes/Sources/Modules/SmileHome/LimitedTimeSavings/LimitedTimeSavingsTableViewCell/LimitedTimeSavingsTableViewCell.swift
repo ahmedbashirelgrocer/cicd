@@ -8,7 +8,7 @@
 import UIKit
 
 protocol PushMarketingCampaignLandingPageDelegate{
-    func pushMarketingCampaignLandingPageWith(limitedTimeSavings: LimitedTimeSavings)
+    func pushMarketingCampaignLandingPageWith(limitedTimeSavings: LimitedTimeSavings, position: Int)
 }
 protocol RemoveCardWithNoProducts{
     func removeCardWithNoProducts(offer: LimitedTimeSavings)
@@ -26,6 +26,7 @@ class LimitedTimeSavingsTableViewCell: UITableViewCell {
     var delegateRemoveLimitedTimeSavings: RemoveLimitedTimeSavingsSection?
     var offers: [LimitedTimeSavings] = []
     var groceryA: [Grocery] = []
+    var position: Int = 0
     
     @IBOutlet weak var headingLbl: UILabel!{
         didSet {
@@ -48,10 +49,11 @@ class LimitedTimeSavingsTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureCell(offers: [LimitedTimeSavings]?, groceryA: [Grocery]?) {
+    func configureCell(offers: [LimitedTimeSavings]?, groceryA: [Grocery]?, position: Int) {
         self.offers = offers ?? []
         self.groceryA = groceryA ?? []
         self.collectionView.reloadData()
+        self.position = position
     }
     
     func registerCells() {
@@ -101,7 +103,7 @@ extension LimitedTimeSavingsTableViewCell: UICollectionViewDelegate, UICollectio
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let offer = offers[indexPath.row]
-        self.delegate?.pushMarketingCampaignLandingPageWith(limitedTimeSavings: offer)
+        self.delegate?.pushMarketingCampaignLandingPageWith(limitedTimeSavings: offer, position: self.position)
     }
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
     }
@@ -130,6 +132,6 @@ extension LimitedTimeSavingsTableViewCell: RemoveCardWithNoProducts{
 }
 extension LimitedTimeSavingsTableViewCell: CustomLandingPageTapped{
     func didTapCustomLandingPageWith(offer: LimitedTimeSavings) {
-        self.delegate?.pushMarketingCampaignLandingPageWith(limitedTimeSavings: offer)
+        self.delegate?.pushMarketingCampaignLandingPageWith(limitedTimeSavings: offer, position: self.position)
     }
 }
