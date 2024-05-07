@@ -29,6 +29,7 @@ class ViewController: UIViewController {
         txtLanguage.inputView = languagePicker
         txtLanguage.addTarget(nil, action: #selector(textFieldDidEndEditing), for: .editingDidEnd)
     } }
+    @IBOutlet weak var txtAddressID: UITextField!
     
     @IBOutlet weak var btnLaunchSDK: UIButton!
     
@@ -74,6 +75,7 @@ class ViewController: UIViewController {
             accountNumber: self.txtAccountNumber.text,
             latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue,
             longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue,
+            addressID: self.txtAddressID.text,
             address: self.txtAddress.text,
             loyaltyID: self.txtLoyalityID.text,
             email: self.txtEmail.text,
@@ -196,6 +198,7 @@ class ViewController: UIViewController {
             accountNumber: self.txtAccountNumber.text,
             latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue,
             longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue,
+            addressID: self.txtAddressID.text,
             address: self.txtAddress.text,
             loyaltyID: self.txtLoyalityID.text,
             email: self.txtEmail.text,
@@ -223,7 +226,7 @@ class ViewController: UIViewController {
     @IBAction func showPresentedView(_ sender: Any) {
         let pushData : [String: AnyHashable] = ["elgrocerMap" : self.txtPushPayload.text]
         
-        let launchOptions =  LaunchOptions(accountNumber: self.txtAccountNumber.text, latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue, longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue, address: self.txtAddress.text, loyaltyID: self.txtLoyalityID.text, email: self.txtEmail.text, pushNotificationPayload: pushData, deepLinkPayload: self.txtDLPayload.text, language: self.txtLanguage.text, environmentType: .live)
+        let launchOptions =  LaunchOptions(accountNumber: self.txtAccountNumber.text, latitude: ((self.txtLat.text ?? "0") as NSString).doubleValue, longitude: ((self.txtLong.text ?? "0") as NSString).doubleValue, addressID: self.txtAddressID.text, address: self.txtAddress.text, loyaltyID: self.txtLoyalityID.text, email: self.txtEmail.text, pushNotificationPayload: pushData, deepLinkPayload: self.txtDLPayload.text, language: self.txtLanguage.text, environmentType: .live)
         
         let vc : PresentedViewController = self.storyboard?.instantiateViewController(withIdentifier: "PresentedViewController") as! PresentedViewController
         vc.launchOption = launchOptions

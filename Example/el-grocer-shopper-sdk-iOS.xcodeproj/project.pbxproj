@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0808F4C12B5EEFBF0012D7A7 /* SwiftSpinner in Frameworks */ = {isa = PBXBuildFile; productRef = 0808F4C02B5EEFBF0012D7A7 /* SwiftSpinner */; };
+		085A51B62BEA6C8500FEA4E2 /* el-grocer-shopper-sdk-iOS in Frameworks */ = {isa = PBXBuildFile; productRef = 085A51B52BEA6C8500FEA4E2 /* el-grocer-shopper-sdk-iOS */; };
 		087679FF2B5EE98D0045C2AD /* IntegratedSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 087679FE2B5EE98D0045C2AD /* IntegratedSearchViewController.swift */; };
 		08767A012B5EE99C0045C2AD /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08767A002B5EE99C0045C2AD /* SearchCell.swift */; };
 		08767A032B5EE9C40045C2AD /* PreLoadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08767A022B5EE9C40045C2AD /* PreLoadViewController.swift */; };
@@ -19,7 +20,6 @@
 		088CE0E52B5ED5E500AD90E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 088CE0E32B5ED5E500AD90E0 /* Main.storyboard */; };
 		088CE0E72B5ED5E600AD90E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 088CE0E62B5ED5E600AD90E0 /* Assets.xcassets */; };
 		088CE0EA2B5ED5E600AD90E0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 088CE0E82B5ED5E600AD90E0 /* LaunchScreen.storyboard */; };
-		48BEF01F2BE3A8F800618204 /* el-grocer-shopper-sdk-iOS in Frameworks */ = {isa = PBXBuildFile; productRef = 48BEF01E2BE3A8F800618204 /* el-grocer-shopper-sdk-iOS */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,7 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48BEF01F2BE3A8F800618204 /* el-grocer-shopper-sdk-iOS in Frameworks */,
+				085A51B62BEA6C8500FEA4E2 /* el-grocer-shopper-sdk-iOS in Frameworks */,
 				0808F4C12B5EEFBF0012D7A7 /* SwiftSpinner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -130,7 +130,7 @@
 			name = "el-grocer-shopper-sdk-iOS_Example";
 			packageProductDependencies = (
 				0808F4C02B5EEFBF0012D7A7 /* SwiftSpinner */,
-				48BEF01E2BE3A8F800618204 /* el-grocer-shopper-sdk-iOS */,
+				085A51B52BEA6C8500FEA4E2 /* el-grocer-shopper-sdk-iOS */,
 			);
 			productName = ElgrocerSDKExample;
 			productReference = 088CE0DA2B5ED5E500AD90E0 /* el-grocer-shopper-sdk-iOS_Example.app */;
@@ -484,7 +484,7 @@
 			package = 0808F4BF2B5EEFBF0012D7A7 /* XCRemoteSwiftPackageReference "SwiftSpinner" */;
 			productName = SwiftSpinner;
 		};
-		48BEF01E2BE3A8F800618204 /* el-grocer-shopper-sdk-iOS */ = {
+		085A51B52BEA6C8500FEA4E2 /* el-grocer-shopper-sdk-iOS */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = "el-grocer-shopper-sdk-iOS";
 		};
