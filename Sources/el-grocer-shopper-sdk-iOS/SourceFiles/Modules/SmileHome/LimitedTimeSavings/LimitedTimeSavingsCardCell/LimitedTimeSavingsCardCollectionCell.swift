@@ -6,8 +6,10 @@
 //
 
 import UIKit
-import ABLoaderView
 import SDWebImage
+
+/// This controller use the swift localized library `ABLoaderView`
+
 class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
 
     var delegate : RemoveCardWithNoProducts?
