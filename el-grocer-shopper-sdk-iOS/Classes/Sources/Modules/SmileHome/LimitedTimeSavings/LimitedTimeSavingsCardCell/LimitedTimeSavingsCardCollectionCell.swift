@@ -58,7 +58,6 @@ class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
         self.products.removeAll()
         self.offers = nil
         self.algoliaProductsLoaded = false
-        //self.cellInitialized = false
     }
     
     override func awakeFromNib() {
@@ -70,7 +69,6 @@ class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
         self.layer.cornerRadius = 8
         self.registerCells()
         self.setUpCollectionView()
-        //self.getAlgoliaProducts()
     }
 
     func configure(offers: LimitedTimeSavings, grocery: Grocery?) {
@@ -86,16 +84,10 @@ class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
         }else{
             self.discount.isHidden = false
         }
-        //self.deliverySlot.text = grocery?.genericSlot ?? ""
         if(grocery != nil){
             self.getDeliverySlotString(grocery: grocery!)
         }
         self.retailerImageView.assignImage(imageUrl: grocery?.smallImageUrl ?? "")
-//        if(!self.algoliaProductsLoaded && self.offers?.query != nil && self.products.count == 0){
-//            DispatchQueue.global(qos: .userInitiated).async {
-//                self.getAlgoliaProducts()
-//            }
-//        }
     }
     
     func setInitialAppearance() {
@@ -111,13 +103,10 @@ class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
     }
     
     func setUpCollectionView() {
-        
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
-        
         self.collectionView.showsVerticalScrollIndicator = false
         self.collectionView.showsHorizontalScrollIndicator = false
-        
         self.collectionView.collectionViewLayout = {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .vertical
@@ -169,14 +158,10 @@ extension LimitedTimeSavingsCardCollectionCell{
         AlgoliaApi.sharedInstance.searchWithQuery(query: cardObject.query ?? "", pageNumber: 0){
          content, error in
             if let arrayHits = content?["hits"] as? NSArray{
-                print("array hits:", arrayHits.count)
-                print("id:", cardObject.id)
-                print("query:", cardObject.query)
                 if(arrayHits.count >= 1){
                     self.products.removeAll()
                     for productObj in arrayHits{
                         if let dictProduct = productObj as? NSDictionary{
-                            print(dictProduct)
                             let productModel = LimitedTimeSavingsProduct(dictProduct: dictProduct, groceryId: Int(self.grocery?.dbID ?? "0") ?? 0)
                             if(productModel.shop != nil){
                                 self.products.append(productModel)
@@ -202,7 +187,6 @@ extension LimitedTimeSavingsCardCollectionCell{
 }
 extension LimitedTimeSavingsCardCollectionCell{
     func setDeliveryDate (_ data : String) {
-        
         let dataA = data.components(separatedBy: CharacterSet.newlines)
         var attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(11) , NSAttributedString.Key.foregroundColor : self.deliverySlot.textColor ]
         if dataA.count == 1 {
@@ -214,42 +198,29 @@ extension LimitedTimeSavingsCardCollectionCell{
             }
         }
         let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(11) , NSAttributedString.Key.foregroundColor : self.deliverySlot.textColor]
-        
         let attributedString1 = NSMutableAttributedString(string:dataA[0], attributes:attrs1 as [NSAttributedString.Key : Any])
         let timeText = dataA.count > 1 ? dataA[1] : ""
         let attributedString2 = NSMutableAttributedString(string:" \(timeText)", attributes:attrs2 as [NSAttributedString.Key : Any])
-        
         attributedString1.append(attributedString2)
         self.deliverySlot.attributedText = attributedString1
-        
         self.deliverySlot.minimumScaleFactor = 0.5;
-        
     }
     func getDeliverySlotString(grocery: Grocery) {
         let scheduledEmoji = "🚛 "
         if  (grocery.isOpen.boolValue && (grocery.isInstant() || grocery.isInstantSchedule())) {
-            
             let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(11) , NSAttributedString.Key.foregroundColor : self.deliverySlot.textColor]
             let instantSlotString = "🛵 " + localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "")
             let attributedString2 = NSMutableAttributedString(string: instantSlotString, attributes:attrs2 as [NSAttributedString.Key : Any])
             self.deliverySlot.attributedText = attributedString2
-            //hideSlotImage(isHidden: true)
         }else if let jsonSlot = grocery.initialDeliverySlotData {
             if let dict = grocery.convertToDictionary(text: jsonSlot) {
-                
                 let slotString = DeliverySlotManager.getStoreGenericSlotFormatterTimeStringWithDictionary(dict, isDeliveryMode: grocery.isDelivery.boolValue)
-                
                 setDeliveryDate(scheduledEmoji + slotString)
-                //hideSlotImage(isHidden: true)
-                
             }else {
                 setDeliveryDate(scheduledEmoji + (grocery.genericSlot ?? ""))
-                //hideSlotImage(isHidden: true)
             }
         }else {
             setDeliveryDate(scheduledEmoji + (grocery.genericSlot ?? ""))
-            //hideSlotImage(isHidden: true)
         }
-        
     }
 }

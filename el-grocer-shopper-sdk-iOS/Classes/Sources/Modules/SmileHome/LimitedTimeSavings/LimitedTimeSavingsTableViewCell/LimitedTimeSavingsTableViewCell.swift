@@ -95,14 +95,6 @@ extension LimitedTimeSavingsTableViewCell: UICollectionViewDelegate, UICollectio
             }
             print(offer)
             cell.configure(offers: offer, grocery: grocery)
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-//                if(cell.products.count == 0){
-//                    if let index = self.offers.firstIndex(where: { $0.id == cell.offers?.id }) {
-//                        self.offers.remove(at: index)
-//                        self.collectionView.reloadData()
-//                    }
-//                }
-//            }
         }
         cell.bgView.layer.cornerRadius = 8
         return cell

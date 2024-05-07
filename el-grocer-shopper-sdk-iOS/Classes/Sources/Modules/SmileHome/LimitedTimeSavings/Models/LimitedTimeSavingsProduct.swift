@@ -13,8 +13,6 @@ class LimitedTimeSavingsProduct{
     var photo_url: String = ""
     var shop: Shops?
     var promotionalShop: Shops?
-    //var shops: [Shops] = [Shops]()
-    //var promotionalShops: [Shops] = [Shops]()
     
     init(dictProduct: NSDictionary, groceryId: Int){
         self.groceryId = groceryId
@@ -31,7 +29,6 @@ class LimitedTimeSavingsProduct{
                     if(shopModel.retailer_id == self.groceryId){
                         self.shop = Shops(dictShop: dictShop)
                     }
-                    //self.shops.append(shopModel)
                 }
             }
         }
@@ -42,7 +39,6 @@ class LimitedTimeSavingsProduct{
                     if(shopModel.retailer_id == self.groceryId){
                         self.promotionalShop = Shops(dictShop: dictShop)
                     }
-                    //self.promotionalShops.append(shopModel)
                 }
             }
         }

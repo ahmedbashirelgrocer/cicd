@@ -24,9 +24,6 @@ class LimitedTimeSavingsProductCell: UICollectionViewCell {
     func configureCell(product: LimitedTimeSavingsProduct, groceryId: String){
         oldPrice.strikeThrough(true)
         self.AssignImage(imageUrl: product.photo_url)
-        //productImageView.assignImage(imageUrl: product.photo_url)
-        //let shops = product.shops.filter { (String($0.retailer_id) == groceryId) }
-        //let promotionalShops = product.promotionalShops.filter { (String($0.retailer_id) == groceryId) }
         if(product.promotionalShop != nil){
             self.productPrice.text = product.promotionalShop!.price_currency + " " + product.promotionalShop!.price
             if(product.shop != nil){
@@ -56,14 +53,10 @@ class LimitedTimeSavingsProductCell: UICollectionViewCell {
 extension LimitedTimeSavingsProductCell{
     func AssignImage(imageUrl: String){
         if imageUrl != nil && imageUrl.range(of: "http") != nil {
-            
             self.productImageView.sd_setImage(with: URL(string: imageUrl), placeholderImage: productPlaceholderPhoto, options: SDWebImageOptions(rawValue: 0), completed: { (image, error, cacheType, imageURL) in
                 if cacheType == SDImageCacheType.none {
-                    
                     UIView.transition(with: self.productImageView, duration: 0.33, options: UIView.AnimationOptions.transitionCrossDissolve, animations: { () -> Void in
-                        
                         self.productImageView.image = image
-                        
                     }, completion: nil)
                 }
                 if(error?.localizedDescription != nil){
