@@ -182,6 +182,7 @@ protocol StoresDataHandlerDelegate : class {
     func refreshMessageView(msg: String) -> Void
     func getDetailGrocery(grocery: Grocery?) -> Void
     func getExclusiveDealsPromoList(promoA : [ExclusiveDealsPromoCode]) -> Void
+    func getLimitedTimeSavingsCardList(offers : [LimitedTimeSavings]) -> Void
  
 }
 
@@ -196,6 +197,8 @@ extension StoresDataHandlerDelegate {
     func refreshMessageView(msg: String) -> Void {}
     func getDetailGrocery(grocery: Grocery?) -> Void {}
     func getExclusiveDealsPromoList(promoA : [ExclusiveDealsPromoCode]) -> Void {}
+    func getLimitedTimeSavingsCardList(offers : [LimitedTimeSavings]) -> Void {}
+
 }
 
 
@@ -292,6 +295,32 @@ class StoresDataHandler {
                 
                 case.failure(let _):
                     self.delegate?.getExclusiveDealsPromoList(promoA: [])
+            }
+        }
+    }
+    
+    func getLimitedTimeSavings(groceries : [Grocery]) {
+        guard groceries.count > 0 else {return}
+        let ids = ElGrocerUtility.sharedInstance.GenerateRetailerIdString(groceries)
+        
+        ElGrocerApi.sharedInstance.getLimitedTimeSavings(groceryIds: ids ) { (result) in
+            switch result {
+                case .success(let response):
+                    do {
+                        if let rootJson = response as? [String: Any] {
+                            let data = try JSONSerialization.data(withJSONObject: rootJson)
+                            let LimitedTimeSavingsResponse = try JSONDecoder().decode(LimitedTimeSavingsResponse.self, from: data)
+                            print("Limited Time Savings: \(LimitedTimeSavingsResponse)")
+                            self.delegate?.getLimitedTimeSavingsCardList(offers: LimitedTimeSavingsResponse.data)
+                            return
+                        }
+                        self.delegate?.getLimitedTimeSavingsCardList(offers: [])
+                    } catch {
+                        self.delegate?.getLimitedTimeSavingsCardList(offers: [])
+                    }
+                
+                case.failure(let _):
+                self.delegate?.getLimitedTimeSavingsCardList(offers: [])
             }
         }
     }

@@ -337,13 +337,15 @@ private extension MainCategoriesViewModel {
     }
     
     func fetchBanners(for location: BannerLocation) {
+        guard let grocery = self.grocery else { return }
+        
         self.bannersDispatchGroup.enter()
         // self.dispatchGroup.enter()
         
-        let storeTypes = self.grocery?.getStoreTypes()?.map{ "\($0)" } ?? []
+        let storeTypes = grocery.getStoreTypes()?.map{ "\($0)" } ?? []
         
         self.apiClient.getBanners(for: location,
-                                  retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)],
+                                  retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(grocery.dbID)],
                                   store_type_ids: storeTypes) { [weak self] result in
             
             guard let self = self else { return }

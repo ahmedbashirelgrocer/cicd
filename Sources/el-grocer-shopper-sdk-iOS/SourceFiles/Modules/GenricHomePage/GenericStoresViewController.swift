@@ -882,6 +882,8 @@ extension GenericStoresViewController {
                 break
             case .storely:
                 break
+            case .staticImage:
+                break
             case .customBanners:
                 activeCartVC?.dismiss(animated: true, completion: {
                     bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)

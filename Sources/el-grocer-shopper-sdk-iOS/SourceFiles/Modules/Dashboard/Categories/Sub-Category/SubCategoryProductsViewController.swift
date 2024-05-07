@@ -579,6 +579,8 @@ private extension SubCategoryProductsViewController {
             break
         case .storely:
             break
+        case .staticImage:
+            break
         }
     }
 

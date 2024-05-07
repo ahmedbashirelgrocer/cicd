@@ -639,11 +639,11 @@ extension CateAndSubcategoryView {
         self.isLoadingMoreBrandProducts = false
         self.delegate?.productDataUpdated(index)
         
-        DispatchQueue.global(qos: .background).async { [weak self] in
+//        DispatchQueue.global(qos: .background).async { [weak self] in
             for brand in brands {
-                self?.callFetchBrandProductsFromServer(brand: brand)
+                self.callFetchBrandProductsFromServer(brand: brand)
             }
-        }
+//        }
         
     }
     
@@ -731,6 +731,15 @@ extension CateAndSubcategoryView {
                 
                 self.delegate?.productDataUpdated(IndexPath(row: index, section: 0))
                                
+            } else {
+                if let index = self.ListbrandsArray.firstIndex(where: { $0.brandId == brand.brandId }) {
+                    // remove the brands with no products from array as well as from dictionary saved
+                    self.ListbrandsArray.remove(at: index)
+                    let keyStr = String(format:"%@%@",(self.grocery?.dbID)!, String(brand.subCatID))
+                    ElGrocerUtility.sharedInstance.brandsDict[keyStr]?.removeAll(where: { $0.brandId == brand.brandId })
+                    
+                    self.delegate?.productDataUpdated(IndexPath(row: index, section: 0))
+                }
             }
         }
       

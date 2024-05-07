@@ -257,6 +257,7 @@ class ProductBrowser {
                              pageNumber: pageNumber,
                              hitsPerPage, completion: { responseObject, error in
                 if error == nil, let response = responseObject as? NSDictionary {
+                    print(response)
                     DispatchQueue.main.async {
                         let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                         DispatchQueue.main.async{ completion((products.products, products.algoliaCount), nil) }

@@ -109,7 +109,7 @@ class SecondCheckoutVC: UIViewController {
             // check delivery slot and show popup
             if self.viewModel.getCurrentDeliverySlotId() == nil {
                 showMessage("Please choose a slot to schedule this order.")
-                return 
+                return
             }
             
             let _ = SpinnerView.showSpinnerViewInView(self.view)
@@ -170,7 +170,7 @@ class SecondCheckoutVC: UIViewController {
                 
                 func logPurchaseEvents() {
                     self.viewModel.setRecipeCartAnalyticsAndRemoveRecipe()
-                    ElGrocerUtility.sharedInstance.delay(0.5) { 
+                    ElGrocerUtility.sharedInstance.delay(0.5) {
                         
                         ElGrocerEventsLogger.sharedInstance.recordPurchaseAnalytics(
                             finalOrderItems:self.viewModel.getShoppingItems() ?? []

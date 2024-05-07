@@ -167,7 +167,6 @@ class BrowseViewController: BasketBasicViewController, UITableViewDelegate, UITa
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         if sdkManager.isSmileSDK || sdkManager.isShopperApp { self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor }
-
         self.view.backgroundColor = ApplicationTheme.currentTheme.navigationBarWhiteColor
         self.registerCellsForTableView()
         self.setupClearNavBar()

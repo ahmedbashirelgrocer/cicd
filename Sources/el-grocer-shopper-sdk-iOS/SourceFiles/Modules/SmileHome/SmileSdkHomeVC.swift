@@ -13,6 +13,7 @@ import ThirdPartyObjC
 protocol ShowExclusiveDealsInstructionsDelegate{
     func showExclusiveDealsInstructions(promo: ExclusiveDealsPromoCode, grocery: Grocery)
 }
+
 var kExclusiveDealsStoreTypeId: Int = 12
 
 class SmileSdkHomeVC: BasketBasicViewController {
@@ -79,6 +80,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     var groceryArray: [Grocery] = []
     var neighbourHoodFavGroceryArray: [Grocery] = []
     var exclusiveDealsPromoList: [ExclusiveDealsPromoCode] = []
+    var limitedTimeSavingsCardList: [LimitedTimeSavings] = []
     var oneClickReOrderGroceryIDArray: [Int] = [] {
         didSet {
             var array: [Grocery] = []
@@ -96,6 +98,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     }
     var oneClickReOrderGroceryArray: [Grocery] = []
     var sortedGroceryArray: [Grocery] = []
+    var oncePresesion = false
     var filteredGroceryArray: [Grocery] = [] {
         didSet {
             sortedGroceryArray = filteredGroceryArray
@@ -116,6 +119,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     var neighbourHoodSection: Int = 0
     var oneClickReOrderSection: Int = 0
     var exclusiveDealsSection: Int = 0
+    var limitedTimeSavingsSection: Int = 0
     
     var availableStoreTypeA: [StoreType] = []
     var featureGroceryBanner : [BannerCampaign] = []
@@ -145,12 +149,14 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
         // MARK: - LifeCycle
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         self.registerCellsAndSetDelegates()
         self.setSegmentView()
         subCategorySelectedWithSelectedIndex(0)
         setupClearNavBar()
         if sdkManager.launchOptions?.marketType == .marketPlace {
+            
             SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
         }
         
@@ -329,6 +335,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
         let exclusiveDealsTableViewCell = UINib(nibName: "ExclusiveDealsTableViewCell", bundle: Bundle.resource)
         self.tableView.register(exclusiveDealsTableViewCell, forCellReuseIdentifier: "ExclusiveDealsTableViewCell")
         
+        let limitedTimeSavingsTableViewCell = UINib(nibName: "LimitedTimeSavingsTableViewCell", bundle: Bundle.resource)
+        self.tableView.register(limitedTimeSavingsTableViewCell, forCellReuseIdentifier: "LimitedTimeSavingsTableViewCell")
+        
         let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: Bundle.resource)
         self.currentOrderCollectionView.register(CurrentOrderCollectionCell, forCellWithReuseIdentifier: "CurrentOrderCollectionCell")
         
@@ -349,6 +358,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         cartButtonTap()
     }
     private func showDataLoaderIfRequiredForHomeHandler() {
+        
         if self.homeDataHandler.isDataLoading {
             let _ = SpinnerView.showSpinnerViewInView(self.view)
         }
@@ -719,25 +729,29 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
         // MARK: - ButtonAction
     override func backButtonClickedHandler() {
-        
-        super.backButtonClickedHandler()
-        
-        SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedEvent())
-        
-        NotificationCenter.default.removeObserver(SDKManager.shared, name: NSNotification.Name(rawValue: kReachabilityManagerNetworkStatusChangedNotificationCustom), object: nil)
-        
-        if let rootContext = SDKManager.shared.rootContext {
-            rootContext.dismiss(animated: true)
-        }else {
-            if let _ = self.tabBarController {
-                self.tabBarController?.dismiss(animated: true)
-            }else if let _ = SDKManager.shared.currentTabBar {
-                SDKManager.shared.currentTabBar?.dismiss(animated: true)
-            }else if let _ = SDKManager.shared.rootViewController {
-                SDKManager.shared.rootViewController?.dismiss(animated: true)
-            }
+        if sdkManager.isOncePerSession == false{
+            sdkManager.isOncePerSession = true
+            let vc = OfferAlertViewController.getViewController()
+            vc.alertTitle = localizedString( "Are you sure you want to exit?", comment: "")
+            vc.skipBtnText = localizedString("Skip the offers" , comment: "")
+            vc.discoverBtnTitle = localizedString("Discover the offers", comment: "")
+            vc.descrptionLblTitle = localizedString("Discover our wide range of products and offers on Smiles Market", comment: "")
+           vc.modalPresentationStyle = .overFullScreen
+            vc.modalTransitionStyle = .crossDissolve
+            vc.isSmilemarket = false
+            self.present(vc, animated: true, completion: nil)
+        }else{
+            defer {
+                SDKManager.shared.rootContext = nil
+                 SDKManager.shared.rootViewController = nil
+                 SDKManager.shared.currentTabBar = nil
+                sdkManager.isOncePerSession = false
+             }
+             SDKManager.shared.rootContext?.dismiss(animated: true)
+             SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedEvent())
         }
-      
+       
+    
     }
     
     @objc override func locationButtonClick() {
@@ -991,6 +1005,8 @@ extension SmileSdkHomeVC {
                 activeCartVC?.dismiss(animated: true, completion: {
                     bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
                 })
+            case .staticImage:
+                break
             }
             
         }).disposed(by: disposeBag)
@@ -1195,6 +1211,7 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
             self.setSegmentView()
             subCategorySelectedWithSelectedIndex(0)
             self.homeDataHandler.getExclusiveDealsData()
+            self.homeDataHandler.getLimitedTimeSavingsData()
             
         } else if type == .HomePageLocationOneBanners {
             if self.homeDataHandler.locationOneBanners?.count == 0 {
@@ -1217,6 +1234,12 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
                 self.exclusiveDealsPromoList = []
             }
             filterExclusivePromo()
+        }else if type == .LimitedTimeSavings {
+            if self.homeDataHandler.limitedTimeSavings?.count ?? 0 > 0 {
+                self.limitedTimeSavingsCardList = self.homeDataHandler.limitedTimeSavings!
+            }else {
+                self.limitedTimeSavingsCardList = []
+            }
         }
         Thread.OnMainThread {
             if self.homeDataHandler.groceryA?.count ?? 0 > 0 {
@@ -1235,6 +1258,7 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
         }else {
             self.btnMulticart.setImage(UIImage(name: "Cart-InActive-Smile"), for: UIControl.State())
         }
+
     }
     
     func showLocationChangeToolTip(show: Bool) {
@@ -1380,6 +1404,8 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         self.filteredGroceryArray = filterA
         self.filteredGroceryArray = ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA: self.filteredGroceryArray)
         filterExclusivePromo()
+        self.homeDataHandler.locationOneBanners = []
+        self.homeDataHandler.getBannerLocationOne(groceryA: self.sortedGroceryArray)
         
         FireBaseEventsLogger.trackStoreListingOneCategoryFilter(StoreCategoryID: "\(selectedType.storeTypeid)" , StoreCategoryName: selectedType.name ?? "", lastStoreCategoryID: "\(self.lastSelectType?.storeTypeid ?? 0)", lastStoreCategoryName: self.lastSelectType?.name ?? "All Stores")
         
@@ -1539,8 +1565,13 @@ extension SmileSdkHomeVC {
                 exclusiveDealsSection = 0
                 if self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId {
                     exclusiveDealsSection = self.exclusiveDealsPromoList.count > 0 ? 1 : 0
+                    limitedTimeSavingsSection = self.limitedTimeSavingsCardList.count > 0 ? 1 : 0
+                    return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection + limitedTimeSavingsSection
                 }
-                return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection
+                else{
+                    return 1 + (configs.isHomeTier1 ? 1 : 0) 
+                }
+                //return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection + limitedTimeSavingsSection
             }
             
         case 1: //1-3: Grocery cell 1, 2, 3
@@ -1583,7 +1614,9 @@ extension SmileSdkHomeVC {
                 if ABTestManager.shared.configs.isHomeTier1 {
                     return self.makeLocationOneBannerCell(indexPath)
                 }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
-                        return makeExclusiveDealsTableViewCell(indexPath: indexPath)
+                    return makeExclusiveDealsTableViewCell(indexPath: indexPath)
+                }else if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                    return makeLimitedTimeSavingsTableViewCell(indexPath: indexPath)
                 }else{
                     return self.makeLabelCell(indexPath)
                 }
@@ -1591,12 +1624,21 @@ extension SmileSdkHomeVC {
         case .init(row: 1, section: 0):
             if tableViewHeader2.selectedItemIndex == 0 && self.oneClickReOrderSection == 1 && self.neighbourHoodSection == 1 {
                 return makeNeighbourHoodFavouriteTableViewCell(indexPath: indexPath)
+
             }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
                 return makeExclusiveDealsTableViewCell(indexPath: indexPath)
+            }else if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                return makeLimitedTimeSavingsTableViewCell(indexPath: indexPath)
             }else{
                 return self.makeLabelCell(indexPath)
             }
         case .init(row: 2, section: 0):
+            if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                return makeLimitedTimeSavingsTableViewCell(indexPath: indexPath)
+            }else{
+                return self.makeLabelCell(indexPath)
+            }
+        case .init(row: 3, section: 0):
             return self.makeLabelCell(indexPath)
         case .init(row: 0, section: 2):
             if tableViewHeader2.selectedItemIndex == 0 {
@@ -1663,8 +1705,11 @@ extension SmileSdkHomeVC {
                 if configs.isHomeTier1 {
                     return (HomePageData.shared.locationOneBanners?.count ?? 0) > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
                 }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
-                        return 180
-                }else{
+                    return 180
+                }else if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                    return 300
+                }
+                else{
                     return 45
                 }
             }
@@ -1673,11 +1718,17 @@ extension SmileSdkHomeVC {
                 return 166
             }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
                 return 180
+            }else if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                return 300
             }else{
                 return 45
             }
         case .init(row: 2, section: 0):
-            return 45
+            if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                return 300
+            }else{
+                return 45
+            }
         case .init(row: 0, section: 2):
             if tableViewHeader2.selectedItemIndex == 0 {
                 return minCellHeight
@@ -1805,7 +1856,8 @@ extension SmileSdkHomeVC {
             }else {
                 //show bottom sheet for one click reOrder
                 self?.showBottomSheeetForOneClickReOrder(grocery: grocery)
-                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: ScreenName.homeScreen.rawValue, section: .One_Click_Re_Order, position: index + 1))
+                SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: ScreenName.homeScreen.rawValue, section: .One_Click_Re_Order, position: index + 1)
+                )
             }
             
         }
@@ -1821,7 +1873,23 @@ extension SmileSdkHomeVC {
             cell.configureCell(promoList: self.exclusiveDealsPromoList, groceryA: self.sortedGroceryArray)
         }
         cell.viewAllBtn.addTarget(self, action: #selector(showExclusiveDealsBottomSheet), for: .touchUpInside)
+        cell.configureCell(promoList: self.homeDataHandler.exclusiveDealsPromoA, groceryA: self.homeDataHandler.groceryA)
         return cell
+    }
+    
+    func makeLimitedTimeSavingsTableViewCell(indexPath: IndexPath)-> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "LimitedTimeSavingsTableViewCell", for: indexPath) as! LimitedTimeSavingsTableViewCell
+        cell.delegate = self
+        cell.delegateRemoveLimitedTimeSavings = self
+        cell.configureCell(offers: self.homeDataHandler.limitedTimeSavings, groceryA: self.homeDataHandler.groceryA)
+        cell.selectionStyle = .none
+        return cell
+    }
+    
+    func removeLimitedTimeSavingsTableViewCell(){
+        self.limitedTimeSavingsSection = 0
+        self.limitedTimeSavingsCardList.removeAll()
+        self.tableView.reloadData()
     }
 }
 extension SmileSdkHomeVC: CopyAndShopDelegate{
@@ -1841,13 +1909,13 @@ extension SmileSdkHomeVC {
             return
         }
         
-//        guard ElGrocerUtility.sharedInstance.isAddressListUpdated == false else {
-//            completion?()
-//            return
-//        }
+        //        guard ElGrocerUtility.sharedInstance.isAddressListUpdated == false else {
+        //            completion?()
+        //            return
+        //        }
         
         ElGrocerApi.sharedInstance.getDeliveryAddressesDefault({ [weak self] (result, responseObject) -> Void in
-         
+            
             guard let self = self else { return }
             
             if result,
@@ -1869,6 +1937,7 @@ extension SmileSdkHomeVC {
             completion?()
         })
     }
+    
     
     func fetchDefaultAddressIfNeeded() {
         
@@ -1897,6 +1966,30 @@ extension SmileSdkHomeVC {
             } else {
                 print("error loading default address")
             }
+            //self.goToGrocery(grocery, nil, promo: promo)
+            //        self.delegate?.showExclusiveDealsInstructions(promo: promo, grocery: grocery)
         }
+    }
+}
+extension SmileSdkHomeVC: PushMarketingCampaignLandingPageDelegate{
+    func pushMarketingCampaignLandingPageWith(limitedTimeSavings: LimitedTimeSavings) {
+        let catId = self.lastSelectType?.storeTypeid ?? 0
+        let catName = self.lastSelectType?.name ?? ""
+        SegmentAnalyticsEngine.instance.logEvent(event: LimitedSavingsClickedEvent(categoryId: String(catId), categoryName: catName, source: .homeScreen, retailerName: grocery?.name ?? "", retailerId: grocery?.getCleanGroceryID() ?? "0"))
+        
+        if let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            let grocery = self.groceryArray.first { Grocery in
+                return (Int(Grocery.getCleanGroceryID()) ?? 0) == (limitedTimeSavings.retailer_ids[0])
+            }
+            var customVm = MarketingCustomLandingPageViewModel.init(storeId: grocery?.dbID ?? "", marketingId: String(limitedTimeSavings.custom_screen_id ?? 0), addressId: currentAddress.dbID, grocery: grocery)
+            customVm.campaignType = .limitedSavingsCampaign
+            let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
+            self.present(landingVC, animated: true)
+        }
+    }
+}
+extension SmileSdkHomeVC: RemoveLimitedTimeSavingsSection{
+    func removeLimitedTimeSavingsSection() {
+        self.removeLimitedTimeSavingsTableViewCell()
     }
 }

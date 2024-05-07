@@ -39,6 +39,7 @@ struct BannerDTO: Codable {
         case storeTypes = "store_types"
         case retailerGroups = "retailer_groups"
     }
+    
 }
 
 extension BannerDTO {
