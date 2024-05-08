@@ -76,12 +76,9 @@ class SettingViewController: UIViewController {
     }
     
     private func setVersionNumber() {
-        if let version = Bundle.resource.infoDictionary?["CFBundleShortVersionString"] as? String {
-            self.lblversionNumber.text = "v" + " " + version
-            if let buildnumber = Bundle.resource.infoDictionary?["CFBundleVersion"] as? String  {
-                self.lblversionNumber.text = (self.lblversionNumber.text ?? ("v" + " ")) + "-" + buildnumber + getEnvironmentName()
-            }
-        }else{
+        if let version = PackageInfo.version {
+            self.lblversionNumber.text = "v" + " " + version + " " + getEnvironmentName()
+        } else {
             self.lblversionNumber.text = "----"
         }
         
