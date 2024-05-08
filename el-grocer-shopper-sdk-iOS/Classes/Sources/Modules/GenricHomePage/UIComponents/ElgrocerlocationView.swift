@@ -331,9 +331,12 @@ class ElgrocerlocationView:  UIView  {
     
     @objc
     func setSlotData() {
+        
+      
+        
         if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
             let slots = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: grocery.dbID)
-            if let firstObj  = slots.first(where: {$0.dbID == UserDefaults.getCurrentSelectedDeliverySlotId() }) {
+            if let firstObj  = slots.first(where: {$0.backendDbId == UserDefaults.getCurrentSelectedDeliverySlotId() }) {
 //                var slotString = self.getSlotFormattedStrForStoreHeader(slot: firstObj, ElGrocerUtility.sharedInstance.isDeliveryMode)
                 let slotStringData = DeliverySlotManager.getSlotFormattedStrForStoreHeader(slot: firstObj, ElGrocerUtility.sharedInstance.isDeliveryMode)
                 var slotString = slotStringData.slot
@@ -375,6 +378,50 @@ class ElgrocerlocationView:  UIView  {
                     }
                 
                 self.setAttributedValueForSlotOnMainThread(attributedString)
+            }else if ((grocery.isOpen.boolValue && (grocery.isInstant() || grocery.isInstantSchedule())) || grocery.initialDeliverySlotData != nil) {
+                
+                if grocery.isOpen.boolValue && (grocery.isInstant() || grocery.isInstantSchedule()) {
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                    let attributedString = NSMutableAttributedString(string: localizedString("delivery_within_60_min", comment: "") , attributes:attrs2 as [NSAttributedString.Key : Any])
+                    self.setAttributedValueForSlotOnMainThread(attributedString)
+                    return
+                }
+                
+                if let jsonSlot = grocery.initialDeliverySlotData, let dict = grocery.convertToDictionary(text: jsonSlot) {
+                   
+                    let slotString = DeliverySlotManager.getStoreGenericSlotFormatterTimeStringWithDictionarySpecialityMarket(dict, isDeliveryMode: grocery.isDelivery.boolValue, false)
+                  
+                    let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                        let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
+                        
+                        var data = slotString.components(separatedBy: " ")
+                        if data.count > 0 {
+                            var dayName = localizedString("", comment: "")
+                        
+                            let attributedString2 = NSMutableAttributedString(string:dayName as String , attributes:attrs1 as [NSAttributedString.Key : Any])
+                            attributedString.append(attributedString2)
+                            data.removeFirst()
+                        }
+                        if data.count == 1 || data.count > 1 {
+                            var slotName = slotString//" " + data.joined(separator: " ")
+                            if !ElGrocerUtility.sharedInstance.isDeliveryMode {
+                                let cAndcDateStringA = slotName.components(separatedBy: " - ")
+                                if cAndcDateStringA.count > 1 {
+                                    slotName = cAndcDateStringA[0]
+                                }else{
+                                    let cAndcDateStringA = slotName.components(separatedBy: "-")
+                                    slotName = cAndcDateStringA[0]
+                                }
+                            }
+                            let attributedString2 = NSMutableAttributedString(string:slotName as String , attributes:attrs2 as [NSAttributedString.Key : Any])
+                            attributedString.append(attributedString2)
+                        }
+                    
+                    self.setAttributedValueForSlotOnMainThread(attributedString)
+                    return
+                }
+                
             }else if slots.count > 0 {
                 let firstObj = slots[0]
 //                var slotString = self.getSlotFormattedStrForStoreHeader(slot: firstObj, ElGrocerUtility.sharedInstance.isDeliveryMode)

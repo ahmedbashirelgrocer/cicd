@@ -683,6 +683,16 @@ extension SecondaryViewModel {
     
     func setDeliverySlot(_ slot : DeliverySlotDTO?) {
         self.selectedSlot = slot
+        //FIXME: Bad code by ABM ; Need to update imedate fix is done
+        if let grocery = ElGrocerUtility.sharedInstance.activeGrocery, let slotDictionary = slot.dictionary as? NSDictionary {
+            if let genericString = DeliverySlot.convertSlotDTOToGenericSlot(grocery: self.getGrocery(), slotDictionary) {
+                grocery.genericSlot = genericString
+            }
+            if let genericString = self.getGrocery()?.jsonToString(json: slotDictionary) {
+                grocery.initialDeliverySlotData = genericString
+            }
+            ElGrocerUtility.sharedInstance.activeGrocery = grocery
+        }
     }
     
     func getDeliverySlot() -> DeliverySlotDTO? {

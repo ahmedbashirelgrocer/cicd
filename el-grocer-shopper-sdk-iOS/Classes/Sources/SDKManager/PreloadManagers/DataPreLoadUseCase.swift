@@ -206,6 +206,7 @@ class PreLoadData {
 //    }
 
     private func configureElgrocerShopper() {
+        guard ElGrocerUtility.sharedInstance.appConfigData == nil else {return}
         ElGrocerApi.sharedInstance.getAppConfig { (result) in
             switch result {
             case .success(let response):

@@ -226,8 +226,27 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
 // MARK: Helper Methods
 private extension MainCategoriesViewModel {
     func fetchGroceryDeliverySlots() {
+        
+        guard let grocery = self.grocery else { return }
+        
         self.dispatchGroup.enter()
-
+        if let jsonSlot = grocery.initialDeliverySlotData {
+            if let dict = grocery.convertToDictionary(text: jsonSlot) {
+                if  let deliveryTime = dict["usid"] as? Int {
+                    self.fetchCategories(deliveryTime: deliveryTime)
+                    self.fetchPreviousPurchasedProducts(deliveryTime: deliveryTime)
+                    self.fetchCustomCatogires(for: BannerLocation.custom_campaign_shopper.getType())
+                    return
+                }
+            }
+        }
+        
+        let currentTime = Int(Date().getUTCDate().timeIntervalSince1970 * 1000)
+        self.fetchCategories(deliveryTime: currentTime)
+        self.fetchPreviousPurchasedProducts(deliveryTime: currentTime)
+        self.fetchCustomCatogires(for: BannerLocation.custom_campaign_shopper.getType())
+        
+/*
         self.apiClient.getGroceryDeliverySlotsWithGroceryId(self.grocery?.dbID, andWithDeliveryZoneId: self.grocery?.deliveryZoneId, false) { [weak self] result in
             guard let self = self else { return }
             
@@ -264,6 +283,7 @@ private extension MainCategoriesViewModel {
                 break
             }
         }
+        */
     }
     // Fetch Brand Catogories
     func fetchCategories(deliveryTime: Int) {
@@ -337,6 +357,9 @@ private extension MainCategoriesViewModel {
     }
     
     func fetchBanners(for location: BannerLocation) {
+        
+        guard let grocery = self.grocery else { return }
+        
         self.bannersDispatchGroup.enter()
         // self.dispatchGroup.enter()
         
@@ -578,7 +601,8 @@ fileprivate extension MainCategoriesViewModel {
 extension MainCategoriesViewModel {
     
     func dataValidationForLoadedGroceryNeedsToUpdate(_ newGrocery: Grocery?) -> Bool {
-        if newGrocery?.dbID == self.grocery?.dbID {
+        
+        if Grocery.isSameGrocery(newGrocery, rhs: self.grocery) {
             return false
         }
         return true
