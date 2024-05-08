@@ -42,6 +42,10 @@ class LimitedTimeSavingsProductCell: UICollectionViewCell {
         }
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         self.layer.borderWidth = 1

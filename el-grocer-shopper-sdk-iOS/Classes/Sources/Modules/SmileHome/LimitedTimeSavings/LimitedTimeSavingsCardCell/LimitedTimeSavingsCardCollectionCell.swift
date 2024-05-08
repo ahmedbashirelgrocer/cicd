@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import ABLoaderView
+//import ABLoaderView
 import SDWebImage
 class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
 
@@ -132,11 +132,13 @@ extension LimitedTimeSavingsCardCollectionCell: UICollectionViewDelegate, UIColl
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LimitedTimeSavingsProductCell", for: indexPath) as!
         LimitedTimeSavingsProductCell
         if(algoliaProductsLoaded){
-            ABLoader().stopShining(cell)
+            //ABLoader().stopShining(cell)
+            cell.stopShimmeringEffect()
             let product = products[indexPath.row]
             cell.configureCell(product: product, groceryId: grocery?.dbID ?? "0")
         }else{
-            ABLoader().startShining(cell)
+            cell.startShimmeringEffect()
+            //ABLoader().startShining(cell)
         }
         return cell
     }

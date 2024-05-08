@@ -126,8 +126,8 @@ public extension UIView {
     }
     
     func startShimmeringEffect() {
-        let light = UIColor.gray.withAlphaComponent(0.3).cgColor
-        let alpha = UIColor.gray.withAlphaComponent(0.1).cgColor
+        let light = UIColor.colorWithHexString(hexString: "#ECEDF4").withAlphaComponent(0.9).cgColor
+        let alpha = UIColor.colorWithHexString(hexString: "#ECEDF4").withAlphaComponent(0.2).cgColor
         let gradient = CAGradientLayer()
         gradient.frame = CGRect(x: 0, y: 0, width:self.bounds.size.width, height: self.bounds.size.height)
         gradient.colors = [light, alpha, alpha, light]
