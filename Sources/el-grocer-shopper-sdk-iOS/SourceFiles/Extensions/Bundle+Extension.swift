@@ -43,8 +43,7 @@ extension Bundle {
 
 public enum elGrocerSDKConfiguration {
     static var version: String {
-        guard let version = Bundle.resource
-                .infoDictionary?["CFBundleShortVersionString"] as? String else { return "Unknown" }
+        guard let version = PackageInfo.version else { return "Unknown" }
         return version
     }
     
