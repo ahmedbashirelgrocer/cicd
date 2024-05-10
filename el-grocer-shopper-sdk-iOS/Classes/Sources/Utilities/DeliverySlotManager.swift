@@ -17,7 +17,7 @@ class DeliverySlotManager {
         var hideSlotImage: Bool = false
         let startDate =  slot.start_time!
         let endDate =  slot.end_time!
-        var orderTypeDescription = ( isDeliveryMode ?  startDate.formatDateForDeliveryHAFormateString() : startDate.formatDateForCandCFormateString() ) + "-" + ( isDeliveryMode ?  endDate.formatDateForDeliveryHAFormateString() : endDate.formatDateForCandCFormateString())
+        var orderTypeDescription = ( isDeliveryMode ?  startDate.formatDateForCandCFormateString() : startDate.formatDateForCandCFormateString() ) + "-" + ( isDeliveryMode ?  endDate.formatDateForCandCFormateString() : endDate.formatDateForCandCFormateString())
         
         if slot.isInstant.boolValue {
             return  (localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "") + "⚡️" , true)

@@ -271,7 +271,10 @@ class ElGrocerUtility {
     
     func getCurrentMillis() -> Int64 {
         let slotId = UserDefaults.getCurrentSelectedDeliverySlotId()
-        if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
+        if UserDefaults.isOrderInEdit(), let slots =  UserDefaults.getEditOrderSelectedDeliverySlot() {
+            let slot = DeliverySlot.createDeliverySlotFromCustomDictionary(slots as! NSDictionary, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            return slot.time_milli.int64Value
+        }else if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
             if let slot = DeliverySlot.getDeliverySlot(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: grocery.dbID , slotId: slotId.stringValue) {
                 return Int64(truncating: slot.time_milli)
             }else if (grocery.isOpen.boolValue && (grocery.isInstant() || grocery.isInstantSchedule())) {
