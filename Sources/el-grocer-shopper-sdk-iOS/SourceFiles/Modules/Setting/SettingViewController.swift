@@ -77,8 +77,7 @@ class SettingViewController: UIViewController {
     
     private func setVersionNumber() {
         if let version = PackageInfo.version {
-            self.lblversionNumber.text = "v" + " " + version
-            self.lblversionNumber.text = (self.lblversionNumber.text ?? ("v" + " ")) + "-" + getEnvironmentName()
+            self.lblversionNumber.text = "v" + " " + version + "-" + getEnvironmentName()
         }else{
             self.lblversionNumber.text = "----"
         }
