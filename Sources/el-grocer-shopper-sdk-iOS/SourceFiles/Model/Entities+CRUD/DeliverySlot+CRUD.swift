@@ -132,6 +132,12 @@ extension DeliverySlot {
             //elDebugPrint(error.localizedDescription)
         }
     }
+    
+    
+    class func convertSlotDTOToGenericSlot( grocery: Grocery?, _ slot : NSDictionary? ) -> String? {
+        guard let grocery = grocery, let slot = slot else { return nil}
+        return grocery.getDeliverySlotFormatterTimeStringWithDictionary(slot)
+    }
 
     
     // MARK: Delete

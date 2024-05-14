@@ -9,6 +9,11 @@
 import Foundation
 
 struct ScreenRecordEvent: AnalyticsEventDataType {
+    enum CampaignType: String{
+        case marketingCampaign = "Marketing Campaign"
+        case limitedSavingsCampaign = "Limited Time Savings Campaign"
+    }
+    
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     

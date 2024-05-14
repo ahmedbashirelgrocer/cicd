@@ -16,6 +16,7 @@ enum BannerCampaignType : Int, Codable {
     case priority = 4
     case customBanners = 50
     case storely = 51
+    case staticImage = -1
 }
 
 enum BannerLocation : Int, Decodable {
@@ -54,6 +55,8 @@ enum BannerLocation : Int, Decodable {
     case sdk_Flavor_Grocery_subcategory_tier_2 = 33
     case sdk_Flavor_Grocery_post_checkout = 34
     case sdk_Flavor_custom_campaign = 42
+    case campaign_locationExit_grocery_and_more = 44
+    case campaign_locationExit_smile_market = 45
    
     private static var retailerBannersSet: Set<BannerLocation> = [
         .home_tier_1,
@@ -74,7 +77,9 @@ enum BannerLocation : Int, Decodable {
         .post_checkout,
         .sdk_post_checkout,
         .sdk_Flavor_Grocery_post_checkout,
-//        
+        .campaign_locationExit_grocery_and_more,
+        .campaign_locationExit_smile_market
+//
 //        .custom_campaign_shopper,
 //        .sdk_custom_campaign,
 //        .sdk_Flavor_custom_campaign
@@ -156,7 +161,17 @@ enum BannerLocation : Int, Decodable {
                 case .marketPlace: return BannerLocation.sdk_custom_campaign
                 case .shopper: return BannerLocation.custom_campaign_shopper
             }
-        } else {
+        } else if self == .campaign_locationExit_grocery_and_more {
+            switch marketType {
+                case .grocerySingleStore: 
+                    return BannerLocation.campaign_locationExit_smile_market
+                
+                case .marketPlace: 
+                    return BannerLocation.campaign_locationExit_grocery_and_more
+                
+                case .shopper: return self
+            }
+        }else {
             return self
         }
     }

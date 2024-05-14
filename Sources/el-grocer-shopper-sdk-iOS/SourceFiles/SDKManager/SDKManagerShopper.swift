@@ -54,6 +54,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType {
     public var isShopperApp: Bool { true }
     public var kGoogleMapsApiKey: String { "AIzaSyA9ItTIGrVXvJASLZXsokP9HEz-jf1PF7c" }
     public var isInitialized: Bool = false
+    public var isOncePerSession: Bool = false
     
     lazy public var backgroundURLSession : URLSession = {
         let configuration = URLSessionConfiguration.background(withIdentifier: "com.elgorcer.background")

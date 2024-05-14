@@ -17,6 +17,17 @@ struct HomeViewAllClickedEvent: AnalyticsEventDataType {
     }
 }
 
+
+struct OneClickReOrderCloseEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init() {
+        self.eventType = .track(eventName: AnalyticsEventName.oneClickReorderCloseClicked)
+        self.metaData = [:]
+    }
+}
+
 struct SDKExitedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
@@ -27,12 +38,12 @@ struct SDKExitedEvent: AnalyticsEventDataType {
     }
 }
 
-struct OneClickReOrderCloseEvent: AnalyticsEventDataType {
+struct SDKExitedDiscoverOffersEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init() {
-        self.eventType = .track(eventName: AnalyticsEventName.oneClickReorderCloseClicked)
+    init(_ isSmileStore: Bool) {
+        self.eventType = .track(eventName: AnalyticsEventName.sdkDiscoverOffers)
         self.metaData = [:]
     }
 }
@@ -54,6 +65,16 @@ struct ExclusiveDealsViewAllClickedEvent: AnalyticsEventDataType {
     init(categoryId: String, categoryName: String, source: ScreenName) {
         self.eventType = .track(eventName: AnalyticsEventName.exclusiveDealsViewAllClicked)
         self.metaData = [ EventParameterKeys.categoryID: categoryId, EventParameterKeys.categoryName: categoryName,EventParameterKeys.source: source.rawValue]
+    }
+}
+
+struct LimitedSavingsClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(categoryId: String, categoryName: String, source: ScreenName, retailerName: String, retailerId: String, position: Int) {
+        self.eventType = .track(eventName: AnalyticsEventName.limitedSavingsClicked)
+        self.metaData = [ EventParameterKeys.categoryID: categoryId, EventParameterKeys.categoryName: categoryName,EventParameterKeys.source: source.rawValue, EventParameterKeys.retailerName: retailerName, EventParameterKeys.retailerID: retailerId, EventParameterKeys.position: String(position)]
     }
 }
 

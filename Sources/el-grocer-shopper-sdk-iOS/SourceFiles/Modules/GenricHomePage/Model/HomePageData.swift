@@ -30,6 +30,7 @@ enum loadingType {
     case FeatureRecipesOfAllDeliveryStore
     case oneClickReOrderListArray
     case ExclusiveDealsPromoListArray
+    case LimitedTimeSavings
 }
 
 extension HomePageData : HomePageDataLoadingComplete {
@@ -54,6 +55,7 @@ class HomePageData  {
     private var storeListWorkItem:DispatchWorkItem?
     private var chefAndRecipeItem:DispatchWorkItem?
     private var ExclusiveDealsWorkItem: DispatchWorkItem?
+    private var LimitedTimeSavingsWorkItem: DispatchWorkItem?
     weak var delegate : HomePageDataLoadingComplete?
     lazy var serviceA : [[MainCategoryCellType : Any]] = []
     lazy var categoryServiceA : [[MainCategoryCellType : Any]] = []
@@ -107,6 +109,7 @@ class HomePageData  {
     lazy var recipeList : [Recipe] = [Recipe]()
     lazy var featureGroceryBanner : [BannerCampaign] = []
     lazy var exclusiveDealsPromoA : [ExclusiveDealsPromoCode]? = nil
+    lazy var limitedTimeSavings : [LimitedTimeSavings]? = nil
     var fetchOrder : [loadingType]  = []
             var isDataLoading : Bool = false
     private var isFetchingTimeLogEnable : Bool = false
@@ -187,7 +190,7 @@ class HomePageData  {
             case .CategoryAndStoreList:
                 self.getStoreData(isOnGlobalDispatch : true)
             case .HomePageLocationOneBanners:
-                self.getBannerLocationOne()
+            self.getBannerLocationOne(groceryA: self.groceryA)
             case .HomePageLocationTwoBanners:
                 self.getBannersLocationTwo()
             case .AllChefForDeliveryStores:
@@ -214,6 +217,22 @@ class HomePageData  {
         DispatchQueue.global(qos: .userInitiated).async(execute: self.ExclusiveDealsWorkItem!)
         
     }
+
+    func getLimitedTimeSavingsData() {
+        guard self.groceryA?.count ?? 0 > 0 else {
+            self.startFetching()
+            return
+        }
+        
+        if let item = self.LimitedTimeSavingsWorkItem {
+            item.cancel()
+        }
+        self.LimitedTimeSavingsWorkItem = DispatchWorkItem {
+            self.dataSource?.getLimitedTimeSavings(groceries: self.groceryA ?? [])
+        }
+        DispatchQueue.global(qos: .userInitiated).async(execute: self.LimitedTimeSavingsWorkItem!)
+        
+    }
     
     
     private func getStoreData( isOnGlobalDispatch : Bool = true) {
@@ -236,8 +255,8 @@ class HomePageData  {
         DispatchQueue.global(qos: .userInitiated).async(execute: self.storeListWorkItem!)
     }
     
-    private func getBannerLocationOne () {
-        guard self.groceryA?.count ?? 0 > 0 else {
+    func getBannerLocationOne (groceryA: [Grocery]?) {
+        guard groceryA?.count ?? 0 > 0 else {
             self.startFetching()
             return
         }
@@ -246,7 +265,7 @@ class HomePageData  {
             item.cancel()
         }
         self.storeListWorkItem = DispatchWorkItem {
-            self.dataSource?.getGenericBanners(for: self.groceryA ?? [], and: self.storeTypeA ?? [])
+            self.dataSource?.getGenericBanners(for: groceryA ?? [], and: self.storeTypeA ?? [])
         }
         DispatchQueue.global(qos: .userInitiated).async(execute: self.storeListWorkItem!)
         
@@ -591,6 +610,11 @@ extension HomePageData : StoresDataHandlerDelegate {
     func getExclusiveDealsPromoList(promoA : [ExclusiveDealsPromoCode])  {
         self.exclusiveDealsPromoA = promoA
         self.delegate?.loadingDataComplete(type: .ExclusiveDealsPromoListArray)
+    }
+    
+    func getLimitedTimeSavingsCardList(offers : [LimitedTimeSavings])  {
+        self.limitedTimeSavings = offers
+        self.delegate?.loadingDataComplete(type: .LimitedTimeSavings)
     }
     
     func createGenericStoresDictionary() {

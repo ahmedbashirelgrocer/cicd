@@ -39,7 +39,10 @@ extension UILabel {
         self.font = UIFont.SFProDisplayNormalFont(11)
         self.textColor = UIColor.replacementGreenTextColor()
     }
-    
+    func setCaptionRegGreyStyle() {
+        self.font = UIFont.SFProDisplayNormalFont(12)
+        self.textColor = UIColor.textFieldPlaceHolderColor()
+    }
     func setProductCountWhiteStyle(){
         self.font = UIFont.SFProDisplayNormalFont(10)
         self.textColor = UIColor.navigationBarWhiteColor()

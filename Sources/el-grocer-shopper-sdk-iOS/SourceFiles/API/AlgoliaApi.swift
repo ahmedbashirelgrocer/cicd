@@ -1159,6 +1159,7 @@ extension AlgoliaApi {
         
         self.algoliaProductBrowserIndex.browse(query: algoliaquery, requestOptions: requestOptions) { (content) in
             if case .success(let response) = content {
+                print(response)
                 completion(response.convertHits() , nil)
             }else if case .failure (let error) = content{
                 completion(nil , error)

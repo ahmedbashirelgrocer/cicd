@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22684"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OfferAlertViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+            <connections>
+                <outlet property="alertLbl" destination="Ete-Mq-1vN" id="a2o-BK-JV2"/>
+                <outlet property="descrptionLbl" destination="cv9-wa-GtA" id="lPD-4W-uP4"/>
+                <outlet property="discoverBtn" destination="hai-4j-knU" id="sw3-2Z-09g"/>
+                <outlet property="skipBtn" destination="qSh-Yv-M48" id="HTZ-Ew-ree"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="viewBanner" destination="cap-66-YzC" id="ToN-dq-pci"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kwB-it-aFZ">
+                    <rect key="frame" x="0.0" y="466" width="393" height="386"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ete-Mq-1vN">
+                            <rect key="frame" x="15" y="200" width="363" height="0.0"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cv9-wa-GtA">
+                            <rect key="frame" x="15" y="210" width="363" height="0.0"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hai-4j-knU" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                            <rect key="frame" x="15" y="225" width="363" height="50"/>
+                            <color key="backgroundColor" red="0.45882352941176469" green="0.25882352941176467" blue="0.55686274509803924" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="50" id="wBV-1j-pp9"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="18"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Discovers the offers">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornarRadius">
+                                    <real key="value" value="20"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="discoverBtnClick" destination="-1" eventType="touchUpInside" id="JrJ-3A-DVp"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qSh-Yv-M48">
+                            <rect key="frame" x="145" y="285" width="103" height="30"/>
+                            <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                            <state key="normal" title="Skip the offers">
+                                <color key="titleColor" red="0.45882352941176469" green="0.25882352941176467" blue="0.55686274509803924" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="skipBtnClick" destination="-1" eventType="touchUpInside" id="Ej8-4b-gAc"/>
+                            </connections>
+                        </button>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cap-66-YzC" customClass="BannerView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                            <rect key="frame" x="15" y="15" width="363" height="170"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="shimmerAnimation" value="YES"/>
+                            </userDefinedRuntimeAttributes>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <constraints>
+                        <constraint firstItem="hai-4j-knU" firstAttribute="leading" secondItem="cv9-wa-GtA" secondAttribute="leading" id="8Zi-Yg-TJr"/>
+                        <constraint firstItem="hai-4j-knU" firstAttribute="centerX" secondItem="kwB-it-aFZ" secondAttribute="centerX" id="FU8-tG-Z8b"/>
+                        <constraint firstItem="cap-66-YzC" firstAttribute="top" secondItem="kwB-it-aFZ" secondAttribute="top" constant="15" id="KIA-wI-IsN"/>
+                        <constraint firstItem="cv9-wa-GtA" firstAttribute="trailing" secondItem="Ete-Mq-1vN" secondAttribute="trailing" id="P5G-yd-vbL"/>
+                        <constraint firstItem="cv9-wa-GtA" firstAttribute="top" secondItem="Ete-Mq-1vN" secondAttribute="bottom" constant="10" id="Q3C-Lh-win"/>
+                        <constraint firstItem="qSh-Yv-M48" firstAttribute="centerX" secondItem="hai-4j-knU" secondAttribute="centerX" id="QXT-WI-U1r"/>
+                        <constraint firstItem="cap-66-YzC" firstAttribute="height" secondItem="kwB-it-aFZ" secondAttribute="height" multiplier="0.44" id="RBH-dC-nGW"/>
+                        <constraint firstItem="qSh-Yv-M48" firstAttribute="top" secondItem="hai-4j-knU" secondAttribute="bottom" constant="10" id="UZo-XK-sX6"/>
+                        <constraint firstAttribute="trailing" secondItem="cap-66-YzC" secondAttribute="trailing" constant="15" id="XVp-NE-ITF"/>
+                        <constraint firstItem="hai-4j-knU" firstAttribute="top" secondItem="cv9-wa-GtA" secondAttribute="bottom" constant="15" id="Xo8-kO-WPY"/>
+                        <constraint firstItem="Ete-Mq-1vN" firstAttribute="leading" secondItem="cap-66-YzC" secondAttribute="leading" id="dnq-2A-KfM"/>
+                        <constraint firstItem="Ete-Mq-1vN" firstAttribute="top" secondItem="cap-66-YzC" secondAttribute="bottom" constant="15" id="f7P-W4-itq"/>
+                        <constraint firstItem="cv9-wa-GtA" firstAttribute="leading" secondItem="Ete-Mq-1vN" secondAttribute="leading" id="gff-1d-Jfm"/>
+                        <constraint firstItem="cap-66-YzC" firstAttribute="leading" secondItem="kwB-it-aFZ" secondAttribute="leading" constant="15" id="vYh-nW-dAn"/>
+                        <constraint firstItem="hai-4j-knU" firstAttribute="trailing" secondItem="cv9-wa-GtA" secondAttribute="trailing" id="xAH-Si-luQ"/>
+                        <constraint firstItem="Ete-Mq-1vN" firstAttribute="trailing" secondItem="cap-66-YzC" secondAttribute="trailing" id="ztp-6R-Uwk"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="kwB-it-aFZ" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="1M0-Pr-Q3z"/>
+                <constraint firstItem="kwB-it-aFZ" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" multiplier="0.357981" constant="81" id="1SL-mB-tJm"/>
+                <constraint firstItem="kwB-it-aFZ" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Tst-Bx-zUp"/>
+                <constraint firstAttribute="bottom" secondItem="kwB-it-aFZ" secondAttribute="bottom" id="UTG-wc-XcI"/>
+            </constraints>
+            <point key="canvasLocation" x="9.9236641221374047" y="19.718309859154932"/>
+        </view>
+    </objects>
+    <designables>
+        <designable name="hai-4j-knU">
+            <size key="intrinsicContentSize" width="167" height="34"/>
+        </designable>
+    </designables>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

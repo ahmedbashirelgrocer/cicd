@@ -736,6 +736,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     func callForLatestDeliverySlotsWithGroceryLoader(grocery : Grocery, _ isLoaderHidden: Bool = false) {
         
+        
+        
         if isLoaderHidden == false { self.showGroceryLoader( grocery: grocery) }
         
         self.grocerySlotbasketWorkItem = DispatchWorkItem {
@@ -1734,6 +1736,12 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         if self.model.data.feeds.count > 3 {
             self.model.data.resetFeeds()
         }
+        
+        if self.viewModel != nil {
+            self.viewModel = MainCategoriesViewModel(grocery: self.grocery, deliveryAddress: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress())
+            bindViews()
+        } 
+        
     }
 
 }
@@ -1741,11 +1749,6 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
 private extension MainCategoriesViewController {
     
     func initViewModel() {
-        
-        defer {
-            //MARK: Blocking UI - Need to update this
-          //  self.configureStorely(openStories: false)
-        }
         
         guard self.viewModel == nil else {
             if self.viewModel.outputs.dataValidationForLoadedGroceryNeedsToUpdate(self.grocery) {
@@ -1999,6 +2002,8 @@ private extension MainCategoriesViewController {
             }
             //self.configureStorely(openStories: true)
             break
+        case .staticImage:
+            break
         }
     }
     
@@ -2221,6 +2226,13 @@ extension MainCategoriesViewController {
   
     func getGroceryDeliverySlots(){
         
+        Thread.OnMainThread {
+            self.saveResponseData([:])
+        }
+        
+        
+        // Commented in favor to less grocery call; we will not call delivery slot we will use it from grocery object.
+        /*
         ElGrocerApi.sharedInstance.getGroceryDeliverySlotsWithGroceryId(self.grocery?.dbID , andWithDeliveryZoneId: self.grocery?.deliveryZoneId, false, completionHandler: { (result) -> Void in
             
             switch result {
@@ -2261,7 +2273,7 @@ extension MainCategoriesViewController {
                    
             }
         })
-        
+        */
         let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         if currentAddress != nil  {
             UserDefaults.setGroceryId(self.grocery?.dbID ?? nil , WithLocationId: (currentAddress?.dbID)!)

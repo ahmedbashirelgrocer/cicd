@@ -96,6 +96,7 @@ class GenericStoresViewController: BasketBasicViewController {
     var groceryArray: [Grocery] = []
     var neighbourHoodFavGroceryArray: [Grocery] = []
     var exclusiveDealsPromoList: [ExclusiveDealsPromoCode] = []
+    var limitedTimeSavingsCardList: [LimitedTimeSavings] = []
     var oneClickReOrderGroceryIDArray: [Int] = [] {
         didSet {
             var array: [Grocery] = []
@@ -133,6 +134,7 @@ class GenericStoresViewController: BasketBasicViewController {
     var neighbourHoodSection: Int = 0
     var oneClickReOrderSection: Int = 0
     var exclusiveDealsSection: Int = 0
+    var limitedTimeSavingsSection: Int = 0
 
     var availableStoreTypeA: [StoreType] = []
     var featureGroceryBanner : [BannerCampaign] = []
@@ -317,6 +319,9 @@ class GenericStoresViewController: BasketBasicViewController {
         
         let exclusiveDealsTableViewCell = UINib(nibName: "ExclusiveDealsTableViewCell", bundle: Bundle.resource)
         self.tableView.register(exclusiveDealsTableViewCell, forCellReuseIdentifier: "ExclusiveDealsTableViewCell")
+        
+        let limitedTimeSavingsTableViewCell = UINib(nibName: "LimitedTimeSavingsTableViewCell", bundle: Bundle.resource)
+        self.tableView.register(limitedTimeSavingsTableViewCell, forCellReuseIdentifier: "LimitedTimeSavingsTableViewCell")
         
         let CurrentOrderCollectionCell = UINib(nibName: "CurrentOrderCollectionCell", bundle: Bundle.resource)
         self.currentOrderCollectionView.register(CurrentOrderCollectionCell, forCellWithReuseIdentifier: "CurrentOrderCollectionCell")
@@ -884,6 +889,8 @@ extension GenericStoresViewController {
                 break
             case .storely:
                 break
+            case .staticImage:
+                break
             case .customBanners:
                 activeCartVC?.dismiss(animated: true, completion: {
                     bannerCampaign.changeStoreForBanners(currentActive: ElGrocerUtility.sharedInstance.activeGrocery, retailers: self.groceryArray)
@@ -1120,6 +1127,7 @@ extension GenericStoresViewController: HomePageDataLoadingComplete {
             self.setSegmentView()
             subCategorySelectedWithSelectedIndex(0)
             self.homeDataHandler.getExclusiveDealsData()
+            self.homeDataHandler.getLimitedTimeSavingsData()
             
         } else if type == .HomePageLocationOneBanners {
             if self.homeDataHandler.locationOneBanners?.count == 0 {
@@ -1142,6 +1150,12 @@ extension GenericStoresViewController: HomePageDataLoadingComplete {
                 self.exclusiveDealsPromoList = []
             }
             filterExclusivePromo()
+        }else if type == .LimitedTimeSavings {
+            if self.homeDataHandler.limitedTimeSavings?.count ?? 0 > 0 {
+                self.limitedTimeSavingsCardList = self.homeDataHandler.limitedTimeSavings!
+            }else {
+                self.limitedTimeSavingsCardList = []
+            }
         }
         Thread.OnMainThread {
             if self.homeDataHandler.groceryA?.count ?? 0 > 0 {
@@ -1516,8 +1530,9 @@ extension GenericStoresViewController {
                 exclusiveDealsSection = 0
                 if self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId {
                     exclusiveDealsSection = self.exclusiveDealsPromoList.count > 0 ? 1 : 0
+                    limitedTimeSavingsSection = self.limitedTimeSavingsCardList.count > 0 ? 1 : 0
                 }
-                return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection
+                return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection + limitedTimeSavingsSection
             }
             
         case 1: //1-3: Grocery cell 1, 2, 3
@@ -1561,6 +1576,8 @@ extension GenericStoresViewController {
                     return self.makeLocationOneBannerCell(indexPath)
                 }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
                     return makeExclusiveDealsTableViewCell(indexPath: indexPath)
+                }else if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                    return makeLimitedTimeSavingsTableViewCell(indexPath: indexPath)
                 }else{
                     return self.makeLabelCell(indexPath)
                 }
@@ -1570,10 +1587,18 @@ extension GenericStoresViewController {
                 return makeNeighbourHoodFavouriteTableViewCell(indexPath: indexPath)
             }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
                 return makeExclusiveDealsTableViewCell(indexPath: indexPath)
+            }else if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                return makeLimitedTimeSavingsTableViewCell(indexPath: indexPath)
             }else{
                 return self.makeLabelCell(indexPath)
             }
         case .init(row: 2, section: 0):
+            if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                return makeLimitedTimeSavingsTableViewCell(indexPath: indexPath)
+            }else{
+                return self.makeLabelCell(indexPath)
+            }
+        case .init(row: 3, section: 0):
             return self.makeLabelCell(indexPath)
         case .init(row: 0, section: 2):
             if tableViewHeader2.selectedItemIndex == 0 {
@@ -1598,6 +1623,24 @@ extension GenericStoresViewController {
                     return makeAvailableStoreCellListStyle(indexPath: indexPath, grocery: sortedGroceryArray[indexPath.row + separatorCount + 1])
                 }
             }
+            /*
+            if indexPath.section == 1 {
+                if ABTestManager.shared.configs.availableStoresStyle == .grid {
+                    let groceries = Array(self.sortedGroceryArray[0..<min(sortedGroceryArray.count, separatorCount + 1)])
+                    return makeAvailableStoresCellGridStyle(tableView, groceries: groceries)
+                } else {
+                    return makeAvailableStoreCellListStyle(indexPath: indexPath, grocery: sortedGroceryArray[indexPath.row])
+                }
+            } else { // 3
+                
+                if ABTestManager.shared.configs.availableStoresStyle == .grid {
+                    let groceries = Array(self.sortedGroceryArray[(separatorCount + 1)..<sortedGroceryArray.count])
+                    return makeAvailableStoresCellGridStyle(tableView, groceries: groceries)
+                } else {
+                    return makeAvailableStoreCellListStyle(indexPath: indexPath, grocery: sortedGroceryArray[indexPath.row + separatorCount + 1])
+                }
+            }
+             */
         }
     }
 
@@ -1641,6 +1684,8 @@ extension GenericStoresViewController {
                     return (HomePageData.shared.locationOneBanners?.count ?? 0) > 0 ? ElGrocerUtility.sharedInstance.getTableViewCellHeightForBanner() : minCellHeight
                 }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
                     return 180
+                }else if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                    return 300
                 }else{
                     return 45
                 }
@@ -1650,11 +1695,17 @@ extension GenericStoresViewController {
                 return 166
             }else if exclusiveDealsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
                 return 180
+            }else if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                return 300
             }else{
                 return 45
             }
         case .init(row: 2, section: 0):
-            return 45
+            if limitedTimeSavingsSection == 1 && self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId{
+                return 300
+            }else{
+                return 45
+            }
         case .init(row: 0, section: 2):
             if tableViewHeader2.selectedItemIndex == 0 {
                 return minCellHeight
@@ -1840,6 +1891,19 @@ extension GenericStoresViewController {
         cell.configureCell(promoList: self.exclusiveDealsPromoList, groceryA: self.sortedGroceryArray)
         cell.viewAllBtn.addTarget(self, action: #selector(showExclusiveDealsBottomSheet), for: .touchUpInside)
         return cell
+    }
+    func makeLimitedTimeSavingsTableViewCell(indexPath: IndexPath)-> UITableViewCell {
+        let cell = self.tableView.dequeueReusableCell(withIdentifier: "LimitedTimeSavingsTableViewCell", for: indexPath) as! LimitedTimeSavingsTableViewCell
+        cell.delegate = self
+        cell.delegateRemoveLimitedTimeSavings = self
+        cell.configureCell(offers: self.homeDataHandler.limitedTimeSavings, groceryA: self.homeDataHandler.groceryA, position: indexPath.row)
+        cell.selectionStyle = .none
+        return cell
+    }
+    func removeLimitedTimeSavingsTableViewCell(){
+        self.limitedTimeSavingsSection = 0
+        self.limitedTimeSavingsCardList.removeAll()
+        self.tableView.reloadData()
     }
 }
     // Mark:- Navigation Helpers
@@ -2227,5 +2291,27 @@ extension GenericStoresViewController: CopyAndShopDelegate{
         if show {
             ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch = true
         }
+    }
+}
+extension GenericStoresViewController: PushMarketingCampaignLandingPageDelegate{
+    func pushMarketingCampaignLandingPageWith(limitedTimeSavings: LimitedTimeSavings, position: Int) {
+        let catId = self.lastSelectType?.storeTypeid ?? 0
+        let catName = self.lastSelectType?.name ?? ""
+        SegmentAnalyticsEngine.instance.logEvent(event: LimitedSavingsClickedEvent(categoryId: String(catId), categoryName: catName, source: .homeScreen, retailerName: grocery?.name ?? "", retailerId: grocery?.getCleanGroceryID() ?? "0", position: position))
+        
+        if let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+            let grocery = self.groceryArray.first { Grocery in
+                return (Int(Grocery.getCleanGroceryID()) ?? 0) == (limitedTimeSavings.retailer_ids[0])
+            }
+            var customVm = MarketingCustomLandingPageViewModel.init(storeId: grocery?.dbID ?? "", marketingId: String(limitedTimeSavings.custom_screen_id ?? 0), addressId: currentAddress.dbID, grocery: grocery)
+            customVm.campaignType = .limitedSavingsCampaign
+            let landingVC = ElGrocerViewControllers.marketingCustomLandingPageNavViewController(customVm)
+            self.present(landingVC, animated: true)
+        }
+    }
+}
+extension GenericStoresViewController: RemoveLimitedTimeSavingsSection{
+    func removeLimitedTimeSavingsSection() {
+        self.removeLimitedTimeSavingsTableViewCell()
     }
 }
