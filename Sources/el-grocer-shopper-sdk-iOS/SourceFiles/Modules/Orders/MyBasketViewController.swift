@@ -3885,9 +3885,13 @@ extension MyBasketViewController {
     
     
         // MARK: Get Delivery Slots
-    func updateSlotsAndChooseNextAvailable(_ isNeedToChooseNext : Bool = true){
+    func updateSlotsAndChooseNextAvailable(_ isNeedToChooseNext : Bool = true) {
         
+        SpinnerView.hideSpinnerView()
+        return
+        /*
         let groceryID =  Grocery.getGroceryIdForGrocery(self.grocery)
+        
         ElGrocerApi.sharedInstance.getGroceryDeliverySlotsWithGroceryId(groceryID, andWithDeliveryZoneId: self.grocery!.deliveryZoneId, completionHandler: { (result) -> Void in
             SpinnerView.hideSpinnerView()
             switch result {
@@ -3910,6 +3914,8 @@ extension MyBasketViewController {
                    elDebugPrint("Error while getting Delivery Slots from SERVER:%@",error.localizedMessage)
             }
         })
+        
+        */
     }
     
         // MARK: Data

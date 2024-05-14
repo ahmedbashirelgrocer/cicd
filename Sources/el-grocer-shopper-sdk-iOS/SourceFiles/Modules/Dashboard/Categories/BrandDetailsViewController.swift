@@ -160,13 +160,13 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
     }
     
     override func refreshSlotChange() {
-//         let accessQueue = DispatchQueue(label: "SynchronizedArrayAccess")
-//        accessQueue.sync() {
-//            isFirst = true
-//            currentLoadedPage = 0
-//            self.products.removeAll()
-//        }
-      //  self.perform(#selector(BrandDetailsViewController.getProductsForSelectedBrand), with: nil, afterDelay: 1)
+         let accessQueue = DispatchQueue(label: "SynchronizedArrayAccess")
+        accessQueue.sync() {
+            isFirst = true
+            currentLoadedPage = 0
+            self.products.removeAll()
+        }
+        self.perform(#selector(BrandDetailsViewController.getProductsForSelectedBrand), with: nil, afterDelay: 1)
     }
     
     override func viewWillAppear(_ animated: Bool) {

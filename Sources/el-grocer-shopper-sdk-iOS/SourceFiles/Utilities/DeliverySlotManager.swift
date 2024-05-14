@@ -17,7 +17,7 @@ class DeliverySlotManager {
         var hideSlotImage: Bool = false
         let startDate =  slot.start_time!
         let endDate =  slot.end_time!
-        var orderTypeDescription = ( isDeliveryMode ?  startDate.formatDateForDeliveryHAFormateString() : startDate.formatDateForCandCFormateString() ) + "-" + ( isDeliveryMode ?  endDate.formatDateForDeliveryHAFormateString() : endDate.formatDateForCandCFormateString())
+        var orderTypeDescription = ( isDeliveryMode ?  startDate.formatDateForCandCFormateString() : startDate.formatDateForCandCFormateString() ) + "-" + ( isDeliveryMode ?  endDate.formatDateForCandCFormateString() : endDate.formatDateForCandCFormateString())
         
         if slot.isInstant.boolValue {
             return  (localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "") + "⚡️" , true)
@@ -65,10 +65,10 @@ class DeliverySlotManager {
         
     }
     
-    class func getStoreGenericSlotFormatterTimeStringWithDictionarySpecialityMarket (_ slotDict : NSDictionary, isDeliveryMode: Bool ) -> String {
+    class func getStoreGenericSlotFormatterTimeStringWithDictionarySpecialityMarket (_ slotDict : NSDictionary, isDeliveryMode: Bool, _ withNextLine: Bool = true ) -> String {
         var groceryNextDeliveryString =  localizedString("lbl_no_timeSlot_available", comment: "")
         if (slotDict["id"] as? NSNumber)?.stringValue == "0" {
-            groceryNextDeliveryString =  localizedString("today_title", comment: "") + "\n"  +  localizedString("60_min", comment: "")
+            groceryNextDeliveryString =  localizedString("today_title", comment: "") + (withNextLine ? "\n" : " ")  +  localizedString("60_min", comment: "")
         } else {
             
             var dayTitle = ""
@@ -82,7 +82,7 @@ class DeliverySlotManager {
                         dayTitle = startDate.getDayName() ?? ""
                     }
                     let timeSlot = ( isDeliveryMode ?  startDate.formatDateForDeliveryFormateString() : startDate.formatDateForCandCFormateString() ) + " - " + ( isDeliveryMode ?  endDate.formatDateForDeliveryFormateString() : endDate.formatDateForCandCFormateString())
-                    groceryNextDeliveryString =  "\(dayTitle)" + (dayTitle.count > 0 ? "\n" : "") + "\(timeSlot)"
+                    groceryNextDeliveryString =  "\(dayTitle)" + ((dayTitle.count > 0 && withNextLine) ? "\n" : " ") + "\(timeSlot)"
                 }
             }
         }

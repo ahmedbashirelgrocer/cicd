@@ -271,13 +271,21 @@ class ElGrocerUtility {
     
     func getCurrentMillis() -> Int64 {
         let slotId = UserDefaults.getCurrentSelectedDeliverySlotId()
-        let grocery = ElGrocerUtility.sharedInstance.activeGrocery
-        if let slot = DeliverySlot.getDeliverySlot(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: grocery?.dbID ?? "-1" , slotId: slotId.stringValue) {
-            return Int64(truncating: slot.time_milli)
-        }else{
-            if let slots = DeliverySlot.getFirstDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: grocery?.dbID ?? "-1") {
-                if !slots.isInstant.boolValue {
-                    return Int64(truncating: slots.time_milli)
+        if UserDefaults.isOrderInEdit(), let slots =  UserDefaults.getEditOrderSelectedDeliverySlot() {
+            let slot = DeliverySlot.createDeliverySlotFromCustomDictionary(slots as! NSDictionary, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            return slot.time_milli.int64Value
+        }else if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
+            if let slot = DeliverySlot.getDeliverySlot(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: grocery.dbID , slotId: slotId.stringValue) {
+                return Int64(truncating: slot.time_milli)
+            }else if (grocery.isOpen.boolValue && (grocery.isInstant() || grocery.isInstantSchedule())) {
+                return Int64(Date().getUTCDate().timeIntervalSince1970 * 1000)
+            }else if let jsonSlot = grocery.initialDeliverySlotData, let dict = grocery.convertToDictionary(text: jsonSlot) {
+                return dict["time_milli"] as? Int64 ?? Int64(Date().getUTCDate().timeIntervalSince1970 * 1000)
+            }else{
+                if let slots = DeliverySlot.getFirstDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: grocery.dbID) {
+                    if !slots.isInstant.boolValue {
+                        return Int64(truncating: slots.time_milli)
+                    }
                 }
             }
         }

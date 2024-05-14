@@ -258,8 +258,9 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         }
         
         self.viewHandler.removeLocalCache()
-       // self.productDataUpdated(nil)
-        //self.viewHandler.loadMore()
+        
+        self.productDataUpdated(nil)
+        self.viewHandler.loadMore()
     }
     
     
