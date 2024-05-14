@@ -13,7 +13,6 @@ import AVKit
 import AVFoundation
 import RxSwift
 import RxCocoa
-import ThirdPartyObjC
 //import FirebaseCrashlytics
 // import RevealingSplashView
 
@@ -390,32 +389,32 @@ class EntryViewController: UIViewController {
         
         //Step 2: Define a selection handler block
         
-        let labelHandler = {
-            (hyperLabel: FRHyperLabel?, substring: String?) -> Void in
-            
-            if substring == localizedString("register_title", comment: "") {
-                
-               elDebugPrint("SignUp Tapped")
-                let registrationProfileController = ElGrocerViewControllers.registrationPersonalViewController()
-                let navController = self.elGrocerNavigationController
-                navController.viewControllers = [registrationProfileController]
-                navController.modalPresentationStyle = .fullScreen
-                self.present(navController, animated: true, completion: nil)
-                
-            }else{
-                
-               elDebugPrint("Login Tapped")
-                let signInController = ElGrocerViewControllers.signInViewController()
-                let navController = self.elGrocerNavigationController
-                navController.viewControllers = [signInController]
-                navController.modalPresentationStyle = .fullScreen
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else {return}
-                    self.present(navController, animated: true, completion: nil)
-                    
-                }
-            }
-        }
+//        let labelHandler = {
+//            (hyperLabel: FRHyperLabel?, substring: String?) -> Void in
+//            
+//            if substring == localizedString("register_title", comment: "") {
+//                
+//               elDebugPrint("SignUp Tapped")
+//                let registrationProfileController = ElGrocerViewControllers.registrationPersonalViewController()
+//                let navController = self.elGrocerNavigationController
+//                navController.viewControllers = [registrationProfileController]
+//                navController.modalPresentationStyle = .fullScreen
+//                self.present(navController, animated: true, completion: nil)
+//                
+//            }else{
+//                
+//               elDebugPrint("Login Tapped")
+//                let signInController = ElGrocerViewControllers.signInViewController()
+//                let navController = self.elGrocerNavigationController
+//                navController.viewControllers = [signInController]
+//                navController.modalPresentationStyle = .fullScreen
+//                DispatchQueue.main.async { [weak self] in
+//                    guard let self = self else {return}
+//                    self.present(navController, animated: true, completion: nil)
+//                    
+//                }
+//            }
+//        }
         
         //Step 3: Add link substrings
     //    self.logInOrSignUpLabel.setLinksForSubstrings([localizedString("entry_login_button_title", comment: ""), localizedString("register_title", comment: "")], withLinkHandler: labelHandler)
