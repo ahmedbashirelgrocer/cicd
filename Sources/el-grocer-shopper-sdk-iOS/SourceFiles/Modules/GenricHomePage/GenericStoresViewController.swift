@@ -1294,6 +1294,8 @@ extension GenericStoresViewController: AWSegmentViewProtocol {
         self.filteredGroceryArray = filterA
         self.filteredGroceryArray = ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA: self.filteredGroceryArray)
         self.filterExclusivePromo()
+        self.homeDataHandler.locationOneBanners = []
+        self.homeDataHandler.getBannerLocationOne(groceryA: self.sortedGroceryArray)
         // self.tableView.reloadDataOnMain()
         
         FireBaseEventsLogger.trackStoreListingOneCategoryFilter(StoreCategoryID: "\(selectedType.storeTypeid)" , StoreCategoryName: selectedType.name ?? "", lastStoreCategoryID: "\(self.lastSelectType?.storeTypeid ?? 0)", lastStoreCategoryName: self.lastSelectType?.name ?? "All Stores")
@@ -1531,8 +1533,10 @@ extension GenericStoresViewController {
                 if self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId {
                     exclusiveDealsSection = self.exclusiveDealsPromoList.count > 0 ? 1 : 0
                     limitedTimeSavingsSection = self.limitedTimeSavingsCardList.count > 0 ? 1 : 0
+                    return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection + limitedTimeSavingsSection
+                }else{
+                    return 1 + (configs.isHomeTier1 ? 1 : 0)
                 }
-                return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection + limitedTimeSavingsSection
             }
             
         case 1: //1-3: Grocery cell 1, 2, 3
