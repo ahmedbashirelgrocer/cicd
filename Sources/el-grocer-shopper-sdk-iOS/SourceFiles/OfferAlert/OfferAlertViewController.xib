@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OfferAlertViewController" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OfferAlertViewController" customModule="el_grocer_shopper_sdk_iOS">
             <connections>
                 <outlet property="alertLbl" destination="Ete-Mq-1vN" id="a2o-BK-JV2"/>
                 <outlet property="descrptionLbl" destination="cv9-wa-GtA" id="lPD-4W-uP4"/>
@@ -39,7 +39,7 @@
                             <nil key="textColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hai-4j-knU" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hai-4j-knU" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS">
                             <rect key="frame" x="15" y="225" width="363" height="50"/>
                             <color key="backgroundColor" red="0.45882352941176469" green="0.25882352941176467" blue="0.55686274509803924" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
@@ -70,7 +70,7 @@
                                 <action selector="skipBtnClick" destination="-1" eventType="touchUpInside" id="Ej8-4b-gAc"/>
                             </connections>
                         </button>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cap-66-YzC" customClass="BannerView" customModule="el_grocer_shopper_sdk_iOS" customModuleProvider="target">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cap-66-YzC" customClass="BannerView" customModule="el_grocer_shopper_sdk_iOS">
                             <rect key="frame" x="15" y="15" width="363" height="170"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <userDefinedRuntimeAttributes>
