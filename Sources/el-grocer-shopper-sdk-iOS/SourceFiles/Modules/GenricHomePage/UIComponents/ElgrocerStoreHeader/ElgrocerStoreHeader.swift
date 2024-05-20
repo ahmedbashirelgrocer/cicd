@@ -416,8 +416,8 @@ class ElgrocerStoreHeader:  UIView  {
             self.currentSelectedSlot = slot
             let slotStringData = DeliverySlotManager.getSlotFormattedStrForStoreHeader(slot: slot, ElGrocerUtility.sharedInstance.isDeliveryMode)
             var slotString = slotStringData.slot
-            let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
-            let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+            let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+            let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
                 let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
                 
                 var data = slotString.components(separatedBy: " ")
@@ -454,15 +454,15 @@ class ElgrocerStoreHeader:  UIView  {
                 if firstObj.isInstant.boolValue {
 //                    slotString = localizedString("today_title", comment: "") + " " +  localizedString("60_min", comment: "")  + "⚡️"
                     slotString = localizedString("delivery_within_60_min", comment: "")
-                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
                     let attributedString = NSMutableAttributedString(string: slotString , attributes:attrs2 as [NSAttributedString.Key : Any])
                     self.setAttributedValueForSlotOnMainThread(attributedString)
                     self.currentSelectedSlot = firstObj
                     return
                 }
                 self.currentSelectedSlot = firstObj
-                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
-                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
                     let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
                     
                     var data = slotString.components(separatedBy: " ")
@@ -491,7 +491,7 @@ class ElgrocerStoreHeader:  UIView  {
             }else if ((grocery.isOpen.boolValue && (grocery.isInstant() || grocery.isInstantSchedule())) || grocery.initialDeliverySlotData != nil) {
                 
                 if grocery.isOpen.boolValue && (grocery.isInstant() || grocery.isInstantSchedule()) {
-                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
                     let attributedString = NSMutableAttributedString(string: localizedString("delivery_within_60_min", comment: "") , attributes:attrs2 as [NSAttributedString.Key : Any])
                     self.setAttributedValueForSlotOnMainThread(attributedString)
                     return
@@ -501,8 +501,8 @@ class ElgrocerStoreHeader:  UIView  {
                    
                     let slotString = DeliverySlotManager.getStoreGenericSlotFormatterTimeStringWithDictionarySpecialityMarket(dict, isDeliveryMode: grocery.isDelivery.boolValue, false)
                   
-                    let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
-                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                    let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                    let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
                         let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
                         
                         var data = slotString.components(separatedBy: " ")
@@ -591,10 +591,9 @@ class ElgrocerStoreHeader:  UIView  {
     func setDeliveryDate (_ data : String) {
         
         
-        let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
-        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isSmileSDK ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+        let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+        let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayBoldFont(14), NSAttributedString.Key.foregroundColor : sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
         let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
-        
         
         let dataA = data.components(separatedBy: CharacterSet.newlines)
         if dataA.count == 1 {
