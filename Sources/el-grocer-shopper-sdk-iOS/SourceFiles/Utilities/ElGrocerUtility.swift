@@ -271,7 +271,10 @@ class ElGrocerUtility {
     
     func getCurrentMillis() -> Int64 {
         let slotId = UserDefaults.getCurrentSelectedDeliverySlotId()
-        if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
+        if UserDefaults.isOrderInEdit(), let slots =  UserDefaults.getEditOrderSelectedDeliverySlot() {
+            let slot = DeliverySlot.createDeliverySlotFromCustomDictionary(slots as! NSDictionary, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            return slot.time_milli.int64Value
+        }else if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
             if let slot = DeliverySlot.getDeliverySlot(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: grocery.dbID , slotId: slotId.stringValue) {
                 return Int64(truncating: slot.time_milli)
             }else if (grocery.isOpen.boolValue && (grocery.isInstant() || grocery.isInstantSchedule())) {
@@ -731,9 +734,7 @@ class ElGrocerUtility {
     
     func getCurrentDeliveryAddress() -> DeliveryAddress? {
         let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        guard !(address?.dbID.isEmptyStr ?? true) && address?.latitude != 0.0 && address?.longitude != 0.0 else {
-            return nil
-        }
+        guard address?.latitude != 0 && address?.longitude != 0 else { return nil }
         self.activeAddress = address
         return address
     }
@@ -1753,16 +1754,6 @@ class ElGrocerUtility {
 // MARK: - Setting default address locally based on launch options.
 extension ElGrocerUtility {
     static func setDefaultAddress() -> String {
-        
-        guard ElGrocerUtility.isAddressCentralisation else {
-            let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-            if !(address?.dbID.isEmptyStr ?? true) && address?.latitude != 0.0 && address?.longitude != 0.0 {
-                return address?.dbID ?? ""
-            } else {
-                return ""
-            }
-        }
-        
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
         var newDefaultAddressID: String = ""

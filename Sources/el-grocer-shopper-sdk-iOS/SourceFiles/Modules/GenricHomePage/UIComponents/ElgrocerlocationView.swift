@@ -333,8 +333,40 @@ class ElgrocerlocationView:  UIView  {
     func setSlotData() {
         
       
-        
-        if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
+        if UserDefaults.isOrderInEdit(), let slots =  UserDefaults.getEditOrderSelectedDeliverySlot() {
+            let slot = DeliverySlot.createDeliverySlotFromCustomDictionary(slots as! NSDictionary, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            self.currentSelectedSlot = slot
+            let slotStringData = DeliverySlotManager.getSlotFormattedStrForStoreHeader(slot: slot, ElGrocerUtility.sharedInstance.isDeliveryMode)
+            var slotString = slotStringData.slot
+            let attrs1 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+            let attrs2 = [NSAttributedString.Key.font : UIFont.SFProDisplayNormalFont(14), NSAttributedString.Key.foregroundColor : !sdkManager.isShopperApp ? ApplicationTheme.currentTheme.newBlackColor : UIColor.navigationBarWhiteColor()]
+                let attributedString = NSMutableAttributedString(string: "" , attributes:attrs1 as [NSAttributedString.Key : Any])
+                
+                var data = slotString.components(separatedBy: " ")
+                if data.count > 0 {
+                    var dayName = localizedString("", comment: "")
+                    let attributedString2 = NSMutableAttributedString(string:dayName as String , attributes:attrs1 as [NSAttributedString.Key : Any])
+                    attributedString.append(attributedString2)
+                    data.removeFirst()
+                }
+                if data.count == 1 || data.count > 1 {
+                    var slotName = slotString//" " + data.joined(separator: " ")
+                    if !ElGrocerUtility.sharedInstance.isDeliveryMode {
+                        let cAndcDateStringA = slotName.components(separatedBy: " - ")
+                        if cAndcDateStringA.count > 1 {
+                            slotName = cAndcDateStringA[0]
+                        }else{
+                            let cAndcDateStringA = slotName.components(separatedBy: "-")
+                            slotName = cAndcDateStringA[0]
+                        }
+                    }
+                    let attributedString2 = NSMutableAttributedString(string:slotName as String , attributes:attrs2 as [NSAttributedString.Key : Any])
+                    attributedString.append(attributedString2)
+                }
+            
+            self.setAttributedValueForSlotOnMainThread(attributedString)
+            
+        }else if let grocery = ElGrocerUtility.sharedInstance.activeGrocery {
             let slots = DeliverySlot.getAllDeliverySlots(DatabaseHelper.sharedInstance.mainManagedObjectContext, forGroceryID: grocery.dbID)
             if let firstObj  = slots.first(where: {$0.backendDbId == UserDefaults.getCurrentSelectedDeliverySlotId() }) {
 //                var slotString = self.getSlotFormattedStrForStoreHeader(slot: firstObj, ElGrocerUtility.sharedInstance.isDeliveryMode)

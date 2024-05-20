@@ -443,7 +443,7 @@ extension SplashAnimationViewController {
         
         func callAddressApi(_ userProfile: UserProfile) {
             
-            if let activeAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext), !activeAddress.dbID.isEmptyStr {
+            if let activeAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext), !activeAddress.dbID.isEmptyStr, activeAddress.latitude != 0.0, activeAddress.longitude != 0.0 {
                 self.locationFetching = false
                 return
             }
