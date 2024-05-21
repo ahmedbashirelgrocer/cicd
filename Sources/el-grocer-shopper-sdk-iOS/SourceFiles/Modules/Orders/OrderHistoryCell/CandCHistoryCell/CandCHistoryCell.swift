@@ -22,6 +22,11 @@ class CandCHistoryCell: UITableViewCell {
     var orderItems:[ShoppingBasketItem]!
     var currentOrder : Order? = nil
     var dateFormatter:DateFormatter!
+    @IBOutlet weak var clockICon:UIImageView!{
+        didSet{
+            clockICon.image = UIImage(named: "clockIcon")
+        }
+       }
     
     
     @IBOutlet weak var imgArrow: UIImageView!{

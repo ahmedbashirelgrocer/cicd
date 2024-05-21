@@ -37,7 +37,6 @@ class SmileSdkHomeVC: BasketBasicViewController {
         var frameHeight = searchHeader?.frame
         frameHeight?.size.height = sdkManager.isShopperApp ? 147 : 82
         searchHeader?.frame = frameHeight ?? searchHeader?.frame ?? CGRect.zero
-        
         searchHeader?.changeLocationClickedHandler = { [weak self] in
             self?.locationButtonClick()
             UserDefaults.setLocationChanged(date: Date())
@@ -130,7 +129,6 @@ class SmileSdkHomeVC: BasketBasicViewController {
     var delegate: ShowExclusiveDealsInstructionsDelegate?
     private var openOrders : [NSDictionary] = []
     private var configRetriesCount: Int = 0
-    
     @IBOutlet var tableView: UITableView!
     @IBOutlet var currentOrderCollectionView: UICollectionView!
     @IBOutlet var currentOrderCollectionViewHeightConstraint: NSLayoutConstraint!
@@ -156,8 +154,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         subCategorySelectedWithSelectedIndex(0)
         setupClearNavBar()
         if sdkManager.launchOptions?.marketType == .marketPlace {
-            
-            SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
+          SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
         }
         
         currentOrderCollectionView.collectionViewLayout = {

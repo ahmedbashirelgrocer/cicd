@@ -179,6 +179,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         let value = min(effectiveOffset, scrollView.contentOffset.y)
         self.locationHeaderShopper.searchViewTopAnchor.constant = 62 - value
         self.locationHeaderShopper.searchViewLeftAnchor.constant = 16 + ((value / 60) * 30)
+        
         self.locationHeaderShopper.groceryBGView.alpha = max(0, 1 - (value / 60))
     }
     @objc func backButtonPressed() {
@@ -2532,7 +2533,7 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
        
         UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
-            self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
+            self.locationHeader.myGroceryImage.alpha = 1 - (scrollView.contentOffset.y)/30
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
             self.navigationController?.navigationBar.topItem?.title = title
             sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()

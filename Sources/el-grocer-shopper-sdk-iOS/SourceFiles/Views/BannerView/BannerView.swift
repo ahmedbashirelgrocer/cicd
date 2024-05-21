@@ -86,6 +86,7 @@ extension BannerView: UICollectionViewDataSource {
                 cell.ivBanner.image = UIImage(named: banner.imageURL ?? "")
                
         }
+        
         cell.plachoderImageData = banner.imageURL ?? ""
         cell.configure(viewModel: BannerCellViewModel(banner: banner))
         return cell
