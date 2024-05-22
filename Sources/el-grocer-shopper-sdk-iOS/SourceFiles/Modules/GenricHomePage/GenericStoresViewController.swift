@@ -1900,7 +1900,7 @@ extension GenericStoresViewController {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "LimitedTimeSavingsTableViewCell", for: indexPath) as! LimitedTimeSavingsTableViewCell
         cell.delegate = self
         cell.delegateRemoveLimitedTimeSavings = self
-        cell.configureCell(offers: self.homeDataHandler.limitedTimeSavings, groceryA: self.homeDataHandler.groceryA, position: indexPath.row)
+        cell.configureCell(offers: self.homeDataHandler.limitedTimeSavings, groceryA: self.homeDataHandler.groceryA)
         cell.selectionStyle = .none
         return cell
     }
