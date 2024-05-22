@@ -1255,7 +1255,6 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
         }else {
             self.btnMulticart.setImage(UIImage(name: "Cart-InActive-Smile"), for: UIControl.State())
         }
-
     }
     
     func showLocationChangeToolTip(show: Bool) {
@@ -1572,7 +1571,6 @@ extension SmileSdkHomeVC {
                 else{
                     return 1 + (configs.isHomeTier1 ? 1 : 0) 
                 }
-                //return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection + limitedTimeSavingsSection
             }
             
         case 1: //1-3: Grocery cell 1, 2, 3

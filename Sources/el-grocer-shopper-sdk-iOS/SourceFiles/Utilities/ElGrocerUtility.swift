@@ -734,6 +734,7 @@ class ElGrocerUtility {
     
     func getCurrentDeliveryAddress() -> DeliveryAddress? {
         let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        guard address?.latitude != 0 && address?.longitude != 0 else { return nil }
         self.activeAddress = address
         return address
     }

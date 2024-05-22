@@ -2361,7 +2361,6 @@ Oreo";
 "amount_due_text" = "Amount due";
 "remaining_amount_text" = "Remaining amount";
 "redeem_funds_text" = "Redeem funds:";
-"el_wallet_entered_amount_more_than_available_error" = "Please enter an amount equal to or lower than the elWallet Balance.";
 "el_wallet_entered_amount_more_than_available_error" = "Please enter an amount equal to or lower than the elWallet Funds.";
 "el_wallet_entered_amount_more_than_bill_error" = "Please enter an amount equal to or lower than the total bill";
 

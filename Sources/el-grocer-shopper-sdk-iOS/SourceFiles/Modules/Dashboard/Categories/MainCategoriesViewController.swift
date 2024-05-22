@@ -564,6 +564,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             
             (self.navigationController as? ElGrocerNavigationController)?.setChatButtonHidden(true)
             (self.navigationController as? ElGrocerNavigationController)?.setLocationHidden(true)
+            (self.navigationController as? ElGrocerNavigationController)?.setNavBarHidden(isShopper)
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false;
             
         }else {
