@@ -157,7 +157,12 @@ class LanguageManager: NSObject {
                 
         guard UserDefaults.isUserLoggedIn() else {return}
         
-        ElGrocerApi.sharedInstance.updateUserLanguageToServer(selectedLanguage) { (result, responseObject) in
+        let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        userProfile?.language = selectedLanguage
+        DatabaseHelper.sharedInstance.saveDatabase()
+        
+        
+        /*ElGrocerApi.sharedInstance.updateUserLanguageToServer(selectedLanguage) { (result, responseObject) in
             if result == true {
                elDebugPrint("Language Change Successfully")
                 let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
@@ -167,6 +172,6 @@ class LanguageManager: NSObject {
             }else{
                elDebugPrint("Some Issue orrcus while changing language")
             }
-        }
+        }*/
     }
 }

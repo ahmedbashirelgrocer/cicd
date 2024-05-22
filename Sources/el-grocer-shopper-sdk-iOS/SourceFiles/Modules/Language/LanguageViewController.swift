@@ -202,6 +202,13 @@ class LanguageViewController: UIViewController, UITableViewDelegate, UITableView
             return
         }
         
+        let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        userProfile?.language = selectedLanguage
+        DatabaseHelper.sharedInstance.saveDatabase()
+        FireBaseEventsLogger.trackChangeLanguageEvents(selectedLanguage)
+        self.showLanguageChangeAlert()
+        
+        /*
         _ = SpinnerView.showSpinnerViewInView(self.view)
         ElGrocerApi.sharedInstance.updateUserLanguageToServer(selectedLanguage) { (result, responseObject) in
             SpinnerView.hideSpinnerView()
@@ -213,6 +220,7 @@ class LanguageViewController: UIViewController, UITableViewDelegate, UITableView
             self.showLanguageChangeAlert()
 
         }
+        */
     }
     
     func showLanguageChangeAlert(){

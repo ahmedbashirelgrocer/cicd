@@ -1282,6 +1282,11 @@ public class SDKManagerShopper: NSObject, SDKManagerType {
         
         guard UserDefaults.isUserLoggedIn() else {return}
         
+        let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        userProfile?.language = selectedLanguage
+        DatabaseHelper.sharedInstance.saveDatabase()
+        
+        /*
         ElGrocerApi.sharedInstance.updateUserLanguageToServer(selectedLanguage) { (result, responseObject) in
             if result == true {
                 print("Language Change Successfully")
@@ -1292,7 +1297,7 @@ public class SDKManagerShopper: NSObject, SDKManagerType {
             }else{
                 print("Some Issue orrcus while changing language")
             }
-        }
+        }*/
     }
     
     private func updateDeviceTokenToServer(_ deviceTokenString:String){

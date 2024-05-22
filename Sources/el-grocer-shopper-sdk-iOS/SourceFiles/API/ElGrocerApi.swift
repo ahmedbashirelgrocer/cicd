@@ -3324,6 +3324,7 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
   }
   
   func updateUserLanguageToServer(_ currentLanguage:String,completionHandler:@escaping (_ result:Bool, _ responseObject:NSDictionary?) -> Void) {
+    
   setAccessToken()
   let parameters = [
   "language" : currentLanguage

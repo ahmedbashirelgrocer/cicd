@@ -190,112 +190,116 @@ class NetworkLayer {
     
     
     func getToken () {
-        guard !ElGrocerUtility.sharedInstance.isTokenCalling else{
-            return
-        }
-        ElGrocerUtility.sharedInstance.isTokenCalling = true
         
-       
-        let  ApplicationUID  =  "47f1a7cd44806ae426c41bc76a8ecf8ac8a4af9ca130c9d8666f2aaa17e64070"
-        let  ApplicationSecret  =  "a5ee8c3880ffcd31a3527e9bab930bd0a93d6ffd55fd227a156d769294a9690d"
-        let parms = [ "client_id" : ApplicationUID , "client_secret" : ApplicationSecret ,  "grant_type" : "client_credentials" , "redirect_uri" : "https://api.elgrocer.com" ]
-   
-        requestManager.post(authUrlString, parameters: parms, headers: nil , progress: { (progress) in  }, success: { (task, responseObject) in
-            if responseObject is Dictionary<String, Any> {
-                ElGrocerUtility.sharedInstance.projectScope =  ScopeDetail.init(tokenDetail: responseObject as! Dictionary<String, Any>)
-                 let date = NSDate(timeIntervalSince1970:  ElGrocerUtility.sharedInstance.projectScope!.created_at)
-                
-                let expires_in = ElGrocerUtility.sharedInstance.projectScope!.expires_in
-                let expireTime = date.addingTimeInterval(expires_in)
-                self.expireDate = expireTime as Date
-               
-                
-                var urlList : [String : callType] = [:]
-                ElGrocerUtility.sharedInstance.isTokenCalling = false
-               
-                var queue = self.queue
-                self.queue.clearQueue()
-                while !queue.isEmpty() {
-                    if  let call : CallObj =  queue.dequeue() {
-                        if urlList[call.URLString] == call.type {
-                            continue
-                        }
-                        urlList[call.URLString] = call.type
-                       call.startNetWorkLayerCall(self)
-                    }
-                }
-              
-            }else {
-                ElGrocerUtility.sharedInstance.isTokenCalling = false
+        guard let retrievedScopeDetail = ScopeDetail.retrieveScopeDetail(forKey: "scopeDetailKey") else {
+            
+            guard !ElGrocerUtility.sharedInstance.isTokenCalling else{
+                return
             }
-      
-        }) { (task, error) in
-        
-            ElGrocerUtility.sharedInstance.isTokenCalling = false
-            if let finalerror: NSError  =  error as? NSError {
-                if let response = finalerror.userInfo[AFNetworkingOperationFailingURLResponseErrorKeyCustom] as? HTTPURLResponse {
-                   elDebugPrint(response.statusCode)
-                    if response.statusCode == 404 {
-                        let fakeDict = ["access_token" : "fakeToken" , "created_at" : Date().timeIntervalSinceNow , "expires_in" : 300 , "scope" : "public" , "token_type" : "Bearer"] as [String : Any]
-                        ElGrocerUtility.sharedInstance.projectScope =  ScopeDetail.init(tokenDetail: fakeDict)
-                        let date = Date()
-                        let expireTime = date.addingTimeInterval(300)
-                        self.expireDate = expireTime as Date
-                        
-                        var urlList : [String : callType] = [:]
-                        var queue = self.queue
-                        self.queue.clearQueue()
-                        while !queue.isEmpty() {
-                            if  let call : CallObj =  queue.dequeue() {
-                                if urlList[call.URLString] == call.type {
-                                    continue
+            ElGrocerUtility.sharedInstance.isTokenCalling = true
+            let  ApplicationUID  =  "47f1a7cd44806ae426c41bc76a8ecf8ac8a4af9ca130c9d8666f2aaa17e64070"
+            let  ApplicationSecret  =  "a5ee8c3880ffcd31a3527e9bab930bd0a93d6ffd55fd227a156d769294a9690d"
+            let parms = [ "client_id" : ApplicationUID , "client_secret" : ApplicationSecret ,  "grant_type" : "client_credentials" , "redirect_uri" : "https://api.elgrocer.com" ]
+            requestManager.post(authUrlString, parameters: parms, headers: nil , progress: { (progress) in  }, success: { (task, responseObject) in
+                if responseObject is Dictionary<String, Any> {
+                    ElGrocerUtility.sharedInstance.projectScope =  ScopeDetail.init(tokenDetail: responseObject as! Dictionary<String, Any>)
+                    if let token = ElGrocerUtility.sharedInstance.projectScope {
+                        savetokenReceivedAndInitOtherCalls(projectScope: token)
+                    }
+                    
+                }else {
+                    ElGrocerUtility.sharedInstance.isTokenCalling = false
+                }
+          
+            }) { (task, error) in
+            
+                ElGrocerUtility.sharedInstance.isTokenCalling = false
+                if let finalerror: NSError  =  error as? NSError {
+                    if let response = finalerror.userInfo[AFNetworkingOperationFailingURLResponseErrorKeyCustom] as? HTTPURLResponse {
+                       elDebugPrint(response.statusCode)
+                        if response.statusCode == 404 {
+                            let fakeDict = ["access_token" : "fakeToken" , "created_at" : Date().timeIntervalSinceNow , "expires_in" : 300 , "scope" : "public" , "token_type" : "Bearer"] as [String : Any]
+                            ElGrocerUtility.sharedInstance.projectScope =  ScopeDetail.init(tokenDetail: fakeDict)
+                            if let token = ElGrocerUtility.sharedInstance.projectScope {
+                                savetokenReceivedAndInitOtherCalls(projectScope: token)
+                            }
+                        }else if response.statusCode >= 500 && response.statusCode <= 599  {
+                            
+                            if let views = sdkManager.window?.subviews {
+                                var popUp : NotificationPopup? = nil
+                                for dataView in views {
+                                    if let popUpView = dataView as? NotificationPopup {
+                                        popUp = popUpView
+                                        break
+                                    }
                                 }
-                                urlList[call.URLString] = call.type
-                               call.startNetWorkLayerCall(self)
-                            }
-                        }
-                    }else if response.statusCode >= 500 && response.statusCode <= 599  {
-                        
-                        if let views = sdkManager.window?.subviews {
-                            var popUp : NotificationPopup? = nil
-                            for dataView in views {
-                                if let popUpView = dataView as? NotificationPopup {
-                                    popUp = popUpView
-                                    break
+                                if popUp?.titleLabel.text == localizedString("alert_error_title", comment: "") {
+                                    return
                                 }
                             }
-                            if popUp?.titleLabel.text == localizedString("alert_error_title", comment: "") {
-                                return
-                            }
-                        }
-                        
-                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: sdkManager.window!) { (buttonIndex) in
-                            if buttonIndex == 1 {
-                                self.getToken()
-                            } else {
-                                Thread.OnMainThread {
-                                    UIApplication.topViewController()?.dismiss(animated: true, completion: nil)
+                            
+                            let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: sdkManager.window!) { (buttonIndex) in
+                                if buttonIndex == 1 {
+                                    self.getToken()
+                                } else {
+                                    Thread.OnMainThread {
+                                        UIApplication.topViewController()?.dismiss(animated: true, completion: nil)
+                                    }
+                                    
                                 }
-                                
                             }
+                        }else{
+                           self.getToken()
                         }
                     }else{
-                       self.getToken()
-                    }
-                }else{
-                    var delay : Double = 5
-                    if  ReachabilityManager.sharedInstance.isNetworkAvailable() {
-                        delay = 1
-                    }
-                    let when = DispatchTime.now() + delay
-                    DispatchQueue.global().asyncAfter(deadline: when) {
-                       self.getToken()
+                        var delay : Double = 5
+                        if  ReachabilityManager.sharedInstance.isNetworkAvailable() {
+                            delay = 1
+                        }
+                        let when = DispatchTime.now() + delay
+                        DispatchQueue.global().asyncAfter(deadline: when) {
+                           self.getToken()
+                        }
                     }
                 }
+                
             }
-            
+            return
         }
-   
+        
+        
+        // token received from cache
+        ElGrocerUtility.sharedInstance.projectScope =  retrievedScopeDetail
+        if let token = ElGrocerUtility.sharedInstance.projectScope {
+            savetokenReceivedAndInitOtherCalls(projectScope: token)
+        }
+
+    }
+    
+    private func savetokenReceivedAndInitOtherCalls(projectScope: ScopeDetail) {
+        
+        ScopeDetail.saveScopeDetail(projectScope, forKey: "scopeDetailKey")
+        
+        let date = NSDate(timeIntervalSince1970:  projectScope.created_at)
+
+        let expires_in = projectScope.expires_in
+        let expireTime = date.addingTimeInterval(expires_in)
+        self.expireDate = expireTime as Date
+       
+        var urlList : [String : callType] = [:]
+        ElGrocerUtility.sharedInstance.isTokenCalling = false
+       
+        var queue = self.queue
+        self.queue.clearQueue()
+        while !queue.isEmpty() {
+            if  let call : CallObj =  queue.dequeue() {
+                if urlList[call.URLString] == call.type {
+                    continue
+                }
+                urlList[call.URLString] = call.type
+               call.startNetWorkLayerCall(self)
+            }
+        }
     }
     
     func setAuthriztionToken() {
@@ -349,7 +353,7 @@ class NetworkLayer {
 }
 
 
-struct ScopeDetail {
+struct ScopeDetail: Codable {
     
     var access_token : String = ""
     var created_at : TimeInterval
@@ -367,6 +371,31 @@ extension ScopeDetail {
         scope = tokenDetail["scope"] as? String ?? ""
         token_type = tokenDetail["token_type"] as? String ?? ""
         //FireBaseEventsLogger.setUserProperty(access_token , key: "access_token")
+    }
+    
+    
+    // Function to save ScopeDetail to UserDefaults
+    static func saveScopeDetail(_ scopeDetail: ScopeDetail, forKey key: String) {
+        let encoder = JSONEncoder()
+        if let encoded = try? encoder.encode(scopeDetail) {
+            UserDefaults.standard.set(encoded, forKey: key)
+        }
+    }
+
+    // Function to retrieve ScopeDetail from UserDefaults
+    static func retrieveScopeDetail(forKey key: String) -> ScopeDetail? {
+        if let savedData = UserDefaults.standard.object(forKey: key) as? Data {
+            let decoder = JSONDecoder()
+            if let loadedScopeDetail = try? decoder.decode(ScopeDetail.self, from: savedData) {
+                if let loadedScopeDetailExpireTime = loadedScopeDetail.expires_in {
+                    let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  loadedScopeDetailExpireTime ?? Date().dataInGST() ?? Date() )
+                    if mins > 5 {
+                        return loadedScopeDetail
+                    }
+                }
+            }
+        }
+        return nil
     }
 
 }
