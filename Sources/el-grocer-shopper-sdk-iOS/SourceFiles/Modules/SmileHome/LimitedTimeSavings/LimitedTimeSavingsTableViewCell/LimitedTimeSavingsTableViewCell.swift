@@ -96,7 +96,7 @@ extension LimitedTimeSavingsTableViewCell: UICollectionViewDelegate, UICollectio
                 return (Int(Grocery.getCleanGroceryID()) ?? 0) == (offer.retailer_ids[0])
             }
             print(offer)
-            cell.configure(offers: offer, grocery: grocery)
+            cell.configure(offers: offer, grocery: grocery, positionId: indexPath.row)
         }
         cell.bgView.layer.cornerRadius = 8
         return cell
