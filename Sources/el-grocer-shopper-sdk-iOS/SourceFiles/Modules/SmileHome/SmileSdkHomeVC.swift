@@ -1870,8 +1870,6 @@ extension SmileSdkHomeVC {
         cell.delegate = self
         if exclusiveDealsPromoList.count > 0 && sortedGroceryArray.count > 0 {
             cell.configureCell(promoList: self.exclusiveDealsPromoList, groceryA: self.sortedGroceryArray)
-        }else{
-            cell.configureCell(promoList: self.homeDataHandler.exclusiveDealsPromoA, groceryA: self.homeDataHandler.groceryA)
         }
         cell.viewAllBtn.addTarget(self, action: #selector(showExclusiveDealsBottomSheet), for: .touchUpInside)
         
