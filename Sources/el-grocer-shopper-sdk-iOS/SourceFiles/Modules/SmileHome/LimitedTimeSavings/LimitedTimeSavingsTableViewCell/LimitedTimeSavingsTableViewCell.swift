@@ -17,7 +17,7 @@ protocol RemoveLimitedTimeSavingsSection{
     func removeLimitedTimeSavingsSection()
 }
 protocol CustomLandingPageTapped{
-    func didTapCustomLandingPageWith(offer: LimitedTimeSavings)
+    func didTapCustomLandingPageWith(offer: LimitedTimeSavings, position: Int)
 }
 
 class LimitedTimeSavingsTableViewCell: UITableViewCell {
@@ -26,7 +26,7 @@ class LimitedTimeSavingsTableViewCell: UITableViewCell {
     var delegateRemoveLimitedTimeSavings: RemoveLimitedTimeSavingsSection?
     var offers: [LimitedTimeSavings] = []
     var groceryA: [Grocery] = []
-    var position: Int = 0
+    //var position: Int = 0
     
     @IBOutlet weak var headingLbl: UILabel!{
         didSet {
@@ -49,11 +49,11 @@ class LimitedTimeSavingsTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func configureCell(offers: [LimitedTimeSavings]?, groceryA: [Grocery]?, position: Int) {
+    func configureCell(offers: [LimitedTimeSavings]?, groceryA: [Grocery]?) {
         self.offers = offers ?? []
         self.groceryA = groceryA ?? []
         self.collectionView.reloadData()
-        self.position = position
+        //self.position = position
     }
     
     func registerCells() {
@@ -103,7 +103,7 @@ extension LimitedTimeSavingsTableViewCell: UICollectionViewDelegate, UICollectio
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let offer = offers[indexPath.row]
-        self.delegate?.pushMarketingCampaignLandingPageWith(limitedTimeSavings: offer, position: self.position)
+        self.delegate?.pushMarketingCampaignLandingPageWith(limitedTimeSavings: offer, position: indexPath.row)
     }
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
     }
@@ -113,7 +113,7 @@ extension LimitedTimeSavingsTableViewCell: UICollectionViewDelegateFlowLayout {
         if(offers.count == 1){
             return CGSize(width: ScreenSize.SCREEN_WIDTH - 35, height: 238)
         }else{
-            return CGSize(width: ScreenSize.SCREEN_WIDTH - 80, height: 238)
+            return CGSize(width: ScreenSize.SCREEN_WIDTH - 60, height: 238)
         }
     }
 }
@@ -131,7 +131,7 @@ extension LimitedTimeSavingsTableViewCell: RemoveCardWithNoProducts{
     }
 }
 extension LimitedTimeSavingsTableViewCell: CustomLandingPageTapped{
-    func didTapCustomLandingPageWith(offer: LimitedTimeSavings) {
-        self.delegate?.pushMarketingCampaignLandingPageWith(limitedTimeSavings: offer, position: self.position)
+    func didTapCustomLandingPageWith(offer: LimitedTimeSavings, position: Int) {
+        self.delegate?.pushMarketingCampaignLandingPageWith(limitedTimeSavings: offer, position: position)
     }
 }

@@ -1352,6 +1352,10 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
     
     func filterExclusivePromo() {
         
+//        guard exclusiveDealsPromoList.count > 0 && sortedGroceryArray.count > 0 else {
+//            return
+//        }
+        
         guard exclusiveDealsPromoList.count > 0 && sortedGroceryArray.count > 0 && (self.lastSelectType?.storeTypeid ?? 0) == kExclusiveDealsStoreTypeId else {
             return
         }
@@ -1868,9 +1872,11 @@ extension SmileSdkHomeVC {
         cell.delegate = self
         if exclusiveDealsPromoList.count > 0 && sortedGroceryArray.count > 0 {
             cell.configureCell(promoList: self.exclusiveDealsPromoList, groceryA: self.sortedGroceryArray)
+        }else{
+            cell.configureCell(promoList: self.homeDataHandler.exclusiveDealsPromoA, groceryA: self.homeDataHandler.groceryA)
         }
         cell.viewAllBtn.addTarget(self, action: #selector(showExclusiveDealsBottomSheet), for: .touchUpInside)
-        cell.configureCell(promoList: self.homeDataHandler.exclusiveDealsPromoA, groceryA: self.homeDataHandler.groceryA)
+        
         return cell
     }
     
@@ -1878,7 +1884,7 @@ extension SmileSdkHomeVC {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "LimitedTimeSavingsTableViewCell", for: indexPath) as! LimitedTimeSavingsTableViewCell
         cell.delegate = self
         cell.delegateRemoveLimitedTimeSavings = self
-        cell.configureCell(offers: self.homeDataHandler.limitedTimeSavings, groceryA: self.homeDataHandler.groceryA, position: indexPath.row)
+        cell.configureCell(offers: self.homeDataHandler.limitedTimeSavings, groceryA: self.homeDataHandler.groceryA)
         cell.selectionStyle = .none
         return cell
     }
@@ -1970,9 +1976,10 @@ extension SmileSdkHomeVC {
 }
 extension SmileSdkHomeVC: PushMarketingCampaignLandingPageDelegate{
     func pushMarketingCampaignLandingPageWith(limitedTimeSavings: LimitedTimeSavings, position: Int) {
+        print("Position ID: \(position)")
         let catId = self.lastSelectType?.storeTypeid ?? 0
         let catName = self.lastSelectType?.name ?? ""
-        SegmentAnalyticsEngine.instance.logEvent(event: LimitedSavingsClickedEvent(categoryId: String(catId), categoryName: catName, source: .homeScreen, retailerName: grocery?.name ?? "", retailerId: grocery?.getCleanGroceryID() ?? "0", position: position))
+        SegmentAnalyticsEngine.instance.logEvent(event: LimitedSavingsClickedEvent(categoryId: String(catId), categoryName: catName, source: .homeScreen, retailerName: grocery?.name ?? "", retailerId: grocery?.getCleanGroceryID() ?? "0", position: position + 1))
         
         if let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             let grocery = self.groceryArray.first { Grocery in

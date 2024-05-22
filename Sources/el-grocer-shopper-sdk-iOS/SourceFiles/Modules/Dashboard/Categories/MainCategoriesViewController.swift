@@ -2535,6 +2535,7 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
             self.view.layoutIfNeeded()
             self.locationHeader.myGroceryImage.alpha = 1 - (scrollView.contentOffset.y)/30
             let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
+            
             self.navigationController?.navigationBar.topItem?.title = title
             sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
            

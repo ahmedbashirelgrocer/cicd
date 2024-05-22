@@ -142,7 +142,7 @@ extension LimitedTimeSavingsCardCollectionCell: UICollectionViewDelegate, UIColl
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if(offers != nil){
-            self.delegateCustomLandingPageTapped?.didTapCustomLandingPageWith(offer: self.offers!)
+            self.delegateCustomLandingPageTapped?.didTapCustomLandingPageWith(offer: self.offers!, position: indexPath.row)
         }
     }
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
