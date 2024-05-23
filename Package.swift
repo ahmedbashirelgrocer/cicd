@@ -21,7 +21,7 @@ let package = Package(
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", .upToNextMajor(from: "10.4.0")),
         .package(url: "https://github.com/Netvent/storyly-ios", from: "2.13.0"),
         .package(url: "https://github.com/malcommac/SwiftDate", from: "6.3.1"),
-        .package(url: "https://github.com/airbnb/lottie-ios", from: "3.5.0"),
+        .package(url: "https://github.com/airbnb/lottie-ios", from: "3.5.0"), // for shopper 4.4.3
         .package(url: "https://github.com/SDWebImage/SDWebImage.git", from: "5.1.0"),
         .package(url: "https://github.com/Adyen/adyen-ios", from: "4.10.2"),
         .package(url: "https://github.com/segmentio/analytics-ios", from: "4.1.8"),

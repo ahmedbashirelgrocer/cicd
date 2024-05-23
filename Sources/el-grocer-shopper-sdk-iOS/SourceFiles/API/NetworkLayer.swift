@@ -267,7 +267,6 @@ class NetworkLayer {
             return
         }
         
-        
         // token received from cache
         ElGrocerUtility.sharedInstance.projectScope =  retrievedScopeDetail
         if let token = ElGrocerUtility.sharedInstance.projectScope {
