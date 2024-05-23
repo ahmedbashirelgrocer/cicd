@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  el-grocer-shopper-sdk-iOS
 //  for xcode 15 support from 1.8.8
-// home 2.0 + development
+//  SPM 1.0
 
 /*
  

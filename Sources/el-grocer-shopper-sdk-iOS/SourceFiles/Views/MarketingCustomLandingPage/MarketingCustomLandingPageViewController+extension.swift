@@ -222,10 +222,22 @@ extension MarketingCustomLandingPageViewController: UIScrollViewDelegate {
             self.view.layoutIfNeeded()
             self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
             let title = scrollView.contentOffset.y > 40 ? grocery.name : ""
-            self.navigationController?.navigationBar.topItem?.title = title
+            
+            let titleLabel: UILabel = {
+                let label = UILabel()
+                label.textAlignment = .center
+                label.font = UIFont.SFProDisplayMediumFont(18)
+                label.textColor = ApplicationTheme.currentTheme.newBlackColor
+                label.translatesAutoresizingMaskIntoConstraints = false
+                label.widthAnchor.constraint(equalToConstant: ScreenSize.SCREEN_WIDTH * 0.8).isActive = true
+                return label
+            }()
+            
+            titleLabel.text = title
+            
+            self.navigationController?.navigationBar.topItem?.titleView = titleLabel //?.title = title
             sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
-           
-            self.title = title
+            //self.title = title
         }
    
     }

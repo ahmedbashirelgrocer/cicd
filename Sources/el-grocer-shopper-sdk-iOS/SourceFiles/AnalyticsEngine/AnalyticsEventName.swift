@@ -116,4 +116,5 @@ enum AnalyticsEventName {
     static let exclusiveDealsViewAllClicked = "Deals View All Clicked"
     static let exclusiveDealCopied = "Deal Copied"
     static let limitedSavingsClicked = "Limited Savings Clicked"
+
 }

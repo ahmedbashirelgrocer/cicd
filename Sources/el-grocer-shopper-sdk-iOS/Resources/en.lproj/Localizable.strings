@@ -1117,7 +1117,7 @@ Smiles points will be returned to your Smiles balance. ";
 "choose_alternatives_title" = "Choose Alternatives";
 "alternatives_title" = "Alternatives";
 "select_alternative_title" = "Select alternative for";
-"from_title" = "From:";
+"from_title" = "Placed on:";
 "to_text" = "To:";
 "view_order_title" = "VIEW ORDER";
 "slot_expired_title" = "Delivery Slot Occupied";
@@ -1492,7 +1492,7 @@ Smiles points will be returned to your Smiles balance. ";
 
 //"lbl_congrtz" = "Congratulations! You reached the min order.";
 "lbl_replace_seleted" = "Replacement selected";
-"lbl_Order_Details" = "Order details";
+"lbl_Order_Details" =  "Details";
 
 //address
 "lbl_Note" = "Changing your address might change the current store availability in your selected area.";
@@ -2361,7 +2361,6 @@ Oreo";
 "amount_due_text" = "Amount due";
 "remaining_amount_text" = "Remaining amount";
 "redeem_funds_text" = "Redeem funds:";
-"el_wallet_entered_amount_more_than_available_error" = "Please enter an amount equal to or lower than the elWallet Balance.";
 "el_wallet_entered_amount_more_than_available_error" = "Please enter an amount equal to or lower than the elWallet Funds.";
 "el_wallet_entered_amount_more_than_bill_error" = "Please enter an amount equal to or lower than the total bill";
 

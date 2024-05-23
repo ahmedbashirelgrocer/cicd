@@ -11,7 +11,7 @@ struct BannerClickedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(banner: BannerCampaign, position: Int, _ source: CartUpdatedEventSource = .viewScreenName) {
+    init(banner: BannerCampaign, position: Int, _ source: CartUpdatedEventSource = .viewScreenName, location: String = "0") {
         self.eventType = .track(eventName: AnalyticsEventName.bannerClicked)
         
         self.metaData = [
@@ -20,7 +20,7 @@ struct BannerClickedEvent: AnalyticsEventDataType {
             EventParameterKeys.priority         : banner.priority.stringValue,
             EventParameterKeys.campaignType     : banner.campaignType.stringValue,
             EventParameterKeys.imageUrl         : banner.bannerImageUrl,
-            EventParameterKeys.location         : "0",
+            EventParameterKeys.location         : location,
             EventParameterKeys.position         : String(position),
             EventParameterKeys.source : source.getScreenName()
         ]
