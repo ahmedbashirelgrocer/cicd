@@ -46,7 +46,7 @@ class OfferAlertViewController: UIViewController {
             brands: [], retailerIDS: [], locations: [], storeTypes: [], retailerGroups: [],
             customScreenId: nil)]
        
-        
+        self.viewBanner.bannerType = BannerLocation.campaign_locationExit_grocery_and_more.getType()
         if let groceries = HomePageData.shared.groceryA {
            self.getGenericBanners(for: groceries)
         }
@@ -160,6 +160,7 @@ class OfferAlertViewController: UIViewController {
             case .success(let bannerA):
                 if bannerA.count > 0 {
                     self.viewBanner.banners =  bannerA.map { $0.toBannerDTO() }
+                    self.viewBanner.bannerType = location
                 }
             case.failure(let _): break
             }
