@@ -1975,8 +1975,11 @@ extension SmileSdkHomeVC: PushMarketingCampaignLandingPageDelegate{
         print("Position ID: \(position)")
         let catId = self.lastSelectType?.storeTypeid ?? 0
         let catName = self.lastSelectType?.name ?? ""
-        SegmentAnalyticsEngine.instance.logEvent(event: LimitedSavingsClickedEvent(categoryId: String(catId), categoryName: catName, source: .homeScreen, retailerName: grocery?.name ?? "", retailerId: grocery?.getCleanGroceryID() ?? "0", position: position + 1))
-        
+        if let retailer = (self.homeDataHandler.groceryA?.first { Grocery in
+            return (Int(Grocery.getCleanGroceryID()) ?? 0) == (limitedTimeSavings.retailer_ids[0])
+        }){
+            SegmentAnalyticsEngine.instance.logEvent(event: LimitedSavingsClickedEvent(categoryId: String(catId), categoryName: catName, source: .homeScreen, retailerName: retailer.name ?? "", retailerId: retailer.getCleanGroceryID(), position: position + 1))
+        }
         if let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             let grocery = self.groceryArray.first { Grocery in
                 return (Int(Grocery.getCleanGroceryID()) ?? 0) == (limitedTimeSavings.retailer_ids[0])
