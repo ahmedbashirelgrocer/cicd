@@ -44,6 +44,11 @@ class ExclusiveDealsTableViewCell: UITableViewCell {
     var promoList: [ExclusiveDealsPromoCode] = []
     var groceryA: [Grocery] = []
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.promoList.removeAll()
+    }
+    
     override func awakeFromNib() {
         self.registerCells()
         self.setUpCollectionView()

@@ -10,6 +10,7 @@ import SDWebImage
 
 class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
 
+    var positionId = 0
     var delegate : RemoveCardWithNoProducts?
     var delegateCustomLandingPageTapped : CustomLandingPageTapped?
     var algoliaProductsLoaded = false
@@ -71,7 +72,8 @@ class LimitedTimeSavingsCardCollectionCell: UICollectionViewCell {
         self.setUpCollectionView()
     }
 
-    func configure(offers: LimitedTimeSavings, grocery: Grocery?) {
+    func configure(offers: LimitedTimeSavings, grocery: Grocery?, positionId: Int) {
+        self.positionId = positionId
         self.grocery = grocery
         self.offers = offers
         self.cellInitialized = true
@@ -142,7 +144,7 @@ extension LimitedTimeSavingsCardCollectionCell: UICollectionViewDelegate, UIColl
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if(offers != nil){
-            self.delegateCustomLandingPageTapped?.didTapCustomLandingPageWith(offer: self.offers!)
+            self.delegateCustomLandingPageTapped?.didTapCustomLandingPageWith(offer: self.offers!, position: self.positionId)
         }
     }
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {

@@ -37,7 +37,6 @@ class SmileSdkHomeVC: BasketBasicViewController {
         var frameHeight = searchHeader?.frame
         frameHeight?.size.height = sdkManager.isShopperApp ? 147 : 82
         searchHeader?.frame = frameHeight ?? searchHeader?.frame ?? CGRect.zero
-        
         searchHeader?.changeLocationClickedHandler = { [weak self] in
             self?.locationButtonClick()
             UserDefaults.setLocationChanged(date: Date())
@@ -130,7 +129,6 @@ class SmileSdkHomeVC: BasketBasicViewController {
     var delegate: ShowExclusiveDealsInstructionsDelegate?
     private var openOrders : [NSDictionary] = []
     private var configRetriesCount: Int = 0
-    
     @IBOutlet var tableView: UITableView!
     @IBOutlet var currentOrderCollectionView: UICollectionView!
     @IBOutlet var currentOrderCollectionViewHeightConstraint: NSLayoutConstraint!
@@ -156,8 +154,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         subCategorySelectedWithSelectedIndex(0)
         setupClearNavBar()
         if sdkManager.launchOptions?.marketType == .marketPlace {
-            
-            SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
+          SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .homeScreen))
         }
         
         currentOrderCollectionView.collectionViewLayout = {
@@ -745,7 +742,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
                 SDKManager.shared.rootContext = nil
                  SDKManager.shared.rootViewController = nil
                  SDKManager.shared.currentTabBar = nil
-                sdkManager.isOncePerSession = false
+                 //sdkManager.isOncePerSession = false
              }
              SDKManager.shared.rootContext?.dismiss(animated: true)
              SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedEvent())
@@ -1258,7 +1255,6 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
         }else {
             self.btnMulticart.setImage(UIImage(name: "Cart-InActive-Smile"), for: UIControl.State())
         }
-
     }
     
     func showLocationChangeToolTip(show: Bool) {
@@ -1354,6 +1350,10 @@ extension SmileSdkHomeVC {
 extension SmileSdkHomeVC: AWSegmentViewProtocol {
     
     func filterExclusivePromo() {
+        
+//        guard exclusiveDealsPromoList.count > 0 && sortedGroceryArray.count > 0 else {
+//            return
+//        }
         
         guard exclusiveDealsPromoList.count > 0 && sortedGroceryArray.count > 0 && (self.lastSelectType?.storeTypeid ?? 0) == kExclusiveDealsStoreTypeId else {
             return
@@ -1571,7 +1571,6 @@ extension SmileSdkHomeVC {
                 else{
                     return 1 + (configs.isHomeTier1 ? 1 : 0) 
                 }
-                //return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection + limitedTimeSavingsSection
             }
             
         case 1: //1-3: Grocery cell 1, 2, 3
@@ -1873,7 +1872,7 @@ extension SmileSdkHomeVC {
             cell.configureCell(promoList: self.exclusiveDealsPromoList, groceryA: self.sortedGroceryArray)
         }
         cell.viewAllBtn.addTarget(self, action: #selector(showExclusiveDealsBottomSheet), for: .touchUpInside)
-        cell.configureCell(promoList: self.homeDataHandler.exclusiveDealsPromoA, groceryA: self.homeDataHandler.groceryA)
+        
         return cell
     }
     
@@ -1881,7 +1880,7 @@ extension SmileSdkHomeVC {
         let cell = self.tableView.dequeueReusableCell(withIdentifier: "LimitedTimeSavingsTableViewCell", for: indexPath) as! LimitedTimeSavingsTableViewCell
         cell.delegate = self
         cell.delegateRemoveLimitedTimeSavings = self
-        cell.configureCell(offers: self.homeDataHandler.limitedTimeSavings, groceryA: self.homeDataHandler.groceryA, position: indexPath.row)
+        cell.configureCell(offers: self.homeDataHandler.limitedTimeSavings, groceryA: self.homeDataHandler.groceryA)
         cell.selectionStyle = .none
         return cell
     }
@@ -1973,10 +1972,14 @@ extension SmileSdkHomeVC {
 }
 extension SmileSdkHomeVC: PushMarketingCampaignLandingPageDelegate{
     func pushMarketingCampaignLandingPageWith(limitedTimeSavings: LimitedTimeSavings, position: Int) {
+        print("Position ID: \(position)")
         let catId = self.lastSelectType?.storeTypeid ?? 0
         let catName = self.lastSelectType?.name ?? ""
-        SegmentAnalyticsEngine.instance.logEvent(event: LimitedSavingsClickedEvent(categoryId: String(catId), categoryName: catName, source: .homeScreen, retailerName: grocery?.name ?? "", retailerId: grocery?.getCleanGroceryID() ?? "0", position: position))
-        
+        if let retailer = (self.homeDataHandler.groceryA?.first { Grocery in
+            return (Int(Grocery.getCleanGroceryID()) ?? 0) == (limitedTimeSavings.retailer_ids[0])
+        }){
+            SegmentAnalyticsEngine.instance.logEvent(event: LimitedSavingsClickedEvent(categoryId: String(catId), categoryName: catName, source: .homeScreen, retailerName: retailer.name ?? "", retailerId: retailer.getCleanGroceryID(), position: position + 1))
+        }
         if let currentAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             let grocery = self.groceryArray.first { Grocery in
                 return (Int(Grocery.getCleanGroceryID()) ?? 0) == (limitedTimeSavings.retailer_ids[0])

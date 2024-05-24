@@ -283,6 +283,7 @@
                        completionHandler:^(NSURLResponse * __unused response, id responseObject, NSError *error) {
         if (error) {
 #if DEBUG
+            NSLog(@"\nCalSequence: %@",URLString);
             NSLog(@"\nAPICALL_%@(Error): %@%@\nPARAMS:%@\nError:%@", method, self.baseURL, URLString, parameters,error);
 #endif
             if (failure) {
@@ -293,6 +294,7 @@
             }
         } else {
 #if DEBUG
+            NSLog(@"\nCalSequence: %@",URLString);
             NSLog(@"\nAPICALL_%@(Success): %@%@\nPARAMS:%@,Header:%@,Response:%@", method, self.baseURL, URLString, parameters, headers, responseObject);
 #endif
             if (success) {

@@ -200,18 +200,18 @@ class NetworkLayer {
             let  ApplicationUID  =  "47f1a7cd44806ae426c41bc76a8ecf8ac8a4af9ca130c9d8666f2aaa17e64070"
             let  ApplicationSecret  =  "a5ee8c3880ffcd31a3527e9bab930bd0a93d6ffd55fd227a156d769294a9690d"
             let parms = [ "client_id" : ApplicationUID , "client_secret" : ApplicationSecret ,  "grant_type" : "client_credentials" , "redirect_uri" : "https://api.elgrocer.com" ]
-            requestManager.post(authUrlString, parameters: parms, headers: nil , progress: { (progress) in  }, success: { (task, responseObject) in
+            requestManager.post(authUrlString, parameters: parms, headers: nil , progress: { (progress) in  }, success: { [weak self](task, responseObject) in
                 if responseObject is Dictionary<String, Any> {
                     ElGrocerUtility.sharedInstance.projectScope =  ScopeDetail.init(tokenDetail: responseObject as! Dictionary<String, Any>)
                     if let token = ElGrocerUtility.sharedInstance.projectScope {
-                        savetokenReceivedAndInitOtherCalls(projectScope: token)
+                        self?.savetokenReceivedAndInitOtherCalls(projectScope: token)
                     }
                     
                 }else {
                     ElGrocerUtility.sharedInstance.isTokenCalling = false
                 }
           
-            }) { (task, error) in
+            }) { [weak self] (task, error) in
             
                 ElGrocerUtility.sharedInstance.isTokenCalling = false
                 if let finalerror: NSError  =  error as? NSError {
@@ -221,7 +221,7 @@ class NetworkLayer {
                             let fakeDict = ["access_token" : "fakeToken" , "created_at" : Date().timeIntervalSinceNow , "expires_in" : 300 , "scope" : "public" , "token_type" : "Bearer"] as [String : Any]
                             ElGrocerUtility.sharedInstance.projectScope =  ScopeDetail.init(tokenDetail: fakeDict)
                             if let token = ElGrocerUtility.sharedInstance.projectScope {
-                                savetokenReceivedAndInitOtherCalls(projectScope: token)
+                                self?.savetokenReceivedAndInitOtherCalls(projectScope: token)
                             }
                         }else if response.statusCode >= 500 && response.statusCode <= 599  {
                             
@@ -240,7 +240,7 @@ class NetworkLayer {
                             
                             let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("btn_Go_Back", comment: "") , localizedString("lbl_retry", comment: "") , withView: sdkManager.window!) { (buttonIndex) in
                                 if buttonIndex == 1 {
-                                    self.getToken()
+                                    self?.getToken()
                                 } else {
                                     Thread.OnMainThread {
                                         UIApplication.topViewController()?.dismiss(animated: true, completion: nil)
@@ -249,7 +249,7 @@ class NetworkLayer {
                                 }
                             }
                         }else{
-                           self.getToken()
+                           self?.getToken()
                         }
                     }else{
                         var delay : Double = 5
@@ -258,7 +258,7 @@ class NetworkLayer {
                         }
                         let when = DispatchTime.now() + delay
                         DispatchQueue.global().asyncAfter(deadline: when) {
-                           self.getToken()
+                           self?.getToken()
                         }
                     }
                 }
@@ -351,7 +351,7 @@ class NetworkLayer {
     
 }
 
-
+import SwiftDate
 struct ScopeDetail: Codable {
     
     var access_token : String = ""
@@ -377,20 +377,21 @@ extension ScopeDetail {
     static func saveScopeDetail(_ scopeDetail: ScopeDetail, forKey key: String) {
         let encoder = JSONEncoder()
         if let encoded = try? encoder.encode(scopeDetail) {
-            UserDefaults.standard.set(encoded, forKey: key)
+            Foundation.UserDefaults.standard.set(encoded, forKey: key)
         }
     }
 
     // Function to retrieve ScopeDetail from UserDefaults
     static func retrieveScopeDetail(forKey key: String) -> ScopeDetail? {
-        if let savedData = UserDefaults.standard.object(forKey: key) as? Data {
+        if let savedData = Foundation.UserDefaults.standard.object(forKey: key) as? Data {
             let decoder = JSONDecoder()
             if let loadedScopeDetail = try? decoder.decode(ScopeDetail.self, from: savedData) {
-                if let loadedScopeDetailExpireTime = loadedScopeDetail.expires_in {
-                    let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate:  loadedScopeDetailExpireTime ?? Date().dataInGST() ?? Date() )
-                    if mins > 5 {
-                        return loadedScopeDetail
-                    }
+                let loadedScopeDetailExpireTime = loadedScopeDetail.expires_in
+                let date = NSDate(timeIntervalSince1970:  loadedScopeDetail.created_at)
+                let expireTime = date.addingTimeInterval(loadedScopeDetailExpireTime) as Date
+                let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate: expireTime )
+                if mins > 5 {
+                    return loadedScopeDetail
                 }
             }
         }

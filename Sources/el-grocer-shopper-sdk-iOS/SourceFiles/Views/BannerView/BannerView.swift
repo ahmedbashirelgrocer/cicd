@@ -86,6 +86,7 @@ extension BannerView: UICollectionViewDataSource {
                 cell.ivBanner.image = UIImage(named: banner.imageURL ?? "")
                
         }
+        
         cell.plachoderImageData = banner.imageURL ?? ""
         cell.configure(viewModel: BannerCellViewModel(banner: banner))
         return cell
@@ -136,7 +137,7 @@ extension BannerView: UICollectionViewDelegateFlowLayout, UICollectionViewDelega
             
             if let bannerDTODictionary = banner.dictionary as? NSDictionary {
                 let bannerCampign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
-                let bannerClickedEvent = BannerClickedEvent(banner: bannerCampign, position: indexPath.row + 1)
+                let bannerClickedEvent = BannerClickedEvent(banner: bannerCampign, position: indexPath.row + 1, location: String(self.bannerType?.getType().rawValue ?? 0))
                 SegmentAnalyticsEngine.instance.logEvent(event: bannerClickedEvent)
             }
         }

@@ -44,6 +44,7 @@ class OrderHistoryCell: UITableViewCell {
         }
     }
     @IBOutlet weak var userAddressLabel: UILabel!
+    @IBOutlet weak var clockImage:UIImageView!
     
     @IBOutlet weak var quantityTitleLabel: UILabel!
     @IBOutlet weak var quantityLabel: UILabel!{
@@ -239,8 +240,10 @@ class OrderHistoryCell: UITableViewCell {
         }  else {
             self.userAddressLabel.text = self.currentOrder?.pickUp != nil  ? self.currentOrder?.pickUp?.details :  ElGrocerUtility.sharedInstance.getFormattedAddress(order.deliveryAddress)
         }
-        self.groceryAddressLabel.text = order.grocery.name
+        let address = formatDateToString(date: order.orderDate)
+        self.groceryAddressLabel.text = address
         self.orderDateLabel.text = ""
+      //self.clockImage.isHidden = true
         //MARK: time is handled in orderNumberLabel
         self.orderNumberLabel.text = order.getSlotFormattedString()
         
@@ -326,11 +329,13 @@ class OrderHistoryCell: UITableViewCell {
             self.orderStatusLabel.textColor = ApplicationTheme.currentTheme.labelPrimaryBaseTextColor
             
         case OrderStatus.canceled.rawValue:
+            
             let orderStatusIcon = ElGrocerUtility.sharedInstance.getImageWithName("icHalfflagRed")
             self.orderStatusIcon.image = orderStatusIcon
             self.orderStatusLabel.textColor = ApplicationTheme.currentTheme.labelHighlightedOOSColor
             self.lblEstimatedDelivery.text  = ""
             self.orderNumberLabel.text = ""
+            self.clockImage.isHidden = true
             
         default:
             let orderStatusIcon = ElGrocerUtility.sharedInstance.getImageWithName("icHalfflagYellow")
@@ -475,6 +480,23 @@ class OrderHistoryCell: UITableViewCell {
             }
         }
         return nil
+    }
+    func formatDateToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        
+        // Set the locale to ensure the day and month names are in English
+        dateFormatter.locale = Locale(identifier: "en_US")
+        
+        // Set the date format to the desired string pattern
+        dateFormatter.dateFormat = "EEEE d MMM h:mma"
+        
+        // Convert the date to string
+        let dateString = dateFormatter.string(from: date)
+        
+        // Convert "AM" or "PM" to lowercase
+        let lowercaseDateString = dateString.replacingOccurrences(of: "AM", with: "am").replacingOccurrences(of: "PM", with: "pm")
+        
+        return lowercaseDateString
     }
     
     @IBAction func buttonAction(_ sender: Any) {

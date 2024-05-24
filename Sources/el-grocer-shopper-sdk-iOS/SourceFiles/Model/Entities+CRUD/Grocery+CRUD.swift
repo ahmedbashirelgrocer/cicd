@@ -340,7 +340,7 @@ extension Grocery {
 //        }
         
         
-        if let retailerGroupName = responseDict["retailer_group_name "] as? String {
+        if let retailerGroupName = responseDict["retailer_group_name"] as? String {
             grocery.retailerGroupName = retailerGroupName
         }else{
             grocery.retailerGroupName = "null"

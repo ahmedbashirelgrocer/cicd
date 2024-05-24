@@ -45,7 +45,8 @@ class OfferAlertViewController: UIViewController {
             subcategories: [],
             brands: [], retailerIDS: [], locations: [], storeTypes: [], retailerGroups: [],
             customScreenId: nil)]
-        
+       
+        self.viewBanner.bannerType = BannerLocation.campaign_locationExit_grocery_and_more.getType()
         if let groceries = HomePageData.shared.groceryA {
            self.getGenericBanners(for: groceries)
         }
@@ -123,7 +124,7 @@ class OfferAlertViewController: UIViewController {
             SDKManager.shared.rootContext = nil
             SDKManager.shared.rootViewController = nil
             SDKManager.shared.currentTabBar = nil
-            sdkManager.isOncePerSession = false
+            //sdkManager.isOncePerSession = false
         }
         
         SegmentAnalyticsEngine.instance.logEvent(event: SDKExitedEvent())
@@ -150,7 +151,7 @@ class OfferAlertViewController: UIViewController {
     }
     func getGenericBanners(for groceries : [Grocery], and storeTyprA : [String]? = nil) {
         guard groceries.count > 0 else {return}
-        self.viewBanner.banners.removeAll()
+        //self.viewBanner.banners.removeAll()
         let ids = groceries.map { $0.dbID }
         let location = BannerLocation.campaign_locationExit_grocery_and_more.getType()
         
@@ -159,6 +160,7 @@ class OfferAlertViewController: UIViewController {
             case .success(let bannerA):
                 if bannerA.count > 0 {
                     self.viewBanner.banners =  bannerA.map { $0.toBannerDTO() }
+                    self.viewBanner.bannerType = location
                 }
             case.failure(let _): break
             }
