@@ -65,7 +65,7 @@ class SplashAnimationViewController: UIViewController {
             // Logging segment event for Application Opnened only for shopper application
             SegmentAnalyticsEngine.instance.logEvent(event: ApplicationOpenedEvent())
            
-        }else {
+        } else {
             // ElGrocerUtility.isAddressCentralisation
             // Smiles Application case
             fetchData()
@@ -85,8 +85,15 @@ class SplashAnimationViewController: UIViewController {
         
         // fetchGroup.enter()
         self.startLogoAnimation() { }
-
-        if ElGrocerUtility.sharedInstance.adSlots == nil {
+        
+        if ElGrocerUtility.sharedInstance.appConfigData == nil || ElGrocerUtility.sharedInstance.adSlots == nil {
+            fetchGroup.enter()
+            self.configureSmilesSDK() { AccessQueue.execute {
+                fetchGroup.leave()
+            } }
+        }
+      
+       /* if ElGrocerUtility.sharedInstance.adSlots == nil {
             self.getSponsoredProductsAndBannersSlots { isLoaded in }
         }
         
@@ -95,7 +102,7 @@ class SplashAnimationViewController: UIViewController {
             self.configureElgrocerShopper() { AccessQueue.execute {
                 fetchGroup.leave()
             } }
-        }
+        }*/
         
         // LoginSignup
         fetchGroup.enter()
@@ -361,6 +368,73 @@ extension SplashAnimationViewController {
                 completion(false)
             }
         }
+    }
+    
+    
+    
+    @objc private func configureSmilesSDK(completion: (()->Void)? = nil) {
+       
+        ElGrocerApi.sharedInstance.getMasterAppConfig { [weak self] (result) in
+            switch result {
+                case .success(let response):
+                    if let newData = response["data"] as? NSDictionary {
+                        ElGrocerUtility.sharedInstance.appConfigData = AppConfiguration.init(dict: newData as! Dictionary<String, Any>)
+                        UserDefaults.saveAppConfiguration(ElGrocerUtility.sharedInstance.appConfigData, forKey: AppConfiguration.userDefualtKeyName)
+                        if let data = UserDefaults.retrieveAppConfiguration(forKey: AppConfiguration.userDefualtKeyName) {
+                            debugPrint(data)
+                        }
+                        
+                        
+                        do {
+                            
+                            if let groceryAndMoreSlot = newData["ad_slots_market_type_0"] as? NSDictionary {
+                                let decoder = JSONDecoder()
+                                let data = try JSONSerialization.data(withJSONObject: groceryAndMoreSlot)
+                                let adSlotDTO = try decoder.decode(AdSlotDTO.self, from: data)
+                                UserDefaults.saveAdSlotDTO(adSlotDTO, forKey: AdSlotDTO.userDefualtKeyNameForGroceryAndMore)
+                                
+                            }
+                            
+                            if let smilesMarketSlot = newData["ad_slots_market_type_1"] as? NSDictionary {
+                                let decoder = JSONDecoder()
+                                let data = try JSONSerialization.data(withJSONObject: smilesMarketSlot)
+                                let adSlotDTO = try decoder.decode(AdSlotDTO.self, from: data)
+                                UserDefaults.saveAdSlotDTO(adSlotDTO, forKey: AdSlotDTO.userDefualtKeyNameForSmilesMarket)
+                                
+                            }
+                               
+                         
+                        } catch {
+                            debugPrint("Failer in adsSlots Parsing")
+                        }
+                        
+                       
+                        if let data = UserDefaults.retrieveAdSlotDTO(forKey: AdSlotDTO.userDefualtKeyNameForGroceryAndMore) {
+                            debugPrint(data)
+                        }
+                        if let data = UserDefaults.retrieveAdSlotDTO(forKey: AdSlotDTO.userDefualtKeyNameForSmilesMarket) {
+                            debugPrint(data)
+                        }
+                        
+                        
+                        if sdkManager.isShopperApp {
+                            ABTestManager.shared.fetchRemoteConfigs()
+                        }
+                        completion?()
+                    }else{
+                        self?.configFailureCase()
+                    }
+                case .failure(let error):
+                if error.code >= 500 && error.code <= 599 {
+                        let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+                            if buttonIndex == 1 {
+                                self?.configFailureCase()
+                            }
+                        }
+                    }
+            }
+        }
+
     }
     
     

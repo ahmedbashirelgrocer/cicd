@@ -126,7 +126,7 @@ private extension OrderConfirmationViewModel {
     
     private func orderProgressFloatValueWithOrderStatus(_ order : Order) -> Float {
         if ElGrocerUtility.sharedInstance.appConfigData != nil {
-            return self.setProgressAccordingToStatus(order.getOrderDynamicStatus(), totalStep: ElGrocerUtility.sharedInstance.appConfigData.orderTotalSteps.floatValue)
+            return self.setProgressAccordingToStatus(order.getOrderDynamicStatus(), totalStep: Float(ElGrocerUtility.sharedInstance.appConfigData.orderTotalSteps))
         }
         return 0.0
     }
@@ -135,7 +135,7 @@ private extension OrderConfirmationViewModel {
         guard status != nil else {
             return 0.0
         }
-        let progress : Float = status!.stepNumber.floatValue / totalStep
+        let progress : Float = status!.stepNumber / totalStep
         return progress
     }
     

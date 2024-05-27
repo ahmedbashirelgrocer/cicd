@@ -645,7 +645,7 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         if self.order == nil {return}
         if ElGrocerUtility.sharedInstance.appConfigData == nil {return}
        let status =  self.order.getOrderDynamicStatus()
-        statusHeaderView.setProgressAccordingToStatus(status, totalStep: ElGrocerUtility.sharedInstance.appConfigData.orderTotalSteps.intValue)
+        statusHeaderView.setProgressAccordingToStatus(status, totalStep: Int(ElGrocerUtility.sharedInstance.appConfigData.orderTotalSteps))
     }
     
     

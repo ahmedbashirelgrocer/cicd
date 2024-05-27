@@ -81,7 +81,7 @@ class OrderDetailStateTableViewCell: UITableViewCell {
         guard status != nil else {
             return
         }
-        let progress : Float = status!.stepNumber.floatValue / totalStep
+        let progress : Float = status!.stepNumber / totalStep
         self.progressView.setProgress(progress , animated: true)
     }
     
@@ -189,23 +189,23 @@ extension OrderDetailStateTableViewCell {
 
         if data.status_id.intValue == OrderStatus.inSubtitution.rawValue {
             self.lblOrderType.textColor = .secondaryBlackColor()
-            self.lblOrderStatus.textColor = status.color
-            self.progressView.progressTintColor = status.color
+            self.lblOrderStatus.textColor = status.getColorValue()
+            self.progressView.progressTintColor = status.getColorValue()
            // self.lblOrderType.text = localizedString("title_Estimated_delivery", comment: "")
         }else if data.status_id.intValue == OrderStatus.canceled.rawValue {
             self.lblOrderType.textColor = .secondaryBlackColor()
-            self.lblOrderStatus.textColor = status.color
+            self.lblOrderStatus.textColor = status.getColorValue()
             self.lblOrderType.isHidden = true
             self.lblDate.isHidden = true
             self.lblOrderType.isHidden = true
         }else if data.status_id.intValue == OrderStatus.enRoute.rawValue{
            // self.lblOrderType.text = localizedString("title_updated_delivery", comment: "")
           //  self.lblOrderType.textColor = .elGrocerYellowColor()
-            self.lblOrderStatus.textColor = status.color
+            self.lblOrderStatus.textColor = status.getColorValue()
         }else{
             self.lblOrderType.textColor = .secondaryBlackColor()
-            self.lblOrderStatus.textColor = status.color
-            self.progressView.progressTintColor = status.color
+            self.lblOrderStatus.textColor = status.getColorValue()
+            self.progressView.progressTintColor = status.getColorValue()
         }
         
         // order prince // qunatity // date setting

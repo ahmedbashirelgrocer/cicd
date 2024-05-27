@@ -16,7 +16,7 @@ class UserProfile: NSManagedObject, DBEntity {
     @NSManaged var name: String?
     @NSManaged var phone: String?
     @NSManaged var language: String?
-    @NSManaged var referralCode: String?
+    @NSManaged var referralCode: String? // going to save loyaltyID in it for future use. 
     @NSManaged var deliveryAddresses: NSSet
 }
 

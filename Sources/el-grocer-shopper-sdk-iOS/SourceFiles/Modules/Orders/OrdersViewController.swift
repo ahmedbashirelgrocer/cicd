@@ -288,13 +288,13 @@ class OrdersViewController : UIViewController, UITableViewDataSource, UITableVie
         if cell is OrderHistoryCell {
             let historyCell = cell as! OrderHistoryCell
             if ElGrocerUtility.sharedInstance.appConfigData != nil {
-                historyCell.setProgressAccordingToStatus(order.getOrderDynamicStatus(), totalStep: ElGrocerUtility.sharedInstance.appConfigData.orderTotalSteps.floatValue)
+                historyCell.setProgressAccordingToStatus(order.getOrderDynamicStatus(), totalStep: ElGrocerUtility.sharedInstance.appConfigData.orderTotalSteps)
             }
             
         } else if cell is CandCHistoryCell {
             let historyCell = cell as! CandCHistoryCell
             if ElGrocerUtility.sharedInstance.appConfigData != nil {
-                historyCell.setProgressAccordingToStatus(order.getOrderDynamicStatus(), totalStep: ElGrocerUtility.sharedInstance.appConfigData.orderTotalSteps.floatValue)
+                historyCell.setProgressAccordingToStatus(order.getOrderDynamicStatus(), totalStep: ElGrocerUtility.sharedInstance.appConfigData.orderTotalSteps)
             }
         }
     }

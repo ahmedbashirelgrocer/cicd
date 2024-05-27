@@ -131,20 +131,20 @@ class orderStatusHeaderView: UIView {
             self.lblOrderType.textColor = .secondaryBlackColor()
             let orderStatusIcon = UIImage(name: status.imageName)
             self.orderStatusImageView.image = orderStatusIcon
-            self.lblOrderStatus.textColor = status.color
+            self.lblOrderStatus.textColor = status.getColorValue()
             self.btnOrderStatus.visibility = .visible
-            self.orderStatusImageView.changePngColorTo(color: status.color)
-            self.spinnerView.animationColor = status.color
+            self.orderStatusImageView.changePngColorTo(color: status.getColorValue())
+            self.spinnerView.animationColor = status.getColorValue()
             self.spinnerView.animate()
            // self.lblOrderType.text = localizedString("title_Estimated_delivery", comment: "")
         }else if data.status_id.intValue == OrderStatus.delivered.rawValue {
             self.lblOrderType.textColor = .secondaryBlackColor()
             let orderStatusIcon = ElGrocerUtility.sharedInstance.getImageWithName(status.imageName)
             self.orderStatusImageView.image = orderStatusIcon
-            self.lblOrderStatus.textColor = status.color
+            self.lblOrderStatus.textColor = status.getColorValue()
             self.btnOrderStatus.visibility = .goneY
-            self.orderStatusImageView.changePngColorTo(color: status.color)
-            self.spinnerView.animationColor = status.color
+            self.orderStatusImageView.changePngColorTo(color: status.getColorValue())
+            self.spinnerView.animationColor = status.getColorValue()
             self.lblTime.isHidden = false
             self.lblOrderType.isHidden = false
             self.spinnerView.animate(true)
@@ -157,10 +157,10 @@ class orderStatusHeaderView: UIView {
             self.lblOrderType.textColor = .secondaryBlackColor()
             let orderStatusIcon = UIImage(name: status.imageName)
             self.orderStatusImageView.image = orderStatusIcon
-            self.lblOrderStatus.textColor = status.color
+            self.lblOrderStatus.textColor = status.getColorValue()
             self.btnOrderStatus.visibility = .goneY
-            self.orderStatusImageView.changePngColorTo(color: status.color)
-            self.spinnerView.animationColor = status.color
+            self.orderStatusImageView.changePngColorTo(color: status.getColorValue())
+            self.spinnerView.animationColor = status.getColorValue()
             self.lblTime.isHidden = true
             self.lblOrderType.isHidden = true
             self.spinnerView.animate(true)
@@ -168,22 +168,22 @@ class orderStatusHeaderView: UIView {
             //self.spinnerView.isHidden = true
         }else if data.status_id.intValue == OrderStatus.enRoute.rawValue{
            // self.lblOrderType.text = localizedString("title_updated_delivery", comment: "")
-            self.lblOrderType.textColor = status.color
+            self.lblOrderType.textColor = status.getColorValue()
             let orderStatusIcon = UIImage(name: status.imageName)
             self.orderStatusImageView.image = orderStatusIcon
-            self.lblOrderStatus.textColor = status.color
+            self.lblOrderStatus.textColor = status.getColorValue()
             self.btnOrderStatus.visibility = .goneY
-            self.orderStatusImageView.changePngColorTo(color: status.color)
-            self.spinnerView.animationColor = status.color
+            self.orderStatusImageView.changePngColorTo(color: status.getColorValue())
+            self.spinnerView.animationColor = status.getColorValue()
             self.spinnerView.animate()
         }else{
             let orderStatusIcon = UIImage(name: status.imageName)
             self.lblOrderType.textColor = .secondaryBlackColor()
             self.orderStatusImageView.image = orderStatusIcon
-            self.lblOrderStatus.textColor = status.color
+            self.lblOrderStatus.textColor = status.getColorValue()
             self.btnOrderStatus.visibility = .goneY
-            self.orderStatusImageView.changePngColorTo(color: status.color)
-            self.spinnerView.animationColor = status.color
+            self.orderStatusImageView.changePngColorTo(color: status.getColorValue())
+            self.spinnerView.animationColor = status.getColorValue()
             self.spinnerView.animate()
         }
         
@@ -195,7 +195,7 @@ class orderStatusHeaderView: UIView {
             return
         }
         
-        let progress : Float = status!.stepNumber.floatValue / Float(totalStep)
+        let progress : Float = status!.stepNumber / Float(totalStep)
         self.orderProgressBar.setProgress(progress , animated: true)
         
         

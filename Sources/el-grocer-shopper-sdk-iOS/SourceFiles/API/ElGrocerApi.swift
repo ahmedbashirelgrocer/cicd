@@ -153,6 +153,7 @@ enum ElGrocerApiEndpoint : String {
     case ChangeOrderStatus = "v2/orders/edit"
     case GetCreditCard = "v1/credit_cards"
     case GetConfiguration = "v1/configurations" // yea wali
+    case GetConfiguationAndAdSlot = "v1/master_configurations"
     
     case Screens = "v1/screens"
     case ScreenProducts = "v1/screens/screen_products"
@@ -522,7 +523,6 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
             }
             
         }
-        
     }
     
     

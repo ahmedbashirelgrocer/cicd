@@ -512,11 +512,9 @@ class OrderHistoryCell: UITableViewCell {
         guard status != nil else {
             return
         }
-        let progress : Float = status!.stepNumber.floatValue / totalStep
+        let progress : Float = status!.stepNumber / totalStep
         self.progressView.setProgress(progress , animated: true)
     }
-    
-    
     
 }
 

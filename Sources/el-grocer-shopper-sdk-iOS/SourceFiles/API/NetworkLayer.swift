@@ -191,7 +191,7 @@ class NetworkLayer {
     
     func getToken () {
         
-        guard let retrievedScopeDetail = ScopeDetail.retrieveScopeDetail(forKey: "scopeDetailKey") else {
+        guard let retrievedScopeDetail = UserDefaults.retrieveScopeDetail(forKey: "scopeDetailKey") else {
             
             guard !ElGrocerUtility.sharedInstance.isTokenCalling else{
                 return
@@ -277,7 +277,7 @@ class NetworkLayer {
     
     private func savetokenReceivedAndInitOtherCalls(projectScope: ScopeDetail) {
         
-        ScopeDetail.saveScopeDetail(projectScope, forKey: "scopeDetailKey")
+        UserDefaults.saveScopeDetail(projectScope, forKey: "scopeDetailKey")
         
         let date = NSDate(timeIntervalSince1970:  projectScope.created_at)
 
@@ -371,33 +371,7 @@ extension ScopeDetail {
         token_type = tokenDetail["token_type"] as? String ?? ""
         //FireBaseEventsLogger.setUserProperty(access_token , key: "access_token")
     }
-    
-    
-    // Function to save ScopeDetail to UserDefaults
-    static func saveScopeDetail(_ scopeDetail: ScopeDetail, forKey key: String) {
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(scopeDetail) {
-            Foundation.UserDefaults.standard.set(encoded, forKey: key)
-        }
-    }
-
-    // Function to retrieve ScopeDetail from UserDefaults
-    static func retrieveScopeDetail(forKey key: String) -> ScopeDetail? {
-        if let savedData = Foundation.UserDefaults.standard.object(forKey: key) as? Data {
-            let decoder = JSONDecoder()
-            if let loadedScopeDetail = try? decoder.decode(ScopeDetail.self, from: savedData) {
-                let loadedScopeDetailExpireTime = loadedScopeDetail.expires_in
-                let date = NSDate(timeIntervalSince1970:  loadedScopeDetail.created_at)
-                let expireTime = date.addingTimeInterval(loadedScopeDetailExpireTime) as Date
-                let mins = (Date().dataInGST() ?? Date()).minsBetweenDate(toDate: expireTime )
-                if mins > 5 {
-                    return loadedScopeDetail
-                }
-            }
-        }
-        return nil
-    }
-
+  
 }
 
 struct Queue<T> {

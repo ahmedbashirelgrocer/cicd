@@ -38,14 +38,28 @@ struct Encryption {
     }
 }
 
-struct DynamicOrderStatus {
+struct Color : Codable {
+    var red : CGFloat = 0.0, green: CGFloat = 0.0, blue: CGFloat = 0.0, alpha: CGFloat = 0.0
+    
+    var uiColor : UIColor {
+        return UIColor(red: red, green: green, blue: blue, alpha: alpha)
+    }
+    
+    init(uiColor : UIColor) {
+        uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+    }
+}
+
+
+struct DynamicOrderStatus: Codable {
     
     var nameAr : String = ""
     var nameEn : String = ""
     var key : String = ""
-    var stepNumber : NSNumber = -1
+    var stepNumber : Float = -1
     var imageName : String = "orderStatus0"
-    var color : UIColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+    var color : String = "" // logic change now color will get from getColorValue method. TO make this codable
+ 
 }
 
 extension DynamicOrderStatus {
@@ -54,10 +68,17 @@ extension DynamicOrderStatus {
         nameAr = dict["ar"] as? String ?? ""
         nameEn = dict["en"]  as? String ?? ""
         key = dict["key"]  as? String ?? ""
-        stepNumber = dict["step_number"]  as? NSNumber ?? -1
+        stepNumber = dict["step_number"] as? Float ?? Float(dict["step_number"] as? String ?? "-1.0") ?? -1.0
         let imageNameAndColor = self.getImageName()
         imageName = imageNameAndColor.0
-        color = imageNameAndColor.1
+        //color = imageNameAndColor.1
+    }
+    
+    func getColorValue() -> UIColor {
+        
+        let imageNameAndColor = self.getImageName()
+        return imageNameAndColor.1
+        
     }
     
     
@@ -275,24 +296,24 @@ extension DynamicOrderStatus {
     
 }
 
-struct AppConfiguration {
+struct AppConfiguration: Codable {
     
+    static let userDefualtKeyName = "AppConfiguration"
     
-    var payFortMerchantIdentifier : String = ""
-    var payFortAccessCode : String = ""
-    var payFortSHARequestPhrase : String = ""
-    var payFortPaymentServicesUrl : String = ""
-    var payFortCheckoutUrl  : String = ""
-    var PublicIp  : String = ""
-    var payFortExtraAmount : String = ""
+    var payFortMerchantIdentifier: String = ""
+    var payFortAccessCode: String = ""
+    var payFortSHARequestPhrase: String = ""
+    var payFortPaymentServicesUrl: String = ""
+    var payFortCheckoutUrl: String = ""
+    var PublicIp: String = ""
+    var payFortExtraAmount: String = ""
     var pg_18_msg = localizedString("pg_18_msg", comment: "")
     var storlyInstanceId = ""
-    //var orderStatus : [DynamicOrderStatus] = []
-    var orderStatus :  [String:DynamicOrderStatus] = [:]
-    var orderTotalSteps : NSNumber = 0
-    var promoImage : String = ""
-    var isApplePayEnable : Bool = false
-    var fetchCatalogFromAlgolia : Bool = true
+    var orderStatus: [String: DynamicOrderStatus] = [:]
+    var orderTotalSteps: Float = 0 // TO make it codable change type from nsnumber to int
+    var promoImage: String = ""
+    var isApplePayEnable: Bool = false
+    var fetchCatalogFromAlgolia: Bool = true
     var smilesData: SmilesData = SmilesData()
     var initialAuthAmount: Double = 0.00
     var sdkMaxAddressLimit: Int = 5
@@ -300,31 +321,31 @@ struct AppConfiguration {
 extension AppConfiguration {
     
     init( dict : Dictionary<String,Any>) {
-        
-        payFortMerchantIdentifier = dict["payfort_merchant_identifier"] as? String ?? ""
-        payFortAccessCode  = dict["payfort_access_code"] as? String ?? ""
-        payFortSHARequestPhrase  = dict["payfort_sha_request_phrase"] as? String ?? ""
-        payFortPaymentServicesUrl  = dict["payfort_paymentservices_url"] as? String ?? ""
-        payFortCheckoutUrl  = dict["payfort_checkout_url"] as? String ?? ""
+        // commented code discontinue in favour of master api // default value is being used.
+       // payFortMerchantIdentifier = dict["payfort_merchant_identifier"] as? String ?? ""
+       // payFortAccessCode  = dict["payfort_access_code"] as? String ?? ""
+       // payFortSHARequestPhrase  = dict["payfort_sha_request_phrase"] as? String ?? ""
+        // payFortPaymentServicesUrl  = dict["payfort_paymentservices_url"] as? String ?? ""
+       // payFortCheckoutUrl  = dict["payfort_checkout_url"] as? String ?? ""
         PublicIp  = dict["client_ip"] as? String ?? ""
-        payFortExtraAmount  = dict["extra_amount"] as? String ?? ""
+        //payFortExtraAmount  = dict["extra_amount"] as? String ?? ""
         pg_18_msg = dict["pg_18"] as? String ?? localizedString("pg_18_msg", comment: "")
         storlyInstanceId = dict["storyly_instance"] as? String ?? ""
-        orderTotalSteps = dict["order_total_steps"] as? NSNumber ?? 0
+        orderTotalSteps = dict["order_total_steps"] as? Float ?? Float(dict["order_total_steps"] as? String ?? "0.0") ?? 0.0
         promoImage = dict["sale_tag"] as? String ?? ""
         orderStatus = DynamicOrderStatus.getDataA(dict["order_statuses"] as? [NSDictionary] ?? [])
-        isApplePayEnable  = dict["applepay_switch"] as? Bool ?? false
+        isApplePayEnable  =  true// dict["applepay_switch"] as? Bool ?? false
         fetchCatalogFromAlgolia = dict["fetch_catalog_from_algolia"] as? Bool ?? true
-        initialAuthAmount = dict["initial_auth_amount"] as? Double ?? 0.00
+        initialAuthAmount = dict["initial_auth_amount"] as? Double ?? Double(dict["initial_auth_amount"] as? String ?? "0.00") ?? 0.00
         if let smilesDictionary = dict["smile_data"] as? Dictionary<String, Any> {
             smilesData = SmilesData.init(smilesDict: smilesDictionary)
         }
-        sdkMaxAddressLimit = dict["sdk_max_address_limit"] as? Int ?? 5
+        sdkMaxAddressLimit = dict["sdk_max_address_limit"] as? Int ?? Int(dict["sdk_max_address_limit"] as? String ?? "5") ?? 5
     }
     
 }
 
-struct SmilesData {
+struct SmilesData: Codable {
     
     var earning : Double = 0.0
     var burning : Double = 1.0

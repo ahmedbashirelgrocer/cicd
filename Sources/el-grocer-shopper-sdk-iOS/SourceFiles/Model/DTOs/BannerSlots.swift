@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct AdSlotDTO: Decodable {
+struct AdSlotDTO: Codable {
+    
+    static let userDefualtKeyNameForGroceryAndMore = "AdSlotDTOGroceryAndMore"
+    static let userDefualtKeyNameForSmilesMarket = "AdSlotDTOSmilesMarket"
+    
     let productSlots: [ProductSlotDTO]
     let normalBannerSlots: [BannerSlotDTO]
     let productBannerSlots: [ProductBannerSlotDTO]
@@ -21,7 +25,7 @@ struct AdSlotDTO: Decodable {
     }
 }
 
-struct ProductSlotDTO: Decodable {
+struct ProductSlotDTO: Codable {
     var globalPlacementsSponsored: Int = 0
     var sponsoredSlotsSubcategories: Int = 0
     var productsSlotsSubcategories: Int = 0
@@ -60,7 +64,7 @@ struct ProductSlotDTO: Decodable {
     
 }
 
-struct BannerSlotDTO: Decodable {
+struct BannerSlotDTO: Codable {
     var placementId: String = ""
     var noOfSlots: Int = 0
     var adLocationId: BannerLocation = .home_tier_1
@@ -80,7 +84,7 @@ struct BannerSlotDTO: Decodable {
     }
 }
 
-struct ProductBannerSlotDTO: Decodable {
+struct ProductBannerSlotDTO: Codable {
     let placementId: String
     let noOfSlots: Int
     let position: [Int]
@@ -100,7 +104,7 @@ struct ProductBannerSlotDTO: Decodable {
     }
 }
 
-struct ThinBannerSlotDTO: Decodable {
+struct ThinBannerSlotDTO: Codable {
     let placementId: String
     let noOfSlots: Int
     let position: [Int]

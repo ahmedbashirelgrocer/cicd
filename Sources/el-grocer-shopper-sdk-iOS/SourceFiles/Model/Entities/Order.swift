@@ -84,14 +84,14 @@ class Order: NSManagedObject, DBEntity {
     func getOrderDynamicStatus () -> DynamicOrderStatus {
         
         guard ElGrocerUtility.sharedInstance.appConfigData != nil else {
-            return DynamicOrderStatus.init()
+            return DynamicOrderStatus.init(dict: [:])
         }
         
         let key =  DynamicOrderStatus.getKeyFrom(status_id: self.status, service_id: self.retailerServiceId ?? -1000 , delivery_type: self.deliveryTypeId ?? -1000 )
         if let configObj = ElGrocerUtility.sharedInstance.appConfigData.orderStatus[key] {
             return configObj
         }
-        return DynamicOrderStatus.init()
+        return DynamicOrderStatus.init(dict: [:])
     }
     
     

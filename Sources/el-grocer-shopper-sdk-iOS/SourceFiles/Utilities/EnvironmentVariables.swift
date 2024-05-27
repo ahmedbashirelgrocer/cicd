@@ -22,7 +22,10 @@ class EnvironmentVariables {
     fileprivate init() {
         
         let bundle = Bundle.resource
-        let ReleaseEnvoirmentName = "Release"
+        var ReleaseEnvoirmentName = "Release"
+#if DEBUG
+        ReleaseEnvoirmentName = "StagingProduction"
+#endif
         let configurationName = sdkManager.launchOptions?.environmentType.value() ?? ReleaseEnvoirmentName
       
         //load our configuration plist

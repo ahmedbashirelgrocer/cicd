@@ -13,7 +13,7 @@ class Referral: NSManagedObject, DBEntity {
     
     @NSManaged var dbID: NSNumber
     @NSManaged var referralMessage: String?
-    @NSManaged var referralCode: String?
+    @NSManaged var referralCode: String? 
     @NSManaged var referralUrl: String?
     @NSManaged var referrerAmount: String?
     @NSManaged var walletTotal: String?

@@ -46,9 +46,9 @@ extension UserProfile {
         userProfile.phone = userDictionary["phone_number"] as? String
         userProfile.language = userDictionary["language"] as? String
         
-        if let referral_code = userDictionary["referral_code"] as? String {
-             userProfile.referralCode = referral_code
-        }
+//        if let referral_code = userDictionary["referral_code"] as? String {
+//             userProfile.referralCode = referral_code
+//        }
         
         //create invoice address
 //        let invoiceAddress = DatabaseHelper.sharedInstance.insertOrReplaceObjectForEntityForName(DeliveryAddressEntity, entityDbId: "0" as AnyObject, keyId: "dbID", context: context) as! DeliveryAddress

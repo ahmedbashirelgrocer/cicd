@@ -1779,7 +1779,7 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
                 if self.orderProducts != nil , self.orderItems != nil {
                      cell.configureCell(self.order, orderProducts: self.orderProducts, orderItems: self.orderItems)
                     if ElGrocerUtility.sharedInstance.appConfigData != nil {
-                        cell.setProgressAccordingToStatus(self.order.getOrderDynamicStatus(), totalStep: ElGrocerUtility.sharedInstance.appConfigData.orderTotalSteps.floatValue)
+                        cell.setProgressAccordingToStatus(self.order.getOrderDynamicStatus(), totalStep: Float(ElGrocerUtility.sharedInstance.appConfigData.orderTotalSteps))
                     }
                 }
                 

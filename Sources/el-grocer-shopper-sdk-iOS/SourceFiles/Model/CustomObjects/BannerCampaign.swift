@@ -19,7 +19,7 @@ enum BannerCampaignType : Int, Codable {
     case staticImage = -1
 }
 
-enum BannerLocation : Int, Decodable {
+enum BannerLocation : Int, Codable {
     case home_tier_1 = 1
     case home_tier_2 = 2
     case store_tier_1 = 3
