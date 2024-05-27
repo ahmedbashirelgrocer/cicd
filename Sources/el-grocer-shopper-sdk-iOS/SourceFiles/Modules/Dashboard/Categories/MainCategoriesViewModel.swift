@@ -125,13 +125,14 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
      
         self.fetchGroceryDeliverySlots()
         self.storylyFetchSubject.onNext(grocery)
-        self.fetchBanners(for: .store_tier_1.getType())
-        self.fetchBanners(for: .store_tier_2.getType())
-        
+//        self.fetchBanners(for: .store_tier_1.getType())
+//        self.fetchBanners(for: .store_tier_2.getType())
+       
+     
         self.loadingSubject.onNext(true)
         bannersDispatchGroup.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
-            elDebugPrint("bannersLoaded")
+            
         }
         
         Observable
@@ -234,8 +235,8 @@ private extension MainCategoriesViewModel {
             if let dict = grocery.convertToDictionary(text: jsonSlot) {
                 if  let deliveryTime = dict["usid"] as? Int {
                     self.fetchCategories(deliveryTime: deliveryTime)
-                    self.fetchPreviousPurchasedProducts(deliveryTime: deliveryTime)
-                    self.fetchCustomCatogires(for: BannerLocation.custom_campaign_shopper.getType())
+//                    self.fetchPreviousPurchasedProducts(deliveryTime: deliveryTime)
+                    // self.fetchCustomCatogires(for: BannerLocation.custom_campaign_shopper.getType())
                     return
                 }
             }
@@ -243,8 +244,8 @@ private extension MainCategoriesViewModel {
         
         let currentTime = Int(Date().getUTCDate().timeIntervalSince1970 * 1000)
         self.fetchCategories(deliveryTime: currentTime)
-        self.fetchPreviousPurchasedProducts(deliveryTime: currentTime)
-        self.fetchCustomCatogires(for: BannerLocation.custom_campaign_shopper.getType())
+        //self.fetchPreviousPurchasedProducts(deliveryTime: currentTime)
+        // self.fetchCustomCatogires(for: BannerLocation.custom_campaign_shopper.getType())
         
 /*
         self.apiClient.getGroceryDeliverySlotsWithGroceryId(self.grocery?.dbID, andWithDeliveryZoneId: self.grocery?.deliveryZoneId, false) { [weak self] result in
@@ -343,9 +344,9 @@ private extension MainCategoriesViewModel {
                         return viewModel
                     })
                 }
-                self.dispatchGroup.leave()
                 // get custom compagin categories
-               
+                self.fetchCombineBannersForStorePage()
+                self.fetchPreviousPurchasedProducts(deliveryTime: deliveryTime)
                 break
             case .failure(let error):
                 // TODO: Show error message
@@ -355,6 +356,91 @@ private extension MainCategoriesViewModel {
            
         }
     }
+    
+    func fetchCombineBannersForStorePage() {
+        guard let grocery = self.grocery else {  self.dispatchGroup.enter()
+            return
+        }
+            // changing value here need to update in filteration below
+        let locations = [BannerLocation.store_tier_1.getType(), BannerLocation.store_tier_2.getType(), BannerLocation.custom_campaign_shopper.getType()]
+        
+      
+        let storeTypes = grocery.getStoreTypes()?.map{ "\($0)" } ?? []
+        
+        self.apiClient.getCombinedBanners(for: locations,retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(grocery.dbID)],
+                                          store_type_ids: storeTypes) { [weak self] result in
+            
+            guard let self = self else { return }
+            
+            switch result {
+            case .success(let response):
+               
+                let banners = response.map { $0.toBannerDTO() }
+                
+                var bannerOneA : [BannerDTO] = []
+                var bannerTwoA : [BannerDTO] = []
+                var customCampaginA : [BannerDTO] = []
+                
+                for banner in banners {
+                    if let locations = banner.locations {
+                        if locations.contains(where: { $0 == BannerLocation.store_tier_1.getType().rawValue }) {
+                            bannerOneA.append(banner)
+                        }
+                        if locations.contains(where: { $0 == BannerLocation.store_tier_2.getType().rawValue }) {
+                            bannerTwoA.append(banner)
+                        }
+                        if locations.contains(where: { $0 == BannerLocation.custom_campaign_shopper.getType().rawValue }) {
+                            customCampaginA.append(banner)
+                        }
+                    }
+                }
+                
+                if bannerOneA.count > 0 {
+                    let bannerCellVM = GenericBannersCellViewModel(banners: banners)
+                    bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
+                    self.location1BannerVMs.append(bannerCellVM)
+                   
+                }
+                
+                if bannerTwoA.count > 0 {
+                    let bannerCellVM = GenericBannersCellViewModel(banners: banners)
+                    bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
+                    self.location2BannerVMs.append(bannerCellVM)
+                }
+               
+                if customCampaginA.count > 0 {
+                    
+                    let customCategories = customCampaginA.map { $0.toCategoryDTO() }
+                    
+                    var index = 1
+                    for category in customCategories {
+                        if index < self.categories.count {
+                            if category.customPage != nil { self.categories.insert(category, at: index) }
+                        }else {
+                            if category.customPage != nil { self.categories.append(category) }
+                        }
+                        index += 1
+                    }
+                    let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)
+                    categoriesCellVM.outputs.viewAll.map { self.grocery }.bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
+                    categoriesCellVM.outputs.tap.bind(to: self.categoryTapSubject).disposed(by: self.disposeBag)
+                    self.categoriesCellVMs = [categoriesCellVM]
+                }
+                
+                if bannerOneA.count > 0 || bannerTwoA.count > 0 || customCampaginA.count > 0 {
+                    self.location1BannersFetchSubject.onNext(())
+                }
+                self.dispatchGroup.leave()
+                
+            case .failure(_):
+                self.dispatchGroup.leave()
+                break
+            }
+        }
+        
+    }
+    
+    
     
     func fetchBanners(for location: BannerLocation) {
         guard let grocery = self.grocery else { return }

@@ -208,6 +208,9 @@ class PreLoadData {
 
     private func configureElgrocerShopper() {
         guard ElGrocerUtility.sharedInstance.appConfigData == nil else {return}
+        ElgrocerConfigManager.shared.fetchMasterConfiguration { _ in  }
+        
+        /*
         ElGrocerApi.sharedInstance.getAppConfig { (result) in
             switch result {
             case .success(let response):
@@ -218,7 +221,7 @@ class PreLoadData {
                 }
             case .failure(let error):
                 if error.code >= 500 && error.code <= 599 {
-                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("lbl_retry", comment: "") , withView: SDKManager.shared.window!) { (buttonIndex) in
+                    let _ = NotificationPopup.showNotificationPopupWithImage(image: UIImage() , header: localizedString("alert_error_title", comment: "") , detail: localizedString("error_500", comment: ""),localizedString("promo_code_alert_no", comment: "") , localizedString("lbl_retry", comment: "") , withView: sdkManager.window!) { (buttonIndex) in
                         if buttonIndex == 1 {
                             self.configFailureCase()
                         }
@@ -226,9 +229,17 @@ class PreLoadData {
                 }
             }
         }
+        */
     }
     
     private func getSponsoredProductsAndBannersSlots(completion: @escaping (Bool) -> Void) {
+        
+        
+        guard ElGrocerUtility.sharedInstance._adSlots[1] == nil else {
+            completion(true)
+            return
+        }
+        
         var marketType = 0 // Shopper
         if SDKManager.shared.launchOptions?.marketType == .marketPlace {
             marketType = 2

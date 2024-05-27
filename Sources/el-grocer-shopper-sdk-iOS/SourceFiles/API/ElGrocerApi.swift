@@ -207,6 +207,8 @@ enum ElGrocerApiEndpoint : String {
     // banner new api
     case campaignAPi = "v2/campaigns"
     case customCampaignAPi = "v2/custom_campaigns"
+    case combinedCampaignAPi = "v1/campaigns/by_multiple_locations"
+
     //sab
     //case campaignProductsApi = "v1/campaigns/products"
     case campaignProductsApi = "v1/campaigns/products/list"
@@ -3747,6 +3749,8 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
         //sab new
         if isTopProductSearch{
             urlStr = ElGrocerApiEndpoint.TopProducts.rawValue
+        }else {
+            debugPrint("")
         }
   // //elDebugPrint("Top Selling API URL Str:%@",urlStr)
     
@@ -4928,6 +4932,86 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
           }
       }
       
+      
+      func getCombinedBanners(for locations: [BannerLocation],
+                      retailer_ids : [String]? = nil,
+                      store_type_ids : [String]? = nil,
+                      retailer_group_ids :  [String]? = nil,
+                      category_id : Int? = nil,
+                      subcategory_id : Int? = nil,
+                      brand_id : Int? = nil,
+                      search_input : String? = nil,
+                      completionHandler:@escaping (_ result: Either<[BannerCampaign]>) -> Void) {
+          
+          
+          
+          var elGrocerBanners: [BannerCampaign] = []
+          var topSortBanners: [BannerCampaign] = []
+          var fetchError: ElGrocerError?
+          let fetchGroup = DispatchGroup()
+          
+//          if location.isNeedToFetchRetailerBanner {
+              fetchGroup.enter()
+          self.getCombinedBannersFor(locations: locations,
+                                 retailer_ids: retailer_ids,
+                                 store_type_ids: store_type_ids,
+                                 retailer_group_ids: retailer_group_ids,
+                                 category_id: category_id,
+                                 subcategory_id: subcategory_id,
+                                 brand_id: brand_id,
+                                 search_input: search_input) { result in
+                  AccessQueue.execute {
+                      switch result {
+                      case .success(let response):
+                          elGrocerBanners = BannerCampaign.getBannersFromResponse(response)
+                      case .failure(let error):
+                          fetchError = error
+                      }
+                      fetchGroup.leave()
+                  }
+              }
+//          }
+          
+//          fetchGroup.enter()
+//          TopsortManager.shared.auctionBanners(slotId: location.getPlacementID(), slots: location.getSlots(), searchQuery: search_input, storeTypes: store_type_ids ?? [], subCategoryId: subcategory_id) { result in
+//              AccessQueue.execute {
+//                  switch result {
+//                  case .success(let winners):
+//                      topSortBanners = winners.sorted(by: { $0.rank < $1.rank }).map{ $0.toBannerCampaign() }
+//                  case .failure(let error):
+//                      print(error.localizedDescription)
+//                      fetchError = ElGrocerError.genericError()
+//                  }
+//                  fetchGroup.leave()
+//              }
+//          }
+          
+          // 2
+          fetchGroup.notify(queue: DispatchQueue.main) {
+//            AccessQueue.execute {
+              if let error = fetchError {
+                  completionHandler(.failure(error))
+              } else {
+                  let maxp = (topSortBanners.map{ $0.priority.intValue }).max() ?? 0
+                  
+                  for i in 0..<elGrocerBanners.count {
+                      elGrocerBanners[i].priority = (maxp + elGrocerBanners[i].priority.intValue) as NSNumber
+                  }
+                  completionHandler(.success(topSortBanners + elGrocerBanners))
+              }
+//            }
+          }
+      }
+      
+//      func getCustomCampign(retailerIds: [String], locations: [BannerLocation], storeTypeIds: [String]?) {
+//          self.getBanners(for: locations, retailer_ids: retailerIds, store_type_ids: storeTypeIds) { result in
+//              switch
+//          }
+//      }
+
+      
+      
+      
       func getCustomCategories(for location : BannerLocation,
                       retailer_ids : [String]? = nil,
                       store_type_ids : [String]? = nil,
@@ -5034,6 +5118,67 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
         }
         
     }
+      
+      
+      fileprivate func getCombinedBannersFor(locations: [BannerLocation] ,  retailer_ids : [String]? = nil , store_type_ids : [String]? = nil , retailer_group_ids :  [String]? = nil , category_id : Int? = nil , subcategory_id : Int? = nil , brand_id : Int? = nil , search_input : String? = nil ,  completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+          
+          setAccessToken()
+          var parameters = [String : AnyObject]()
+          if UserDefaults.isUserLoggedIn(){
+              let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+              parameters["shopper_id"] = userProfile?.dbID
+          }
+          parameters["locations"] = locations.map { String($0.rawValue) }.joined(separator: ",") as AnyObject
+          
+          
+          if let ids = retailer_ids, ids.count > 0, ids[0].isNotEmtpy() {
+              parameters["retailer_ids"] = ids.joined(separator: ",") as AnyObject
+          }else {
+              completionHandler(Either.failure(ElGrocerError.parsingError()))
+              return
+          }
+
+          if let ids = store_type_ids {
+              parameters["store_type_ids"] = ids.joined(separator: ",") as AnyObject
+          }
+          if let ids = retailer_group_ids {
+              parameters["retailer_group_ids"] = ids.joined(separator: ",") as AnyObject
+          }
+          if let ids = category_id {
+              parameters["category_id"] = ids as AnyObject
+          }
+          if let ids = subcategory_id {
+              parameters["subcategory_id"] = ids as AnyObject
+          }
+          if let ids = brand_id {
+              parameters["brand_id"] = ids as AnyObject
+          }
+          if let ids = search_input {
+              parameters["search_input"] = ids as AnyObject
+          }
+
+      
+          elDebugPrint("banner call: \(parameters)")
+          NetworkCall.get(ElGrocerApiEndpoint.combinedCampaignAPi.rawValue, parameters: parameters, progress: { (progress) in
+              
+          }, success: { (operation  , response) in
+              
+              guard let response = response as? NSDictionary else {
+                  completionHandler(Either.failure(ElGrocerError.parsingError()))
+                  return
+              }
+              elDebugPrint("banner call: \(response)")
+              completionHandler(Either.success(response))
+              
+          }) { (operation  , error) in
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completionHandler(Either.failure(errorToParse))
+              }
+          }
+          
+      }
+
       
       
       // MARK: custom campaigns

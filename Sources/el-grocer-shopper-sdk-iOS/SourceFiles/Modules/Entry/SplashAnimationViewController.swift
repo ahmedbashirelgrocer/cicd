@@ -376,6 +376,9 @@ extension SplashAnimationViewController {
         
         ElgrocerConfigManager.shared.fetchMasterConfiguration { results in
             completion?()
+            if sdkManager.isShopperApp {
+                ABTestManager.shared.fetchRemoteConfigs()
+            }
         }
     }
     

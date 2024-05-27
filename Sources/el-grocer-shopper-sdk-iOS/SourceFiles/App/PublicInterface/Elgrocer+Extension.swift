@@ -195,6 +195,24 @@ public extension ElGrocer {
             SegmentAnalyticsEngine.instance.logEvent(event: event, launchOptions: launchOption)
         }
     }
+    
+    
+    static func isFromPushOrDeepLink(_ launchOption: LaunchOptions?) -> Bool {
+        guard let launchOption = launchOption else { return false }
+        
+        if let deepLink = launchOption.deepLinkPayload, deepLink.count == 0  {
+            ElGrocerUtility.sharedInstance.deepLinkShotURL = ""
+        }
+        let isFromDeepLink = ElGrocerUtility.sharedInstance.deepLinkShotURL.isNotEmtpy() || launchOption.deepLinkPayload?.isNotEmtpy() ?? false
+        var isFromPush = launchOption.isFromPush
+        if let data = sdkManager.launchOptions?.pushNotificationPayload, (sdkManager.launchOptions?.pushNotificationPayload?.count ?? 0) > 0 , let dataObj = data["elgrocerMap"] as? String, dataObj.count > 0 {
+            isFromPush = true
+        }else {
+            isFromPush = false
+        }
+        return isFromPush || isFromDeepLink
+    }
+    
 }
 
 public extension LaunchOptions {

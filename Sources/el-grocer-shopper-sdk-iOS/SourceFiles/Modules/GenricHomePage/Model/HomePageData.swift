@@ -24,6 +24,7 @@ enum loadingType {
     case CategoryList
     case RetailerTypeList
     case StoreList
+    case HomePageLocationOneAndTwoBannersCombine
     case HomePageLocationOneBanners
     case HomePageLocationTwoBanners
     case AllChefForDeliveryStores
@@ -139,7 +140,7 @@ class HomePageData  {
         self.isFetchingTimeLogEnable = logEnable
         self.resetHomeDataHandler()
         self.fetchOrder = []
-        self.fetchOrder = sdkManager.isSmileSDK ?  [.CategoryAndStoreList , .HomePageLocationOneBanners ,  .HomePageLocationTwoBanners] : [.CategoryAndStoreList , .HomePageLocationOneBanners ,  .HomePageLocationTwoBanners , .AllChefForDeliveryStores , .FeatureRecipesOfAllDeliveryStore]
+        self.fetchOrder = sdkManager.isSmileSDK ?  [.CategoryAndStoreList , .HomePageLocationOneAndTwoBannersCombine ] : [.CategoryAndStoreList , .HomePageLocationOneAndTwoBannersCombine , .AllChefForDeliveryStores , .FeatureRecipesOfAllDeliveryStore]
         self.isDataLoading = true
         if self.isFetchingTimeLogEnable { self.startFetchingTime = Date() }
         self.startFetching()
@@ -189,6 +190,8 @@ class HomePageData  {
                 self.getStoreData(isOnGlobalDispatch : false)
             case .CategoryAndStoreList:
                 self.getStoreData(isOnGlobalDispatch : true)
+            case .HomePageLocationOneAndTwoBannersCombine:
+            self.getCombineBannerLocationOneAndTwo(groceryA:  self.groceryA)
             case .HomePageLocationOneBanners:
             self.getBannerLocationOne(groceryA: self.groceryA)
             case .HomePageLocationTwoBanners:
@@ -253,6 +256,22 @@ class HomePageData  {
             self.dataSource?.getRetailerData(for: currentAddress)
         }
         DispatchQueue.global(qos: .userInitiated).async(execute: self.storeListWorkItem!)
+    }
+    
+    func getCombineBannerLocationOneAndTwo (groceryA: [Grocery]?) {
+        guard groceryA?.count ?? 0 > 0 else {
+            self.startFetching()
+            return
+        }
+        
+        if let item = self.storeListWorkItem {
+            item.cancel()
+        }
+        self.storeListWorkItem = DispatchWorkItem {
+            self.dataSource?.getCombineGenericBanners(for:  groceryA ?? [], and: self.storeTypeA ?? [], locations: [BannerLocation.home_tier_1.getType(), BannerLocation.home_tier_2.getType()])
+        }
+        DispatchQueue.global(qos: .userInitiated).async(execute: self.storeListWorkItem!)
+        
     }
     
     func getBannerLocationOne (groceryA: [Grocery]?) {

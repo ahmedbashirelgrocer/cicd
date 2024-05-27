@@ -18,10 +18,7 @@ class OrderStatusMedule : ElGrocerApi {
     
     func getOpenOrders( completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
         guard UserDefaults.isUserLoggedIn() else {return}
-        if let deepLink = sdkManager.launchOptions?.deepLinkPayload, deepLink.count == 0  {
-            ElGrocerUtility.sharedInstance.deepLinkShotURL = ""
-        }
-        guard (ElGrocerUtility.sharedInstance.deepLinkShotURL.isEmpty || sdkManager.launchOptions?.deepLinkPayload?.isEmpty ?? true) else { return }
+        guard !ElGrocer.isFromPushOrDeepLink(sdkManager.launchOptions) else { return}
         
         setAccessToken()
         NetworkCall.get(openOrdersUrl, parameters: nil , progress: { (progress) in

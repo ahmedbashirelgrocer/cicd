@@ -426,36 +426,12 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         
         defer {
             self.setNavigationApearance(true)
-            self.openOrdersView.refreshOrders { [weak self] loaded in
-                guard let self = self else { return }
-                
-                if let editOrderID = UserDefaults.getEditOrderDbId() {
-                    
-                    Order.insertOrReplaceOrdersFromDictionary(openOrdersView.openOrders, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                    let orders = Order.getAllDeliveryOrders(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                    
-                    if let orderInEdit = orders.first(where: { $0.dbID == editOrderID }) {
-                        if orderInEdit.status.intValue != OrderStatus.inEdit.rawValue {
-                            
-                            let title = localizedString("location_not_covered_alert_title", comment: "")
-                            let positiveButton = localizedString("ok_button_title", comment: "")
-                            let message = localizedString("order_is_no_more_in_edit_msg", comment: "")
-                            
-                            ElGrocerAlertView
-                                .createAlert(title, description: message, positiveButton: positiveButton, negativeButton: nil, buttonClickCallback: nil)
-                                .show()
-                            
-                            UserDefaults.resetEditOrder()
-                        }
-                    }
-                }
-                
-                Thread.OnMainThread {
-                    self.openOrdersView.setNeedsLayout()
-                    self.openOrdersView.layoutIfNeeded()
+            if let grocery = self.grocery, ElGrocerUtility.sharedInstance.basketFetchDict[grocery.dbID] == true {
+               let activeBasketGrocery = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                if activeBasketGrocery.count == 0 {
+                    self.fetchOpenOrders()
                 }
             }
-            //SpinnerView.hideSpinnerView()
         }
         
         self.setNavigationApearance(true)
@@ -1335,6 +1311,9 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     // MARK: Order Status API Calling
     @objc
     func getOrderStatus(){
+        
+        guard !ElGrocer.isFromPushOrDeepLink(sdkManager.launchOptions) else { return}
+   
         if ElGrocerUtility.sharedInstance.isUserCloseOrderTracking == false {
             ElGrocerApi.sharedInstance.getPendingOrderStatus({ (result) -> Void in
                 switch result {
@@ -1491,8 +1470,10 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     }
     
     func getBasketFromServerWithGrocery(_ grocery:Grocery?){
-        
+        guard let grocery = grocery else { return }
+        ElGrocerUtility.sharedInstance.basketFetchDict[grocery.dbID] = false
         guard UserDefaults.isUserLoggedIn() else {return}
+        
         
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         if let email = userProfile?.email , let phone = userProfile?.phone {
@@ -1522,8 +1503,11 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     func saveResponseData(_ responseObject:NSDictionary, andWithGrocery grocery:Grocery?) {
         
         // DispatchQueue.global(qos: DispatchQoS.QoSClass.background).async {
-        
-        ElGrocerUtility.sharedInstance.basketFetchDict[(grocery?.dbID)!] = true
+        guard let grocery = grocery else {
+            NotificationCenter.default.post(name: .MainCategoriesViewDataDidLoaded, object: nil, userInfo: nil)
+            return
+        }
+       // ElGrocerUtility.sharedInstance.basketFetchDict[grocery.dbID] = true
         
         //let dataDict = responseObject["data"] as! NSDictionary
         let shopperCartProducts = responseObject["data"] as! [NSDictionary]
@@ -1544,6 +1528,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                 context.performAndWait {
                     ShoppingBasketItem.clearActiveGroceryShoppingBasket(context)
                 }
+            }else {
+                self.fetchOpenOrders()
             }
             var productA : [Dictionary<String, Any>] = [Dictionary<String, Any>]()
             for responseDict in shopperCartProducts {
@@ -1579,32 +1565,62 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                 }
             }
             
-            if let groceryID = grocery?.dbID  {
                 DispatchQueue.global(qos: .background).async {
-                    ELGrocerRecipeMeduleAPI().addRecipeToCart(retailerID: groceryID , productsArray: productA) { (result) in
-                        DispatchQueue.main.async(execute: {
-                            if let grocery = self.grocery {
-                                self.basketIconOverlay?.grocery = grocery
-                                self.refreshBasketIconStatus()
-                                NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateForEditNotificationKey), object: nil)
-                                SpinnerView.hideSpinnerView()
-                                spinner?.removeFromSuperview()
-                                NotificationCenter.default.post(name: .MainCategoriesViewDataDidLoaded, object: nil)
-                            }
-                        })
-                    }
+                    //ELGrocerRecipeMeduleAPI().addRecipeToCart(retailerID: grocery.getCleanGroceryID() , productsArray: productA) { (result) in  }
+                    DispatchQueue.main.async(execute: {
+                        if let grocery = self.grocery {
+                            self.basketIconOverlay?.grocery = grocery
+                            self.refreshBasketIconStatus()
+                            NotificationCenter.default.post(name: Notification.Name(rawValue: kBasketUpdateForEditNotificationKey), object: nil)
+                            SpinnerView.hideSpinnerView()
+                            spinner?.removeFromSuperview()
+                            NotificationCenter.default.post(name: .MainCategoriesViewDataDidLoaded, object: nil)
+                            ElGrocerUtility.sharedInstance.basketFetchDict[grocery.dbID] = true
+                        }
+                    })
                 }
-            }else{
-                SpinnerView.hideSpinnerView()
-                spinner?.removeFromSuperview()
-                NotificationCenter.default.post(name: .MainCategoriesViewDataDidLoaded, object: nil, userInfo: nil)
-            }
         }
         
         DispatchQueue.main.async { [weak tableViewCategories] in
             tableViewCategories?.reloadData()
         }
        
+    }
+    
+    
+    private func fetchOpenOrders() {
+        
+        self.openOrdersView.refreshOrders { [weak self] loaded in
+            guard let self = self else { return }
+            
+            if let editOrderID = UserDefaults.getEditOrderDbId() {
+                
+                Order.insertOrReplaceOrdersFromDictionary(openOrdersView.openOrders, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                let orders = Order.getAllDeliveryOrders(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                
+                if let orderInEdit = orders.first(where: { $0.dbID == editOrderID }) {
+                    if orderInEdit.status.intValue != OrderStatus.inEdit.rawValue {
+                        
+                        let title = localizedString("location_not_covered_alert_title", comment: "")
+                        let positiveButton = localizedString("ok_button_title", comment: "")
+                        let message = localizedString("order_is_no_more_in_edit_msg", comment: "")
+                        
+                        ElGrocerAlertView
+                            .createAlert(title, description: message, positiveButton: positiveButton, negativeButton: nil, buttonClickCallback: nil)
+                            .show()
+                        
+                        UserDefaults.resetEditOrder()
+                    }
+                }
+            }
+            
+            Thread.OnMainThread {
+                self.openOrdersView.setNeedsLayout()
+                self.openOrdersView.layoutIfNeeded()
+            }
+        }
+        
+        
     }
     
     private func getOrderStatusFromServer(){
@@ -2320,10 +2336,11 @@ extension MainCategoriesViewController {
         if let item = self.basketWorkItem {
             item.cancel()
         }
+        
         self.basketWorkItem = DispatchWorkItem {
             self.getBasketFromServerWithGrocery(self.grocery)
         }
-        DispatchQueue.global(qos: .utility).async(execute: self.basketWorkItem!)
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + 3.0, execute: self.basketWorkItem!)
        
     }
     

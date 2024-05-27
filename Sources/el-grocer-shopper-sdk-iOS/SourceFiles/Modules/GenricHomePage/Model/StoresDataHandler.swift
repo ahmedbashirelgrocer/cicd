@@ -257,6 +257,41 @@ class StoresDataHandler {
         }
     }
     
+    
+    func getCombineGenericBanners(for groceries : [Grocery], and storeTyprA : [StoreType], locations: [BannerLocation]) {
+        guard groceries.count > 0 else {return}
+        let ids = groceries.map { $0.dbID }
+//        let locations = locations.map({ $0.rawValue })
+        let storeTypeids = storeTyprA.map { String($0.storeTypeid)  }
+        ElGrocerApi.sharedInstance.getCombinedBanners(for: locations, retailer_ids: ids, store_type_ids: storeTypeids) { (result) in
+            switch result {
+                case .success(let bannerA):
+                let locationOneBanners = bannerA.filter { banner in
+                    banner.locations?.contains(BannerLocation.home_tier_1.getType().rawValue) ?? false
+                }
+                self.delegate?.genericBannersList(list: locationOneBanners)
+                let locationTwoBanners = bannerA.filter { banner in
+                    banner.locations?.contains(BannerLocation.home_tier_2.getType().rawValue) ?? false
+                }
+                self.delegate?.getGreatDealsBannersList(list: locationTwoBanners)
+                case.failure(let _):
+                    self.delegate?.genericBannersList(list: [])
+            }
+        }
+        
+//        ElGrocerApi.sharedInstance.getBanners(for: location , retailer_ids: ids, store_type_ids: storeTypeids , retailer_group_ids: nil , category_id: nil , subcategory_id: nil, brand_id: nil, search_input: nil) { (result) in
+//            switch result {
+//                case .success(let bannerA):
+//                    self.delegate?.genericBannersList(list: bannerA)
+//                case.failure(let _):
+//                    self.delegate?.genericBannersList(list: [])
+//            }
+//        }
+    }
+    
+    
+    
+    
     func getGenericBanners(for groceries : [Grocery], and storeTyprA : [StoreType]) {
         guard groceries.count > 0 else {return}
         let ids = groceries.map { $0.dbID }

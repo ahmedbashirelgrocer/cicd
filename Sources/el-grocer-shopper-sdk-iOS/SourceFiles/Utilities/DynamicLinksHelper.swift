@@ -949,8 +949,6 @@ class DynamicLinksHelper {
                         }
                     }
                     
-                    
-                    
                     if !self.groceryId.isEmpty {
                         if let grocery = deliveryGroceryList.first(where: { (grocery) -> Bool in
                             return groceryId == grocery.dbID
@@ -961,8 +959,6 @@ class DynamicLinksHelper {
                             return
                         }
                     }
-                    
-                
                     
                     func navigateToGrocery(_ grocery: Grocery) {
                         ElGrocerUtility.sharedInstance.activeGrocery = grocery
@@ -989,8 +985,6 @@ class DynamicLinksHelper {
                             
                         }
                     }
-                    
-                    
                     
                     ElGrocerApi.sharedInstance.getGroceryFrom(lat: lat, lng: lng, storeID: self.groceryId , parentID: self.parentId) { (result) in
                         switch result {
