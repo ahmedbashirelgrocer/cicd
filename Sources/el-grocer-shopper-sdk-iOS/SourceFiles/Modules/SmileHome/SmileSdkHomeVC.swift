@@ -219,9 +219,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
             controller.refreshLogoView()
             controller.navigationBar.topItem?.title = ""
         }
-        if self.groceryArray.count > 0 {
-            self.homeDataHandler.getExclusiveDealsData()
-        }
+//        if self.groceryArray.count > 0 {
+//            self.homeDataHandler.getExclusiveDealsData()
+//        }
     }
     
         // MARK: - UI Customization
@@ -1207,7 +1207,7 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
             self.setDefaultGrocery()
             self.setSegmentView()
             subCategorySelectedWithSelectedIndex(0)
-            self.homeDataHandler.getExclusiveDealsData()
+           // self.homeDataHandler.getExclusiveDealsData()
             self.homeDataHandler.getLimitedTimeSavingsData()
             
         } else if type == .HomePageLocationOneBanners {
@@ -1403,6 +1403,12 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         }
         self.filteredGroceryArray = filterA
         self.filteredGroceryArray = ElGrocerUtility.sharedInstance.sortGroceryArray(storeTypeA: self.filteredGroceryArray)
+        
+        if selectedType.storeTypeid == kExclusiveDealsStoreTypeId {
+            if self.groceryArray.count > 0 {
+                self.homeDataHandler.getExclusiveDealsData()
+            }
+        }
         filterExclusivePromo()
         self.homeDataHandler.locationOneBanners = []
         self.homeDataHandler.getBannerLocationOne(groceryA: self.sortedGroceryArray)

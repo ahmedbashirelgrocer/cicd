@@ -160,7 +160,7 @@ enum ElGrocerApiEndpoint : String {
     case OrderPaymentDetails = "v1/orders/online_payment_details"
     case getRetailerDetail = "v2/retailers/delivery/show"
     case getPromoList = "v1/promotion_codes/list"  
-    case getExclusiveDealsPromo = "v2/promotion_codes/promo_list?"
+    case getExclusiveDealsPromo = "v2/promotion_codes/promo_list"
     case getLimitedTimeSavings = "v2/campaigns/all?"
     case genericCustomBanners = "v1/banners/show"
     // Time Zone standrization Api change 17 sept https://elgrocerdxb.atlassian.net/browse/EG-584
@@ -225,6 +225,9 @@ enum ElGrocerApiEndpoint : String {
     case adSlotsForBannersAndSponsoredProducts = "v1/ad_slots"
     // Flavor Store
     case getFlavoredStore = "v1/retailers/single_store"
+    
+    // last updated time
+    case lastUpdatedConfig = "v1/last_updated_config"
  }
  
  class ElgrocerAPINonBase  {
@@ -504,7 +507,7 @@ func verifyCard ( creditCart : CreditCard  , completionHandler:@escaping (_ resu
   }
     
   // MARK: Configuration
-    
+     
     func getAppConfig( completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
         
         NetworkCall.get(ElGrocerApiEndpoint.GetConfiguration.rawValue, parameters: nil , progress: { (progress) in

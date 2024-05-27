@@ -27,9 +27,11 @@ public struct SDKLoginManager {
         // if from SDK
         
         Self.isAddressFetched = false
-        
         self.setLanguageWithLunchOptions()
         
+        if let retrievedScopeDetail = UserDefaults.retrieveScopeDetail(forKey: "scopeDetailKey") {
+            ElGrocerUtility.sharedInstance.projectScope = retrievedScopeDetail
+        }
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         guard ((userProfile == nil || userProfile?.phone?.count == 0 || launchOptions.accountNumber != userProfile?.phone || locations.count == 0) || ElGrocerUtility.sharedInstance.projectScope == nil)  else {
@@ -76,6 +78,9 @@ public struct SDKLoginManager {
 //                    }else{
 //                        self.getUserDeliveryAddresses(responseObject!, completionHandler: completionHandler)
 //                    }
+                    if let response = responseObject {
+                        self.updateProfileAndData(response)
+                    }
                     self.getUserDeliveryAddresses(responseObject) { isSuccess, errorMessage, errorCode in
                         self.updateProfileAndData(responseObject!)
                         _ = ElGrocerUtility.setDefaultAddress()

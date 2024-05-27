@@ -9,6 +9,15 @@ import Foundation
 
 extension UserDefaults {
     
+    class func setLastFetchTime(_ time: TimeInterval) {
+        Foundation.UserDefaults.standard.set(time, forKey: "LastconfigFetchTime")
+    }
+    class func getLastFetchTime() -> TimeInterval? {
+        if let savedData = Foundation.UserDefaults.standard.object(forKey: "LastconfigFetchTime") as? TimeInterval {
+            return savedData
+        }
+        return nil
+    }
     
     // Function to save ScopeDetail to UserDefaults
     class func saveAppConfiguration(_ scopeDetail: AppConfiguration, forKey key: String) {

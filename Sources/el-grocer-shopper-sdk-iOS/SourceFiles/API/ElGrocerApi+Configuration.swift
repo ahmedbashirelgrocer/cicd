@@ -12,6 +12,29 @@ extension ElGrocerApi {
     
    
     // MARK: Configuration
+    
+    
+    func getLastUpdateAppConfigTime( completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+        
+        NetworkCall.get(ElGrocerApiEndpoint.lastUpdatedConfig.rawValue, parameters: nil , progress: { (progress) in
+        }, success: { (operation  , response) in
+            
+            guard let response = response as? NSDictionary else {
+                completionHandler(Either.failure(ElGrocerError.parsingError()))
+                return
+            }
+            completionHandler(Either.success(response))
+            
+        }) { (operation  , error) in
+            let errorToParse = ElGrocerError(error: error as NSError)
+            if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                completionHandler(Either.failure(errorToParse))
+            }
+            
+        }
+    }
+    
+    
       
       func getMasterAppConfig( completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
           

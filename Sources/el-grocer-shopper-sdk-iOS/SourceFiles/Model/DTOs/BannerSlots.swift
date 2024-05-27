@@ -11,6 +11,7 @@ struct AdSlotDTO: Codable {
     
     static let userDefualtKeyNameForGroceryAndMore = "AdSlotDTOGroceryAndMore"
     static let userDefualtKeyNameForSmilesMarket = "AdSlotDTOSmilesMarket"
+    static let userDefualtKeyNameForShopper = "AdSlotDTOShopperApp"
     
     let productSlots: [ProductSlotDTO]
     let normalBannerSlots: [BannerSlotDTO]
