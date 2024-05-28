@@ -234,6 +234,7 @@ class GenericHomePageSearchHeader: UIView {
         vc.definesPresentationContext = false
         
         vc.present(navigationController, animated: true, completion: nil)
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
     }
    
     func configureLocationChangeToolTip(show: Bool) {
@@ -254,6 +255,7 @@ class GenericHomePageSearchHeader: UIView {
     
     @IBAction func changeLocationHadnler(_ sender: Any) {
         changeLocationClickedHandler?()
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
     }
 }
 extension GenericHomePageSearchHeader: UITextFieldDelegate{

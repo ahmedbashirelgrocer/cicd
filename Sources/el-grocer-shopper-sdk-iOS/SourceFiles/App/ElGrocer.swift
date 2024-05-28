@@ -52,7 +52,7 @@ public final class ElGrocer {
             
             guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
                 
-                _ = ElGrocerUtility.setDefaultAddress()
+                // _ = ElGrocerUtility.setDefaultAddress()
                 
                 if ElGrocerUtility.sharedInstance.appConfigData == nil || HomePageData.shared.groceryA?.count == 0 || SDKManager.shared.launchOptions?.language !=  UserDefaults.getCurrentLanguage() {
                     PreLoadData.shared.loadConfigData {}

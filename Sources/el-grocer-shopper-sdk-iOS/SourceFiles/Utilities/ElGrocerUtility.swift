@@ -93,6 +93,7 @@ class ElGrocerUtility {
     var addressListNeedsUpdateAfterSDKLaunch = true
     var isDefaultAddressFetchedAfterSDKLaunch = false
     var isToolTipShownAfterSDKLaunch = false
+    var isOnSameScreenAfterToolTip = false
     
     var isZenDesk:Bool = true
     
@@ -174,6 +175,12 @@ class ElGrocerUtility {
     
     var showStorelyBanner = false
 
+    static func setUserHasMovedToOtherScreenAfterToolTip() {
+        if ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch {
+            ElGrocerUtility.sharedInstance.isOnSameScreenAfterToolTip = false
+        }
+    }
+    
     class var sharedInstance : ElGrocerUtility {
         return SharedInstance
     }

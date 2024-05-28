@@ -181,6 +181,8 @@ class OrderConfirmationViewController : UIViewController, MFMailComposeViewContr
         
         btnOrderDetailsBGView.isUserInteractionEnabled = true
         btnOrderDetailsBGView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(goToOrderDetailAction)))
+        
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
     }
     
     override func viewWillAppear(_ animated: Bool) {

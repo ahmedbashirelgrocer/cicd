@@ -303,13 +303,11 @@ struct LoginSignupService {
                 DatabaseHelper.sharedInstance.saveDatabase()
                 
                     // We need to set the new address as the active address
-                if setDefault {
-                    ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(newAddress, completionHandler: { (result) in
-                        UserDefaults.setDidUserSetAddress(true)
+                ElGrocerApi.sharedInstance.setDefaultDeliveryAddress(newAddress, completionHandler: { (result) in
+                    UserDefaults.setDidUserSetAddress(true)
                         // self.refreshData()
                         // self.presentContactInfoViewController(newAddress)
-                    })
-                }
+                })
                 completionHandler?(200)
                 
             } else {

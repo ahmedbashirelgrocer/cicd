@@ -176,6 +176,8 @@ class ElgrocerStoreHeader:  UIView  {
     
     @objc func profileBTNClicked() {
         
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
+        
         MixpanelEventLogger.trackNavBarProfile()
         if let topVc = UIApplication.topViewController() {
             
@@ -243,6 +245,8 @@ class ElgrocerStoreHeader:  UIView  {
     }
     
     @IBAction func btnHelpHandler() {
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
+        
         callSendBird()
     }
     
@@ -293,6 +297,8 @@ class ElgrocerStoreHeader:  UIView  {
         guard let vc = UIApplication.topViewController() else {
             return
         }
+        
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
         
         let searchController = ElGrocerViewControllers.getUniversalSearchViewController()
         ElGrocerEventsLogger.sharedInstance.trackScreenNav( ["clickedEvent" : "Search" , "isUniversal" : "0" ,  FireBaseParmName.CurrentScreen.rawValue : (FireBaseEventsLogger.gettopViewControllerName() ?? "") , FireBaseParmName.NextScreen.rawValue : FireBaseScreenName.Search.rawValue ])
@@ -657,6 +663,7 @@ class ElgrocerStoreHeader:  UIView  {
     
     func changeLocation() {
         
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
         
         DispatchQueue.main.async {
             if let top = UIApplication.topViewController() {

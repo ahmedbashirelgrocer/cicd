@@ -40,6 +40,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         searchHeader?.changeLocationClickedHandler = { [weak self] in
             self?.locationButtonClick()
             UserDefaults.setLocationChanged(date: Date())
+            ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
         }
         
         return searchHeader!
@@ -191,10 +192,11 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.checkIFDataNotLoadedAndCall()
        
         if ElGrocerUtility.isAddressCentralisation {
-            self.showLocationChangeToolTip(show: false)
+            //self.showLocationChangeToolTip(show: false)
+            //self.fetchDefaultAddressIfNeeded()
+            
+            self.showToolTipIfNeeded()
         }
-        
-        self.fetchDefaultAddressIfNeeded()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -227,6 +229,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         // MARK: - UI Customization
     
     @objc private func showExclusiveDealsBottomSheet() {
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
         let storyboard = UIStoryboard(name: "Smile", bundle: .resource)
         if let exclusiveVC = storyboard.instantiateViewController(withIdentifier: "ExclusiveDealsBottomSheet") as? ExclusiveDealsBottomSheet {
             
@@ -248,6 +251,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
             popupController.present(in: self)
             
             exclusiveVC.promoTapped = {[weak self] promo, grocery in
+                ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
                 if grocery != nil {
                     
                     let catId = self?.lastSelectType?.storeTypeid ?? 0
@@ -353,6 +357,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
     
     @IBAction func btnMultiCartHandler(_ sender: Any) {
         cartButtonTap()
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
     }
     private func showDataLoaderIfRequiredForHomeHandler() {
         
@@ -754,6 +759,8 @@ class SmileSdkHomeVC: BasketBasicViewController {
     @objc override func locationButtonClick() {
         
         EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, mapDelegate: self.mapDelegate, presentIn: self)
+        
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
     }
     
     func goToGrocery (_ grocery : Grocery , _ bannerLink : BannerLink?, promo: ExclusiveDealsPromoCode? = nil) {
@@ -868,6 +875,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         
         vc.grocery = grocery
         vc.checkoutTapped = { [weak self] in
+            ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
             vc.dismiss(animated: true) {
                 if let topVc = UIApplication.topViewController() {
                     
@@ -898,7 +906,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
                             SDKLoginManager.getDeliveryAddress { [weak self] isSuccess, errorMessage, errorCode in
                                 
                                 SpinnerView.hideSpinnerView()
-                                _ = ElGrocerUtility.setDefaultAddress()
+                                // _ = ElGrocerUtility.setDefaultAddress()
                                 ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch = false
                                 
                                 guard let self = self else { return }
@@ -970,6 +978,8 @@ extension SmileSdkHomeVC {
         viewModel.outputs.bannerTap.subscribe(onNext: { [weak self, weak activeCartVC] banner in
             guard let self = self, let campaignType = banner.campaignType, let bannerDTODictionary = banner.dictionary as? NSDictionary else { return }
             
+            ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
+            
             let bannerCampaign = BannerCampaign.createBannerFromDictionary(bannerDTODictionary)
             
             switch campaignType {
@@ -1019,10 +1029,14 @@ extension SmileSdkHomeVC: ButtonActionDelegate {
         self.navigationController?.pushViewController(settingController, animated: true)
         // Logging segment event for menu button clicked
         SegmentAnalyticsEngine.instance.logEvent(event: MenuButtonClickedEvent())
+        
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
     }
     
     func cartButtonTap() {
         navigateToMultiCart()
+        
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
     }
 }
 
@@ -1062,6 +1076,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         didSelectRowAt(indexPath)
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -1073,6 +1088,7 @@ extension SmileSdkHomeVC: UITableViewDelegate, UITableViewDataSource {
         
         cell.bannerList.bannerCampaignClicked = { [weak self] (banner) in
             guard let self = self  else {   return   }
+            ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
             Thread.OnMainThread {
                 if banner.campaignType.intValue == BannerCampaignType.web.rawValue {
                     ElGrocerUtility.sharedInstance.showWebUrl(banner.url, controller: self)
@@ -1257,30 +1273,30 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
         }
     }
     
-    func showLocationChangeToolTip(show: Bool) {
-        
-        var show = show
-        show = show && !ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch
-        
-        self.searchBarHeader.frame.size.height = show ? 146 : 82
-        self.searchBarHeader.configureLocationChangeToolTip(show: show)
-        
-        DispatchQueue.main.async(execute: { [weak self] in
-            guard let self = self else { return }
-            
-            self.searchBarHeader.setNeedsLayout()
-            self.searchBarHeader.layoutIfNeeded()
-            self.tableView.reloadData()
-        })
-        
-        if ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch {
-            return
-        }
-        
-        if show {
-            ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch = true
-        }
-    }
+//    func showLocationChangeToolTip(show: Bool) {
+//        
+//        var show = show
+//        show = show && !ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch
+//        
+//        self.searchBarHeader.frame.size.height = show ? 146 : 82
+//        self.searchBarHeader.configureLocationChangeToolTip(show: show)
+//        
+//        DispatchQueue.main.async(execute: { [weak self] in
+//            guard let self = self else { return }
+//            
+//            self.searchBarHeader.setNeedsLayout()
+//            self.searchBarHeader.layoutIfNeeded()
+//            self.tableView.reloadData()
+//        })
+//        
+//        if ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch {
+//            return
+//        }
+//        
+//        if show {
+//            ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch = true
+//        }
+//    }
 }
 
     // MARK: - Far LocationHandler
@@ -1288,26 +1304,30 @@ extension SmileSdkHomeVC {
     
     private func checkforDifferentDeliveryLocation() {
         
-        guard let deliveryAddress = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext).first(where: { $0.isSmilesDefault?.boolValue == true }) else { return }
-        
         if ElGrocerUtility.isAddressCentralisation {
-            
-            let deliveryAddressLocation = CLLocation(latitude: deliveryAddress.latitude, longitude: deliveryAddress.longitude)
-            
-            let launchLocation = CLLocation(latitude: sdkManager.launchOptions?.latitude ?? 0,
-                                            longitude: sdkManager.launchOptions?.longitude ?? 0)
-            
-            let distance = deliveryAddressLocation.distance(from: launchLocation)
-            print("LocationsForDistance: \(launchLocation.coordinate), \(deliveryAddressLocation.coordinate)")
-            
-            if distance > 300 {
-                DispatchQueue.main.async {
-                    self.showLocationChangeToolTip(show: true)
-                }
-            }
-            
             return
         }
+        
+        guard let deliveryAddress = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext).first(where: { $0.isSmilesDefault?.boolValue == true }) else { return }
+        
+//        if ElGrocerUtility.isAddressCentralisation {
+//            
+//            let deliveryAddressLocation = CLLocation(latitude: deliveryAddress.latitude, longitude: deliveryAddress.longitude)
+//            
+//            let launchLocation = CLLocation(latitude: sdkManager.launchOptions?.latitude ?? 0,
+//                                            longitude: sdkManager.launchOptions?.longitude ?? 0)
+//            
+//            let distance = deliveryAddressLocation.distance(from: launchLocation)
+//            print("LocationsForDistance: \(launchLocation.coordinate), \(deliveryAddressLocation.coordinate)")
+//            
+//            if distance > 300 {
+//                DispatchQueue.main.async {
+//                    self.showLocationChangeToolTip(show: true)
+//                }
+//            }
+//            
+//            return
+//        }
         
         if let currentLat = LocationManager.sharedInstance.currentLocation.value?.coordinate.latitude,
            let currentLng = LocationManager.sharedInstance.currentLocation.value?.coordinate.longitude {
@@ -1380,6 +1400,7 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
     }
     
     func subCategorySelectedWithSelectedIndex(_ selectedSegmentIndex:Int) {
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
         
         guard selectedSegmentIndex > 0 else {
             self.lastSelectType = nil
@@ -1442,6 +1463,8 @@ extension SmileSdkHomeVC : UICollectionViewDelegate , UICollectionViewDataSource
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
+        
         let order = openOrders[indexPath.row]
         let key = DynamicOrderStatus.getKeyFrom(status_id: order["status_id"] as? NSNumber ?? -1000, service_id: order["retailer_service_id"]  as? NSNumber ?? -1000 , delivery_type: order["delivery_type_id"]  as? NSNumber ?? -1000)
         if let orderNumber = order["id"] as? NSNumber {
@@ -1763,6 +1786,7 @@ extension SmileSdkHomeVC {
         cell.configureLabelWithOutCenteralAllignment(availableStores, isViewAllButtonHidden: false)
         
         cell.viewAllTapped = {[weak self] in
+            ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
             guard let self = self else {return}
             
             let vc = ElGrocerViewControllers.getHomeViewAllRetailersVC()
@@ -1800,6 +1824,7 @@ extension SmileSdkHomeVC {
         return cell
             .configure(groceries: groceries)
             .onTap { [weak self] grocery, index in
+                ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
                 self?.goToGrocery(grocery, nil)
                 SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: ScreenName.homeScreen.rawValue, section: StoreComponentMarketingEnablers.All_Available_Stores, position: index + 1))
             }
@@ -1849,6 +1874,7 @@ extension SmileSdkHomeVC {
         }
         
         cell.groceryTapped = { [weak self] isForFavourite, grocery, index in
+            ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
             if isForFavourite {
                 self?.goToGrocery(grocery, nil)
                 SegmentAnalyticsEngine.instance.logEvent(event: StoreClickedEvent(grocery: grocery, source: ScreenName.homeScreen.rawValue, section: .Neighbourhood_Stores, position: index + 1))
@@ -1925,7 +1951,7 @@ extension SmileSdkHomeVC {
                 DatabaseHelper.sharedInstance.saveDatabase()
                 
                 if addressList.first(where: { $0.isActive.boolValue }) == nil {
-                    _ = ElGrocerUtility.setDefaultAddress()
+                    // _ = ElGrocerUtility.setDefaultAddress()
                     self.configureBeforeViewAppears()
                 }
                 
@@ -1941,7 +1967,7 @@ extension SmileSdkHomeVC {
     func fetchDefaultAddressIfNeeded() {
         
         if ElGrocerUtility.sharedInstance.isDefaultAddressFetchedAfterSDKLaunch {
-            self.checkforDifferentDeliveryLocation()
+            self.showToolTipIfNeeded()
             return
         }
         
@@ -1958,10 +1984,11 @@ extension SmileSdkHomeVC {
                     let addressList = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, deleteNotInJSON: false)
                     
                     addressList.first?.isSmilesDefault = true
-                    _ = ElGrocerUtility.setDefaultAddress()
+                    // _ = ElGrocerUtility.setDefaultAddress()
                     DatabaseHelper.sharedInstance.saveDatabase()
                 }
-                self?.checkforDifferentDeliveryLocation()
+                // self?.checkforDifferentDeliveryLocation()
+                self?.showToolTipIfNeeded()
             } else {
                 print("error loading default address")
             }
@@ -1994,5 +2021,42 @@ extension SmileSdkHomeVC: PushMarketingCampaignLandingPageDelegate{
 extension SmileSdkHomeVC: RemoveLimitedTimeSavingsSection{
     func removeLimitedTimeSavingsSection() {
         self.removeLimitedTimeSavingsTableViewCell()
+    }
+}
+
+extension SmileSdkHomeVC {
+    
+    func showToolTipIfNeeded() {
+        
+        guard let deliveryAddress = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext).first(where: { $0.isSmilesDefault?.boolValue == true }) else { return }
+            
+        let deliveryAddressLocation = CLLocation(latitude: deliveryAddress.latitude, longitude: deliveryAddress.longitude)
+        
+        let launchLocation = CLLocation(latitude: sdkManager.launchOptions?.latitude ?? 0,
+                                        longitude: sdkManager.launchOptions?.longitude ?? 0)
+        
+        let distance = deliveryAddressLocation.distance(from: launchLocation)
+        print("LocationsForDistance: \(launchLocation.coordinate), \(deliveryAddressLocation.coordinate)")
+            
+        var show = distance > 300
+        
+        if ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch {
+            show = ElGrocerUtility.sharedInstance.isOnSameScreenAfterToolTip
+        }
+
+        DispatchQueue.main.async(execute: { [show, weak self] in
+            guard let self = self else { return }
+            
+            self.searchBarHeader.frame.size.height = show ? 146 : 82
+            self.searchBarHeader.configureLocationChangeToolTip(show: show)
+
+            self.searchBarHeader.setNeedsLayout()
+            self.searchBarHeader.layoutIfNeeded()
+            self.tableView.reloadData()
+        })
+        
+        if show {
+            ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch = true
+        }
     }
 }
