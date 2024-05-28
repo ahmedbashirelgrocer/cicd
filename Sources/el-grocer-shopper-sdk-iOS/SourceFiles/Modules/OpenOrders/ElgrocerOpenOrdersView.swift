@@ -92,10 +92,10 @@ class ElgrocerOpenOrdersView: UIView {
     }
     
     
-    func refreshOrders(completion: ((Bool) -> Void)?  = nil) {
+    func refreshOrders(_ retailer_Id: String? = nil, completion: ((Bool) -> Void)?  = nil) {
         
         orderStatus.orderWorkItem  = DispatchWorkItem {
-            self.orderStatus.getOpenOrders { [weak self] (data) in
+            self.orderStatus.getOpenOrders(retailer_Id) { [weak self] (data) in
                 switch data {
                     case .success(let response):
                         if let dataA = response["data"] as? [NSDictionary]{

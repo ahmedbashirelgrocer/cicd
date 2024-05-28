@@ -450,6 +450,9 @@ class SmileSdkHomeVC: BasketBasicViewController {
     @objc
     func getOpenOrders() {
         
+        guard sdkManager.isGrocerySingleStore == false else {  return }
+        guard !ElGrocer.isFromPushOrDeepLink(sdkManager.launchOptions) else { return}
+        
         guard ElGrocerUtility.sharedInstance.appConfigData != nil else {
             if self.configRetriesCount >= 2 {
                 print("debug >> return from function without api request")
@@ -465,7 +468,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         }
         
         orderStatus.orderWorkItem  = DispatchWorkItem {
-            self.orderStatus.getOpenOrders { (data) in
+            self.orderStatus.getOpenOrders(nil) { (data) in
                 switch data {
                     case .success(let response):
                         if let dataA = response["data"] as? [NSDictionary]{

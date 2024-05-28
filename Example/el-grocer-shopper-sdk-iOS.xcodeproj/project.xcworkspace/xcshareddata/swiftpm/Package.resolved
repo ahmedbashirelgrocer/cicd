@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Adyen/adyen-ios",
       "state" : {
-        "revision" : "51d3ce99faa200927b8a49ffec3ddf657426fcb6",
-        "version" : "4.12.1"
+        "revision" : "9e5a9d015e8b3a87a5a267172d1e8a0423c38761",
+        "version" : "4.13.0"
       }
     },
     {
@@ -365,8 +365,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Netvent/storyly-ios",
       "state" : {
-        "revision" : "da6ee3d424debbeb187f312ea791a9bd5bf686cb",
-        "version" : "2.18.1"
+        "revision" : "991201a8ce3e5b1847bf9db00894e6e6aa3739d8",
+        "version" : "2.18.2"
       }
     },
     {

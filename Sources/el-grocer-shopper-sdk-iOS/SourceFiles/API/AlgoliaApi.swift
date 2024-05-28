@@ -82,6 +82,7 @@ class AlgoliaApi {
         let apiKeyBrowse = isStaging ? ALGOLIA_API_KEY_BROWSE_STAGING : ALGOLIA_API_KEY_BROWSE_LIVE
                 
         client = SearchClient(appID:  algoliaApplicationID , apiKey: apiKeySearch)
+        
         browserClient = SearchClient(appID:  algoliaApplicationID , apiKey: apiKeyBrowse)
         
         self.algoliaProductIndex =  client.index(withName:  algoliadefaultIndexName)

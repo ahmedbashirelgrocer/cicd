@@ -67,8 +67,10 @@ class PreLoadData {
             // }
             return
         }
+        
         SDKManager.shared.launchOptions = launchOptions
-        configureElgrocerShopper()
+       
+        
         if self.isNotLoggedin() {
             loginSignup { isSucceed in
                 self.completion?()
@@ -80,7 +82,8 @@ class PreLoadData {
             // }
         }
         
-        getSponsoredProductsAndBannersSlots { _ in }
+        configureElgrocerShopper()
+       // getSponsoredProductsAndBannersSlots { _ in }
     }
 
     func loadConfigData(completion: (() -> Void)? ) {

@@ -16,12 +16,13 @@ class OrderStatusMedule : ElGrocerApi {
     let openOrdersUrl  = "v2/orders/show/open_orders"
     let orderDetail = "v2/orders/show/open_order_detail"
     
-    func getOpenOrders( completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
+    func getOpenOrders(_ retailerId: String? = nil, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
         guard UserDefaults.isUserLoggedIn() else {return}
         guard !ElGrocer.isFromPushOrDeepLink(sdkManager.launchOptions) else { return}
         
         setAccessToken()
-        NetworkCall.get(openOrdersUrl, parameters: nil , progress: { (progress) in
+        let param = sdkManager.isGrocerySingleStore ? ["retailer_id": retailerId] : nil
+        NetworkCall.get(openOrdersUrl, parameters: param , progress: { (progress) in
            //  elDebugPrint("Progress for API :  \(progress)")
         }, success: { (operation  , response) in
             guard let response = response as? NSDictionary else {

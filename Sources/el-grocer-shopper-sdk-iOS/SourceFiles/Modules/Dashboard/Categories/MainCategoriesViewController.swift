@@ -1590,7 +1590,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     private func fetchOpenOrders() {
         
-        self.openOrdersView.refreshOrders { [weak self] loaded in
+        self.openOrdersView.refreshOrders(self.grocery?.dbID ?? nil) { [weak self] loaded in
             guard let self = self else { return }
             
             if let editOrderID = UserDefaults.getEditOrderDbId() {

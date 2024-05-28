@@ -4972,19 +4972,25 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
               }
 //          }
           
-//          fetchGroup.enter()
-//          TopsortManager.shared.auctionBanners(slotId: location.getPlacementID(), slots: location.getSlots(), searchQuery: search_input, storeTypes: store_type_ids ?? [], subCategoryId: subcategory_id) { result in
-//              AccessQueue.execute {
-//                  switch result {
-//                  case .success(let winners):
-//                      topSortBanners = winners.sorted(by: { $0.rank < $1.rank }).map{ $0.toBannerCampaign() }
-//                  case .failure(let error):
-//                      print(error.localizedDescription)
-//                      fetchError = ElGrocerError.genericError()
-//                  }
-//                  fetchGroup.leave()
-//              }
-//          }
+          
+          for location in locations {
+              if location == BannerLocation.custom_campaign_shopper.getType() {
+                  continue
+              }
+              fetchGroup.enter()
+              TopsortManager.shared.auctionBanners(slotId: location.getPlacementID(), slots: location.getSlots(), searchQuery: search_input, storeTypes: store_type_ids ?? [], subCategoryId: subcategory_id) { result in
+                  AccessQueue.execute {
+                      switch result {
+                      case .success(let winners):
+                          topSortBanners = winners.sorted(by: { $0.rank < $1.rank }).map{ $0.toBannerCampaign() }
+                      case .failure(let error):
+                          print(error.localizedDescription)
+                          fetchError = ElGrocerError.genericError()
+                      }
+                      fetchGroup.leave()
+                  }
+              }
+          }
           
           // 2
           fetchGroup.notify(queue: DispatchQueue.main) {
