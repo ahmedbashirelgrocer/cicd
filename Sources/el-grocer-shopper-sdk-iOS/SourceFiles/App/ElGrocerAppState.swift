@@ -16,18 +16,11 @@ class ElGrocerAppState {
         guard let launchOptions = launchOptions else {
             return false
         }
-        
-        
-        
-        
-        
-        
-        
-        
+    
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        let adSlots = ElGrocerUtility.sharedInstance.adSlots
-        guard (userProfile == nil || userProfile?.phone?.count == 0) || (launchOptions.accountNumber != userProfile?.phone || launchOptions.loyaltyID != userProfile?.referralCode) || locations.count == 0 || adSlots == nil  else {
+        //let adSlots = ElGrocerUtility.sharedInstance.adSlots
+        guard (userProfile == nil || userProfile?.phone?.count == 0) || (launchOptions.accountNumber != userProfile?.phone || launchOptions.loyaltyID != userProfile?.referralCode) || locations.count == 0   else {
             return true
         }
         return false

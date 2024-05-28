@@ -317,6 +317,7 @@ struct AppConfiguration: Codable {
     var smilesData: SmilesData = SmilesData()
     var initialAuthAmount: Double = 0.00
     var sdkMaxAddressLimit: Int = 5
+    var delayInOrderFeedBackCall: Int = 2
 }
 extension AppConfiguration {
     
@@ -327,6 +328,9 @@ extension AppConfiguration {
        // payFortSHARequestPhrase  = dict["payfort_sha_request_phrase"] as? String ?? ""
         // payFortPaymentServicesUrl  = dict["payfort_paymentservices_url"] as? String ?? ""
        // payFortCheckoutUrl  = dict["payfort_checkout_url"] as? String ?? ""
+        
+        
+        delayInOrderFeedBackCall = dict["order_feedback_api_delay_in_sec"] as? Int ?? Int(dict["order_feedback_api_delay_in_sec"] as? String ?? "5") ?? 5
         PublicIp  = dict["client_ip"] as? String ?? ""
         //payFortExtraAmount  = dict["extra_amount"] as? String ?? ""
         pg_18_msg = dict["pg_18"] as? String ?? localizedString("pg_18_msg", comment: "")

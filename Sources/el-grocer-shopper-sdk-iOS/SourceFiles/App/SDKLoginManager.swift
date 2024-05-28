@@ -34,7 +34,8 @@ public struct SDKLoginManager {
         }
         let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-        guard ((userProfile == nil || userProfile?.phone?.count == 0 || launchOptions.accountNumber != userProfile?.phone || locations.count == 0) || ElGrocerUtility.sharedInstance.projectScope == nil)  else {
+        
+        guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
             ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile!)
             UserDefaults.setLogInUserID(userProfile?.dbID.stringValue ?? "")
             FireBaseEventsLogger.setUserID(userProfile?.dbID.stringValue)
@@ -42,7 +43,19 @@ public struct SDKLoginManager {
             UserDefaults.setDidUserSetAddress(true)
             completionHandler(true, "", 0)
             return
+            
         }
+        
+        
+//        guard ((userProfile == nil || userProfile?.phone?.count == 0 || launchOptions.accountNumber != userProfile?.phone || locations.count == 0) || ElGrocerUtility.sharedInstance.projectScope == nil)  else {
+//            ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile!)
+//            UserDefaults.setLogInUserID(userProfile?.dbID.stringValue ?? "")
+//            FireBaseEventsLogger.setUserID(userProfile?.dbID.stringValue)
+//            UserDefaults.setUserLoggedIn(true)
+//            UserDefaults.setDidUserSetAddress(true)
+//            completionHandler(true, "", 0)
+//            return
+//        }
         
         //UserProfile.clearEntity()
         //DeliveryAddress.clearDeliveryAddressEntity()
@@ -97,7 +110,8 @@ public struct SDKLoginManager {
     private func updateProfileAndData(_ responseObject:NSDictionary?) {
         
         // Set the user profile
-        let userProfile = UserProfile.createOrUpdateUserProfile(responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        guard responseObject != nil else { return }
+        let userProfile = sdkManager.isShopperApp ? UserProfile.createOrUpdateUserProfile(responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) :  UserProfile.createOrUpdateUserProfileWithLayID(responseObject!, layID: sdkManager.launchOptions?.loyaltyID ?? "", context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
         ElGrocerEventsLogger.sharedInstance.setUserProfile(userProfile)
         UserDefaults.setLogInUserID(userProfile.dbID.stringValue)
         FireBaseEventsLogger.setUserID(userProfile.dbID.stringValue)

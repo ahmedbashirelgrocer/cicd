@@ -222,7 +222,10 @@ class DynamicLinksHelper {
         
         defer {
             ElGrocerUtility.sharedInstance.deepLinkURL = ""
-            sdkManager.launchOptions?.deepLinkPayload = ""
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+                sdkManager.launchOptions?.deepLinkPayload = ""
+            }
+           
         }
         
         elDebugPrint("dynamicLinkURL:\(dynamicLinkURL)")

@@ -222,6 +222,9 @@ class ViewController: UIViewController {
         
     }
     
+    @IBAction func refreshClicked(_ sender: Any) {
+        DBPubicAccessForDummyAppOnly.resetDB()
+    }
     
     @IBAction func showPresentedView(_ sender: Any) {
         let pushData : [String: AnyHashable] = ["elgrocerMap" : self.txtPushPayload.text]

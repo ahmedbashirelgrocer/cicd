@@ -1165,24 +1165,29 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     fileprivate func showGroceryLoader( grocery: Grocery) {
         
-     
-        ElGrocerUtility.sharedInstance.delay(0.1) { [weak self] in
-            guard let self = self else {return}
-            self.needToLogScreenEvent = false
-            if self.groceryLoaderVC == nil {
-                self.groceryLoaderVC = ElGrocerViewControllers.groceryLoaderViewController()
-            }
-            self.groceryLoaderVC?.currentGrocery = grocery
-            self.groceryLoaderVC?.isNeedToDissmiss = false
-            self.groceryLoaderVC?.delegate = self
-            if let loader = self.groceryLoaderVC {
-                let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-                navigationController.viewControllers = [loader]
-                navigationController.setLogoHidden(true)
-                navigationController.modalPresentationStyle = .fullScreen
-                self.navigationController?.present(navigationController, animated: false, completion: nil)
-            }
+        let spinerView = SpinnerView.showSpinnerViewInView(self.view)
+        ElGrocerUtility.sharedInstance.delay(1) { [weak self] in
+            spinerView?.removeFromSuperview()
         }
+        
+     
+//        ElGrocerUtility.sharedInstance.delay(0.1) { [weak self] in
+//            guard let self = self else {return}
+//            self.needToLogScreenEvent = false
+//            if self.groceryLoaderVC == nil {
+//                self.groceryLoaderVC = ElGrocerViewControllers.groceryLoaderViewController()
+//            }
+//            self.groceryLoaderVC?.currentGrocery = grocery
+//            self.groceryLoaderVC?.isNeedToDissmiss = false
+//            self.groceryLoaderVC?.delegate = self
+//            if let loader = self.groceryLoaderVC {
+//                let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+//                navigationController.viewControllers = [loader]
+//                navigationController.setLogoHidden(true)
+//                navigationController.modalPresentationStyle = .fullScreen
+//                self.navigationController?.present(navigationController, animated: false, completion: nil)
+//            }
+//        }
     }
     
     // MARK: Navigation
@@ -1313,17 +1318,26 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     func getOrderStatus(){
         
         guard !ElGrocer.isFromPushOrDeepLink(sdkManager.launchOptions) else { return}
-   
-        if ElGrocerUtility.sharedInstance.isUserCloseOrderTracking == false {
-            ElGrocerApi.sharedInstance.getPendingOrderStatus({ (result) -> Void in
-                switch result {
-                    case .success(let response):
-                        self.saveOrderTrackingResponseData(response)
-                    case .failure(let error):
-                       elDebugPrint("Error In Order Traking API:%@",error.localizedMessage)
-                }
-            })
-        }else{}
+        
+        
+        var delayTime = 5
+        if let serverDelayTime = ElGrocerUtility.sharedInstance.appConfigData?.delayInOrderFeedBackCall {
+            delayTime = serverDelayTime
+        }
+        let dispatchDelayTime: DispatchTimeInterval = .seconds(delayTime) // Adjust delay time as needed
+        DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + dispatchDelayTime) {
+            if ElGrocerUtility.sharedInstance.isUserCloseOrderTracking == false {
+                ElGrocerApi.sharedInstance.getPendingOrderStatus({ (result) -> Void in
+                    switch result {
+                        case .success(let response):
+                            self.saveOrderTrackingResponseData(response)
+                        case .failure(let error):
+                           elDebugPrint("Error In Order Traking API:%@",error.localizedMessage)
+                    }
+                })
+            }else{}
+        }
+     
     }
     // MARK: Data
     func saveOrderTrackingResponseData(_ responseObject:NSDictionary) {
@@ -1589,6 +1603,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     
     
     private func fetchOpenOrders() {
+        
+        guard sdkManager.isGrocerySingleStore else { return }
         
         self.openOrdersView.refreshOrders(self.grocery?.dbID ?? nil) { [weak self] loaded in
             guard let self = self else { return }

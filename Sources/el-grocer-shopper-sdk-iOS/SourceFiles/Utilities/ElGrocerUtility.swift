@@ -129,7 +129,8 @@ class ElGrocerUtility {
     var tabBarSelectedIndex = 0
     
     var appConfigData : AppConfiguration!
-    var adSlots: AdSlotDTO! {         var marketType = 0 // Shopper
+    var adSlots: AdSlotDTO! {         
+        let marketType = 0 // Shopper
         if SDKManager.shared.launchOptions?.marketType == .marketPlace {
             return _adSlots[2]
         } else if SDKManager.shared.launchOptions?.marketType == .grocerySingleStore {

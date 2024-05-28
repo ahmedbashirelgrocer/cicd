@@ -33,8 +33,9 @@ extension UserProfile {
     
     // MARK: Create
     
+    
     /** Creates a user profile from login response */
-    class func createOrUpdateUserProfile(_ dictionary:NSDictionary, context:NSManagedObjectContext) -> UserProfile {
+    class func createOrUpdateUserProfileWithLayID(_ dictionary:NSDictionary, layID: String, context:NSManagedObjectContext) -> UserProfile {
         
         let userDictionary = (dictionary["data"] as! NSDictionary)["shopper"] as! NSDictionary
         
@@ -45,6 +46,7 @@ extension UserProfile {
         userProfile.name = userDictionary["name"] as? String
         userProfile.phone = userDictionary["phone_number"] as? String
         userProfile.language = userDictionary["language"] as? String
+        userProfile.referralCode = layID
         
 //        if let referral_code = userDictionary["referral_code"] as? String {
 //             userProfile.referralCode = referral_code
@@ -57,6 +59,26 @@ extension UserProfile {
 //        invoiceAddress.building = userDictionary["invoice_building_name"] as? String
 //        invoiceAddress.apartment = userDictionary["invoice_apartment_number"] as? String
         
+        return userProfile
+    }
+    
+    
+    
+    /** Creates a user profile from login response */
+    class func createOrUpdateUserProfile(_ dictionary:NSDictionary, context:NSManagedObjectContext) -> UserProfile {
+        
+        let userDictionary = (dictionary["data"] as! NSDictionary)["shopper"] as! NSDictionary
+        
+        let userId = userDictionary["id"] as! Int
+        
+        let userProfile = DatabaseHelper.sharedInstance.insertOrReplaceObjectForEntityForName(UserProfileEntity, entityDbId: userId as AnyObject, keyId: "dbID", context: context) as! UserProfile
+        userProfile.email = userDictionary["email"] as! String
+        userProfile.name = userDictionary["name"] as? String
+        userProfile.phone = userDictionary["phone_number"] as? String
+        userProfile.language = userDictionary["language"] as? String
+        if sdkManager.isSmileSDK {
+            userProfile.referralCode = sdkManager.launchOptions?.loyaltyID ?? ""
+        }
         return userProfile
     }
     

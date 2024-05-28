@@ -13,9 +13,9 @@ typealias CompletionClosure = (Swift.Result<AppConfiguration, ElGrocerError>)->V
 class ElgrocerConfigManager {
     static let shared = ElgrocerConfigManager()
 
-    private var isConfigRequested = false
-    
-    private var isDataFetchForSession = false
+    private var isConfigRequested = false // config call done in session
+    private var isDataFetchForSession = false // Data fetched for session
+    private var isLastUpdateCallInProgress = false
     
     private lazy var lastConfigFetchTime: TimeInterval? = UserDefaults.getLastFetchTime()
 
@@ -40,12 +40,17 @@ class ElgrocerConfigManager {
             ElGrocerUtility.sharedInstance._adSlots[0] = data
         }
         
-        
-        
         guard ElGrocerUtility.sharedInstance.appConfigData == nil else {
             if self.isDataFetchForSession {
                 completion(.success((ElGrocerUtility.sharedInstance.appConfigData)))
             }else if let lastFetchTime = self.lastConfigFetchTime {
+                
+                guard isLastUpdateCallInProgress == false else { 
+                    completion(.success((ElGrocerUtility.sharedInstance.appConfigData)))
+                    return
+                }
+                self.isLastUpdateCallInProgress = true
+                
                 ElGrocerApi.sharedInstance.getLastUpdateAppConfigTime { [weak self] response in
                     switch response {
                     case .success(let response):
@@ -61,6 +66,7 @@ class ElgrocerConfigManager {
                     case .failure( _):
                         completion(.success((ElGrocerUtility.sharedInstance.appConfigData)))
                     }
+                    self?.isLastUpdateCallInProgress = false
                 }
             }else {
                 if self.lastConfigFetchTime == nil {
@@ -72,7 +78,6 @@ class ElgrocerConfigManager {
             }
             return
         }
-        
         
         callMasterApi(completion: completion)
        
