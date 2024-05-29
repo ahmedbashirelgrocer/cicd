@@ -466,35 +466,37 @@ class SmileSdkHomeVC: BasketBasicViewController {
             }
             return
         }
-        
-        orderStatus.orderWorkItem  = DispatchWorkItem {
-            self.orderStatus.getOpenOrders(nil) { (data) in
-                switch data {
-                    case .success(let response):
-                        if let dataA = response["data"] as? [NSDictionary]{
-                            self.openOrders = dataA
-                            DispatchQueue.main.async {
-                                self.view.layoutIfNeeded()
-                                self.view.setNeedsLayout()
-                                if self.openOrders.count > 0 {
-                                    self.currentOrderCollectionViewHeightConstraint.constant = KCurrentOrderCollectionViewHeight
-                                    self.btnMulticartBottomConstraint.constant = 85
-                                }else{
-                                    self.currentOrderCollectionViewHeightConstraint.constant = 0
-                                    self.btnMulticartBottomConstraint.constant = 25
+        if orderStatus.orderWorkItem == nil {
+            orderStatus.orderWorkItem  = DispatchWorkItem {
+                self.orderStatus.getOpenOrders(nil) { (data) in
+                    switch data {
+                        case .success(let response):
+                            if let dataA = response["data"] as? [NSDictionary]{
+                                self.openOrders = dataA
+                                DispatchQueue.main.async {
+                                    self.view.layoutIfNeeded()
+                                    self.view.setNeedsLayout()
+                                    if self.openOrders.count > 0 {
+                                        self.currentOrderCollectionViewHeightConstraint.constant = KCurrentOrderCollectionViewHeight
+                                        self.btnMulticartBottomConstraint.constant = 85
+                                    }else{
+                                        self.currentOrderCollectionViewHeightConstraint.constant = 0
+                                        self.btnMulticartBottomConstraint.constant = 25
+                                    }
+                                    self.currentOrderCollectionView.reloadDataOnMainThread()
+                                    
+                                        // self.reloadAllData()
                                 }
-                                self.currentOrderCollectionView.reloadDataOnMainThread()
                                 
-                                    // self.reloadAllData()
+                                //self.isFromPushAndForNavigation()
+                                
                             }
-                            
-                            //self.isFromPushAndForNavigation()
-                            
-                        }
-                    case .failure(let error):
-                        debugPrint(error.localizedMessage)
-                }            }
+                        case .failure(let error):
+                            debugPrint(error.localizedMessage)
+                    }            }
+            }
         }
+        
         DispatchQueue.global(qos: .background).async(execute: orderStatus.orderWorkItem!)
         
     }
@@ -1211,7 +1213,7 @@ extension SmileSdkHomeVC: HomePageDataLoadingComplete {
             self.setSegmentView()
             subCategorySelectedWithSelectedIndex(0)
            // self.homeDataHandler.getExclusiveDealsData()
-            self.homeDataHandler.getLimitedTimeSavingsData()
+           // self.homeDataHandler.getLimitedTimeSavingsData()
             
         } else if type == .HomePageLocationOneBanners {
             if self.homeDataHandler.locationOneBanners?.count == 0 {

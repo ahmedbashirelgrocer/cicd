@@ -66,6 +66,7 @@ public final class ElGrocer {
                 }
 
                 func basicHomeViewSetUp() {
+                    PreLoadData.shared.loadConfigData { }
                     if let launchOptions = launchOptions {
                         let manager = SDKLoginManager(launchOptions: launchOptions)
                         SDKManager.shared.launchOptions = launchOptions

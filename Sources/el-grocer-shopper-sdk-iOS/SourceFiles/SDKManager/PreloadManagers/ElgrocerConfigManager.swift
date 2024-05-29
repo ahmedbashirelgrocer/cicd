@@ -121,7 +121,7 @@ class ElgrocerConfigManager {
                             let decoder = JSONDecoder()
                             let data = try JSONSerialization.data(withJSONObject: smilesMarketSlot)
                             let adSlotDTO = try decoder.decode(AdSlotDTO.self, from: data)
-                            UserDefaults.saveAdSlotDTO(adSlotDTO, forKey: AdSlotDTO.userDefualtKeyNameForSmilesMarket)
+                            UserDefaults.saveAdSlotDTO(adSlotDTO, forKey: AdSlotDTO.userDefualtKeyNameForGroceryAndMore)
                             ElGrocerUtility.sharedInstance._adSlots[2] = adSlotDTO
                         }
                            

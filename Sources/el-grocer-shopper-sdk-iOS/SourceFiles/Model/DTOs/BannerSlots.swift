@@ -73,7 +73,7 @@ struct BannerSlotDTO: Codable {
     enum CodingKeys: String, CodingKey {
         case placementId = "placement_id"
         case noOfSlots = "no_of_slots"
-        case adLocationId = "ad_location_id"
+        case adLocationId = "ad_location" // should be ad_location_id need to change
     }
     
     init(from decoder: Decoder) {

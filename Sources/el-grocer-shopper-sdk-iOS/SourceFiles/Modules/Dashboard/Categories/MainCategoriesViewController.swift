@@ -429,7 +429,9 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             if let grocery = self.grocery, ElGrocerUtility.sharedInstance.basketFetchDict[grocery.dbID] == true {
                let activeBasketGrocery = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 if activeBasketGrocery.count == 0 {
-                    self.fetchOpenOrders()
+                    if ElGrocerUtility.sharedInstance.basketFetchDict[grocery.dbID] == true {
+                        self.fetchOpenOrders()
+                    }
                 }
             }
         }
