@@ -426,18 +426,16 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         
         defer {
             self.setNavigationApearance(true)
-            if let grocery = self.grocery, ElGrocerUtility.sharedInstance.basketFetchDict[grocery.dbID] == true {
-               let activeBasketGrocery = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                if activeBasketGrocery.count == 0 {
-                    if ElGrocerUtility.sharedInstance.basketFetchDict[grocery.dbID] == true {
-                        self.fetchOpenOrders()
-                    }
-                }
-            }
         }
         
         self.setNavigationApearance(true)
         self.adjustHeaderDisplay()
+        
+        
+        
+       
+        
+        
         if !Grocery.isSameGrocery(self.grocery, rhs: ElGrocerUtility.sharedInstance.activeGrocery) {
             self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
             self.model = ListingViewModel.init(type: .FromStorePage , dataHandler: StoreFeedsHandler.init(.storePage, grocery: nil, delegate: self))
@@ -445,7 +443,6 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                 self.callForLatestDeliverySlotsWithGroceryLoader(grocery: grocery)
             }
             self.setTableViewHeader(self.grocery )
-         
         } else {
             
             if !self.isComingFromGroceryLoaderVc {
@@ -464,13 +461,6 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             } else {
                 self.isComingFromGroceryLoaderVc = false
             }
-            
-                //            if self.model.data.feeds.count == 0 || (self.model.data.feeds.count > 1 && self.model.data.feeds[1].data?.categories.count == nil) {
-                //                self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
-                //                self.model = ListingViewModel.init(type: .FromStorePage , dataHandler: StoreFeedsHandler.init(.storePage, grocery: nil, delegate: self))
-                //                self.model.data.resetFeeds()
-                //            }
-            
         }
         self.model.data.grocery = self.grocery
         self.checkNoDataView()
@@ -1166,30 +1156,30 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     }
     
     fileprivate func showGroceryLoader( grocery: Grocery) {
-        
-        let spinerView = SpinnerView.showSpinnerViewInView(self.view)
-        ElGrocerUtility.sharedInstance.delay(1) { [weak self] in
-            spinerView?.removeFromSuperview()
-        }
-        
-     
-//        ElGrocerUtility.sharedInstance.delay(0.1) { [weak self] in
-//            guard let self = self else {return}
-//            self.needToLogScreenEvent = false
-//            if self.groceryLoaderVC == nil {
-//                self.groceryLoaderVC = ElGrocerViewControllers.groceryLoaderViewController()
-//            }
-//            self.groceryLoaderVC?.currentGrocery = grocery
-//            self.groceryLoaderVC?.isNeedToDissmiss = false
-//            self.groceryLoaderVC?.delegate = self
-//            if let loader = self.groceryLoaderVC {
-//                let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-//                navigationController.viewControllers = [loader]
-//                navigationController.setLogoHidden(true)
-//                navigationController.modalPresentationStyle = .fullScreen
-//                self.navigationController?.present(navigationController, animated: false, completion: nil)
-//            }
+//        
+//        let spinerView = SpinnerView.showSpinnerViewInView(self.view)
+//        ElGrocerUtility.sharedInstance.delay(1) { [weak self] in
+//            spinerView?.removeFromSuperview()
 //        }
+//        
+//     
+        ElGrocerUtility.sharedInstance.delay(0.1) { [weak self] in
+            guard let self = self else {return}
+            self.needToLogScreenEvent = false
+            if self.groceryLoaderVC == nil {
+                self.groceryLoaderVC = ElGrocerViewControllers.groceryLoaderViewController()
+            }
+            self.groceryLoaderVC?.currentGrocery = grocery
+            self.groceryLoaderVC?.isNeedToDissmiss = false
+            self.groceryLoaderVC?.delegate = self
+            if let loader = self.groceryLoaderVC {
+                let navigationController:ElGrocerNavigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+                navigationController.viewControllers = [loader]
+                navigationController.setLogoHidden(true)
+                navigationController.modalPresentationStyle = .fullScreen
+                self.navigationController?.present(navigationController, animated: false, completion: nil)
+            }
+        }
     }
     
     // MARK: Navigation
@@ -1320,24 +1310,23 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     func getOrderStatus(){
         
         guard !ElGrocer.isFromPushOrDeepLink(sdkManager.launchOptions) else { return}
-        
-        
+        guard ElGrocerUtility.sharedInstance.isUserCloseOrderTracking == false else { return }
+        ElGrocerUtility.sharedInstance.isUserCloseOrderTracking = true
         var delayTime = 5
         if let serverDelayTime = ElGrocerUtility.sharedInstance.appConfigData?.delayInOrderFeedBackCall {
             delayTime = serverDelayTime
         }
         let dispatchDelayTime: DispatchTimeInterval = .seconds(delayTime) // Adjust delay time as needed
         DispatchQueue.global(qos: .utility).asyncAfter(deadline: .now() + dispatchDelayTime) {
-            if ElGrocerUtility.sharedInstance.isUserCloseOrderTracking == false {
                 ElGrocerApi.sharedInstance.getPendingOrderStatus({ (result) -> Void in
                     switch result {
                         case .success(let response):
                             self.saveOrderTrackingResponseData(response)
                         case .failure(let error):
                            elDebugPrint("Error In Order Traking API:%@",error.localizedMessage)
+                        ElGrocerUtility.sharedInstance.isUserCloseOrderTracking = false
                     }
                 })
-            }else{}
         }
      
     }
@@ -1607,6 +1596,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     private func fetchOpenOrders() {
         
         guard sdkManager.isGrocerySingleStore else { return }
+        guard !ElGrocer.isFromPushOrDeepLink(sdkManager.launchOptions) else { return}
         
         self.openOrdersView.refreshOrders(self.grocery?.dbID ?? nil) { [weak self] loaded in
             guard let self = self else { return }
@@ -1641,7 +1631,9 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         
     }
     
-    private func getOrderStatusFromServer(){
+    private func getOrderStatusFromServer() {
+        
+        
         
         if let item = self.orderWorkItem {
             item.cancel()
@@ -1784,7 +1776,19 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
 
 private extension MainCategoriesViewController {
     
+    private func checkOpenOrder() {
+        if let grocery = self.grocery, ElGrocerUtility.sharedInstance.basketFetchDict[grocery.dbID] == true {
+           let activeBasketGrocery = ShoppingBasketItem.getBasketProductsForActiveGroceryBasket(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+            if activeBasketGrocery.count == 0 {
+                if ElGrocerUtility.sharedInstance.basketFetchDict[grocery.dbID] == true {
+                    self.fetchOpenOrders()
+                }
+            }
+        }
+    }
+    
     func initViewModel() {
+        
         
         guard self.viewModel == nil else {
             if self.viewModel.outputs.dataValidationForLoadedGroceryNeedsToUpdate(self.grocery) {
@@ -1792,7 +1796,7 @@ private extension MainCategoriesViewController {
                 bindViews()
                 return
             }
-            
+            checkOpenOrder()
             self.viewModel.inputs.refreshProductCellObserver.onNext(())
             return
         }
