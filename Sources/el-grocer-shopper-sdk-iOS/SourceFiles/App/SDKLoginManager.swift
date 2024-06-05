@@ -96,7 +96,7 @@ public struct SDKLoginManager {
                     }
                     self.getUserDeliveryAddresses(responseObject) { isSuccess, errorMessage, errorCode in
                         self.updateProfileAndData(responseObject!)
-                        _ = ElGrocerUtility.setDefaultAddress()
+                        // _ = ElGrocerUtility.setDefaultAddress()
                         completionHandler(true, "", 0)
                         // ElGrocerUtility.sharedInstance.isAddressListUpdated = true
                     }

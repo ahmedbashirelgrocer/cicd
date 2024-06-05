@@ -111,7 +111,7 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
                         SpinnerView.hideSpinnerView()
                     })
                     ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch = false
-                    if ElGrocerUtility.isAddressCentralisation {  _ = ElGrocerUtility.setDefaultAddress()  }
+                    // if ElGrocerUtility.isAddressCentralisation {  _ = ElGrocerUtility.setDefaultAddress()  }
                    
                 } else {
                     showView()

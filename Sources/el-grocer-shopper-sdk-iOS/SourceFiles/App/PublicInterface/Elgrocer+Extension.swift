@@ -85,6 +85,7 @@ public extension ElGrocer {
         ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch = true
         ElGrocerUtility.sharedInstance.isDefaultAddressFetchedAfterSDKLaunch = false
         ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch = false
+        ElGrocerUtility.sharedInstance.isOnSameScreenAfterToolTip = true
         
         DefaultAddress.shared.update(with: launchOptions)
         LaunchLocation.shared.update(with: launchOptions)
@@ -131,6 +132,7 @@ public extension ElGrocer {
         ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch = true
         ElGrocerUtility.sharedInstance.isDefaultAddressFetchedAfterSDKLaunch = false
         ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch = false
+        ElGrocerUtility.sharedInstance.isOnSameScreenAfterToolTip = true
         
         DefaultAddress.shared.update(with: launchOptions)
         LaunchLocation.shared.update(with: launchOptions)

@@ -18,13 +18,10 @@ class PreLoadData {
         self.completion = completion
         
         guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
-            // Data already loaded but load addresses again
-            SDKLoginManager.getDeliveryAddress { isSuccess, errorMessage, errorCode in
-                _ = ElGrocerUtility.setDefaultAddress()
-                
-                HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
-                
+            // Data already loaded return
+            self.updateLocationIfNeeded() {
                 basicApiCallCompletion?(true)
+                HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
             }
             return
         }
@@ -39,17 +36,18 @@ class PreLoadData {
         if self.isNotLoggedin() {
             loginSignup { isSucceed in
                 if isSucceed {
-                    HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
+                    self.updateLocationIfNeeded() {
+                        basicApiCallCompletion?(true)
+                        HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
+                    }
+                } else {
+                    basicApiCallCompletion?(false)
                 }
-                basicApiCallCompletion?(true)
             }
         } else {
-            SDKLoginManager.getDeliveryAddress { isSuccess, errorMessage, errorCode in
-                _ = ElGrocerUtility.setDefaultAddress()
-                
-                HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
-                
+            self.updateLocationIfNeeded() {
                 basicApiCallCompletion?(true)
+                HomePageData.shared.fetchHomeData(Platform.isDebugBuild, completion: completion)
             }
         }
         
@@ -61,10 +59,16 @@ class PreLoadData {
         
         guard !ElGrocerAppState.isSDKLoadedAndDataAvailable(launchOptions) else {
             // Data already loaded return
-            // SDKLoginManager.getDeliveryAddress { isSuccess, errorMessage, errorCode in
-            _ = ElGrocerUtility.setDefaultAddress()
-            self.completion?()
-            // }
+            self.updateLocationIfNeeded() {
+                self.completion?()
+                
+//                // Logging segment identify event every time user launch our Single Store
+//                if SDKManager.shared.isInitialized {
+//                    if let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
+//                        SegmentAnalyticsEngine.instance.identify(userData: IdentifyUserEvent(user: userProfile))
+//                    }
+//                }
+            }
             return
         }
         
@@ -73,13 +77,19 @@ class PreLoadData {
         
         if self.isNotLoggedin() {
             loginSignup { isSucceed in
-                self.completion?()
+                if isSucceed {
+                    self.updateLocationIfNeeded() {
+                        self.completion?()
+                    }
+                } else {
+                    self.completion?()
+                }
+                
             }
         } else {
-            // SDKLoginManager.getDeliveryAddress { isSuccess, errorMessage, errorCode in
-            _ = ElGrocerUtility.setDefaultAddress()
-            self.completion?()
-            // }
+            self.updateLocationIfNeeded() {
+                self.completion?()
+            }
         }
         
         configureElgrocerShopper()
@@ -105,13 +115,13 @@ class PreLoadData {
            //  print("self.retryAttemp: \(self.retryAttemp)")
             if isSuccess {
                 ElGrocerUtility.sharedInstance.setDefaultGroceryAgain()
-                self.retryAttemp = 0
-                completion?(true)
+                self.updateLocationIfNeeded { [weak self] in
+                    guard let self = self else { return }
+                    self.retryAttemp = 0
+                    completion?(true)
+                }
             } else {
-                if self.retryAttemp < 4,
-                    errorCode != 4237, /*Suspended*/
-                    errorCode != 4252, /*Blacklisted*/
-                    errorCode != 4249 /*Suspended*/ {
+                if self.retryAttemp < 4, errorCode != 4237 {
                     self.configLoginFailureCase(coompletion: completion)
                 } else {
                     self.retryAttemp = 0
@@ -122,6 +132,33 @@ class PreLoadData {
     }
     
     func updateLocationIfNeeded(completion: (() -> Void)? ) {
+        fetchLocationIfNeeded { [weak self] isLocationFound in
+            if isLocationFound {
+                completion?()
+            } else {
+                self?.updateLocation(completion: completion)
+            }
+        }
+    }
+    
+    func fetchLocationIfNeeded(completion: ((Bool) -> Void)? ) {
+        let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+        
+        if locations.contains(where: { $0.isActive.boolValue }) {
+            completion?(true)
+        } else {
+            LoginSignupService.getDeliveryAddresses { addresses, isSuccess, errorMsg in
+                let locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                if locations.contains(where: { $0.isActive.boolValue }) {
+                    completion?(true)
+                } else {
+                    completion?(false)
+                }
+            }
+        }
+    }
+    
+    func updateLocation(completion: (() -> Void)? ) {
         
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         

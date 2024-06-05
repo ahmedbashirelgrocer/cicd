@@ -152,6 +152,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
         locationHeader?.changeLocationButtonHandler = { [weak self] in
             guard let self = self else { return }
             
+            ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
+            
             EGAddressSelectionBottomSheetViewController.showInBottomSheet(nil, mapDelegate: self.mapDelegate, presentIn: self)
             UserDefaults.setLocationChanged(date: Date())
         }
@@ -409,9 +411,12 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             }
         }
         
-        self.showLocationChangeToolTip(show: false)
+        // self.showLocationChangeToolTip(show: false)
+        //self.fetchDefaultAddressIfNeeded()
         
-        self.fetchDefaultAddressIfNeeded()
+        if ElGrocerUtility.isAddressCentralisation, sdkManager.isGrocerySingleStore {
+            self.showToolTipIfNeeded()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -1185,6 +1190,8 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
     // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
+        
         if segue.identifier == "CategoriesToSubCategories" {
             let controller = segue.destination as! SubCategoriesViewController
             controller.viewHandler = CateAndSubcategoryView.init()
@@ -1268,6 +1275,9 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
             
             
             exclusiveVC.promoTapped = {[weak self] promo, grocery in
+                
+                ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
+                
                 if promo != nil {
                     
                     SegmentAnalyticsEngine.instance.logEvent(event: ExclusiveDealCopiedEvent(retailerId: grocery?.getCleanGroceryID() ?? "0", retailerName: grocery?.name ?? "", promoCode: promo?.code ?? "", source: .storeScreen))
@@ -1838,6 +1848,8 @@ private extension MainCategoriesViewController {
         self.viewModel.outputs.viewAllCategories.subscribe(onNext: { [weak self] grocery  in
             guard let self = self else { return }
             
+            ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
+            
             let browseController = ElGrocerViewControllers.browseViewController()
             self.navigationController?.pushViewController(browseController, animated: true)
             
@@ -1849,6 +1861,8 @@ private extension MainCategoriesViewController {
         
         self.viewModel.outputs.viewAllProductsOfCategory.subscribe(onNext: { [weak self] category in
             guard let self = self else { return }
+            
+            ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
             
             self.selectedCategory = category?.categoryDB
             
@@ -1862,6 +1876,8 @@ private extension MainCategoriesViewController {
         
         self.viewModel.outputs.viewAllProductOfRecentPurchase.subscribe(onNext: { [weak self] grocery in
             guard let self = self else { return }
+            
+            ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
             
             // TODO: We need to remove the home object dependency
             let productsVC = ElGrocerViewControllers.productsViewController()
@@ -1880,11 +1896,15 @@ private extension MainCategoriesViewController {
         viewModel.outputs.bannerTap.subscribe(onNext: { [weak self] banner in
             guard let self = self else { return }
             
+            ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
+            
             self.bannerNavigation(banner: banner)
         }).disposed(by: disposeBag)
         
         viewModel.outputs.categoryTap.subscribe(onNext: { [weak self] category in
             guard let self = self else { return }
+            
+            ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
             
             if category.id == -1 {
                 self.gotoShoppingListVC()
@@ -1922,10 +1942,13 @@ private extension MainCategoriesViewController {
             guard let self = self else { return }
             
             self.showNoDataView()
+            
         }).disposed(by: disposeBag)
         
         self.viewModel.outputs.viewAllRecipesTap.subscribe(onNext: { [weak self] in
             guard let self = self else { return }
+            
+            ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
             
             let recipeStory = ElGrocerViewControllers.recipesBoutiqueListVC()
             recipeStory.isNeedToShowCrossIcon = true
@@ -1962,6 +1985,9 @@ private extension MainCategoriesViewController {
         }
         
         self.viewModel.outputs.chefTap.subscribe(onNext: { [weak self] selectedChef in
+            
+            ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
+            
             self?.gotoFilterController(chef: selectedChef, category: nil)
         }).disposed(by: disposeBag)
         
@@ -1978,10 +2004,6 @@ private extension MainCategoriesViewController {
         
         guard SDKManager.shared.launchOptions?.navigationType != .search else {
             return
-        }
-
-        if sdkManager.isGrocerySingleStore {
-            self.showLocationChangeToolTip(show: true)
         }
         
         LocationManager.sharedInstance.locationWithStatus = { [weak self]  (location , state) in
@@ -2450,7 +2472,7 @@ extension MainCategoriesViewController: BannerCellDelegate {
     
     func bannerTapHandlerWithBannerLink(_ bannerLink: BannerLink) {
         
-        
+        ElGrocerUtility.setUserHasMovedToOtherScreenAfterToolTip()
         
         // PushWooshTracking.addEventForClick(bannerLink, grocery: self.grocery)
         if bannerLink.bannerBrand != nil && bannerLink.bannerSubCategory == nil {
@@ -2592,44 +2614,30 @@ extension MainCategoriesViewController {
 
 private func checkforDifferentDeliveryLocation() {
     
+    if ElGrocerUtility.isAddressCentralisation {
+        return
+    }
+    
     guard let deliveryAddress = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext).first(where: { $0.isSmilesDefault?.boolValue == true }) else { return }
     
-    if ElGrocerUtility.isAddressCentralisation {
-            
-        let deliveryAddressLocation = CLLocation(latitude: deliveryAddress.latitude, longitude: deliveryAddress.longitude)
-        
-        let launchLocation = CLLocation(latitude: LaunchLocation.shared.latitude ?? 0,
-                                        longitude: LaunchLocation.shared.longitude ?? 0)
-        let distance = deliveryAddressLocation.distance(from: launchLocation)
-        
-        print("AddressDifference(\(distance): \(deliveryAddress.nickName) \(deliveryAddress.latitude) \(deliveryAddress.longitude), \(sdkManager.launchOptions?.address ?? "") \(sdkManager.launchOptions?.latitude ?? 0) \(sdkManager.launchOptions?.longitude ?? 0)")
-        
-        if distance > 300 {
-            DispatchQueue.main.async {
-                self.showLocationChangeToolTip(show: true)
-            }
-        }
-        
-        return
-    }
-    
-    
-    if ElGrocerUtility.isAddressCentralisation {
-        if let smilesDefault = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext).first(where: { $0.isSmilesDefault?.boolValue == true }) {
-            
-            let deliveryAddressLocation = CLLocation(latitude: deliveryAddress.latitude, longitude: deliveryAddress.longitude)
-            let currentLocation = CLLocation(latitude: smilesDefault.latitude, longitude: smilesDefault.longitude)
-            
-            let distance = deliveryAddressLocation.distance(from: currentLocation)
-            
-            if distance > 300 {
-                DispatchQueue.main.async {
-                    self.showLocationChangeToolTip(show: true)
-                }
-            }
-        }
-        return
-    }
+//    if ElGrocerUtility.isAddressCentralisation {
+//            
+//        let deliveryAddressLocation = CLLocation(latitude: deliveryAddress.latitude, longitude: deliveryAddress.longitude)
+//        
+//        let launchLocation = CLLocation(latitude: LaunchLocation.shared.latitude ?? 0,
+//                                        longitude: LaunchLocation.shared.longitude ?? 0)
+//        let distance = deliveryAddressLocation.distance(from: launchLocation)
+//        
+//        print("AddressDifference(\(distance): \(deliveryAddress.nickName) \(deliveryAddress.latitude) \(deliveryAddress.longitude), \(sdkManager.launchOptions?.address ?? "") \(sdkManager.launchOptions?.latitude ?? 0) \(sdkManager.launchOptions?.longitude ?? 0)")
+//        
+//        if distance > 300 {
+//            DispatchQueue.main.async {
+//                self.showLocationChangeToolTip(show: true)
+//            }
+//        }
+//        
+//        return
+//    }
     
     if let currentLat = LocationManager.sharedInstance.currentLocation.value?.coordinate.latitude,
        let currentLng = LocationManager.sharedInstance.currentLocation.value?.coordinate.longitude {
@@ -2663,36 +2671,36 @@ private func checkforDifferentDeliveryLocation() {
     } else { }
 }
     
-    func showLocationChangeToolTip(show: Bool) {
-        
-        var show = show
-        show = show && !ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch || (show && isDataLoaded)
-        
-        self.locationHeaderFlavor.configureLocationChangeToolTip(show: show)
-        
-        let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
-        if constraintA.count > 0 {
-            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
-            let headerViewHeightConstraint = constraint
-            headerViewHeightConstraint.constant = show ? locationHeaderFlavor.headerMaxHeight : locationHeaderFlavor.headerMaxHeight
-        }
-        
-        UIView.animate(withDuration: 0.2) {
-            self.view.layoutIfNeeded()
-        }
-        
-        if ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch {
-            return
-        }
-        
-        if show {
-            isDataLoaded = true
-            ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
-                self?.isDataLoaded = false
-            }
-        }
-    }
+//    func showLocationChangeToolTip(show: Bool) {
+//        
+//        var show = show
+//        show = show && !ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch || (show && isDataLoaded)
+//        
+//        self.locationHeaderFlavor.configureLocationChangeToolTip(show: show)
+//        
+//        let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
+//        if constraintA.count > 0 {
+//            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+//            let headerViewHeightConstraint = constraint
+//            headerViewHeightConstraint.constant = show ? locationHeaderFlavor.headerMaxHeight : locationHeaderFlavor.headerMaxHeight
+//        }
+//        
+//        UIView.animate(withDuration: 0.2) {
+//            self.view.layoutIfNeeded()
+//        }
+//        
+//        if ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch {
+//            return
+//        }
+//        
+//        if show {
+//            isDataLoaded = true
+//            ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch = true
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 5) { [weak self] in
+//                self?.isDataLoaded = false
+//            }
+//        }
+//    }
 
 }
 
@@ -2738,7 +2746,7 @@ extension MainCategoriesViewController {
                 DatabaseHelper.sharedInstance.saveDatabase()
                 
                 if addressList.first(where: { $0.isActive.boolValue }) == nil {
-                    _ = ElGrocerUtility.setDefaultAddress()
+                    // _ = ElGrocerUtility.setDefaultAddress()
                     self.configureBeforeViewAppears()
                 }
                 
@@ -2768,7 +2776,7 @@ extension MainCategoriesViewController {
                     
                     let addressList = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext, deleteNotInJSON: false)
                     addressList.first?.isSmilesDefault = true
-                    _ = ElGrocerUtility.setDefaultAddress()
+                    // _ = ElGrocerUtility.setDefaultAddress()
                     
                     DatabaseHelper.sharedInstance.saveDatabase()
                 }
@@ -2776,6 +2784,44 @@ extension MainCategoriesViewController {
             } else {
                 print("error loading default address")
             }
+        }
+    }
+}
+
+extension MainCategoriesViewController {
+    func showToolTipIfNeeded() {
+        
+        guard let deliveryAddress = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext).first(where: { $0.isSmilesDefault?.boolValue == true }) else { return }
+            
+        let deliveryAddressLocation = CLLocation(latitude: deliveryAddress.latitude, longitude: deliveryAddress.longitude)
+        
+        let launchLocation = CLLocation(latitude: LaunchLocation.shared.latitude ?? 0,
+                                        longitude: LaunchLocation.shared.longitude ?? 0)
+        
+        let distance = deliveryAddressLocation.distance(from: launchLocation)
+        print("LocationsForDistance: \(distance), \(launchLocation.coordinate), \(deliveryAddressLocation.coordinate)")
+            
+        var show = distance > 300
+        
+        if ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch {
+            show = ElGrocerUtility.sharedInstance.isOnSameScreenAfterToolTip
+        }
+
+        DispatchQueue.main.async { [show, weak self] in
+            guard let self = self else { return }
+            
+            self.locationHeaderFlavor.configureLocationChangeToolTip(show: show)
+            
+            let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
+            if constraintA.count > 0 {
+                let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
+                let headerViewHeightConstraint = constraint
+                headerViewHeightConstraint.constant = show ? locationHeaderFlavor.headerMaxHeight : locationHeaderFlavor.headerMaxHeight
+            }
+        }
+        
+        if show {
+            ElGrocerUtility.sharedInstance.isToolTipShownAfterSDKLaunch = true
         }
     }
 }

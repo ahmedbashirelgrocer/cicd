@@ -74,15 +74,24 @@ class SplashAnimationViewController: UIViewController {
         
         
         SegmentAnalyticsEngine.instance.logEvent(event: ScreenRecordEvent(screenName: .splashScreen))
-        
     }
     
     func fetchData() {
+        if let launchOptions = SDKManager.shared.launchOptions {
+            self.startLogoAnimation() { }
+            ElGrocer.configure(with: launchOptions) { [weak self] (_ isLoaded: Bool) in
+                self?.fetchDataOnly()
+            }
+        }
+    }
+    
+    func fetchDataOnly() {
         
         var sDKLoginManager: SDKLoginManager?
         var isAddressChanged = false
         let fetchGroup = DispatchGroup()
         
+//<<<<<<< HEAD
         // fetchGroup.enter()
         self.startLogoAnimation() { }
         
@@ -94,6 +103,9 @@ class SplashAnimationViewController: UIViewController {
         }
       
        /* if ElGrocerUtility.sharedInstance.adSlots == nil {
+=======
+        if ElGrocerUtility.sharedInstance.adSlots == nil {
+>>>>>>> ReleaseManagement/Development-SPM
             self.getSponsoredProductsAndBannersSlots { isLoaded in }
         }
         
@@ -116,7 +128,7 @@ class SplashAnimationViewController: UIViewController {
                     UserDefaults.setIsAnalyticsIdentificationCompleted(new: true)
                 }
                 
-                let _ = ElGrocerUtility.setDefaultAddress()
+                // _ = ElGrocerUtility.setDefaultAddress()
                 // this code crashing on smiles application please do not enable it in future
                 // https://console.firebase.google.com/u/2/project/smiles-83564/crashlytics/app/ios:Etisalat.House/issues/f1a7ac176d17c10438478ba0391f19ee?time=last-seven-days&types=crash&sessionEventKey=3c854bdc3953405691fe6a167f9a452a_1939451492008114799
 //                if !SDKLoginManager.isAddressFetched {

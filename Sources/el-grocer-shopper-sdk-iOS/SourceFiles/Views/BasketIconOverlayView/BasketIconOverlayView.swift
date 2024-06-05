@@ -456,7 +456,7 @@ extension BasketIconOverlayView {
             SDKLoginManager.getDeliveryAddress { [weak self] isSuccess, errorMessage, errorCode in
                 
                 SpinnerView.hideSpinnerView()
-                _ = ElGrocerUtility.setDefaultAddress()
+                // _ = ElGrocerUtility.setDefaultAddress()
                 ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch = false
                 
                 guard let self = self else { return }

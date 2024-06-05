@@ -459,7 +459,7 @@ class DashboardLocationViewController : UIViewController, UITableViewDataSource,
                         SpinnerView.hideSpinnerView()
                     })
                     
-                    _ = ElGrocerUtility.setDefaultAddress()
+                    // _ = ElGrocerUtility.setDefaultAddress()
                     DatabaseHelper.sharedInstance.saveDatabase()
                     ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch = false
                 })
