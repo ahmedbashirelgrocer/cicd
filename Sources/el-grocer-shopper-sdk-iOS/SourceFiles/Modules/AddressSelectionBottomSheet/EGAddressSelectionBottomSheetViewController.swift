@@ -104,7 +104,7 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
             ElGrocerApi.sharedInstance.getDeliveryAddresses({ (result:Bool, responseObject:NSDictionary?) -> Void in
                 if result {
                     let context = DatabaseHelper.sharedInstance.mainManagedObjectContext
-                   _ = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(profile!, fromDictionary: responseObject!, context: context)
+                   _ = DeliveryAddress.insertOrUpdateDeliveryAddressesForUserWithActiveAddressShouldNotBeDeleted(profile!, fromDictionary: responseObject!, context: context)
                     DatabaseHelper.sharedInstance.saveDatabase()
                     DispatchQueue.main.async(execute: {
                         showView()

@@ -147,7 +147,7 @@ public struct SDKLoginManager {
         ElGrocerApi.sharedInstance.getDeliveryAddressesDefault({ (result, responseObject) -> Void in
             
             if result {
-                let deliveryAddress = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                let deliveryAddress = DeliveryAddress.insertOrUpdateDeliveryAddressesForUserWithActiveAddressShouldNotBeDeleted(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 DatabaseHelper.sharedInstance.saveDatabase()
                 Self.isAddressFetched = true
                 completionHandler?(true, "", 0)

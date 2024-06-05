@@ -55,6 +55,7 @@ public final class ElGrocer {
                 _ = ElGrocerUtility.setDefaultAddress()
                 
                 if ElGrocerUtility.sharedInstance.appConfigData == nil || HomePageData.shared.groceryA?.count == 0 || SDKManager.shared.launchOptions?.language !=  UserDefaults.getCurrentLanguage() {
+                    
                     PreLoadData.shared.loadConfigData {}
                     HomePageData.shared.fetchHomeData(true) {
                         SDKManager.shared.launchCompletion?()

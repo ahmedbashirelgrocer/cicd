@@ -619,6 +619,7 @@ class SmileSdkHomeVC: BasketBasicViewController {
         self.setTableViewHeader()
         
         guard let address = ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress() else {
+            self.locationButtonClick()
             return self.tableView.reloadDataOnMain()
         }
         

@@ -102,6 +102,49 @@ extension DeliveryAddress {
     }
     
     
+    class func insertOrUpdateDeliveryAddressesForUserWithActiveAddressShouldNotBeDeleted(_ userProfile:UserProfile, fromDictionary dictionary:NSDictionary, context:NSManagedObjectContext) -> [DeliveryAddress] {
+        
+        var results = [DeliveryAddress]()
+        var jsonLocationsIds = [String]()
+        
+        let addressesArray = (dictionary["data"] as! NSDictionary)["addresses"] as! [NSDictionary]
+        var isActiveAvailableInJson = false
+        for adressDict in addressesArray {
+            let location = DeliveryAddress.insertOrUpdateDeliveryAddressForUser(userProfile, fromDictionary: adressDict, context: context)
+            jsonLocationsIds.append(location.dbID)
+            if location.isActive.boolValue { isActiveAvailableInJson = true }
+            results.append(location)
+        }
+        
+        //mark one location as active if currently we dont have selected one
+        if DeliveryAddress.getActiveDeliveryAddress(context) == nil {
+            if let location = userProfile.deliveryAddresses.allObjects.first as? DeliveryAddress {
+              _ = DeliveryAddress.setActiveDeliveryAddress(location, context: context)
+            }
+        }
+        
+        if isActiveAvailableInJson {
+            deleteLocatiosNotInJSON(jsonLocationsIds,context: context)
+        }else {
+            if let address = DeliveryAddress.getActiveDeliveryAddress(context) {
+                ElGrocerApi.sharedInstance.addDeliveryAddress(address) { result, responseObject in }
+            }
+        }
+        
+        do {
+            try context.save()
+        } catch (let error) {
+             //elDebugPrint(error.localizedDescription)
+            //NotificationCenter.default.post(name: NSNotification.Name(rawValue: "api-error"), object: error, userInfo: [:])
+            //FireBaseEventsLogger.cu
+        }
+    
+        DatabaseHelper.sharedInstance.saveDatabase()
+        
+        return results
+    }
+    
+    
     class func insertOrUpdateDeliveryAddressForUser(_ userProfile:UserProfile, fromDictionary adressDict:NSDictionary, context:NSManagedObjectContext) -> DeliveryAddress {
         
         var dbIDString: String!

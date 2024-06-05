@@ -487,7 +487,11 @@ extension BasketIconOverlayView {
             return
         }
 
-        guard let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) else { return }
+        guard let deliveryAddress = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) else {
+            ElGrocerUtility.sharedInstance.addressListNeedsUpdateAfterSDKLaunch = true
+            handleLoggedInCaseForAddressCentralisation(topVc, userProfile)
+            return
+        }
         let isDataFilled = ElGrocerUtility.sharedInstance.validateUserProfile(userProfile, andUserDefaultLocation: deliveryAddress)
         
         if !isDataFilled {

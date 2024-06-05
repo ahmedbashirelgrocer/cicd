@@ -24,7 +24,8 @@ class EnvironmentVariables {
         let bundle = Bundle.resource
         var ReleaseEnvoirmentName = "Release"
 #if DEBUG
-        ReleaseEnvoirmentName = "StagingProduction"
+        // ReleaseEnvoirmentName = "Release"
+        // ReleaseEnvoirmentName = "StagingProduction"
 #endif
         let configurationName = sdkManager.launchOptions?.environmentType.value() ?? ReleaseEnvoirmentName
       
