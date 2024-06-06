@@ -55,7 +55,7 @@ class BillView: UIView {
     private lazy var lblFinalAmount: UILabel = {
         let label = UILabel()
         
-        label.text = "AED 600.00"
+        label.text = ""
         label.textAlignment = .right
         
         label.setBody3BoldUpperStyle(false)
@@ -68,7 +68,7 @@ class BillView: UIView {
     private lazy var lblPromotion: UILabel = {
         let label = UILabel()
         
-        label.text = "AED 30.00 SAVED!"
+        label.text = ""
         label.textAlignment = .center
         label.setCaptionTwoSemiboldYellowStyle()
         label.translatesAutoresizingMaskIntoConstraints = false

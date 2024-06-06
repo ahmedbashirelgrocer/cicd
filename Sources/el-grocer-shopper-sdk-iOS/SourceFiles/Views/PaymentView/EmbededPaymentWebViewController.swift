@@ -480,13 +480,22 @@ extension EmbededPaymentWebViewController: WKScriptMessageHandler,  WKUIDelegate
         elDebugPrint(error)
     }
     
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        
        // elDebugPrint(webView.url)
         if webView.url?.absoluteString.contains("/FortAPI/paymentPage") ?? false {
             
         }else if webView.url?.absoluteString.contains("return3DsTnxStatus") ?? false {
             
-        }else{
+        } else if let url = webView.url?.absoluteString, url.isNotEmpty, url.starts(with: "tel:") {
+            print("open dialor")
+            
+            let numberUrl = URL(string: url)!
+            if UIApplication.shared.canOpenURL(numberUrl) {
+                UIApplication.shared.open(numberUrl)
+            }
+        } else {
             SpinnerView.hideSpinnerView()
             if let finalURl = webView.url {
                 let  message = finalURl.getQueryItemValueForKey("message")
