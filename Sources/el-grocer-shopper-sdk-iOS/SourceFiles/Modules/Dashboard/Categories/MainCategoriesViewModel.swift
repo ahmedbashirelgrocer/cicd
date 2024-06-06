@@ -396,14 +396,14 @@ private extension MainCategoriesViewModel {
                 }
                 
                 if bannerOneA.count > 0 {
-                    let bannerCellVM = GenericBannersCellViewModel(banners: banners)
+                    let bannerCellVM = GenericBannersCellViewModel(banners: bannerOneA)
                     bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
                     self.location1BannerVMs.append(bannerCellVM)
                    
                 }
                 
                 if bannerTwoA.count > 0 {
-                    let bannerCellVM = GenericBannersCellViewModel(banners: banners)
+                    let bannerCellVM = GenericBannersCellViewModel(banners: bannerTwoA)
                     bannerCellVM.outputs.bannerTap.bind(to: self.bannerTapSubject).disposed(by: self.disposeBag)
                     self.location2BannerVMs.append(bannerCellVM)
                 }
