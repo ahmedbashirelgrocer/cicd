@@ -159,54 +159,57 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         dispatchGroup.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
             
-            if self.location1BannerVMs.isNotEmpty {
-                self.viewModels.append(SectionModel(model: 0, items: self.location1BannerVMs))
-            }
-            
-            self.viewModels.append(SectionModel(model: 1, items: self.categoriesCellVMs))
-            
-            
-            if self.recentPurchasedVM.isNotEmpty {
-                self.viewModels.append(SectionModel(model: 2, items: self.recentPurchasedVM))
-            }
-            
-            // Show Tier 2 Banners after categories section for all varient / experiment except baseline
-            // for baseline showProductsSection value is true
-            if self.showProductsSection == false && self.location2BannerVMs.isNotEmpty {
-                self.viewModels.append(SectionModel(model: 3, items: self.location2BannerVMs))
-            }
-            
-            // Show Produt Section for base varient only
-            if self.showProductsSection && self.homeCellVMs.isNotEmpty {
-                var result: [ReusableTableViewCellViewModelType] = []
-                for index in 0...self.homeCellVMs.count - 1 {
-                    result.append(self.homeCellVMs[index])
-                    
-                    if let bannerVM = self.location2BannerVMs.first {
-                        if self.recentPurchasedVM.isEmpty {
-                            if index == 2 {
-                                result.append(bannerVM)
-                            }
-                        } else {
-                            if index == 1 {
-                                result.append(bannerVM)
+            AccessQueue.execute {
+                
+                if self.location1BannerVMs.isNotEmpty {
+                    self.viewModels.append(SectionModel(model: 0, items: self.location1BannerVMs))
+                }
+                
+                self.viewModels.append(SectionModel(model: 1, items: self.categoriesCellVMs))
+                
+                
+                if self.recentPurchasedVM.isNotEmpty {
+                    self.viewModels.append(SectionModel(model: 2, items: self.recentPurchasedVM))
+                }
+                
+                // Show Tier 2 Banners after categories section for all varient / experiment except baseline
+                // for baseline showProductsSection value is true
+                if self.showProductsSection == false && self.location2BannerVMs.isNotEmpty {
+                    self.viewModels.append(SectionModel(model: 3, items: self.location2BannerVMs))
+                }
+                
+                // Show Produt Section for base varient only
+                if self.showProductsSection && self.homeCellVMs.isNotEmpty {
+                    var result: [ReusableTableViewCellViewModelType] = []
+                    for index in 0...self.homeCellVMs.count - 1 {
+                        result.append(self.homeCellVMs[index])
+                        
+                        if let bannerVM = self.location2BannerVMs.first {
+                            if self.recentPurchasedVM.isEmpty {
+                                if index == 2 {
+                                    result.append(bannerVM)
+                                }
+                            } else {
+                                if index == 1 {
+                                    result.append(bannerVM)
+                                }
                             }
                         }
                     }
+                    
+                    self.viewModels.append(SectionModel(model: 3, items: result))
                 }
                 
-                self.viewModels.append(SectionModel(model: 3, items: result))
+                if self.isCategoriesApiCompleted && self.categoriesCellVMs.isEmpty {
+                    self.showEmptyViewSubject.onNext(())
+                } else {
+                    self.cellViewModelsSubject.onNext(self.viewModels)
+                    
+                    // checking recipes and fetched if availability and fetch if available
+                    self.checkRecipes()
+                }
+                self.loadingSubject.onNext(false)
             }
-            
-            if self.isCategoriesApiCompleted && self.categoriesCellVMs.isEmpty {
-                self.showEmptyViewSubject.onNext(())
-            } else {
-                self.cellViewModelsSubject.onNext(self.viewModels)
-                
-                // checking recipes and fetched if availability and fetch if available
-                self.checkRecipes()
-            }
-            self.loadingSubject.onNext(false)
         }
         
         self.scrollSubject.asObservable().subscribe(onNext: { [weak self] indexPath in
@@ -227,16 +230,12 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
 // MARK: Helper Methods
 private extension MainCategoriesViewModel {
     func fetchGroceryDeliverySlots() {
-        
         guard let grocery = self.grocery else { return }
         
-        self.dispatchGroup.enter()
         if let jsonSlot = grocery.initialDeliverySlotData {
             if let dict = grocery.convertToDictionary(text: jsonSlot) {
                 if  let deliveryTime = dict["usid"] as? Int {
                     self.fetchCategories(deliveryTime: deliveryTime)
-//                    self.fetchPreviousPurchasedProducts(deliveryTime: deliveryTime)
-                    // self.fetchCustomCatogires(for: BannerLocation.custom_campaign_shopper.getType())
                     return
                 }
             }
@@ -288,18 +287,25 @@ private extension MainCategoriesViewModel {
     }
     // Fetch Brand Catogories
     func fetchCategories(deliveryTime: Int) {
+        
+        self.dispatchGroup.enter()
+        
         self.apiClient.getAllCategories(self.deliveryAddress, parentCategory: nil, forGrocery: self.grocery, deliveryTime: deliveryTime) { [weak self] result in
-            guard let self = self else { return }
+            
+            guard let self = self else {
+                self?.dispatchGroup.leave()
+                return
+            }
             self.isCategoriesApiCompleted = true
             switch result {
                 
             case .success(let response):
+                
                 guard let categoriesDictionary = response["data"] as? [NSDictionary], let grocery = self.grocery else {
                     // TODO: Show error message
                     self.dispatchGroup.leave()
                     return
                 }
-                
                 guard let categoriesDB = Category.insertOrUpdateCategoriesForGrocery(grocery, categoriesArray: categoriesDictionary, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) else {
                     // TODO: Show error message
                     self.dispatchGroup.leave()
@@ -308,6 +314,7 @@ private extension MainCategoriesViewModel {
                 DatabaseHelper.sharedInstance.saveDatabase()
                 
                 categoriesDB.forEach { categoryDB in
+    
                     self.categories.append(CategoryDTO(category: categoryDB))
                 }
                 

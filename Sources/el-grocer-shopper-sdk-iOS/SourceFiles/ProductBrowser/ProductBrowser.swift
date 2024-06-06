@@ -552,7 +552,6 @@ extension ProductBrowser {
     ///
     /// - Example:
     /// swift /// let products: [Product] = [...] // Array of products /// let grocery: Grocery = ... // Grocery object /// /// let sortedProducts = sortProductsOnTheBasisOfGrocery(products: products, grocery: grocery) /// // Use sortedProducts array for further processing or display /// ///
-    /// - Note: The provided code snippet assumes the existence of the Product and Grocery types. The implementation of these types is not included, so make sure to provide appropriate implementations for a complete and functional usage of the sortProductsOnTheBasisOfGrocery function.
     /// 
     func sortProductsOnTheBasisOfGrocery(products: [Product], grocery: Grocery) -> [Product] {
         var sorted: [Product] = []

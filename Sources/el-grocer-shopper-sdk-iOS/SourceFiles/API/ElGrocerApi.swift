@@ -1664,21 +1664,21 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
   
       func getAllCategories(_ address: DeliveryAddress?, parentCategory:Category?, forGrocery grocery:Grocery?, _ lat : Double = 0 , _ lng : Double = 0, deliveryTime: Int? = nil, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
   
-  setAccessToken()
-  
-  var parameters = [String : AnyObject]()
+          setAccessToken()
+
+          var parameters = [String : AnyObject]()
           
-  if let categoryID = parentCategory?.dbID.intValue, categoryID > 0 {
-     parameters["parent_id"] = categoryID as AnyObject
-  }
-  
-  if let groc = grocery {
-  parameters["retailer_id"] = groc.dbID as AnyObject
-    parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["retailer_id"]) as AnyObject
-  }
+      if let categoryID = parentCategory?.dbID.intValue, categoryID > 0 {
+         parameters["parent_id"] = categoryID as AnyObject
+      }
+      
+      if let groc = grocery {
+      parameters["retailer_id"] = groc.dbID as AnyObject
+        parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["retailer_id"]) as AnyObject
+      }
         let time = ElGrocerUtility.sharedInstance.getCurrentMillis()
-          parameters["delivery_time"] = deliveryTime != nil ? deliveryTime as AnyObject : time as AnyObject
-  //sab
+        parameters["delivery_time"] = deliveryTime != nil ? deliveryTime as AnyObject : time as AnyObject
+      //sab
   let urlStr = ElGrocerApiEndpoint.Categories.rawValue
   // //elDebugPrint("URL Str:%@",urlStr)
     NetworkCall.get(urlStr, parameters: parameters, progress: { (progress) in

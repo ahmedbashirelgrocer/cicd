@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Adyen/adyen-3ds2-ios",
       "state" : {
-        "revision" : "0de394345ca9d88748532ed91d99399afb85b8ed",
-        "version" : "2.4.2"
+        "revision" : "1ab16d13ed815083755dcfedc297283d96f1c6eb",
+        "version" : "2.4.1"
       }
     },
     {
@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Adyen/adyen-ios",
       "state" : {
-        "revision" : "9e5a9d015e8b3a87a5a267172d1e8a0423c38761",
-        "version" : "4.13.0"
+        "revision" : "20c9ee6b4af3634fec3143b5234e575a8d3e00e5",
+        "version" : "4.12.0"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/app-check.git",
       "state" : {
-        "revision" : "076b241a625e25eac22f8849be256dfb960fcdfe",
-        "version" : "10.19.1"
+        "revision" : "7d2688de038d5484866d835acb47b379722d610e",
+        "version" : "10.19.0"
       }
     },
     {
@@ -113,8 +113,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk.git",
       "state" : {
-        "revision" : "8bcaf973b1d84e119b7c7c119abad72ed460979f",
-        "version" : "10.27.0"
+        "revision" : "42eae77a0af79e9c3f41df04a23c76f05cfdda77",
+        "version" : "10.24.0"
       }
     },
     {
@@ -131,8 +131,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleAppMeasurement.git",
       "state" : {
-        "revision" : "70df02431e216bed98dd461e0c4665889245ba70",
-        "version" : "10.27.0"
+        "revision" : "51ba746a9d51a4bd0774b68499b0c73ef6e8570d",
+        "version" : "10.24.0"
       }
     },
     {
@@ -149,8 +149,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/GoogleUtilities.git",
       "state" : {
-        "revision" : "57a1d307f42df690fdef2637f3e5b776da02aad6",
-        "version" : "7.13.3"
+        "revision" : "26c898aed8bed13b8a63057ee26500abbbcb8d55",
+        "version" : "7.13.1"
       }
     },
     {
@@ -266,8 +266,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/mixpanel/mixpanel-swift",
       "state" : {
-        "revision" : "7f73084879cf6f8c50ab93e34ab0aae2569b04a8",
-        "version" : "4.2.7"
+        "revision" : "2dc2121b6dff467090164e9d967af332ea47ce19",
+        "version" : "4.2.6"
       }
     },
     {
@@ -320,8 +320,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SDWebImage/SDWebImage.git",
       "state" : {
-        "revision" : "b8523c1642f3c142b06dd98443ea7c48343a4dfd",
-        "version" : "5.19.3"
+        "revision" : "f6afa0132961d593f07970d84e2d8b588c29ea04",
+        "version" : "5.19.1"
       }
     },
     {
@@ -329,8 +329,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sendbird/sendbird-chat-sdk-ios",
       "state" : {
-        "revision" : "2df321204a76ae168fbd9f05734b2569503883f8",
-        "version" : "4.19.6"
+        "revision" : "858841999de5aee1652d76ce74ee0afb0ef530da",
+        "version" : "4.19.2"
       }
     },
     {
@@ -347,8 +347,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/sendbird/sendbird-uikit-ios-spm.git",
       "state" : {
-        "revision" : "6893d530785a11c313dbd675961077aa175b9977",
-        "version" : "3.23.0"
+        "revision" : "7b01c7b97bf518ff29b270b03a5e598691af7fca",
+        "version" : "3.20.0"
       }
     },
     {
@@ -365,8 +365,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Netvent/storyly-ios",
       "state" : {
-        "revision" : "991201a8ce3e5b1847bf9db00894e6e6aa3739d8",
-        "version" : "2.18.2"
+        "revision" : "616b54254e704692e24f65bd3f75f68f25b4eb05",
+        "version" : "2.17.1"
       }
     },
     {
