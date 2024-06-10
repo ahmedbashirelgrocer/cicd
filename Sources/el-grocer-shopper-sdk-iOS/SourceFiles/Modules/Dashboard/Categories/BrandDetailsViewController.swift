@@ -462,6 +462,7 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
                 
             } else {
                 self.isMoreProducts =  false
+                SpinnerView.hideSpinnerView()
             }
         }
       
