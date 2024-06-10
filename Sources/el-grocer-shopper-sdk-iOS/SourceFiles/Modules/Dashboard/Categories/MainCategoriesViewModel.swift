@@ -293,7 +293,7 @@ private extension MainCategoriesViewModel {
         self.apiClient.getAllCategories(self.deliveryAddress, parentCategory: nil, forGrocery: self.grocery, deliveryTime: deliveryTime) { [weak self] result in
             
             guard let self = self else {
-                self?.dispatchGroup.leave()
+               // self?.dispatchGroup.leave()
                 return
             }
             self.isCategoriesApiCompleted = true
@@ -306,54 +306,60 @@ private extension MainCategoriesViewModel {
                     self.dispatchGroup.leave()
                     return
                 }
-                guard let categoriesDB = Category.insertOrUpdateCategoriesForGrocery(grocery, categoriesArray: categoriesDictionary, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) else {
-                    // TODO: Show error message
-                    self.dispatchGroup.leave()
-                    return
-                }
-                DatabaseHelper.sharedInstance.saveDatabase()
                 
-                categoriesDB.forEach { categoryDB in
-    
-                    self.categories.append(CategoryDTO(category: categoryDB))
-                }
-                
-                let shoppingList = CategoryDTO(dic: ["id": -1, "image_url": "ic_shopping_list", "name": localizedString("search_by_shopping_list_text", comment: "") , "name_ar": "البحث بقائمة التسوق"])
-                let buyItAgain = CategoryDTO(dic: ["id" : -2, "image_url" : "ic_buy_it_again", "name" : localizedString("buy_it_again_text", comment: ""), "name_ar" : "البحث بقائمة التسوق"])
-                
-                if self.showProductsSection {
-                    self.categories.insert(shoppingList, at: 0)
-                } else {
+                DispatchQueue.main.async {
+                    guard let categoriesDB = Category.insertOrUpdateCategoriesForGrocery(grocery, categoriesArray: categoriesDictionary, context: DatabaseHelper.sharedInstance.mainManagedObjectContext) else {
+                        // TODO: Show error message
+                        self.dispatchGroup.leave()
+                        return
+                    }
+                    DatabaseHelper.sharedInstance.saveDatabase()
                     
-                    if UserDefaults.isUserLoggedIn() { self.categories.insert(buyItAgain, at: 0) }
-                    self.categories.insert(shoppingList, at: 1)
+                    categoriesDB.forEach { categoryDB in
+        
+                        self.categories.append(CategoryDTO(category: categoryDB))
+                    }
+                    
+                    let shoppingList = CategoryDTO(dic: ["id": -1, "image_url": "ic_shopping_list", "name": localizedString("search_by_shopping_list_text", comment: "") , "name_ar": "البحث بقائمة التسوق"])
+                    let buyItAgain = CategoryDTO(dic: ["id" : -2, "image_url" : "ic_buy_it_again", "name" : localizedString("buy_it_again_text", comment: ""), "name_ar" : "البحث بقائمة التسوق"])
+                    
+                    if self.showProductsSection {
+                        self.categories.insert(shoppingList, at: 0)
+                    } else {
+                        
+                        if UserDefaults.isUserLoggedIn() { self.categories.insert(buyItAgain, at: 0) }
+                        self.categories.insert(shoppingList, at: 1)
+                    }
+                    
+                    let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)
+                   
+                    categoriesCellVM.outputs.viewAll.map { self.grocery }.bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
+                    //bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
+                    categoriesCellVM.outputs.tap.bind(to: self.categoryTapSubject).disposed(by: self.disposeBag)
+                    self.categoriesCellVMs = [categoriesCellVM]
+                    
+                    if self.showProductsSection {
+                        // TODO: Need to update the logic of for shopping list
+                    
+                        self.homeCellVMs = self.categories.filter { $0.id != -1 && $0.customPage == nil }.map({
+                            let viewModel = HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery)
+                            
+                            viewModel.outputs.viewAll
+                                .bind(to: self.viewAllProductsOfCategorySubject)
+                                .disposed(by: self.disposeBag)
+                            
+                            self.refreshProductCellSubject.bind(to: viewModel.inputs.refreshProductCellObserver).disposed(by: self.disposeBag)
+                            
+                            return viewModel
+                        })
+                    }
+                    // get custom compagin categories
+                    self.fetchCombineBannersForStorePage()
+                    self.fetchPreviousPurchasedProducts(deliveryTime: deliveryTime)
+                    
                 }
                 
-                let categoriesCellVM = CategoriesCellViewModel(categories: self.categories)
                
-                categoriesCellVM.outputs.viewAll.map { self.grocery }.bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
-                //bind(to: self.viewAllCategoriesSubject).disposed(by: self.disposeBag)
-                categoriesCellVM.outputs.tap.bind(to: self.categoryTapSubject).disposed(by: self.disposeBag)
-                self.categoriesCellVMs = [categoriesCellVM]
-                
-                if self.showProductsSection {
-                    // TODO: Need to update the logic of for shopping list
-                
-                    self.homeCellVMs = self.categories.filter { $0.id != -1 && $0.customPage == nil }.map({
-                        let viewModel = HomeCellViewModel(deliveryTime: deliveryTime, category: $0, grocery: self.grocery)
-                        
-                        viewModel.outputs.viewAll
-                            .bind(to: self.viewAllProductsOfCategorySubject)
-                            .disposed(by: self.disposeBag)
-                        
-                        self.refreshProductCellSubject.bind(to: viewModel.inputs.refreshProductCellObserver).disposed(by: self.disposeBag)
-                        
-                        return viewModel
-                    })
-                }
-                // get custom compagin categories
-                self.fetchCombineBannersForStorePage()
-                self.fetchPreviousPurchasedProducts(deliveryTime: deliveryTime)
                 break
             case .failure(let error):
                 // TODO: Show error message
