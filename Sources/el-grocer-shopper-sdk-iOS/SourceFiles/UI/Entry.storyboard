@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FK0-ki-RXS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FK0-ki-RXS">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -35,7 +35,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <activityIndicatorView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="hh4-Cv-QZJ">
-                                <rect key="frame" x="150" y="331" width="20" height="20"/>
+                                <rect key="frame" x="150" y="373.5" width="20" height="20"/>
                                 <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </activityIndicatorView>
                         </subviews>
@@ -51,7 +51,7 @@
                             <constraint firstItem="Di8-E5-L3U" firstAttribute="leading" secondItem="fLG-Nd-Rge" secondAttribute="leading" id="V9Q-gD-o70"/>
                             <constraint firstItem="Di8-E5-L3U" firstAttribute="bottom" secondItem="fLG-Nd-Rge" secondAttribute="bottom" id="fdi-h2-HN2"/>
                             <constraint firstAttribute="bottom" secondItem="vba-nT-tBb" secondAttribute="bottom" id="oVb-b0-WfZ"/>
-                            <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerY" secondItem="fLG-Nd-Rge" secondAttribute="centerY" multiplier="1.2" id="tYp-GA-DCi"/>
+                            <constraint firstItem="hh4-Cv-QZJ" firstAttribute="centerY" secondItem="fLG-Nd-Rge" secondAttribute="centerY" multiplier="1.35" id="tYp-GA-DCi"/>
                             <constraint firstItem="Di8-E5-L3U" firstAttribute="trailing" secondItem="fLG-Nd-Rge" secondAttribute="trailing" id="xGs-Bm-eBi"/>
                             <constraint firstItem="Di8-E5-L3U" firstAttribute="top" secondItem="fLG-Nd-Rge" secondAttribute="top" id="y93-l4-U8u"/>
                         </constraints>
@@ -78,20 +78,20 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YJY-I2-RGr">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E8r-hG-kX4" userLabel="logoContainer">
-                                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="752" image="AppGreenLogo" translatesAutoresizingMaskIntoConstraints="NO" id="H6c-uP-gbG">
-                                                <rect key="frame" x="42.5" y="242.5" width="235" height="83"/>
+                                                <rect key="frame" x="42.5" y="232.5" width="235" height="83"/>
                                                 <color key="tintColor" red="0.019607843140000001" green="0.73725490199999999" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                             </imageView>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TOQ-EX-2Sk">
-                                                <rect key="frame" x="0.0" y="425.5" width="320" height="310"/>
+                                                <rect key="frame" x="0.0" y="415.5" width="320" height="310"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Sqk-3H-NoA" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS">
-                                                        <rect key="frame" x="16" y="36" width="288" height="56"/>
+                                                        <rect key="frame" x="16" y="39" width="288" height="56"/>
                                                         <color key="backgroundColor" red="0.019607843137254902" green="0.73725490196078436" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="56" id="U7S-pS-37R"/>
@@ -141,13 +141,13 @@
                                                         </connections>
                                                     </button>
                                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pFd-7T-LGN">
-                                                        <rect key="frame" x="20" y="108" width="280" height="20.5"/>
+                                                        <rect key="frame" x="20" y="111" width="280" height="20.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8OC-pB-3QJ" userLabel="orView">
-                                                        <rect key="frame" x="85" y="152.5" width="150" height="14"/>
+                                                        <rect key="frame" x="85" y="155.5" width="150" height="14"/>
                                                         <subviews>
                                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="entryLine" translatesAutoresizingMaskIntoConstraints="NO" id="rvK-AK-O04">
                                                                 <rect key="frame" x="-10" y="6.5" width="64" height="1"/>
@@ -187,13 +187,13 @@
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Already have elGrocer Account?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="emP-k8-sG0">
-                                                        <rect key="frame" x="44.5" y="190.5" width="231" height="19"/>
+                                                        <rect key="frame" x="37.5" y="193.5" width="245" height="22"/>
                                                         <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="16"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tWj-sy-8J9" customClass="AWButton" customModule="el_grocer_shopper_sdk_iOS">
-                                                        <rect key="frame" x="16" y="224.5" width="288" height="56"/>
+                                                        <rect key="frame" x="16" y="230.5" width="288" height="56"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="56" id="9dW-zS-ifW"/>
@@ -242,7 +242,7 @@
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="New to elGrocer?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c7L-zV-BSV">
-                                                        <rect key="frame" x="97.5" y="1" width="125.5" height="19"/>
+                                                        <rect key="frame" x="94" y="1" width="132.5" height="22"/>
                                                         <fontDescription key="fontDescription" name="OpenSans-Semibold" family="Open Sans" pointSize="16"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
@@ -331,13 +331,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="252" verticalCompressionResistancePriority="752" image="AppGreenLogo" translatesAutoresizingMaskIntoConstraints="NO" id="2Dw-4T-Hmx">
-                                <rect key="frame" x="42.5" y="50" width="235" height="35"/>
+                                <rect key="frame" x="42.5" y="70" width="235" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="35" id="COa-91-huQ"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fGJ-Qu-9V3">
-                                <rect key="frame" x="30" y="115" width="260" height="40"/>
+                                <rect key="frame" x="30" y="135" width="260" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="rSF-dO-Go5"/>
                                 </constraints>
@@ -347,7 +347,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="fNY-Ub-H6a">
-                                <rect key="frame" x="0.0" y="165" width="320" height="157"/>
+                                <rect key="frame" x="0.0" y="185" width="320" height="137"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="LanguageCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="LanguageCell" id="pvE-As-cxX" customClass="LanguageCell" customModule="el_grocer_shopper_sdk_iOS">
@@ -450,17 +450,6 @@
             <point key="canvasLocation" x="1155" y="424"/>
         </scene>
     </scenes>
-    <designables>
-        <designable name="6FW-b9-O96">
-            <size key="intrinsicContentSize" width="55" height="30"/>
-        </designable>
-        <designable name="Sqk-3H-NoA">
-            <size key="intrinsicContentSize" width="173" height="24"/>
-        </designable>
-        <designable name="tWj-sy-8J9">
-            <size key="intrinsicContentSize" width="47" height="30"/>
-        </designable>
-    </designables>
     <color key="tintColor" red="0.1215686275" green="0.79215686269999996" blue="0.3411764706" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
     <resources>
         <image name="AppGreenLogo" width="235" height="83"/>
