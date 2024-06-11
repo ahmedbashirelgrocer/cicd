@@ -363,19 +363,20 @@ class BrandDetailsViewController :   BasketBasicViewController, UICollectionView
         currentLoadedPage = isFirst ? 0 : currentLoadedPage + 1
         self.currentOffset = self.currentLimit*currentLoadedPage
         
-        if self.subCategory != nil && !isFromScroll{
-             _ = SpinnerView.showSpinnerViewInView(self.view)
-        }
-        
-        
         var pageNumber = 0
         let hitsPerPage = ElGrocerUtility.sharedInstance.adSlots?.productSlots.first?.productsSlotsBrandPage ?? 25
         if self.products.count % hitsPerPage == 0 {
             pageNumber = self.products.count / hitsPerPage
         }else {
+           // SpinnerView.hideSpinnerView()
             return
         }
         elDebugPrint("PageNumber of algolia: \(pageNumber)")
+        
+        
+        if self.subCategory != nil && !isFromScroll{
+             _ = SpinnerView.showSpinnerViewInView(self.view)
+        }
         
         let config = ElGrocerUtility.sharedInstance.appConfigData
         let algoliaCall = config == nil ||  (config?.fetchCatalogFromAlgolia == true)
