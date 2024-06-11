@@ -1434,6 +1434,7 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         if selectedType.storeTypeid == kExclusiveDealsStoreTypeId {
             if self.groceryArray.count > 0 {
                 self.homeDataHandler.getExclusiveDealsData()
+                self.homeDataHandler.getLimitedTimeSavingsData()
             }
         }
         filterExclusivePromo()
@@ -1601,7 +1602,7 @@ extension SmileSdkHomeVC {
                 if self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId {
                     exclusiveDealsSection = self.exclusiveDealsPromoList.count > 0 ? 1 : 0
                     limitedTimeSavingsSection = self.limitedTimeSavingsCardList.count > 0 ? 1 : 0
-                    return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection + limitedTimeSavingsSection
+                    return (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection + limitedTimeSavingsSection
                 }
                 else{
                     return 1 + (configs.isHomeTier1 ? 1 : 0) 

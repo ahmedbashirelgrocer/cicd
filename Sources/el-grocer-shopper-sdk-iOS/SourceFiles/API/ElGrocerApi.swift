@@ -4982,7 +4982,10 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
                   AccessQueue.execute {
                       switch result {
                       case .success(let winners):
-                          topSortBanners = topSortBanners + winners.sorted(by: { $0.rank < $1.rank }).map{ $0.toBannerCampaign() }
+                          let winnerBanners : [BannerCampaign] = winners.sorted(by: { $0.rank < $1.rank }).map{ $0.toBannerCampaign() }
+                          let locationValue = [location.getType().rawValue ]
+                              winnerBanners.forEach{ $0.locations =  locationValue }
+                          topSortBanners = topSortBanners + winnerBanners
                       case .failure(let error):
                           print(error.localizedDescription)
                           fetchError = ElGrocerError.genericError()
