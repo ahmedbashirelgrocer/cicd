@@ -478,6 +478,28 @@ class SmileSdkHomeVC: BasketBasicViewController {
                         case .success(let response):
                             if let dataA = response["data"] as? [NSDictionary]{
                                 self.openOrders = dataA
+                            
+                                if let editOrderID = UserDefaults.getEditOrderDbId() {
+                                    
+                                    Order.insertOrReplaceOrdersFromDictionary(self.openOrders, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                                    let orders = Order.getAllDeliveryOrders(DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                                    
+                                    if let orderInEdit = orders.first(where: { $0.dbID == editOrderID }) {
+                                        if orderInEdit.status.intValue != OrderStatus.inEdit.rawValue {
+                                            
+                                            let title = localizedString("location_not_covered_alert_title", comment: "")
+                                            let positiveButton = localizedString("ok_button_title", comment: "")
+                                            let message = localizedString("order_is_no_more_in_edit_msg", comment: "")
+                                            
+                                            ElGrocerAlertView
+                                                .createAlert(title, description: message, positiveButton: positiveButton, negativeButton: nil, buttonClickCallback: nil)
+                                                .show()
+                                            
+                                            UserDefaults.resetEditOrder()
+                                        }
+                                    }
+                                }
+                                
                                 DispatchQueue.main.async {
                                     self.view.layoutIfNeeded()
                                     self.view.setNeedsLayout()
