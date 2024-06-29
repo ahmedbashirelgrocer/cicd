@@ -2,9 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>BuildNumber</key>
-	<string>1</string>
-	<key>Version</key>
-	<string>2.2.4</string>
+	<key>_XCCurrentVersionName</key>
+	<string>SmilesElgrocer_3.xcdatamodel</string>
 </dict>
 </plist>

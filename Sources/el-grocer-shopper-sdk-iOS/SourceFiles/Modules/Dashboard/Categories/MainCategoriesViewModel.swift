@@ -122,7 +122,9 @@ class MainCategoriesViewModel: MainCategoriesViewModelType {
         self.grocery = grocery
         self.deliveryAddress = deliveryAddress
         self.isCategoriesApiCompleted = false
-     
+        guard self.grocery?.dbID != ""  && self.deliveryAddress != nil else {
+            return
+        }
         self.fetchGroceryDeliverySlots()
         self.storylyFetchSubject.onNext(grocery)
 //        self.fetchBanners(for: .store_tier_1.getType())

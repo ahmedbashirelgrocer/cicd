@@ -480,10 +480,10 @@ class SmileSdkHomeVC: BasketBasicViewController {
                                 self.openOrders = dataA
                             
                                 if let editOrderID = UserDefaults.getEditOrderDbId() {
-                                    
+                        
                                     Order.insertOrReplaceOrdersFromDictionary(self.openOrders, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                                     let orders = Order.getAllDeliveryOrders(DatabaseHelper.sharedInstance.mainManagedObjectContext)
-                                    
+                            
                                     if let orderInEdit = orders.first(where: { $0.dbID == editOrderID }) {
                                         if orderInEdit.status.intValue != OrderStatus.inEdit.rawValue {
                                             
