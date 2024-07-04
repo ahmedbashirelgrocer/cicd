@@ -194,15 +194,13 @@ public struct SDKLoginManager {
             GoogleAnalyticsHelper.trackDeliveryLocationAction(DeliveryLocationActionType.Add)
             // Remove the temporary delivery address
             DatabaseHelper.sharedInstance.mainManagedObjectContext.delete(deliveryAddress)
-            if result == true {
-                
-                var addressDict: NSDictionary!
-                if sdkManager.isShopperApp {
-                    addressDict = (responseObject!["data"] as! NSDictionary)["shopper_address"] as! NSDictionary
-                } else {
-                    addressDict = responseObject!["data"] as? NSDictionary
+            if result == true, let responseData = responseObject?["data"] as? NSDictionary {
+        
+                guard let addressDict = sdkManager.isShopperApp ? responseData["shopper_address"] as? NSDictionary : responseData else {
+                    completionHandler(false, localizedString("registration_error_alert", comment: ""), 0)
+                    return
                 }
-                
+        
                 let currentAddress = DeliveryAddress.insertOrUpdateDeliveryAddressForUser(forUser, fromDictionary: addressDict, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 _ = DeliveryAddress.setActiveDeliveryAddress(currentAddress, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                 DatabaseHelper.sharedInstance.saveDatabase()

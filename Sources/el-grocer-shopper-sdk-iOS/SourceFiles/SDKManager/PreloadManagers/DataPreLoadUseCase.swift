@@ -162,8 +162,8 @@ class PreLoadData {
         
         let  locations = DeliveryAddress.getAllDeliveryAddresses(DatabaseHelper.sharedInstance.mainManagedObjectContext)
         
-        let lat = SDKManager.shared.launchOptions?.latitude
-        let lng = SDKManager.shared.launchOptions?.longitude
+        let lat = sdkManager.launchOptions?.latitude
+        let lng = sdkManager.launchOptions?.longitude
         
 
         if let _ = locations.first(where: { $0.isActive == NSNumber(value: true) }) {
@@ -195,9 +195,7 @@ class PreLoadData {
             }
         }
         
-        if !isDefaultUpdated {
-            let launchOptions = SDKManager.shared.launchOptions!
-            let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)!
+        if !isDefaultUpdated, let launchOptions = sdkManager.launchOptions, let userProfile = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
             
             let newDeliveryAddress: DeliveryAddress = DeliveryAddress.createDeliveryAddressObject(DatabaseHelper.sharedInstance.mainManagedObjectContext)
             newDeliveryAddress.locationName = ""
