@@ -227,24 +227,27 @@ class SplashAnimationViewController: UIViewController {
                 // this method is only for smile sdk. if you thing you need to remove png and add lottie here please make sure to remove this method and update the fetching process accordinly
 //                self.forLogoAnimatorStartFetchProcess()
                 
-                self.logoAnimator.startAnimate { [weak self] (isCompleted) in
+                
+                LottieAniamtionViewUtil.showAnimation(onView:  self.splashLottieLogoAnimator,
+                                                      contentMode: .scaleToFill,
+                                                      withJsonFileName: self.getLottieFileName(),
+                                                      removeFromSuper: false,
+                                                      loopMode: .playOnce) {[weak self] isloaded in
+                    guard let self = self else { return }
                     completion?()
                     
-                    if isCompleted {
-//                        if HomePageData.shared.fetchOrder.count == 0 && self?.locationFetching == false {
-//                            self?.animationCompletedSetRootVc()
-//
+                    if isloaded {
+                        self.activityIndicator.isHidden = false
+                        self.activityIndicator.startAnimating()
+                        
+//                        DispatchQueue.main.asyncAfter(deadline: .now()) { [weak self] in
+//                            self?.logoAnimator.image = UIImage(name: "ElgrocerLogoAnimation-87")
 //                        }
-//                        self?.isAnimationCompleted = true
-                        
-                        self?.activityIndicator.isHidden = false
-                        self?.activityIndicator.startAnimating()
-                        
-                        DispatchQueue.main.asyncAfter(deadline: .now()) { [weak self] in
-                            self?.logoAnimator.image = UIImage(name: "ElgrocerLogoAnimation-87")
-                        }
                     }
                 }
+                
+                
+    
             }
             
             

@@ -2404,3 +2404,15 @@ Oreo";
 "lbl_greeting_good_afternoon_shopper" = "Good Afternoon";
 "lbl_greeting_good_evening_shopper" = "Good Evening";
 "smiles_entered_amount_more_than_available_error" = "Please enter an amount equal to or lower than the Smiles points.";
+//MARK: Store page 2.0
+"btn_view_all_categories" = "VIEW ALL CATEGORIES";
+"btn_hide_all_categories" = "HIDE ALL CATEGORIES";
+"lbl_location_change_tool_tip_msg" = "Looks like you're too far away.";
+"btn_filter_title" = "Filters";
+"title_deals" = "Deals";
+"title_discounted_products" = "Discounted products";
+"title_btn_apply" = "Apply";
+"title_btn_reset" = "Reset";
+"title_all_subCat" = "All";
+"btn_try_again_no_data" = "Try Again";
+"title_something_went_wrong" = "Oops! Something went wrong.\nPlease try again";

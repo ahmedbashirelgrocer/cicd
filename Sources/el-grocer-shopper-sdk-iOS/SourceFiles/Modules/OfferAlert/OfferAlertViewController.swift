@@ -95,7 +95,9 @@ class OfferAlertViewController: UIViewController {
             if self.isSmilemarket {
                // ElGrocerUtility
                 launchOptions?.marketType = .marketPlace
-                ElGrocer.start(with: launchOptions)
+                sdkManager.rootViewController?.dismiss(animated: false, completion: {
+                    ElGrocer.start(with: launchOptions)
+                })
            } else {
                 if DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) != nil {
                     launchOptions?.marketType = .grocerySingleStore
@@ -106,10 +108,9 @@ class OfferAlertViewController: UIViewController {
                     } completion: { isCompleted, grocery in
                         SpinnerView.hideSpinnerView()
                         ElGrocerUtility.sharedInstance.activeGrocery = grocery
-                        if let tab = sdkManager.currentTabBar {
-                            ElGrocerUtility.sharedInstance.resetTabbar(tab)
-                            tab.selectedIndex = 1
-                        }
+                        sdkManager.rootViewController?.dismiss(animated: false, completion: {
+                            ElGrocer.start(with: launchOptions)
+                        })
                     }
                 }
             }

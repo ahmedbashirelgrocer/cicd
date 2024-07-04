@@ -75,4 +75,9 @@ class SubCategory: NSObject {
         self.subCategoryName = name
         self.subCategoryNameEn = name
     }
+    
+    static func == (lhs: SubCategory, rhs: SubCategory) -> Bool {
+        return lhs.subCategoryId == rhs.subCategoryId
+    }
+    
 }

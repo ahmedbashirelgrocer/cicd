@@ -30,13 +30,7 @@ class MarketingCustomLandingPageViewController: UIViewController {
         locationHeader?.backButton.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         return locationHeader!
     }()
-    
-    lazy var locationHeaderFlavor : ElgrocerStoreHeader = {
-    let locationHeader = ElgrocerStoreHeader.loadFromNib()
-        locationHeader?.setDismisType(.dismisVC)
-    locationHeader?.translatesAutoresizingMaskIntoConstraints = false
-    return locationHeader!
-    }()
+
     private var cachedPosition = Dictionary<IndexPath,CGPoint>()
          var superSectionHeader: SubCateSegmentTableViewHeader!
     var recipeHederHeight: CGFloat = 0.1
@@ -199,7 +193,6 @@ class MarketingCustomLandingPageViewController: UIViewController {
             self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             self.emptyView.configureNoActiveCampaign()
             self.tableView.backgroundView = self.emptyView
-            self.locationHeaderFlavor.isHidden = true
             self.locationHeader.isHidden = true
             self.locationHeaderShopper.isHidden = true
             view.backgroundColor = AppSetting.theme.tableViewBGGreyColor

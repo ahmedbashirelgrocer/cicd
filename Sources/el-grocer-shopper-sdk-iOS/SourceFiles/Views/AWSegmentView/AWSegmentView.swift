@@ -38,6 +38,7 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
     
     weak var segmentDelegate:AWSegmentViewProtocol?
     var segmentViewType : segmentViewType = .editLocation
+    var zeroIndexCellWidth: CGFloat = 100
    
     // MARK: Life cycle
     class func initSegmentView(_ frame: CGRect) -> AWSegmentView {
@@ -79,6 +80,7 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
         
         let segmentCellNib = UINib(nibName: "AWSegmentViewCell", bundle: Bundle.resource)
         self.register(segmentCellNib, forCellWithReuseIdentifier: kSegmentViewCellIdentifier)
+        self.register(UINib(nibName: "ImageLabelSegmentedViewCell", bundle: Bundle.resource), forCellWithReuseIdentifier: "ImageLabelSegmentedViewCell")
     }
     
     func refreshWith(dataA : [String]) {
@@ -106,7 +108,14 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            return configureCellForProduct(indexPath)
+        if subCategories.isNotEmpty {
+            let cell = dequeueReusableCell(withReuseIdentifier: "ImageLabelSegmentedViewCell", for: indexPath) as! ImageLabelSegmentedViewCell
+            let subCategory = self.subCategories[indexPath.row]
+            cell.configure(imageUrl: subCategory.subCategoryImageUrl, title: subCategory.subCategoryName, isSelected: indexPath == self.lastSelection)
+            return cell
+        }
+            
+        return configureCellForProduct(indexPath)
     }
     
     func configureCellForProduct(_ indexPath:IndexPath) -> AWSegmentViewCell {
@@ -135,11 +144,15 @@ class AWSegmentView: UICollectionView, UICollectionViewDataSource, UICollectionV
 
         }else{
             if indexPath.item == 0{
-                cellWidth = 100
+                cellWidth = zeroIndexCellWidth
             }
 //            if cellWidth < 100 {
 //                cellWidth = 100
 //            }
+        }
+        
+        if subCategories.count > indexPath.row {
+            if subCategories[indexPath.row].subCategoryImageUrl.isNotEmpty { cellWidth += 28 }
         }
 
         var cellSize = CGSize(width: cellWidth + 30, height: SegmentViewCellHeight + cellTopBottomPadding)

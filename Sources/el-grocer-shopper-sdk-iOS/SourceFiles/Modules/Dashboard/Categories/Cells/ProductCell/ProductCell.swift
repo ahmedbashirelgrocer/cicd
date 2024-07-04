@@ -1103,6 +1103,10 @@ class ProductCell : RxUICollectionViewCell {
                 guard let self = self else {
                     return
                 }
+                if error != nil {
+                    self.productImageView.image = productPlaceholderPhoto
+                    return
+                }
                 if cacheType == SDImageCacheType.none {
                     UIView.transition(with: self.productImageView , duration: 0.2, options:  [.transitionCrossDissolve], animations: {
                         self.productImageView.image = image
@@ -1367,6 +1371,10 @@ private extension ProductCell {
             
             self.productImageView.sd_setImage(with: imageUrl, placeholderImage: self.placeholderPhoto, options: SDWebImageOptions(rawValue: 1), completed: {[weak self] (image, error, cacheType, imageURL) in
                 guard let self = self else {
+                    return
+                }
+                if error != nil {
+                    self.productImageView.image = productPlaceholderPhoto
                     return
                 }
                 if cacheType == SDImageCacheType.none {

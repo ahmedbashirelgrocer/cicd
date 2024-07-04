@@ -124,4 +124,28 @@ class DeliverySlotManager {
         return groceryNextDeliveryString
     }
     
+    
+    
+    //MARK: Store page header
+    /// for store main page header and handles string using DTO model
+    class func getSlotFormattedStrForStorPageHeader(slot : DeliverySlotDTO) -> String {
+        // Delivery within 60 min ⚡️
+        guard let startDate = slot.startTime?.toDate(), let endDate =  slot.endTime?.toDate() else { return "" }
+    
+        var orderTypeDescription = (  startDate.formatDateForDeliveryHAFormateString() + "-" + (endDate.formatDateForDeliveryHAFormateString()))
+        
+        if slot.isInstant {
+            return  (localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "") + "⚡️")
+        }else if  slot.isToday {
+            let name = localizedString("today_title", comment: "")
+            orderTypeDescription = String(format: "%@ %@", name ,orderTypeDescription)
+        }else if slot.isTomorrow {
+            let name = localizedString("tomorrow_title", comment: "")
+            orderTypeDescription = String(format: "%@ %@", name,orderTypeDescription)
+        }else{
+            orderTypeDescription = (startDate.getDayName() ?? "") + " " + orderTypeDescription
+        }
+        return (orderTypeDescription)
+        
+    }
 }

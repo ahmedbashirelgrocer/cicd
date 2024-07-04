@@ -791,60 +791,65 @@ class SmileSdkHomeVC: BasketBasicViewController {
         }
         self.makeActiveTopGroceryOfArray()
             //let currentSelf = self;
-        DispatchQueue.main.async {
-                // if let SDKManager: SDKManagerType! = sdkManager {
-            if let navtabbar = sdkManager.rootViewController as? UINavigationController  {
-                
-                if !(sdkManager.rootViewController is ElgrocerGenericUIParentNavViewController) {
-                    if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
-                        ElGrocerUtility.sharedInstance.activeGrocery = grocery
-                        if ElGrocerUtility.sharedInstance.groceries.count == 0 {
-                            ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
-                        }
-                        if ((tabbar.viewControllers?[1] as? UINavigationController) != nil) {
-                            let nav = tabbar.viewControllers?[1] as! UINavigationController
-                            nav.popToRootViewController(animated: false)
-                        }
-                        if ((tabbar.viewControllers?[2] as? UINavigationController) != nil) {
-                            let nav = tabbar.viewControllers?[2] as! UINavigationController
-                            nav.popToRootViewController(animated: false)
-                        }
-                        if ((tabbar.viewControllers?[3] as? UINavigationController) != nil) {
-                            let nav = tabbar.viewControllers?[3] as! UINavigationController
-                            nav.popToRootViewController(animated: false)
-                        }
-                        if ((tabbar.viewControllers?[4] as? UINavigationController) != nil) {
-                            let nav = tabbar.viewControllers?[4] as! UINavigationController
-                            nav.popToRootViewController(animated: false)
-                        }
-                        tabbar.selectedIndex = 1
-                        
-                        if  let navMain  = tabbar.viewControllers?[tabbar.selectedIndex] as? UINavigationController  {
-                            if navMain.viewControllers.count > 0 {
-                                if let mainVc =   navMain.viewControllers[0] as? MainCategoriesViewController {
-                                    self.delegate = mainVc as? any ShowExclusiveDealsInstructionsDelegate
-                                    mainVc.grocery = nil
-                                    if promo != nil {
-                                        mainVc.shouldShowPromoPopUp = true
-                                        mainVc.exclusivePromotionDeal = promo
-                                    }
-                                    
-                                    ElGrocerUtility.sharedInstance.activeGrocery = grocery
-                                    if ElGrocerUtility.sharedInstance.groceries.count == 0 {
-                                        ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
-                                    }
-                                    return
-                                }
-                            }
-                        }
-                    }
-                }
-            }else{
-                    // elDebugPrint(self.grocerA[12312321])
-                FireBaseEventsLogger.trackCustomEvent(eventType: "Error", action: "generic grocery controller found failed.Force crash \(SDKManager.shared.rootViewController))")
-            }
-                //}
-        }
+        
+        ElGrocerUtility.sharedInstance.activeGrocery = grocery
+        let storeVC = StoreMainPageViewController.make(presenter: StoreMainPageViewControllerPresenter(grocery: grocery))
+        self.present(storeVC, animated: true)
+        
+//        DispatchQueue.main.async {
+//                // if let SDKManager: SDKManagerType! = sdkManager {
+//            if let navtabbar = sdkManager.rootViewController as? UINavigationController  {
+//                
+//                if !(sdkManager.rootViewController is ElgrocerGenericUIParentNavViewController) {
+//                    if let tabbar = navtabbar.viewControllers[0] as? UITabBarController {
+//                        ElGrocerUtility.sharedInstance.activeGrocery = grocery
+//                        if ElGrocerUtility.sharedInstance.groceries.count == 0 {
+//                            ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
+//                        }
+//                        if ((tabbar.viewControllers?[1] as? UINavigationController) != nil) {
+//                            let nav = tabbar.viewControllers?[1] as! UINavigationController
+//                            nav.popToRootViewController(animated: false)
+//                        }
+//                        if ((tabbar.viewControllers?[2] as? UINavigationController) != nil) {
+//                            let nav = tabbar.viewControllers?[2] as! UINavigationController
+//                            nav.popToRootViewController(animated: false)
+//                        }
+//                        if ((tabbar.viewControllers?[3] as? UINavigationController) != nil) {
+//                            let nav = tabbar.viewControllers?[3] as! UINavigationController
+//                            nav.popToRootViewController(animated: false)
+//                        }
+//                        if ((tabbar.viewControllers?[4] as? UINavigationController) != nil) {
+//                            let nav = tabbar.viewControllers?[4] as! UINavigationController
+//                            nav.popToRootViewController(animated: false)
+//                        }
+//                        tabbar.selectedIndex = 1
+//                        
+//                        if  let navMain  = tabbar.viewControllers?[tabbar.selectedIndex] as? UINavigationController  {
+//                            if navMain.viewControllers.count > 0 {
+//                                if let mainVc =   navMain.viewControllers[0] as? MainCategoriesViewController {
+//                                    self.delegate = mainVc as? any ShowExclusiveDealsInstructionsDelegate
+//                                    mainVc.grocery = nil
+//                                    if promo != nil {
+//                                        mainVc.shouldShowPromoPopUp = true
+//                                        mainVc.exclusivePromotionDeal = promo
+//                                    }
+//                                    
+//                                    ElGrocerUtility.sharedInstance.activeGrocery = grocery
+//                                    if ElGrocerUtility.sharedInstance.groceries.count == 0 {
+//                                        ElGrocerUtility.sharedInstance.groceries = self.homeDataHandler.groceryA ?? []
+//                                    }
+//                                    return
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }else{
+//                    // elDebugPrint(self.grocerA[12312321])
+//                FireBaseEventsLogger.trackCustomEvent(eventType: "Error", action: "generic grocery controller found failed.Force crash \(SDKManager.shared.rootViewController))")
+//            }
+//                //}
+//        }
     }
     
     func makeActiveTopGroceryOfArray() {
@@ -1434,6 +1439,7 @@ extension SmileSdkHomeVC: AWSegmentViewProtocol {
         if selectedType.storeTypeid == kExclusiveDealsStoreTypeId {
             if self.groceryArray.count > 0 {
                 self.homeDataHandler.getExclusiveDealsData()
+                self.homeDataHandler.getLimitedTimeSavingsData()
             }
         }
         filterExclusivePromo()
@@ -1601,7 +1607,7 @@ extension SmileSdkHomeVC {
                 if self.lastSelectType?.storeTypeid ?? 0 == kExclusiveDealsStoreTypeId {
                     exclusiveDealsSection = self.exclusiveDealsPromoList.count > 0 ? 1 : 0
                     limitedTimeSavingsSection = self.limitedTimeSavingsCardList.count > 0 ? 1 : 0
-                    return 1 + (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection + limitedTimeSavingsSection
+                    return (configs.isHomeTier1 ? 1 : 0) + exclusiveDealsSection + limitedTimeSavingsSection
                 }
                 else{
                     return 1 + (configs.isHomeTier1 ? 1 : 0) 

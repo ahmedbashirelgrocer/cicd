@@ -9,51 +9,29 @@ import UIKit
 import SDWebImage
 
 class AWCategoriesSegmentedImageViewCell: UICollectionViewCell {
-
-    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var lblTitle: UILabel!
+    @IBOutlet weak var selectedIndicator: UIView!
     
     override var isSelected: Bool {
         didSet {
-            self.lblTitle.textColor = self.isSelected
-                ? ApplicationTheme.currentTheme.themeBasePrimaryColor
-                : UIColor.newBlackColor()
+            lblTitle.textColor = isSelected ? ApplicationTheme.currentTheme.themeBasePrimaryColor : UIColor.newBlackColor()
+            selectedIndicator.isHidden = isSelected == false
         }
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.lblTitle.setCaptionTwoSemiboldDarkStyle()
-        self.lblTitle.backgroundColor = .clear
-        self.contentView.backgroundColor = .clear
-        self.backgroundColor = .clear
+        selectedIndicator.backgroundColor = ApplicationTheme.currentTheme.themeBasePrimaryColor
+        lblTitle.setCaptionTwoSemiboldDarkStyle()
+        lblTitle.backgroundColor = .clear
+        contentView.backgroundColor = .clear
+        backgroundColor = .clear
         
-        self.imageView.sd_imageIndicator = SDWebImageActivityIndicator()
-        
-        self.imageView.backgroundColor = .clear
-        self.imageView.layer.cornerRadius = 8
-        self.imageView.clipsToBounds = true
+        selectedIndicator.isHidden = true
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        self.selectedBackgroundView?.frame = imageView.frame
-    }
-    
-    func configure(imageURL: String, text: String, isSelected: Bool) {
-        self.imageView.sd_setImage(with: URL(string: imageURL))
-        self.lblTitle.text = text
-        self.lblTitle.textColor = isSelected
-        ? ApplicationTheme.currentTheme.themeBasePrimaryColor
-        : UIColor.newBlackColor()
-        if isSelected {
-            self.contentView.layer.cornerRadius = 8
-            self.contentView.layer.borderWidth = 2
-            self.contentView.layer.borderColor = ApplicationTheme.currentTheme.themeBasePrimaryColor.cgColor
-        }else {
-            self.contentView.layer.borderWidth = 0
-        }
+    func configure(title: String, imageURL: String?) {
+        lblTitle.text = title
     }
 }

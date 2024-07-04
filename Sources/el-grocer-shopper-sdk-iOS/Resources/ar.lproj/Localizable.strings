@@ -2470,3 +2470,14 @@
 "lbl_greeting_good_afternoon_shopper" = "مساء الخير";
 "lbl_greeting_good_evening_shopper" = "مساء الخير";
 "smiles_entered_amount_more_than_available_error" = "يرجى إدخال مبلغ يساوي أو يقل عن نقاط Smiles.";
+//MARK: Store page 2.0
+"btn_view_all_categories" = "عرض جميع فئات المتاجر";
+"btn_hide_all_categories" = "إخفاء كل الفئات";
+"btn_filter_title" = "التصفية";
+"title_deals" = "الصفقات";
+"title_discounted_products" = "المنتجات المخفضة";
+"title_btn_apply" = "تطبيق";
+"title_btn_reset" = "إعادة التعيين";
+"title_all_subCat" = "الكل";
+"btn_try_again_no_data" = "المحاولة مرة أخري";
+"title_something_went_wrong" = "عذرًا! حدث خطأ ما. يرجى المحاولة مرة أخرى.";

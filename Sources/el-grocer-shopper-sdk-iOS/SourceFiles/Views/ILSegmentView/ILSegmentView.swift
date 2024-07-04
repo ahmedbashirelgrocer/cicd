@@ -50,39 +50,17 @@ class ILSegmentView: UICollectionView {
         
     }
     
-    private func commonInit() {
-        if self.isCategories {
-            self.collectionViewLayout = {
-                let layout = UICollectionViewFlowLayout()
-                layout.scrollDirection = scrollDirection
-                layout.itemSize = CGSize(width: 72, height: 106)
-                layout.minimumInteritemSpacing = 16
-                layout.minimumLineSpacing = 16
-                let edgeInset:CGFloat =  16
-                layout.sectionInset = UIEdgeInsets(top: edgeInset / 2, left: 0, bottom: 0, right: 0)
-                return layout
-            }()
-        } else {
-            self.collectionViewLayout = {
-                let layout = UICollectionViewFlowLayout()
-                layout.scrollDirection = scrollDirection
-                layout.itemSize = CGSize(width: 88, height: 88 )
-                layout.minimumInteritemSpacing = 0
-                layout.minimumLineSpacing = 0
-                let edgeInset:CGFloat =  16
-                layout.sectionInset = UIEdgeInsets(top: edgeInset , left: edgeInset/2, bottom: 0, right: edgeInset)
-                return layout
-            }()
-        }
-        
+    func commonInit() {
         self.backgroundColor = .clear
         self.showsVerticalScrollIndicator = false
         self.showsHorizontalScrollIndicator = false
         self.allowsSelection = true
         self.allowsMultipleSelection = false
-        self.semanticContentAttribute = ElGrocerUtility.sharedInstance.isArabicSelected() ? .forceRightToLeft : .forceLeftToRight
         self.translatesAutoresizingMaskIntoConstraints = false
         
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = scrollDirection
+        self.collectionViewLayout = layout
         self.register(UINib(nibName: "AWSegementImageViewcell", bundle: Bundle.resource), forCellWithReuseIdentifier: kSegmentImageViewCellIdentifier)
         self.register(UINib(nibName: kCategoriesSegmentedImageViewCell, bundle: Bundle.resource), forCellWithReuseIdentifier: kCategoriesSegmentedImageViewCell)
         
@@ -91,6 +69,8 @@ class ILSegmentView: UICollectionView {
         
 //        self.addBottomBorder()
         addBorder(vBorder: .Bottom, color: .red, width: 5)
+        self.semanticContentAttribute = ElGrocerUtility.sharedInstance.isArabicSelected() ? .forceRightToLeft : .forceLeftToRight
+        self.reloadData()
     }
     
     func addBorder(vBorder: viewBorder, color: UIColor, width: CGFloat) {
@@ -141,6 +121,8 @@ class ILSegmentView: UICollectionView {
     }
     
     func refreshWith(_ categories : [CategoryDTO]) {
+        addBorder(vBorder: .Bottom, color: .red, width: 5)
+        
         self.categories = categories
         self.reloadData()
     }
@@ -174,7 +156,7 @@ extension ILSegmentView: UICollectionViewDataSource, UICollectionViewDelegate {
             let cell = self.dequeueReusableCell(withReuseIdentifier: kCategoriesSegmentedImageViewCell, for: indexPath) as! AWCategoriesSegmentedImageViewCell
             
             let category = self.categories[indexPath.row]
-            cell.configure(imageURL: category.coloredImageUrl ?? "", text: category.name ?? "", isSelected: indexPath.row == selectedItemIndex)
+            cell.configure(title: category.name ?? "", imageURL: category.coloredImageUrl)
             
             return cell
         }
@@ -191,10 +173,31 @@ extension ILSegmentView: UICollectionViewDataSource, UICollectionViewDelegate {
     
 }
 
+extension ILSegmentView: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if self.isCategories == false {
+            return CGSize(width: 88, height: 88)
+        }
+        
+        let width = self.categories[indexPath.row].name?.widthOfString(usingFont: UIFont.SFProDisplaySemiBoldFont(12)) ?? 0
+        return CGSize(width: width + 8, height: 30)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return self.isCategories ? UIEdgeInsets(top: 0 , left: 4 , bottom: 0 , right: 4) : UIEdgeInsets(top: 16 , left: 8, bottom: 0, right: 16)
+    }
+}
+
 // MARK: Rx Extension
 extension Reactive where Base: ILSegmentView {
     var categories: Binder<[CategoryDTO]> {
         return Binder(self.base) { segmentedView, categories in
+            segmentedView.semanticContentAttribute = ElGrocerUtility.sharedInstance.isArabicSelected() ? .forceRightToLeft: .forceLeftToRight
+            
             segmentedView.categories = categories
             segmentedView.refreshWith(categories)
         }
@@ -205,7 +208,8 @@ extension Reactive where Base: ILSegmentView {
             DispatchQueue.main.async {
                 if let category = category {
                     let index = segmentedView.categories.firstIndex(where: { $0.id == category.id }) ?? 0
-                    segmentedView.selectedItemIndex = index
+                    let position: UICollectionView.ScrollPosition = segmentedView.scrollDirection == .horizontal ? .centeredHorizontally : .centeredVertically
+                    segmentedView.selectItem(at: IndexPath(row: index, section: 0), animated: true, scrollPosition: position)
                 }
             }
         }

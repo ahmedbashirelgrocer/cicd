@@ -25,6 +25,8 @@ struct BannerDTO: Codable {
     let customScreenId: Int? 
     var resolvedBidId: String?
     var isStoryly: Bool?
+    var standardSizeBannerUrl: String?
+    var standardSizeBannerArUrl: String?
     
     
     enum CodingKeys: String, CodingKey {
@@ -38,6 +40,8 @@ struct BannerDTO: Codable {
         case locations
         case storeTypes = "store_types"
         case retailerGroups = "retailer_groups"
+        case standardSizeBannerUrl = "standard_size_banner_url"
+        case standardSizeBannerArUrl = "standard_size_banner_ar_url"
     }
     
 }

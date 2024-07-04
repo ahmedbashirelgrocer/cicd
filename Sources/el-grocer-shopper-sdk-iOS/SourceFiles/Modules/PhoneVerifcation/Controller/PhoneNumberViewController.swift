@@ -167,9 +167,3 @@ public final class PhoneNumberViewController: UIViewController, CountriesViewCon
         doneBarButtonItem.isEnabled = validCountry && validPhoneNumber
     }
 }
-
-private extension String {
-    var length: Int {
-        return utf16.count
-    }
-}

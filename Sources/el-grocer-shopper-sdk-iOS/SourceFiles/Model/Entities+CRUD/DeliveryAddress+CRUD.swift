@@ -69,7 +69,7 @@ extension DeliveryAddress {
         var results = [DeliveryAddress]()
         var jsonLocationsIds = [String]()
         
-        let addressesArray = (dictionary["data"] as! NSDictionary)["addresses"] as! [NSDictionary]
+        let addressesArray = (dictionary["data"] as! NSDictionary)["addresses"] as? [NSDictionary] ?? []
         for adressDict in addressesArray {
             
             let location = DeliveryAddress.insertOrUpdateDeliveryAddressForUser(userProfile, fromDictionary: adressDict, context: context)
@@ -107,7 +107,7 @@ extension DeliveryAddress {
         var results = [DeliveryAddress]()
         var jsonLocationsIds = [String]()
         
-        let addressesArray = (dictionary["data"] as! NSDictionary)["addresses"] as! [NSDictionary]
+        let addressesArray = (dictionary["data"] as! NSDictionary)["addresses"] as? [NSDictionary] ?? []
         var isActiveAvailableInJson = false
         for adressDict in addressesArray {
             let location = DeliveryAddress.insertOrUpdateDeliveryAddressForUser(userProfile, fromDictionary: adressDict, context: context)

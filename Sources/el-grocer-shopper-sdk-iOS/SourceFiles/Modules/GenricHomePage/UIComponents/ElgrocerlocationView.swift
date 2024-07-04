@@ -79,6 +79,7 @@ class ElgrocerlocationView:  UIView  {
             if SDKManager.shared.isSmileSDK {
                 self.lblSlot.textColor = ApplicationTheme.currentTheme.newBlackColor
             }
+            lblSlot.visibility = .goneY
         }
     }
     
@@ -113,6 +114,7 @@ class ElgrocerlocationView:  UIView  {
     @IBOutlet var imgDeliverySlot: UIImageView!{
         didSet{
             imgDeliverySlot.image = sdkManager.isSmileSDK ? UIImage(name: "ClockSecondaryBlack") :  UIImage(name: "clockWhite")
+            imgDeliverySlot.visibility = .goneY
         }
     }
     @IBOutlet var searchSuperBGView: UIView!{

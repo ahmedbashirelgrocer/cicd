@@ -1283,7 +1283,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
                     SegmentAnalyticsEngine.instance.logEvent(event: ExclusiveDealCopiedEvent(retailerId: grocery?.getCleanGroceryID() ?? "0", retailerName: grocery?.name ?? "", promoCode: promo?.code ?? "", source: .storeScreen))
                     
                     popupController.dismiss()
-                    UserDefaults.setExclusiveDealsPromo(promo: promo!)
+                    UserDefaults.setExclusiveDealsPromo(promo: promo!, grocery: grocery!)
                     DispatchQueue.main.async {
                         
                         
@@ -1924,16 +1924,16 @@ private extension MainCategoriesViewController {
                     MixpanelEventLogger.trackStoreProductsViewAll(categoryId: String(category.id), categoryName: category.name ?? "")
                     self.performSegue(withIdentifier: "CategoriesToSubCategories", sender: self)
                     
-                    let event = ProductCategoryClickedEvent(category: category.categoryDB, varient: ABTestManager.shared.storeConfigs.variant.rawValue)
-                    SegmentAnalyticsEngine.instance.logEvent(event: event)
+//                    let event = ProductCategoryClickedEvent(category: category.categoryDB, source: .storeScreen)
+//                    SegmentAnalyticsEngine.instance.logEvent(event: event)
                 } else {
-                    if let grocery = self.grocery {
-                        // removing shopping list and buy it again from categories
-                        let categories = self.viewModel.outputs.categories.filter { $0.id != -1 && $0.id != -2 }
-                        let vm = SubCategoryProductsViewModel(categories: categories, selectedCategory: category, grocery: grocery)
-                        let vc = SubCategoryProductsViewController.make(viewModel: vm)
-                        self.navigationController?.pushViewController(vc, animated: true)
-                    }
+//                    if let grocery = self.grocery {
+//                        // removing shopping list and buy it again from categories
+//                        let categories = self.viewModel.outputs.categories.filter { $0.id != -1 && $0.id != -2 }
+//                        let vm = SubCategoryProductsViewModel(categories: categories, selectedCategory: category, grocery: grocery)
+//                        let vc = SubCategoryProductsViewController.make(viewModel: vm)
+//                        self.navigationController?.pushViewController(vc, animated: true)
+//                    }
                 }
             }
         }).disposed(by: disposeBag)
@@ -2596,12 +2596,8 @@ extension MainCategoriesViewController: UIScrollViewDelegate {
         UIView.animate(withDuration: 0.2) {
             self.view.layoutIfNeeded()
             self.locationHeader.myGroceryImage.alpha = 1 - (scrollView.contentOffset.y)/30
-            let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
-            
-            self.navigationController?.navigationBar.topItem?.title = title
+            self.navigationController?.navigationBar.topItem?.title = scrollView.contentOffset.y > 40 ? self.groceryTitle : ""
             sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
-           
-            self.title = title
         }
    
     }

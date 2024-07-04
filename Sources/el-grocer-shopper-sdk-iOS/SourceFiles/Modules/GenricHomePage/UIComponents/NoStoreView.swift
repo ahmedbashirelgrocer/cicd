@@ -79,6 +79,17 @@ class NoStoreView: UIView {
         self.state = .defaultAction
     }
     
+    func configureSomethingWentWrong() {
+        
+        self.setUpApearence()
+        self.imgNoData.image =  UIImage(name: "noDataViewRefresh")
+        self.lblTopMsg.text = localizedString("title_something_went_wrong", comment: "")
+        self.lblExtraDetail.text = ""
+        self.btnNoData.setTitle(localizedString("btn_try_again_no_data", comment: ""), for: .normal)
+        self.btnNoData.isHidden = false
+        self.state = .defaultAction
+    }
+    
     func configureNoDefaultSelectedStore() {
         
         self.setUpApearence()
@@ -87,6 +98,15 @@ class NoStoreView: UIView {
         self.lblExtraDetail.text = sdkManager.isGrocerySingleStore ? "" : localizedString("No_Selected_Store_Detail", comment: "")
         self.btnNoData.setTitle(sdkManager.isGrocerySingleStore ? localizedString("btn_Go_Back", comment: "") :  localizedString("No_Choose_The_Store", comment: ""), for: .normal)
         self.btnNoData.isHidden = false
+        self.state = .defaultAction
+    }
+    
+    func configureNoDataForSubCategoriesProductListing() {
+        self.setUpApearence()
+        self.imgNoData.image =  UIImage(name: "")
+        self.lblTopMsg.text = localizedString("No products found", comment: "")
+        self.lblExtraDetail.text = localizedString("please try new filters or search by the product name", comment: "")
+        self.btnNoData.isHidden = true
         self.state = .defaultAction
     }
     

@@ -82,6 +82,43 @@ class ProductBrowser {
             }
     }
     
+    func searchProductListForStoreCategoryWithFilters(storeID: String,
+                                                      pageNumber: Int,
+                                                      categoryId: String,
+                                                      discountedProducts: Bool = false,
+                                                      deliveryTime: Int64? = nil,
+                                                      searchKeyword: String = "",
+                                                      _ hitsPerPage : Int = 20,
+                                                      _ subCategoryID : String = "",
+                                                      _ brandNames: [String],
+                                                      slots: Int,
+                                                      completion: @escaping ResponseBlock ) {
+        
+        AlgoliaApi.sharedInstance
+            .searchProductListForStoreCategoryWithFilters(storeID: storeID,
+                                                          pageNumber: pageNumber,
+                                                          categoryId: categoryId,
+                                                          discountedProducts: discountedProducts,
+                                                          deliveryTime: deliveryTime,
+                                                          searchKeyword: searchKeyword,
+                                                          hitsPerPage,
+                                                          subCategoryID,
+                                                          brandNames) { responseObject, error in
+                
+                if error == nil, let response = responseObject as? NSDictionary {
+                    DispatchQueue.main.async {
+                        let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
+                        self.fetchTopSortProducts(products.products, slots: slots) { productsOly in
+                            DispatchQueue.main.async{ completion((productsOly, products.algoliaCount), nil) }
+                        }
+                    }
+                } else {
+                    completion(nil, error)
+                }
+                
+            }
+    }
+    
     /// Browse products
     func searchOffersProductListForStoreCategory(storeID: String,
                                                  pageNumber: Int,

@@ -83,6 +83,12 @@ class HyperMarketGroceryTableCell: UITableViewCell {
         if imageUrl != nil && imageUrl.range(of: "http") != nil {
             
             self.imgGrocery.sd_setImage(with: URL(string: imageUrl), placeholderImage: productPlaceholderPhoto, options: SDWebImageOptions(rawValue: 0), completed: { (image, error, cacheType, imageURL) in
+                
+                if error != nil {
+                    self.imgGrocery.image = productPlaceholderPhoto
+                    return
+                }
+                
                 if cacheType == SDImageCacheType.none {
                     
                     UIView.transition(with: self.imgGrocery, duration: 0.33, options: UIView.AnimationOptions.transitionCrossDissolve, animations: { () -> Void in

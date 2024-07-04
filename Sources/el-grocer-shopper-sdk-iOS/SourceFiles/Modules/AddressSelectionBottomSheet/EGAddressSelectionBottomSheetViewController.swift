@@ -146,6 +146,7 @@ class EGAddressSelectionBottomSheetViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         self.tableView.isScrollEnabled = self.addressList.count > 2
+        self.tableView.reloadDataOnMain()
     }
     
     private func registerTableViewCell() {
@@ -289,7 +290,7 @@ extension EGAddressSelectionBottomSheetViewController : UITableViewDelegate, UIT
                 if isStoreChange {
                     self?.makeLocationToDefault(address)
                 }else {
-                    self?.crossAction("")
+//                    self?.crossAction("")
                 }
                 
                 if let locationSelectionHandler = self?.locationSelectionHandler {
@@ -525,6 +526,7 @@ extension EGAddressSelectionBottomSheetViewController {
                     }
                     completion(true)
                 } else {
+                    SpinnerView.hideSpinnerView()
                     FlavorNavigation.shared.navigateToNoLocation()
                     completion(false)
                 }

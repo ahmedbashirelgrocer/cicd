@@ -590,8 +590,7 @@ extension BrowseViewController: UIScrollViewDelegate {
             UIView.animate(withDuration: 0.2) {
                 self.view.layoutIfNeeded()
                 self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
-                let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
-                self.navigationController?.navigationBar.topItem?.title = title
+                self.navigationController?.navigationBar.topItem?.title = scrollView.contentOffset.y > 40 ? self.groceryTitle : ""
                 sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
             }
         }

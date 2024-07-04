@@ -2098,11 +2098,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     }
                     
                     cell.addProductHandler = { [weak self] in
-                        guard let self = self else { return }
+                        guard let self = self, let grocery = self.grocery else { return }
                         
-                        let storeVC = ElGrocerViewControllers.mainCategoriesViewController()
-                        storeVC.isFromEditOrder = true
-                        self.navigationController?.pushViewController(storeVC, animated: true)
+                        let presenter = StoreMainPageViewControllerPresenter(grocery: grocery)
+                        let storeVC = StoreMainPageViewController.make(presenter: presenter)
+                        self.present(storeVC, animated: true)
                     }
                     
                     return cell
@@ -2179,11 +2179,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                     }
                     
                     cell.addProductHandler = { [weak self] in
-                        guard let self = self else { return }
+                        guard let self = self, let grocery = self.grocery else { return }
                         
-                        let storeVC = ElGrocerViewControllers.mainCategoriesViewController()
-                        storeVC.isFromEditOrder = true
-                        self.navigationController?.pushViewController(storeVC, animated: true)
+                        let presenter = StoreMainPageViewControllerPresenter(grocery: grocery)
+                        let storeVC = StoreMainPageViewController.make(presenter: presenter)
+                        self.present(storeVC, animated: true)
                     }
                     return cell
                     // Disabling progress view cell in favour of new design
@@ -4302,6 +4302,7 @@ extension MyBasketViewController {
         if let deliveryAddress = deliveryAddress {
             let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)
             let vm = SecondaryViewModel(address: deliveryAddress, grocery: self.grocery!, slotId: slotId,orderId: orderID,shopingItems: self.shoppingItems, finalisedProducts: self.products, selectedPreferenceId: self.myBasketDataObj.getSelectedReason()?.reasonKey.intValue ?? 1, deliverySlot: slot, deliverySlots: self.deliverySlotsDTOs)
+            
             vm.setEditOrderInitialDetail(orderForEdit)
             vm.callSetCartBalanceAccountCacheApi()
             vm.setUserId(userId: user?.dbID)

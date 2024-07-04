@@ -11,7 +11,7 @@ struct BannerClickedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(banner: BannerCampaign, position: Int, _ source: CartUpdatedEventSource = .viewScreenName, location: String = "0") {
+    init(banner: BannerCampaign, position: Int,groceryId: String = "", groceryName: String = "", _ source: CartUpdatedEventSource = .viewScreenName, location: String = "0") {
         self.eventType = .track(eventName: AnalyticsEventName.bannerClicked)
         
         self.metaData = [

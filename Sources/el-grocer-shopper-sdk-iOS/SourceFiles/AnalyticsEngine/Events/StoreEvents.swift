@@ -116,12 +116,16 @@ struct ProductCategoryClickedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(category: Category?, varient: String) {
+    init(category: CategoryDTO?,isCustomCategory: Bool = false, source: ScreenName, grocery: Grocery) {
         self.eventType = .track(eventName: AnalyticsEventName.productCategoryClicked)
         self.metaData = [
-            EventParameterKeys.categoryID: category?.dbID.stringValue ?? "",
-            EventParameterKeys.categoryName: category?.nameEn ?? "",
-            EventParameterKeys.variant: varient,
+            EventParameterKeys.categoryID: String(category?.id ?? 0),
+            EventParameterKeys.categoryName: category?.slug ?? "",
+            EventParameterKeys.isCustomCategory: isCustomCategory,
+            EventParameterKeys.retailerID: grocery.getCleanGroceryID(),
+            EventParameterKeys.retailerName: grocery.name ?? "",
+            EventParameterKeys.retailerGroupId: grocery.groupId.stringValue,
+            EventParameterKeys.source: source.rawValue
         ]
     }
 }
@@ -130,11 +134,14 @@ struct ProductSubCategoryClickedEvent: AnalyticsEventDataType {
     var eventType: AnalyticsEventType
     var metaData: [String : Any]?
     
-    init(subCategory: SubCategory?) {
+    init(subCategory: SubCategory?, grocery: Grocery) {
         self.eventType = .track(eventName: AnalyticsEventName.productSubCategoryClicked)
         self.metaData = [
             EventParameterKeys.subcategoryID: subCategory?.subCategoryId.stringValue ?? "",
             EventParameterKeys.subcategoryName: subCategory?.subCategoryNameEn ?? "",
+            EventParameterKeys.retailerID: grocery.getCleanGroceryID(),
+            EventParameterKeys.retailerName: grocery.name ?? ""
+            
         ]
     }
 }
@@ -147,8 +154,99 @@ struct StoreCategoryClickedEvent: AnalyticsEventDataType {
         self.eventType = .track(eventName: AnalyticsEventName.storeCategoryClicked)
         self.metaData = [
             EventParameterKeys.categoryID: String(storeType.storeTypeid),
-            EventParameterKeys.categoryName: storeType.name,
+            EventParameterKeys.categoryName: storeType.name ?? "",
             EventParameterKeys.source: screenName
+        ]
+    }
+}
+
+struct StoreBuyItAgainViewAllClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(grocery: Grocery, source: ScreenName) {
+        self.eventType = .track(eventName: AnalyticsEventName.buyItAgainViewAll)
+        self.metaData = [
+            EventParameterKeys.retailerID: grocery.getCleanGroceryID(),
+            EventParameterKeys.retailerName: grocery.name ?? "",
+            EventParameterKeys.source: source.rawValue
+        ]
+    }
+}
+
+struct ShoppingListClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(grocery: Grocery) {
+        self.eventType = .track(eventName: AnalyticsEventName.shoppingListClicked)
+        self.metaData = [
+            EventParameterKeys.retailerID: grocery.getCleanGroceryID(),
+            EventParameterKeys.retailerName: grocery.name ?? "",
+            EventParameterKeys.retailerGroupId: grocery.groupId
+        ]
+    }
+}
+
+struct SlotSelectedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(grocery: Grocery, slot: DeliverySlotDTO, source: ScreenName) {
+        self.eventType = .track(eventName: AnalyticsEventName.deliverySlotSelected)
+        self.metaData = [
+            EventParameterKeys.retailerID: grocery.getCleanGroceryID(),
+            EventParameterKeys.retailerName: grocery.name ?? "",
+            EventParameterKeys.id: String(slot.id),
+            EventParameterKeys.slotUsid: String(slot.usid ?? 0),
+            EventParameterKeys.source: source.rawValue
+        ]
+    }
+}
+
+struct StoreCustomCampaignClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(grocery: Grocery, campaignId: String) {
+        self.eventType = .track(eventName: AnalyticsEventName.storeCustomCampaignClicked)
+        self.metaData = [
+            EventParameterKeys.retailerID: grocery.getCleanGroceryID(),
+            EventParameterKeys.retailerName: grocery.name ?? "",
+            EventParameterKeys.retailerGroupId: grocery.groupId,
+            EventParameterKeys.campaignId: campaignId
+        ]
+    }
+}
+
+struct StoreFilterButtonClickedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(grocery: Grocery, category: CategoryDTO, subcategory: SubCategory?) {
+        self.eventType = .track(eventName: AnalyticsEventName.storeFilterButtonClicked)
+        self.metaData = [
+            EventParameterKeys.retailerID: grocery.getCleanGroceryID(),
+            EventParameterKeys.retailerName: grocery.name ?? "",
+            EventParameterKeys.categoryID: String(category.id),
+            EventParameterKeys.categoryName: category.slug ?? "",
+            EventParameterKeys.subcategoryID: (subcategory?.subCategoryId.stringValue ?? "0"),
+            EventParameterKeys.subcategoryName: (subcategory?.subCategoryNameEn ?? "All")
+        ]
+    }
+}
+
+struct StoreFilterAppliedEvent: AnalyticsEventDataType {
+    var eventType: AnalyticsEventType
+    var metaData: [String : Any]?
+    
+    init(searchQuery: String, isPromotionalSelected: Bool, grocery: Grocery) {
+        self.eventType = .track(eventName: AnalyticsEventName.storeFilterButtonClicked)
+        self.metaData = [
+            EventParameterKeys.retailerID: grocery.getCleanGroceryID(),
+            EventParameterKeys.retailerName: grocery.name ?? "",
+            EventParameterKeys.searchedQuery: searchQuery,
+            EventParameterKeys.isDiscountedProductSelected: isPromotionalSelected
         ]
     }
 }

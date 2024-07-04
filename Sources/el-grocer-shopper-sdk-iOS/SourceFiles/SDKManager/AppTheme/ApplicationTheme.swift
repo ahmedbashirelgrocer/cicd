@@ -66,6 +66,7 @@ public protocol Theme {
     var buttonPrimaryBlackTextWithClearBGColor: UIColor { get }
     var buttonOrderCancelTextColor: UIColor { get }
     var buttonWithBorderTextColor: UIColor { get }
+    var buttonShoppingListBGColor: UIColor { get }
     //MARK: Labels
     var labelHeadingTextColor: UIColor { get }
     var labeldiscriptionTextColor: UIColor { get }
@@ -191,6 +192,7 @@ struct ElgrocerTheme: Theme {
     var buttonPrimaryBlackTextWithClearBGColor: UIColor = ElgrocerBaseColors.elgrocerTextBlackColour
     var buttonOrderCancelTextColor: UIColor = ElgrocerBaseColors.elgrocerRedValidationColor
     var buttonWithBorderTextColor: UIColor = ElgrocerBaseColors.elgrocerGreenColour
+    var buttonShoppingListBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleShoppingListColor
     //MARK: Labels
     var labelHeadingTextColor: UIColor = ElgrocerBaseColors.elgrocerTextBlackColour
     var labeldiscriptionTextColor: UIColor = ElgrocerBaseColors.elgrocerSecondaryBlackTextColour
@@ -315,6 +317,7 @@ struct SmileSDKTheme: Theme {
     var buttonPrimaryBlackTextWithClearBGColor: UIColor = ElgrocerBaseColors.elgrocerTextBlackColour
     var buttonOrderCancelTextColor: UIColor = ElgrocerBaseColors.elgrocerRedValidationColor
     var buttonWithBorderTextColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleColour
+    var buttonShoppingListBGColor: UIColor = ElgrocerBaseColors.elgrocerSmilePurpleShoppingListColor
     //MARK: Labels
     var labelHeadingTextColor: UIColor = ElgrocerBaseColors.elgrocerTextBlackColour
     var labeldiscriptionTextColor: UIColor = ElgrocerBaseColors.elgrocerSecondaryBlackTextColour

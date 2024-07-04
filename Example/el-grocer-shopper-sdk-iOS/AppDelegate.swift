@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  el-grocer-shopper-sdk-iOS
 //  for xcode 15 support from 1.8.8
-//  SPM 1.0
+// from origin/Customer_V_Value/StorePage2.0/SPM-Master => handled slot selection on checkout if slot is changed on store page (done) Commit: 89d6024a0467fc0d086a4f25e9c19fb4e5531ca7
 
 /*
  

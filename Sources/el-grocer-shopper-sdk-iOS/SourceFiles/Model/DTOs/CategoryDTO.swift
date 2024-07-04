@@ -27,7 +27,7 @@ struct CategoryDTO: Codable {
     let isShowBrand: Bool?
     let message: String?
     let pg18: Bool? // ask backend for type of this
-    let photoUrl: String?
+    var photoUrl: String?
     let slug: String?
     let customPage: Int?
     

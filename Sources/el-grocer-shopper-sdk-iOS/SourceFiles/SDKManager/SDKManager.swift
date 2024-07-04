@@ -124,27 +124,34 @@ class SDKManager: NSObject, SDKManagerType  {
                 if let grocery = grocery {
                     HomePageData.shared.groceryA = [grocery]
                     ElGrocerUtility.sharedInstance.activeGrocery = grocery
-                }
-                let tabNav = self.getTabbarController(isNeedToShowChangeStoreByDefault: true, selectedGrocery: grocery, nil, true)
-                if let tabVC = tabNav.viewControllers[0] as? UITabBarController {
-                    tabVC.selectedIndex = 1
-                    if let nav = tabVC.viewControllers?[1] as? UINavigationController {
-                        nav.setViewControllers([nav.viewControllers[0]], animated: false)
-                        if let main = nav.viewControllers[0] as? MainCategoriesViewController {
-                            main.grocery = nil
-                        }
-                    }
-                    self.rootViewController = tabNav
-
-                    tabNav.modalPresentationStyle = .fullScreen
+                    
+                    let storeVC = StoreMainPageViewController.make(presenter: StoreMainPageViewControllerPresenter(grocery: grocery))
+                    self.rootViewController = storeVC
                     if let topVC = self.rootContext {
-//                        if self.rootContext?.presentedViewController is ElgorcerNoLocationViewController {
-//                            self.rootContext?.dismiss(animated: false)
-//                        }
-                        topVC.present(tabNav, animated: true)
-                        
+                        topVC.present(storeVC, animated: true)
                     }
                 }
+                
+//                let tabNav = self.getTabbarController(isNeedToShowChangeStoreByDefault: true, selectedGrocery: grocery, nil, true)
+//                if let tabVC = tabNav.viewControllers[0] as? UITabBarController {
+//                    tabVC.selectedIndex = 1
+//                    if let nav = tabVC.viewControllers?[1] as? UINavigationController {
+//                        nav.setViewControllers([nav.viewControllers[0]], animated: false)
+//                        if let main = nav.viewControllers[0] as? MainCategoriesViewController {
+//                            main.grocery = nil
+//                        }
+//                    }
+//                    self.rootViewController = tabNav
+//
+//                    tabNav.modalPresentationStyle = .fullScreen
+//                    if let topVC = self.rootContext {
+////                        if self.rootContext?.presentedViewController is ElgorcerNoLocationViewController {
+////                            self.rootContext?.dismiss(animated: false)
+////                        }
+//                        topVC.present(tabNav, animated: true)
+//                        
+//                    }
+//                }
                 
                 if SDKManager.shared.isInitialized {
                     let user = UserProfile.getUserProfile(DatabaseHelper.sharedInstance.mainManagedObjectContext)

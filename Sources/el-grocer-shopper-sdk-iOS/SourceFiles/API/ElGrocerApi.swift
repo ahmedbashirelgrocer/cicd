@@ -137,7 +137,7 @@ enum ElGrocerApiEndpoint : String {
     case DeviceRegister = "v1/shoppers/update_device.json"
     case SubstitutionSearch = "v1/products/alternate_search.json"
     case TopSelling = "v1/products/show/top_selling"
-    case PriviouslyPurchased = "v2/products/previously_purchased"
+    case PriviouslyPurchased = "v2/products/previously_purchased_items"
     //sab new
     case BrandProducts = "v1/products/show/brand_products"
     case TopProducts = "v2/products/list"
@@ -227,7 +227,7 @@ enum ElGrocerApiEndpoint : String {
     case adSlotsForBannersAndSponsoredProducts = "v1/ad_slots"
     // Flavor Store
     case getFlavoredStore = "v1/retailers/single_store"
-    
+    case getStoreConfig = "v1/single_store_config/home_page_mobile"
     // last updated time
     case lastUpdatedConfig = "v1/last_updated_config"
  }
@@ -4860,6 +4860,35 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
         
     }
     
+      //MARK: Store Config apis
+      
+      func getStoreConfig(retailerId : String, completionHandler: @escaping elgrocerCompletionHandler ) {
+          
+          setAccessToken()
+          //elDebugPrint(address.dbID)
+          let parameters = [
+              "retailer_id": retailerId
+          ] as [String : Any]
+          
+          NetworkCall.get(ElGrocerApiEndpoint.getStoreConfig.rawValue, parameters: parameters, progress: { (progress) in
+              
+          }, success: { (operation  , response) in
+              
+              guard let response = response as? NSDictionary else {
+                  completionHandler(Either.failure(ElGrocerError.parsingError()))
+                  return
+              }
+              completionHandler(Either.success(response))
+              
+          }) { (operation  , error) in
+              let errorToParse = ElGrocerError(error: error as NSError)
+              if InValidSessionNavigation.CheckErrorCase(errorToParse) {
+                  completionHandler(Either.failure(errorToParse))
+              }
+          }
+          
+      }
+      
     // MARK: NewBannerApi
     
       func getBanners(for location : BannerLocation,
@@ -4982,7 +5011,10 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
                   AccessQueue.execute {
                       switch result {
                       case .success(let winners):
-                          topSortBanners = topSortBanners + winners.sorted(by: { $0.rank < $1.rank }).map{ $0.toBannerCampaign() }
+                          let winnerBanners : [BannerCampaign] = winners.sorted(by: { $0.rank < $1.rank }).map{ $0.toBannerCampaign() }
+                          let locationValue = [location.getType().rawValue ]
+                              winnerBanners.forEach{ $0.locations =  locationValue }
+                          topSortBanners = topSortBanners + winnerBanners
                       case .failure(let error):
                           print(error.localizedDescription)
                           fetchError = ElGrocerError.genericError()

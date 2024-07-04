@@ -360,9 +360,10 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
         let selectedSubcategory = selectedSegmentIndex != 0
             ? self.viewHandler.getsubCategories()[selectedSegmentIndex - 1]
             : SubCategory.init(id: -1, name: "All Categories")
-        
-        let event = ProductSubCategoryClickedEvent(subCategory: selectedSubcategory)
+        guard let grocery = self.grocery else{return}
+        let event = ProductSubCategoryClickedEvent(subCategory: selectedSubcategory, grocery: grocery)
         SegmentAnalyticsEngine.instance.logEvent(event: event)
+        
     }
     
         
@@ -620,7 +621,11 @@ class SubCategoriesViewController: BasketBasicViewController, UICollectionViewDa
             UIView.animate(withDuration: 0.2) {
                 self.view.layoutIfNeeded()
                 self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
-                let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
+                var title = scrollView.contentOffset.y > 40 ? (self.grocery?.name ?? "") : ""
+                if title.count > 35 {
+                    let index = title.index(title.startIndex, offsetBy: 35)
+                    title = String(title[..<index]) + "..."
+                }
                 self.navigationController?.navigationBar.topItem?.title = title
                 sdkManager.isSmileSDK ?  (self.navigationController as? ElGrocerNavigationController)?.setSecondaryBlackTitleColor() :  (self.navigationController as? ElGrocerNavigationController)?.setWhiteTitleColor()
             }

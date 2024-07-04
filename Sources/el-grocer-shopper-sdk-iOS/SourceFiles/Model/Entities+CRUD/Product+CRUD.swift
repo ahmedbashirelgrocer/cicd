@@ -343,7 +343,9 @@ extension Product {
         var resultProducts = [Product]()
         
         for responseDict in brandsArray {
-            
+            if let quantity = (responseDict as? NSDictionary)?["available_quantity"] as? Int, quantity == 0 {
+               continue
+            }
             let product = Product.createProductFromDictionary(responseDict as! NSDictionary, context: context)
             let respone = responseDict as? [String:Any]
             //insert brand
@@ -593,6 +595,10 @@ extension Product {
                 
                 let productDict = responseDict
                 
+                if let quantity = productDict["available_quantity"] as? Int, quantity == 0 {
+                   continue
+                }
+
                 
                 let product = Product.createProductForSearchFromDictionary(productDict, context: context)
 

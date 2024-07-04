@@ -21,6 +21,7 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol, BasketIconOverl
         
     }
     
+    private var needDismiss = true
    
     @IBOutlet var collectionView: UICollectionView!{
         didSet{
@@ -67,9 +68,17 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol, BasketIconOverl
             if self.screeName != nil {
                 self.screeName = self.grocery == nil ? "GlobalBrandPage" : "StoreBrandPage"
             }
+            
+            var title = (self.grocery?.name ?? "")
+            if title.count > 35 {
+                let index = title.index(title.startIndex, offsetBy: 35)
+                title = String(title[..<index]) + "..."
+            }
+            groceryTitle = title
+            
         }
     }
-    
+    var groceryTitle: String = ""
     
     var productIDToRemove : Int? = nil
     var locationLabelCenterConstraint : NSLayoutConstraint? = nil
@@ -135,8 +144,11 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol, BasketIconOverl
  
     func backButtonClickedHandler(){
         BrandUserDefaults.removedProductViewedFor(screenName: self.screeName)
-        self.dismiss(animated: true, completion: nil)
         self.navigationController?.popViewController(animated: true)
+        
+        if self.needDismiss {
+            self.dismiss(animated: true, completion: nil)
+        }
     }
     
     func setStoreHeader(){
@@ -344,15 +356,16 @@ class BrandDeepLinksVC: UIViewController, NavigationBarProtocol, BasketIconOverl
     
     func callToChangeStoreAfterAllDataSet() {
        
-            if let currentTabBar = sdkManager.currentTabBar {
-                ElGrocerUtility.sharedInstance.resetTabbar(currentTabBar)
-                if self.grocery != nil {
-                    currentTabBar.selectedIndex = 1
-                }else{
-                    currentTabBar.selectedIndex = 0
-                }
-                
+        if let grocery = grocery {
+            let presenter = StoreMainPageViewControllerPresenter(grocery: grocery)
+            self.needDismiss = false
+            if let controller = StoreMainPageViewController.make(presenter: presenter).viewControllers.first {
+                self.navigationController?.viewControllers.insert(controller, at: 0)
             }
+        } else if let currentTabBar = sdkManager.currentTabBar {
+            ElGrocerUtility.sharedInstance.resetTabbar(currentTabBar)
+            currentTabBar.selectedIndex = 0
+        }
         
         self.addBasketIconOverlay(self, grocery: self.grocery, shouldShowGroceryActiveBasket: true)
         self.basketIconOverlay?.grocery = grocery
@@ -782,9 +795,8 @@ extension BrandDeepLinksVC: UIScrollViewDelegate {
             UIView.animate(withDuration: 0.2) {
                 self.view.layoutIfNeeded()
                 self.locationHeader.myGroceryImage.alpha = scrollView.contentOffset.y > 40 ? 0 : 1
-                let title = scrollView.contentOffset.y > 40 ? self.grocery?.name : ""
-                self.navigationController?.navigationBar.topItem?.title = title
-                self.titleLabel.text = title
+                self.navigationController?.navigationBar.topItem?.title = scrollView.contentOffset.y > 40 ? self.groceryTitle : ""
+                self.titleLabel.text = self.groceryTitle
             }
         }
     }

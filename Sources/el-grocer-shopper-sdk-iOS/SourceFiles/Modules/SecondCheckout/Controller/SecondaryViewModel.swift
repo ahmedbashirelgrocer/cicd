@@ -63,6 +63,7 @@ class SecondaryViewModel {
         self.selectedPreferenceId = selectedPreferenceId
         self.setDeliveryAddress(address)
         self.deliverySlots = deliverySlots
+        self.selectedSlotId = slotId
         self.setDefaultApiData()
         
         self.fetchDeliverySlots { [weak self] in

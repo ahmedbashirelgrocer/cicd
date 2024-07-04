@@ -22,17 +22,18 @@ class EnvironmentVariables {
     fileprivate init() {
         
         let bundle = Bundle.resource
-        var ReleaseEnvoirmentName = "Release"
-#if DEBUG
-        // ReleaseEnvoirmentName = "Release"
-        // ReleaseEnvoirmentName = "StagingProduction"
-#endif
-        let configurationName = sdkManager.launchOptions?.environmentType.value() ?? ReleaseEnvoirmentName
+        let ReleaseEnvoirmentName = "Release"
+        var configurationName = SDKManager.shared.launchOptions?.environmentType.value() ??  ReleaseEnvoirmentName
+        #if DEBUG
+        configurationName = "Debug"
+        #else
+        configurationName = ReleaseEnvoirmentName
+        #endif
       
         //load our configuration plist
         let environmentsPath = bundle.path(forResource: kEnvironmentPlistName, ofType: "plist")
         let environmentsDict = NSDictionary(contentsOfFile: environmentsPath!)
-        self.activeEnviromentDictionary = environmentsDict![configurationName] as? NSDictionary
+        self.activeEnviromentDictionary = environmentsDict![configurationName] as! NSDictionary
     }
     // MARK: Environment properties
     func getBackendUrl() -> String {

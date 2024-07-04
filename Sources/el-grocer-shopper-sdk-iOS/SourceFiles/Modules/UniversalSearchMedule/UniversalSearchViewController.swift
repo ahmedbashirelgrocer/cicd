@@ -200,7 +200,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         }
         
         ElgrocerFarLocationCheck.shared.showLocationCustomPopUp(false)
-        SDKManager.shared.launchOptions?.navigationType = .Default
+//        SDKManager.shared.launchOptions?.navigationType = .Default
     }
     
     @IBAction func voiceSearchAction(_ sender: Any) {
@@ -255,8 +255,12 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         if self.searchFor == .isForStoreSearch {
             self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("search_products", comment: "") ,
                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.textFieldPlaceHolderColor()])
-
-            self.title = "\(localizedString("store_search_nav_title", comment: "")) \(ElGrocerUtility.sharedInstance.activeGrocery?.name ?? "")"
+            var title = "\(localizedString("store_search_nav_title", comment: "")) \(ElGrocerUtility.sharedInstance.activeGrocery?.name ?? "")"
+            if title.count > 35 {
+                let index = title.index(title.startIndex, offsetBy: 35)
+                title = String(title[..<index]) + "..."
+            }
+            self.title = title
         }else{
 
             self.txtSearch.attributedPlaceholder = NSAttributedString(string: localizedString("lbl_SearchInAllStore", comment: "") ,
@@ -541,7 +545,7 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
         }
         
         if SDKManager.shared.launchOptions?.navigationType == .search {
-            SDKManager.shared.launchOptions?.navigationType = .Default
+//            SDKManager.shared.launchOptions?.navigationType = .Default
         }
     }
     
@@ -709,22 +713,39 @@ class UniversalSearchViewController: UIViewController , NoStoreViewDelegate , Gr
             }
             return
         }
-        var mainVc : MainCategoriesViewController?
-        for (index , vc) in self.navigationController?.viewControllers.enumerated() ?? [].enumerated() {
-            if vc is MainCategoriesViewController {
-                if let finalMainVc = self.navigationController?.viewControllers[index] as? MainCategoriesViewController {
-                    mainVc = finalMainVc
+        
+        
+        
+//        var mainVc : MainCategoriesViewController?
+//        for (index , vc) in self.navigationController?.viewControllers.enumerated() ?? [].enumerated() {
+//            if vc is MainCategoriesViewController {
+//                if let finalMainVc = self.navigationController?.viewControllers[index] as? MainCategoriesViewController {
+//                    mainVc = finalMainVc
+//                }
+//            }
+//        }
+//        if mainVc != nil {
+//            if mainVc?.model.data.grocery?.dbID != ElGrocerUtility.sharedInstance.activeGrocery?.dbID {
+//                self.navigationController?.popToRootViewController(animated: true)
+//                return
+//            }
+//        }
+        
+        self.navigationController?.popViewController(animated: true)
+        if SDKManager.shared.launchOptions?.navigationType == .search {
+            SDKManager.shared.launchOptions?.navigationType = .Default
+                guard let grocery = ElGrocerUtility.sharedInstance.activeGrocery else { return }
+                let vc = StoreMainPageViewController.make(presenter: StoreMainPageViewControllerPresenter(grocery: grocery))
+            Thread.OnMainThread {
+                UIApplication.topViewController()?.present(vc, animated: true)
+                if let tab = sdkManager.currentTabBar {
+                    ElGrocerUtility.sharedInstance.resetTabbar(tab)
+                    tab.selectedIndex = 0
                 }
             }
+            
         }
-        if mainVc != nil {
-            if mainVc?.model.data.grocery?.dbID != ElGrocerUtility.sharedInstance.activeGrocery?.dbID {
-                self.navigationController?.popToRootViewController(animated: true)
-                return
-            }
-        }
-        self.navigationController?.popViewController(animated: true)
-        
+
     }
     func noDataButtonDelegateClick(_ state: actionState) -> Void {
         GenericClass.print("Button clicked")
@@ -1271,24 +1292,27 @@ extension UniversalSearchViewController: UITextFieldDelegate {
                 if currentAddress != nil  {
                     UserDefaults.setGroceryId(grocery.dbID , WithLocationId: (currentAddress?.dbID)!)
                 }
-                Thread.OnMainThread { [weak self] in
-                   // guard let self = self else {return}
-                    let _ = SpinnerView.showSpinnerView()
-                    if sdkManager.isShopperApp {
-                        self?.dismiss(animated: false, completion: {  })
-                    }
-                    
-                    self?.presentingVC?.navigationController?.dismiss(animated: true, completion: {
-                        ElGrocerUtility.sharedInstance.delay(0.001) {
-                            if let tab = sdkManager?.currentTabBar  {
-                                ElGrocerUtility.sharedInstance.resetTabbar(tab)
-                                tab.selectedIndex = 1
-                            }
-                            SpinnerView.hideSpinnerView()
-                        }
-                    })
-                    
-                }
+                
+                let storeVC = StoreMainPageViewController.make(presenter: StoreMainPageViewControllerPresenter(grocery: grocery))
+                self.present(storeVC, animated: true)
+//                Thread.OnMainThread { [weak self] in
+//                   // guard let self = self else {return}
+//                    let _ = SpinnerView.showSpinnerView()
+//                    if sdkManager.isShopperApp {
+//                        self?.dismiss(animated: false, completion: {  })
+//                    }
+//                    
+//                    self?.presentingVC?.navigationController?.dismiss(animated: true, completion: {
+//                        ElGrocerUtility.sharedInstance.delay(0.001) {
+//                            if let tab = sdkManager?.currentTabBar  {
+//                                ElGrocerUtility.sharedInstance.resetTabbar(tab)
+//                                tab.selectedIndex = 1
+//                            }
+//                            SpinnerView.hideSpinnerView()
+//                        }
+//                    })
+//                    
+//                }
                 return
             }
         
@@ -1317,7 +1341,6 @@ extension UniversalSearchViewController: UITextFieldDelegate {
     //    self.dataSource?.getRecipeData(true, searchString: searchData , model?.brandID , model?.categoryID, storeIds: storeIDs)
         
     }
-    
     
     func userManualSearch (searchData : String) {
         

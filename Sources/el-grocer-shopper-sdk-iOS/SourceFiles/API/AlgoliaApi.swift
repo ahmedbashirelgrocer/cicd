@@ -1095,6 +1095,75 @@ extension AlgoliaApi {
   
     }
     
+    func searchProductListForStoreCategoryWithFilters(storeID: String,
+                                                      pageNumber: Int,
+                                                      categoryId: String,
+                                                      discountedProducts: Bool = false,
+                                                      deliveryTime: Int64? = nil,
+                                                      searchKeyword: String = "",
+                                                      _ hitsPerPage : Int = 20,
+                                                      _ subCategoryID : String = "",
+                                                      _ brandNames: [String],
+                                                      completion : @escaping responseBlock ) -> Void {
+        
+        var facetFiltersA : [SingleOrList<String>] = []
+        let facetFiltersForCurrentStoreID : String = "shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+        facetFiltersA.append(SingleOrList.single(facetFiltersForCurrentStoreID))
+        
+        
+        if categoryId.count > 0 {
+            let facetFiltersForCategoryId : String = "categories.id:\(categoryId)"
+            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+        }
+        
+        
+        if subCategoryID.count > 0 {
+            let facetFiltersForCategoryId : String = "subcategories.id:\(subCategoryID)"
+            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+        }
+        
+        for brandName in brandNames {
+            let facetFiltersForCategoryId : String = "brand.id:\(brandName)"
+            facetFiltersA.append(SingleOrList.single(facetFiltersForCategoryId))
+        }
+        
+        if let deliveryTime = deliveryTime, discountedProducts  {
+            
+            let facetFiltersForCurrentStoreID : String = "promotional_shops.retailer_id:\(ElGrocerUtility.sharedInstance.cleanGroceryID(storeID))"
+            facetFiltersA.append(SingleOrList.single(facetFiltersForCurrentStoreID))
+            
+            
+            let currentTime =  Int64(Date().getUTCDate().timeIntervalSince1970 * 1000)
+            if deliveryTime > currentTime {
+                let time  = "\(deliveryTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
+                facetFiltersA.append(SingleOrList.single(time))
+            }else {
+                let time = "\(currentTime) BETWEEN promotional_shops.start_time AND promotional_shops.end_time"
+                facetFiltersA.append(SingleOrList.single(time))
+            }
+        }
+        
+        var query = Query(searchKeyword)
+            .set(\.facetFilters, to: FiltersStorage.init(rawValue: facetFiltersA) )
+            .set(\.clickAnalytics, to: true)
+            .set(\.getRankingInfo, to: true)
+            .set(\.analytics, to: true)
+            .set(\.analyticsTags, to: self.getAlgoliaTags(isUniversal: false , searchType: "ProductListing"))
+        
+        query.page = pageNumber
+        query.hitsPerPage = hitsPerPage
+        var requestOptions = RequestOptions()
+        requestOptions.headers["X-Algolia-UserToken"] = (Insights.shared(appId:  algoliaApplicationID)?.userToken).map { $0.rawValue }
+        
+        self.algoliaProductBrowserIndex.browse(query: query, requestOptions: requestOptions) { (content) in
+            if case .success(let response) = content {
+                completion(response.convertHits() , nil)
+            }else if case .failure (let error) = content{
+                completion(nil , error)
+            }
+        }
+  
+    }
     
     func searchOffersProductListForStoreCategory ( storeID : String , pageNumber : Int, _ hitsPerPage : Int = 20, _ slotTime : Int64  , completion : @escaping responseBlock ) -> Void {
         

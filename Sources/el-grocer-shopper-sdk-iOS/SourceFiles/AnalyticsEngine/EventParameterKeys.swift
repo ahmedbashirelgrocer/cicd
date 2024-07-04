@@ -12,8 +12,10 @@ enum EventParameterKeys {
     static let typesStoreID         = "typesStoreId"
     static let retailerID           = "retailerId"
     static let retailerName         = "retailerName"
+    static let retailerGroupId         = "retailerGroupId"
     static let categoryID           = "categoryId"
     static let categoryName         = "categoryName"
+    static let isCustomCategory         = "isCustomCategory"
     static let subcategoryID        = "subCategoryId"
     static let subcategoryName      = "subCategoryName"
     static let price                = "price"
@@ -114,5 +116,11 @@ enum EventParameterKeys {
     static let elWalletBalance = "elWalletBalance"
     // Release, address centralisation, payment centralisation
     static let releaseType = "releaseType"
+    
+    static let slotUsid = "slotSelected"
     static let marketingCampaignType = "campaignType"
+    
+    // subcategory page
+    static let searchedQuery = "searchedQuery"
+    static let isDiscountedProductSelected = "isDiscountedProductSelected"
 }

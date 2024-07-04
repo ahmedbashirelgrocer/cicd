@@ -638,6 +638,18 @@ class ElGrocerViewControllers {
         return ElGrocerViewControllers.initializeControllerFromStoryboard("Wallet", storyboardControllerId: "DeleteCardConfirmationBottomSheet")
     }
     
+    //MARK: Store Main Page
+    
+    class func getStoreMainPageViewController() -> StoreMainPageViewController {
+        return StoreMainPageViewController(nibName: "StoreMainPageViewController", bundle: .resource)
+    }
+    //MARK: Subcategories page
+    
+    //MARK: Filter view controller
+    class func getFilterViewController() -> FilterViewController {
+        return FilterViewController()
+    }
+    
     //MARK: Location 
     
     class func addLocationViewController() -> AddLocationViewController {

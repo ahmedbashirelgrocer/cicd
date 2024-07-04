@@ -439,8 +439,11 @@ class DynamicLinksHelper {
                     return Int(grocery.dbID) == Int(retailer_id ?? "-11")
                 }
                 if dataA.count > 0 {
-                    ElGrocerUtility.sharedInstance.activeGrocery = dataA[0]
-                    topvc.tabBarController?.selectedIndex = 1
+                    if !(topvc is StoreMainPageViewController) {
+                        ElGrocerUtility.sharedInstance.activeGrocery = dataA[0]
+                        let vc = StoreMainPageViewController.make(presenter: StoreMainPageViewControllerPresenter(grocery: dataA[0]))
+                        topvc.present(vc, animated: true)
+                    }
                 }else{
                     // SpinnerView.hideSpinnerView()
                 }
@@ -495,19 +498,16 @@ class DynamicLinksHelper {
     func loadGroceryAlreadySelected() {
         
         guard ((sdkManager.launchOptions?.isSmileSDK) ?? false) else {
-            if let topvc = UIApplication.topViewController() {
-                if topvc is MainCategoriesViewController {
-                    topvc.viewDidAppear(true)
-                }else{
-                    topvc.tabBarController?.selectedIndex = 1
-                }
-                
+            if let grocery = ElGrocerUtility.sharedInstance.activeGrocery, let topvc = UIApplication.topViewController(), !(topvc is StoreMainPageViewController) {
+                let vc = StoreMainPageViewController.make(presenter: StoreMainPageViewControllerPresenter(grocery: grocery))
+                topvc.present(vc, animated: true)
             }
             return
         }
         
-        if let tabbar = sdkManager.currentTabBar {
-            tabbar.selectedIndex = 1
+        if let grocery = ElGrocerUtility.sharedInstance.activeGrocery, let top = UIApplication.topViewController(), !(top is StoreMainPageViewController) {
+            let vc = StoreMainPageViewController.make(presenter: StoreMainPageViewControllerPresenter(grocery: grocery))
+            top.present(vc, animated: true)
             return
         }
         sdkManager.showEntryView()
@@ -774,13 +774,11 @@ class DynamicLinksHelper {
         }
         
         func callToChangeStoreAfterAllDataSet() {
-            // if let SDKManager: SDKManagerType! = sdkManager {
-                if let currentTabBar = sdkManager.currentTabBar {
-                    ElGrocerUtility.sharedInstance.resetTabbar(currentTabBar)
-                    currentTabBar.selectedIndex = 1
-                }
-            // }
-            
+            if let grocery = ElGrocerUtility.sharedInstance.activeGrocery, let top = UIApplication.topViewController(), !(top is StoreMainPageViewController) {
+                let presenter = StoreMainPageViewControllerPresenter(grocery: grocery)
+                let storeVC = StoreMainPageViewController.make(presenter: presenter)
+                top.present(storeVC, animated: true)
+            }
         }
         
         // brand Navigation work
@@ -1103,12 +1101,18 @@ class DynamicLinksHelper {
                 let cateSelect = selectedCategoryA[0]
                 if self.subcategoryId.isEmpty {
                     // SpinnerView.hideSpinnerView() ;
-                    let controller = ElGrocerViewControllers.SubCategoriesViewController(dataHandler: CateAndSubcategoryView()) as SubCategoriesViewController
-                    controller.viewHandler.setGrocery(updateGrocery)
-                    controller.viewHandler.setParentCategory(cateSelect)
-                    controller.viewHandler.setParentSubCategory(nil)
-                    controller.viewHandler.setLastScreenName(UIApplication.gettopViewControllerName() ?? "")
-                    controller.grocery = updateGrocery
+                    let categoriesDTOs = categories.map { CategoryDTO(category: $0) }
+                    let selectedCategoryDTO = CategoryDTO(category: cateSelect)
+                    
+                    let viewModel = SubCategoryProductsViewModel(categories: categoriesDTOs, selectedCategory: selectedCategoryDTO, grocery: updateGrocery, selectedSlotTimeMilli: Int64(Date().getUTCDate().timeIntervalSince1970 * 1000))
+                    let controller = SubCategoryProductsViewController.make(viewModel: viewModel)
+                    
+//                    let controller = ElGrocerViewControllers.SubCategoriesViewController(dataHandler: CateAndSubcategoryView()) as SubCategoriesViewController
+//                    controller.viewHandler.setGrocery(updateGrocery)
+//                    controller.viewHandler.setParentCategory(cateSelect)
+//                    controller.viewHandler.setParentSubCategory(nil)
+//                    controller.viewHandler.setLastScreenName(UIApplication.gettopViewControllerName() ?? "")
+//                    controller.grocery = updateGrocery
                     controller.hidesBottomBarWhenPushed = false
                     self.gotToController(controller)
                     MeterialProgress.completeAndHideProgressView()
@@ -1126,15 +1130,14 @@ class DynamicLinksHelper {
                                 }
                                 if subSelectedCategoryA.count > 0 {
                                     let subC = subSelectedCategoryA[0]
-                                    if let controller = ElGrocerViewControllers.SubCategoriesViewController(dataHandler: CateAndSubcategoryView()) as? SubCategoriesViewController {
-                                        controller.viewHandler.setLastScreenName(UIApplication.gettopViewControllerName() ?? "")
-                                        controller.grocery = updateGrocery
-                                        controller.viewHandler.setGrocery(updateGrocery)
-                                        controller.viewHandler.setParentCategory(cateSelect)
-                                        controller.viewHandler.setParentSubCategory(subC)
-                                        controller.hidesBottomBarWhenPushed = false
-                                        self.gotToController(controller)
-                                    }
+                                    let categoriesDTOs = categories.map { CategoryDTO(category: $0) }
+                                    let selectedCategoryDTO = CategoryDTO(category: cateSelect)
+                                    
+                                    let viewModel = SubCategoryProductsViewModel(categories: categoriesDTOs, selectedCategory: selectedCategoryDTO, grocery: updateGrocery, selectedSubCategory: subC, selectedSlotTimeMilli: Int64(Date().getUTCDate().timeIntervalSince1970 * 1000))
+                                    let controller = SubCategoryProductsViewController.make(viewModel: viewModel)
+                                    
+                                    controller.hidesBottomBarWhenPushed = false
+                                    self.gotToController(controller)
                                 }
                                 MeterialProgress.completeAndHideProgressView()
                             case .failure(let _):
@@ -1176,7 +1179,7 @@ class DynamicLinksHelper {
     }
     
     
-    func gotToController (_ controller : SubCategoriesViewController) {
+    func gotToController (_ controller : SubCategoryProductsViewController) {
         if let topVc = UIApplication.topViewController() {
             if topVc is GroceryLoaderViewController {
                 ElGrocerUtility.sharedInstance.delay(2) {

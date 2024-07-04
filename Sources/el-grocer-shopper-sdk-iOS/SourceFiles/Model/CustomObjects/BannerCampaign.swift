@@ -55,6 +55,8 @@ enum BannerLocation : Int, Codable {
     case sdk_Flavor_Grocery_subcategory_tier_2 = 33
     case sdk_Flavor_Grocery_post_checkout = 34
     case sdk_Flavor_custom_campaign = 42
+    
+    case store_custom_campaign = 47
     case campaign_locationExit_grocery_and_more = 44
     case campaign_locationExit_smile_market = 45
    
@@ -243,6 +245,10 @@ class BannerCampaign: NSObject {
     var bannerType: bannerType = .product
     var customCampaignId: Int? = nil
     
+    var backgroundColor: String? = nil
+    var name: String? = nil
+    var query: String? = nil
+    
     var isViewed = false
     
     // Used for save Banner from API Response
@@ -304,6 +310,11 @@ class BannerCampaign: NSObject {
         if (banner.customCampaignId ?? 0) == 0 {
             banner.customCampaignId = nil
         }
+        
+        banner.query = bannerDict["query"] as? String
+        banner.name = bannerDict["name"] as? String
+        banner.backgroundColor = bannerDict["background_color"] as? String
+        
         return banner
     }
 
@@ -313,15 +324,26 @@ class BannerCampaign: NSObject {
     
     func changeStoreForBanners (currentActive : Grocery?  , retailers: [Grocery] ) {
         
-        if let grocery = self.getRetailer(currentActive: currentActive , retailers: retailers , banner: self) {
-            if let tab = sdkManager.currentTabBar  {
-                if !Grocery.isSameGrocery(grocery, rhs: ElGrocerUtility.sharedInstance.activeGrocery){
-                    ElGrocerUtility.sharedInstance.resetTabbar(tab)
-                    ElGrocerUtility.sharedInstance.activeGrocery = grocery
+        if let grocery = self.getRetailer(currentActive: currentActive , retailers: retailers , banner: self), let topVC = UIApplication.topViewController() {
+//            if let tab = sdkManager.currentTabBar  {
+//                if !Grocery.isSameGrocery(grocery, rhs: ElGrocerUtility.sharedInstance.activeGrocery){
+//                    ElGrocerUtility.sharedInstance.resetTabbar(tab)
+//                    ElGrocerUtility.sharedInstance.activeGrocery = grocery
+//                }
+//                tab.selectedIndex = 1
+//            }
+            
+            // If user is already on store screen no need to present it again
+            if topVC is StoreMainPageViewController {
+                self.actionForBanner(currentActive: grocery)
+            } else {
+                ElGrocerUtility.sharedInstance.activeGrocery = grocery
+                let storeVC = StoreMainPageViewController.make(presenter: StoreMainPageViewControllerPresenter(grocery: grocery))
+                
+                topVC.present(storeVC, animated: true) {
+                    self.actionForBanner(currentActive: grocery)
                 }
-                tab.selectedIndex = 1
             }
-            self.actionForBanner(currentActive: grocery)
         }
         
     }
@@ -462,8 +484,23 @@ class BannerCampaign: NSObject {
                             }) ?? false)
                         }
                         if selectedCateA.count > 0 {
-                            let selectedCate = selectedCateA[0]
-                            self.goToSubcate(currentActive: currentActive , cateSelect: selectedCate, subCate: subC)
+                            var catDTOArray = [CategoryDTO]()
+                            let selectedCate = CategoryDTO(category:selectedCateA[0])
+                            let timeMili = Int(Date().getUTCDate().timeIntervalSince1970 * 1000)
+                            for category in cateGoryA {
+                                let catDTO = CategoryDTO(category: category)
+                                catDTOArray.append(catDTO)
+                            }
+                            let vm = SubCategoryProductsViewModel(categories: catDTOArray, selectedCategory: selectedCate, grocery: currentActive,selectedSubCategory: subC, selectedSlotTimeMilli: Int64(timeMili))
+                            let vc = SubCategoryProductsViewController.make(viewModel: vm)
+                            Thread.OnMainThread {
+                                if let topVc = UIApplication.topViewController() {
+                                    
+                                    topVc.navigationController?.pushViewController(vc, animated: true)
+                                }
+                                
+                            }
+
                         }
                     }
                 }

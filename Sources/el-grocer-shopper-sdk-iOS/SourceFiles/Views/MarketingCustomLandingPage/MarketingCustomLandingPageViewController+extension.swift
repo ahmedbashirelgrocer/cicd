@@ -19,9 +19,6 @@ extension MarketingCustomLandingPageViewController: NavigationBarProtocol {
         // For shoppor
         if sdkManager.launchOptions?.marketType == .shopper {
             addLocationHeaderShopper(); return  }
-        self.view.addSubview(self.locationHeaderFlavor)
-        self.setLocationViewFlavorHeaderConstraints()
-
         self.view.addSubview(self.locationHeader)
         self.setLocationViewConstraints()
         
@@ -44,23 +41,6 @@ extension MarketingCustomLandingPageViewController: NavigationBarProtocol {
       
     }
     
-     func setLocationViewFlavorHeaderConstraints() {
-        
-        self.locationHeaderFlavor.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            self.locationHeaderFlavor.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            self.locationHeaderFlavor.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            self.locationHeaderFlavor.bottomAnchor.constraint(equalTo: self.tableView.topAnchor, constant: 0)
-          
-        ])
-        
-        let widthConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: ScreenSize.SCREEN_WIDTH)
-        let heightConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeaderFlavor.headerMaxHeight)
-        NSLayoutConstraint.activate([ widthConstraint, heightConstraint])
-      
-    }
-    
     func addLocationHeaderShopper() {
         
         self.view.addSubview(self.locationHeaderShopper)
@@ -77,34 +57,16 @@ extension MarketingCustomLandingPageViewController: NavigationBarProtocol {
      func adjustHeaderDisplay() {
         
         // print("sdkManager.isGrocerySingleStore: \(sdkManager.isGrocerySingleStore)")
-
-        self.locationHeaderFlavor.isHidden = !sdkManager.isGrocerySingleStore
-        self.locationHeader.isHidden = sdkManager.isGrocerySingleStore
-        
-        let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
-        if constraintA.count > 0 {
-            let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
-            let headerViewHeightConstraint = constraint
-            headerViewHeightConstraint.isActive  = sdkManager.isGrocerySingleStore
-        }else {
-            
-            if sdkManager.isGrocerySingleStore {
-                let heightConstraint = NSLayoutConstraint(item: self.locationHeaderFlavor, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeaderFlavor.headerMaxHeight)
-                NSLayoutConstraint.activate([heightConstraint])
-            }
-           
-        }
+        self.locationHeader.isHidden = sdkManager.isShopperApp
         
         let locationHeaderConstraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
         if locationHeaderConstraintA.count > 0 {
             let constraint = locationHeaderConstraintA.count > 1 ? locationHeaderConstraintA[1] : locationHeaderConstraintA[0]
             let headerViewHeightConstraint = constraint
-            headerViewHeightConstraint.isActive  = !sdkManager.isGrocerySingleStore
+            headerViewHeightConstraint.isActive  = !sdkManager.isShopperApp
         } else {
-            if !sdkManager.isGrocerySingleStore {
-                let heightConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeader.headerMaxHeight)
-                NSLayoutConstraint.activate([heightConstraint])
-            }
+            let heightConstraint = NSLayoutConstraint(item: self.locationHeader, attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: self.locationHeader.headerMaxHeight)
+            NSLayoutConstraint.activate([heightConstraint])
         }
         self.view.layoutIfNeeded()
     }
@@ -125,8 +87,7 @@ extension MarketingCustomLandingPageViewController: NavigationBarProtocol {
         DispatchQueue.main.async(execute: {
             [weak self] in
             guard let self = self else {return}
-            sdkManager.isGrocerySingleStore ?
-            self.locationHeaderFlavor.configureHeader(grocery: grocery, location: ElGrocerUtility.sharedInstance.getCurrentDeliveryAddress(), isArrowDownHidden: false): self.locationHeader.configureCell(grocery)
+            self.locationHeader.configureCell(grocery)
         })
         
     }
@@ -135,7 +96,9 @@ extension MarketingCustomLandingPageViewController: NavigationBarProtocol {
         
         navigationItem.hidesBackButton = true
         
-        if !sdkManager.isGrocerySingleStore {
+        if sdkManager.isShopperApp {
+            self.navigationController?.navigationBar.isHidden = true
+        }else {
             if let navigationController = navigationController as? ElGrocerNavigationController {
                     navigationController.actiondelegate = self
                     navigationController.setLogoHidden(true)
@@ -146,13 +109,11 @@ extension MarketingCustomLandingPageViewController: NavigationBarProtocol {
                     navigationController.setLocationHidden(true)
                     navigationController.setupGradient()
                 }
-        }else if sdkManager.isShopperApp {
-            self.navigationController?.navigationBar.isHidden = true
         }
         
         if let controller = self.navigationController as? ElGrocerNavigationController {
             controller.setGreenBackgroundColor()
-            controller.setNavBarHidden(sdkManager.isGrocerySingleStore || sdkManager.isShopperApp)
+            controller.setNavBarHidden(sdkManager.isShopperApp)
             controller.setupGradient()
         }
 
@@ -190,21 +151,6 @@ extension MarketingCustomLandingPageViewController: UIScrollViewDelegate {
             return
         }
         scrollView.layoutIfNeeded()
-        guard !sdkManager.isGrocerySingleStore else {
-            let constraintA = self.locationHeaderFlavor.constraints.filter({$0.firstAttribute == .height})
-            if constraintA.count > 0 {
-                let constraint = constraintA.count > 1 ? constraintA[1] : constraintA[0]
-                let headerViewHeightConstraint = constraint
-                let maxHeight = self.locationHeaderFlavor.headerMaxHeight
-                headerViewHeightConstraint.constant = min(max(maxHeight-scrollView.contentOffset.y,self.locationHeaderFlavor.headerMinHeight),maxHeight)
-            }
-            
-            UIView.animate(withDuration: 0.2) {
-                self.view.layoutIfNeeded()
-            }
-            
-            return
-        }
         
         let constraintA = self.locationHeader.constraints.filter({$0.firstAttribute == .height})
         if constraintA.count > 0 {

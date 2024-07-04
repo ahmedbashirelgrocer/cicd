@@ -18,7 +18,7 @@ class AWSegmentViewCell: UICollectionViewCell {
     @IBOutlet var segmentTitleLabel: UILabel!
     @IBOutlet var selectionLineView: UIView!
     @IBOutlet var verticalLineView: UIView!
-
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -30,7 +30,7 @@ class AWSegmentViewCell: UICollectionViewCell {
 
     }
     
-    func configareCellWithTitle(_ segmentTitle:String, withSelectedState isSelected: Bool, borderColor: UIColor? = nil){
+    func configareCellWithTitle(_ segmentTitle:String, withSelectedState isSelected: Bool, borderColor: UIColor? = nil, imageURL: String? = nil){
         
         self.outerView.layer.cornerRadius = 19 //self.outerView.layer.frame.height / 2
         
@@ -61,6 +61,5 @@ class AWSegmentViewCell: UICollectionViewCell {
         self.segmentTitleLabel.numberOfLines = 1
         self.segmentTitleLabel.textAlignment = .center
         self.outerView.layer.shadowColor = UIColor.clear.cgColor
-        
     }
 }

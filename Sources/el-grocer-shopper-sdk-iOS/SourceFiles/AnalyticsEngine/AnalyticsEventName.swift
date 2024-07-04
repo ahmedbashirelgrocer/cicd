@@ -9,7 +9,7 @@ import Foundation
 
 enum AnalyticsEventName {
     
-    // MARK: Cart Events
+    // MARK: Cart Eventsf
     static let cartCreated              = "Cart Created"
     static let productAdded             = "Product Added"
     static let productRemoved           = "Product Removed"
@@ -77,7 +77,11 @@ enum AnalyticsEventName {
     static let productCategoryClicked   = "Product Category Clicked"
     static let productSubCategoryClicked = "Product SubCategory Clicked"
     static let storeCategoryClicked = "Store Category Clicked"
-
+    static let buyItAgainViewAll = "Buy It Again View All Clicked"
+    static let shoppingListClicked = "Shopping List Clicked"
+    static let storeCustomCampaignClicked = "Store Custom Campaign Clicked"
+    static let storeFilterButtonClicked = "Filter Button Clicked"
+    static let storeFilterApplied = "Filter Applied"
     
     // MARK: Banner
     static let bannerClicked            = "Banner Clicked"
@@ -115,6 +119,8 @@ enum AnalyticsEventName {
     static let exclusiveDealClicked = "Deal Clicked"
     static let exclusiveDealsViewAllClicked = "Deals View All Clicked"
     static let exclusiveDealCopied = "Deal Copied"
+    
+    //MARK: Slot
+    static let deliverySlotSelected = "Delivery Slot Selected"
     static let limitedSavingsClicked = "Limited Savings Clicked"
-
 }

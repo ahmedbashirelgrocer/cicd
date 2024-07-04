@@ -185,9 +185,9 @@ public class UserDefaults {
         return (code,retailerId)
     }
     
-    class func setExclusiveDealsPromo(promo: ExclusiveDealsPromoCode) {
+    class func setExclusiveDealsPromo(promo: ExclusiveDealsPromoCode, grocery: Grocery) {
         
-        var data: [String: Any] = ["code": promo.code ?? "", "retailer_id": String(promo.retailer_id ?? 0) ]
+        var data: [String: Any] = ["code": promo.code ?? "", "retailer_id": grocery.getCleanGroceryID() ]
         Foundation.UserDefaults.standard.set(data, forKey: "exclusiveDealsPromo")
         Foundation.UserDefaults.standard.synchronize()
     }

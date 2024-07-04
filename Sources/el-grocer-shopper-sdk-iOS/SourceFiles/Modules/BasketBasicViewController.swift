@@ -62,7 +62,17 @@ class BasketBasicViewController : UIViewController, BasketIconOverlayViewProtoco
     }
     
     
-    var grocery:Grocery?
+    var grocery:Grocery? {
+        didSet {
+            var title = (self.grocery?.name ?? "")
+            if title.count > 35 {
+                let index = title.index(title.startIndex, offsetBy: 35)
+                title = String(title[..<index]) + "..."
+            }
+            groceryTitle = title
+        }
+    }
+    var groceryTitle: String = ""
     var shouldShowGroceryActiveBasket:Bool?
     var shouldShowBasket:ShouldShowBasket = .False
     
