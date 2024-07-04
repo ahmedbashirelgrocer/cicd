@@ -166,10 +166,10 @@ class LocationManager: NSObject {
                 return
             }
             
-            for addressObj in geocodingResponse.results()! {
-                // Address object
-               elDebugPrint("Address Object:%@",addressObj)
-            }
+//            for addressObj in geocodingResponse.results()! {
+//                // Address object
+//               elDebugPrint("Address Object:%@",addressObj)
+//            }
             
             successHandler(result)
         }
