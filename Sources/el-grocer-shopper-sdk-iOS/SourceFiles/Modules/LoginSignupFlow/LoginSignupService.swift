@@ -135,11 +135,12 @@ struct LoginSignupService {
                     let address = DeliveryAddress.insertOrUpdateDeliveryAddressesForUser(userProfile, fromDictionary: responseObject!, context: DatabaseHelper.sharedInstance.mainManagedObjectContext)
                     if address.count != 0 {
                         UserDefaults.setDidUserSetAddress(true)
+                        completionHandler?(address, true , "")
                     }else {
                         UserDefaults.setDidUserSetAddress(false)
+                        completionHandler?([], false , "")
                     }
-    
-                    completionHandler?(address, true , "")
+                   
                 } else {
                     UserDefaults.setDidUserSetAddress(false)
                     DatabaseHelper.sharedInstance.mainManagedObjectContext.rollback()

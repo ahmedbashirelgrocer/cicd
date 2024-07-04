@@ -17,13 +17,13 @@ public class FlavorAgent {
         ElgrocerPreloadManager.shared.loadInitialDataWithOutHomeCalls(launchOptions) {
             DispatchQueue.main.async {
                 if let address = DeliveryAddress.getActiveDeliveryAddress(DatabaseHelper.sharedInstance.mainManagedObjectContext) {
-                    print("SingleStoreActiveAddress: \(address.nickName)")
+                   // print("SingleStoreActiveAddress: \(address.nickName)")
                     _ = FlavorsClient.init(address: address, launchOptions.language, loadCompletion: { isLoaded, grocery in
                         
-                        let deepLinkPayload = launchOptions.deepLinkPayload ?? ""
+                        _ = launchOptions.deepLinkPayload ?? ""
                         let pushPayload = launchOptions.pushNotificationPayload?["elgrocerMap"]?.description.isEmpty ?? false
                                             
-                        if grocery == nil { //&& deepLinkPayload == "" && pushPayload == false {
+                        if grocery == nil && grocery?.dbID != "" { //&& deepLinkPayload == "" && pushPayload == false {
                             var updatedLaunchOptions = launchOptions
                             updatedLaunchOptions.marketType = .marketPlace
                             ElGrocer.start(with: updatedLaunchOptions)
@@ -38,10 +38,10 @@ public class FlavorAgent {
                     _ = FlavorsClient.init(launchOptions: launchOptions, loadCompletion: { isLoaded, grocery in
                         guard let isLoaded = isLoaded else { return }
                         
-                        let deepLinkPayload = launchOptions.deepLinkPayload ?? ""
-                        let pushPayload = launchOptions.pushNotificationPayload?["elgrocerMap"]?.description.isEmpty ?? false
+                        _ = launchOptions.deepLinkPayload ?? ""
+                        _ = launchOptions.pushNotificationPayload?["elgrocerMap"]?.description.isEmpty ?? false
                         
-                        if grocery == nil { //&& deepLinkPayload == "" && pushPayload == false {
+                        if grocery == nil && grocery?.dbID != "" { //&& deepLinkPayload == "" && pushPayload == false {
                             var updatedLaunchOptions = launchOptions
                             updatedLaunchOptions.marketType = .marketPlace
                             ElGrocer.start(with: updatedLaunchOptions)

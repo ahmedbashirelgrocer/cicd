@@ -117,7 +117,7 @@ class SDKManager: NSObject, SDKManagerType  {
         let manager = SDKLoginManager(launchOptions: launchOptions)
         manager.loginFlowForSDK() { isSuccess, errorMessage, errorCode in
             
-            if isSuccess {
+            if isSuccess && grocery?.dbID != "" {
     
                 SDKManager.shared.setupLanguage()
                 AlgoliaApi.sharedInstance.reStartInsights()

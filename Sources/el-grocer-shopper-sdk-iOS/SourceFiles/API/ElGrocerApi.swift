@@ -1664,6 +1664,15 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
   
       func getAllCategories(_ address: DeliveryAddress?, parentCategory:Category?, forGrocery grocery:Grocery?, _ lat : Double = 0 , _ lng : Double = 0, deliveryTime: Int? = nil, completionHandler:@escaping (_ result: Either<NSDictionary>) -> Void) {
   
+          guard let grocery = grocery, grocery.dbID != "" else {
+              completionHandler(Either.failure(ElGrocerError.init(code: 500)))
+              return
+          }
+//          guard address != nil else {
+//              completionHandler(Either.failure(ElGrocerError.init(code: 500)))
+//              return
+//          }
+          
           setAccessToken()
 
           var parameters = [String : AnyObject]()
@@ -1672,10 +1681,7 @@ func getUserProfile( completionHandler:@escaping (_ result: Either<NSDictionary>
          parameters["parent_id"] = categoryID as AnyObject
       }
       
-      if let groc = grocery {
-      parameters["retailer_id"] = groc.dbID as AnyObject
-        parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(parameters["retailer_id"]) as AnyObject
-      }
+        parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(grocery.dbID) as AnyObject
         let time = ElGrocerUtility.sharedInstance.getCurrentMillis()
         parameters["delivery_time"] = deliveryTime != nil ? deliveryTime as AnyObject : time as AnyObject
       //sab

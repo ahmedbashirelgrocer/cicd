@@ -27,6 +27,9 @@ class InValidSessionNavigation {
                                                         })
                                                     }else {
                                                         SDKManager.logoutAndShowEntryView()
+                                                        DispatchQueue.main.async {
+                                                            SDKManager.rootViewController?.dismiss(animated: true)
+                                                        }
                                                     }
                                               }).show()
                 return false

@@ -441,7 +441,7 @@ class MainCategoriesViewController: BasketBasicViewController, UITableViewDelega
        
         
         
-        if !Grocery.isSameGrocery(self.grocery, rhs: ElGrocerUtility.sharedInstance.activeGrocery) {
+        if !Grocery.isSameGrocery(self.grocery, rhs: ElGrocerUtility.sharedInstance.activeGrocery) && ElGrocerUtility.sharedInstance.activeGrocery?.dbID != "" {
             self.grocery = ElGrocerUtility.sharedInstance.activeGrocery
             self.model = ListingViewModel.init(type: .FromStorePage , dataHandler: StoreFeedsHandler.init(.storePage, grocery: nil, delegate: self))
             if let grocery = self.grocery {
