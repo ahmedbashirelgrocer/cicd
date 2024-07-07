@@ -364,24 +364,36 @@ fileprivate extension SubCategoryProductsViewModel {
     }
 
     func getBanners(categoryId: Int?, subCategoryId: Int?) -> Observable<Event<[BannerCampaign]>> {
+    
         Observable<[BannerCampaign]>.create { observer in
-            
-            let location = BannerLocation.subCategory_tier_1.getType()
-            let retailerIDs = [ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery.dbID)]
+            var subCatId =  subCategoryId
+            if subCatId == nil {
+                observer.onNext([])
+                observer.onCompleted()
+                return Disposables.create()
+            }
+            let locations: [BannerLocation] = [BannerLocation.subCategory_tier_1.getType()]
+            // let retailerIDs = [ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery.dbID)]
             let storeTypes = ElGrocerUtility.sharedInstance.activeGrocery?.getStoreTypes()?.map{ "\($0)" } ?? []
             
-            ElGrocerApi.sharedInstance.getBanners(for: location, retailer_ids: retailerIDs, store_type_ids: storeTypes, retailer_group_ids: nil, category_id: categoryId, subcategory_id: subCategoryId, brand_id: nil, search_input: nil) { result in
-                    
+            ElGrocerApi.sharedInstance.getCombinedBanners(for: locations,retailer_ids: [ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery.dbID)],
+                                              store_type_ids: storeTypes, retailer_group_ids: nil, category_id: categoryId, subcategory_id: subCatId) { [weak self] result in
+                guard let self = self else { return }
                 switch result {
-                case .success(let banners):
-                    observer.onNext(banners)
+                case .success(let response):
+                    let customCampaignBanners = response.filter { bannerCampaign in
+                        let locations = bannerCampaign.locations ?? []
+                        return locations.contains(where: { value in
+                            return value == BannerLocation.subCategory_tier_1.getType().rawValue
+                        })
+                    }
+                    observer.onNext(customCampaignBanners)
                     observer.onCompleted()
-                        
                 case .failure(let error):
                     observer.onError(error)
+                    break
                 }
             }
-            
             return Disposables.create()
         }.materialize()
     }

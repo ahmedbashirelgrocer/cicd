@@ -40,6 +40,7 @@ class StoreMainPageViewController: BasketBasicViewController {
         let noStoreView = NoStoreView.loadFromNib()
         noStoreView?.delegate = self
         noStoreView?.configureSomethingWentWrong()
+        noStoreView?.btnBottomConstraint.constant = 100
         noStoreView?.translatesAutoresizingMaskIntoConstraints = false
         return noStoreView!
     }()
@@ -66,6 +67,21 @@ class StoreMainPageViewController: BasketBasicViewController {
         navigationController.modalPresentationStyle = .overFullScreen
         
         return navigationController
+    }
+    
+    static func makeStack(presenter: StoreMainPageViewControllerType) -> StoreMainPageViewController {
+        
+        let vc = StoreMainPageViewController(nibName: "StoreMainPageViewController", bundle: .resource)
+        vc.presenter = presenter
+        
+        // Navigagtion Controller
+//        let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+//        navigationController.hideNavigationBar(true)
+//        navigationController.navigationBar.isHidden = true
+//        navigationController.viewControllers = [vc]
+//        navigationController.modalPresentationStyle = .overFullScreen
+        
+        return vc
     }
     
     override func viewDidLoad() {
@@ -564,6 +580,11 @@ extension StoreMainPageViewController: StoreMainPageViewControllerDelegate {
     //MARK: Header Delegates
     func backButtonPressed(){
         elDebugPrint("back pressed")
+        guard self.navigationController?.viewControllers.count ?? 0 == 1 else{
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        
         self.navigationController?.dismiss(animated: true)
     }
     func helpButtonPressed(){
@@ -589,6 +610,12 @@ extension StoreMainPageViewController: StoreMainPageViewControllerDelegate {
     
     //MARK: Single store Header Delegates
     func singleStoreBackButtonPressed() {
+        
+        guard self.navigationController?.viewControllers.count ?? 0 == 1 else{
+            self.navigationController?.popViewController(animated: true)
+            return
+        }
+        
         if sdkManager.isOncePerSession == false {
             sdkManager.isOncePerSession = true
             let vc = OfferAlertViewController.getViewController()
@@ -601,6 +628,7 @@ extension StoreMainPageViewController: StoreMainPageViewControllerDelegate {
             self.present(vc, animated: true, completion: nil)
             return
         }
+        
         self.dismiss(animated: true)
     }
     func singleStoreHelpButtonPressed() {
@@ -758,7 +786,6 @@ extension StoreMainPageViewController : STPopupControllerTransitioning {
 extension StoreMainPageViewController: NoStoreViewDelegate {
     // All optional
     func noDataButtonDelegateClick(_ state : actionState) {
-        self.presenter.inputs?.clearAllData()
-        self.presenter.inputs?.viewDidLoad()
+        self.presenter.inputs?.tryAgainPressed()
     }
 }

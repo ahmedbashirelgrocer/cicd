@@ -685,26 +685,19 @@ class OrderDetailsViewController : UIViewController, UITableViewDataSource, UITa
             UserDefaults.resetEditOrder()
            // self.backButtonClick()
             
-            if self.navigationController?.viewControllers.count != 5 {
-                sdkManager.rootViewController?.dismiss(animated: false, completion: nil)
-            }
-            (sdkManager.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
-//=======
-//            // if let SDKManager = SDKManager.shared {
 //            if self.navigationController?.viewControllers.count != 5 {
-//                SDKManager.shared.rootViewController?.dismiss(animated: false, completion: nil)
+//                sdkManager.rootViewController?.dismiss(animated: false, completion: nil)
 //            }
-//            (SDKManager.shared.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
-//>>>>>>> DevSDK/SupportTicketsMerger/Master1.4.98.1
-            // }
+            (sdkManager.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
+            
             if let tab = ((getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
                 ElGrocerUtility.sharedInstance.resetTabbar(tab)
                 
-                if ElGrocerUtility.sharedInstance.activeGrocery?.getCleanGroceryID() != self.order.grocery.getCleanGroceryID() {
-                    tab.selectedIndex = 0
-                } else {
-                    tab.selectedIndex = 1
-                }
+//                if ElGrocerUtility.sharedInstance.activeGrocery?.getCleanGroceryID() != self.order.grocery.getCleanGroceryID() {
+//                    tab.selectedIndex = 0
+//                } else {
+//                    tab.selectedIndex = 1
+//                }
             }
             
             

@@ -36,6 +36,7 @@ protocol StoreMainPageViewControllerInputs: AnyObject {
     func updateSlot(slot: DeliverySlotDTO, isSingleStore: Bool)
     func updateAddress(address: DeliveryAddress)
     func clearAllData()
+    func tryAgainPressed()
 }
 protocol StoreMainPageViewControllerOutputs: AnyObject {
     //Data sets
@@ -314,7 +315,7 @@ extension StoreMainPageViewControllerPresenter {
         // As for varient other than baseline we are not showing
         let time = fetchCurrentSlotTimeInMili()
         let parameters = NSMutableDictionary()
-        parameters["limit"] = 10
+        parameters["limit"] = 4
         parameters["offset"] = 0
         parameters["retailer_id"] = ElGrocerUtility.sharedInstance.cleanGroceryID(self.grocery?.dbID)
         parameters["shopper_id"] = UserDefaults.getLogInUserID()
@@ -328,8 +329,13 @@ extension StoreMainPageViewControllerPresenter {
             switch result {
             case .success(let response):
                 let products = Product.insertOrReplaceProductsFromDictionary(response, context: DatabaseHelper.sharedInstance.backgroundManagedObjectContext)
-                
-                let productDTOs = products.products.map { ProductDTO(product: $0) }
+                var produtsArray: [Product] = []
+                if products.products.count > 4 {
+                    produtsArray = Array(products.products.prefix(4))
+                }else {
+                    produtsArray = products.products
+                }
+                let productDTOs = produtsArray.map { ProductDTO(product: $0) }
                 if productDTOs.isNotEmpty {
                     self.buyItAgainProducts = productDTOs
                     loadingComplete(type: .buyItAgain)
@@ -381,7 +387,14 @@ extension StoreMainPageViewControllerPresenter {
                 if let _ = error { return }
                 
                 if let response = content {
-                    self?.customCampignPresenter.inputs?.updateData(products: response.products.map { ProductDTO(product: $0) }, grocery: self?.grocery, bannerCampaign: banner)
+                    var produts: [Product] = []
+                    if response.products.count > 5 {
+                        produts = Array(response.products.prefix(5))
+                    }else {
+                        produts = response.products
+                    }
+                    
+                    self?.customCampignPresenter.inputs?.updateData(products: produts.map { ProductDTO(product: $0) }, grocery: self?.grocery, bannerCampaign: banner)
                 }
             }
         }
@@ -440,30 +453,7 @@ extension StoreMainPageViewControllerPresenter {
                 
                 if categoryCampaignA.count > 0 {
                 
-                    let customCategories = categoryCampaignA.map { $0.toCategoryDTO() }
-                    let imageForZeroIndex = ElGrocerUtility.sharedInstance.isArabicSelected() ?  categoryCampaignA[0].standardSizeBannerArUrl : categoryCampaignA[0].standardSizeBannerUrl
-                    var index = 0
-                    for category in customCategories {
-                        if index < self.categories.count {
-                            if category.customPage != nil {
-                                
-                                if index == 0 {
-                                    if (imageForZeroIndex?.count ?? 0 > 0) {
-                                        var cat = category
-                                        cat.photoUrl = imageForZeroIndex
-                                        self.categories.insert(cat, at: index)
-                                    }else {
-                                        self.categories.insert(category, at: index)
-                                    }
-                                }else {
-                                    self.categories.insert(category, at: index)
-                                }
-                            }
-                        }else {
-                            if category.customPage != nil { self.categories.append(category) }
-                        }
-                        index += 1
-                    }
+                    self.filterCustomCategories(categoryCampaignA: categoryCampaignA)
                     self.loadingComplete(type: .customCategories)
 
                 }
@@ -479,6 +469,40 @@ extension StoreMainPageViewControllerPresenter {
             }
         }
         
+    }
+    
+    func filterCustomCategories(categoryCampaignA: [BannerDTO]) {
+        let customCategories = categoryCampaignA.map { $0.toCategoryDTO() }
+        let imageForZeroIndex = ElGrocerUtility.sharedInstance.isArabicSelected() ?  categoryCampaignA[0].standardSizeBannerArUrl : categoryCampaignA[0].standardSizeBannerUrl
+        var index = 0
+        for category in customCategories {
+            if index < self.categories.count {
+                if category.customPage != nil {
+                    
+                    if index == 0 {
+                        if (imageForZeroIndex?.count ?? 0 > 0) {
+                            var cat = category
+                            cat.photoUrl = imageForZeroIndex
+                            if self.categories[index].id != cat.id {
+                                self.categories.insert(cat, at: index)
+                            }
+                            
+                        }else {
+                            if self.categories[index].id != category.id {
+                                self.categories.insert(category, at: index)
+                            }
+                        }
+                    }else {
+                        if self.categories[index].id != category.id {
+                            self.categories.insert(category, at: index)
+                        }
+                    }
+                }
+            }else {
+                if category.customPage != nil { self.categories.append(category) }
+            }
+            index += 1
+        }
     }
     
     
@@ -648,7 +672,10 @@ extension StoreMainPageViewControllerPresenter: StoreMainPageViewControllerInput
         self.buyItAgainProducts = []
         self.exclusiveDealsList = []
     }
-    
+    func tryAgainPressed() {
+        clearAllData()
+        refreshData()
+    }
     func viewDidLoad() {
         self.fetchStoreConfigurations()
         self.getBasketFromServerWithGrocery()

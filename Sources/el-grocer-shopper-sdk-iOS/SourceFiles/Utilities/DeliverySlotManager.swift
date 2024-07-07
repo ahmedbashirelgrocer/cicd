@@ -116,7 +116,7 @@ class DeliverySlotManager {
                     }else {
                         dayTitle =  (startDate.getDayName() ?? "")
                     }
-                    let timeSlot = ( isDeliveryMode ?  startDate.formatDateForDeliveryFormateString() : startDate.formatDateForCandCFormateString() ) + " - " + ( isDeliveryMode ?  endDate.formatDateForDeliveryFormateString() : endDate.formatDateForCandCFormateString())
+                    let timeSlot = ( isDeliveryMode ?  startDate.formatDateForCandCFormateString() : startDate.formatDateForCandCFormateString() ) + " - " + ( isDeliveryMode ?  endDate.formatDateForCandCFormateString() : endDate.formatDateForCandCFormateString())
                     groceryNextDeliveryString =  dayTitle + (dayTitle.count > 0 ? "\n" : "") + ( dayTitle.count > 0 ? "" : "\(dayName) ") + "\(timeSlot)"
                 }
             }
@@ -132,7 +132,7 @@ class DeliverySlotManager {
         // Delivery within 60 min ⚡️
         guard let startDate = slot.startTime?.toDate(), let endDate =  slot.endTime?.toDate() else { return "" }
     
-        var orderTypeDescription = (  startDate.formatDateForDeliveryHAFormateString() + "-" + (endDate.formatDateForDeliveryHAFormateString()))
+        var orderTypeDescription = (  startDate.formatDateForCandCFormateString() + " - " + (endDate.formatDateForCandCFormateString()))
         
         if slot.isInstant {
             return  (localizedString("today_title", comment: "") + " " + localizedString("60_min", comment: "") + "⚡️")

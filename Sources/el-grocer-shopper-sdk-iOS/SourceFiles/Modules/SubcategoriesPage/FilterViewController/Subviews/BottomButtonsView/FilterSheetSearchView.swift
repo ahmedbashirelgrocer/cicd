@@ -77,7 +77,7 @@ class FilterSheetSearchView: UIView {
     
     func setUpInitialAppearance() {
         imgSearch.image = UIImage(name: "search-SearchBar")
-        txtSearch.setPlaceHolder(text: localizedString("search_products", comment: ""), color: ApplicationTheme.currentTheme.newBlackColor)
+        txtSearch.setPlaceHolder(text: localizedString("title_search_by_keyword", comment: ""), color: ApplicationTheme.currentTheme.newBlackColor)
         txtSearch.textAlignment = ElGrocerUtility.sharedInstance.isArabicSelected() ? .right : .left
         
         btnCross.isHidden = true

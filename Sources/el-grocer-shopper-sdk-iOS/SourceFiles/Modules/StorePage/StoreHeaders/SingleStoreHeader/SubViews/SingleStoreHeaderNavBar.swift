@@ -55,21 +55,21 @@ class SingleStoreHeaderNavBar: UIView {
         NSLayoutConstraint.activate([
             bgView.topAnchor.constraint(equalTo: self.topAnchor),
             bgView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            bgView.leftAnchor.constraint(equalTo: self.leftAnchor),
-            bgView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            bgView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            bgView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
-            btnBack.leftAnchor.constraint(equalTo: bgView.leftAnchor, constant: 16),
+            btnBack.leadingAnchor.constraint(equalTo: bgView.leadingAnchor, constant: 16),
             btnBack.topAnchor.constraint(equalTo: bgView.topAnchor, constant: 12),
             btnBack.bottomAnchor.constraint(equalTo: bgView.bottomAnchor, constant: -12),
             btnBack.heightAnchor.constraint(equalToConstant: 24),
             btnBack.widthAnchor.constraint(equalToConstant: 24),
         
-            btnMenu.rightAnchor.constraint(equalTo: bgView.rightAnchor, constant: -16),
+            btnMenu.trailingAnchor.constraint(equalTo: bgView.trailingAnchor, constant: -16),
             btnMenu.topAnchor.constraint(equalTo: bgView.topAnchor, constant: 12),
             btnMenu.heightAnchor.constraint(equalToConstant: 24),
             btnMenu.widthAnchor.constraint(equalToConstant: 24),
             
-            btnHelp.rightAnchor.constraint(equalTo: btnMenu.leftAnchor, constant: -16),
+            btnHelp.trailingAnchor.constraint(equalTo: btnMenu.leadingAnchor, constant: -16),
             btnHelp.centerYAnchor.constraint(equalTo: btnMenu.centerYAnchor, constant: 0),
             btnHelp.heightAnchor.constraint(equalToConstant: 24),
             btnHelp.widthAnchor.constraint(equalToConstant: 24),
@@ -83,7 +83,9 @@ class SingleStoreHeaderNavBar: UIView {
     func setInitialAppearance() {
         
         self.imgLogo.image = UIImage(name: "singleStoreHeaderLogo")
-        
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            btnBack.imageView?.transform = CGAffineTransform(scaleX: -1, y: 1)
+        }
         self.btnBack.addTarget(self, action: #selector(backButtonPressed), for: .touchUpInside)
         self.btnHelp.addTarget(self, action: #selector(helpButtonPressed), for: .touchUpInside)
         self.btnMenu.addTarget(self, action: #selector(menuButtonPressed), for: .touchUpInside)

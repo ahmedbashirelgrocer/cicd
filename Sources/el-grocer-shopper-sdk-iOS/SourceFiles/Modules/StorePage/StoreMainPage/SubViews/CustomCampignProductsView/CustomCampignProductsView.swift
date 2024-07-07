@@ -50,6 +50,11 @@ class CustomCampaignsProductsView: UIView {
         collectionView.dataSource = self
         collectionView.register(UINib(nibName: ProductCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: ProductCell.defaultIdentifier)
         collectionView.register(UINib(nibName: ViewAllCollectionCell.defaultIdentifier, bundle: .resource), forCellWithReuseIdentifier: ViewAllCollectionCell.defaultIdentifier)
+        
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            self.collectionView.transform = CGAffineTransform(scaleX: -1, y: 1)
+            self.collectionView.semanticContentAttribute = UISemanticContentAttribute.forceLeftToRight
+        }
     }
     
     private func setupConstraint() {

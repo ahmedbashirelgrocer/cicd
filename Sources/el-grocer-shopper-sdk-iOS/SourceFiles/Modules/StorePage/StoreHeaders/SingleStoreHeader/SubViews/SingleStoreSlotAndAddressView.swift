@@ -69,39 +69,39 @@ class SingleStoreSlotAndAddressView: UIView {
             //bg view
             bgView.topAnchor.constraint(equalTo: self.topAnchor),
             bgView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            bgView.leftAnchor.constraint(equalTo: self.leftAnchor),
-            bgView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            bgView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            bgView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             //address bg view
             addressBGView.topAnchor.constraint(equalTo: bgView.topAnchor, constant: 0),
             addressBGView.bottomAnchor.constraint(equalTo: bgView.bottomAnchor, constant: 0),
-            addressBGView.leftAnchor.constraint(equalTo: bgView.leftAnchor, constant: 16),
+            addressBGView.leadingAnchor.constraint(equalTo: bgView.leadingAnchor, constant: 16),
             addressBGView.heightAnchor.constraint(equalToConstant: 24),
-            addressBGView.rightAnchor.constraint(lessThanOrEqualToSystemSpacingAfter: bgView.centerXAnchor, multiplier: 1),
+            addressBGView.trailingAnchor.constraint(lessThanOrEqualToSystemSpacingAfter: bgView.centerXAnchor, multiplier: 1),
             // img pin in address bg view
-            imgLocationPin.leftAnchor.constraint(equalTo: addressBGView.leftAnchor),
+            imgLocationPin.leadingAnchor.constraint(equalTo: addressBGView.leadingAnchor),
             imgLocationPin.centerYAnchor.constraint(equalTo: addressBGView.centerYAnchor),
             imgLocationPin.widthAnchor.constraint(equalToConstant: 16),
             imgLocationPin.heightAnchor.constraint(equalToConstant: 16),
             // img address arrow down
-            imgAddressArrowDown.rightAnchor.constraint(equalTo: addressBGView.rightAnchor),
+            imgAddressArrowDown.trailingAnchor.constraint(equalTo: addressBGView.trailingAnchor),
             imgAddressArrowDown.centerYAnchor.constraint(equalTo: addressBGView.centerYAnchor),
             imgAddressArrowDown.widthAnchor.constraint(equalToConstant: 16),
             imgAddressArrowDown.heightAnchor.constraint(equalToConstant: 16),
             // address label and arrow down
-            lblAddress.leftAnchor.constraint(equalTo: imgLocationPin.rightAnchor, constant: 4),
+            lblAddress.leadingAnchor.constraint(equalTo: imgLocationPin.trailingAnchor, constant: 4),
             lblAddress.centerYAnchor.constraint(equalTo: addressBGView.centerYAnchor),
-            lblAddress.rightAnchor.constraint(equalTo: imgAddressArrowDown.leftAnchor, constant: -4),
+            lblAddress.trailingAnchor.constraint(equalTo: imgAddressArrowDown.leadingAnchor, constant: -4),
             //address bg view
-            slotBGView.leftAnchor.constraint(greaterThanOrEqualToSystemSpacingAfter: bgView.centerXAnchor, multiplier: 1),
+            slotBGView.leadingAnchor.constraint(greaterThanOrEqualToSystemSpacingAfter: bgView.centerXAnchor, multiplier: 1),
             slotBGView.heightAnchor.constraint(equalToConstant: 24),
-            slotBGView.rightAnchor.constraint(equalTo: bgView.rightAnchor, constant: -16),
+            slotBGView.trailingAnchor.constraint(equalTo: bgView.trailingAnchor, constant: -16),
             slotBGView.centerYAnchor.constraint(equalTo: addressBGView.centerYAnchor),
             // address label and arrow down
-            lblSlot.leftAnchor.constraint(equalTo: slotBGView.leftAnchor, constant: 4),
+            lblSlot.leadingAnchor.constraint(equalTo: slotBGView.leadingAnchor, constant: 4),
             lblSlot.centerYAnchor.constraint(equalTo: slotBGView.centerYAnchor),
-            lblSlot.rightAnchor.constraint(equalTo: imgSlotArrowDown.leftAnchor, constant: -4),
+            lblSlot.trailingAnchor.constraint(equalTo: imgSlotArrowDown.trailingAnchor, constant: -4),
             // img slot arrow down
-            imgSlotArrowDown.rightAnchor.constraint(equalTo: slotBGView.rightAnchor, constant: -4),
+            imgSlotArrowDown.trailingAnchor.constraint(equalTo: slotBGView.trailingAnchor, constant: -4),
             imgSlotArrowDown.centerYAnchor.constraint(equalTo: slotBGView.centerYAnchor),
             imgSlotArrowDown.widthAnchor.constraint(equalToConstant: 16),
             imgSlotArrowDown.heightAnchor.constraint(equalToConstant: 16),
@@ -115,6 +115,9 @@ class SingleStoreSlotAndAddressView: UIView {
         self.lblAddress.text = "Home: JLT, Cluster D, Indig..."
         // address
         imgLocationPin.image = UIImage(name: "homeHeadeerLocationPin")
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            imgLocationPin.transform = CGAffineTransform(scaleX: -1, y: 1)
+        }
         imgAddressArrowDown.image = UIImage(name: "singleStoreHeaderAddressDownArrow")
         lblAddress.setCaptionOneRegDarkStyle()
         lblAddress.numberOfLines = 1

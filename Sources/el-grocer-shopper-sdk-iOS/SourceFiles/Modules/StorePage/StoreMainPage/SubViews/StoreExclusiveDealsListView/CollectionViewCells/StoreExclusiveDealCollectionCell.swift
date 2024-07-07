@@ -62,32 +62,33 @@ class StoreExclusiveDealCollectionCell: UICollectionViewCell, GenericReusableVie
             
             bgView.topAnchor.constraint(equalTo: contentView.topAnchor),
             bgView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            bgView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            bgView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            bgView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            bgView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
             imgStore.topAnchor.constraint(equalTo: bgView.topAnchor, constant: 8),
-            imgStore.leftAnchor.constraint(equalTo: bgView.leftAnchor, constant: 8),
+            imgStore.leadingAnchor.constraint(equalTo: bgView.leadingAnchor, constant: 8),
             imgStore.heightAnchor.constraint(equalToConstant: 24),
             imgStore.widthAnchor.constraint(equalToConstant: 24),
             
-            lblGroceryName.leftAnchor.constraint(equalTo: imgStore.rightAnchor, constant: 8),
+            lblGroceryName.leadingAnchor.constraint(equalTo: imgStore.trailingAnchor, constant: 8),
             lblGroceryName.centerYAnchor.constraint(equalTo: imgStore.centerYAnchor),
-            lblGroceryName.rightAnchor.constraint(equalTo: bgView.rightAnchor, constant: -8),
+            lblGroceryName.trailingAnchor.constraint(equalTo: bgView.trailingAnchor, constant: -8),
             
             lblPromoTitle.topAnchor.constraint(equalTo: imgStore.bottomAnchor, constant: 8),
-            lblPromoTitle.leftAnchor.constraint(equalTo: bgView.leftAnchor, constant: 8),
-            lblPromoTitle.rightAnchor.constraint(equalTo: bgView.rightAnchor, constant: -8),
+            lblPromoTitle.leadingAnchor.constraint(equalTo: bgView.leadingAnchor, constant: 8),
+            lblPromoTitle.trailingAnchor.constraint(equalTo: bgView.trailingAnchor, constant: -8),
             
             lblCodeBgView.topAnchor.constraint(equalTo: lblPromoTitle.bottomAnchor, constant: 8),
-            lblCodeBgView.leftAnchor.constraint(equalTo: bgView.leftAnchor, constant: 8),
+            lblCodeBgView.leadingAnchor.constraint(equalTo: bgView.leadingAnchor, constant: 8),
             lblCodeBgView.bottomAnchor.constraint(equalTo: bgView.bottomAnchor, constant: -8),
+            lblCodeBgView.heightAnchor.constraint(equalToConstant: 26),
             
-            lblCode.topAnchor.constraint(equalTo: lblCodeBgView.topAnchor, constant: 8),
-            lblCode.leftAnchor.constraint(equalTo: lblCodeBgView.leftAnchor, constant: 8),
-            lblCode.rightAnchor.constraint(equalTo: lblCodeBgView.rightAnchor, constant: -8),
-            lblCode.bottomAnchor.constraint(equalTo: lblCodeBgView.bottomAnchor, constant: -8),
+            lblCode.topAnchor.constraint(equalTo: lblCodeBgView.topAnchor, constant: 3),
+            lblCode.leadingAnchor.constraint(equalTo: lblCodeBgView.leadingAnchor, constant: 8),
+            lblCode.trailingAnchor.constraint(equalTo: lblCodeBgView.trailingAnchor, constant: -8),
+            lblCode.bottomAnchor.constraint(equalTo: lblCodeBgView.bottomAnchor, constant: -3),
             
-            btnDetails.rightAnchor.constraint(equalTo: bgView.rightAnchor, constant: -8),
+            btnDetails.trailingAnchor.constraint(equalTo: bgView.trailingAnchor, constant: -8),
             btnDetails.centerYAnchor.constraint(equalTo: lblCodeBgView.centerYAnchor),
             btnDetails.heightAnchor.constraint(equalToConstant: 24),
             
@@ -98,7 +99,9 @@ class StoreExclusiveDealCollectionCell: UICollectionViewCell, GenericReusableVie
     func setupInitialAppearance() {
         btnDetails.setTitle("Details", for: UIControl.State())
         btnDetails.semanticContentAttribute = isArabic ? .forceLeftToRight : .forceRightToLeft
-        
+        if isArabic {
+            btnDetails.imageView?.transform = CGAffineTransform(scaleX: -1, y: 1)
+        }
         btnDetails.addTarget(self, action: #selector(detailsTaped), for: .touchUpInside)
     }
     

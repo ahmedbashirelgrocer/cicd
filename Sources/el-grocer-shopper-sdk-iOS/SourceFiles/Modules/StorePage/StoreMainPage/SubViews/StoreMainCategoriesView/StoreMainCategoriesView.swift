@@ -17,7 +17,7 @@ class StoreMainCategoriesView: UIView {
     private var collectionViewBottomConstraint: NSLayoutConstraint!
     private var bGView: UIView = UIFactory.makeView()
     private var lblTitle: UILabel = UIFactory.makeLabel()
-    private var btnHideAllCategories: UIButton = UIFactory.makeButton(with: "MyBasket_Arrow_white", in: .resource, cornerRadiusStyle: .radius(14.5))
+    private var btnHideAllCategories: UIButton = UIFactory.makeButton(with: "arrow_white_up", in: .resource, cornerRadiusStyle: .radius(14.5))
     private var btnViewAllCategories: UIButton = UIFactory.makeButton(with: "MyBasket_Arrow_white", in: .resource, cornerRadiusStyle: .radius(14.5))
     private var opacityViewForCollapseState: UIView = UIFactory.makeView()
     
@@ -25,7 +25,7 @@ class StoreMainCategoriesView: UIView {
         collectionViewLayout: {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .vertical
-            layout.minimumInteritemSpacing = 0
+            layout.minimumInteritemSpacing = 8
             layout.minimumLineSpacing = 8
             layout.sectionInset = UIEdgeInsets.zero
             return layout

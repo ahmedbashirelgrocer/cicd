@@ -1098,12 +1098,16 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
         }
         
         if self.tabBarController?.selectedIndex == 4 && self.navigationController?.viewControllers.count == 1 {
-            self.tabBarController?.selectedIndex = 1
+            self.tabBarController?.selectedIndex = 0
+            if let topVC = UIApplication.topViewController(), let grocery = self.grocery {
+                let vc =  StoreMainPageViewController.make(presenter: StoreMainPageViewControllerPresenter(grocery: grocery))
+                topVC.present(vc, animated: false)
+            }
             return
         }
         
         if self.orderToReplace{
-            self.dismiss(animated: true, completion: nil)
+            self.navigationController?.popViewController(animated: true)
             return
         }
         
@@ -2101,8 +2105,11 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
                         guard let self = self, let grocery = self.grocery else { return }
                         
                         let presenter = StoreMainPageViewControllerPresenter(grocery: grocery)
-                        let storeVC = StoreMainPageViewController.make(presenter: presenter)
-                        self.present(storeVC, animated: true)
+                        //let storeVC = StoreMainPageViewController.make(presenter: presenter)
+                        let storeVC = StoreMainPageViewController.makeStack(presenter: presenter)
+                        
+                        self.navigationController?.pushViewController(storeVC, animated: true)
+                        //self.present(storeVC, animated: true)
                     }
                     
                     return cell
@@ -3045,8 +3052,6 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             ElGrocerUtility.sharedInstance.resetBasketPresistence()
         }
         
-        
-        
     }
     
     func cancelOrderHandler(_ orderId : String){
@@ -3069,16 +3074,16 @@ class MyBasketViewController: UIViewController, UITableViewDelegate, UITableView
             self.order = nil
             UserDefaults.resetEditOrder()
             self.finalRemoveCall();
-            if self.isNeedToHideBackButton {
-                // if let SDKManager: SDKManagerType! = sdkManager {
-                sdkManager.rootViewController?.dismiss(animated: false, completion: nil)
-                (sdkManager.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
-                // }
-                if let tab = ((getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
-                    ElGrocerUtility.sharedInstance.resetTabbar(tab)
-                    tab.selectedIndex = 1
-                }
-            }
+//            if self.isNeedToHideBackButton {
+//                // if let SDKManager: SDKManagerType! = sdkManager {
+//                sdkManager.rootViewController?.dismiss(animated: false, completion: nil)
+//                (sdkManager.rootViewController as? UINavigationController)?.popToRootViewController(animated: false)
+//                // }
+//                if let tab = ((getSDKManager().rootViewController as? UINavigationController)?.viewControllers[0] as? UITabBarController) {
+//                    ElGrocerUtility.sharedInstance.resetTabbar(tab)
+//                    tab.selectedIndex = 1
+//                }
+//            }
             Thread.OnMainThread {
                 self.navigationController?.popToRootViewController(animated: true)
             }

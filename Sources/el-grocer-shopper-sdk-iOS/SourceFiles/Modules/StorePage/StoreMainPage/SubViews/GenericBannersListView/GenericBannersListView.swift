@@ -17,7 +17,7 @@ class GenericBannersListView: UIView {
     private var bGView: UIView = UIFactory.makeView()
     private var collectionView = UIFactory.makeCollectionView(
         collectionViewLayout: {
-            let layout = UICollectionViewFlowLayout()
+            let layout = ArabicCollectionFlow()
             layout.scrollDirection = .horizontal
             let width = ScreenSize.SCREEN_WIDTH - 32
             layout.itemSize = CGSize(width: width, height: width * 107 / 343)
@@ -91,6 +91,7 @@ class GenericBannersListView: UIView {
         //page control
         pageControl.numberOfPages = 5
         pageControl.currentPage = 0
+        pageControl.semanticContentAttribute = isArabic ? .forceRightToLeft : .forceLeftToRight
     }
     
     func setUpTheme() {

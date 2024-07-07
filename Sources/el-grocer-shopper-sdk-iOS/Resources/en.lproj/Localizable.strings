@@ -1382,6 +1382,8 @@ Smiles points will be returned to your Smiles balance. ";
 "No_Selected_Store" = "There is no Store selected";
 "No_Selected_Store_Detail" = "Choose the store on the Homepage \nand start shopping";
 "No_Choose_The_Store" = "Choose the store";
+"sub_category_empty_title_text" = "No products found";
+"sub_category_empty_details_text" = "Please try new filters or search by the product name";
 
 
 "lbl_Shop_Category" = "Shop by category";
@@ -2416,3 +2418,5 @@ Oreo";
 "title_all_subCat" = "All";
 "btn_try_again_no_data" = "Try Again";
 "title_something_went_wrong" = "Oops! Something went wrong.\nPlease try again";
+"title_search_by_keyword" = "Filter by keyword";
+"title_available_offers" = "Available Offers";

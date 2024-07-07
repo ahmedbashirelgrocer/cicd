@@ -183,8 +183,8 @@ extension CategoryDTO {
         self.message = nil
         self.pg18 = category.isPg18.boolValue
         self.photoUrl = category.imageUrl
-        self.slug = nil
-        self.nameAr = nil
+        self.slug = category.nameEn
+        self.nameAr = category.name
         self.messageAr = nil
         self.customPage = nil
     }

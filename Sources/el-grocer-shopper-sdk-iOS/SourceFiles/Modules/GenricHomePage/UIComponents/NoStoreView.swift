@@ -104,8 +104,8 @@ class NoStoreView: UIView {
     func configureNoDataForSubCategoriesProductListing() {
         self.setUpApearence()
         self.imgNoData.image =  UIImage(name: "")
-        self.lblTopMsg.text = localizedString("No products found", comment: "")
-        self.lblExtraDetail.text = localizedString("please try new filters or search by the product name", comment: "")
+        self.lblTopMsg.text = localizedString("sub_category_empty_title_text", comment: "")
+        self.lblExtraDetail.text = localizedString("sub_category_empty_details_text", comment: "")
         self.btnNoData.isHidden = true
         self.state = .defaultAction
     }

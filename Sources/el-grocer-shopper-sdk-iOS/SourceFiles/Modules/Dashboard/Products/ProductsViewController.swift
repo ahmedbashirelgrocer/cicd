@@ -1063,11 +1063,13 @@ class ProductsViewController: BasketBasicViewController,UICollectionViewDataSour
         
         let context = self.productsArray.count == 0 ? DatabaseHelper.sharedInstance.mainManagedObjectContext :  DatabaseHelper.sharedInstance.backgroundManagedObjectContext
         let newProduct = Product.insertOrReplaceSixProductsFromDictionary(responseObjects as NSArray, context: context)
-        self.productsArray += newProduct.products
-        if let _ = self.homeObj {
-            self.homeObj!.products += newProduct.products
+        if newProduct.productCount > 0 {
+            self.productsArray += newProduct.products
+            if let _ = self.homeObj {
+                self.homeObj!.products += newProduct.products
+            }
         }
-        
+       
         DispatchQueue.main.async(execute: {
             self.isGettingProducts = false
             self.checkEmptyView()

@@ -261,17 +261,18 @@ class OrderNavigationHandler {
     
     func navigateToBasket() {
         let basketController = ElGrocerViewControllers.myBasketViewController()
-        let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-        navigationController.hideSeparationLine()
-        navigationController.setLogoHidden(true)
-        navigationController.viewControllers = [basketController]
-        basketController.modalPresentationStyle = .fullScreen
-        navigationController.modalPresentationStyle = .fullScreen
+//        let navigationController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+//        navigationController.hideSeparationLine()
+//        navigationController.setLogoHidden(true)
+//        navigationController.viewControllers = [basketController]
+//        basketController.modalPresentationStyle = .fullScreen
+//        navigationController.modalPresentationStyle = .fullScreen
         basketController.isFromOrderbanner = false
         basketController.isNeedToHideBackButton = true
         basketController.order = self.order
         basketController.showShoppingBasket(delegate: nil, shouldShowGroceryActiveBasket: true, selectedGroceryForItems: nil, notAvailableProducts: nil, availableProductsPrices: nil)
-        topVc.navigationController?.present(navigationController, animated: true, completion: nil)
+        topVc.navigationController?.pushViewController(basketController, animated: true)
+       // topVc.navigationController?.present(navigationController, animated: true, completion: nil)
         NotificationCenter.default.post(name: Notification.Name(rawValue: kProductUpdateNotificationKey), object: nil)
         if let closure = self.editProcess , closure != nil {
             closure!(true)

@@ -21,6 +21,11 @@ class TitleView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func shouldHide(isHidden: Bool) {
+        self.titleText.isHidden = isHidden
+        self.filterButton.isHidden = isHidden
+    }
+    
     private func setupView() {
         filterButton.translatesAutoresizingMaskIntoConstraints = false
         

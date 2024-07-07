@@ -10,6 +10,8 @@ import RxSwift
 import RxCocoa
 import ThirdPartyObjC
 
+let titleViewHeight: CGFloat = 30
+
 class SubCategoryProductsViewController: BasketBasicViewController {
 
     // MARK: Views
@@ -74,6 +76,7 @@ class SubCategoryProductsViewController: BasketBasicViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    private var titleViewHeightConstraint: NSLayoutConstraint!
     private var headerHeightConstraint: NSLayoutConstraint!
     // MARK: Properties
     private var viewModel: SubCategoryProductsViewModelType!
@@ -160,6 +163,8 @@ extension SubCategoryProductsViewController: UICollectionViewDataSource, UIColle
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        scrollView.layoutIfNeeded()
         // Pagination
         let cellHeight = 264
         let rowsThreshold = CGFloat(7 * cellHeight)
@@ -183,6 +188,22 @@ extension SubCategoryProductsViewController: UICollectionViewDataSource, UIColle
             bannerTopConstraint.constant = clampedOffset != 16 ? -clampedOffset : 0
         }
         
+        //for title view
+        let titleViewScrollY = scrollView.contentOffset.y
+                if titleViewScrollY > 5 {
+                    var height = titleViewHeight - titleViewScrollY
+                    if height < 0 {
+                        height = 0
+                    }
+                    self.titleViewHeightConstraint.constant = height
+                    self.titleView.shouldHide(isHidden: titleViewScrollY > 15)
+                }else {
+                    self.titleViewHeightConstraint.constant = titleViewHeight
+                    self.titleView.shouldHide(isHidden: false)
+                }
+                self.titleView.layoutSubviews()
+                self.titleView.layoutIfNeeded()
+        // for header
         let headerScrollY = scrollView.contentOffset.y
         self.headerView.scrollViewDidScroll(y: headerScrollY)
         if headerScrollY > 0 {
@@ -194,8 +215,14 @@ extension SubCategoryProductsViewController: UICollectionViewDataSource, UIColle
         }else {
             self.headerHeightConstraint.constant = kStorePageHeaderSize
         }
-        self.headerView.layoutSubviews()
-        self.headerView.layoutIfNeeded()
+        self.headerView.setNeedsLayout()
+        self.view.setNeedsLayout()
+        UIView.animate(withDuration: 0.2) {
+            self.headerView.layoutIfNeeded()
+            self.view.layoutIfNeeded()
+        }
+        
+        
     }
 }
 
@@ -227,6 +254,8 @@ private extension SubCategoryProductsViewController {
         basketIconOverlay?.shouldShow = true
         basketIconOverlay?.grocery = viewModel.outputs.grocery
         view.bringSubviewToFront(safeAreaView)
+        
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true;
     }
     
     func setupCollectionView() {
@@ -261,6 +290,7 @@ private extension SubCategoryProductsViewController {
         bannerTopConstraint.priority = UILayoutPriority(999)
         
         self.headerHeightConstraint = headerView.heightAnchor.constraint(equalToConstant: kStorePageHeaderSize)
+        self.titleViewHeightConstraint = titleView.heightAnchor.constraint(equalToConstant: 30)
         NSLayoutConstraint.activate([
             // Header View
             headerView.topAnchor.constraint(equalTo: safeAreaView.bottomAnchor, constant: 0),
@@ -291,12 +321,17 @@ private extension SubCategoryProductsViewController {
             titleView.topAnchor.constraint(equalTo: bannerViewU.bottomAnchor, constant: 8),
             titleView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             titleView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            titleView.heightAnchor.constraint(equalToConstant: 30),
+            titleViewHeightConstraint,
             // Collection View
             containerView.topAnchor.constraint(equalTo: titleView.bottomAnchor, constant: 8)
         ])
         
         bannerViewU.backgroundColor = .red
+        
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            NoDataView.transform = CGAffineTransform(scaleX: -1, y: 1)
+            NoDataView.semanticContentAttribute = .forceLeftToRight
+        }
     }
 }
 

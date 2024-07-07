@@ -20,7 +20,7 @@ class StoreBuyItAgainView: UIView {
         collectionViewLayout: {
             let layout = UICollectionViewFlowLayout()
             layout.scrollDirection = .vertical
-            layout.minimumInteritemSpacing = 0
+            layout.minimumInteritemSpacing = 8
             layout.minimumLineSpacing = 8
             layout.sectionInset = UIEdgeInsets.zero
             return layout
@@ -71,7 +71,7 @@ class StoreBuyItAgainView: UIView {
             btnViewAll.heightAnchor.constraint(equalToConstant: 25),
             btnViewAll.widthAnchor.constraint(equalToConstant: 100),
             //CollectionView
-            collectionView.topAnchor.constraint(equalTo: lblTitle.bottomAnchor, constant: 8),
+            collectionView.topAnchor.constraint(equalTo: lblTitle.bottomAnchor, constant: 16),
             collectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
             collectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
             collectionView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16)

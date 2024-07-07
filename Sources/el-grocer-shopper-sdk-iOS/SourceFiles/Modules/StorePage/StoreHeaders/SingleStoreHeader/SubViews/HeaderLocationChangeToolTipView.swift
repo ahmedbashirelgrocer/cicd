@@ -53,21 +53,21 @@ class HeaderLocationChangeToolTipView: UIView {
         NSLayoutConstraint.activate([
             bgView.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
             bgView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10),
-            bgView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
-            bgView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
+            bgView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            bgView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             
             imgWarning.heightAnchor.constraint(equalToConstant: 20),
             imgWarning.widthAnchor.constraint(equalToConstant: 20),
-            imgWarning.leftAnchor.constraint(equalTo: bgView.leftAnchor, constant: 8),
+            imgWarning.leadingAnchor.constraint(equalTo: bgView.leadingAnchor, constant: 8),
             imgWarning.centerYAnchor.constraint(equalTo: bgView.centerYAnchor, constant: 0),
             imgWarning.topAnchor.constraint(equalTo: bgView.topAnchor, constant: 10),
             imgWarning.bottomAnchor.constraint(equalTo: bgView.bottomAnchor, constant: -10),
             
-            lblToolTipMsg.leftAnchor.constraint(equalTo: imgWarning.rightAnchor, constant: 8),
+            lblToolTipMsg.leadingAnchor.constraint(equalTo: imgWarning.trailingAnchor, constant: 8),
             lblToolTipMsg.centerYAnchor.constraint(equalTo: imgWarning.centerYAnchor, constant: 0),
-            lblToolTipMsg.rightAnchor.constraint(equalTo: btnChangeLocation.leftAnchor, constant: -8),
+            lblToolTipMsg.trailingAnchor.constraint(equalTo: btnChangeLocation.leadingAnchor, constant: -8),
             
-            btnChangeLocation.rightAnchor.constraint(equalTo: bgView.rightAnchor, constant: -16),
+            btnChangeLocation.trailingAnchor.constraint(equalTo: bgView.trailingAnchor, constant: -16),
             btnChangeLocation.centerYAnchor.constraint(equalTo: bgView.centerYAnchor, constant: 0),
 
         ])
@@ -81,11 +81,13 @@ class HeaderLocationChangeToolTipView: UIView {
         
         imgWarning.image = UIImage(name: "ic_warning")
         lblToolTipMsg.text = localizedString("lbl_location_change_tool_tip_msg", comment: "")
+        lblToolTipMsg.textAlignment = isArabic ? .right : .left
         lblToolTipMsg.setCaptionOneSemiBoldWhiteStyle()
         
         btnChangeLocation.setSubHead2BoldWhiteStyle()
         btnChangeLocation.semanticContentAttribute = isArabic ? .forceLeftToRight : .forceRightToLeft
         btnChangeLocation.addTarget(self, action: #selector(changeLocationPressed), for: .touchUpInside)
+        btnChangeLocation.imageView?.transform = CGAffineTransform(scaleX: -1, y: 1)
     }
     
     @objc func changeLocationPressed() {

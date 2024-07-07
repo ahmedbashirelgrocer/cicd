@@ -1409,8 +1409,8 @@
 
 "No_Choose_The_Store" = "اختر المتجر";
 "lbl_Shop_Category" = "تسوق حسب الفئة";
-
-
+"sub_category_empty_title_text" = "لم يتم العثور على أي منتجات";
+"sub_category_empty_details_text" = "يرجى تجربة تصفية جديدة أو البحث عن طريق اسم المنتج";
 "shopping_Title" = "قائمة التسوق";
 "No_Product_Found_Msg" = "عفواً، هذا المنتج مفقود. الرجاء تصحيح الاملاء أو إختيار منتج آخر.";
 
@@ -2473,6 +2473,7 @@
 //MARK: Store page 2.0
 "btn_view_all_categories" = "عرض جميع فئات المتاجر";
 "btn_hide_all_categories" = "إخفاء كل الفئات";
+"lbl_location_change_tool_tip_msg" = "يبدو أنك بعيد جدًا";
 "btn_filter_title" = "التصفية";
 "title_deals" = "الصفقات";
 "title_discounted_products" = "المنتجات المخفضة";
@@ -2481,3 +2482,5 @@
 "title_all_subCat" = "الكل";
 "btn_try_again_no_data" = "المحاولة مرة أخري";
 "title_something_went_wrong" = "عذرًا! حدث خطأ ما. يرجى المحاولة مرة أخرى.";
+"title_search_by_keyword" = "تصفية حسب الكلمة الافتتاحية";
+"title_available_offers" = "العروض المتاحة";

@@ -11,6 +11,8 @@ import RxSwift
 class ViewAllCollectionCell: RxUICollectionViewCell {
     @IBOutlet weak var viewAllStackView: UIStackView!
     
+    @IBOutlet weak var icForward: UIImageView!
+    @IBOutlet weak var lblViewAll: UILabel!
     private var viewModel: ViewAllCollectionCellViewModelType!
     
     override func awakeFromNib() {
@@ -22,6 +24,18 @@ class ViewAllCollectionCell: RxUICollectionViewCell {
 
     override func configure(viewModel: Any) {
         self.viewModel = viewModel as? ViewAllCollectionCellViewModelType
+        
+        self.viewModel.outputs.viewAllText
+            .bind(to: lblViewAll.rx.text)
+            .disposed(by: disposeBag)
+        
+        self.viewModel.outputs.isArabic
+            .subscribe(onNext: { [weak self] isArabic in
+                if isArabic {
+                    self?.contentView.transform = CGAffineTransform(scaleX: -1, y: 1)
+                    self?.icForward.transform = CGAffineTransform(scaleX: -1, y: 1)
+                }
+            }).disposed(by: disposeBag)
         
     }
     
@@ -36,6 +50,8 @@ protocol ViewAllCollectionCellViewModelInput {
 
 protocol ViewAllCollectionCellViewModelOutput { 
     var viewAllTap: Observable<Void> { get }
+    var viewAllText: Observable<String> { get }
+    var isArabic: Observable<Bool> { get }
 }
 
 protocol ViewAllCollectionCellViewModelType {
@@ -49,9 +65,13 @@ class ViewAllCollectionCellViewModel: ViewAllCollectionCellViewModelType, ViewAl
     
     var viewAllTapObserver: AnyObserver<Void> { viewAllTapSubject.asObserver() }
     var viewAllTap: Observable<Void> { viewAllTapSubject.asObservable() }
+    var viewAllText: Observable<String> { viewAllTextSubject.asObservable() }
+    var isArabic: Observable<Bool> { isArabicSubject.asObservable() }
     
     
     private let viewAllTapSubject: PublishSubject<Void> = .init()
+    private let viewAllTextSubject: BehaviorSubject<String> = .init(value: localizedString("lbl_View_All_Cap", comment: ""))
+    private let isArabicSubject: BehaviorSubject<Bool> = .init(value: ElGrocerUtility.sharedInstance.isArabicSelected())
     
     init() { }
 }

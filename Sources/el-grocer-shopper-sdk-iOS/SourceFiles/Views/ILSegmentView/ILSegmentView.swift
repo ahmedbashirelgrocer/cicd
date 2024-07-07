@@ -58,7 +58,7 @@ class ILSegmentView: UICollectionView {
         self.allowsMultipleSelection = false
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        let layout = UICollectionViewFlowLayout()
+        let layout = ArabicCollectionFlow()
         layout.scrollDirection = scrollDirection
         self.collectionViewLayout = layout
         self.register(UINib(nibName: "AWSegementImageViewcell", bundle: Bundle.resource), forCellWithReuseIdentifier: kSegmentImageViewCellIdentifier)

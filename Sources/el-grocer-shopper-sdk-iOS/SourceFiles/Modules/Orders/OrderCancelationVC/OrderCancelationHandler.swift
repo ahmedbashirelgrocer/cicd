@@ -23,11 +23,11 @@ class OrderCancelationHandler : NSObject {
     func startCancelationProcess (inVC controller : UIViewController , with orderID : String) {
 
         let OrderCancelationVC = ElGrocerViewControllers.getOrderCancelationVC(self)
-        let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
-        navController.viewControllers = [OrderCancelationVC]
-        navController.modalPresentationStyle = .fullScreen
+//        let navController = ElGrocerNavigationController(navigationBarClass: ElGrocerNavigationBar.self, toolbarClass: UIToolbar.self)
+//        navController.viewControllers = [OrderCancelationVC]
+//        navController.modalPresentationStyle = .fullScreen
         OrderCancelationVC.orderID = orderID
-        controller.present(navController, animated: true, completion: nil)
+        controller.navigationController?.pushViewController(OrderCancelationVC, animated: true)
         self.comingFromScreenName = FireBaseEventsLogger.getGivenControllerName(controller)
         ElGrocerEventsLogger.sharedInstance.trackScreenNav( [ FireBaseParmName.CurrentScreen.rawValue : self.comingFromScreenName , FireBaseParmName.NextScreen.rawValue : FireBaseEventsLogger.getGivenControllerName(OrderCancelationVC)])
     }
@@ -79,13 +79,12 @@ class OrderCancelationHandler : NSObject {
                     
                     self.trackAnalytics(reason: reasonString, improvement: improvement)
                     self.showCancelationAlert()
-                    if vc is OrderCancelationVC{
-                        vc.dismiss(animated: true, completion: nil)
-                    }
-                        completion(true)
-                    
                     // Logging segment event for order cancelled
                     SegmentAnalyticsEngine.instance.logEvent(event: OrderCancelledEvent(orderId: orderID, reason: reason.reasonString, suggestion: improvement))
+                    if vc is OrderCancelationVC{
+                        vc.navigationController?.popViewController(animated: true)
+                    }
+                        completion(true)
                 case .failure(let error):
                     completion(false)
                     error.showErrorAlert()

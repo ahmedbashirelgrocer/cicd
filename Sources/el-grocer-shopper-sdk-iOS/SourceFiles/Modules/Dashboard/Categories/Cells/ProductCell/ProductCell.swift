@@ -104,7 +104,7 @@ class ProductCell : RxUICollectionViewCell {
             addToCartButton.clipsToBounds = true
             addToCartButton.textAlignment = .center
             addToCartButton.setTitle("＋", for: .normal)
-            addToCartButton.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+            addToCartButton.font = UIFont.getFont(name: "SFProDisplay-bold", size: 16)!
             addToCartButton.backgroundColor =  ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
         }
     }
@@ -1514,7 +1514,7 @@ private extension ProductCell {
             if enabled {
                 self.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor
                 self.addToCartButton.isEnabled = true
-                self.addToCartButton.setBody3BoldWhiteStyle()
+//                self.addToCartButton.setBody3BoldWhiteStyle()
                 self.addToCartButton.setBackgroundColorForAllState(ApplicationTheme.currentTheme.buttonthemeBasePrimaryBlackColor)
             } else {
                 self.addToCartButton.tintColor = ApplicationTheme.currentTheme.buttonDisableBGColor

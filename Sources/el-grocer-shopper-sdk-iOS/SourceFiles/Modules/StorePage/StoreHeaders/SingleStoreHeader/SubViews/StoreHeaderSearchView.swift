@@ -53,24 +53,24 @@ class StoreHeaderSearchView: UIView {
         NSLayoutConstraint.activate([
             bgView.topAnchor.constraint(equalTo: self.topAnchor),
             bgView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            bgView.leftAnchor.constraint(equalTo: self.leftAnchor),
-            bgView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            bgView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            bgView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             
-            searchBGView.leftAnchor.constraint(equalTo: bgView.leftAnchor, constant: 16),
-            searchBGView.rightAnchor.constraint(equalTo: bgView.rightAnchor, constant: -16),
+            searchBGView.leadingAnchor.constraint(equalTo: bgView.leadingAnchor, constant: 16),
+            searchBGView.trailingAnchor.constraint(equalTo: bgView.trailingAnchor, constant: -16),
             searchBGView.topAnchor.constraint(equalTo: bgView.topAnchor, constant: 8),
             searchBGView.bottomAnchor.constraint(equalTo: bgView.bottomAnchor, constant: -8),
             searchBGView.heightAnchor.constraint(equalToConstant: 44),
             
-            imgSearch.leftAnchor.constraint(equalTo: searchBGView.leftAnchor, constant: 16),
+            imgSearch.leadingAnchor.constraint(equalTo: searchBGView.leadingAnchor, constant: 16),
             imgSearch.centerYAnchor.constraint(equalTo: searchBGView.centerYAnchor, constant: 0),
             imgSearch.heightAnchor.constraint(equalToConstant: 24),
             imgSearch.widthAnchor.constraint(equalToConstant: 24),
             
-            lblSearchPlaceHoledr.leftAnchor.constraint(equalTo: imgSearch.rightAnchor, constant: 8),
+            lblSearchPlaceHoledr.leadingAnchor.constraint(equalTo: imgSearch.trailingAnchor, constant: 8),
             lblSearchPlaceHoledr.centerYAnchor.constraint(equalTo: searchBGView.centerYAnchor, constant: 2),
             
-            btnShoppingList.rightAnchor.constraint(equalTo: searchBGView.rightAnchor, constant: -4),
+            btnShoppingList.trailingAnchor.constraint(equalTo: searchBGView.trailingAnchor, constant: -4),
             btnShoppingList.centerYAnchor.constraint(equalTo: searchBGView.centerYAnchor, constant: 0),
             btnShoppingList.heightAnchor.constraint(equalToConstant: 36),
             btnShoppingList.widthAnchor.constraint(equalToConstant: 110),
@@ -94,6 +94,11 @@ class StoreHeaderSearchView: UIView {
         btnShoppingList.setCaptionBoldDarkStyle()
         btnShoppingList.backgroundColor = ApplicationTheme.currentTheme.buttonShoppingListBGColor
         btnShoppingList.setTitle(localizedString("Shopping_list_Titile", comment: ""), for: UIControl.State())
+        
+        if ElGrocerUtility.sharedInstance.isArabicSelected() {
+            self.imgSearch.transform = CGAffineTransform(scaleX: -1, y: 1)
+            self.btnShoppingList.imageView?.transform = CGAffineTransform(scaleX: -1, y: 1)
+        }
     }
     
     @objc func searchTapped(_ sender: UITapGestureRecognizer) {

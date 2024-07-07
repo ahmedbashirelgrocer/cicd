@@ -45,27 +45,27 @@ class SingleStoreHeader: UIView {
         
         NSLayoutConstraint.activate([
             //bgView
-            bgView.leftAnchor.constraint(equalTo: self.leftAnchor),
-            bgView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            bgView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            bgView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             bgView.topAnchor.constraint(equalTo: self.topAnchor),
             bgView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             //stack view
-            stackView.leftAnchor.constraint(equalTo: bgView.leftAnchor),
-            stackView.rightAnchor.constraint(equalTo: bgView.rightAnchor),
+            stackView.leadingAnchor.constraint(equalTo: bgView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: bgView.trailingAnchor),
             stackView.topAnchor.constraint(equalTo: bgView.topAnchor),
             stackView.bottomAnchor.constraint(equalTo: bgView.bottomAnchor),
             //nav view
-            navView.leftAnchor.constraint(equalTo: bgView.leftAnchor),
-            navView.rightAnchor.constraint(equalTo: bgView.rightAnchor),
+            navView.leadingAnchor.constraint(equalTo: bgView.leadingAnchor),
+            navView.trailingAnchor.constraint(equalTo: bgView.trailingAnchor),
             // address and slot view
-            addressSlotView.leftAnchor.constraint(equalTo: bgView.leftAnchor),
-            addressSlotView.rightAnchor.constraint(equalTo: bgView.rightAnchor),
+            addressSlotView.leadingAnchor.constraint(equalTo: bgView.leadingAnchor),
+            addressSlotView.trailingAnchor.constraint(equalTo: bgView.trailingAnchor),
             // search view
-            searchView.leftAnchor.constraint(equalTo: bgView.leftAnchor),
-            searchView.rightAnchor.constraint(equalTo: bgView.rightAnchor),
+            searchView.leadingAnchor.constraint(equalTo: bgView.leadingAnchor),
+            searchView.trailingAnchor.constraint(equalTo: bgView.trailingAnchor),
             // tool tip view
-            toolTipView.leftAnchor.constraint(equalTo: bgView.leftAnchor),
-            toolTipView.rightAnchor.constraint(equalTo: bgView.rightAnchor),
+            toolTipView.leadingAnchor.constraint(equalTo: bgView.leadingAnchor),
+            toolTipView.trailingAnchor.constraint(equalTo: bgView.trailingAnchor),
             
         ])
     }

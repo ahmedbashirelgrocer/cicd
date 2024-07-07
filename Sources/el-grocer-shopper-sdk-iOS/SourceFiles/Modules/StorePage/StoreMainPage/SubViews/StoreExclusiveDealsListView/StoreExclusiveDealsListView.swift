@@ -17,7 +17,7 @@ class StoreExclusiveDealsListView: UIView {
     private var lblTitle: UILabel = UIFactory.makeLabel()
     private var collectionView = UIFactory.makeCollectionView(
         collectionViewLayout: {
-            let layout = UICollectionViewFlowLayout()
+            let layout = ArabicCollectionFlow()
             layout.scrollDirection = .horizontal
             layout.minimumInteritemSpacing = 8
             layout.minimumLineSpacing = 8
@@ -55,18 +55,18 @@ class StoreExclusiveDealsListView: UIView {
         NSLayoutConstraint.activate([
             // BGView
             bGView.topAnchor.constraint(equalTo: self.topAnchor),
-            bGView.leftAnchor.constraint(equalTo: self.leftAnchor),
-            bGView.rightAnchor.constraint(equalTo: self.rightAnchor),
+            bGView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            bGView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             bGView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             //label
             lblTitle.topAnchor.constraint(equalTo: bGView.topAnchor, constant: 0),
-            lblTitle.leftAnchor.constraint(equalTo: bGView.leftAnchor, constant: 16),
-            lblTitle.rightAnchor.constraint(equalTo: bGView.rightAnchor, constant: -16),
+            lblTitle.leadingAnchor.constraint(equalTo: bGView.leadingAnchor, constant: 16),
+            lblTitle.trailingAnchor.constraint(equalTo: bGView.trailingAnchor, constant: -16),
             lblTitle.heightAnchor.constraint(equalToConstant: 22),
             //CollectionView
             collectionView.topAnchor.constraint(equalTo: lblTitle.bottomAnchor, constant: 4),
-            collectionView.leftAnchor.constraint(equalTo: bGView.leftAnchor, constant: 16),
-            collectionView.rightAnchor.constraint(equalTo: bGView.rightAnchor, constant: -16),
+            collectionView.leadingAnchor.constraint(equalTo: bGView.leadingAnchor, constant: 16),
+            collectionView.trailingAnchor.constraint(equalTo: bGView.trailingAnchor, constant: -16),
             collectionView.bottomAnchor.constraint(equalTo: bGView.bottomAnchor)
         ])
         
@@ -76,8 +76,9 @@ class StoreExclusiveDealsListView: UIView {
     }
     
     func setupInitialAppearance() {
-        self.lblTitle.text = localizedString("Available Offers", comment: "")
+        self.lblTitle.text = localizedString("title_available_offers", comment: "")
         self.lblTitle.setHeadLine5MediumDarkStyle()
+        self.lblTitle.textAlignment = isArabic ? .right : .left
         // Collection View
         collectionView.clipsToBounds = false
         collectionView.isPagingEnabled = false
@@ -137,7 +138,7 @@ extension StoreExclusiveDealsListView: UICollectionViewDelegate, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = CGFloat(ScreenSize.SCREEN_WIDTH * 0.7)
-        let height = CGFloat(94)
+        let height = CGFloat(100)
         
         return CGSize(width: width, height: height)
     }
