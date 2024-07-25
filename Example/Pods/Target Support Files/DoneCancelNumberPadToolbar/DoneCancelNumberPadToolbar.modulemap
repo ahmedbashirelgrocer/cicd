@@ -1,6 +1,0 @@
-framework module DoneCancelNumberPadToolbar {
-  umbrella header "DoneCancelNumberPadToolbar-umbrella.h"
-
-  export *
-  module * { export * }
-}
