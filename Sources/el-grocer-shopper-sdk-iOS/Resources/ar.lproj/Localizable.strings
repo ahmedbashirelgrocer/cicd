@@ -1,2486 +1,0 @@
-/*
- Localizable.strings
- ElGrocerShopper
- 
- Created by Adam Szeremeta on 01.07.2015.
- Copyright (c) 2015 RST IT. All rights reserved.
- */
-
-// new message
-"Looks like you're too far away." = ".منطقة مختلفة عن المعتاد";
-"eg_message_max_address_limit" = "عفوا! لقد وصلت إلى الحد الأقصى لعدد العناوين. لإضافة عنوان جديد، يرجى تحديث أو حذف عنوان موجود";
-"manage_address" = "يدير";
-"Download tax invoice" = " تحميل الفاتورة الضريبية";
-"smiles_pts" =  "    نقطة %@    ";
-"earn_rewards_now" = "اكسب نقاط الابتسامات!";
-"Oops! Something went wrong on our side 🤔" = "للأسف حدث خطأ ما من جانبنا 🤔";
-"We are fixing the problem.\nPlease, try again soon." = "نحن نصلح المشكلة.
-من فضلك ، حاول مرة أخرى قريبا.";
-
-
-"Shopping_list_Titile" = "قائمة التسوق";
-
-"lbl_Card_ending_in" = " بطاقة -xx ";
-"lbl_text_new_card" = "إستخدام بطاقة جديدة";
-
-
-"Add_New_Card_Title" = "أضف بطاقة جديدة";
-"cash_On_Delivery_string" = "نقدا";
-"btn_reload_title" = " Reload";
-"remove_Item_button_title" = "من إيجاد أي بديل لم نتمكن ";
-
-
-
-"phone_exsist_text" = "عفواَ هذا الرقم لديه حساب. هل تريد تسجيل الدخول؟";
-
-
-"setting_PayementMethod" = "طريقة الدفع";
-"lbl_Terms_Payment_Text" = "أوافق على شروط وأحكام الدفع";
-"lbl_TermsAndPayment" =  "شروط وأحكام";
-"Title_waiting_approval_Payment" = "انتظار تأكيد الدفع";
-"lbl_placeholder_cvv" = "رمز الأمان";
-"lbl_enter_Cvv" = "من فضلك ، أدخل رقم CVV من الجزء الخلفي من بطاقتك لتقديم الطلب";
-
-"place_order_button_title"  = "عمل طلب";
-"all_store" = "كل المتاجر";
-"Stores_near_you" = "متاجر قريبة إليك";
-"Great_Deals" = "عروض رائعة";
-"btn_Go_Back" = "العودة  إلى الخلف";
-"Msg_Not_InSubsitution" = "!الطلب لم يعد قيد الإستبدال";
-
-
-
-
-    // Error Messages
-
-
-"alert_error_title" = "خطأ";
-"ok_button_title" = "حسنا";
-
-    // Error Codes - Generic
-
-"error_10000" = "هناك خطأ ما";
-
-    // Error Codes - Internal
-
-"error_-1" = "خطأ في تحليل استجابة البرمجة";
-"error_-2" = "لم يتم العثور على موقعك الحالي";
-"error_-3" = "لم يتم العثور على عنوان الموقع";
-"error_-4" = " خدمات الموقع غير متاحة لهذا الجهاز، الرجاء تمكينها من إعدادات الهاتف";
-"error_-5" = "تطبيق el Grocer غير مخول باستخدام خدمات الموقع";
-"error_-6" = "تعذر تعيين الموقع الافتراضي";
-
-    // Error Codes - Orders
-
-"error_10001" = "تعذر إكمال الطلب - خطأ";
-"error_10002" = "قيمة الطلب ليست كافية";
-"error_10003" = "الموقع لا يقع ضمن نطاق التوصيل";
-"error_10004" = "المتجر غير مفتوح";
-"error_10005" = "رمز ترويجي غير صالح";
-"error_10006" = "قيمة الطلب ليست كافية لقبول الرمز الترويجي";
-"error_10007" = "رمز ترويجي غير صالح. لا يوجد منتجات بهذا الرمز الترويجي في السلة";
-"error_10008" = "قيمة المحفظة لا تكفي";
-"error_10009" = "هذا الرمز الترويجي غير صالح لطريقة الدفع التي تم اختيارها. هل ترغب في تغيير طريقة الدفع؟";
-"error_1112" = "You order is already processed to deliver. Please continue to place new order.";
-"error_500" = "أووبس - حدث خطأ ما. مهما كان ما حدث، على الأرجح من طرفنا. حاول مرة اخرى.";
-"time_elapsed" = "عذرا! انتهت المدة المحددة";
-"retailer_is_opened" = "المتجر غير مفتوح";
-
-    // Common
-"common_ok_button_title" = "حسنا";
-    //"aed" = "درهم إماراتي";
-"aed" = "درهم";
-
-    // Force Update
-"force_update_title" = "التحديث مطلوب";
-"force_update_subtitle" = "مرحبا! إن نسخة التطبيق قديمة. لقد قمنا بتحسينات مهمة لذا يرجى تحميل آخر نسخة من تطبيق el Grocer من متجر التطبيقات. شكرا!";
-"force_update_button_title" = "تحديث";
-
-    // Login & Registration
-"login_welcome_label" = "يرجى إنشاء حساب أو تسجيل الدخول للمتابعة";
-"login_name_placeholder" = "الاسم";
-"login_email_placeholder" = "البريد الإلكتروني";
-"login_mobile_placeholder" = "رقم الجوال";
-"login_password_placeholder" = "كلمة السر";
-"login_sign_up_button" = "إنشاء حساب";
-"login_username_placeholder" = "اسم المستخدم";
-"login_sign_in_button" = "تسجيل الدخول";
-
-"password_validation_error" = "يجب أن تحتوي كلمة المرور على ستة أحرف على الأقل";
-"login_forgot_password_title" = "ننسى التفاصيل؟";
-
-"lbl_resetPass" = "إعادة تعيين كلمة المرور";
-"lbl_resetyouPass" = "اعد ضبط كلمه المرور";
-
-"forgot_password_success_alert_title" = "نجحت العملية";
-"forgot_password_success_alert_description" = "يرجى التحقق من بريدك الإلكتروني للحصول على مزيد من الإرشادات.";
-//"forgot_password_error_alert_description" = "عنوان بريدك الإلكتروني غير مستخدم للاشتراك";
-
-"registration_add_location_header" = "عنوانك";
-"registration_location_name_placeholder" = "عنوان الموقع (المنزل مثلا)";
-"registration_location_area_placeholder" = "المنطقة";
-"registration_location_street_placeholder" = "الشارع/الحي";
-"registration_location_building_placeholder" = "اسم البناية";
-"registration_location_apartment_placeholder" = "رقم الفيلا/ الشقة";
-"registration_location_submit_button" = "إرسال";
-"wrong_area_error" = "منطقة خاطئة.";
-"registration_update_personal_info_failed_error_message" = "لم يتم تحديث معلومات المستخدم";
-
-
-    // Login & Registration errors
-"registration_error_alert" = "هناك خطأ ما. الرجاء معاودة المحاولة في وقت لاحق.";
-"login_error_alert" = "اسم المستخدم أو كلمة المرور خاطئة";
-"registration_account_exists_error_title" = "البريد الإلكتروني موجود";
-"registration_account_exists_error_alert" = "عفوا، هذا البريد الإلكتروني مسجل. هل ترغب في تسجيل الدخول باستخدام هذا البريد الإلكتروني؟";
-"registration_account_exists_error_alert_textField" = "هذا البريد الإلكتروني لديه حساب بالفعل. الرجاء تسجيل الدخول";
-
-    // MARK: Entry
-"entry_subtitle_label_text" = "توصيل المنتجات من السوبرماركتات القريبة";
-"or_label_text" = "أو";
-"entry_login_button_title" = "تسجيل الدخول";
-"entry_create_account_button_title" = "إنشاء حساب";
-"entry_skip_button_title" = "FIND NEARBY STORES";
-"your_grocery_delivery_app" = " تطبيق توصيل البقالة الخاص بك";
-"free_delivery_in_1_hour" = "توصيل مجاني في غضون ساعة";
-"1000s_of_products_to_choose" = "هناك آلاف المنتجات لتختارها";
-"wide_choice_of_stores_nearby" = "لديك حرية كبيرة لاختيار السوبرماركتات القريبة";
-"same_store_prices" = "نفس سعر المحلات";
-"our_patner_stores_in_the_UAE" = "شركاؤنا من السوبرماركتات في الإمارات العربية المتحدة";
-"many_more" = "وغيرها الكثير";
-"search_bar_title" = "البحث عن المنتجات، العلامات التجارية...";
-
-    // MARK: Area Selection
-"area_selection_already_have_an_account_label" = "هل لديك حساب ؟";
-"area_selection_login_button_title" = "تسجيل الدخول";
-"area_selection_Privacy_Policy_button_title" = "سياسة خاصة";
-
-"area_selection_address_label" = "عنوانك";
-"area_selection_submit_button_title" = "إرسال";
-"area_selection_fetching_error" = "لم يتم جلب المناطق";
-
-    // No internet connection available
-"no_internet_connection_available" = "لا يوجد اتصال بالإنترنت";
-"no_internet_connection_alert_button" = "حسنا";
-
-    // Forgot password
-"forgot_password_description_label" = "يرجى تقديم بريدك الإلكتروني لإعادة تعيين كلمة المرور";
-"forgot_password_email_placeholder" = "عنوان البريد الإلكتروني";
-"forgot_password_submit_button" = "إرسال";
-
-    // Checkout Profile
-    //Hunain 20Dec2016
-"checkout_Profile_title" = "تفاصيل التوصيل";
-"contact_information" = "معلومات الاتصال";
-"name" = "الاسم";
-"phone" = "رقم الهاتف";
-"delivery_address" = "عنوان التوصيل";
-"apartment" = "شقة";
-"house" = "بيت / فيلا";
-"houseTxt" = "البيت *";
-"office" = "مكتب";
-"suit/floor" = "الجناح / الطابق";
-"floor" = "الطابق";
-"building" = "البناية";
-"apartment_no" = "رقم الشقة";
-"street" = "الشارع";
-"office_no" = "رقم المكتب";
-"additional_direction" = "اتجاهات مفصلة أكثر";
-"proceed_to_checkout" = "تنفيذ الطلب ";
-
-    // Side menu items
-"side_menu_login" = "تسجيل دخول/ سجل";
-"side_menu_dashboard" = "المحلات";
-"side_menu_orders" = "طلبات الدعم";
-"side_menu_wallet" = "المحفظة";
-"side_menu_free_groceries" = "احصل على منتجات مجانية";
-"side_meun_setting" = "الإعدادات";
-"side_menu_app_version" = "النسخة: ";
-
-    // Sign Out alert
-"sign_out_alert_title" = "الخروج";
-"sign_out_alert_description" = "هل ترغب فعلا بتسجيل الخروج؟";
-"sign_out_alert_yes" = "نعم";
-"sign_out_alert_no" = "لا";
-
-    // Store Favourite alert
-"store_favourite_alert_title" = "السوبرماركتات المفضلة";
-"store_favourite_alert_description" = "تسجيل الدخول مطلوب لإنشاء السوبرماركتات المفضلة. هل تريد تسجيل الدخول؟";
-"store_favourite_alert_yes" = "نعم";
-"store_favourite_alert_no" = "لا";
-
-    // Item Favourite alert
-"item_favourite_alert_title" = "المنتجات المفضلة";
-"item_favourite_alert_description" = "تسجيل الدخول مطلوب لإنشاء المنتجات المفضلة. هل تريد تسجيل الدخول؟";
-"item_favourite_alert_yes" = "نعم";
-"item_favourite_alert_no" = "لا";
-
-    // Add Address alert
-"add_address_alert_title" = "اضف عنوان";
-"btn_add_address_alert_title" = "اضف العنوان";
-"add_address_alert_description" = "تسجيل الدخول مطلوب لإضافة المزيد من العناوين. هل تريد تسجيل الدخول؟";
-"add_address_alert_yes" = "نعم";
-"add_address_alert_no" = "لا";
-
-
-    // Location Disable alert
-"location_disable_alert_title" = "نحن نحتاج مساعدتك";
-"location_disable_alert_message" = "يرجى تمكين خدمات الموقع لعرض المحلات التي تقوم بالتوصيل إليك. شكرا!";
-"location_disable_alert_button" = "حسنا";
-
-    // Store Close alert
-"store_close_alert_title" = "السوبرماركت مغلق";
-"store_close_alert_message" = "السوبرماركت مغلق حاليا. الرجاء المحاولة مرة أخرى.";
-"store_close_alert_button" = "حسنا";
-
-    // Store Not in Range alert
-"store_notinrange_alert_title" = "السوبرماركت ليس في نطاق التسليم";
-"store_notinrange_alert_message" = "عنوان التوصيل المحدد هو خارج نطاق تغطية التسليم لهذا السوبرماركت.";
-"store_notinrange_alert_button" = "حسنا";
-
-    // Checkout Screen Strings
-"total_aed" = "السعر الكلي";
-"delivery_fee_aed" ="رسوم التوصيل";
-"discounted_bill_amount_aed" = "مبلغ الفاتورة المخصومة";
-"free" = "مجاني";
-"pay_via_wallet_aed" = "الدفع باستخدام المحفظة";
-
-    //MARK: Home screen
-
-"shop_by_item_button_title" = "استعراض المنتجات";
-"shop_by_store_button_title" = "اختيار السوبرماركت";
-
-    // Search
-"search_placeholder" = "بحث";
-"universal_search_clear_history_popup_text" = "هل تريد مسح سجل البحث الخاص بك؟";
-
-    // Dashboard
-"dashboard_location_button" = "عنوان التسليم";
-
-    // Dashboard location selection
-
-"dashboard_location_navigation_bar_title" = "تفاصيل التوصيل";
-"dashboard_location_search_placeholder" = "البحث عن البناية / اسم منطقة الفيلا";
-"dashboard_location_map_button_title" = "هل تعيش في فيلا؟ ابحث عن طريق الخريطة";
-"dashboard_enable_location_services" = "قم بتمكين خدمات الموقع. ساعد على التوصيل بشكل صحيح";
-"dashboard_enable_location_services_2" = "انقر لتمكين خدمات الموقع. فبدونها قد لا نتمكن من التوصيل.";
-"dashboard_enable_location_alert_title" = "تنبيه";
-"dashboard_enable_location_services_3" = "يرجى تمكين خدمات الموقع؛ فذلك يساعدنا على العثور على السوبرماركتات القريبة والتسليم في الوقت المحدد.";
-"dashboard_location_new_location_title" = "عنوان جديد";
-"dashboard_location_edit_location_title" = "تعديل العنوان";
-"dashboard_location_new_location_description" = "الرجاء إضافة عنوان توصيل جديد الآن";
-"dashboard_location_edit_button" = "تعديل";
-"dashboard_location_delete_button" = "حذف";
-"dashboard_location_delete_alert_title" = "إزالة الموقع";
-"dashboard_location_delete_alert_message" = "هل تريد حقًا إزالة هذا الموقع؟";
-"dashboard_location_cant_delete_message" = "لا يمكنك إزالة موقعك الأخير.";
-"dashboard_location_cant_delete_active_location_error" = "لا يمكنك إزالة موقع نشط";
-"dashboard_location_delete_alert_ok_button" = "حسنا";
-"dashboard_location_deletion_error" = "لم تتم إزالة موقعك. الرجاء معاودة المحاولة في وقت لاحق.";
-"dashboard_search_add_address" = "البحث وإضافة عنوان هنا.";
-"txt_not_cover_area_1" = "الموقع المحدد خارج منطقة التسليم. يرجى إضافة البريد الإلكتروني الخاص بك لإعلامك عندما نستطيع التسليم لهذه المنطقة.";
-//"enter_email_placeholder_text" = "إدخال البريد الإلكتروني";
-"add_location_title" = "إضافة موقع";
-"already_added_location_message" = "عفوا، تمت إضافة هذا الموقع من قبل. يرجى تحديد موقع آخر.";
-"exist_location_title" = "الموقع موجود";
-"exist_location_message" = "الموقع موجود من قبل. هل تريد التحديث؟";
-
-    // Registration
-"registration_delivery_address_text_field_placeholder" = "منطقة التسليم";
-"registration_location_name_text_field_placeholder" = "اسم الموقع (المنزل مثلا)";
-"registration_address_text_field_placeholder" = "العنوان";
-"registration_apartment_text_field_placeholder" = "الفيلا/ رقم الشقة";
-"registration_building_name_text_field_placeholder" = "اسم البناية";
-"registration_street_text_field_placeholder" = "الشارع/ الحي";
-
-    // My Account
-"my_account_name_field_label" = "الاسم *";
-//"my_account_email_field_label" = "إدخال بريد إلكتروني صالح"; //Hunain 18Dec2016
-"my_account_detail_email_field_label" = "البريد الإلكتروني"; //Hunain 21Dec2016
-//"my_account_phone_field_label" = "أدخل رقم الجوال";
-"my_account_password_field_label" = "اختيار كلمة المرور"; //Hunain 18Dec2016
-"my_account_invoice_field_label" = "عنوان الفاتورة";
-"my_account_edit_profile_button" = "تعديل الصفحة الشخصية";
-//"my_account_edit_your_profile" = "تعديل صفحتك الشخصية";
-"my_account_save_changes_button" = "حفظ التغييرات";
-"my_account_shop_now_button" = "التسوق الآن";
-"my_account_new_address_button" = "عنوان التسليم";
-"my_account_saving_error" = "هناك خطأ ما. الرجاء معاودة المحاولة في وقت لاحق.";
-//"my_account_update_button" = "تحديث";
-
-
-    //MARK: Profile Checkout
-
-"profile_checkout_text_message" = "يرجى استكمال صفحتك الشخصية لتتمكن من طلب التوصيل.";
-"profile_checkout_btn_update" = "تحديث"; //Hunain 26Dec16
-
-    // My account new location adding
-"my_account_new_location_top_title" = "عنوان جديد";
-
-    // Brands list
-"brands_list_categories_back_button" = "الفئات";
-"brand_items_count_label" = "قطعة";
-"brand_items_count_label_orderDetails" = "قطع";
-
-    // Products
-"adding_products_done_button" = "تم التنفيذ";
-
-    // Shopping basket
-"shopping_basket_title_label" = "سلتي";
-"shopping_OOS_title_label" = " منتج غير متوفر";
-    //Hunain 24Jan17
-"place_order_title_label" = "إتمام الشراء";
-"shopping_basket_additems_button" = "إضافة منتجات";
-"shopping_basket_payment_button" = "إتمام الشراء";
-"shopping_basket_checkout_button" = "الطلب الآن";
-"shopping_basket_item_label" = "المنتج";
-"shopping_basket_summary_total" = "المجموع";
-"shopping_basket_quantity_label" = "الكمية";
-"shopping_basket_summary_items_label" = "مبلغ الفاتورة المخصومة";
-"shopping_basket_promotion_discount_price_label" = "خصم الرمز الترويجي";
-"shopping_basket_items_count_singular" = "المنتج";
-"shopping_basket_items_count_plural" = "قطعة";
-"shopping_basket_payment_info_label" = "الرجاء اختيار طريقة الدفع";
-"shopping_basket_payment_card_description" = " الدفع بواسطة البطاقة عند التوصيل";
-"shopping_basket_payment_cash_description" = "الدفع نقدا عند التوصيل";
-"shopping_basket_items_no_price" = "السعر على اختيار المنتجات";
-"shopping_basket_item_substituted" = "غير متوفر، هناك بدائل مقترحة ";
-"shopping_basket_item_not_available" = "غير متوفر";
-"shopping_basket_available_label" = "متوفر";
-"shopping_basket_promotional_code" = "لدي رمز ترويجي";
-"shopping_free_delivery_title" = "توصيل مجاني";
-"shopping_free_price_title" = "دراهم متوفرة";
-"shopping_free_delivey_title" = "دراهم للتوصيل المجاني";
-"confirm_payment_button_title" = "تأكيد طريقة الدفع";
-"payment_method_title" = "اختار طريقة الدفع";
-"paying_with_title" = "الدفع بواسطة";
-"pay_via_wallet" = "الدفع بواسطة المحفظة";
-    //"pay_via_card" = "الدفع بواسطة البطاقة عند التوصيل";
-"pay_via_card" = "ماكينة البطاقة";
-"pay_via_cash" = "الدفع نقدا عند التوصيل";
-"txt_pay_cash" = "نقداً";
-"pay_via_CreditCard" = "أون لاين";
-"promo_code_title" = "الرمز الترويجي";
-"payment_method_for_remaining_amount" = "اختيار طريقة الدفع للمبلغ المتبقي";
-"leave_us_note" = "ترك ملاحظة";
-"enter_promo_code" = "إدخال الرمز الترويجي";
-"change_button_title" = "تغيير";
-"confirm_order_button_title" = "تأكيد وطلب";
-"delivery_slot_title" = "توصيل لاحقا";
-"save_button_title" = "حفظ";
-
-    //MARK: Promo code alert
-"promo_code_alert_title" = "الرمز الترويجي";
-"promo_code_error_alert_title" = "خطأ في الرمز الترويجي";
-"promo_code_alert_description" = "النقر لتفعيل الخصم";
-"promo_code_alert_yes" = "تطبيق";
-"promo_code_alert_ok" = "حسنا";
-"promo_code_alert_no" = "إلغاء";
-"promo_code_validation_error" = "رمز ترويجي غير صالح أو منتهي الصلاحية";
-"promo_code_validation_success" = "تمت إضافة الرمز الترويجي بنجاح";
-
-
-    // Order confirmation
-"order_placement_shop_closed_message" = "لا يمكنك الطلب من هذا المحل. المحل مغلق أو غير متاح.";
-"order_confirmation_deliver_label" = "سيتم التوصيل ل:";
-"order_confirmation_info_label" = "الرجاء تأكيد الطلب";
-"order_confirmation_name_label" = "الاسم";
-"order_confirmation_phone_label" = "رقم الهاتف";
-"order_confirmation_address_label" = "عنوان التسليم";
-"order_summary_label" = "ملخص الطلب";
-"order_confirmation_continue_button" = "متابعة";
-"order_payment_method_title" = "تأكيد التفاصيل";
-
-"order_confirmation_title" = "طلبك المؤكد";
-"order_confirmation_text" = "شكرا لطلبك من تطبيق el Grocer";
-"order_confirmation_number_label" = "طلب # ";
-"order_confirmation_amount_label" = "المبلغ الإجمالي";
-"order_confirmation_home_button" = "العودة للصفحة الرئيسية";
-"order_confirmation_track_order_button" = "تتبع الطلب";
-"order_confirmation_contact_label" = "التواصل مع el Grocer";
-"order_confirmation_contact_email" = "البريد الإلكتروني";
-"order_confirmation_no_email_account" = "لم تتم تهيئة هذا الجهاز لإرسال رسائل البريد الإلكتروني.";
-"order_confirmation_email_subject" = "شاركنا رأيك حول التطبيق";
-"order_add_edit_note_button_title" = "إضافة/ تعديل ملاحظة";
-"delivery_note_done_button_title" = "إنهاء";
-"ordering_for" = "الطلب ل";
-"asap_title" = "طلب فوري";
-"no_slots_available" = "لا يوجد منافذ للتوصيل حاليا";
-
-"order_schedule_lable" = "تم تحديد موعد توصيل الطلبية بين الساعة ";
-
-
-"order_schedule_Instant_lable" = "سيتم توصيل طلبك في غضون الـ ";
-"order_schedule_InstantTime_lable" = "60 دقيقة القادمة";
-
-"lbl_Hurray_Success_Msg" = "تم تأكيد طلبك بنجاح";
-
-    // Orders history
-"orders_top_title" = "طلباتي";
-
-"order_status_pending" = "مقرر";
-"order_status_accepted" = "قبل";
-"order_status_en_route" = "في الطريق";
-"order_status_completed" = "اكتمل";
-"order_status_canceled" = "ملغى";
-"order_status_delivered" = "تم التوصيل";
-"order_status_insubtitution" = "في الاستبدال";
-"order_status_unknown" = "غير معروف";
-"order_status_schedule_order" = "مجدول";
-"order_status_in_edit" = "قيد التعديل";
-"order_status_ready_checkout" = "جاهز للدفع";
-"order_status_waiting_approval" = "انتظار تأكيد الدفع";
-"order_status_ready_deliver" = "جاهز للتوصيل";
-"order_status_checkout_out" = "الدفع";
-"order_status_payment_approved" = "تم الموافقة على الدفع";
-"order_status_payment_rejected" = "تم رفض الدفع";
-
-"order_number_label_Full" = "رقم الأمر:";
-"order_number_label" = "رقم الطلب:";
-"order_date_label" = "التاريخ:";
-"order_history_order_confirmation_label" = "الرجاء التأكيد إذا كان طلبك على ما يرام";
-"order_history_order_confirmation_button" = "تم التنفيذ";
-"order_history_reorder_button" = "إعادة الطلب";
-"order_history_change_order_button" = "تغيير الطلب";
-
-"order_history_grocery_review_label" = "استعراض المنتجات المطلوبة";
-"order_history_grocery_review_button" = "استعراض";
-
-"order_history_delete_alert_title" = "إزالة الطلب";
-"order_history_delete_alert_message" = "هل ترغب حقا بإزالة هذا الطلب؟";
-
-"order_history_cancel_alert_title" = "إلغاء الطلب";
-"order_history_cancel_alert_message" = "هل ترغب حقا بإلغاء هذا الطلب؟";
-"order_cancel_alert_title" = "الطلب";
-"order_cancel_success_message" = "تم إلغاء طلبك بنجاح";
-
-"order_history_delete_order_error" = "لم يتم حذف طلبك من السجل. الرجاء معاودة المحاولة في وقت لاحق";
-
-    // Feedback
-"feedback_info_label" = "يرجى الاتصال في حال كنت بحاجة إلى أي مساعدة";
-"feedback_call_now_button" = "التواصل الآن";
-"feedback_your_feedback_label" = "شاركنا رأيك ";
-"feedback_textfield_placeholder" = "تعليق";
-"feedback_send_feedback_button" = "إرسال";
-
-    // Favourites
-"favourites_groceries_tab" = "البقالة";
-"favourites_products_tab" = "المنتجات";
-
-"favourites_adding_to_basket_alert_title" = "تمت إضافة المنتج للسلة";
-"favourites_adding_to_basket_alert_description" = "تمت إضافة منتجك إلى السلة. يمكنك ان ترى هذا المنتج في سلة التسوق";
-"favourites_adding_to_basket_alert_button" = "حسنا";
-
-"favourites_go_to_grocery_wrong_location" = "لا بقوم هذا السوبرماركت بالتوصيل للموقع الذي قمت باختياره.";
-
-    // Empty views
-"empty_view_favourites_grocery_title" = "ليس لديك أي بقالة مفضلة";
-"empty_view_favourites_grocery_description" = "قم بإضافة البقالة هنا عن طريق النقر على أيقونة القلب";
-"empty_view_favourites_product_title" = "ليس لديك أي منتجات مفضلة";
-"empty_view_favourites_product_description" = "قم بإضافة المنتجات هنا عن طريق النقر على أيقونة القلب.";
-
-"empty_view_orders_title" = "ليس لديك أي طلبات في السجل.";
-"empty_view_orders_description" = "أكمل طلبا واحدا على الأقل لمشاهدته هنا.";
-
-"empty_view_products_search_title" = "لم نتمكن من العثور على أي منتجات لهذه العبارة.";
-"empty_view_products_search_description" = "غير عبارة البحث أو ابحث عن منتج حسب الفئة أوالعلامة التجارية";
-
-"empty_view_categories_title" = "لا تتوفر فئات";
-"empty_view_categories_description" = " لا يحتوي هذا السوبرماركت على أي فئات مضافة";
-
-"empty_view_reviews_title" = "لا توجد تعليقات";
-"empty_view_reviews_description" = "لا يحتوي هذا السوبرماركت على أي تعليقات";
-
-    // Grocery view
-    //"dashboard_store_navigation_bar_title" = "اختيار سوبرماركت";
-
-    //MARK: Grocery review
-"grocery_review_header_label" = "تقييم البقالة:";
-"grocery_review_description_label_1" = "تم حساب النتيجة بناء على";
-"grocery_review_description_label_2" = "الخدمات والجودة والأداء";
-
-"grocery_review_new_review_title" = "استعراض البقالة";
-"grocery_review_criteria_overall" = "التقييم الإجمالي";
-"grocery_review_criteria_delivery_speed" = "سرعة التوصيل";
-"grocery_review_criteria_order_accuracy" = "صحة الطلب";
-"grocery_review_criteria_quality" = "الجودة";
-"grocery_review_criteria_price" = "السعر";
-"grocery_review_comments_placeholder" = "التعليقات";
-"grocery_review_send_review_button" = "إرسال تقييم";
-
-"grocery_review_alert_title" = "استعراض البقالة";
-"grocery_review_alert_description" = "هل ترغب في مراجعة المنتجات التي قمت بطلبها؟";
-"grocery_review_alert_cancel" = "ليس الآن";
-"grocery_review_alert_review_button" = "استعراض";
-
-"grocery_review_already_added_alert_title" = "استعراض الموجود";
-"grocery_review_already_added_alert_description" = "هل ترغب في تغيير رأيك بهذه البقالة؟";
-"grocery_review_already_added_alert_confirm_button" = "تغيير";
-"grocery_review_already_added_alert_cancel_button" = "إلغاء";
-
-    // Intro
-"intro_shop_now_button" = "تسوق الآن";
-"intro_next_button" = "التالي";
-
-    // Adding products from other grocery
-"products_adding_different_grocery_alert_title" = "لديك سلة ممتلئة.";
-"products_adding_different_grocery_alert_message" = "لديك سلة تسوق نشطة من متجر مختلف. سيتم مسح هذه السلة. هل تريد الاستمرار؟";
-"products_adding_different_grocery_alert_confirm_button" = "إضافة للسلة";
-"products_adding_different_grocery_alert_cancel_button" = "إلغاء";
-
-    // Complete profile
-"complete_profile_screen_title" = "إكمال الصفحة الشخصية";
-"complete_profile_info_label" = "نحن بحاجة إلى معلومات كاملة لمعالجة طلبك";
-"complete_profile_submit_button" = "إرسال ومتابعة";
-"user_profile_completion_save_button" = "إنشاء حساب"; //Hunain 18Dec16
-
-    // Grocery selection for order
-"grocery_selection_screen_title" = "اختيار البقالة";
-"grocery_items_available_label" = "المنتجات متوفرة";
-
-    // No network screen
-"no_network_screen_title" = "لا يوجد اتصال بالإنترنت";
-"no_network_screen_description" = "قم بالاتصال بالإنترنت لاستئناف التفاعل مع التطبيق";
-
-    // About us
-"about_title_1" = "حول التطبيق:";
-"about_description_1" = "يعتبر el Grocer تطبيقا مجانيا لتوصيل البقالة مقره الإمارات. نقوم بتزويدك بشبكة واسعة من السوبرماركتات الشريكة التي من شأنها تقديم أسهل تجربة تسوق للمنتجات. نتميز بأننا نتيح إمكانية شراء منتجات كبيرة من السوبرماركتات القريبة بنفس سعر المحلات (بلا أسعار مضافة) وبتوصيل مجاني في معظم الحالات بسرعة في غضون 30، 60، 90، أو 120دقيقة!";
-
-"about_title_2" = "ما نقوم به:";
-"about_description_2" = "نقدم تطبيقا سهل الاستخدام لتلبية احتياجاتك من المنتجات، فلا حاجة للاتصال والذهاب إلى السوبرماركت بعد اليوم. تمتع باستلام المنتجات حتى باب بيتك من خلال بضع نقرات فقط! ستتمكن من الوصول للمخزن الكامل لشركائنا من المحلات بنفس السعر الأصلي.";
-
-"about_title_3" = "لماذا el Grocer؟";
-"about_description_3" = "السوبرماركتات القريبة: قم باستكشاف السوبرماركتات القريبة التي يمكن أن تشتري منها. إذا لم تكن منطقتك في القائمة بعد، قم بإنشاء حساب وسنقوم بإعلامك عند التعامل مع منطقك. \n\n نطاق واسع: قم بمشاهدة التنوع الواسع في المنتجات الموجودة في السوبرماركتات القريبة، فلم تعد هناك حاجة للبحث والاتصال للاستعلام عن ما لديهم من المنتجات أو إذا كانت منتجاتك المفضلة موجودة أم لا. \n\n نفس السعر: لا رسوم إضافية؛ حيث أن الأسعار المذكورة هي نفس الأسعار المعروضة في المحل بالضبط. \n\n توصيل مجاني وسريع: نقوم بتحويل طلبك لشركائنا من السوبرماركتات القريبة بنفس السعر لو ستتصل بهم، وعادة يتم ذلك بشكل مجاني وفوري. \n\n لا مزيد من الاتصالات: لم تعد هناك حاجة للاتصال أو انتظار أن يتم الرد عليك بعد الآن، وقم بنسيان عدم فهم المنتجات أو الطلبات الخاطئة، وليست هناك حاجة لذكر عنوانك ورقمك في كل مرة. \n\n على أتم الاستعداد: احفظ الوقت والجهد من خلال طلب المنتجات بسهولة أينما كنت من هاتفك ببضع نقرات سهلة فقط. \n\n El Grocer (أبراج بحيرة جميرا البرج الفضي، تجمع I، دبي، الإمارات العربية المتحدة) \n البريد الإلكتروني: info@elgrocer.com";
-
-    // Abandoned cart notification
-    //Hunain 27Dec16
-    //"abandoned_cart_notification_message" = "منتجاتك في الانتظار";
-"abandoned_cart_notification_message" = "إن منتجاتك في الانتظار. لا تنس أن تتفحصها";
-"abandoned_cart_notification_message_24_Hour" = "هل وجدت كل ما تحتاجه؟ يبدو أنك قد نسيت أن تضع طلبك";
-"abandoned_cart_notification_message_72_Hour" = "لا تزال منتجاتك في السلة. إذا كنت بحاجة إلى المساعدة، فانقر على هذه الرسالة لفتح الدردشة المباشرة حتى نتمكن من مساعدتك.";
-"notification_alert_title" = "الإشعارات";
-
-    // Order canceled
-"label_we_are_sorry" = "نحن آسفون.";
-"label_order_had_to_be_canceled" = "ولكن اضطر محل %@ لإلغاء الطلب بسبب";
-"label_cancel_message" = "انشغاله بطلبات أخرى";
-"label_products_have_been_put_back" = "لقد تم إعادة منتجاتك إلى السلة. الرجاء اختيار محل بقالة جديد للتعامل مع التوصيل";
-
-"title_order_canceled" = "تم إلغاء الطلب";
-"btn_ok_order" = "حسنا، اطلب";
-"btn_no_thanks" = "لا، شكرا";
-
-
-    //MARK: Location
-"location_not_covered_alert_title" = "تحذير";
-"location_not_covered_alert_message" = "لم تتم تغطية هذا الموقع من قبل el Grocer بعد. يمكنك استخدام التطبيق لتنفيذ الطلب.";
-"location_not_covered_alert_button" = "حسنا";
-"location_not_covered_checkout_message" = "التنفيذ غير متوفر، لأن عنوان التسليم الذي قمت باختياره لم تتم تغطيته من قبل أي محل.";
-"default_location_name" = "موقع مجهول";
-
-
-    // No groceries
-"no_groceries_title" = "عفوا";
-"no_partner_grocery" = " عذرا، ليس لدينا أي سوبرماركت شريك في المنطقة حاليا";
-    //"no_groceries_sorry_message" = "عذرا، جميع محلات البقالة في منطقتك مغلقة حاليا. الرجاء معاودة المحاولة في وقت لاحق.";
-"no_groceries_sorry_message" = "أوووه لا! \n جميع محلات البقالة في منطقتك مغلقة حاليا. الرجاء معاودة المحاولة في وقت لاحق.";
-"no_groceries_subtitle_label_title" = "سوف نقوم بإعلامك عن طريق البريد الإلكتروني بمجرد تمكنك من وضع طلب. شكرا لك على صبرك.";
-"groceries_offline_button" = "حسنا";
-"changelocation_button" = "تغيير الموقع";
-"agentchat_button" = "التحدث إلى أحد عملائنا";
-"agent_chat_title" = "التحدث إلى عميل";
-"sorry_title" = "عذرا";
-"store_is_unavailable" = "المتجر غير متوفر.";
-
-    // Order minimum value
-    //"order_no_minimum_value_alert_title" = "تحذير";
-    //"order_no_minimum_value_alert_description" = "آسف! لم تصل إلى الحد الأدنى المطلوب من قبل هذا السوبرماركت. الحد الأدنى لقيمة الطلبات هو";
-"order_no_minimum_value_alert_title" = "انتباه";
-"order_no_minimum_value_alert_description" = "الحد الأدنى من الطلبات لهذا المتجر هو درهم";
-"promo_code_minimum_value_alert_description" = " هذا الرمز الترويجي صالح فقط على الحد الأدنى من المشتريات ";
-"promo_code_minimum_value_alert_remianing_description" = "الحد الأدنى. الرجاء إضافة المزيد من المنتجات.";
-"promo_code_brand_alert_description" = "هذا الرمز الترويجي صالح فقط على السلة الممتلئة.";
-"promo_code_brand_alert_products" = "المنتجات بحد أدنى من";
-"promo_code_brand_alert_worth_of" = "تساوي";
-"promo_code_brand_alert_products_purchased" = "المنتجات المشتراة";
-"select_payment_type_message" = "الرجاء اختيار طريقة الدفع قبل تطبيق الرمز الترويجي";
-
-    // MARK: Location Map
-"location_map_label_title" = "الرجاء إدخال عنوانك";
-"location_map_done_button_title" = "إيجاد";
-"location_map_controller_title" = "اختيار الموقع";
-
-    // MARK: Update Location Info
-"update_location_info_title_label_text" = "إيجاد السوبرماركتات القريبة";
-"update_location_info_subtitle_label_text" = "لقد قمنا بتحسين خدمات الموقع لدينا لتسليم طلباتك بشكل أسرع. الرجاء اختيار موقعك على الخريطة.";
-"update_location_info_done_button_title" = "هيا لننفذ";
-
-"location_changed_view_main_Description_label_text" = "يبدو أن الموقع الحالي يختلف عن المكان الذي تطلب منه عادةً. هل ترغب في تغيير الموقع؟";
-"location_changed_view_sub_Description_label_text" = "المنتجات المتوفرة و التخفيضات و العروض خاصة بالمتاجر المتوفرة بكل منطقة وقد تتغير طبقاً لتغير مكانك.";
-"location_changed_view_change_location_button_title" = "التغيير إلى الموقع الحالي";
-"location_changed_view_dont_change_location_button_title" = "إستخدام الموقع الإفتراضى";
-
-    // MARK: Setting View
-"setting_navigation_bar_title" = "الإعدادات";
-"setting_favourites" = "المفضلات";
-"setting_delivery_address" = "عناوين التوصيل";
-"setting_faq" = "الأسئلة الشائعة";
-"setting_feedback" = "دردشة مباشرة";
-"setting_notifications" = "الإشعارات";
-//"setting_language" = "تغيير اللغة";
-"setting_sign_out" = "الخروج";
-"setting_user_account" = "الحساب";
-"setting_about" = "عنا";
-
-    // MARK: Free Groceries View
-"free_groceries_navigation_bar_title" = "المنتجات المجانية";
-"earn_free_credits" = "هل تريد كسب بعض المنتجات المجانية؟";
-"free_groceries_description" = "قم بدعوة أصدقائك للتطبيق وستحصلان كلاكما على منتجات مجانية. الأمر بهذه البساطة";
-"how_invite_work" = "كيف نقوم بالدعوة";
-"copy" = "انسخ";
-"free_groceries_invitation_link" = "رابط الدعوة";
-"free_groceries_send_invite" = "أرسل الدعوة";
-
-    // MARK: Wallet view
-"wallet_navigation_bar_title" = "المحفظة";
-"wallet_no_balance_text" = "قم بدعوة الأصدقاء للحصول على منتجات مجانية لتنفقها في تطبيق";
-"wallet_invite_friend" = "دعوة الأصدقاء";
-"available_balance" = "الرصيد المتوفر";
-"congratiolations" = "تهانينا";
-"congratiolation_referral_description" = "لقد قام من قمت بدعوته بالاشتراك. \n استمتع ب10 دراهم إماراتية";
-"congratiolation_keep_sharing_text" = "إذا كنت تريد كسب المزيد، قم بمشاركة التطبيق";
-"invitation_code" = "رمز الدعوة الخاص بك";
-"empty_wallet" = "محفظتك فارغة حاليا.";
-"balance_expire" = "انتباه. تنتهي صلاحية رصيدك في نهاية كل شهر";
-"balance_details" = "تفاصيل الرصيد";
-"wallet_balance" = "رصيد المحفظة:";
-"order_bill" = "قيمة فاتورة الطلب:";
-"amount_pay_from_wallet" = "إدخال الكمية للدفع من المحفظة";
-"pay_button_title" = "دفع";
-
-    // MARK: Delivery View
-"delivery_view_help_us" = "الرجاء إطلاعنا بملاحظاتك على الطلب";
-"delivery_view_on_time" = "هل تم تسليم الطلب على الموعد؟";
-"delivery_view_items_properly" = "هل تم تسليم جميع المنتجات المطلوبة؟";
-"delivery_view_quality_issues" = "هل هناك مشاكل بجودة المنتج؟";
-"delivery_view_bill_amount" = "هل تساوي قيمة الفاتورة القيمة الموجودة في التطبيق؟";
-
-    // MARK: Account Setup Alert
-"account_setup_alert_title" = "تهانينا";
-"account_setup_alert_description" = "قبل الطلب، سوف تحتاج إلى إعداد حسابك حتى نتمكن من الحصول على تفاصيل التسليم الخاصة بك.";
-"account_setup_ok" = "حسنا";
-"account_setup_cancel" = "إلغاء";
-
-"closing_in" = "يغلق السوبرماركت في";
-"place_order" = "\n احصل على طلبك قبل ذلك.";
-"hurry_up" = "أسرع";
-"addtocart_button_title" = "إضافة اﻟﻰ السلة";
-
-    // MARK: Delivery Popup
-"start_delivering_here" = "ابدأ التسليم هنا";
-"outside_delivery_area_text" = "الموقع الذي حددته خارج منطقة التسليم. الرجاء النقر على الزر أدناه لطلب إضافة هذا الموقع.";
-"request_to_deliver_here" = "اطلب التسليم هنا";
-"choose_another_location" = "اختيار موقع آخر";
-//"stores_notify_text" = "قم بإدخال جميع المتاجر التي تريد الشراء منها وسوف نعلمك عندما نقوم بفتحها في هذه المنطقة.";
-"send_button_title" = "إرسال";
-
-    // MARK: Delivery Popup
-"today_title" = "اليوم";
-"tomorrow_title" = "غدا";
-"delivery_button_title" = "تعيين وقت التسليم";
-"no_slot_available_text" = "لا توجد منافذ توصيل متاحة";
-"choose_slot" = "اختيار منفذ التوصيل";
-
-    // MARK: Grocery View
-"card_delivery" = "البطاقة / عند التوصيل";
-"cash_delivery" = "نقدا";
-"cash_card_delivery" = "نقدا - البطاقة / عند التوصيل";
-"delivery_title" = "التوصيل";
-"instant_title" = "فوري";
-"schedule_title" = "مجدول";
-"instant_schedule_title" = "فوري ومجدول";
-"timing_title" = "مؤقت";
-
-
-    // MARK: Schedule PopUp
-"scheduled_delivery_message" = "المتجر مغلق. التسليم الفوري غير متوفر. يرجى وضع طلب مجدول";
-"instant_delivery_message" = "المتجر مفتوح. التسليم الفوري متوفر.";
-"order_deliver_message" = "حدد وقت التسليم الأكثر ملاءمة.";
-
-    // MARK: Order Tracking
-"order_traking_pending_message" = "يجري حاليا تحضير طلبك. تستغرق الطلبات الفورية ما يصل إلى 5 دقائق لقبولها وتحضيرهاا.";
-
-"order_traking_schedule_pending_message" = "لقد قمت بتعيين طلب مجدول ل";
-
-"order_traking_accept_message" = "أخبار جيدة! يتم تحضير طلبك. استعد لأي بدائل في الدقائق 10-15 المقبلة";
-
-"order_traking_in_substitution_message" = "تحتوي السلة على عناصر غسر متوفرة حاليا. يرجى اختيار بديل";
-
-"order_traking_enroute_message" = "ووهو ... طلبك في الطريق! يرجى توقع تسلمه خلال ال45 دقيقة التالية. وسوف نقوم بإطلاعك على أي تأخير.";
-
-"order_traking_deliver_message" = "لقد تم تسليم الطلب.";
-
-"change_slot_alert_title" = "تغيير منفذ التوصيل";
-"change_slot_default_message" = "تم تغيير منفذ الطلب بنجاح";
-
-"scheduled_to_instant_message" = "تم تغيير طلبك إلى طلب فوري وسيتم تحضيره على الفور.";
-"delivery_slot_change_message" = "وقت التسليم المعين:";
-"delivery_slot_change_message2" = "سوف نقوم بإعلامك في حالة حدوث أية تغييرات";
-
-    // MARK: Substitutions
-"select_alternate_button_title" = "اختيار بدائل";
-"cancel_order_button_title" = "إلغاء الطلب";
-"substitutions_title" = "تغيير الطلب";
-"choose_substitutions_title" = "اختار الاستبدال";
-"choose_substitutions_title_cell" = "اختار الاستبدال";
-"products_out_of_stock_message" = "سيتم تبديل ما يلي في طلبك";
-"choose_substitution_button_title" = "الطلب بدلا من ذلك";
-"discard_substitution_button_title" = "لا تقم بالتبديل";
-"substitution_summary_title" = "تأكيد تغيير الطلب";
-"subtituted_items_title" = "المنتجات التي تم تبديلها";
-"total_aed_title" = "المبلغ الإجمالي";
-"prices_vary_message" = "قد تختلف الأسعار النهائية قليلا";
-"confirm_button_title" = "تأكيد";
-
-    // MARK: New Strings
-"request_button_title" = "طلب";
-"home_title" = "الرئيسية";
-"requests_title" = "اظافة منتجات";
-"more_title" = "أكثر";
-"type_your_products_placeholder" = "فلوريداز ناتشورال 1 لتر";
-"not_finding_your_favorite_products_title" = "ألم تتمكن من إيجاد منتجاتك المفضلة؟";
-"not_finding_your_favorite_products_description" = "يرجى كتابة كل منتج تحتاجه وسنعمل مع شركائنا على توفيره في المرة القادمة.";
-"available_balance" = "الرصيد المتوفر";
-"save_button_title" = "حفظ";
-"trending_searches" = "المنتجات";
-"all_products" = "جميع المنتجات";
-"all_products_from_store" = "جميع المنتجات في هذا المتجر";
-"add_title" = "إضافة";
-//"to_reach_minimum_order" = "للوصول للحد الأدنى من الطلبات";
-"product_added_to_basket" = ".تم إرسال المنتج لسلة المشتريات";
-"to_minimum" = "للحد الأدنى";
-"delivery_time" = "وقت التوصيل";
-"order_summary" = "ملخص الطلب";
-"save_money" = "وفر المال";
-"save_time" = "وفر الوقت";
-"stay_healthy" = "ابق بصحة جيدة";
-"have_fun" = "استمتع";
-"have_an_account"   = " لديك حساب ؟";
-"min_order_amount"  = "قيمة الطلب السفلى";
-"delivery_hours"    = "ساعات التوصيل";
-"delivery_within"   = "توصيل في حوالي";
-"payment_method"    = "طريقة الدفع";
-"quantity_:"        = "الكمية:";
-"total_:"           = "الإجمالي:";
-"total_price_:"     = "السعر الكلي:";
-"quantity"          = "الكمية";
-"open"              = "مفتوح";
-"Next_Delivery_Slot"= "التسليم التالي:";
-"scheduled_delivery"= "توصيل مجدول";
-"instant_delivery"  = "توصيل فوري";
-"closed"            = "مغلق";
-"closed_Now"            = "مغلق الآن";
-"add_address_manually" = "أضف العنوان يدويا...";
-"request_alert_title" = "شكرا لك على طلبك";
-"request_alert_description" = "سنعمل سريعا مع شركائنا على توفير تلك المنتجات في المرة القادمة. ";
-
-"instant_order" = "طلب فوري";
-"only_instant_orders_allowed" = "يسمح فقط بالطلبات الفورية";
-"groceries_to_your_door" = "المنتجات حتى باب بيتك";
-"promo_code_title" = "الرمز الترويجي";
-"empty_basket_title" = "سلة مشترياتك فارغة. قم بإضافة بعض المنتجات لتنفيذ الطلب";
-"free_delivery" = "توصيل مجاني";
-"delivery_fee"  = "رسوم التوصيل";
-"free"  = "مجانا";
-"all" = "الكل";
-"card" = "بطاقة";
-"cerdit_card" = "بطاقة الائتمان";
-"cash" = "نقدا";
-"to_be_paid" = "سيتم دفع مبلغ";
-"from_wallet_and" = "سيتم دفع مبلغ من المحفظة و";
-"paid_from" = "تم الدفع من";
-"from" = "من";
-"by" = "من";
-"discount_applied_for" = "تم الخصم ل";
-"promo_code" = "الرمز الترويجي";
-"create_account_title" = "قم بإنشاء حساب في تطبيق  el Grocer";
-"orn_number" = "أو رقم: #";
-"min_title" = "دقائق";
-"basket_active_from_other_grocery_title" = "تحذير";
-"basket_active_from_other_grocery_message" = "تحتوي سلة المشتريات الخاصة بك على منتجات من متجر آخر. هل ترغب بإزالة محتويات السلة لتتمكن من الشراء من هذا المتجر؟";
-"clear_button_title" = "مسح";
-"open_now" = "مفتوح الآن";
-"to_title" = "حتى";
-
-"reorder_different_address_message" = "إن العنوان الذي كتبته مختلف عن العنوان الموجود في سجلك. هل ترغب بالمتابعة وإنشاء طلب جديد لهذا العنوان؟";
-"tobacco_products_message" = "لا تقوم المحلات في منطقتك بتوصيل تبغ المنتجات";
-"reorder_close_store_message" = "المحل الذي قمت باختياره لإعادة الطلب مغلق حاليا. يرجى المحاولة فيما بعد.";
-
-"reorder_change_location_message" = "المحل غير متاح في الموقع الحالي. يرجى تغيير الموقع ليتم إعادة الطلب.";
-"edit_Order_change_location_message" = "المحل غير متاح في الموقع الحالي. يرجى تغيير الموقع ليتم إعادة الطلب.";
-"fruits_veg_price_vary"     = "الفواكه والخضراوات / اللحوم والدواجن قد تتفاوت الأسعار";
-"right_address_message" = "هل هذا هو العنوان الصحيح؟ يبدو بأنك بعيد قليلا ";
-"order_is_no_more_in_edit_msg" = "لقد انتهت الـ 30 دقيقة! سيتم الآن تنفيذ طلبك المُعدل كطلب جديد.";
-
-
-"register_title"          = "سجل";
-"login_title"           = "تسجيل الدخول";
-"new_here"              = "هل أنت جديد هنا؟";
-"forgot_password_description_label" = "يرجى ملء عنوان بريدك الإلكتروني لإعادة تعيين كلمة المرور";
-"Sign_up"               = "إنشاء حساب";
-
-"thank_you"                 = "شكرا لك";
-"delivery_location_request" = "شكرا على طلبك. نحن على اطلاع دائم على المتاجر القريبة وسنبعث برسالة لك في حال توفر المحل.";
-"check_email_detail_label"  = "يرجى تفقد بريدك الإلكتروني من أجل تعيين كلمة مرور جديدة";
-"service_price_title"             = "رسوم الخدمة";
-"rider_price"               = "رسوم السائق";
-"substitutions_title_new"   = "البدائل";
-"choose_substitutions_title_new" = "اختر بديلا";
-"products_out_of_stock_message_new" = "المنتجات التالية غير متوفرة حاليا";
-"choose_substitution_button_title_new" = "اختر بديلا الآن";
-"no_replacement_suggested_title"     = "لا يوجد بديل مقترح";
-"replacement_suggested_title"       = "بديل مقترح";
-"select_alternate_button_title_new"     = "متابعة";
-"cancel_order_button_title_new"         = "إلغاء الطلب";
-"confirm_button_title_new"              = "إرسال بديل";
-"substituted_items"                     = "المنتجات المستبدلة:";
-"grand_total"                           = "الإجمالى";
-"item_cancelled"                        = "ملغى";
-"item_replaced"                        = "مستبدل";
-"surcharge_text" = "رسوم إضافية";
-"prices_may_vary_title" = "قد تختلف الأسعار";
-"click_here_to" = "انقر هنا ل";
-"one_last_step_title" = "خطوة واحدة أخيرة...";
-"enable_notifications_description" = "قم بتفعيل الإشعارات لتطلع على لطلبك دون أن نزعجك بالاتصال";
-"not_now_button_title" = "ليس الآن";
-"enable_notifications_button_title" = "قم بتفعيل الإشعارات";
-
-"last_order_title" = "آخر طلب للبوم";
-"last_order_message" = "يتم أخذ آخر طلبات للتوصيل اليوم خلال";
-
-"vat_title" = "ضريبة القيمة المضافة";
-"service_price" = "رسم التوصيل (شامل الضريبة)";
-"total_bill_amount" = "قيمة الفاتورة";
-"promotion_discount_aed" = "خصم الرمز الترويجي";
-"total_price" = "السعر الإجمالي (شامل الضريبة)";
-"done_button_title" = "إنهاء";
-"promo_code_reset_message" = "يبدوم بأنك قمت بتغيير سلة المشتريات. الرجاء إدخال الرمز الترويجي مجددا.";
-
-"easy_groceries_title" = "تسوق المنتجات بسهولة";
-"wallet_button_title" = "الدفع والدخول للمحفظة";
-
-"recently_added_title" = "لقد فمت مؤخرا بإضافة";
-"new_title" = "جديد";
-"location_count_singular" = "الموقع";
-"location_count_plural" = "المواقع";
-"want_to_add_title" = "هل تريد إضافة عنوانك الحالي؟";
-"language_change_message" = "يتوجب عليك إعادة تشغيل التطبيق لتفعيل التغيير في اللغة";
-
-// FAQ's
-"faq_title_1" = "أين يمكنني استخدام الجروسر؟ ";
-"faq_description_1" = "خدمتنا متوفرة في جميع أنحاء الإمارات العربية المتحدة (دبي، أبو ظبي، العين، الشارقة، رأس الخيمة، الفجيرة، أم القيوين، وعجمان) ";
-
-"faq_title_2" = "كيف سأستلم مشترياتي من البقالة؟ ";
-"faq_description_2" = "تتولى متاجرنا الشريكة مهمة التوصيل. يتم إرسال طلبك - فور وصوله - إلى المتجر، ويتم التوصيل والتسليم في غضون 60 دقيقة للطلبات الفورية. قد نتصل بك في حالات الاستبدال أو أي استفسارات أخرى. ";
-
-"faq_title_3" = "كيف أدفع ثمن مشترياتي من البقالة؟ ";
-"faq_description_3" = "خيارات الدفع هي: الدفع عبر الإنترنت أو نقداً أو ببطاقة ائتمان عند التسليم أو بنقاط Smiles، وتختلف هذه الخيارات من متجر لآخر. ";
-
-"faq_title_4" = "
-هل تختلف الأسعار مقارنة بأسعار التسوق المباشر من المتاجر؟";
-"faq_description_4" = "لا فرق! الأسعار هي نفسها. الميزة الكبرى هي أنك لست مضطراً لإضاعة الوقت في الذهاب إلى المتاجر. ببساطة، اطلب كل ما تحتاجه ببضع نقرات فقط.";
-
-"faq_title_5" = "ما هي المدة التي عليّ انتظارها حتى تصل بقالتي؟ ";
-"faq_description_5" = "سيتم توصيل البقالة إليك في أسرع وقت ممكن؛ حيث ستبذل المتاجر الشريكة قصارى جهدها للتسليم في الوقت المحدد. ومع ذلك، قد يتأثر ذلك بتوافر موظفي التوصيل وحجم وضغط العمل، والطرق أو الأحوال الجوية، والمسافة بين المتجر وعنوان التسليم. إذا كان هناك أي تأخير فسوف نتأكد من إبلاغك في أبكر وقت ممكن.
- ";
-
-"faq_title_6" = "
-هل يمكنني تتبع طلباتي؟
-";
-"faq_description_6" = "بالطبع، يمكنك تتبع حالة طلبك بالذهاب إلى عنصر 'طلباتي' في القائمة. سيتم إعلامك أيضاً من خلال الإشعارات. ";
-
-"faq_title_7" = "كيف أبدأ؟ ";
-"faq_description_7" = "بمجرد تنزيل التطبيق، ما عليك سوى تحديد موقعك الحالي للاطلاع على قائمة المتاجر الشريكة المتوفرة بالقرب منك. اختر متجراً وابدأ تجربة تسوق البقالة بكل أريحية. الأمر في غاية البساطة!  ";
-
-"faq_title_8" = "أنا جديد على هذا النوع من الخدمات. هل يمكنني تصفح تطبيقكم أولاً؟ ";
-"faq_description_8" = "نعم، يمكنك تصفح تطبيقنا بحرية أولاً قبل الطلب. بمجرد فتح التطبيق في المرة الأولى، ما عليك سوى تحديد خيار 'استكشف وسجّل لاحقاً'. سيطلب منك التطبيق تحديد موقعك وسيعرض لك المتاجر المتاحة في منطقتك. بعد اختيار متجر وإضافة المنتجات التي تريدها إلى سلتك، سيُطلب منك إدخال معلومات الاتصال الخاصة بك لمتابعة عملية الدفع. ";
-
-"faq_title_9" = "هل يمكنكم توصيل بقالتي إلى عناوين تسليم متعددة؟ ";
-"faq_description_9" = "بالتأكيد! يمكنك وضع عدة عناوين للتسليم حسبما تفضل. ";
-
-"faq_title_10" = "
-هل يوجد حد أدنى للطلب أو رسوم توصيل مقابل عمليات التوصيل؟
-";
-"faq_description_10" = "أسعار الجروسر هي نفسها التي تراها في المتاجر. تتطلب بعض المتاجر المزيد من عمال التوصيل الذين يعملون بالتناوب. هذا يعني أن الحد الأدنى للطلبات ورسوم التوصيل تختلف باختلاف بائع التجزئة الذي تطلب منه. تأخذ المتاجر الصغيرة الطلبات بقيم سلة منخفضة عند حد أدنى 30 درهم إماراتي. بينما في حالة بعض بائعي التجزئة الذين يقومون بالتوصيل في نفس المبنى أو في حدود 500 متر، لا توجد رسوم توصيل. يتم عرض جميع شروط التوصيل كتفاصيل للمتاجر المدرجة لدينا، وكذلك على شاشة ملخص الطلب، حيث يُطلب منك تأكيد طلبك.  ";
-
-"faq_title_11" = "هناك العديد من المنتجات التي أطلبها عادة، فهل يمكنني تحديدها دون البحث عنها أو التصفح لإيجادها؟ ";
-"faq_description_11" = "بالتأكيد، يتم إدراج المنتجات التي يتم شراؤها بشكل معتاد في سجل التسوق؛ ليكون اختيارها سهلاً.  ";
-
-"faq_title_12" = "لا يمكنني العثور على المنتج الذي أبحث عنه. ";
-"faq_description_12" = "تعكس المنتجات التي تراها في التطبيق مخزون المتاجر الشريكة لنا. نقوم بتحديث المنتجات باستمرار لتزويدك بمعلومات دقيقة وتوضيح مدى توافر كل منتج. إذا لم تتمكن من العثور على ما تحتاجه، يرجى استخدام خاصية الدردشة المباشرة وإخبارنا بما تبحث عنه، حتى نتمكن من العمل مع المتاجر الشريكة لنا لإضافة هذا المنتج (المنتجات).  ";
-
-"faq_title_13" = " تلقيت تحديثاً بشأن طلبي يشير إلى أن بعض العناصر غير متوفرة. ";
-"faq_description_13" = "إذا نفد المخزون من المتجر، فسيتم الاتصال بك وعرض خيار تحديد بديل للمنتج (المنتجات) الذي اخترته أولاً.  ";
-
-"faq_title_14" = "هل يمكنني جدولة موعد التوصيل ليوم أو وقت لاحق؟ ";
-"faq_description_14" = "نعم، يمكنك ببساطة اختيار يوم ووقت التوصيل المناسبين لك من صفحة الدفع. ";
-
-"faq_title_15" = "هل يمكنني تكرار نفس الطلب الذي سبق وقدمته؟ ";
-"faq_description_15" = "نعم، ما عليك سوى التوجه إلى 'طلباتي' واختيار إعادة الطلب. ";
-
-"faq_title_16" = "كيف يمكنني إلغاء طلبي؟ ";
-"faq_description_16" = "يعتمد الإلغاء على حالة طلبك:
-- إذا كانت حالة طلبك ' معلق'، فيمكنك تعديل طلبك وإلغائه
-- إذا كانت حالة طلبك 'مقبول'، فهذا يعني أن طلبك لا يزال في المتجر ويمكن إلغاؤه. يرجى الاتصال بنا عبر الدردشة المباشرة حتى نتمكن من مساعدتك
-- إذا كانت حالة طلبك 'في الطريق'، فهذا يعني أن فريق التوصيل خرج لتوصيل طلبك بالفعل. يتم إلغاء الطلب بموجب هذه الحالة تبعاً لكل حالة على حدة. يرجى الاتصال بنا حتى نتمكن من التنسيق مع متجرنا الشريك. ";
-
-"faq_title_17" = "استلمت منتجاً به عيب ما أو غير صحيح، ماذا أفعل؟ ";
-"faq_description_17" = "نوصي بشدة بفحص المنتجات أولاً. لديك خيار رفض العناصر إذا كانت غير صحيحة أو في حالة سيئة. يرجى الاتصال بنا على الفور حتى نتمكن من تنسيق عمليات الاستبدال مع المتاجر الشريكة لنا.  ";
-
-// Online Payment FAQ
-
-"faq_title_18" = "لقد قدمت طلباً للتو، هل تم محاسبتي/تحصيل أكثر من مبلغ بقالتي الأساسي؟ ";
-"faq_description_18" = "لم نحصّل منك أي مبلغ بعد. لقد طلبنا مبلغاً ليتم تعليقه، ونطلب تعليق مبلغ إضافي قيمته 10 دراهم للعناصر الطازجة والأوزان الإضافية وبدائل OOS (نفاذ المنتج من المخزون).  ";
-
-"faq_title_19" = "
-2- تلقيت رسالتين قصيرتين بخصوص عملية الدفع الخاص بي؛ هل يعني أنكم حاسبتموني مرتين؟ ";
-"faq_description_19" = "لا، من المحتمل أن تكون أول رسالة نصية قصيرة من البنك الذي تتعامل معه، وهذا هو المبلغ الذي طلبنا تعليقه. الرسالة الثانية من الجروسر، وهذا هو المبلغ الفعلي الذي قمنا بتحصيله من بطاقتك عند الدفع في المتجر. (بعد معالجة وتجهيز الطلب بالعناصر الطازجة وبدائل OOS).  ";
-
-"faq_title_20" = " أريد إلغاء طلبي، هل يمكنكم إعادة المبلغ المدفوع؟ ";
-"faq_description_20" = " سيتم إلغاء طلبك وإلغاء المبلغ المفترض تحصيله من بطاقتك. ";
-
-"faq_title_21" = "لقد قدمت طلباً، ثم قمت بتعديله لإضافة المزيد من العناصر. لقد تم محاسبتي مرتين؟ ";
-"faq_description_21" = "سيتم إلغاء تحصيل المبلغ الأول بشكل تلقائي. سنقوم فقط بتحصيل المبلغ النهائي للطلب الذي جرى تعديله. ";
-
-"faq_title_22" = "لقد قدمت طلباً ودفعت عبر الإنترنت، هل يمكنني إضافة المزيد من العناصر؟ ";
-"faq_description_22" = "نعم، سنضيف المبلغ الإضافي ليتم تحصيله من بطاقتك بمجرد الدفع في المتجر. ";
-
-// Earn & Redeem FAQ
-
-"faq_title_23" = "كيف يمكنني التسجيل؟ ";
-"faq_description_23" = "العملية بسيطة! انقر فوق بانر Smiles في تطبيق الجروسر، وسيتم توجيهك خلال عملية التسجيل. ";
-
-"faq_title_24" = "أين يمكنني إيجاد جميع معلومات حساباتي؟ ";
-"faq_description_24" = "يمكن الوصول إلى معلومات رصيدك في الجروسر وSmiles من قائمة الملف الشخصي في تطبيق الجروسر.  ";
-
-"faq_title_25" = "
-هل يوجد حد أقصى لعدد محاولات إدخال الـ OTP (كلمة مرور لمرة واحدة) الصحيحة؟  ";
-"faq_description_25" = "بعد ثلاث محاولات كحد أقصى، سيتم رفض معاملتك، وسيتم حظر خدمة المصادقة. سيكون هناك فترة 24 ساعة حتى يمكنك محاولة المصادقة مرة أخرى. يتم التعرف على 3 محاولات OTP فقط في اليوم الواحد.  ";
-
-"faq_title_26" = "إذا كان لدي ملف شخصي موجود في تطبيق الجروسر، كيف يمكنني ربطه بملف Smiles الشخصي لكسب النقاط واستبدالها؟  ";
-"faq_description_26" = "إذا كان لديك حساب الجروسر وحساب Smiles، عند فتح التطبيق سترى بانر تسجيل الدخول للكسب والاسترداد.
-بمجرد النقر فوق البانر، سيتم إرسالك إلى شاشة التحقق.
-سيتعرف عليك النظام على أنك Smiles، وستتلقى رسالة OTP.
-بعد النقر فوق موافق، والعودة إلى الشاشة الرئيسية، سترى رصيدك الحالي في Smiles في الملف الشخصي . ";
-
-"faq_title_27" = "هل يمكن لكل من الحسابين الأساسي والمرتبط تسجيل الدخول إلى تطبيق الجروسر؟  ";
-"faq_description_27" = "الحسابات الأساسية والمرتبطة هي إشارة إلى حسابات Smiles وليس الجروسر.
-يدعم الجروسر جميع حسابات Smiles. سيصل كل حساب إلى نفس رصيد Smiles الموجود على تطبيق Smiles الخاص به.  ";
-
-"faq_title_28" = "إذا كان لدي رقم هاتف تجاري أو رقم خط زائر أو رقم SWYP أو رقم Du أو رقم دولي أو أي نوع آخر، فهل يزال بإمكاني كسب واستبدال نقاط Smiles باستخدام تطبيق الجروسر؟ ";
-"faq_description_28" = "لا يميز الجروسر بين أنواع الأرقام. يمكن لأي رقم تسجل من خلاله للحصول على حساب Smiles كسب النقاط واستبدالها على تطبيق الجروسر.
- ";
-
-"faq_title_29" = "ما هي فوائد برنامج' اكسب واستبدل'؟  ";
-"faq_description_29" = "مع كل عملية شراء ستكسب نقاط Smiles التي يمكن استخدامها لشراء البقالة وطلبات Smiles Food وأي شريك آخر في Smiles. يمكنك أيضاً استبدال نقاطك Smiles عند تقديم طلباتك على الجروسر. ";
-
-"faq_title_30" = "
-هل سأحصل على نقاط مقابل المشتريات التي اشتريتها قبل إنشاء حساب المكافآت الخاص بي؟
-  ";
-"faq_description_30" = "سيبدأ كسب نقاط Smiles بعد إنشاء حساب لك في الجروسر، واختيار تسجيل الدخول إلى حسابك في  Smiles من داخل تطبيق الجروسر. ";
-
-"faq_title_31" = "هل سأتمكن من استخدام نقاط Smiles التي كانت في محفظتي في Smiles سابقاً؟  ";
-"faq_description_31" = "نعم  ";
-
-"faq_title_32" = "كيف يمكنني كسب النقاط؟  ";
-"faq_description_32" = "بمجرد ربط حسابك Smiles بحسابك في الجروسر عن طريق النقر فوق بانر Smiles، ستكسب نقاط Smiles مع كل درهم تنفقه على تطبيق الجروسر. كل 1 درهم تنفقه سيكسبك 1 نقطة Smiles. يمكنك أيضاً كسب نقاط من خلال العديد من الطرق الأخرى من خلال تطبيق Smiles. ";
-
-"faq_title_33" = "كيف تتم آلية كسب النقاط؟ ";
-"faq_description_33" = "مقابل كل 1 درهم إماراتي تنفقه على الجروسر، ستحصل على 1 نقطة Smiles. ";
-
-"faq_title_34" = "إذا استخدمت كود ترويجي، فكيف سيتم احتساب نقاط Smiles؟  ";
-"faq_description_34" = "عند استخدام الكود الترويجي، ستكسب النقاط على المبلغ المدفوع بعد الخصم.
-على سبيل المثال، إذا كان لديك فاتورة بقيمة 100 درهم، وأنت تستخدم الكود NEW10 الذي يمنحك خصم 10 دراهم على فاتورتك.
-عند استخدام الكود، ستدفع 90 درهم فقط، وستكسب 90 نقطة Smiles في المقابل.  ";
-
-"faq_title_35" = "عندما أقوم بالدفع بنقاطي Smiles، هل سأكسب نقاط جديدة؟  ";
-"faq_description_35" = "عند اختيارك دفع الطلب بنقاط Smiles، لن تكسب نقاطاً. عند استبدال النقاط، لا تنطبق خاصية الكسب. في أي معاملة يمكنك إما كسب أو استبدال - واحدة من هاتين الخاصيتين فقط في كل معاملة.  ";
-
-"faq_title_36" = "هل يوجد حد أدنى لإجراء الدفع باستخدام نقاط Smiles؟  ";
-"faq_description_36" = "لا يوجد حد أدنى لقيمة الطلب عندما يتعلق الأمر باستخدام نقاط Smiles .
-لكن بعض المتاجر لديها حد أدنى للمبلغ لتقديم الطلب فيها.
-لذلك، في هذه اللحظة، تحتاج إلى أن يكون بحوزتك مبلغ طلبك بالكامل في صورة نقاط Smiles.
- ";
-
-"faq_title_37" = "كيف يمكنني استبدال نقاطي عند الدفع؟ ";
-"faq_description_37" = "في صفحة الدفع داخل تطبيق الجروسر، سيظهر لك رصيدك Smiles. يمكنك اختيار شراء طلبك من الجروسر باستخدام رصيدك الحالي من Smiles.  ";
-
-"faq_title_38" = "هل يمكنني استخدام نقاط Smiles لدفع جزء من الفاتورة؟ ";
-"faq_description_38" = "نعم، هذا ممكن. ";
-
-"faq_title_39" = "هل يمكنك دفع فاتورة قيمتها 200 درهم بـ 200 نقطة Smiles التي كسبتها عند شرائك بقيمة 200 درهم من الجروسر؟  ";
-"faq_description_39" = "لا، ستكسب 1 نقطة مع كل 1 درهم تنفقه. لكن الأمر يتطلب حوالي 111 نقطة لدفع ما قيمته 1 درهم من البقالة. يبدو الأمر كما لو كنت تحصل على استرداد نقدي بنسبة 1٪ على مشترياتك في شكل نقاط Smiles.  ";
-
-"faq_title_40" = "هل تنتهي صلاحية نقاطي؟ ";
-"faq_description_40" = "تخضع جميع نقاطك Smiles للشروط والأحكام المنصوص عليها في تطبيق Smiles. ";
-
-"faq_title_41" = "كيف يمكنني استبدال نقاطي على Smiles؟ أم أن الرصيد على Smiles والجروسر مماثل؟ أو إذا دفعت بنقاطي Smiles على الجروسر، فهل سينخفض رصيدي في تطبيق Smiles؟ وتبعاً لذلك، إذا ربحتُ نقاطاً على الجروسر، فهل سأرى نقاطي مضافة إلى محفظة الجروسر؟  ";
-"faq_description_41" = "رصيدك في Smiles مرتبط مباشرة بتطبيق الجروسر. إذا كسبت نقاطاً عن طريق طلب واستلام بقالة  الجروسر، فستنعكس النقاط على رصيدك في تطبيق Smiles. إذا قمت باستبدال أي نقاط على تطبيق الجروسر، فسيتم خصم النقاط تلقائياً من رصيدك Smiles داخل تطبيق Smiles.  ";
-
-"faq_title_42" = "لقد استبدلت النقاط بآخر عملية شراء، لكنني الآن أرغب في استعادتها. ماذا سيحدث لمكافأتي؟ أو في حالة فشل الدفع؟ أو في حالة الاستبدال؟ ";
-"faq_description_42" = "إذا تم إلغاء طلب في الجروسر يستخدم نقاط Smiles لأي سبب من الأسباب، فسيتم إرجاع نقاط Smiles إلى رصيد Smiles الخاص بك.  ";
-
-"faq_title_43" =
-"21- ما هو الهامش الزمني لاستلام نقاط Smiles بعد الإرجاع؟
- ";
-
-"faq_description_43" = " ساعة (حوالي يومين)";
-
-"faq_title_44" = "إذا استخدمت كود ترويجي، فكيف سيتم احتساب نقاط Smiles؟  ";
-"faq_description_44" = "عند استخدام الكود الترويجي، ستكسب النقاط على المبلغ المدفوع بعد الخصم.
-على سبيل المثال، إذا كان لديك فاتورة بقيمة 100 درهم، وأنت تستخدم الكود NEW10 الذي يمنحك خصم 10 دراهم على فاتورتك.
-عند استخدام الكود، ستدفع 90 درهم فقط، وستكسب 90 نقطة Smiles في المقابل.
-  ";
-
-"faq_title_45" = "
-عندما أقوم بالدفع بنقاطي Smiles، هل سأكسب نقاط جديدة؟ ";
-"faq_description_45" = "عند اختيارك دفع الطلب بنقاط Smiles، لن تكسب نقاطاً. عند استبدال النقاط، لا تنطبق خاصية الكسب. في أي معاملة يمكنك إما كسب أو استبدال - واحدة من هاتين الخاصيتين فقط في كل معاملة. ";
-
-// Tabby
-
-"faq_title_46" = "1. ما هو تابي؟ ";
-"faq_description_46" = "احصل على مزيد من الوقت للدفع. مع الجروسر وتابي، يمكنك التسوق الآن والدفع في نهاية الشهر مع رسوم الفائدة 0٪. ";
-
-"faq_title_47" = "كيف يمكنني استخدام تابي؟  ";
-"faq_description_47" = "اختر تابي كخيار للدفع في صفحة الدفع للطلب. ";
-
-"faq_title_48" = "هل يجب أن يكون لدي حساب على تابي لتقديم طلب؟ ";
-"faq_description_48" = "نعم، سيتم إعادة توجيه العملاء إلى تابي للتسجيل. ";
-
-"faq_title_49" = "إذا لم أكن من عملاء تابي، كيف يمكنني الاشتراك؟  ";
-"faq_description_49" = "ستتم إعادة توجيهك إلى صفحة الإشتراك التي تحتاج فيها إلى رقم هاتف محمول صالح في دولة الإمارات العربية المتحدة، وبريد إلكتروني صالح، وهوية إماراتية صالحة، وبطاقة ائتمان صالحة.  ";
-
-"faq_title_50" = "كم من الوقت يستغرق تفعيل حسابي؟ ";
-"faq_description_50" = "يتم التعامل مع هذا بالكامل بواسطة تابي. ستخضع موافقتهم على طلبك لمراجعتهم لبياناتك وظروفك المقدمة.  ";
-
-"faq_title_51" = "هل هناك رسوم فائدة إذا لم أدفع في نهاية الشهر؟ ";
-"faq_description_51" = "يتم التعامل مع هذا بالكامل بواسطة تابي. تتعهد بدفع المبالغ التالية بسبب التأخر في السداد:
-25 درهم بعد تاريخ السداد (دفعة نهاية الشهر).
-25 درهم إضافية إذا كان المبلغ مستحقاً بعد 14 يوماً من تاريخ السداد.
-25 درهم إضافية إذا كان المبلغ مستحقاً بعد 28 يوماً من تاريخ السداد.  ";
-
-"faq_title_52" = "كم يمكنني أن أنفق مع تابي؟ ";
-"faq_description_52" = "للحفاظ على أمان التسوق، تعتمد حدود الإنفاق على عدد من العوامل بما في ذلك نوع المنتجات التي تشتريها، والمتجر الذي تشتري منه، وسجلك مع تابي.  ";
-
-"faq_title_53" = "هل استخدام تابي مجاني؟ ";
-"faq_description_53" = "نعم! لا يفرض تابي أي فائدة أو رسوم على أي دفعات تتم في الوقت المحدد لها.  ";
-
-"faq_title_54" = " متى يجب علي الدفع؟";
-"faq_description_54" = "تبدأ دورة الدفع لتابي من اليوم 25 من الشهر حتى اليوم 24 من الشهر التالي. وفي يوم 25، ستحصل على ملخص لطلباتك لتلك الدورة. عليك أن تدفع بحلول يوم 28.  ";
-
-
-
-/*
-"faq_title_1" = "أين يمكنني استخدام تطبيق el Grocer؟";
-"faq_description_1" = "نقدم خدماتنا حاليا في مدينة دبي ونغطي جميع المناطق التجارية والسكنية تقريبا ، ونعمل حاليا على توسيع نطاق تغطيتنا لنقدم خدمة أفضل، ونقوم بتوسيع خدماتنا بسرعة كبيرة وإضافة مناطق جديدة بشكل أسبوعي.";
-
-"faq_title_2" = "كيف أستلم البقالة؟";
-"faq_description_2" = "يحرص شركاؤنا على الاهتمام بتفاصيل التسليم؛ حيث يتم تحويل طلبك خلال وقت مناسب للمتجر ومن ثم توصيله إليك في غضون 60 دقيقة. سنقوم بالاتصال بك في حال كان لديك أي استفسارات.";
-
-"faq_title_3" = "كيف أقوم بالدفع مقابل البقالة؟";
-"faq_description_3" = "يمكنك الدفع نقدا أو من خلال بطاقة ائتمان ويختلف الخياران من متجر لآخر. نخطط لإضافة مزيد من خيارات الدفع بما في ذلك الدفع عبر الانترنت قريبا.";
-
-"faq_title_4" = "هل هناك اختلاف بين الأسعار التي تعرضونها لتوصيل الطلبيات وبين تلك المعروضة في المتجر مباشرة؟";
-"faq_description_4" = "لا يوجد هناك أي اختلاف أبدا! حيث أن الأسعار نفسها. قم ببساطة بطلب ما تحتاجه بنقرات قليلة.";
-
-"faq_title_5" = "كم من الوقت يجب علي الانتظار لوصول البقالة؟";
-"faq_description_5" = "سيتم توصيل البقالة لك بأسرع ما يمكن في غضون 60 دقيقة ما لم ترغب في تأجيل وصولها لوقت لاحق. ولكن، قد يتأثر هذا الوقت بعوامل عدة مثل توفر طاقم التوصيل وضغط العمل و الشوارع وحالة الطقس والمسافة بين المتجر وبين مكان التوصيل. وإذا كان هناك أي تأخير سنحرص على إعلامك بأسرع وقت ممكن.";
-
-"faq_title_6" = "هل يمكنني تعقب طلبيتي؟";
-"faq_description_6" = "يمكنك تعقب حالة طلباتك من على الشاشة الرئيسية للتطبيق أو من خلال الذهاب إلى عنصر 'الطلبات' في القائمة. سيتم إعلامك أيضا بالحالة من خلال الإشعارات، لذلك احرص على أن تقوم بالسماح لنا بإرسال الإشعارات.";
-
-"faq_title_7" = "كيف أبدأ؟";
-"faq_description_7" = "بمجرد أن تقوم بتحميل التطبيق، قم ببساطة باختيار موقعك الحالي من أجل رؤية قائمة المتاجر المتاحة حولك. سيتم تحويل طلبك تلقائيا لمتجر افتراضي ولكن يمكنك بسهولة تغيير المتجر بضغطتين فقط. فالأمر بسيط جدا! ";
-
-"faq_title_8" = "أنا جديد على هذا النوع من الخدمات. هل يمكنني تصفح التطبيق أولا؟";
-"faq_description_8" = "نعم، يمكنك تصفح تطبيقنا بحرية قبل الطلب. بمجرد أن تقوم بفتح التطبيق لأول مرة قم ببساطة باختيار المنطقة وتصفح وسجل لاحقا. سيطلب منك التطبيق أن تختار موقعك وسيريك المتاجر المتاحة في منطقتك. بعد أن تقوم باختيار المتجر وإضافة المنتجات التي تريدها لسلتك، سنطلب منك أن تقوم بإدخال بيانات الاتصال بك من أجل الاستمرار للدفع.";
-
-"faq_title_9" = "هل يمكنني كتابة عناوين متعددة للتوصيل؟";
-"faq_description_9" = "بكل تأكيد! يمكنك إنشاء عناوين توصيل متعددة بناء على ما تفضله. ";
-
-"faq_title_10" = "هل هناك أي حد أدنى لتكلفة الطلب والتوصيل للطلبات؟";
-"faq_description_10" = "الأسعار التي يعرضها تطبيق el Grocer هي نفس أسعار المتجر، إلا أن بعض المتاجر تتطلب وجود عدد كبير من موظفي التوصيل الذين يتناوبون في أوقات العمل؛ مما يعني تفاوت الحد الأدنى لسعر الطلبات ورسوم التوصيل بناء على المتجر الذي يتم الطلب منه.\n\nيمكن الطلب من المتاجر الصغيرة بقيمة لا تتعدى 30 درهم، بينما يوجد رسوم توصيل صغيرة للمتاجر التي تقوم بالتوصيل لنفس البناية أو على بعد 500 م.\n\nيتم عرض جميع بنود التوصيل بالتفصيل لكل متجر من المتاجر التي نتعامل معها على شاشة ملخص الطلب قبل تأكيد الطلب.";
-
-"faq_title_11" = "هناك العديد من المنتجات التي أطلبها عادة. هل هناك خيار يسمح لي باختيارهم دون الحاجة للبحث عنهم؟";
-"faq_description_11" = "بالطبع. قم ببساطة بالنقر على أيقونة القلب بجانب المنتج الذي ترغب به وسيتم إضافته لقائمة مفضلاتك التي من السهل الوصول إليها من قائمة التطبيق. بالإضافة إلى ذلك، يمكنك إعادة طلب كل المنتجات الموجودة في سلتك أو بعضها من خلال الذهاب إلى تاريخ الطلبات والنقر على 'إعادة الطلب' من أجل التعديل قبل أن تقوم بتأكيد الطلب.";
-
-"faq_title_12" = "لا أستطيع إيجاد المنتج الذي أبحث عنه?";
-"faq_description_12" = "تعكس المنتجات الموجودة في التطبيق قوائم الجرد في شركائنا من المتاجر. نقوم بتحديث المنتجات بشكل دوري من أجل توفير الدقة. إذا لم تتمكن من إيجاد ما تريد، قم رجاء باستخدام ميزة المحادثة الحية التي تمكننا من العمل مع شركائنا من المتاجر لإضافة ما تريد.";
-
-"faq_title_13" = "تلقيت تحديثا حول حالة طلبي بأن بعض العناصر غير موجودة?";
-"faq_description_13" = "إذا نفذ مخزون طلبك من المتجر، سيتم الاتصال بك لنعرض عليك اختيار بديل عن المنتج.";
-
-"faq_title_14" = "هل يمكنني تحديد موعد بوقت أو يوم لاحق لاستلام الطلب؟";
-"faq_description_14" = "نعمل حاليا على تنفيذ هذه الخاصية. ويمكنك في الوقت الحالي أن تطلب هذا الأمر من خلال ملاحظة إضافة/ تعديل الموجودة في شاشة الدفع أو من خلال التواصل معنا بالمحادثة الحية.";
-
-"faq_title_15" = "هل يمكنني تكرار نفس الطلب الذي قمت به مسبقا؟";
-"faq_description_15" = "'.أجل، قم ببساطة بالذهاب ل'طلباتي' ومن ثم قم باختيار 'إعادة الطلب";
-
-"faq_title_16" = "كيف أقوم بإلغاء طلبي؟";
-"faq_description_16" = "تعتمد إمكانية الإلغاء على حالة طلبك. إذا كانت حالة طلبك ما تزال 'معلق'، قم رجاء بالاتصال بنا فورا ليتم إلغاء الطلب. أما إذا كانت حالة الطلب 'مقبول'، فهذا يعني بأن طلبك ما يزال في المتجر ويمكن أن يتم إلغاؤه. قم رجاء بالاتصال بنا. وإن كانت حالة الطلب 'في الطريق'، فهذا يعني بأن فريق التوصيل قد خرج للتوصيل، وإلغاء الطلب بهذه الحالة يتم على أساس حالة بحالة. قم رجاء بالاتصال بنا لنتمكن من التعاون مع شركائنا المتاجر.";
-
-"faq_title_17" = "قمت باستلام منتج غير صحيح/ معيب. ماذا أفعل؟";
-"faq_description_17" = "ننصح وبشدة أن تتصفح المنتج أولا قبل أن تقوم بالدفع، لك كامل الحق لرفض المنتجات المعيبة أو التي في حالة سيئة. قم رجاء بالاتصال بنا فورا لنتمكن من عمل تبديل مع شركائنا المتاجر.";
-
-*/
-
-
-"how_invite_work_title" = "كيف تعمل الدعوات؟";
-"how_invite_work_description" = "سيتم إيداع 30 دراهم تلقائيا في حساب كل مستخدم جديد لتطبيق el Grocer إذا ما قام بتسجيل الدخول للتطبيق من خلال رمز الدعوة الخاص بك. وبمجرد أن يقوموا بطلبهم الأول، ستحصل أيضا على 10 دراهم في حسابك. إنها الطريقة الأسهل للحصول على بعض البقالة المجانية لذلك قم بمشاركة الحب مع أصدقائك!";
-
-    // Order Feedback Questions
-
-"how_was_your_delivery_title" = "ما تقييمك لخدمة التوصيل ؟";
-
-"feedback_question1_title" = "هل تم توصيل الطلب في الوقت المحدد؟";
-"feedback_question1_answer1" = "لقد تم توصيله قبل الوقت المحدد";
-"feedback_question1_answer2" = "نعم، تم توصيله تماما كما توقعت";
-"feedback_question1_answer3" = "لا، لقد تم توصيله بشكل متأخر";
-"feedback_question1_answer4" = "لم أستلم طلبي حتى الآن";
-
-"feedback_question2_title" = "واللأن لننتقل لتفييم عامل انتقاء المنتجات الذي تعامل مع طلبك. هل أنت راضٍ عن جودة المنتجات التي استلمتها؟";
-"feedback_question2_answer1" = "راضي";
-"feedback_question2_answer2" = "راضٍ لحد ما";
-"feedback_question2_answer3" = "غير راضٍ نوعا ما";
-"feedback_question2_answer4" = "غير راضٍٍ";
-
-"feedback_question3_title" = "دعنا نتحدث عن السعر، هل أنت راضٍ عن سعر المنتجات؟";
-"feedback_question3_answer1" = "الطلب أرخص";
-"feedback_question3_answer2" = "الطلب مثل ما توقعته";
-"feedback_question3_answer3" = "السعر أغلى من سعر المتجر";
-
-"suggestions_placeholder_text" = "هل يوجد لديك أي تعليقات أو ملاحظات أو اقتراحات؟ ساعدنا لنصبح أفضل.";
-
-"delivery_feedback_title" = "تقييم التوصيل";
-"leave_feedback_title" = "اترك تقييما";
-
-
-//"feedback_thanks_message" = "لقد قمنا بإرسال ملاحظاتك لقسم خدمة العملاء وسنأخذهم بعين الاعتبار.";
-
-"rate_us_title" = "اترك تقييما";
-"rate_us_message" = "يأخذ ثوانٍ قليلة، لكنه يعني الكثير لنا.";
-"rate_us_ok_title" = "قيّم الآن";
-"rate_us_cancel_title" = "ربما في وقت لاحق";
-
-"confirm_address_title" = "قم بتأكيد عنوانك";
-"drag_pin_title" = "قم بوضع المؤشر على موقعك الصحيح";
-
-"current_location_title" = "الموقع الحالي";
-"finding_address_title" = "نحاول إيجاد موقعك الحالي";
-"failed_to_find_current_address_title" = "للأسف، لم نتمكن من إيجاد موقعك الحالي";
-
-"location_error_title" = "خدمة الموقع غير متوفرة حاليا";
-"location_error_message" = "الرجاء استخدام مؤشر الخريطة لاختيار الموقع";
-"location_error_ok_button" = "اختيار الموقع";
-
-"stay_updated_title" = "ابق على اطلاع";
-"enable_notifications_message" = "قم من فضلك بتفعيل الإشعارات لنتمكن من إطلاعك على حالة طلباتك بسهولة.";
-"location_services_title" = "خدمات الموقع";
-"location_services_message" = "نحتاج لنعرف موقعك من أجل عرض السوبرماركتات القريبة منك.";
-"enable_location_services_title" = "تفعيل خدمات الموقع";
-"in_title" = "في";
-"search_for_title" = "البحث عن";
-
-"out_of_stock_title" = "غير متوفر";
-"out_of_stock_message_title" = "أوه لا! هناك خطب ما...";
-"out_of_stock_message" = "يؤسفنا إخبارك بأن بعض المنتجات الموجودة في سلة مشترياتك غير متوفرة حاليا. هل تريد تنفيذ الطلب بدون هذه المنتجات؟";
-"choose_alternatives_title" = "اختر بديلا";
-"alternatives_title" = "بديل";
-"select_alternative_title" = "اختر بديلا بدلا من";
-"from_title" = "من:";
-"to_text" = "ل:";
-"view_order_title" = "عرض الطلب";
-"slot_expired_title" = "منفذ التوصيل مشغول حاليا";
-"slot_expired_message" = "أوه لا، لقد قام للتو باختيار منفذ التوصيل، لقد قمنا تلقائيا باختيار المنفذ التالي لك.";
-"no_slot_available_title" = "التوصيل غير متاح";
-"no_slot_available_message" = "لا تتوفر أي منافذ للتوصيل. الرجاء المحاولة فيما بعد.";
-
-"reorder_banner_title" = "اشتر الان!";
-"reorder_banner_description" = "قم بإعادة طلب المنتجات السابقة من هذا المتجر";
-"reorder_banner_button_title" = "إعادة الطلب";
-"previously_purchased_products_title" = "أعِد شرائه مرة أخرى";
-"trending_near_you_title" = "المنتجات الشائعة";
-"featured_products_title" = "المنتجات المميزة";
-"top_selling_title" = "الأكثر مبيعا";
-"browse_title" = "استعراض";
-
-
-"top_selling_title" = "الأكثر مبيعا";
-"top_selling_description" = "الأكثر مبيعا من هذا المتجر";
-
-"setting_privacy_policy" = "سياسة خاصة";
-"setting_terms_conditions" = "الشروط والأحكام";
-
-
-
-
-    // MARK: shopping list vc
-
-
-//"shopping_PlaceHolder_Search_List" =
-//"قائمتي ادخل قائمه طلباتك مع كتابة منتج واحد في كل سطر\n
-//خضروات
-//حليب
-//حبوب
-//معكرونة
-//صلصة
-//دجاج
-//سمك
-//ديتول
-//حفاضات
-//أطعمة أطفال
-//شامبو
-//شوكولاتة
-//أوريو
-//مكسرات
-//مياه
-//نسكافيه
-//أطعمة قطط";
-"shopping_Search_Item_Header_Title" =  "";
-
-
-    //Main category
-"delivery_One_Hour"  = "التسليم في 1 ساعة";
-"delivery_One_Hour_WithOutNext"  = "التسليم في 1 ساعة";
-"Delivery_Slot"= "التسليم :";
-"Change" = " تغيير ";
-"shop_btn_title" = "تسوق";
-
-
-    //PLace order
-"Deliver_From" = "التوصيل من";
-"Deliver_To" = "التوصيل إلى";
-"lbl_Sponsored" = "    برعاية     ";
-//"addtocart_button_title" = "اضف الى عربه التسوق";
-
-
-"lbl_no_Product_Found" = "لم نتمكن من العثور على منتجات";
-
-    // cahnge password
-"Change_Password_alert_Title"   = "تحديث كلمة السر";
-"Change_Password_Success_Message"   = "تم تحديث كلمة السر بنجاح";
-"Change_Password_Failure_Message"   = "فشل تحديث كلمة المرور";
-"login_forgot_password_button" =   "نسيت اسم المستخدم وكلمة المرور";
-
-
-    //Setting screen new text
-"cell_Title_Account" = "الحساب";
-"cell_Title_Other"   = "المزيد";
-"change_Password_Title"   = "تغيير كلمة السر";
-"setting_ChangePassword" = "تغيير كلمة السر";
-"old_Password_PlaceHolder"   = "كلمة السر الحالية";
-"new_Password_PlaceHolder"   = "كلمة السر الجديدة";
-"confirm_Password_PlaceHolder"   = "تأكيد كلمة السر الجديدة";
-"entry_detect_my_location_button_title" = "جِد موقعي*";
-"entry_maually_select_location_button_title" = "تحديد الموقع يدويًا";
-"user_detail_about_location" = "نحن في حاجة إلى تحديد موقعك حتى نتمكن من اظهار المتاجر المجاورة لك";
-"user_detail_about_location_entryScreen" = "* لإظهار أفضل تطابق للسوبرماركت حولك، نحتاج إلى معرفة موقعك";
-    //tabbar titile
-"Home_Title" = "الرئيسية";
-"Browser_Title" = "صنف";
-"Search_Title" = "بحث";
-"Order_Title" = "الوصفات";
-"Profile_Title" = "الملف الشخصي";
-
-
-
-"SMS_Verifcation_Title" = "أدخل الرمز من الرسالة النصية المرسلة إليك على";
-"Did_not_Received_Title" = "لم تصل الرسالة؟";
-"Resend_SMS_Button_Title" = "أعد إرسال الرسالة";
-"Code_Verfication_Title" = "أدخل الكود";
-"registration_account_Phone_exists_error_title" = "رقم الهاتف مستخدم";
-//"registration_account_Phone_exists_error_alert" = "عفواََ, هذا الرقم لديه حساب. هل تريد تسجيل الدخول؟";
-
-
-"carousel_View_Title" = "منتجات موصى بها لك";
-"error_PinCode" = "الرمز غير صالح";
-"order_status" =  "الطلب";
-"order_CheckOut_label" = "إتمام الشراء";
-"cvv_alert_msg" = "الرجاء إدخال رقم أمان بطاقتك للمتابعة";
-
-
-
-"edit_Order_TimePassed" = "طلبك يتم تحضيره حاليًا بواسطة المتجر ولا يمكن تعديله. إذا كنت بحاجة إلى مساعدة عاجلة ، فيرجى الاتصال بالدعم المباشر";
-"continue_button_title" = "استمرار";
-
-"order_confirmation_Edit_order_button" = "تعديل الطلب";
-"order_Cancel_popUp_message"  =  "تم مسح / حذف سلتك . هل تريد إضافة المزيد من العناصر أو إلغاء الطلب؟";
-"cancel_OrderButtonTitle" = "إلغاء الطلب";
-"AddMoreItemsButtonTitle" = "أضف منتجات";
-"Edit_Basket_Title" = "تعديل الطلب";
-// "cvv_alert_msg" = "Please enter your card cvv to continue";
-"order_Title" = "رقم الطلب";
-"order_No_Title" = "رقم الطلب";
-"Add_New_Credit_Card_Title" = "إضافة بطاقة ائتمان جديدة";
-"Add_Card_Title" = "اضف";
-"Card_Number_Title" = "رقم البطاقة";
-"Card_MM_Title" = "شهر";
-"Card_YY_Title" = "سنة";
-"Card_HolderName_Title" = "اسم حامل البطاقة";
-"Card_SecurityCode_Title" = "رمز الحماية";
-"Card_FirstName_Title" = "الإسم الأول";
-"Card_LastName_Title" = "اللقب";
-"Card_CardNumberInvalid_Title" = "رقم البطاقة غير صحيح!";
-"Card_CardDateInvalid_Title" = "تاريخ انتهاء الصلاحية غير صحيح!";
-"Card_CardExpired_Title" = "البطاقة منتهية الصلاحية!";
-"Card_TypeNotSupported_Title" = "نوع البطاقة غير معتمد!";
-"Card_TechnicalProblem_Title" = "مشكلة فنية!";
-"Card_YearInvalid_Title" = "سنة انتهاء الصلاحية غير صحيح";
-"Card_MonthInvalid_Title" = "شهر انتهاء الصلاحية غير صحيح";
-
-"Card_EnterFirstName_Title" = "ادخل الإسم الأول";
-"Card_EnterLastName_Title" = "ادخل اللقب";
-"Card_ExpiryDate_Title" = "تاريخ الصلاحية";
-"Card_PleaseRetry_Title" = "الرجاء اعادة المحاولة!";
-"Card_Payment_Failed_Title" = "فشلت عملية الدفع";
-"Card_EditCard_Title" = "تعديل البطاقة";
-"Card_AddCard_Title" = "أضف بطاقة";
-"Card_Price_Variance_Title" = "اختلاف الأسعار";
-"Card_AuthCard_Title" = "مصادقة البطاقة";
-"Card_SecurityCodeInvalid_Title" = "رمز الحماية غير صحيح";
-
-"Card_Terms_Title" = "أوافق على تغيير مبلغ الفاتورة النهائية للوزن الزائد من الطعام الطازج حسب الدفع في البقالة.";
-"Card_ChosePaymentMethod_Title" = "اختر طريقة الدفع";
-"card_title" = "بطاقة";
-"card_Delete_Message" = "هل تريد حقا إزالة هذا بطاقة؟";
-
-"remove_Item_On_ProductCell_button_title" = "تم الإلغاء";
-
-"No_Delivery_Slot_String" = "لا تتوفر أي منافذ التوصيل.";
-
-
-"Setting_Credit_Card_List"  = "إدارة البطاقات";
-"Setting_Credit_Card_Add_Success"  = "تم إضافة البطاقة بنجاح";
-"Setting_Credit_Card_Add_Failure"  = "فشل في إضافة البطاقة ، يرجى المحاولة مرة أخرى";
-"Setting_Credit_Card_Delete_Success"  = "تم حذف البطاقة بنجاح";
-"ALERT_ADD_COPY_PASTE_STRING" = "احفظ الرمز";
-"Setting_Add_Card_User_Notification_Message" = "سيتم سحب ١ درهم للتحقق من صحة بطاقتك. سيتم إلغاؤها بعد إضافة البطاقة بنجاح.";
-
-
-"confimAndAddCard" = "تأكيد وإضافة بطاقة جديدة";
-"cardErrorDefaultMsg" = "تنبيه: لتجنب إلغاء طلبك، يجب تحديث طريقة الدفع الخاصة بك في خلال ١٠ دقائق";
-"Card_Error_Back_Click" = "الطلب قيد الدفع. هل تريد العودة؟ \n\n\nتنبيه: لتجنب إلغاء طلبك، يجب تحديث طريقة الدفع الخاصة بك في خلال ١٠ دقائق";
-"lbl_retry" = "حاول مرة أخرى";
-
-
-/**
- 
- Re-schedule    إعادة جدولة
- AED.1 authorisation will be processed to validate your card. It will be voided after the successful addition of the card.    سيتم سحب ١ درهم للتحقق من صحة بطاقتك. سيتم إلغاؤها بعد إضافة البطاقة بنجاح.
- Manage Cards    إدارة البطاقات
- Card added successfully    تم إضافة البطاقة بنجاح
- Fail to add card, Please try again    فشل في إضافة البطاقة ، يرجى المحاولة مرة أخرى
- Card deleted successfully    تم حذف البطاقة بنجاح
- ADD TO COPY PASTE    أضف إلى نسخ لصق
- Removed    تم الإلغاء
- COPY CODE    احفظ الرمز
- */
-
-"lbl_No_Grocey_in_Area" = "الجروسر لا يسلم حالياً البضاعة إلى هذه المنطقة";
-"lbl_Chose_different_location" = "إختار موقع مختلف";
-"Store_Title" = "متجر";
-"Min_Order" = "حد الطلب";
-"dashboard_store_navigation_bar_title" = "متاجر قريبة إليك";
-"lbl_Refresh" = "Refresh";
-"lbl_current_item_out_of_store" = "هذا المنتج غير متوفر حالياً";
-"lbl_select_AnotherStore" =  " برجاء اختر متجر آخر";
-"Stores_near_you" = "متاجر قريبة إليك";
-"Great_Deals" = "عروض رائعة";
-"60_min"  = "٦٠ دقيقة";
-"all_store" = "كل المتاجر";
-"btn_Go_Back" = "العودة  إلى الخلف";
-"Shopping_list_Titile" = "قائمة التسوق";
-"Add_Shopping_list_Title" = "أضف قائمة التسوق";
-"Cart_Title" = "سلة اﻟﺘﺴﻮق";
-"Cart_Title_Basket_overlay" =  "إتمام الشراء";
-
-    // no selected store
-
-"No_Selected_Store" = "لم تقم بإختيار المتجر";
-
-"No_Choose_The_Store" = "اختر المتجر";
-"lbl_Shop_Category" = "تسوق حسب الفئة";
-"sub_category_empty_title_text" = "لم يتم العثور على أي منتجات";
-"sub_category_empty_details_text" = "يرجى تجربة تصفية جديدة أو البحث عن طريق اسم المنتج";
-"shopping_Title" = "قائمة التسوق";
-"No_Product_Found_Msg" = "عفواً، هذا المنتج مفقود. الرجاء تصحيح الاملاء أو إختيار منتج آخر.";
-
-
-"No_Selected_Store_Cart" = "سلة الخاصة بك فارغة";
-
-"No_Selected_Store_ShopingList"  = "قئمة التسوق الخاصة بك فارغة";
-
-    //Mybasket
-"top_selling_Products_title" = "المنتجات الأعلى مبيعاً";
-"lbl_cart_details_title" = "%@منتج بطلبك";
-"lbl_cart_details_title_single_item" = "%@منتجات بطلبك";
-"No_Item_Cart" = "أضف بعض المنتجات لإستكمال التسوق";
-"lbl_View_All_Cap" = "عرض الكل";
-"btn_Replace_title" = "استبدل";
-"lbl_Arring_Slot" = "قيد الوصول:";
-"lbl_Contnue_shopping" = "مواصلة التسوق";
-"launch_live_chat_text" = "تحدث مع الجروسر";
-"need_assistance_lable" = "بحاجة إلى المزيد من الدعم ؟";
-"No_Item_Multi_Cart_Empty_View" = "إختار المتجر على الصفحة الرئيسية أولاً ثم إبدأ التسوق";
-
-
-"order_Note_lable" = "قد تختلف أسعار الفواكه والخضروات الطازجة واللحوم والمأكولات البحرية في حالة عدم تطابق الأوزان بدقة";
-"order_Note_Bold_Price_May_Vary" = "قد تختلف أسعار";
-"order_Note_reason" = "لأوزان دقيقة";
-"order_note_label_complete" = "قد تختلف أسعار الفواكه و الخضار، اللحوم و المأكولات البحرية الطازج حسب الوزن";
-
-"edit_Notice_intial" = "لديك ";
-"edit_Notice_Center" = "٣٠ دقيقة ";
-"edit_Notice_last" = "لتعديل طلبك ، وإلا فسيتم قبول سلة مشترياتك الأخيرة.";
-
-"lbl_Order_Confirm_Msg" = "طلبك من ";
-"lbl_Order_Confirm_Msg_last" = "تم إضافة المنتج بنجاح!";
-"lbl_outODStock_Undo" = "المنتج الغير متوفر تم إزالته من سلتك بنجاح.";
-
-"Msg_Cart_Initial" = "بعض المنتجات في سلتك  ";
-"Msg_Cart_OUTOFSTOCK" = "غير متوفرة";
-"Msg_Cart_ChooseReplacement" = "حاليًا. الرجاء اختيار البديل المناسب.";
-"Msg_Cart_total" = "بعض العناصر في عربة التسوق الخاصة بك غير متوفرة حاليًا. الرجاء اختيار البديل المناسب.";
-
-
-"lbl_Sub_Button_text_No_replacement" = "إزالة كافة المنتجات بدون استبدال";
-"btn_Confirm_Replacement" = "تأكيد الإستبدال";
-"msg_All_item_not_available" = "جميع العناصر الموجودة في سلة التسوق الخاصة بك حاليًا ";
-"msg_OOS_Not_Available" = "هذا المنتج غير متوفر ولا يوجد بديل متوفر الآن";
-"btn_forget_password_title" = "نسيت كلمة السر ؟";
-"lbl_signUp_Add_title" = "أضف بريدك الالكتروني و كلمة السر الخاصة بك";
-"lbl_use_current_location" = "الموقع الحالي";
-"lbl_Manuall_Location" = "البحث يدويًا عن العنوان الجديد...";
-"confirm_location_button_title" = "التأكيد والمتابعة";
-
-"dashboard_My_ddresses_navigation_bar_title" = "عناويني";
-"order_lbl_numner" = "طلب # ";
-"lbl_Payment" = "الدفع";
-"lbl_Bought_items" = "العناصر المشتراة";
-"lbl_Grand_total" = "الإجمالى";
-"lbl_Payment_Confirmation" = "تأكيد الدفع";
-"lbl_repeat_order" = "أعد الطلب";
-"pg_18_msg" = "لشراء هذا المنتج، يجب أن يكون عمرك أكثر من ١٨ سنة.";
-"over_18" = "أنا فوق ١٨ سنة";
-"less_over_18" = "أنا أقل من ١٨ سنة";
-"tobaco_product_msg" = "يرجى ملاحظة أن هذا المنتج لا يساعد في الوصول إلى قيمة الحد الأدنى للطلب في سلتك.";
-
-"s_today_title" = "اليوم";
-"s_tomorrow_title" = "غدا";
-//"lbl_edit_Added" = "تم إضافة المنتج بنجاح إلى سلتك";
-"lbl_edit_delete" = "تم حذف السلعة من سلة التسوق الخاصة بك";
-"view_more_title" = "عرض الكل";
-
-"lbl_change_delivery" = "حدد موعد التوصيل الخاصة بك";
-"lbl_confirm_slot" = "تأكيد الموعد";
-"lbl_shopping_list" = "إنشاء قائمة التسوق";
-"lbl_search_shop" = "بحث وتسوق المنتجات";
-"lbl_confirm" = "تأكيد";
-//search
-"search_products" = "البحث في المنتجات...";
-"search_products_add" = "البحث لإضافة منتجات...";
-"lbl_insturution_text" = "تعليماتك إلى المتجر";
-"lbl_placeholder_text" = "اكتب لتترك لنا ملاحظة";
-//"lbl_congrtz" = "تهانينا. لقد وصلت إلى الحد الأدنى من الطلب.";
-"lbl_replace_seleted" = "تم إختيار الاستبدال";
-"lbl_Order_Details" = "تفاصيل الطلب";
-//address
-"lbl_Note" = "قد يؤدي تغيير عنوانك إلى تغيير توفر المتجر الحالي في المنطقة التي اخترتها.";
-"lbl_add_new_Address" = "أضف عنوان جديد";
-"lbl_chooselocation" = "إختار موقعك";
-"lbl_myBasket_signInSIgnUp" = "لتقديم طلبك،
- من فضلك سجل أو قم بإنشاء حساب على الجروس";
-"lbl_myBasket_add_Address" = "لتقديم طلبك يرجى إضافة تفاصيل التسليم";
-"lbl_add_Address_msg" = "أضف تفاصيل عنوان التوصيل الخاص بك";
-"lbl_Edit_Address_msg" = "برجاء تعديل تفاصيل العنوان";
-"lbl_building" = "المبنى *";
-"lbl_Apartment" = "رقم الشقة*";
-"lbl_AreaStreet" = "المنطقة / الشارع (غير إلزامي)";
-"lbl_Floor" = "الطابق*";
-"global_search_result_screen_title_text" = "نتائج البحث";
-"return_to_store_text" = "العودة إلى المتجر";
-
-
-"lbl_choose_nick" = "ضع علامة على هذا الموقع";
-"lbl_personal" = "معلومات شخصية";
-"lbl_save_changes" = "حفظ التغييرات";
-"lbl_delivery" = "تأكيد تفاصيل التوصيل";
-"lbl_location_info" = "معلومات الموقع";
-"lbl_new_to_elgrocer" = "جديد على الجروسر؟";
-"lbl_or" = "أو";
-
-    //sign in screen
-"lbl_CreateAccount" = "إنشاء حساب";
-"enter_phone_number" = "أدخل رقم هاتفك و سنرسل لك رسالة نصية تتضمن رمز التحقق";
-"welcome_back" = "أهلاً بعودتك !";
-"enter_registered_email" = "أدخل بريدك الالكتروني وكلمة السر الخاصة بك";
-
-"lbl_WantToExplore" = "هل تريد استكشاف التطبيق أولاً؟";
-"lbl_Have_Account" = "لديك حساب ؟";
-"lbl_New_To_Elgrocer" = "جديد على الجروسر؟";
-
-"lbl_reach" = "تحتاج إلى الوصول إلى";
-"lbl_placeorder" = "لعمل طلب.";
-//"lbl_morefrom" = "أكثر من";
-
-"lbl_Add" = "أضف";
-
-"lbl_resendIn" = "إعادة إرسال الكود في";
-"lbl_Min" = "دقيقة";
-"order_OnTheWay" = "على الطريق";
-"lbl_Search_Replacment" = "البحث عن منتجات بديلة";
-"lbl_Undo" = "تراجع";
-"lbl_error_No_Grocery" = "الجروسر لا يقوم بالتوصيل حالياً في هذه المنطقة. حاول البحث عن موقع آخر.";
-"lbl_NoCoverage_msg" = "الموقع المحدد لا يغطي التوصيل من هذا المتجر وسيتم مسح سلة تسوقك. هل تريد تغيير الموقع؟";
-"lbl_ShopSearch" = "البحث والتسوق";
-"lbl_StoreName" = "اسم المتجر";
-"lbl_OOS_Msg" = "تم استبدال المنتجات الغير متوفرة بنجاح و موافقة المتجر.";
-
-
-"lbl_userforgetmsg" = "اكتب عنوان بريدك الإلكتروني أدناه وسيقوم فريق الجروسر بإرسال بريد إلكتروني إليك يحتوي على إرشادات حول كيفية إنشاء كلمة مرور جديدة.";
-"lbl_instruction" = "تم إرسال التعليمات";
-"lbl_instruction_msg" = "تم إرسال التعليمات إلى بريدك الإلكتروني المسجل حول كيفية إنشاء كلمة مرور جديدة";
-
-"Msg_CashOnly" = "فقط الدفع نقداً متاح لهذا المتجر";
-"Msg_CardAndCash" = "فقط الدفع نقداً و بالبطاقة عند التسليم متاح لهذا المتجر";
-"lbl_OnlineOnly" = "فقط الدفع بالبطاقة عبر الانترنت متاح لهذا المتجر";
-
-
-"search_products_replace" = "البحث عن المنتج للإستبدال";
-"lbl_Map_Selection" = "اختر الموقع على الخريطة";
-"lbl_Payment_Pending" =  "قيد الدفع";
-
-
-
-"lbl_Name_location" = "الاسم*";
-"lbl_MobileNumber_location" = "رقم الهاتف الخليوي *";
-
-
-"lbl_One" = "١";
-"lbl_Two" = "٢";
-
-
-    // universal search
-"lbl_Stores_that_sell" = "المتاجر التي تبيع ";
-"lbl_goToStore" = "الانتقال الى المتجر";
-"lbl_ShopInStore" = "أضف من خلال المتجر";
-"lbl_In" = "In";
-"lbl_NoDataSearch" = "جرب تهجئة مختلفة أو كلمات أكثر استخدامًا";
-"lbl_Initail_SearchFind" = "لم نتمكن من العثور على نتائج عن";
-"lbl_atOurStores" = "في متاجرنا";
-"lbl_ReturnHome" = "العوده إلى الصفحة الرئيسية";
-"lbl_atThisStore" = "في هذا المتجر";
-"lbl_NoDataStoreSearch" = "جرب تهجئة مختلفة أو مصطلحات أكثر عمومية.";
-
-"lblSearchHistory" = "تاريخ البحث";
-"lbl_TrendingSearch" = "كلمات البحث الشائعة";
-"lbl_InCategories" = "في صنف";
-"lbl_InBrand" = "في العلامة التجارية";
-"lbl_goToMain" = "اذهب إلى الصفحة الرئيسية للمتجر";
-"lbl_NoSearch" = "ابحث في المتاجر الأخرى";
-"btn_NoSearch_noDataView" = "ابحث في المتاجر الأخرى";
-"lbl_DidNotFind" = "لم تجد ما تحتاجه؟";
-"lbl_Contnue_shopping_s" = "مواصلة التسوق";
-"lbl_weFound" = "وجدنا";
-"lbl_StorethatSell" = "متاجر تبيع";
-"lbl_SearchInAllStore" = "البحث عن المنتجات و المتاجر...";
-"all_cate" = "جميع الفئات";
-"lbl_Ingredients" = " المكونات";
-"lbl_Error_No_Store_On_This_Location_Selling_Products" = "لا يوجد متجر في هذا الموقع يبيع هذه المنتجات ";
-"store_search_nav_title" = "البحث";
-"text_popular_stores" = "المتاجر الأكثر بحثاً";
-"text_stores" = "المتاجر";
-"search_no_products_found_message" = "👀 لم يتم العثور على منتجات ، جرب منتجًا مختلفًا ...";
-"search_no_stores_found_message" = "👀 لم يتم العثور على متاجر ، جرب متجرًا مختلفًا ...";
-"search_no_search_history_found_message" = "👀 سيظهر سجل البحث هنا ...";
-
-    //zendesk string
-
-"ios.ZDKHelpCenter.articleAttachmentsError" = "فشل إحضار المرفقات";
-"ios.ZDKHelpCenter.helpCenterOverview.see_all.singletitle" = "انظر مقال ١";
-"ios.ZDKHelpCenter.helpCenterOverview.see_all.title" = "راجع كافة المقالات الـ %lu";
-"ios.ZDKHelpCenter.helpCenterOverview.title" = "مساعدة";
-"ios.ZDKHelpCenter.noArticles.title" = "لا يوجد مقالات";
-"ios.ZDKHelpCenter.search.noResults.title" = "لا يوجد نتيجة لـ";
-"ios.ZDKHelpCenter.support.contactError" = "لا يوجد اتصال";
-"ios.ZDKHelpCenter.support.contactSupport" = "اتصل بنا";
-"ios.ZDKHelpCenter.toastRetryButton" = "Retry";
-"ios.ZDKRequests.commentList.error" = "تعذّر تحميل التعليقات";
-"ios.ZDKRequests.connectionError" = "No connection";
-"ios.ZDKRequests.conversations.back.button" = "العودة إلى السابق";
-"ios.ZDKRequests.createRequest.attachments.confirm" = "أوافق";
-"ios.ZDKRequests.createRequest.attachments.download" = "التحميل";
-"ios.ZDKRequests.createRequest.attachments.downloading" = "الملف قيد التحميل. برجاء الانتظار";
-"ios.ZDKRequests.createRequest.cancel.button" = "إلغاء";
-"ios.ZDKRequests.createRequest.cellError" = "لم يتم إرسال الرسالة. اضغط لإعادة الإرسال";
-"ios.ZDKRequests.createRequest.description.placeholder" = "المواصفات";
-"ios.ZDKRequests.createRequest.emailfield.placeholder" = "البريد الإلكتروني";
-"ios.ZDKRequests.createRequest.error.request" = "لم يتم ارسال التذكرة";
-"ios.ZDKRequests.createRequest.failed.closed" = "هذه المحادثة قد تم غلقها";
-"ios.ZDKRequests.createRequest.failed.delete" = "حذف";
-"ios.ZDKRequests.createRequest.failed.retry" = "أعد المحاولة";
-"ios.ZDKRequests.createRequest.input.new" = "اكتب رسالة...";
-"ios.ZDKRequests.createRequest.input.reply" = "الرد...";
-"ios.ZDKRequests.createRequest.input.unsent.body" = "العودة إلى الخلف سوف يؤدي لحذف الرسالة. هل حقاً تريد حذفها؟";
-"ios.ZDKRequests.createRequest.input.unsent.title" = "لم يتم إرسال الرسالة";
-"ios.ZDKRequests.createRequest.leaveAMessage.title" = "اترك رسالة";
-"ios.ZDKRequests.createRequest.message.sent" = "تم الإرسال";
-"ios.ZDKRequests.createRequest.messages.today" = "اليوم";
-"ios.ZDKRequests.createRequest.messages.yesterday" = "أمس";
-"ios.ZDKRequests.createRequest.name.placeholder" = "الإسم";
-"ios.ZDKRequests.createRequest.sending" = "قيد الإرسال...";
-"ios.ZDKRequests.createRequest.submit.button" = "ارسل";
-"ios.ZDKRequests.createRequest.title" = "اتصل بنا";
-"ios.ZDKRequests.leftBarButton.title_cancel" = "إلغاء";
-"ios.ZDKRequests.requestList.cell.closed" = "تم غلق التذكرة";
-"ios.ZDKRequests.requestList.cell.failed" = "فشل";
-"ios.ZDKRequests.requestList.cell.me" = "أنا";
-"ios.ZDKRequests.requestList.cell.responders" = "أعد:";
-"ios.ZDKRequests.requestList.cell.seperator" = ", ";
-"ios.ZDKRequests.requestList.error" = "فشل الحصول على التذاكر";
-"ios.ZDKRequests.requestList.title" = "تذاكري";
-"ios.ZDKRequests.requestListEmpty.button" = "ابدأ محادثة";
-"ios.ZDKRequests.requestListEmpty.subtitle" = "المحادثات التي بدأت من هذا التطبيق ستكون مرئية هنا";
-"ios.ZDKRequests.rightBarButton.title.contact" = "اتصل بنا";
-"ios.sdk.ZDKHelpCenter.article.voting.title" = "هل كان المقال مفيدًا?";
-"ios.sdk.ZDKRequests.createRequest.attachment.fileTooBig" = "الحجم الأقصى للمرفق هو %@ ميجا بايت";
-"ios.sdk.ZDKRequests.leftBarButton.close.title" = "أغلق";
-"ios.sdk.ZDKRequests.pushNotification.dismiss.title" = "تجاهل";
-"ios.sdk.ZDKRequests.pushNotification.open.title" = "افتح";
-"ios.SupportEngine.greeting.message" = "اكتب رسالة وسنجد شخص يمكنه مساعدتك";
-"ios.SupportEngine.messageSend.errorMessage" = "حدث خطأ ما ولم أتمكن من إرسال رسالتك. الرجاء معاودة المحاولة في وقت لاحق";
-"ios.SupportEngine.messageSend.retry.button" = "أعد المحاولة";
-"ios.SupportEngine.requestCreated.conversationsDisabled.message" = "شكرا جزيلا. تم إرسال رسالة إلى فريق العمل. فسوف يتصلون بك إذا كانت هناك حاجة إلى رد على  %@.";
-"ios.SupportEngine.requestCreated.conversationsEnabledMessage" = "شكرا جزيلا. تم إرسال رسالة إلى فريق العمل. يمكنك عرض هذه الرسالة وإضافة تفاصيل إضافية هنا:";
-"ios.SupportEngine.requestCreated.conversationsOff.message" = "شكرا جزيلا. تم إرسال رسالة إلى فريق العمل. فسوف يتصلون بك إذا كانت هناك حاجة إلى رد على البريد الإلكتروني.";
-"ios.SupportEngine.requestCreated.emailInvalid.message" = "شكرا جزيلا. تم إرسال رسالة إلى فريق العمل. فسوف يتصلون بك إذا كانت هناك حاجة إلى رد عن طريق.";
-"ios.SupportEngine.requestCreated.emailPrompt.hint" = "ادخل بريدك الإلكتروني...";
-"ios.SupportEngine.requestCreated.emailPrompt.message" = " إذا كانت هناك حاجة إلى رد على البريد الإلكتروني. ما هو بريدك الإلكتروني?";
-"ios.SupportEngine.requestCreated.emailValidationFailed.message" = "عنوان البريد الإلكتروني الذي أدخلته غير صحيح. أدخل عنوان بريد إلكتروني صالح.";
-"ios.SupportEngine.requestCreated.requestList.button" = "أظهر الرسالة";
-//////MARK: changing arabic required after rebranding
-"lbl_Delivery" = "التوصيل";
-"lbl_CAndC" = "الطلب و الإستلام 🚘";
-"lbl_collectionNear" = "أين تريد أن تتسلم البقالة؟";
-
-"lbl_MinOrder" = "أقل طلب";
-"lbl_Other" = "أخرى";
-"remove_Collector_alert_message" = "هل تريد الحذف حقًا؟";
-"lbl_collection_Details" = "بيانات التحصيل";
-"lbl_Self_Collection" = "تحصيل ذاتي";
-"lbl_Share" = "شارك";
-"dialog_CandC_Title" = "الطلب و الاستلام";
-"dialog_CandC_Msg" = "ما هو وضعك الحالي؟";
-"btn_at_the_store_txt" = "في المتجر";
-"btn_on_my_way_txt" = "على الطريق";
-"status_Update_Msg" = "شكرا لإعلامنا. يقوم ملتقطونا بإعداد طلبك ليكون جاهزًا عند وصولك.";
-"lbl_chat" = "الدردشة";
-"lbl_BestOffers" = "أفضل العروض من شركاؤنا";
-"lbl_Order_From_Info" = "لديك التحصيل المجدول من";
-
-
-
-//MARK: Nav bar
-"lbl_nav_chat" = "الدردشة";
-"lbl-collection-detail-alert" = "من فضلك تأكد من وصولك في الوقت المحدد. سيتم تعليق طلبك لمدة 10-15 دقيقة كحد أقصى.";
-
-//MARK: Cart Collector
-
-"lbl_save_details_future" = "حفظ التفاصيل للإستلامات المستقبلية";
-"lbl_Order_Collector" = "تفاصيل جامع الطلب";
-"lbl_Add_Order_Collector" = "أضف مستلماً جديداً";
-//"btn_Add_Order_Collector" = "أضف محصل";
-"btn_Add_Order_Collector" = "تأكيد";
-"btn_Order_Collector" = "تأكيد";
-
-//MARK: OrderCollectorDetailsVC
-
-"lbl_Order_Detail_Collector" = "تفاصيل جامع الطلب";
-"lbl_Car_Detail_Collector" = "تفاصيل السيارة";
-"lbl_Someone_else" = "شخص آخر؟";
-"lbl_Different_Car" = "سيارة مختلفة؟";
-
-// MARK: Add Car details
-
-"lbl_New_car_Details" = "إضافة سيارة جديدة";
-"lbl_Car_Details" = "تفاصيل السيارة";
-"placeholder_plate_num" = "*رقم لوحة";
-"placeholder_Car_Model" = "طراز السيارة: مرسيدس ، إلخ. (غير إلزامي)";
-"lbl_save_car_details" = "حفظ التفاصيل للإستلامات المستقبلية";
-"btn_Add_Car" = "أضف سيارة";
-
-// MARK: Order Collection Details Cell
-"lbl_Alert_Arrive_on_time" = " من فضلك تأكد من وصولك في الوقت المحدد.\n سيتم تعليق طلبك لمدة 10-15 دقيقة كحد أقصى.";
-"lbl_Bold_Alert_Arrive_on_time" = "تصل في الوقت المحدد.";
-"lbl_self_collection_heading" = "تحصيل ذاتي:";
-"lbl_collection_Location_heading" = ":موقع التحصيل";
-"lbl_Order_Placed_by_heading" = "تم تقديم الطلب عن طريق :";
-"lbl_Order_Collector_Details_heading" = "تفاصيل جامع الطلب";
-"lbl_car_Details_heading" = "تفاصيل السيارة";
-"btn_get_Directions" = "  الحصول على الاتجاهات";
-//MARK: FeedBack
-"lbl_feedback_delivery_title" = "تقييم خدمةالتوصيل";
-"lbl_feedback_clickAndCollect_title" = "تقييم خدمة الطلب و الإستلام";
-"lbl_click&Collect_feedback_Q1" = "كيف كانت سرعة الجمع؟";
-"lbl_click&Collect_feedback_Q2" = "ما مدى سعادتك بخدمة الالتقاط؟";
-"lbl_click&Collect_feedback_Q3" = "ما مدى سهولة العثور على نقطة الاستلام ؟";
-"lbl_click&Collect_feedback_Q4" = "هل هناك أي شيء آخر تود إضافته؟";
-"lbl_delivery_feedback_Q1" = "ما تقييمك لخدمة التوصيل ؟";
-"lbl_delivery_feedback_Q2" = "هل تم توصيل الطلب في الوقت المحدد؟";
-"lbl_delivery_feedback_Q3" = "هل أنت راضAٍ عن جودة المنتجات التي استلمتها؟";
-"lbl_delivery_feedback_Q4" = "كيف وجدت أسعار المنتجات لدينا؟";
-"lbl_delivery_feedback_Q5" = "هل هناك أي شيء آخر تود إضافته؟";
-"lbl_delivery_feedback_textView_placeHolder" = "أخبرنا ما الذي تحبه في التطبيق أو ما الذي يمكن أن يكون أفضل.";
-"lbl_delivery_feedback_textView_heading" = "أخبرنا ما الذي تحبه في التطبيق أو ما الذي يمكن أن يكونأفضل.";
-"lbl_delivery_feedback_Q2_A1" = "لقد تم توصيله قبل الوقت المحدد 😀";
-"lbl_delivery_feedback_Q2_A2" = "نعم، تم توصيله تماما كما توقعت 🙂";
-"lbl_delivery_feedback_Q2_A3" = "لا، لقد تم توصيله بشكل متأخر 😐";
-"lbl_delivery_feedback_Q2_A4" = "لا أزال أنتظر الطلب 😱";
-"lbl_delivery_feedback_Q3_A1" = "راضِِ 😀";
-"lbl_delivery_feedback_Q3_A2" = "راضٍِِ إلى حدٍ ما 🙂";
-"lbl_delivery_feedback_Q3_A3" = "غير راضٍ إلى حد ما 😐";
-"lbl_delivery_feedback_Q3_A4" = "غير راضٍ 😱";
-"lbl_delivery_feedback_Q4_A1" = "السعر أرخص من سعر المتجر 😀";
-"lbl_delivery_feedback_Q4_A2" = "إنه بنفس مقدار السعر الذي أدفعه عادة 🙂";
-"lbl_delivery_feedback_Q4_A3" = "السعر أغلى من سعر المتجر 😱";
-"btn_feedback_send_title" = "إرسال";
-//MARK: recipee screen
-"recipe_title_home" = "👨‍🍳 Recipes";
-"search_Field_PlaceHolder" = "...بحث الوصفة";
-"title_recipe_list" = "متجر الوصفات";
-"title_no_Recipe_Found" = "لم يتم العثور على الوصفة";
-"message_no_Recipe_Found" = "لا توجد وصفة لبحثك";
-"title_addToCart_Success" = "تم إضافة مكونات الوصفة";
-"message_addToCart_Success" = "تمت إضافة مكونات الوصفة إلى عربة التسوق بنجاح";
-"lbl_HowToMake" = "الطريقة";
-"lbl_TotalItem" = "إجمالي المكونات";
-"lbl_Add_Text" = "اضف";
-"lbl_Serving_text" = "عدد الأشخاص";
-
-"recipe_Title" = "متجر الوصفات";
-"recipe_Decription" = "أفضل الطهاة. أفكار جديدة مثيرة. وجبات سهلة";
-"banner_button_title" ="!جرَب الآن";
-
-"recipe_share_by" = "بواسطة";
-"recipe_share_onElgrocer" = "على الجروسر -";
-
-"grocery_selection_From_Recipe_screen_title" = "إختار المتجر";
-"alternatives_New_title" = "اختر بدائل المكونات";
-
-"btn_Recipe_Add_To_Cart_Title" = "اطلب المكونات الآن  ";
-"btn_My_Basket_More_Subsititue_Cell_Text" = "ابحث عن بدائل";
-
-"Del_Alert_Text" = "سوف يتم إزالة جميع المنتجات من سلتك!";
-"remove_button_title" = "احذف";
-
-//MARK: Rebranding cart checkout
-"Someone_else_is_collectiing" = "شخص آخر يستلم ؟";
-"Which_car_is_collecting_the_order" = "أي سيارة تستلم الطلب ؟";
-"add_product_button_text" = "إضافة المنتج";
-
-
-//// new message
-"error_wrong" = "للأسف! هناك خطأ ما. يرجى إعادة تحميل التطبيق للمحاولة مرة أخرى.";
-"cash_card_creditCard_delivery" = "نقدا - بطاقة /التوصيل - بطاقة ائتمان";
-"cash_creditCard_delivery" = "نقدًا - ادفع أون لاين";
-"card_creditCard_delivery" = "بطاقة /التوصيل - ادفع أون لاين ";
-"day_after_tomorrow_title" = "بعد غد";
-
-//MARK: homePage
-"lbl_selected_recepies_title" = "وصفات مختارة";
-
-//MARK: Rebranding Changed
-"lbl_morefrom" = "المزيد إلى عربة التسوق";
-"lbl_use_Pin_location" = "استخدم دبوس الموقع";
-"No_Selected_Store_Detfeedback_thanks_titleail_Cart" = "اختر المتجر على الصفحة الرئيسية لملئ قائمة التسوق الخاصة بك.";
-"No_Selected_Store_Detail" = "إﺧﺘﺎر اﻟﻤﺘﺠﺮ ﻋﻠﻰ اﻟﺼﻔﺤﺔ اﻟﺮﺋﻴﺴﻴﺔ أوﻟﺎً ﻟﻤﻠﺊ ﻗﺎﺋﻤﺔ اﻟﺘﺴﻮق اﻟﺨﺎﺻﺔ ﺑﻚ";
-"edit_Notice" = "سيتم تعليق طلبك لمدة 30 دقيقة قبل البدء في تجهيزه";
-"area_selection_OR_Lable" = "أو";
-"confirm_place_order_title_label" = "تأكيد الطلب";
-"feedback_thanks_message" = "سيأخذ مسؤولى خدمة العملاء لدينا تقييمك بعين الإعتبار لتحسين خدماتنا.";
-"forgot_password_error_alert_description" = "هذا البريد الإلكتروني غير موجود";
-"enter_email_placeholder_text" = "البريد الإلكتروني";
-"stores_notify_text" = "يُرجى إخبارنا بالمتجر الذي ترغب في استلام التوصيل منه وسنخطرك عند إضافته إلى الجروسر";
-"registration_account_Phone_exists_error_alert" = "رقم الهاتف الخليوي هذا لديه حساب بالفعل. الرجاء تسجيل الدخول.";
-//"order_status_pending" = "Scheduled";
-//MARK: cart C&C
-"cart_title_ClickAndCollect" = "سلة اﻟﺘﺴﻮق (الطلب و الإستلام)";
-"btn_view_title_caps" = "عرض";
-"lbl_edit_Added" = "تم إضافة السلعة الى سلة التسوق الخاصة بك";
-"error_enter_contactName" = "الإسم مطلوب";
-"error_enter_contact" = "أدخل رقم هاتف صالحًا!";
-"error_enter_plateNum" = "رقم اللوحة مطلوب!";
-"lbl_SuppoertTickets" = "طلب مساعدة";
-"lbl_Msg_CollectorDetail" = "الرجاء ادخال “بيانات محصل الطلبات";
-"lbl_Msg_carDetail" = "الرجاء ادخال “بيانات السيارة";
-
-"%@s asked you to help with the grocery collection from %@s. Follow this link to see the pickup details." = "طلب٪ %@ s للمساعدة في جمع البقالة من٪  %@ s. اتبع هذا الرابط لمعرفة تفاصيل التحصيل";
-"lbl_Payment_Details" = "الدفع";
-
-
-"lbl_order_collection_Address" = "عنوان الإستلام";
-"lbl_add_new" = "اضف جديد";
-"lbl_enter_details" = "ادخل البيانات";
-"lbl_PayUsing" = "الدفع باستخدام";
-
-
-"feedback_thanks_title"= "شكرا ً لك على تقييمك";
-"recipe_save_success" = "الوصفة المحفوظة في ملف التعريف الخاص بك ";
-
-//MARK: new recipe boutique
-"lbl_go_to_cart_upperCase" = "إتمام الشراء";
-"btn_add_all_ingrediants" = "أضف جميع المكونات إلى سلة الشرا";
-"lbl_ingrediants_title" = "المكونات";
-"lbl_preparation_title" = "تحضير ";
-"lbl_serving_count" = "حصص";
-"lbl_ingrediant_count" = "المكونات";
-"lbl_prep_time_min" = "دقيقة";
-
-"txt_All_Recipes" = "كل الوصفات";
-"txt_Recipes" = "وصفات الطعام 🍽";
-"lbl_chef_and_brand_text" = "وصفات من طهاة و ماركات";
-
-"recipe_boutique_searchBar_txt" = "ابحث عن وصفة، طاهِِ، مكون…";
-
-//MARK: Settings controller
-"btn_txt_edit" = "تعديل";
-"live_chat" = "دردشة مباشرة";
-"orders_Settings" = "طلبات الدعم";
-"saved_recipies" = "الوصفات المحفوظة";
-
-
-"payment_methods" = "الدفع";
-"password_settings" = "كلمة المرور";
-
-"terms_settings" = "الأحكام والشروط";
-"privacy_policy" = "سياسة خاصة";
-"FAQ_settings" = "الأسئلة الشائعة";
-"account_hedding" = "الحساب";
-
-//MARK: saved recipes
-"title_saved_recipes" = "الوصفات المحفوظة";
-"no_saved_recipe_title" = "وصفاتك المحفوظة ستظهر هنا";
-"no_saved_recipe_description" = "أضغط على \"متجر الوصفات\" وأختر وصفتك المفضلة";
-//MARK: My Account
-"my_account_edit_your_profile" = "تعديل الصفحة الشخصية";
-"my_account_email_field_label" = "البريد الإلكتروني";
-"my_account_phone_field_label" = "رقم الهاتف المحمول *";
-"lbl_heading_my_account" = "معلومات شخصية";
-"my_account_update_button" = "حفظ";
-
-//MARK: change password
-"lbl_page_title" = "كلمة السر";
-"lbl_change_password_heading" = "تغيير كلمة السر";
-"error_pass_missmatch" = "كلمة السر غير متطابقة";
-
-//MARK: saved cars and saved cards
-"btn_edit" = "تعديل";
-"btn_delete" = "حذف";
-
-"payment_methods_title" = "طرق الدفع";
-"lbl_add_new_car" = "   إضافة سيارة جديدة";
-"lbl_add_new_card" = "   أضف بطاقة جديدة";
-"lbl_card_ending" = "بطاقة تنتهي ب xx-";
-
-"card_removed" = "تمت إزالة البطاقة بنجاح";
-"card_added" = "تمت إضافة البطاقة بنجاح";
-"car_removed" = "تمت إزالة السيارة بنجاح";
-"car_added" = "تمت إضافة السيارة بنجاح";
-"car_updated"  = "تم تحديث السيارة بنجاح";
-
-//MARK: Recipe Detail VC
-"product_added_to_cart" = "تمت إضافة المنتجات الى سة التسوق";
-"lbl_item_singular" = "المنتج";
-"lbl_item_multiple" = "قطعة";
-"btn_share_title" = "  شارك";
-"btn_save_title" = "  حفظ";
-
-
-//MARK: non translated Below
-//MARK: new recipe boutique
-"on_txt" = "على";
-"lbl_prep_time_hrs" = "ساعات";
-"lbl_main_course" = "الوجبة الرئيسية";
-//MARK: Language controller
-"setting_language" = "اللغة";
-//MARK: Settings controller
-"saved_Cars" = "السيارات المحفوظة";
-"address_settings" = "العناوين";
-"language_settings" = "اللغة";
-"settings_heading" = "إعدادات";
-"Information_heading" = "معلومات";
-
-"lbl_hello" = "مرحباً !";
-
-//MARK: change password
-"error_wrong_pass" = "كلمة السر خاطئة";
-"error_enter_pass" = "أدخل كلمة السر";
-"error_invalid_pass" = "يجب أن تحتوي كلمة المرور على ٦ أحرف على الأقل";
-
-//MARK: no recipes in recipe boutique
-"no_recipe_title" = "لا يوجد وصفات";
-"no_recipe_description" = "لم يتم العثور على وصفة في المنطقة التي اخترتها ، يرجى المحاولة مرة أخرى!";
-//MARK: saved cars and saved cards
-"btn_default" = "افتراضي";
-"saved_cars_title" = "السيارات المحفوظة";
-"lbl_no_saved_car" = "لا يوجد سيارات محفوظة";
-"lbl_no_saved_car_description" = "أضف تفاصيل سيارتك الآن";
-"lbl_no_saved_card" = "ليس لديك أي طرق دفع محفوظة";
-"lbl_no_saved_card_description" = "أضف طريقة الدفع الأولى الخاصة بك";
-//MARK: Home Page
-"lbl_featured_recepies_title" = "الوصفات المميزة";
-"shop_by_ingredients_text" = "تسوق حسب مكونات الوصفة";
-
-
-
-
-//MARK: Recipe bottom sheet
-"No_Store_For_Recipe_title" = "معذرةً ، لا توجد متاجر متاحة لشراء هذه المكونات منها في الوقت الحالي";
-"lbl_PayUsing" = "الدفع باستخدام";
-"btn_add_all_ingrediants" = "أضف جميع المكونات إلى عربة التسوق";
-//MARK: PopImageView Conntroller  -- product zoom view
-"lbl_offer" = "عرض";
-"txt_off" = "% خصم";
-"btn_add_to_cart" = "إضافة اﻟﻰ السلة";
-"txt_off_Single" = "خصم";
-
-//MARK: chef viewController
-"lbl_preparation_Highlight" = "دروس تحضيرية";
-
-//MARK: product promotion
-"msg_limited_stock_title" = "كمية محدودة من هذا العرض ";
-"msg_limited_stock_start" = "يمكنك إضافة فقط ";
-"msg_limited_stock_end" = " الحد الإقصى من المنتجات.";
-"lbl_limited_Stock" = "كمية محدودة";
-"txt_Saved" = "تم الحفظ!";
-"lbl_ProductLimit" = "تم تغيير الحد للمنتج. يرجى التحديث.";
-
-"promotion_changed_alert_title" = "تم تغيير العرض";
-
-"quantity_changed_alert_title" = "تم تغيير الكمية";
-"promotion_changed_alert_description" = "%@ داخل العرض و تم تخفيض الكمية إلى %@";
-"Msg_Edit_Order" = "يمكنك تعديل طلبك من ”تفاصيل الطلب” قبل قبوله.";
-"txt_elGrocer_Picker" = "جامع الطلب من الجروسر";
-"lbl-collection-TimeLimit-alert" = "سيتم تعليق طلبك لمدة 10-15 دقيقة كحد أقصى.";
-    //Mark:- chat
-"title_chat_with_Picker" = "الدردشة مع المنتقي";
-
-
-//MARK: Order History Cell
-"lbl_self_collection_time" = "وقت التحصيل الذاتي";
-"title_order_collector_details" = "تفاصيل جامع الطلب:";
-"title_car_details" = "تفاصيل السيارة:";
-"title_self_collection_point" = "نقطة التجميع الذاتي:";
-"title_estimated_delivery" = "التوصيل المتوقع";
-
-//MARK: OrderStatusVC
-"title_Estimated_delivery" = "التوصيل المتوقع";
-"title_updated_delivery" = "التوصيل المحدث";
-"title_delivered" = "تم التوصيل";
-"title_collected" = "تم التسليم";
-"txt_elGrocer_Picker" = "جامع الطلب من الجروسر";
-"txt_Picker" = "جامع الطلب";
-"Msg_InvalidSession" = "نأسف ، لكننا نريد منك إعادة إدخال معلومات تسجيل الدخول الخاصة بك.";
-"lbl_Self_collection_details" = "تفاصيل التحصيل الذاتي";
-"lbl_Special_Discount" = "سعر العرض";
-"lbl_Track_your_order" = "تتبَع طلبك";
-"lbl_Order_tracking" = "تتبَع الطلب";
-
-
-//MARK: Home page Grocery cell
-"lbl_no_timeSlot_available" = "لا يوجد أوقات متاحة";
-"instruction_textview_placeHolder" = "اترك معلومات إضافية إلى المتجر";
-
-
-//MARK: Cart :Top Selling products
-"txt_recommende_for_you" = "منتجات نوصى بها لك";
-"txt_see_more" = "عرض الكل";
-
-//MARK: sendbird chat
-"order_sendBird_nav_title" = "الطلب";
-
-
-//MARK: new substitution all strings from newSubstitutionDesign/1.2
-//MARK: Second Checkout
-"btn_enter_promoCode" = "إدخال الرمز الترويجي";
-"btn_show_bill_details" = "عرض تفاصيل الفاتورة";
-"btn_hide_bill_details" = "إخفاء تفاصيل الفاتورة";
-"total_price_incl_VAT" = "السعر الإجمالي (شامل الضريبة)";
-"checkout_instruction_placeHolder" = "اكتب لتترك لنا ملاحظة";
-"promo_textfield_placeholder" = "أدﺧﻞ الرمز الترويجي";
-"tabby_view_title_text" = "أدفع لاحقاً مع تابي*";
-"tabby_view_details_text" = "فاتورة واحدة، ادفعها في نهاية الشهر مع تابي. بدون فوائد او رسوم.";
-"tabby_threshold_with_currency" = "٥٠٠ درهم";
-"tabby_terms_and_conditions_title" = "شروط وأحكام الدفع عن طريق تابي";
-
-// Tabby Terms & Conditions
-"tabby_tc_paraghraph_one_title" = "كل مشترياتك بفاتورة واحدة";
-"tabby_tc_paraghraph_one_description" = "ادفع فاتورتك كاملة يوم 28 من كل شهر على تطبيق تابي. بدون فوائد او رسوم.";
-
-"tabby_tc_paraghraph_second_title" = "كيف تعمل الخدمة؟";
-"tabby_tc_paraghraph_second_description" = "حمل وافتح تطبيق تابي واضغط على مدفوعاتي\nستجد جميع مشترياتك ضمن قسم المدفوعات في فاتورة واحدة.";
-
-"tabby_tc_paraghraph_third_title" = "تابع مصاريفك الشهري";
-"tabby_tc_paraghraph_third_description" = "تبدأ دورة فاتورة تابي من يوم 25 من الشهر إلى يوم 24 من الشهر التالي.";
-
-"tabby_tc_paraghraph_forth_title" = "راجع فاتورتك وادفع مرة واحدة";
-"tabby_tc_paraghraph_forth_description" = "ستتلقى فاتورة تابي في يوم 25 من الشهر مع استحقاق السداد في اليوم 28.";
-"paid_with_tabby" = "تابي";
-"screen_order_details_bags_text" = "أكياس";
-
-"lbl_collection_detail_alert_highlight" = "وصولك في الوقت المحدد.";
-
-//MARK: settings
-"delete_account" = "حذف الحساب";
-
-//MARK: Cart
-"If_items_are_out_of_stock_unselected" = "إذا كانت العناصر غير متوفرة...";
-"If_items_are_out_of_stock_selected" = "إذا كانت العناصر غير متوفرة";
-"If_item_out_of_stock" = "إذا كان المنتج غير متوفر...";
-"Edit_preferences" = " تعديل التفضيلات";
-
-//MARK: item preferce controller
-"Save_choice" = "حفظ الاختيار";
-"Item_preferences" = "منتج مفضل";
-"title_if_item_out_of_stock" = "إذا كان المنتج غير متوفر";
-"Replace_with" = "استبدل بـ...";
-"item_preference_instruction_placeHolder" = "اترك معلومات إضافية عن هذا المنتج";
-"you_can_Choose" = "يمكنك اختيار إلى حد ٣ منتجات";
-"search_more_replacement" = "ابحث المزيد من البدائل";
-
-//MARK: order cancelation
-"question_cancel_order" = "ما سبب إلغاء طلبك؟";
-"question_delete_account" = "لماذا تريد حذف حسابك؟";
-"instruction_placeholder_order_cancelation" = "ما الذي يمكننا تحسينه؟";
-"instruction_placeholder_delete_account" = "هل لديك أي ملاحظات إضافية لنا؟ (اختياري)";
-"confirm_deletion" = "تأكيد الحذف";
-"Confirm_order_cancelation" = "تأكيد إلغاء الطلب";
-
-//MARK: MybasketView apple pay
-"place_apple_pay_title_label" = "الدفع بواسطة  Pay ";
-
-//MARK: order cancelation popup
-
-"order_cancelation_popup_title" = "تم إلغاء الطلب بنجاح!";
-"order_cancelation_popup_desc" = "شكرا لك على ملاحظاتك ومساعدتك. نأمل في خدمتك مرة أخرى.";
-"order_cancelation_popup_close_button" = "أغلق";
-
-//MARK: order cancelation popup
-"write_reason_alert" = "الرجاء اعطاء المزيد من التفاصيل";
-"select_one_option" = "الرجاء اختيار سبب الغاء الطلب";
-
-//MARK: NewHome
-
-"txt_How_would_you_like_to_shop" = "كيف تريد أن تتسوق؟";
-"txt_Shop_by_store_category"  =  "سوق حسب فئات المتجر";
-
-"txt_How_would_you_like_to_shop" = "كيف تريد التسوق؟";
-"txt_Shop_by_store_category"  = "تسوق حسب فئة المتجر";
-
-"txt_cell_Deals" = "العروض و الخصومات 🤑";
-//MARK: sendbird chat
-"support_sendBird_nav_title" = "مساعدة";
-"order_sendBird_nav_title" = "الطلب";
- 
-//MARK: HyperMarket
-"title_hyperMarket" = "الهايبر ماركت 🛒";
-"best_for_desc_delivery" = "توصيل مجدول 🕓";
-"best_for_desc_price" = "🤑 أسعار وعروض رائعة";
-"lbl_Best_For" = "التسوق الأنسب:";
-//MARK: SpecialityStore
-"title_speciality_store" = "المتاجر المتخصصة 😋";
-
-////MARK: home search header
-//"search_placeholder_home" = "ابحث عن المنتجات في جميع المتاجر...";
-
-    //MARK: store header
-"btn_shopping_list_title" = "أضف قائمة التسوق";
-"btn_help" = "المساعدة";
-"search_placeholder_store_header" = "البحث في المنتجات...";
-
-
-"title_view_all_cat" = "عرض جميع فئات المتاجر";
-"msg_limited_stock_Quantity_title" = "هذا المنتج محدود الكمية";
-
-
-    //MARK: Apple pay
-"title_pay_with_apple_pay" = "الدفع مع  Pay ";
-"title_SetUp_with_apple_pay" = "قم بإعداد  Pay";
-"pay_via_Apple_pay" = "الدفع بواسطة أبل";
-"support_sendBird_nav_title" = "طلب دعم";
-"checkout_paymentlist_applepay_title" = "أبل باى";
-
-//MARK:  DarkStore UI 2.0
-"lbl_congrtz" = "تم الوصول إلى الحد الأدنى للطلب.";
-"to_reach_minimum_order" = "إضافيا ً للوصول إلى الحد الأدنى للطلب.";
-
-//MARK: shopping List DarkStore UI 2.0
-"shopping_PlaceHolder_Search_List" =  "اكتب أو الصق قائمة التسوق الخاصة بك هنا:
-تفاح
-طماطم
-أوريو";
-//MARK: C&C
-"lbl_collectionNear" = "أين تريد أن تتسلم البقالة؟";
-//MARK: home search header
-"search_placeholder_home" = "ابحث عن منتجات, متاجر...";
-//MARK: HyperMarketHeader
-"search_placeholder_hypermarket" = "أبحث عن المنتجات والمتاجر ...";
-"search_placeholder_view_allstore_categories" = "أبحث عن المنتجات...";
-
-    //MARK: MyBasketNew
-"Confirm_OOS_Title" = "ﺗﺄﻛﻴﺪ اﻟﺎﺳﺘﺒﺪال واﻟﻤﺘﺎﺑﻌﺔ";
-
-//MARK: FAQSearch
-"FAQ_search_placeholder" = "ابحث عن سؤالك ...";
-//MARK: Add new collector
-"contact_name_placeHolder" = "اسم جهة الاتصال";
-"mobile_num_placeHolder" = "رقم الهاتف الخليوي";
-//MARK: Sign Up
-"enter_mobile_num_placeholder" = "أدخل رقم هاتفك الخليوي";
-//MARK: Add address
-"error_enter_building" = "يرجى إدخال اسم المبنى";
-"error_enter_Floor" = "يرجى تحديد رقم الطابق";
-"error_enter_apartment" = "يرجى  تحديد رقم الشقة";
-"error_enter_street" = "يرجى إدخال اسم الشارع";
-
-//MARK: Delivery Time slot cell
-"delivery_time_slot"= "وقت التسليم:";
-
-//MARK: Product cell button title for replacementVC
-"btn_Choose_title" = "إختار";
-
-    //MARK: no products found
-"lbl_NoProductFound" = "لم نتمكن من العثور على نتائج في متاجرنا";
-"lbl_GoToHome" = "العوده الى الرئيسية";
-
-//MARK: product deeplink
-"btn_add_from_store" = "أضف من خلال المتجر";
-
-//MARK: ApplePay error msg
-"error_NoCard_ApplePay" = "نأسف، لكننا غير قادرين على متابعة الدفع من خلال Apple Pay. يُرجى التأكد من وجود بطاقة فعالة في محفظتك أو الاتصال بالبنك الذي تتعامل معه.";
-
-//MARK: Delivery Slot
-"lbl_next_delivery" = "التسليم التالي:";
-"delivery_within_60_min" = "⏱️ التسليم في غضون ٦٠ دقيقة ⚡️";
-"lbl_next_self_collection" = "التسليم التالي:";
-
-//MARK: Order Details
-"lbl_Self_collection_details_order_details" = "تفاصيل الاستلام";
-
-//MARK: Second Checout
-"lbl_Self_collection_details_checkout" = "تفاصيل الاستلام";
-"title_checkout_screen" = "إتمام الشراء";
-
-//MARK: order history
-"title_self_collection_point_cc_history_cell" = "ﻧﻘﻄﺔ اﻟﺘﺤﺼﻴﻞ اﻟﺬاﺗﻲ:";
-
-//MARK: popimageViewController
-"btn_add_to_cart_product_zoom" = "أضف لسلة التسوق";
-
-//MARK: ticketList
-"no_ticket_title" = "لم نتمكن من العثور على أي طلب";
-"no_ticket_descr" = "لم نتمكن من العثور على أي طلب. ترغب في إنشائ طلب قم بالضغط على \"إنشاء طلب\"";
-"btn_no_data_create_ticket" = "إنشاء طلب";
-"lbl_open_ticket" = "فتح طلب";
-"lbl_close_ticket" = "إغلق الطلب";
-//MARK: All stores
-"title_all_stores" = "كل المتاجر";
-//MARK: Global search
-"title_in_recipies" = "في الوصفات";
-
-//MARK: Smile Pints
-"txt_smile_point" = "نقاط بسمات ";
-"txt_bracket_login" = "(تسجيل الدخول)";
-"txt_earn_smiles" = "اكسب نقاط بسمات الآن";
-"txt_paid_with_smile" = "تم الدفع بنجاح بنقاط بسمات!";
-"txt_pay_with_smile" = "ادفع بنقاط بسمات";
-"txt_available_points" = "متوفر: ";
-"smile_point_unit" = "نقاط";
-"smile_point_required" = "سيتم استبدال نقاط بسمات بدفع فاتورة الطلب";
-"not_enough_smile_point_initial" = "لا توجد نقاط Smiles كافية! أنت بحاجة إلى";
-"not_enough_smile_point_end" =  "نقطة Smiles إضافية لدفع هذا الطلب بالكامل";
-"txt_earn" = "اكسب";
-"txt_benifits" = "الفوائد";
-"Your_balance" = "رصيدك";
-"smile_login" = "تسجيل الدخول";
-"smile_otp_instructions" = "أدخل رمز التحقق المكون من 5 أرقام الذي تم إرساله إلى رقم هاتفك المسجل في الجروسر.";
-"pay_via_smiles_points" = "نقاط بسمات";
-"resend_otp_in" = "أعد إرسال رمز تحقق (OTP) في ";
-"resend_otp" = "أعد إرسال رمز تحقق (OTP)";
-"sec" = "ثانية";
-"smile_login_permission_text" = " هل يمكننا مشاركة رقم جوالك مع بسمات؟
-هذا يمكننا من العثور على حسابك الحالي في بسمات والاتصال به. ";
-"Yes" = "نعم";
-"No" = "لا";
-"lbl_StartShopping" = "ابدأ التسوق";
-//MARK: Apply promoCode controller
-"title_apply_promo" = "تطبيق الرمز الترويجي";
-"title_available_promo" = "الرموز الترويجية المتاحة";
-"txt_view_details" = "عرض التفاصيل";
-"txt_hide_details" = "إخفاء التفاصيل";
-"txt_btn_apply" = "تطبيق";
-"txt_add_to_use_initial" = "أضف";
-"txt_add_to_use_end" = "للاستخدام";
-"txt_btn_applied" = "مطبق";
-"txt_no_promo_found" = "سيتم عرض قسائمك النشطة هنا.";
-"txt_remove" = "احذف";
-"txt_enjoy_promo" = "استمتع بالخصم الخاص بك!";
-//MARK: Account deletion
-"lbl_warning_acount_deletion" = "سيتم إلغاء جميع طلباتك النشطة بسبب حذف الحساب!";
-"delete_account_placeholder_instructions" = "اكتب لتترك لنا ملاحظة";
-"lbl_confirm_mobile_num" = "تأكيد رقم الهاتفك المحمول";
-"lbl_please_enter_mobile" = "الرجاء إدخال رقم هاتفك المحمول لتأكيد حذف الحساب.";
-"btn_continue_delete_account_add_num" = "المتابعة";
-"lbl_enter_otp" = "رمز التحقق OTP";
-"lbl_please_enter_otp" = "الرجاء إدخال رمز التحقق المرسل إلى رقم هاتفك المحمول ";
-"resend_code" = "أعد إرسال الرسالة";
-"resend_code_in_time" = " إعادة إرسال الرمز بعد";
-"we_are_sorry_to_see_you_go_title" = "نأسف على مغادرتك ، وسيتم حذف حسابك في غضون ٤٨ ساعة.";
-"we_are_sorry_to_see_you_go_descr" = "ستتم إعادة توجيهك إلى صفحة تسجيل الدخول";
-"we_are_sorry_to_see_you_go_btn_title" = "المتابعة";
-//MARK: mybasket place order
-"txt_free" = "مجاني";
-
-
-    //MARK: elWallet
-"txt_title_elWallet" = "المحفظة";
-"txt_title_transaction_history" = "تاريخ المعاملات";
-"txt_add_funds" = "إضافة الأموال";
-"txt_view_all" = "عرض الكل";
-"txt_active_vouchers" = "القسائم النشطة";
-"txt_cards_capital" = "البطاقات";
-"txt_manage_cards" = "إدارة البطاقات";
-"txt_transection_history" = "تاريخ المعاملات";
-"txt_details" = "عرض التفاصيل";
-"txt_hide_details" = "إخفاء التفاصيل";
-"txt_redeem_capital" = "تطبيق";
-"txt_add_funds_from" = "اختار طريقة الدفع";
-"btn_next" = "التالي";
-"btn_add_new_card" = "أضف بطاقة جديدة";
-"txt_cards_small" = "البطاقات";
-"txt_elwallet_balance" = "رصيد المحفظة";
-"txt_active_vouchers_small" = "القسائم النشطة";
-"txt_do_you_have_voucher" = "هل لديك كود قسيمة؟";
-"txt_voucher_code" = "أدخل كود الكوبون";
-"txt_payment_process_faliure" = "معذرةً ، لم نتمكن من إتمام عملية الدفع.";
-"txt_payment_process_success" = " تمت إضافة الى المحفظة بنجاح!";
-"txt_btn_try_again" = "المحاولة مرة أخري";
-"txt_btn_back_to_elwallet" = "العوده الي المحفظة";
-"txt_card_added_successfully" = "تمت إضافة البطاقة بنجاح!";
-"txt_card_not_added" = "معذرةً ، لم نتمكن من إضافة هذه البطاقة";
-"txt_voucher" = "القسيمة ";
-"txt_voucher_redeem_faliure" = "غير صالحة. \n الرجاء إدخال الكود الصحيح أو محاولة استرداد قسيمة أخرى.";
-"txt_voucher_redeem_success" = " تم الاسترداد والإضافة بنجاح";
-"txt_amount_voucher_amount_elwallet" = " إلى رصيدك في ال محفظة!";
-"txt_no_voucher" = "سيتم عرض قسائمك النشطة هنا.";
-"txt_no_card_found" = "أضف بطاقة للاستمتاع بأفضل تجربة تسوق للبقالة";
-"txt_add_new_card_with_plus" = "إضافة بطاقة جديدة";
-"txt_no_transection_history" = "سيتم عرض معاملتك هنا.";
-"txt_do_you_want_remove_card" = "هل تريد إزالة هذه البطاقة؟";
-"btn_remove_title" = "مسح";
-"btn_keep_using" = "إلغاء";
-"btn_edit_card" = "إدارة البطاقات";
-"btn_done_edit_card" = "حفظ";
-"txt_cards_title" = "البطاقات";
-"title_how_much_like_to_add" = "كم تريد أن تضيف الي محفظتك؟";
-"btn_add_funds" = "إضافة الأموال";
-"txt_payment_option_voucher" = "قسيمة";
-"txt_use_a_new_card" = "بطاقة جديدة";
-
-
-"lbl_Expires_on" = "تنتهي في ";
-
-
-    //MARK: secondCheckout
-"use_elwallet_text" = "استخدام المحفظة";
-"use_smile_text" = "استخدام النقاط";
-"pay_using_text" = "طرق الدفع";
-"use_points_text" = "استخدام الرصيد";
-"secondry_payment_error_msg_elwallet" = "الحد الأدني للإستخدام ١ درهم";
-"secondary_payment_promocode_error" = "لتطبيق رمز ترويجي من فضلك ، اختر طريقة الدفع أولاً";
-"collector_text" = "Who is collecting the order?";
-"collector_car_text" = "Which car is collecting the order?";
-"click_collect_warning_text" = "Please, make sure you arrive on time. Your order will be held for 15 min max.";
-"click_collect_warning_text_highlighted" = "Your order will be held for 15 min max.";
-"discount_text" = "خصم";
-"elwallet_credit_applied" = "خصم من المحفظة";
-"smiles_points_applied" = "خصم من نقاط بسمات";
-"txt_applied_promocode" = "(مطبق)";
-"amount_to_pay" = "قيمة الفاتورة";
-"secondry_payment_error_msg_smiles" = "الحد الأدني للإستخدام ١ درهم";
-"promo_code_apply_notification" = "You must apply a promo code to get discount";
-"extra_balacnce_details" = "رصيد المحفظة";
-"secondary_payment_error_message" = "يرجى تحديد طريقة الدفع لتغطية البدائل أو اختلاف الأوزان";
-
-
-//MARK: substitution
-
-"sub_extra_amount_refund_initial" = "Price difference of ";
-"sub_extra_amount_refund_final" = " will be added to your elWallet balance";
-
-//MARK: order details
-"lbl_smile_point_earned" = "Smiles Points Earned";
-"txt_free_delivery_for_smile" = "مجانا لمشتركي التوصيل المجاني غير المحدود!";
-
-// MARK: - Cart Listing Screen
-"screen_active_cart_listing_title" = "عربات التسوق النشطة";
-"screen_active_cart_listing_store_close_message" = "المتجر مغلق";
-"screen_active_cart_listing_empty_message" = "No active cart available";
-"txt_free_delivery_for_smile" = "Free with Smiles Unlimited";
-
-
-// MARK: - SingleStore Not Deliver screen
-"screen_NoLocationSingleStore_title" = "عذراً، لا نوصل لهذه  المنطقة حالياً";
-"screen_NoLocationSingleStore_detailMsg" = "لا تقلق 🤗! مازال بإمكانك طلب البقالة من المتاجر الأخرى المتوفرة في سوقنا!";
-"screen_NoLocationSingleStore_BtnTitle" = "تسوق من المتاجر الأخرى 👈";
-
-
-// MARK: addlocation
-"add_delivery_address" = "أضف عنوان التوصيل";
-
-// Login using OTP Updates
-"Allow Location Access" = "السماح بالدخول إلى الموقع";
-"This email is already registered in elGrocer." = "هذا البريد الإلكتروني مسجل بالفعل في Smiles.";
-"Your request has been successfully sent!" = "تم ارسال طلبك بنجاح!";
-"stores_notify_text" = "من فضلك ، أخبرنا عن المتجر الذي ترغب في الطلب منه.";
-"SMS_Verifcation_Title" = "الرجاء إدخال رمز التحقق المرسل إلى رقم هاتفك المحمول %@";
-"lbl_use_current_location" = "تحديد موقعي الحالي";
-"lbl_Manuall_Location" = "البحث عن عنوان";
-"lbl_setyourlocation" = "تحديد عنوان التوصيل";
-"lbl_yourlocation" = "الموقع الحالي";
-"btn_sendRequest" = " إضافة المتجر";
-"lbl_StoreName" = "اسم المتجر و المنطقة";
-"lbl_CreateAccount" = "مرحباً بك في الجروسر";
-"enter_phone_number" = "دعنا نؤكد رقم هاتفك";
-"set_your_location" = "حدد موقعك وابدأ التسوق";
-"detect_current_location" = " تحديد موقعي الحالي ";
-"add_delivery_address" = "أضف عنوان التوصيل";
-"your_name*" = "الاسم*";
-"enter_YourNick_Name" = "أدخل اسم مميز للعنوان، المنزل/العمل*";
-"email*" = "البريد الإلكتروني*";
-"email_optional" = "البريد الإلكتروني (غير إلزامي)";
-"building_name*" = "المبنى*";
-"floor_(optional)" = "الطابق (غير إلزامي)";
-"apartment/office/villa_number*" = "رقم الشقه/ المكتب/الفيلا*";
-"confirm_address" = "أضف العنوان";
-"invalid_code_unfortunately_you_reached_the_daily_limit" = "الرمز غير صحيح. للأسف ، لقد وصلت إلى الحد اليومي لطلبات الرمز لهذا الرقم. من فضلك ، حاول مرة أخرى في غضون 24 ساعة.";
-"Enter your name" = "الرجاء إدخال الاسم";
-"eg_error_msg_enter_nick_name" = "أدخل الاسم المستعار للعنوان";
-"Please enter valid email id" = "الرجاء إدخال البريد الإلكتروني الصحيح";
-"Enter your building name" = "الرجاء إدخال اسم المبني";
-"Enter your apartment/office/villa number" = "الرجاء إدخال رقم الشقه/ المكتب/الفيلا";
-"search_manually_text" = "البحث عن العنوان";
-// Smiles SDK Home
-"lbl_AvailableStores_Smiles_Home" = "المتاجر المتاحة (%@)";
-"search_by_shopping_list_text" = "البحث بقائمة التسوق";
-"buy_it_again_text" = "إعادة الشراء";
-"change_category_text" = "تغيير الفئة";
-"choose_different_category_text" = "اختر فئة أخرى";
-
-
-// Navigation Updated screen's updated Strings
-"eg_label_zoom_map" = "يرجى تكبير الصورة للعثور على موقع التسليم الدقيق";
-"eg_label_drag_map" = "اسحب الدبوس على الموقع الأكثر دقة";
-"eg_choose_delivery_location" = "اختر موقع التوصيل";
-"eg_current_location" = "الموقع الحالي";
-"eg_out_of_delivery_area" = "خارج منطقة التوصيل";
-"eg_choose_location_on_map" = "إختيار الموقع علي الخريطة";
-"eg_deliver_to_different_location" = "التوصيل الى عنوان مختلف";
-"eg_detecting_location" = "البحث عن العنوان";
-"eg_address_nick_name_address" = "أدخل اسم مميز للعنوان، المنزل/العمل*";
-"eg_msg_selected_location_not_covering" = "الموقع المحدد لا يغطي التوصيل من هذا المتجر وسيتم مسح سلة تسوقك. هل تريد تغيير الموقع؟";
-"recipe_title_home" = "👨‍🍳 وصفات شهية";
-
-"text_what_to_do_if_items_missing" = "ماذا أفعل في حال عدم توفر المنتج؟";
-
-// MARK: Checkout 3.0
-"smiles_points_redemmed_bottom_sheet_title" = "استرداد نقاط بسمات";
-"smiles_points_redemmed_bottom_sheet_description" = "إذا كان لديك رصيد كافٍ من نقاط بسمات، يمكنك استخدامه لدفع ثمن طلبك بالكامل";
-"smiles_points_insufficient_balance_error_msg" = "لاستخدام نقاط سمايلز ، يجب أن يكون رصيدك أكثر من ١ درهم إماراتي";
-"text_redeem_points" = "استرداد رصيد النقاط";
-"text_pts" = "النقاط";
-
-"el_wallet_redeemed_bottom_sheet_title" = "استخدم رصيد المحفظة الإلكترونية
-";
-"el_wallet_redeemed_bottom_sheet_description" = "إذا كان لديك رصيد كافٍ في المحفظة الإلكترونية، يمكنك استخدامه لدفع ثمن طلبك بالكامل.";
-"el_wallet_insufficient_balance_error_msg" = "لاستخدام المحفظة ، يجب أن يكون رصيدك أكثر من ١ درهم إماراتي";
-"amount_due_text" = "المبلغ المستحق";
-"remaining_amount_text" = "المبلغ المتبقي";
-"redeem_funds_text" = "استرداد المبلغ";
-"el_wallet_entered_amount_more_than_available_error" = "برجاء إدخال المبلغ مساوياً أو أقل من حسابك في المحفظة";
-"el_wallet_entered_amount_more_than_bill_error" = "برجاء إدخال المبلغ مساوياً أو أقل من إجمالي الفاتورة";
-
-"primary_payment_required_error_msg" = "يرجى تحديد طريقة الدفع لتغطية البدائل أو اختلاف الأوزان";
-"primary_payment_tabby_not_support_secondary_error_msg" = "لايمكنك استخدام أياً من أكواد الخصم، نقاط بسمات، أو رصيد المحفظة في حالة الدفع عن طريق تابي، برجاء اختيار طريقة دفع أخرى";
-"tabby_payment_warning_msg" = "في حالة تغير السعر في الفاتورة المستلمة سيتم تحصيل أي فارق وقت التوصيل عند الاستلام";
-"checkout_all_fee_message_will_be_in_receipt_msg" = "قد تؤدي المنتجات الموزونة إلى حدوث اختلافات طفيفة في السعر النهائي. سيتم تطبيق الاختلافات القائمة على الوزن المضبوط للمنتجات وعرضها في الفاتورة النهائية.";
-"smiles_points_user_not_logged_in_error_msg" = "أنت غير مسجل الدخول! يرجى تسجيل الدخول لاستبدال نقاط Smiles الخاصة بك.";
-
-// View Titles
-"text_delivery_time" = "وقت التوصيل";
-"text_delivery_instructions" = "تعليمات التوصيل";
-"text_payment" = "وسائل الدفع";
-"text_promocode_and_vouchers" = "أكواد الخصم وقسائم الشراء";
-"text_smiles_points_used" = "نقاط بسمات المستخدمة";
-"text_el_wallet_balance_used" = "رصيد المحفظة المستخدم";
-
-"text_checkout_smiles_points_title" = "استخدم نقاط بسمات";
-"text_checkout_smiles_points_applied_title" = "نقاط بسمات المستخدمة:";
-
-"text_checkout_el_wallet_points_title" = "استخدم رصيد المحفظة الإلكترونية";
-"text_checkout_el_wallet_points_applied_title" = "رصيد المحفظة الإلكترونية المستخدم:";
-
-// custom landing page
-"eg_No_Campgin_Found" = "عفوا.. يؤسفنا ذلك لكن يبدو أن هذه الصفحة غير موجودة.
-اذهب إلى صفحتنا الرئيسية لمواصلة التصفح.";
-
-//MARK: Homepage 2.0
-
-"btn_cart_all_cap" = "سلة اﻟﺘﺴﻮق";
-"lbl_new_tag" = "جديد";
-"all_available_store_vc_title" = "المتاجر المتاحة";
-"lbl_title_neighborhood_fav" = "المتاجر المفضلة حولك";
-"lbl_title_one_click_reorder" = "اشترِ مرة أخرى بنقرة واحدة";
-"lbl_greeting_good_morning" = "صباح الخير 👋";
-"lbl_greeting_good_afternoon" = "مساء الخير 👋";
-"lbl_greeting_good_evening" = "مساء الخير 👋";
-"Are you sure you want to exit?" = "هل أنت متأكد أنك تريد الخروج؟";
-"Discover Stores" = "اكتشف المتاجر";
-"Discover our wide range of Supermarkets and speciality stores on groceries and pharmacies" = "اكتشف مجموعتنا الواسعة من محلات السوبر ماركت والمتاجر المتخصصة في محلات البقالة والصيدليات";
-"Skip the offers" = "تخطي العروض" ;
-"Discover the offers" = "اكتشف العروض";
-"Discover our wide range of products and offers on Smiles Market" = "اكتشف مجموعتنا الواسعة من المنتجات والعروض في سوق سمايلز" ;
-"Exit" = "مخرج";
-"lbl_enjoy_promocode_initial" = "استمتع باستخدام الكود";
-"lbl_enjoy_promocode_final" = "عند الدفع";
-"lbl_title_exclusive_deals" = "عروض حصرية";
-"lbl_title_limited_time_savings" = "توفيرات لفترة محدودة";
-"btn_copy_and_shop_title" = "انسخ وتسوق";
-"btn_start_shoping_title" = "انسخ وتسوق";
-"lbl_greeting_good_morning_shopper" = "صباح الخير";
-"lbl_greeting_good_afternoon_shopper" = "مساء الخير";
-"lbl_greeting_good_evening_shopper" = "مساء الخير";
-"smiles_entered_amount_more_than_available_error" = "يرجى إدخال مبلغ يساوي أو يقل عن نقاط Smiles.";
-//MARK: Store page 2.0
-"btn_view_all_categories" = "عرض جميع فئات المتاجر";
-"btn_hide_all_categories" = "إخفاء كل الفئات";
-"lbl_location_change_tool_tip_msg" = "يبدو أنك بعيد جدًا";
-"btn_filter_title" = "التصفية";
-"title_deals" = "الصفقات";
-"title_discounted_products" = "المنتجات المخفضة";
-"title_btn_apply" = "تطبيق";
-"title_btn_reset" = "إعادة التعيين";
-"title_all_subCat" = "الكل";
-"btn_try_again_no_data" = "المحاولة مرة أخري";
-"title_something_went_wrong" = "عذرًا! حدث خطأ ما. يرجى المحاولة مرة أخرى.";
-"title_search_by_keyword" = "تصفية حسب الكلمة الافتتاحية";
-"title_available_offers" = "العروض المتاحة";
